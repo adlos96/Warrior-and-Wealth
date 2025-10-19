@@ -1,16 +1,30 @@
 ﻿using CriptoGame_Online;
-using System;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using WatsonTcp;
 
 namespace Strategico_V2
 {
-    internal class ClientConnection
+    public class ClientConnection
     {
+        public class QuestUpdatePacket
+        {
+            public string Type { get; set; }
+            public List<ClientQuestData> Quests { get; set; }
+        }
+
+        public class ClientQuestData
+        {
+            public int Id { get; set; }
+            public string Quest_Description { get; set; }
+            public int Experience { get; set; }
+            public int Require { get; set; }
+            public int Max_Complete { get; set; }
+            public int Progress { get; set; }
+            public int Completata { get; set; }
+        }
+
         public static string argomento_Invio = "";
         public static string argomento_Ricevuto = "";
         public static bool client_Connesso = false;
@@ -149,6 +163,70 @@ namespace Strategico_V2
 
                 Console.WriteLine("Messaggio Ricevuto");
                 Console.WriteLine("Ricevuto: " + messaggio);
+
+
+                // Se il messaggio è JSON di quest
+                if (messaggio.StartsWith("{") && messaggio.Contains("\"Quests\""))
+                {
+                    try
+                    {
+                        var packet = JsonSerializer.Deserialize<QuestUpdatePacket>(messaggio);
+                        if (packet != null)
+                            MontlyQuest.CurrentQuests = packet.Quests;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Errore deserializzazione JSON: " + ex.Message);
+                    }
+                    return;
+                }
+
+                if (messaggio.StartsWith("{") && messaggio.Contains("\"QuestRewards\""))
+                {
+                    try
+                    {
+                        using JsonDocument doc = JsonDocument.Parse(messaggio);
+                        var root = doc.RootElement;
+
+                        // Controlla che il tipo sia corretto
+                        if (root.TryGetProperty("Type", out var typeProp) && typeProp.GetString() == "QuestRewards")
+                        {
+                            // 🔹 Converte sia numeri che stringhe in int in modo sicuro
+                            static int ToInt(JsonElement e)
+                            {
+                                return e.ValueKind switch
+                                {
+                                    JsonValueKind.Number => e.GetInt32(),
+                                    JsonValueKind.String => int.TryParse(e.GetString(), out int val) ? val : 0,
+                                    _ => 0
+                                };
+                            }
+
+                            var rewardsNormali = root.GetProperty("Rewards_Normali").EnumerateArray()
+                                                     .Select(ToInt).ToList();
+
+                            var rewardsVip = root.GetProperty("Rewards_VIP").EnumerateArray()
+                                                 .Select(ToInt).ToList();
+
+                            var points = root.GetProperty("Points").EnumerateArray()
+                                             .Select(ToInt).ToList();
+
+                            bool vipPlayer = root.TryGetProperty("VipPlayer", out var vipProp) && vipProp.GetBoolean();
+
+                            // Aggiorna la memoria locale
+                            MontlyQuest.CurrentRewardsNormali = rewardsNormali;
+                            MontlyQuest.CurrentRewardsVip = rewardsVip;
+                            MontlyQuest.CurrentRewardPoints = points;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"❌ Errore deserializzazione QuestRewards: {ex.Message}");
+                    }
+
+                    return;
+                }
+
                 string[] mess = null;
                 if (messaggio.Contains('|'))
                 {
@@ -172,14 +250,13 @@ namespace Strategico_V2
 
                         default: Console.WriteLine($"[Errore] >> [{messaggio}] Comando non riconosciuto"); break;
                     }
+                    Console.WriteLine("");
+                    Console.WriteLine("-----------------------------");
+                    Console.WriteLine($"Comando:        {mess[0]}");
+                    Console.WriteLine("-----------------------------");
+                    Console.WriteLine("");
                 }
 
-                var comando = mess[0];
-                Console.WriteLine("");
-                Console.WriteLine("-----------------------------");
-                Console.WriteLine($"Comando:        {comando}");
-                Console.WriteLine("-----------------------------");
-                Console.WriteLine("");
             }
 
             static void Update_Data(string[] mess)
@@ -408,7 +485,6 @@ namespace Strategico_V2
                 SetValue<string>("catapulte_4_coda", v => Variabili_Client.Reclutamento_Coda.Catapulte_4.Quantità = v);
                 SetValue<string>("catapulte_5_coda", v => Variabili_Client.Reclutamento_Coda.Catapulte_5.Quantità = v);
 
-
                 // Ricerca
                 SetValue<string>("ricerca_produzione", v => Variabili_Client.Utente_Ricerca.Ricerca_Produzione = v);
                 SetValue<string>("ricerca_costruzione", v => Variabili_Client.Utente_Ricerca.Ricerca_Costruzione = v);
@@ -454,7 +530,6 @@ namespace Strategico_V2
                 SetValue<string>("ricerca_castello_salute", v => Variabili_Client.Utente_Ricerca.Ricerca_Castello_Salute = v);
                 SetValue<string>("ricerca_castello_difesa", v => Variabili_Client.Utente_Ricerca.Ricerca_Castello_Difesa = v);
                 SetValue<string>("ricerca_castello_guarnigione", v => Variabili_Client.Utente_Ricerca.Ricerca_Castello_Guarnigione = v);
-
 
                 // Guarnigione Ingresso
                 SetValue<int>("Guarnigione_Ingresso", v => Variabili_Client.Citta.Ingresso.Guarnigione = v);
@@ -536,6 +611,8 @@ namespace Strategico_V2
                 //SetValue<int>("Tempo_Ricerca_Globale", v => Variabili_Client.Utente.Tempo_Ricerca = v);
 
                 SetValue<bool>("Ricerca_Attiva", v => Variabili_Client.Utente.Ricerca_Attiva = v);
+
+                //Dati
 
             }
             static void Update_Log(string mes)

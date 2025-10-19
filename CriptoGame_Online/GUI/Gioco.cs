@@ -542,7 +542,7 @@ namespace CriptoGame_Online
         private void btn_Quest_Mensile_Click(object sender, EventArgs e)
         {
             MontlyQuest form_Gioco = new MontlyQuest();
-            form_Gioco.ShowDialog();
+            form_Gioco.Show();
 
         }
 

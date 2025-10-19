@@ -4,6 +4,7 @@ namespace Strategico_V2
 {
     internal class Variabili_Client
     {
+        public static string Ricerca_1_Bottone_Cliccato = "";
         public static string Server = "0";
         public static string Versione = "0";
 

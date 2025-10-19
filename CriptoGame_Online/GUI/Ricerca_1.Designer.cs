@@ -34,42 +34,42 @@ namespace CriptoGame_Online
             panel_Sfondo = new DoubleBufferedPanel();
             pictureBox_Speed = new PictureBox();
             label19 = new Label();
-            doubleBufferedPanel10 = new DoubleBufferedPanel();
+            panel_Salute_Catapulte = new DoubleBufferedPanel();
             btn_Salute_Catapulte = new Button();
             button10 = new Button();
-            doubleBufferedPanel11 = new DoubleBufferedPanel();
+            panel_Livello_Catapulte = new DoubleBufferedPanel();
             btn_Livello_Catapulte = new Button();
             button11 = new Button();
-            doubleBufferedPanel12 = new DoubleBufferedPanel();
+            panel_Difesa_Catapulte = new DoubleBufferedPanel();
             btn_Difesa_Catapulte = new Button();
             button12 = new Button();
-            doubleBufferedPanel13 = new DoubleBufferedPanel();
+            panel_Attacco_Catapulte = new DoubleBufferedPanel();
             btn_Attacco_Catapulte = new Button();
             button13 = new Button();
             label18 = new Label();
-            doubleBufferedPanel6 = new DoubleBufferedPanel();
+            panel_Salute_Arceri = new DoubleBufferedPanel();
             btn_Salute_Arceri = new Button();
             button6 = new Button();
-            doubleBufferedPanel7 = new DoubleBufferedPanel();
+            panel_Livello_Arceri = new DoubleBufferedPanel();
             btn_Livello_Arceri = new Button();
             button7 = new Button();
-            doubleBufferedPanel8 = new DoubleBufferedPanel();
+            panel_Difesa_Arceri = new DoubleBufferedPanel();
             btn_Difesa_Arceri = new Button();
             button8 = new Button();
-            doubleBufferedPanel9 = new DoubleBufferedPanel();
+            panel_Attacco_Arceri = new DoubleBufferedPanel();
             btn_Attacco_Arceri = new Button();
             button9 = new Button();
             label16 = new Label();
-            doubleBufferedPanel2 = new DoubleBufferedPanel();
+            panel_Salute_Lanceri = new DoubleBufferedPanel();
             btn_Salute_Lanceri = new Button();
             button2 = new Button();
-            doubleBufferedPanel3 = new DoubleBufferedPanel();
+            panel_Livello_Lanceri = new DoubleBufferedPanel();
             btn_Livello_Lanceri = new Button();
             button3 = new Button();
-            doubleBufferedPanel4 = new DoubleBufferedPanel();
+            panel_Difesa_Lanceri = new DoubleBufferedPanel();
             btn_Difesa_Lanceri = new Button();
             button4 = new Button();
-            doubleBufferedPanel5 = new DoubleBufferedPanel();
+            panel_Attacco_Lanceri = new DoubleBufferedPanel();
             btn_Attacco_Lanceri = new Button();
             button5 = new Button();
             doubleBufferedPanel1 = new DoubleBufferedPanel();
@@ -101,11 +101,11 @@ namespace CriptoGame_Online
             btn_Popolazione = new Button();
             panel_Guarnigione_Mura = new DoubleBufferedPanel();
             btn_Guarnigione_Mura = new Button();
-            panel_Salute_Militare = new DoubleBufferedPanel();
+            panel_Salute_Guerrieri = new DoubleBufferedPanel();
             btn_Salute_Guerrieri = new Button();
             panel_Guarnigione_Torri = new DoubleBufferedPanel();
             btn_Guarnigione_Torri = new Button();
-            panel_Trasporto = new DoubleBufferedPanel();
+            panel_Livello_Guerrieri = new DoubleBufferedPanel();
             btn_Livello_Guerrieri = new Button();
             panel_Salute_Mura = new DoubleBufferedPanel();
             btn_Salute_Mura = new Button();
@@ -113,14 +113,14 @@ namespace CriptoGame_Online
             btn_Risorse = new Button();
             panel_Salute_Torri = new DoubleBufferedPanel();
             btn_Salute_Torri = new Button();
-            panel_Difesa_Militare = new DoubleBufferedPanel();
+            panel_Difesa_Guerrieri = new DoubleBufferedPanel();
             btn_Difesa_Guerrieri = new Button();
             panel_Difesa_Castello = new DoubleBufferedPanel();
             btn_Difesa_Castello = new Button();
             panel_Costruzione = new DoubleBufferedPanel();
             btn_Costruzione = new Button();
             label2 = new Label();
-            panel_Attacco_Militare = new DoubleBufferedPanel();
+            panel_Attacco_Guerrieri = new DoubleBufferedPanel();
             btn_Attacco_Guerrieri = new Button();
             panel_Guarnigione_Castello = new DoubleBufferedPanel();
             btn_Guarnigione_Castello = new Button();
@@ -136,18 +136,18 @@ namespace CriptoGame_Online
             txt_Testo = new TextBox();
             panel_Sfondo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox_Speed).BeginInit();
-            doubleBufferedPanel10.SuspendLayout();
-            doubleBufferedPanel11.SuspendLayout();
-            doubleBufferedPanel12.SuspendLayout();
-            doubleBufferedPanel13.SuspendLayout();
-            doubleBufferedPanel6.SuspendLayout();
-            doubleBufferedPanel7.SuspendLayout();
-            doubleBufferedPanel8.SuspendLayout();
-            doubleBufferedPanel9.SuspendLayout();
-            doubleBufferedPanel2.SuspendLayout();
-            doubleBufferedPanel3.SuspendLayout();
-            doubleBufferedPanel4.SuspendLayout();
-            doubleBufferedPanel5.SuspendLayout();
+            panel_Salute_Catapulte.SuspendLayout();
+            panel_Livello_Catapulte.SuspendLayout();
+            panel_Difesa_Catapulte.SuspendLayout();
+            panel_Attacco_Catapulte.SuspendLayout();
+            panel_Salute_Arceri.SuspendLayout();
+            panel_Livello_Arceri.SuspendLayout();
+            panel_Difesa_Arceri.SuspendLayout();
+            panel_Attacco_Arceri.SuspendLayout();
+            panel_Salute_Lanceri.SuspendLayout();
+            panel_Livello_Lanceri.SuspendLayout();
+            panel_Difesa_Lanceri.SuspendLayout();
+            panel_Attacco_Lanceri.SuspendLayout();
             doubleBufferedPanel1.SuspendLayout();
             panel_Guarnigione_Ingresso.SuspendLayout();
             panel_Difesa_Cancello.SuspendLayout();
@@ -158,16 +158,16 @@ namespace CriptoGame_Online
             panel_Difesa_Torri.SuspendLayout();
             panel_Popolazione.SuspendLayout();
             panel_Guarnigione_Mura.SuspendLayout();
-            panel_Salute_Militare.SuspendLayout();
+            panel_Salute_Guerrieri.SuspendLayout();
             panel_Guarnigione_Torri.SuspendLayout();
-            panel_Trasporto.SuspendLayout();
+            panel_Livello_Guerrieri.SuspendLayout();
             panel_Salute_Mura.SuspendLayout();
             panel_Risorse.SuspendLayout();
             panel_Salute_Torri.SuspendLayout();
-            panel_Difesa_Militare.SuspendLayout();
+            panel_Difesa_Guerrieri.SuspendLayout();
             panel_Difesa_Castello.SuspendLayout();
             panel_Costruzione.SuspendLayout();
-            panel_Attacco_Militare.SuspendLayout();
+            panel_Attacco_Guerrieri.SuspendLayout();
             panel_Guarnigione_Castello.SuspendLayout();
             panel_Salute_Castello.SuspendLayout();
             SuspendLayout();
@@ -179,20 +179,20 @@ namespace CriptoGame_Online
             panel_Sfondo.BackgroundImageLayout = ImageLayout.Stretch;
             panel_Sfondo.Controls.Add(pictureBox_Speed);
             panel_Sfondo.Controls.Add(label19);
-            panel_Sfondo.Controls.Add(doubleBufferedPanel10);
-            panel_Sfondo.Controls.Add(doubleBufferedPanel11);
-            panel_Sfondo.Controls.Add(doubleBufferedPanel12);
-            panel_Sfondo.Controls.Add(doubleBufferedPanel13);
+            panel_Sfondo.Controls.Add(panel_Salute_Catapulte);
+            panel_Sfondo.Controls.Add(panel_Livello_Catapulte);
+            panel_Sfondo.Controls.Add(panel_Difesa_Catapulte);
+            panel_Sfondo.Controls.Add(panel_Attacco_Catapulte);
             panel_Sfondo.Controls.Add(label18);
-            panel_Sfondo.Controls.Add(doubleBufferedPanel6);
-            panel_Sfondo.Controls.Add(doubleBufferedPanel7);
-            panel_Sfondo.Controls.Add(doubleBufferedPanel8);
-            panel_Sfondo.Controls.Add(doubleBufferedPanel9);
+            panel_Sfondo.Controls.Add(panel_Salute_Arceri);
+            panel_Sfondo.Controls.Add(panel_Livello_Arceri);
+            panel_Sfondo.Controls.Add(panel_Difesa_Arceri);
+            panel_Sfondo.Controls.Add(panel_Attacco_Arceri);
             panel_Sfondo.Controls.Add(label16);
-            panel_Sfondo.Controls.Add(doubleBufferedPanel2);
-            panel_Sfondo.Controls.Add(doubleBufferedPanel3);
-            panel_Sfondo.Controls.Add(doubleBufferedPanel4);
-            panel_Sfondo.Controls.Add(doubleBufferedPanel5);
+            panel_Sfondo.Controls.Add(panel_Salute_Lanceri);
+            panel_Sfondo.Controls.Add(panel_Livello_Lanceri);
+            panel_Sfondo.Controls.Add(panel_Difesa_Lanceri);
+            panel_Sfondo.Controls.Add(panel_Attacco_Lanceri);
             panel_Sfondo.Controls.Add(doubleBufferedPanel1);
             panel_Sfondo.Controls.Add(label15);
             panel_Sfondo.Controls.Add(label14);
@@ -211,17 +211,17 @@ namespace CriptoGame_Online
             panel_Sfondo.Controls.Add(panel_Difesa_Torri);
             panel_Sfondo.Controls.Add(panel_Popolazione);
             panel_Sfondo.Controls.Add(panel_Guarnigione_Mura);
-            panel_Sfondo.Controls.Add(panel_Salute_Militare);
+            panel_Sfondo.Controls.Add(panel_Salute_Guerrieri);
             panel_Sfondo.Controls.Add(panel_Guarnigione_Torri);
-            panel_Sfondo.Controls.Add(panel_Trasporto);
+            panel_Sfondo.Controls.Add(panel_Livello_Guerrieri);
             panel_Sfondo.Controls.Add(panel_Salute_Mura);
             panel_Sfondo.Controls.Add(panel_Risorse);
             panel_Sfondo.Controls.Add(panel_Salute_Torri);
-            panel_Sfondo.Controls.Add(panel_Difesa_Militare);
+            panel_Sfondo.Controls.Add(panel_Difesa_Guerrieri);
             panel_Sfondo.Controls.Add(panel_Difesa_Castello);
             panel_Sfondo.Controls.Add(panel_Costruzione);
             panel_Sfondo.Controls.Add(label2);
-            panel_Sfondo.Controls.Add(panel_Attacco_Militare);
+            panel_Sfondo.Controls.Add(panel_Attacco_Guerrieri);
             panel_Sfondo.Controls.Add(panel_Guarnigione_Castello);
             panel_Sfondo.Controls.Add(label11);
             panel_Sfondo.Controls.Add(panel_Salute_Castello);
@@ -263,18 +263,18 @@ namespace CriptoGame_Online
             label19.TabIndex = 121;
             label19.Text = "Catapulte";
             // 
-            // doubleBufferedPanel10
+            // panel_Salute_Catapulte
             // 
-            doubleBufferedPanel10.BackColor = Color.Transparent;
-            doubleBufferedPanel10.BackgroundImage = (Image)resources.GetObject("doubleBufferedPanel10.BackgroundImage");
-            doubleBufferedPanel10.BackgroundImageLayout = ImageLayout.Stretch;
-            doubleBufferedPanel10.Controls.Add(btn_Salute_Catapulte);
-            doubleBufferedPanel10.Controls.Add(button10);
-            doubleBufferedPanel10.ForeColor = SystemColors.ControlText;
-            doubleBufferedPanel10.Location = new Point(367, 386);
-            doubleBufferedPanel10.Name = "doubleBufferedPanel10";
-            doubleBufferedPanel10.Size = new Size(170, 62);
-            doubleBufferedPanel10.TabIndex = 119;
+            panel_Salute_Catapulte.BackColor = Color.Transparent;
+            panel_Salute_Catapulte.BackgroundImage = (Image)resources.GetObject("panel_Salute_Catapulte.BackgroundImage");
+            panel_Salute_Catapulte.BackgroundImageLayout = ImageLayout.Stretch;
+            panel_Salute_Catapulte.Controls.Add(btn_Salute_Catapulte);
+            panel_Salute_Catapulte.Controls.Add(button10);
+            panel_Salute_Catapulte.ForeColor = SystemColors.ControlText;
+            panel_Salute_Catapulte.Location = new Point(367, 386);
+            panel_Salute_Catapulte.Name = "panel_Salute_Catapulte";
+            panel_Salute_Catapulte.Size = new Size(170, 62);
+            panel_Salute_Catapulte.TabIndex = 119;
             // 
             // btn_Salute_Catapulte
             // 
@@ -306,18 +306,18 @@ namespace CriptoGame_Online
             button10.Text = "Salute I";
             button10.UseVisualStyleBackColor = false;
             // 
-            // doubleBufferedPanel11
+            // panel_Livello_Catapulte
             // 
-            doubleBufferedPanel11.BackColor = Color.Transparent;
-            doubleBufferedPanel11.BackgroundImage = (Image)resources.GetObject("doubleBufferedPanel11.BackgroundImage");
-            doubleBufferedPanel11.BackgroundImageLayout = ImageLayout.Stretch;
-            doubleBufferedPanel11.Controls.Add(btn_Livello_Catapulte);
-            doubleBufferedPanel11.Controls.Add(button11);
-            doubleBufferedPanel11.ForeColor = SystemColors.ControlText;
-            doubleBufferedPanel11.Location = new Point(543, 386);
-            doubleBufferedPanel11.Name = "doubleBufferedPanel11";
-            doubleBufferedPanel11.Size = new Size(170, 62);
-            doubleBufferedPanel11.TabIndex = 120;
+            panel_Livello_Catapulte.BackColor = Color.Transparent;
+            panel_Livello_Catapulte.BackgroundImage = (Image)resources.GetObject("panel_Livello_Catapulte.BackgroundImage");
+            panel_Livello_Catapulte.BackgroundImageLayout = ImageLayout.Stretch;
+            panel_Livello_Catapulte.Controls.Add(btn_Livello_Catapulte);
+            panel_Livello_Catapulte.Controls.Add(button11);
+            panel_Livello_Catapulte.ForeColor = SystemColors.ControlText;
+            panel_Livello_Catapulte.Location = new Point(543, 386);
+            panel_Livello_Catapulte.Name = "panel_Livello_Catapulte";
+            panel_Livello_Catapulte.Size = new Size(170, 62);
+            panel_Livello_Catapulte.TabIndex = 120;
             // 
             // btn_Livello_Catapulte
             // 
@@ -349,18 +349,18 @@ namespace CriptoGame_Online
             button11.Text = "Livello I";
             button11.UseVisualStyleBackColor = false;
             // 
-            // doubleBufferedPanel12
+            // panel_Difesa_Catapulte
             // 
-            doubleBufferedPanel12.BackColor = Color.Transparent;
-            doubleBufferedPanel12.BackgroundImage = (Image)resources.GetObject("doubleBufferedPanel12.BackgroundImage");
-            doubleBufferedPanel12.BackgroundImageLayout = ImageLayout.Stretch;
-            doubleBufferedPanel12.Controls.Add(btn_Difesa_Catapulte);
-            doubleBufferedPanel12.Controls.Add(button12);
-            doubleBufferedPanel12.ForeColor = SystemColors.ControlText;
-            doubleBufferedPanel12.Location = new Point(191, 386);
-            doubleBufferedPanel12.Name = "doubleBufferedPanel12";
-            doubleBufferedPanel12.Size = new Size(170, 62);
-            doubleBufferedPanel12.TabIndex = 118;
+            panel_Difesa_Catapulte.BackColor = Color.Transparent;
+            panel_Difesa_Catapulte.BackgroundImage = (Image)resources.GetObject("panel_Difesa_Catapulte.BackgroundImage");
+            panel_Difesa_Catapulte.BackgroundImageLayout = ImageLayout.Stretch;
+            panel_Difesa_Catapulte.Controls.Add(btn_Difesa_Catapulte);
+            panel_Difesa_Catapulte.Controls.Add(button12);
+            panel_Difesa_Catapulte.ForeColor = SystemColors.ControlText;
+            panel_Difesa_Catapulte.Location = new Point(191, 386);
+            panel_Difesa_Catapulte.Name = "panel_Difesa_Catapulte";
+            panel_Difesa_Catapulte.Size = new Size(170, 62);
+            panel_Difesa_Catapulte.TabIndex = 118;
             // 
             // btn_Difesa_Catapulte
             // 
@@ -392,18 +392,18 @@ namespace CriptoGame_Online
             button12.Text = "Difesa I";
             button12.UseVisualStyleBackColor = false;
             // 
-            // doubleBufferedPanel13
+            // panel_Attacco_Catapulte
             // 
-            doubleBufferedPanel13.BackColor = Color.Transparent;
-            doubleBufferedPanel13.BackgroundImage = (Image)resources.GetObject("doubleBufferedPanel13.BackgroundImage");
-            doubleBufferedPanel13.BackgroundImageLayout = ImageLayout.Stretch;
-            doubleBufferedPanel13.Controls.Add(btn_Attacco_Catapulte);
-            doubleBufferedPanel13.Controls.Add(button13);
-            doubleBufferedPanel13.ForeColor = SystemColors.ControlText;
-            doubleBufferedPanel13.Location = new Point(15, 386);
-            doubleBufferedPanel13.Name = "doubleBufferedPanel13";
-            doubleBufferedPanel13.Size = new Size(170, 62);
-            doubleBufferedPanel13.TabIndex = 117;
+            panel_Attacco_Catapulte.BackColor = Color.Transparent;
+            panel_Attacco_Catapulte.BackgroundImage = (Image)resources.GetObject("panel_Attacco_Catapulte.BackgroundImage");
+            panel_Attacco_Catapulte.BackgroundImageLayout = ImageLayout.Stretch;
+            panel_Attacco_Catapulte.Controls.Add(btn_Attacco_Catapulte);
+            panel_Attacco_Catapulte.Controls.Add(button13);
+            panel_Attacco_Catapulte.ForeColor = SystemColors.ControlText;
+            panel_Attacco_Catapulte.Location = new Point(15, 386);
+            panel_Attacco_Catapulte.Name = "panel_Attacco_Catapulte";
+            panel_Attacco_Catapulte.Size = new Size(170, 62);
+            panel_Attacco_Catapulte.TabIndex = 117;
             // 
             // btn_Attacco_Catapulte
             // 
@@ -447,18 +447,18 @@ namespace CriptoGame_Online
             label18.TabIndex = 116;
             label18.Text = "Arceri";
             // 
-            // doubleBufferedPanel6
+            // panel_Salute_Arceri
             // 
-            doubleBufferedPanel6.BackColor = Color.Transparent;
-            doubleBufferedPanel6.BackgroundImage = (Image)resources.GetObject("doubleBufferedPanel6.BackgroundImage");
-            doubleBufferedPanel6.BackgroundImageLayout = ImageLayout.Stretch;
-            doubleBufferedPanel6.Controls.Add(btn_Salute_Arceri);
-            doubleBufferedPanel6.Controls.Add(button6);
-            doubleBufferedPanel6.ForeColor = SystemColors.ControlText;
-            doubleBufferedPanel6.Location = new Point(364, 302);
-            doubleBufferedPanel6.Name = "doubleBufferedPanel6";
-            doubleBufferedPanel6.Size = new Size(170, 62);
-            doubleBufferedPanel6.TabIndex = 114;
+            panel_Salute_Arceri.BackColor = Color.Transparent;
+            panel_Salute_Arceri.BackgroundImage = (Image)resources.GetObject("panel_Salute_Arceri.BackgroundImage");
+            panel_Salute_Arceri.BackgroundImageLayout = ImageLayout.Stretch;
+            panel_Salute_Arceri.Controls.Add(btn_Salute_Arceri);
+            panel_Salute_Arceri.Controls.Add(button6);
+            panel_Salute_Arceri.ForeColor = SystemColors.ControlText;
+            panel_Salute_Arceri.Location = new Point(364, 302);
+            panel_Salute_Arceri.Name = "panel_Salute_Arceri";
+            panel_Salute_Arceri.Size = new Size(170, 62);
+            panel_Salute_Arceri.TabIndex = 114;
             // 
             // btn_Salute_Arceri
             // 
@@ -490,18 +490,18 @@ namespace CriptoGame_Online
             button6.Text = "Salute I";
             button6.UseVisualStyleBackColor = false;
             // 
-            // doubleBufferedPanel7
+            // panel_Livello_Arceri
             // 
-            doubleBufferedPanel7.BackColor = Color.Transparent;
-            doubleBufferedPanel7.BackgroundImage = (Image)resources.GetObject("doubleBufferedPanel7.BackgroundImage");
-            doubleBufferedPanel7.BackgroundImageLayout = ImageLayout.Stretch;
-            doubleBufferedPanel7.Controls.Add(btn_Livello_Arceri);
-            doubleBufferedPanel7.Controls.Add(button7);
-            doubleBufferedPanel7.ForeColor = SystemColors.ControlText;
-            doubleBufferedPanel7.Location = new Point(540, 302);
-            doubleBufferedPanel7.Name = "doubleBufferedPanel7";
-            doubleBufferedPanel7.Size = new Size(170, 62);
-            doubleBufferedPanel7.TabIndex = 115;
+            panel_Livello_Arceri.BackColor = Color.Transparent;
+            panel_Livello_Arceri.BackgroundImage = (Image)resources.GetObject("panel_Livello_Arceri.BackgroundImage");
+            panel_Livello_Arceri.BackgroundImageLayout = ImageLayout.Stretch;
+            panel_Livello_Arceri.Controls.Add(btn_Livello_Arceri);
+            panel_Livello_Arceri.Controls.Add(button7);
+            panel_Livello_Arceri.ForeColor = SystemColors.ControlText;
+            panel_Livello_Arceri.Location = new Point(540, 302);
+            panel_Livello_Arceri.Name = "panel_Livello_Arceri";
+            panel_Livello_Arceri.Size = new Size(170, 62);
+            panel_Livello_Arceri.TabIndex = 115;
             // 
             // btn_Livello_Arceri
             // 
@@ -533,18 +533,18 @@ namespace CriptoGame_Online
             button7.Text = "Livello I";
             button7.UseVisualStyleBackColor = false;
             // 
-            // doubleBufferedPanel8
+            // panel_Difesa_Arceri
             // 
-            doubleBufferedPanel8.BackColor = Color.Transparent;
-            doubleBufferedPanel8.BackgroundImage = (Image)resources.GetObject("doubleBufferedPanel8.BackgroundImage");
-            doubleBufferedPanel8.BackgroundImageLayout = ImageLayout.Stretch;
-            doubleBufferedPanel8.Controls.Add(btn_Difesa_Arceri);
-            doubleBufferedPanel8.Controls.Add(button8);
-            doubleBufferedPanel8.ForeColor = SystemColors.ControlText;
-            doubleBufferedPanel8.Location = new Point(188, 302);
-            doubleBufferedPanel8.Name = "doubleBufferedPanel8";
-            doubleBufferedPanel8.Size = new Size(170, 62);
-            doubleBufferedPanel8.TabIndex = 113;
+            panel_Difesa_Arceri.BackColor = Color.Transparent;
+            panel_Difesa_Arceri.BackgroundImage = (Image)resources.GetObject("panel_Difesa_Arceri.BackgroundImage");
+            panel_Difesa_Arceri.BackgroundImageLayout = ImageLayout.Stretch;
+            panel_Difesa_Arceri.Controls.Add(btn_Difesa_Arceri);
+            panel_Difesa_Arceri.Controls.Add(button8);
+            panel_Difesa_Arceri.ForeColor = SystemColors.ControlText;
+            panel_Difesa_Arceri.Location = new Point(188, 302);
+            panel_Difesa_Arceri.Name = "panel_Difesa_Arceri";
+            panel_Difesa_Arceri.Size = new Size(170, 62);
+            panel_Difesa_Arceri.TabIndex = 113;
             // 
             // btn_Difesa_Arceri
             // 
@@ -576,18 +576,18 @@ namespace CriptoGame_Online
             button8.Text = "Difesa I";
             button8.UseVisualStyleBackColor = false;
             // 
-            // doubleBufferedPanel9
+            // panel_Attacco_Arceri
             // 
-            doubleBufferedPanel9.BackColor = Color.Transparent;
-            doubleBufferedPanel9.BackgroundImage = (Image)resources.GetObject("doubleBufferedPanel9.BackgroundImage");
-            doubleBufferedPanel9.BackgroundImageLayout = ImageLayout.Stretch;
-            doubleBufferedPanel9.Controls.Add(btn_Attacco_Arceri);
-            doubleBufferedPanel9.Controls.Add(button9);
-            doubleBufferedPanel9.ForeColor = SystemColors.ControlText;
-            doubleBufferedPanel9.Location = new Point(12, 302);
-            doubleBufferedPanel9.Name = "doubleBufferedPanel9";
-            doubleBufferedPanel9.Size = new Size(170, 62);
-            doubleBufferedPanel9.TabIndex = 112;
+            panel_Attacco_Arceri.BackColor = Color.Transparent;
+            panel_Attacco_Arceri.BackgroundImage = (Image)resources.GetObject("panel_Attacco_Arceri.BackgroundImage");
+            panel_Attacco_Arceri.BackgroundImageLayout = ImageLayout.Stretch;
+            panel_Attacco_Arceri.Controls.Add(btn_Attacco_Arceri);
+            panel_Attacco_Arceri.Controls.Add(button9);
+            panel_Attacco_Arceri.ForeColor = SystemColors.ControlText;
+            panel_Attacco_Arceri.Location = new Point(12, 302);
+            panel_Attacco_Arceri.Name = "panel_Attacco_Arceri";
+            panel_Attacco_Arceri.Size = new Size(170, 62);
+            panel_Attacco_Arceri.TabIndex = 112;
             // 
             // btn_Attacco_Arceri
             // 
@@ -631,18 +631,18 @@ namespace CriptoGame_Online
             label16.TabIndex = 111;
             label16.Text = "Lanceri";
             // 
-            // doubleBufferedPanel2
+            // panel_Salute_Lanceri
             // 
-            doubleBufferedPanel2.BackColor = Color.Transparent;
-            doubleBufferedPanel2.BackgroundImage = (Image)resources.GetObject("doubleBufferedPanel2.BackgroundImage");
-            doubleBufferedPanel2.BackgroundImageLayout = ImageLayout.Stretch;
-            doubleBufferedPanel2.Controls.Add(btn_Salute_Lanceri);
-            doubleBufferedPanel2.Controls.Add(button2);
-            doubleBufferedPanel2.ForeColor = SystemColors.ControlText;
-            doubleBufferedPanel2.Location = new Point(367, 218);
-            doubleBufferedPanel2.Name = "doubleBufferedPanel2";
-            doubleBufferedPanel2.Size = new Size(170, 62);
-            doubleBufferedPanel2.TabIndex = 109;
+            panel_Salute_Lanceri.BackColor = Color.Transparent;
+            panel_Salute_Lanceri.BackgroundImage = (Image)resources.GetObject("panel_Salute_Lanceri.BackgroundImage");
+            panel_Salute_Lanceri.BackgroundImageLayout = ImageLayout.Stretch;
+            panel_Salute_Lanceri.Controls.Add(btn_Salute_Lanceri);
+            panel_Salute_Lanceri.Controls.Add(button2);
+            panel_Salute_Lanceri.ForeColor = SystemColors.ControlText;
+            panel_Salute_Lanceri.Location = new Point(367, 218);
+            panel_Salute_Lanceri.Name = "panel_Salute_Lanceri";
+            panel_Salute_Lanceri.Size = new Size(170, 62);
+            panel_Salute_Lanceri.TabIndex = 109;
             // 
             // btn_Salute_Lanceri
             // 
@@ -674,18 +674,18 @@ namespace CriptoGame_Online
             button2.Text = "Salute I";
             button2.UseVisualStyleBackColor = false;
             // 
-            // doubleBufferedPanel3
+            // panel_Livello_Lanceri
             // 
-            doubleBufferedPanel3.BackColor = Color.Transparent;
-            doubleBufferedPanel3.BackgroundImage = (Image)resources.GetObject("doubleBufferedPanel3.BackgroundImage");
-            doubleBufferedPanel3.BackgroundImageLayout = ImageLayout.Stretch;
-            doubleBufferedPanel3.Controls.Add(btn_Livello_Lanceri);
-            doubleBufferedPanel3.Controls.Add(button3);
-            doubleBufferedPanel3.ForeColor = SystemColors.ControlText;
-            doubleBufferedPanel3.Location = new Point(543, 218);
-            doubleBufferedPanel3.Name = "doubleBufferedPanel3";
-            doubleBufferedPanel3.Size = new Size(170, 62);
-            doubleBufferedPanel3.TabIndex = 110;
+            panel_Livello_Lanceri.BackColor = Color.Transparent;
+            panel_Livello_Lanceri.BackgroundImage = (Image)resources.GetObject("panel_Livello_Lanceri.BackgroundImage");
+            panel_Livello_Lanceri.BackgroundImageLayout = ImageLayout.Stretch;
+            panel_Livello_Lanceri.Controls.Add(btn_Livello_Lanceri);
+            panel_Livello_Lanceri.Controls.Add(button3);
+            panel_Livello_Lanceri.ForeColor = SystemColors.ControlText;
+            panel_Livello_Lanceri.Location = new Point(543, 218);
+            panel_Livello_Lanceri.Name = "panel_Livello_Lanceri";
+            panel_Livello_Lanceri.Size = new Size(170, 62);
+            panel_Livello_Lanceri.TabIndex = 110;
             // 
             // btn_Livello_Lanceri
             // 
@@ -717,18 +717,18 @@ namespace CriptoGame_Online
             button3.Text = "Livello I";
             button3.UseVisualStyleBackColor = false;
             // 
-            // doubleBufferedPanel4
+            // panel_Difesa_Lanceri
             // 
-            doubleBufferedPanel4.BackColor = Color.Transparent;
-            doubleBufferedPanel4.BackgroundImage = (Image)resources.GetObject("doubleBufferedPanel4.BackgroundImage");
-            doubleBufferedPanel4.BackgroundImageLayout = ImageLayout.Stretch;
-            doubleBufferedPanel4.Controls.Add(btn_Difesa_Lanceri);
-            doubleBufferedPanel4.Controls.Add(button4);
-            doubleBufferedPanel4.ForeColor = SystemColors.ControlText;
-            doubleBufferedPanel4.Location = new Point(191, 218);
-            doubleBufferedPanel4.Name = "doubleBufferedPanel4";
-            doubleBufferedPanel4.Size = new Size(170, 62);
-            doubleBufferedPanel4.TabIndex = 108;
+            panel_Difesa_Lanceri.BackColor = Color.Transparent;
+            panel_Difesa_Lanceri.BackgroundImage = (Image)resources.GetObject("panel_Difesa_Lanceri.BackgroundImage");
+            panel_Difesa_Lanceri.BackgroundImageLayout = ImageLayout.Stretch;
+            panel_Difesa_Lanceri.Controls.Add(btn_Difesa_Lanceri);
+            panel_Difesa_Lanceri.Controls.Add(button4);
+            panel_Difesa_Lanceri.ForeColor = SystemColors.ControlText;
+            panel_Difesa_Lanceri.Location = new Point(191, 218);
+            panel_Difesa_Lanceri.Name = "panel_Difesa_Lanceri";
+            panel_Difesa_Lanceri.Size = new Size(170, 62);
+            panel_Difesa_Lanceri.TabIndex = 108;
             // 
             // btn_Difesa_Lanceri
             // 
@@ -760,18 +760,18 @@ namespace CriptoGame_Online
             button4.Text = "Difesa I";
             button4.UseVisualStyleBackColor = false;
             // 
-            // doubleBufferedPanel5
+            // panel_Attacco_Lanceri
             // 
-            doubleBufferedPanel5.BackColor = Color.Transparent;
-            doubleBufferedPanel5.BackgroundImage = (Image)resources.GetObject("doubleBufferedPanel5.BackgroundImage");
-            doubleBufferedPanel5.BackgroundImageLayout = ImageLayout.Stretch;
-            doubleBufferedPanel5.Controls.Add(btn_Attacco_Lanceri);
-            doubleBufferedPanel5.Controls.Add(button5);
-            doubleBufferedPanel5.ForeColor = SystemColors.ControlText;
-            doubleBufferedPanel5.Location = new Point(15, 218);
-            doubleBufferedPanel5.Name = "doubleBufferedPanel5";
-            doubleBufferedPanel5.Size = new Size(170, 62);
-            doubleBufferedPanel5.TabIndex = 107;
+            panel_Attacco_Lanceri.BackColor = Color.Transparent;
+            panel_Attacco_Lanceri.BackgroundImage = (Image)resources.GetObject("panel_Attacco_Lanceri.BackgroundImage");
+            panel_Attacco_Lanceri.BackgroundImageLayout = ImageLayout.Stretch;
+            panel_Attacco_Lanceri.Controls.Add(btn_Attacco_Lanceri);
+            panel_Attacco_Lanceri.Controls.Add(button5);
+            panel_Attacco_Lanceri.ForeColor = SystemColors.ControlText;
+            panel_Attacco_Lanceri.Location = new Point(15, 218);
+            panel_Attacco_Lanceri.Name = "panel_Attacco_Lanceri";
+            panel_Attacco_Lanceri.Size = new Size(170, 62);
+            panel_Attacco_Lanceri.TabIndex = 107;
             // 
             // btn_Attacco_Lanceri
             // 
@@ -1089,6 +1089,7 @@ namespace CriptoGame_Online
             btn_Addestramento.TabIndex = 35;
             btn_Addestramento.Text = "Addestraento IV";
             btn_Addestramento.UseVisualStyleBackColor = false;
+            btn_Addestramento.Click += btn_Addestramento_Click;
             // 
             // panel_Difesa_Torri
             // 
@@ -1142,6 +1143,7 @@ namespace CriptoGame_Online
             btn_Popolazione.TabIndex = 35;
             btn_Popolazione.Text = "Popolazione VI";
             btn_Popolazione.UseVisualStyleBackColor = false;
+            btn_Popolazione.Click += btn_Popolazione_Click;
             // 
             // panel_Guarnigione_Mura
             // 
@@ -1169,17 +1171,17 @@ namespace CriptoGame_Online
             btn_Guarnigione_Mura.Text = "Guarnigione I";
             btn_Guarnigione_Mura.UseVisualStyleBackColor = false;
             // 
-            // panel_Salute_Militare
+            // panel_Salute_Guerrieri
             // 
-            panel_Salute_Militare.BackColor = Color.Transparent;
-            panel_Salute_Militare.BackgroundImage = (Image)resources.GetObject("panel_Salute_Militare.BackgroundImage");
-            panel_Salute_Militare.BackgroundImageLayout = ImageLayout.Stretch;
-            panel_Salute_Militare.Controls.Add(btn_Salute_Guerrieri);
-            panel_Salute_Militare.ForeColor = SystemColors.ControlText;
-            panel_Salute_Militare.Location = new Point(367, 134);
-            panel_Salute_Militare.Name = "panel_Salute_Militare";
-            panel_Salute_Militare.Size = new Size(170, 62);
-            panel_Salute_Militare.TabIndex = 65;
+            panel_Salute_Guerrieri.BackColor = Color.Transparent;
+            panel_Salute_Guerrieri.BackgroundImage = (Image)resources.GetObject("panel_Salute_Guerrieri.BackgroundImage");
+            panel_Salute_Guerrieri.BackgroundImageLayout = ImageLayout.Stretch;
+            panel_Salute_Guerrieri.Controls.Add(btn_Salute_Guerrieri);
+            panel_Salute_Guerrieri.ForeColor = SystemColors.ControlText;
+            panel_Salute_Guerrieri.Location = new Point(367, 134);
+            panel_Salute_Guerrieri.Name = "panel_Salute_Guerrieri";
+            panel_Salute_Guerrieri.Size = new Size(170, 62);
+            panel_Salute_Guerrieri.TabIndex = 65;
             // 
             // btn_Salute_Guerrieri
             // 
@@ -1223,17 +1225,17 @@ namespace CriptoGame_Online
             btn_Guarnigione_Torri.Text = "Guarnigione I";
             btn_Guarnigione_Torri.UseVisualStyleBackColor = false;
             // 
-            // panel_Trasporto
+            // panel_Livello_Guerrieri
             // 
-            panel_Trasporto.BackColor = Color.Transparent;
-            panel_Trasporto.BackgroundImage = (Image)resources.GetObject("panel_Trasporto.BackgroundImage");
-            panel_Trasporto.BackgroundImageLayout = ImageLayout.Stretch;
-            panel_Trasporto.Controls.Add(btn_Livello_Guerrieri);
-            panel_Trasporto.ForeColor = SystemColors.ControlText;
-            panel_Trasporto.Location = new Point(543, 134);
-            panel_Trasporto.Name = "panel_Trasporto";
-            panel_Trasporto.Size = new Size(170, 62);
-            panel_Trasporto.TabIndex = 66;
+            panel_Livello_Guerrieri.BackColor = Color.Transparent;
+            panel_Livello_Guerrieri.BackgroundImage = (Image)resources.GetObject("panel_Livello_Guerrieri.BackgroundImage");
+            panel_Livello_Guerrieri.BackgroundImageLayout = ImageLayout.Stretch;
+            panel_Livello_Guerrieri.Controls.Add(btn_Livello_Guerrieri);
+            panel_Livello_Guerrieri.ForeColor = SystemColors.ControlText;
+            panel_Livello_Guerrieri.Location = new Point(543, 134);
+            panel_Livello_Guerrieri.Name = "panel_Livello_Guerrieri";
+            panel_Livello_Guerrieri.Size = new Size(170, 62);
+            panel_Livello_Guerrieri.TabIndex = 66;
             // 
             // btn_Livello_Guerrieri
             // 
@@ -1303,6 +1305,7 @@ namespace CriptoGame_Online
             btn_Risorse.TabIndex = 35;
             btn_Risorse.Text = "Risorse I";
             btn_Risorse.UseVisualStyleBackColor = false;
+            btn_Risorse.Click += btn_Risorse_Click;
             // 
             // panel_Salute_Torri
             // 
@@ -1330,17 +1333,17 @@ namespace CriptoGame_Online
             btn_Salute_Torri.Text = "Salute I";
             btn_Salute_Torri.UseVisualStyleBackColor = false;
             // 
-            // panel_Difesa_Militare
+            // panel_Difesa_Guerrieri
             // 
-            panel_Difesa_Militare.BackColor = Color.Transparent;
-            panel_Difesa_Militare.BackgroundImage = (Image)resources.GetObject("panel_Difesa_Militare.BackgroundImage");
-            panel_Difesa_Militare.BackgroundImageLayout = ImageLayout.Stretch;
-            panel_Difesa_Militare.Controls.Add(btn_Difesa_Guerrieri);
-            panel_Difesa_Militare.ForeColor = SystemColors.ControlText;
-            panel_Difesa_Militare.Location = new Point(191, 134);
-            panel_Difesa_Militare.Name = "panel_Difesa_Militare";
-            panel_Difesa_Militare.Size = new Size(170, 62);
-            panel_Difesa_Militare.TabIndex = 64;
+            panel_Difesa_Guerrieri.BackColor = Color.Transparent;
+            panel_Difesa_Guerrieri.BackgroundImage = (Image)resources.GetObject("panel_Difesa_Guerrieri.BackgroundImage");
+            panel_Difesa_Guerrieri.BackgroundImageLayout = ImageLayout.Stretch;
+            panel_Difesa_Guerrieri.Controls.Add(btn_Difesa_Guerrieri);
+            panel_Difesa_Guerrieri.ForeColor = SystemColors.ControlText;
+            panel_Difesa_Guerrieri.Location = new Point(191, 134);
+            panel_Difesa_Guerrieri.Name = "panel_Difesa_Guerrieri";
+            panel_Difesa_Guerrieri.Size = new Size(170, 62);
+            panel_Difesa_Guerrieri.TabIndex = 64;
             // 
             // btn_Difesa_Guerrieri
             // 
@@ -1424,17 +1427,17 @@ namespace CriptoGame_Online
             label2.TabIndex = 87;
             label2.Text = "Ingresso";
             // 
-            // panel_Attacco_Militare
+            // panel_Attacco_Guerrieri
             // 
-            panel_Attacco_Militare.BackColor = Color.Transparent;
-            panel_Attacco_Militare.BackgroundImage = (Image)resources.GetObject("panel_Attacco_Militare.BackgroundImage");
-            panel_Attacco_Militare.BackgroundImageLayout = ImageLayout.Stretch;
-            panel_Attacco_Militare.Controls.Add(btn_Attacco_Guerrieri);
-            panel_Attacco_Militare.ForeColor = SystemColors.ControlText;
-            panel_Attacco_Militare.Location = new Point(15, 134);
-            panel_Attacco_Militare.Name = "panel_Attacco_Militare";
-            panel_Attacco_Militare.Size = new Size(170, 62);
-            panel_Attacco_Militare.TabIndex = 63;
+            panel_Attacco_Guerrieri.BackColor = Color.Transparent;
+            panel_Attacco_Guerrieri.BackgroundImage = (Image)resources.GetObject("panel_Attacco_Guerrieri.BackgroundImage");
+            panel_Attacco_Guerrieri.BackgroundImageLayout = ImageLayout.Stretch;
+            panel_Attacco_Guerrieri.Controls.Add(btn_Attacco_Guerrieri);
+            panel_Attacco_Guerrieri.ForeColor = SystemColors.ControlText;
+            panel_Attacco_Guerrieri.Location = new Point(15, 134);
+            panel_Attacco_Guerrieri.Name = "panel_Attacco_Guerrieri";
+            panel_Attacco_Guerrieri.Size = new Size(170, 62);
+            panel_Attacco_Guerrieri.TabIndex = 63;
             // 
             // btn_Attacco_Guerrieri
             // 
@@ -1614,18 +1617,18 @@ namespace CriptoGame_Online
             panel_Sfondo.ResumeLayout(false);
             panel_Sfondo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox_Speed).EndInit();
-            doubleBufferedPanel10.ResumeLayout(false);
-            doubleBufferedPanel11.ResumeLayout(false);
-            doubleBufferedPanel12.ResumeLayout(false);
-            doubleBufferedPanel13.ResumeLayout(false);
-            doubleBufferedPanel6.ResumeLayout(false);
-            doubleBufferedPanel7.ResumeLayout(false);
-            doubleBufferedPanel8.ResumeLayout(false);
-            doubleBufferedPanel9.ResumeLayout(false);
-            doubleBufferedPanel2.ResumeLayout(false);
-            doubleBufferedPanel3.ResumeLayout(false);
-            doubleBufferedPanel4.ResumeLayout(false);
-            doubleBufferedPanel5.ResumeLayout(false);
+            panel_Salute_Catapulte.ResumeLayout(false);
+            panel_Livello_Catapulte.ResumeLayout(false);
+            panel_Difesa_Catapulte.ResumeLayout(false);
+            panel_Attacco_Catapulte.ResumeLayout(false);
+            panel_Salute_Arceri.ResumeLayout(false);
+            panel_Livello_Arceri.ResumeLayout(false);
+            panel_Difesa_Arceri.ResumeLayout(false);
+            panel_Attacco_Arceri.ResumeLayout(false);
+            panel_Salute_Lanceri.ResumeLayout(false);
+            panel_Livello_Lanceri.ResumeLayout(false);
+            panel_Difesa_Lanceri.ResumeLayout(false);
+            panel_Attacco_Lanceri.ResumeLayout(false);
             doubleBufferedPanel1.ResumeLayout(false);
             panel_Guarnigione_Ingresso.ResumeLayout(false);
             panel_Difesa_Cancello.ResumeLayout(false);
@@ -1636,16 +1639,16 @@ namespace CriptoGame_Online
             panel_Difesa_Torri.ResumeLayout(false);
             panel_Popolazione.ResumeLayout(false);
             panel_Guarnigione_Mura.ResumeLayout(false);
-            panel_Salute_Militare.ResumeLayout(false);
+            panel_Salute_Guerrieri.ResumeLayout(false);
             panel_Guarnigione_Torri.ResumeLayout(false);
-            panel_Trasporto.ResumeLayout(false);
+            panel_Livello_Guerrieri.ResumeLayout(false);
             panel_Salute_Mura.ResumeLayout(false);
             panel_Risorse.ResumeLayout(false);
             panel_Salute_Torri.ResumeLayout(false);
-            panel_Difesa_Militare.ResumeLayout(false);
+            panel_Difesa_Guerrieri.ResumeLayout(false);
             panel_Difesa_Castello.ResumeLayout(false);
             panel_Costruzione.ResumeLayout(false);
-            panel_Attacco_Militare.ResumeLayout(false);
+            panel_Attacco_Guerrieri.ResumeLayout(false);
             panel_Guarnigione_Castello.ResumeLayout(false);
             panel_Salute_Castello.ResumeLayout(false);
             ResumeLayout(false);
@@ -1667,13 +1670,13 @@ namespace CriptoGame_Online
         private Button btn_Popolazione;
         private DoubleBufferedPanel panel_Addestramento;
         private Button btn_Addestramento;
-        private DoubleBufferedPanel panel_Attacco_Militare;
+        private DoubleBufferedPanel panel_Attacco_Guerrieri;
         private Button btn_Attacco_Guerrieri;
-        private DoubleBufferedPanel panel_Difesa_Militare;
+        private DoubleBufferedPanel panel_Difesa_Guerrieri;
         private Button btn_Difesa_Guerrieri;
-        private DoubleBufferedPanel panel_Trasporto;
+        private DoubleBufferedPanel panel_Livello_Guerrieri;
         private Button btn_Livello_Guerrieri;
-        private DoubleBufferedPanel panel_Salute_Militare;
+        private DoubleBufferedPanel panel_Salute_Guerrieri;
         private Button btn_Salute_Guerrieri;
         private DoubleBufferedPanel panel_Guarnigione_Ingresso;
         private Button btn_Guarnigione_Ingresso;
@@ -1718,31 +1721,31 @@ namespace CriptoGame_Online
         private Button button1;
         private Label label15;
         private Label label19;
-        private DoubleBufferedPanel doubleBufferedPanel10;
+        private DoubleBufferedPanel panel_Salute_Catapulte;
         private Button button10;
-        private DoubleBufferedPanel doubleBufferedPanel11;
+        private DoubleBufferedPanel panel_Livello_Catapulte;
         private Button button11;
-        private DoubleBufferedPanel doubleBufferedPanel12;
+        private DoubleBufferedPanel panel_Difesa_Catapulte;
         private Button button12;
-        private DoubleBufferedPanel doubleBufferedPanel13;
+        private DoubleBufferedPanel panel_Attacco_Catapulte;
         private Button button13;
         private Label label18;
-        private DoubleBufferedPanel doubleBufferedPanel6;
+        private DoubleBufferedPanel panel_Salute_Arceri;
         private Button button6;
-        private DoubleBufferedPanel doubleBufferedPanel7;
+        private DoubleBufferedPanel panel_Livello_Arceri;
         private Button button7;
-        private DoubleBufferedPanel doubleBufferedPanel8;
+        private DoubleBufferedPanel panel_Difesa_Arceri;
         private Button button8;
-        private DoubleBufferedPanel doubleBufferedPanel9;
+        private DoubleBufferedPanel panel_Attacco_Arceri;
         private Button button9;
         private Label label16;
-        private DoubleBufferedPanel doubleBufferedPanel2;
+        private DoubleBufferedPanel panel_Salute_Lanceri;
         private Button button2;
-        private DoubleBufferedPanel doubleBufferedPanel3;
+        private DoubleBufferedPanel panel_Livello_Lanceri;
         private Button button3;
-        private DoubleBufferedPanel doubleBufferedPanel4;
+        private DoubleBufferedPanel panel_Difesa_Lanceri;
         private Button button4;
-        private DoubleBufferedPanel doubleBufferedPanel5;
+        private DoubleBufferedPanel panel_Attacco_Lanceri;
         private Button button5;
         private Button btn_Salute_Catapulte;
         private Button btn_Livello_Catapulte;

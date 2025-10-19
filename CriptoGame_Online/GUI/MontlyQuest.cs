@@ -1,23 +1,23 @@
 ﻿using Strategico_V2;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using static Strategico_V2.ClientConnection;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace CriptoGame_Online
 {
     public partial class MontlyQuest : Form
     {
+        // Lista di quest attuali
+        public static List<ClientQuestData> CurrentQuests { get; set; } = new List<ClientQuestData>();
+        int currentIndex = 0;
+
+        public static List<int> CurrentRewardsNormali { get; set; } = new();
+        public static List<int> CurrentRewardsVip { get; set; } = new();
+        public static List<int> CurrentRewardPoints { get; set; } = new();
+
         public MontlyQuest()
         {
             InitializeComponent();
-
+            this.ActiveControl = btn_Reward_1; // assegna il focus al bottone
         }
 
         private void SetProgressValue(int newValue)
@@ -35,19 +35,171 @@ namespace CriptoGame_Online
 
         private void MontlyQuest_Load(object sender, EventArgs e)
         {
-            GUI();
-            Update();
-        }
-        private void GUI()
-        {
             Update_Reward();
             Update_Quest();
             Check_Unlock_Reward();
             Check_Unlock_Reward_Vip();
+            AggiornaInterfacciaQuest();
+            AggiornaInterfacciaRewards();
+            Task.Run(() => Gui_Update());
         }
-        private void Update()
+        async void Gui_Update()
         {
+            while (true)
+            {
+                Thread.Sleep(1000);
+                txt_Punti_Reward_1.Invoke((Action)(async () =>
+                {
+                    AggiornaInterfacciaQuest();
+                }));
+            }
+            currentIndex = (currentIndex + 10) % CurrentQuests.Count; //Varia l'index per cambiare le quest mostrate
+        }
+        void AggiornaInterfacciaQuest()
+        {
+            if (CurrentQuests.Count > 0)
+            {
+                int count = Math.Min(10, CurrentQuests.Count);
+                for (int i = 0; i <= 9; i++)
+                {
+                    int questIndex = (currentIndex + i) % CurrentQuests.Count;
+                    if (i == 0)
+                    {
+                        txt_Quest_Desc_1.Text = CurrentQuests[questIndex].Quest_Description;
+                        txt_Quest_1.Text = $"[{CurrentQuests[questIndex].Experience}] Exp   " + CurrentQuests[questIndex].Progress + "/" + CurrentQuests[questIndex].Require;
+                    }
+                    if (i == 1)
+                    {
+                        txt_Quest_Desc_2.Text = CurrentQuests[questIndex].Quest_Description;
+                        txt_Quest_2.Text = $"[{CurrentQuests[questIndex].Experience}] Exp   " + CurrentQuests[questIndex].Progress + "/" + CurrentQuests[questIndex].Require;
+                    }
+                    if (i == 2)
+                    {
+                        txt_Quest_Desc_3.Text = CurrentQuests[questIndex].Quest_Description;
+                        txt_Quest_3.Text = $"[{CurrentQuests[questIndex].Experience}] Exp   " + CurrentQuests[questIndex].Progress + "/" + CurrentQuests[questIndex].Require;
+                    }
+                    if (i == 3)
+                    {
+                        txt_Quest_Desc_4.Text = CurrentQuests[questIndex].Quest_Description;
+                        txt_Quest_4.Text = $"[{CurrentQuests[questIndex].Experience}] Exp   " + CurrentQuests[questIndex].Progress + "/" + CurrentQuests[questIndex].Require;
+                    }
+                    if (i == 4)
+                    {
+                        txt_Quest_Desc_5.Text = CurrentQuests[questIndex].Quest_Description;
+                        txt_Quest_5.Text = $"[{CurrentQuests[questIndex].Experience}] Exp   " + CurrentQuests[questIndex].Progress + "/" + CurrentQuests[questIndex].Require;
+                    }
+                    if (i == 5)
+                    {
+                        txt_Quest_Desc_6.Text = CurrentQuests[questIndex].Quest_Description;
+                        txt_Quest_6.Text = $"[{CurrentQuests[questIndex].Experience}] Exp  " + CurrentQuests[questIndex].Progress + "/" + CurrentQuests[questIndex].Require;
+                    }
+                    if (i == 6)
+                    {
+                        txt_Quest_Desc_7.Text = CurrentQuests[questIndex].Quest_Description;
+                        txt_Quest_7.Text = $"[{CurrentQuests[questIndex].Experience}] Exp   " + CurrentQuests[questIndex].Progress + "/" + CurrentQuests[questIndex].Require;
+                    }
+                    if (i == 7)
+                    {
+                        txt_Quest_Desc_8.Text = CurrentQuests[questIndex].Quest_Description;
+                        txt_Quest_8.Text = $"[{CurrentQuests[questIndex].Experience}] Exp   " + CurrentQuests[questIndex].Progress + "/" + CurrentQuests[questIndex].Require;
+                    }
+                    if (i == 8)
+                    {
+                        txt_Quest_Desc_9.Text = CurrentQuests[questIndex].Quest_Description;
+                        txt_Quest_9.Text = $"[{CurrentQuests[questIndex].Experience}] Exp   " + CurrentQuests[questIndex].Progress + "/" + CurrentQuests[questIndex].Require;
+                    }
+                    if (i == 9)
+                    {
+                        txt_Quest_Desc_10.Text = CurrentQuests[questIndex].Quest_Description;
+                        txt_Quest_10.Text = $"[{CurrentQuests[questIndex].Experience}] Exp  " + CurrentQuests[questIndex].Progress + "/" + CurrentQuests[questIndex].Require;
+                    }
+                }
 
+            }
+        }
+        void AggiornaInterfacciaRewards()
+        {
+            if (CurrentRewardPoints.Count == 0) return;
+
+            txt_Punti_Reward_1.Text = CurrentRewardPoints[0].ToString();
+            txt_Reward_1.Text = CurrentRewardsNormali[0].ToString();
+            txt_Reward_Vip_1.Text = CurrentRewardsVip[0].ToString();
+
+            txt_Punti_Reward_2.Text = CurrentRewardPoints[1].ToString();
+            txt_Reward_2.Text = CurrentRewardsNormali[1].ToString();
+            txt_Reward_Vip_2.Text = CurrentRewardsVip[1].ToString();
+
+            txt_Punti_Reward_3.Text = CurrentRewardPoints[2].ToString();
+            txt_Reward_3.Text = CurrentRewardsNormali[2].ToString();
+            txt_Reward_Vip_3.Text = CurrentRewardsVip[2].ToString();
+
+            txt_Punti_Reward_4.Text = CurrentRewardPoints[3].ToString();
+            txt_Reward_4.Text = CurrentRewardsNormali[3].ToString();
+            txt_Reward_Vip_4.Text = CurrentRewardsVip[3].ToString();
+
+            txt_Punti_Reward_5.Text = CurrentRewardPoints[4].ToString();
+            txt_Reward_5.Text = CurrentRewardsNormali[4].ToString();
+            txt_Reward_Vip_5.Text = CurrentRewardsVip[4].ToString();
+
+            txt_Punti_Reward_6.Text = CurrentRewardPoints[5].ToString();
+            txt_Reward_6.Text = CurrentRewardsNormali[5].ToString();
+            txt_Reward_Vip_6.Text = CurrentRewardsVip[5].ToString();
+
+            txt_Punti_Reward_7.Text = CurrentRewardPoints[6].ToString();
+            txt_Reward_7.Text = CurrentRewardsNormali[6].ToString();
+            txt_Reward_Vip_7.Text = CurrentRewardsVip[6].ToString();
+
+            txt_Punti_Reward_8.Text = CurrentRewardPoints[7].ToString();
+            txt_Reward_8.Text = CurrentRewardsNormali[7].ToString();
+            txt_Reward_Vip_8.Text = CurrentRewardsVip[7].ToString();
+
+            txt_Punti_Reward_9.Text = CurrentRewardPoints[8].ToString();
+            txt_Reward_9.Text = CurrentRewardsNormali[8].ToString();
+            txt_Reward_Vip_9.Text = CurrentRewardsVip[8].ToString();
+
+            txt_Punti_Reward_10.Text = CurrentRewardPoints[9].ToString();
+            txt_Reward_10.Text = CurrentRewardsNormali[9].ToString();
+            txt_Reward_Vip_10.Text = CurrentRewardsVip[9].ToString();
+
+            txt_Punti_Reward_11.Text = CurrentRewardPoints[10].ToString();
+            txt_Reward_11.Text = CurrentRewardsNormali[10].ToString();
+            txt_Reward_Vip_11.Text = CurrentRewardsVip[10].ToString();
+
+            txt_Punti_Reward_12.Text = CurrentRewardPoints[11].ToString();
+            txt_Reward_12.Text = CurrentRewardsNormali[11].ToString();
+            txt_Reward_Vip_12.Text = CurrentRewardsVip[11].ToString();
+
+            txt_Punti_Reward_13.Text = CurrentRewardPoints[12].ToString();
+            txt_Reward_13.Text = CurrentRewardsNormali[12].ToString();
+            txt_Reward_Vip_13.Text = CurrentRewardsVip[12].ToString();
+
+            txt_Punti_Reward_14.Text = CurrentRewardPoints[13].ToString();
+            txt_Reward_14.Text = CurrentRewardsNormali[13].ToString();
+            txt_Reward_Vip_14.Text = CurrentRewardsVip[13].ToString();
+
+            txt_Punti_Reward_15.Text = CurrentRewardPoints[14].ToString();
+            txt_Reward_15.Text = CurrentRewardsNormali[14].ToString();
+            txt_Reward_Vip_15.Text = CurrentRewardsVip[14].ToString();
+
+            txt_Punti_Reward_16.Text = CurrentRewardPoints[15].ToString();
+            txt_Reward_16.Text = CurrentRewardsNormali[15].ToString();
+            txt_Reward_Vip_16.Text = CurrentRewardsVip[15].ToString();
+
+            txt_Punti_Reward_17.Text = CurrentRewardPoints[16].ToString();
+            txt_Reward_17.Text = CurrentRewardsNormali[16].ToString();
+            txt_Reward_Vip_17.Text = CurrentRewardsVip[16].ToString();
+
+            txt_Punti_Reward_18.Text = CurrentRewardPoints[17].ToString();
+            txt_Reward_18.Text = CurrentRewardsNormali[17].ToString();
+            txt_Reward_Vip_18.Text = CurrentRewardsVip[17].ToString();
+
+            txt_Punti_Reward_19.Text = CurrentRewardPoints[18].ToString();
+            txt_Reward_19.Text = CurrentRewardsNormali[18].ToString();
+            txt_Reward_Vip_19.Text = CurrentRewardsVip[18].ToString();
+
+            txt_Punti_Reward_20.Text = CurrentRewardPoints[19].ToString();
+            txt_Reward_20.Text = CurrentRewardsNormali[19].ToString();
+            txt_Reward_Vip_20.Text = CurrentRewardsVip[19].ToString();
         }
 
         private void Check_Unlock_Reward()
