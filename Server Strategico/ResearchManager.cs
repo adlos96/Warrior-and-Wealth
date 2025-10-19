@@ -17,18 +17,19 @@ namespace Server_Strategico
             // Calcola il livello successivo
             int livello = researchType switch
             {
-                "Ricerca_Addestramento" => player.Ricerca_Addestramento + 1,
-                "Ricerca_Costruzione" => player.Ricerca_Costruzione + 1,
-                "Ricerca_Produzione" => player.Ricerca_Produzione + 1,
+                "Addestramento" => player.Ricerca_Addestramento + 1,
+                "Costruzione" => player.Ricerca_Costruzione + 1,
+                "Produzione" => player.Ricerca_Produzione + 1,
+                "Popolazione" => player.Ricerca_Popolazione + 1,
                 _ => 1
             };
 
             // Controllo livello per Addestramento
-            if (researchType == "Ricerca_Addestramento" && player.Livello < livello * 3)
-            {
-                Server.Server.Send(clientGuid, $"Log_Server|La ricerca [Addestramento {livello}] richiede livello minimo {livello * 3}");
-                return;
-            }
+            //if (researchType == "Addestramento" && player.Livello < livello * 3)
+            //{
+            //    Server.Server.Send(clientGuid, $"Log_Server|La ricerca [Addestramento {livello}] richiede livello minimo {livello * 3}");
+            //    return;
+            //}
 
             // Ottieni costi dinamici
             var researchCost = GetResearchCost(researchType, livello);
@@ -60,23 +61,27 @@ namespace Server_Strategico
                 int tempoRicercaInSecondi = Math.Max(1, Convert.ToInt32(researchCost.TempoRicerca));
 
                 // Inserisci nella coda
-                player.research_Queue.Enqueue(new BuildingManager.ConstructionTask(researchType, tempoRicercaInSecondi));
-
+                if (player.Code_Ricerca > 1 || (player.research_Queue.Count == 0 && player.currentTasks_Research.Count == 0))
+                    player.research_Queue.Enqueue(new BuildingManager.ConstructionTask(researchType, tempoRicercaInSecondi));
+                else
+                {
+                    Server.Server.Send(clientGuid, $"Log_Server|Una singola ricerca è possibile. Ricerca {researchType} annullata.");
+                    return;
+                }
                 StartNextResearch(player, clientGuid);
             }
             else
-            {
                 Server.Server.Send(clientGuid, $"Log_Server|Risorse insufficienti per la ricerca {researchType} livello {livello}.");
-            }
+            
         }
 
         // Avvia i task finché ci sono slot liberi
         private static void StartNextResearch(Player player, Guid clientGuid)
         {
-            int maxSlots = 1; // Parametrizzabile
-            player.Ricerca_Attiva = true;// blocca i pulsanti ricerca del client
+            int maxSlots = player.Code_Ricerca; // Parametrizzabile
             while (player.currentTasks_Research.Count < maxSlots && player.research_Queue.Count > 0)
             {
+                player.Ricerca_Attiva = true;// blocca i pulsanti ricerca del client
                 var nextTask = player.research_Queue.Dequeue();
                 nextTask.Start();
                 player.currentTasks_Research.Add(nextTask);
@@ -111,14 +116,17 @@ namespace Server_Strategico
         {
             switch (researchType)
             {
-                case "Ricerca_Addestramento":
+                case "Addestramento":
                     player.Ricerca_Addestramento++;
                     break;
-                case "Ricerca_Costruzione":
+                case "Costruzione":
                     player.Ricerca_Costruzione++;
                     break;
-                case "Ricerca_Produzione":
+                case "Produzione":
                     player.Ricerca_Produzione++;
+                    break;
+                case "Popolazione":
+                    player.Ricerca_Popolazione++;
                     break;
                 default:
                     Console.WriteLine($"Ricerca {researchType} non definita negli effetti!");
@@ -140,32 +148,41 @@ namespace Server_Strategico
         {
             return researchType switch
             {
-                "Ricerca_Addestramento" => new ResearchCost
+                "Addestramento" => new ResearchCost
                 {
                     Cibo = Tipi.Addestramento.Cibo * livello,
                     Legno = Tipi.Addestramento.Legno * livello,
                     Pietra = Tipi.Addestramento.Pietra * livello,
                     Ferro = Tipi.Addestramento.Ferro * livello,
                     Oro = Tipi.Addestramento.Oro * livello,
-                    TempoRicerca = 60 // o calcola dinamicamente
+                    TempoRicerca = 60 * livello // o calcola dinamicamente
                 },
-                "Ricerca_Costruzione" => new ResearchCost
+                "Costruzione" => new ResearchCost
                 {
                     Cibo = Tipi.Costruzione.Cibo * livello,
                     Legno = Tipi.Costruzione.Legno * livello,
                     Pietra = Tipi.Costruzione.Pietra * livello,
                     Ferro = Tipi.Costruzione.Ferro * livello,
                     Oro = Tipi.Costruzione.Oro * livello,
-                    TempoRicerca = 60
+                    TempoRicerca = 60 * livello
                 },
-                "Ricerca_Produzione" => new ResearchCost
+                "Produzione" => new ResearchCost
                 {
                     Cibo = Tipi.Produzione.Cibo * livello,
                     Legno = Tipi.Produzione.Legno * livello,
                     Pietra = Tipi.Produzione.Pietra * livello,
                     Ferro = Tipi.Produzione.Ferro * livello,
                     Oro = Tipi.Produzione.Oro * livello,
-                    TempoRicerca = 60
+                    TempoRicerca = 60 * livello
+                },
+                "Popolazione" => new ResearchCost
+                {
+                    Cibo = Tipi.Popolazione.Cibo * livello,
+                    Legno = Tipi.Popolazione.Legno * livello,
+                    Pietra = Tipi.Popolazione.Pietra * livello,
+                    Ferro = Tipi.Popolazione.Ferro * livello,
+                    Oro = Tipi.Popolazione.Oro * livello,
+                    TempoRicerca = 60 * livello // più tempo per livelli più alti
                 },
                 _ => null
             };

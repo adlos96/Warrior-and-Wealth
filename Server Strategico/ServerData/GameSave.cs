@@ -1,6 +1,7 @@
 using Server_Strategico.Gioco;
 using System.Text.Json;
 using static Server_Strategico.Gioco.Giocatori;
+using static Server_Strategico.Gioco.Variabili_Server;
 
 namespace Server_Strategico.Server
 {
@@ -54,6 +55,10 @@ namespace Server_Strategico.Server
                     Scudi = player.Scudi,
                     Armature = player.Armature,
                     Frecce = player.Frecce,
+
+                    //Quest
+                    Completions = player.QuestProgress.Completions,
+                    CurrentProgress = player.QuestProgress.CurrentProgress,
 
                     // Edifici
                     Fattoria = player.Fattoria,
@@ -161,7 +166,7 @@ namespace Server_Strategico.Server
                     })
                     .ToList(),
 
-                                    QueuedRecruitTasks = player.recruit_Queue
+                    QueuedRecruitTasks = player.recruit_Queue
                     .Select(t => new SavedTask
                     {
                         Type = t.Type,
@@ -171,8 +176,8 @@ namespace Server_Strategico.Server
                     })
                     .ToList(),
 
-                                    // --- Ricerca ---
-                                    CurrentResearchTasks = player.currentTasks_Research
+                    // --- Ricerca ---
+                    CurrentResearchTasks = player.currentTasks_Research
                     .Select(t => new SavedTask
                     {
                         Type = t.Type,
@@ -182,7 +187,7 @@ namespace Server_Strategico.Server
                     })
                     .ToList(),
 
-                                    QueuedResearchTasks = player.research_Queue
+                   QueuedResearchTasks = player.research_Queue
                     .Select(t => new SavedTask
                     {
                         Type = t.Type,
@@ -250,6 +255,10 @@ namespace Server_Strategico.Server
                     player.Terreno_Raro = playerData.Terreno_Raro;
                     player.Terreno_Epico = playerData.Terreno_Epico;
                     player.Terreno_Leggendario = playerData.Terreno_Leggendario;
+
+                    //Quest
+                    player.QuestProgress.Completions = playerData.Completions;
+                    player.QuestProgress.CurrentProgress = playerData.CurrentProgress;
 
                     // Risorse
                     player.Cibo = playerData.Cibo;
@@ -335,16 +344,6 @@ namespace Server_Strategico.Server
                     player.Salute_Castello = playerData.Salute_Castello;
                     player.Salute_CastelloMax = playerData.Salute_CastelloMax;
 
-                    // Ripristina le code
-                    player.currentTasks_Building = playerData.CurrentBuildingTasks
-                        .Select(t =>
-                        {
-                            var task = new BuildingManager.ConstructionTask(t.Type, t.DurationInSeconds);
-                            if (t.IsInProgress) task.Start();
-                            return task;
-                        })
-                        .ToList();
-
                     // --- Ripristino costruzioni in coda ---
                     player.building_Queue = new Queue<BuildingManager.ConstructionTask>(
                         playerData.QueuedBuildingTasks.Select(t =>
@@ -375,7 +374,10 @@ namespace Server_Strategico.Server
                     player.research_Queue = new Queue<BuildingManager.ConstructionTask>(
                         playerData.QueuedResearchTasks.Select(t => new BuildingManager.ConstructionTask(t.Type, t.DurationInSeconds))
                     );
-
+                    if (player.research_Queue.Count != 0 || player.currentTasks_Research.Count != 0)
+                        player.Ricerca_Attiva = true;
+                    else 
+                        player.Ricerca_Attiva = false;
                     Console.WriteLine($"[GameSave] Caricati i dati del giocatore {username}");
                     return true;
                 }
@@ -507,6 +509,9 @@ namespace Server_Strategico.Server
             public List<SavedTask> CurrentResearchTasks { get; set; } = new();
             public List<SavedTask> QueuedResearchTasks { get; set; } = new();
 
+            public int[] Completions { get; set; } = new int[QuestDatabase.Quests.Count]; // Indica quante volte ogni quest Ë stata completata
+            public int[] CurrentProgress { get; set; } = new int[QuestDatabase.Quests.Count]; // Puoi anche tenere traccia di progressi parziali
+
             // Giocatori
             public string Username { get; set; }
             public string Password { get; set; }
@@ -576,7 +581,7 @@ namespace Server_Strategico.Server
             public double Frecce { get; set; }
 
             // Statistiche di combattimento
-            public int Unit√†_Uccise { get; set; }
+            public int Unita_Uccise { get; set; }
             public int Guerrieri_Uccisi { get; set; }
             public int Lanceri_Uccisi { get; set; }
             public int Arceri_Uccisi { get; set; }

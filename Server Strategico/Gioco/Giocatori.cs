@@ -1,4 +1,8 @@
-﻿using static Server_Strategico.BuildingManager;
+﻿using System;
+using System.Text.Json;
+using static Server_Strategico.BuildingManager;
+using static Server_Strategico.Gioco.Giocatori;
+using static Server_Strategico.Gioco.Variabili_Server;
 using static Server_Strategico.Server.Server;
 
 namespace Server_Strategico.Gioco
@@ -32,6 +36,9 @@ namespace Server_Strategico.Gioco
         public class Player
         {
             #region Variabili giocatore
+            //Quest
+            public PlayerQuestProgress QuestProgress { get; set; } = new();
+
             // Giocatori
             public string Username { get; set; }
             public string Password { get; set; }
@@ -479,6 +486,44 @@ namespace Server_Strategico.Gioco
                 Catapulta_Salute = 0;
                 Catapulta_Difesa = 0;
                 Catapulta_Attacco = 0;
+            }
+
+            public class PlayerQuestProgress
+            {
+                public int[] Completions { get; set; } = new int[QuestDatabase.Quests.Count]; // Indica quante volte ogni quest è stata completata
+                public int[] CurrentProgress { get; set; } = new int[QuestDatabase.Quests.Count]; // Puoi anche tenere traccia di progressi parziali
+
+                public bool IsQuestFullyCompleted(int questId) // Restituisce true se la quest è completata il numero massimo di volte
+                {
+                    return Completions[questId] >= QuestDatabase.Quests[questId].Max_Complete;
+                }
+
+                public bool AddProgress(int questId, int amount)
+                {
+                    if (IsQuestFullyCompleted(questId))
+                        return false;
+
+                    var quest = QuestDatabase.Quests[questId];
+                    int completata = Completions[questId];
+                    int requireDinamico = quest.Require + (completata * 5);
+
+                    // 🔹 Aggiungi progresso
+                    CurrentProgress[questId] += amount;
+
+                    // 🔹 Controlla se raggiunge il requisito attuale
+                    if (CurrentProgress[questId] >= requireDinamico)
+                    {
+                        CurrentProgress[questId] = 0;
+                        Completions[questId]++;
+
+                        // (opzionale) feedback
+                        Console.WriteLine($"Quest {quest.Quest_Description} completata da {Completions[questId] + 1} volte, nuovo requisito: {requireDinamico + 5}");
+
+                        return true; // Quest completata
+                    }
+
+                    return false;
+                }
             }
 
             public bool ValidatePassword(string password)

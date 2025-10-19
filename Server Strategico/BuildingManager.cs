@@ -1,6 +1,8 @@
 ﻿using Server_Strategico.Gioco;
+using Server_Strategico.Server;
 using static Server_Strategico.Gioco.Giocatori;
 using static Server_Strategico.Gioco.Giocatori.Player;
+using static Server_Strategico.QuestManager;
 
 namespace Server_Strategico
 {
@@ -80,30 +82,72 @@ namespace Server_Strategico
                 {
                     switch (task.Type)
                     {
-                        case "Fattoria": player.Fattoria++; break;
-                        case "Segheria": player.Segheria++; break;
-                        case "CavaPietra": player.CavaPietra++; break;
-                        case "MinieraFerro": player.MinieraFerro++; break;
-                        case "MinieraOro": player.MinieraOro++; break;
-                        case "Case": player.Abitazioni++; break;
+                        case "Fattoria": 
+                            player.Fattoria++;
+                            QuestManager.OnEvent(player, QuestEventType.Costruzione, "Fattoria", 1);
+                            break;
+                        case "Segheria": 
+                            player.Segheria++;
+                            QuestManager.OnEvent(player, QuestEventType.Costruzione, "Segheria", 1);
+                            break;
+                        case "CavaPietra": 
+                            player.CavaPietra++;
+                            QuestManager.OnEvent(player, QuestEventType.Costruzione, "CavaPietra", 1);
+                            break;
+                        case "MinieraFerro": 
+                            player.MinieraFerro++;
+                            QuestManager.OnEvent(player, QuestEventType.Costruzione, "MinieraFerro", 1);
+                            break;
+                        case "MinieraOro": 
+                            player.MinieraOro++;
+                            QuestManager.OnEvent(player, QuestEventType.Costruzione, "MinieraOro", 1);
+                            break;
+                        case "Case": 
+                            player.Abitazioni++;
+                            QuestManager.OnEvent(player, QuestEventType.Costruzione, "Case", 1);
+                            break;
 
-                        case "ProduzioneSpade": player.Workshop_Spade++; break;
-                        case "ProduzioneLancie": player.Workshop_Lance++; break;
-                        case "ProduzioneArchi": player.Workshop_Archi++; break;
-                        case "ProduzioneScudi": player.Workshop_Scudi++; break;
-                        case "ProduzioneArmature": player.Workshop_Armature++; break;
-                        case "ProduzioneFrecce": player.Workshop_Frecce++; break;
+                        case "ProduzioneSpade":
+                            player.Workshop_Spade++;
+                            QuestManager.OnEvent(player, QuestEventType.Costruzione, "Case", 1);
+                            break;
+                        case "ProduzioneLance":
+                            player.Workshop_Lance++;
+                            QuestManager.OnEvent(player, QuestEventType.Costruzione, "Case", 1);
+                            break;
+                        case "ProduzioneArchi":
+                            player.Workshop_Archi++;
+                            QuestManager.OnEvent(player, QuestEventType.Costruzione, "Case", 1);
+                            break;
+                        case "ProduzioneScudi":
+                            player.Workshop_Scudi++;
+                            QuestManager.OnEvent(player, QuestEventType.Costruzione, "Case", 1);
+                            break;
+                        case "ProduzioneArmature":
+                            player.Workshop_Armature++;
+                            QuestManager.OnEvent(player, QuestEventType.Costruzione, "Case", 1);
+                            break;
+                        case "ProduzioneFrecce":
+                            player.Workshop_Frecce++;
+                            QuestManager.OnEvent(player, QuestEventType.Costruzione, "Case", 1);
+                            break;
 
-                        case "CasermaGuerrieri": player.Caserma_Guerrieri++; break;
-                        case "CasermaLancieri": player.Caserma_Lancieri++; break;
-                        case "CasermaArcieri": player.Caserma_Arceri++; break;
-                        case "CasermaCatapulte": player.Caserma_Catapulte++; break;
-
-                        case "Terreno Comune": player.Terreno_Comune++; break;
-                        case "Terreno Noncomune": player.Terreno_NonComune++; break;
-                        case "Terreno Raro": player.Terreno_Raro++; break;
-                        case "Terreno Epico": player.Terreno_Epico++; break;
-                        case "Terreno Leggendario": player.Terreno_Leggendario++; break;
+                        case "CasermaGuerrieri":
+                            player.Caserma_Guerrieri++;
+                            QuestManager.OnEvent(player, QuestEventType.Costruzione, "Case", 1);
+                            break;
+                        case "CasermaLancieri":
+                            player.Caserma_Lancieri++;
+                            QuestManager.OnEvent(player, QuestEventType.Costruzione, "Case", 1);
+                            break;
+                        case "CasermaArcieri":
+                            player.Caserma_Arceri++;
+                            QuestManager.OnEvent(player, QuestEventType.Costruzione, "Case", 1);
+                            break;
+                        case "CasermaCatapulte":
+                            player.Caserma_Catapulte++;
+                            QuestManager.OnEvent(player, QuestEventType.Costruzione, "Case", 1);
+                            break;
 
                         default: Console.WriteLine($"Costruzione {task.Type} non valida!"); break;
                     }
@@ -172,7 +216,7 @@ namespace Server_Strategico
                 "MinieraOro" => Strutture.Edifici.MinieraOro,
                 "Case" => Strutture.Edifici.Case,
                 "ProduzioneSpade" => Strutture.Edifici.ProduzioneSpade,
-                "ProduzioneLancie" => Strutture.Edifici.ProduzioneLance,
+                "ProduzioneLance" => Strutture.Edifici.ProduzioneLance,
                 "ProduzioneArchi" => Strutture.Edifici.ProduzioneArchi,
                 "ProduzioneScudi" => Strutture.Edifici.ProduzioneScudi,
                 "ProduzioneArmature" => Strutture.Edifici.ProduzioneArmature,
@@ -224,10 +268,11 @@ namespace Server_Strategico
                 }
             }
 
+            OnEvent(player, QuestEventType.Acquisto, "Terreno", 1);
             // Aggiorna player
             switch (terrenoOttenuto)
             {
-                case "Terreno Comune": player.Terreno_Comune++; break;
+                case "Terreno Comune":player.Terreno_Comune++; break;
                 case "Terreno Noncomune": player.Terreno_NonComune++; break;
                 case "Terreno Raro": player.Terreno_Raro++; break;
                 case "Terreno Epico": player.Terreno_Epico++; break;

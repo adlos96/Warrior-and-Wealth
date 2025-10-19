@@ -1,7 +1,10 @@
 ﻿using Server_Strategico.Gioco;
 using System.Text;
+using System.Text.Json;
 using WatsonTcp;
+using static Server_Strategico.Gioco.Giocatori;
 using static Server_Strategico.Gioco.Strutture;
+using static Server_Strategico.Gioco.Variabili_Server;
 
 namespace Server_Strategico.Server
 {
@@ -57,7 +60,7 @@ namespace Server_Strategico.Server
                     if (Convert.ToInt32(msgArgs[8]) > 0) BuildingManager.Costruzione("Case", Convert.ToInt32(msgArgs[8]), clientGuid, player); // Costruisci fattorie
                     
                     if (Convert.ToInt32(msgArgs[9]) > 0) BuildingManager.Costruzione("ProduzioneSpade", Convert.ToInt32(msgArgs[9]), clientGuid, player); // Costruisci fattorie
-                    if (Convert.ToInt32(msgArgs[10]) > 0) BuildingManager.Costruzione("ProduzioneLancie", Convert.ToInt32(msgArgs[10]), clientGuid, player); // Costruisci fattorie
+                    if (Convert.ToInt32(msgArgs[10]) > 0) BuildingManager.Costruzione("ProduzioneLance", Convert.ToInt32(msgArgs[10]), clientGuid, player); // Costruisci fattorie
                     if (Convert.ToInt32(msgArgs[11]) > 0) BuildingManager.Costruzione("ProduzioneArchi", Convert.ToInt32(msgArgs[11]), clientGuid, player); // Costruisci fattorie
                     if (Convert.ToInt32(msgArgs[12]) > 0) BuildingManager.Costruzione("ProduzioneScudi", Convert.ToInt32(msgArgs[12]), clientGuid, player); // Costruisci fattorie
                     if (Convert.ToInt32(msgArgs[13]) > 0) BuildingManager.Costruzione("ProduzioneArmature", Convert.ToInt32(msgArgs[13]), clientGuid, player); // Costruisci fattorie
@@ -396,7 +399,6 @@ namespace Server_Strategico.Server
             return true;
         }
 
-
         public static async Task<bool> Update_Data(Guid guid, string username, string password)
         {
             var player = Server.servers_.GetPlayer(username, password);
@@ -405,6 +407,9 @@ namespace Server_Strategico.Server
 
             double Cibo = player.Guerrieri[0] * Esercito.Unità.Guerrieri_1.Cibo + player.Lanceri[0] * Esercito.Unità.Lanceri_1.Cibo + player.Arceri[0] * Esercito.Unità.Arceri_1.Cibo + player.Catapulte[0] * Esercito.Unità.Catapulte_1.Cibo;
             double Oro = player.Guerrieri[0] * Esercito.Unità.Guerrieri_1.Salario + player.Lanceri[0] * Esercito.Unità.Lanceri_1.Salario + player.Arceri[0] * Esercito.Unità.Arceri_1.Salario + player.Catapulte[0] * Esercito.Unità.Catapulte_1.Salario;
+
+            QuestManager.QuestUpdate(player);
+            QuestManager.QuestRewardUpdate(player);
 
             string data =
             "Update_Data|" +
@@ -746,48 +751,6 @@ namespace Server_Strategico.Server
 
             //Quest claim "normali"
             $"punti_quest={player.Punti_Quest}|" +
-            $"reward_quest_montly_1={Variabili_Server.Quest_Reward.Normali_Montly.Reward_Claim_1}|" +
-            $"reward_quest_montly_2={Variabili_Server.Quest_Reward.Normali_Montly.Reward_Claim_2}|" +
-            $"reward_quest_montly_3={Variabili_Server.Quest_Reward.Normali_Montly.Reward_Claim_3}|" +
-            $"reward_quest_montly_4={Variabili_Server.Quest_Reward.Normali_Montly.Reward_Claim_4}|" +
-            $"reward_quest_montly_5={Variabili_Server.Quest_Reward.Normali_Montly.Reward_Claim_5}|" +
-            $"reward_quest_montly_6={Variabili_Server.Quest_Reward.Normali_Montly.Reward_Claim_6}|" +
-            $"reward_quest_montly_7={Variabili_Server.Quest_Reward.Normali_Montly.Reward_Claim_7}|" +
-            $"reward_quest_montly_8={Variabili_Server.Quest_Reward.Normali_Montly.Reward_Claim_8}|" +
-            $"reward_quest_montly_9={Variabili_Server.Quest_Reward.Normali_Montly.Reward_Claim_9}|" +
-            $"reward_quest_montly_10={Variabili_Server.Quest_Reward.Normali_Montly.Reward_Claim_10}|" +
-            $"reward_quest_montly_11={Variabili_Server.Quest_Reward.Normali_Montly.Reward_Claim_11}|" +
-            $"reward_quest_montly_12={Variabili_Server.Quest_Reward.Normali_Montly.Reward_Claim_12}|" +
-            $"reward_quest_montly_13={Variabili_Server.Quest_Reward.Normali_Montly.Reward_Claim_13}|" +
-            $"reward_quest_montly_14={Variabili_Server.Quest_Reward.Normali_Montly.Reward_Claim_14}|" +
-            $"reward_quest_montly_15={Variabili_Server.Quest_Reward.Normali_Montly.Reward_Claim_15}|" +
-            $"reward_quest_montly_16={Variabili_Server.Quest_Reward.Normali_Montly.Reward_Claim_16}|" +
-            $"reward_quest_montly_17={Variabili_Server.Quest_Reward.Normali_Montly.Reward_Claim_17}|" +
-            $"reward_quest_montly_18={Variabili_Server.Quest_Reward.Normali_Montly.Reward_Claim_18}|" +
-            $"reward_quest_montly_19={Variabili_Server.Quest_Reward.Normali_Montly.Reward_Claim_19}|" +
-            $"reward_quest_montly_20={Variabili_Server.Quest_Reward.Normali_Montly.Reward_Claim_20}|" +
-
-            //Quest claim "vip"
-            $"reward_quest_montly_vip_1={Variabili_Server.Quest_Reward.Montly_Claim_Vip.Reward_Claim_1}|" +
-            $"reward_quest_montly_vip_2={Variabili_Server.Quest_Reward.Montly_Claim_Vip.Reward_Claim_2}|" +
-            $"reward_quest_montly_vip_3={Variabili_Server.Quest_Reward.Montly_Claim_Vip.Reward_Claim_3}|" +
-            $"reward_quest_montly_vip_4={Variabili_Server.Quest_Reward.Montly_Claim_Vip.Reward_Claim_4}|" +
-            $"reward_quest_montly_vip_5={Variabili_Server.Quest_Reward.Montly_Claim_Vip.Reward_Claim_5}|" +
-            $"reward_quest_montly_vip_6={Variabili_Server.Quest_Reward.Montly_Claim_Vip.Reward_Claim_6}|" +
-            $"reward_quest_montly_vip_7={Variabili_Server.Quest_Reward.Montly_Claim_Vip.Reward_Claim_7}|" +
-            $"reward_quest_montly_vip_8={Variabili_Server.Quest_Reward.Montly_Claim_Vip.Reward_Claim_8}|" +
-            $"reward_quest_montly_vip_9={Variabili_Server.Quest_Reward.Montly_Claim_Vip.Reward_Claim_9}|" +
-            $"reward_quest_montly_vip_10={Variabili_Server.Quest_Reward.Montly_Claim_Vip.Reward_Claim_10}|" +
-            $"reward_quest_montly_vip_11={Variabili_Server.Quest_Reward.Montly_Claim_Vip.Reward_Claim_11}|" +
-            $"reward_quest_montly_vip_12={Variabili_Server.Quest_Reward.Montly_Claim_Vip.Reward_Claim_12}|" +
-            $"reward_quest_montly_vip_13={Variabili_Server.Quest_Reward.Montly_Claim_Vip.Reward_Claim_13}|" +
-            $"reward_quest_montly_vip_14={Variabili_Server.Quest_Reward.Montly_Claim_Vip.Reward_Claim_14}|" +
-            $"reward_quest_montly_vip_15={Variabili_Server.Quest_Reward.Montly_Claim_Vip.Reward_Claim_15}|" +
-            $"reward_quest_montly_vip_16={Variabili_Server.Quest_Reward.Montly_Claim_Vip.Reward_Claim_16}|" +
-            $"reward_quest_montly_vip_17={Variabili_Server.Quest_Reward.Montly_Claim_Vip.Reward_Claim_17}|" +
-            $"reward_quest_montly_vip_18={Variabili_Server.Quest_Reward.Montly_Claim_Vip.Reward_Claim_18}|" +
-            $"reward_quest_montly_vip_19={Variabili_Server.Quest_Reward.Montly_Claim_Vip.Reward_Claim_19}|" +
-            $"reward_quest_montly_vip_20={Variabili_Server.Quest_Reward.Montly_Claim_Vip.Reward_Claim_20}|" +
 
             //Ricerca I (Infinita)
             $"guerriero_salute={player.Guerriero_Salute}|" +

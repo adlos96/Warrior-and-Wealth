@@ -7,14 +7,6 @@ namespace Server_Strategico.Gioco
     {
         public class Tipi
         {
-            public static CostoReclutamento Produzione = new CostoReclutamento
-            {
-                Cibo = 4500,
-                Legno = 4250,
-                Pietra = 4000,
-                Ferro = 3750,
-                Oro = 3500,
-            };
             public static CostoReclutamento Costruzione = new CostoReclutamento
             {
                 Cibo = 3500,
@@ -22,6 +14,16 @@ namespace Server_Strategico.Gioco
                 Pietra = 3000,
                 Ferro = 2750,
                 Oro = 2550,
+                TempoReclutamento = 60
+            };
+            public static CostoReclutamento Produzione = new CostoReclutamento
+            {
+                Cibo = 4500,
+                Legno = 4250,
+                Pietra = 4000,
+                Ferro = 3750,
+                Oro = 3500,
+                TempoReclutamento = 60
             };
             public static CostoReclutamento Addestramento = new CostoReclutamento
             {
@@ -30,6 +32,16 @@ namespace Server_Strategico.Gioco
                 Pietra = 4500,
                 Ferro = 4250,
                 Oro = 4000,
+                TempoReclutamento = 60
+            };
+            public static CostoReclutamento Popolazione = new CostoReclutamento
+            {
+                Cibo = 6500,
+                Legno = 6000,
+                Pietra = 5500,
+                Ferro = 5250,
+                Oro = 5000,
+                TempoReclutamento = 60
             };
 
             public static CostoReclutamento Incremento = new CostoReclutamento

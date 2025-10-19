@@ -1,6 +1,7 @@
 ﻿using Server_Strategico.Gioco;
 using static Server_Strategico.Gioco.Giocatori;
 using static Server_Strategico.Gioco.Giocatori.Player;
+using static Server_Strategico.QuestManager;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Server_Strategico
@@ -96,10 +97,22 @@ namespace Server_Strategico
                 {
                     switch (task.Type)
                     {
-                        case "Guerrieri_1": player.Guerrieri[0]++; break;
-                        case "Lanceri_1": player.Lanceri[0]++; break;
-                        case "Arceri_1": player.Arceri[0]++; break;
-                        case "Catapulta": player.Catapulte[0]++; break;
+                        case "Guerrieri_1": 
+                            player.Guerrieri[0]++;
+                            QuestManager.OnEvent(player, QuestEventType.Addestramento, "Guerrieri_1", 1);
+                            break;
+                        case "Lanceri_1": 
+                            player.Lanceri[0]++;
+                            QuestManager.OnEvent(player, QuestEventType.Addestramento, "Lanceri_1", 1);
+                            break;
+                        case "Arceri_1": 
+                            player.Arceri[0]++;
+                            QuestManager.OnEvent(player, QuestEventType.Addestramento, "Arceri_1", 1);
+                            break;
+                        case "Catapulta": 
+                            player.Catapulte[0]++;
+                            QuestManager.OnEvent(player, QuestEventType.Addestramento, "Catapulta", 1);
+                            break;
                     }
 
                     Server.Server.Send(clientGuid, $"Log_Server|{task.Type} addestrato!");
