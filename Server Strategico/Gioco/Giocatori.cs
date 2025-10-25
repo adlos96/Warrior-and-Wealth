@@ -3,6 +3,7 @@ using System.Text.Json;
 using static Server_Strategico.BuildingManager;
 using static Server_Strategico.Gioco.Giocatori;
 using static Server_Strategico.Gioco.Variabili_Server;
+using static Server_Strategico.QuestManager;
 using static Server_Strategico.Server.Server;
 
 namespace Server_Strategico.Gioco
@@ -38,6 +39,7 @@ namespace Server_Strategico.Gioco
             #region Variabili giocatore
             //Quest
             public PlayerQuestProgress QuestProgress { get; set; } = new();
+            public List<Gioco.Barbari.VillaggioBarbaro> VillaggiPersonali { get; set; } = new();
 
             // Giocatori
             public string Username { get; set; }
@@ -279,6 +281,9 @@ namespace Server_Strategico.Gioco
 
             public Player(string username, string password, Guid guid_Client)
             {
+                // Inizializza lista villaggi barbarici
+                VillaggiPersonali = new List<Gioco.Barbari.VillaggioBarbaro>();
+
                 //Statistiche
                 Tempo_Addestramento_Risparmiato = 0;
                 Tempo_Costruzione_Risparmiato = 0;
@@ -498,26 +503,32 @@ namespace Server_Strategico.Gioco
                     return Completions[questId] >= QuestDatabase.Quests[questId].Max_Complete;
                 }
 
-                public bool AddProgress(int questId, int amount)
+                public bool AddProgress(int questId, int amount, Player player)
                 {
-                    if (IsQuestFullyCompleted(questId))
-                        return false;
-
                     var quest = QuestDatabase.Quests[questId];
-                    int completata = Completions[questId];
-                    int requireDinamico = quest.Require + (completata * 5);
 
-                    // 🔹 Aggiungi progresso
-                    CurrentProgress[questId] += amount;
+                    // Se la quest è già completata il numero massimo di volte, non fare nulla
+                    if (IsQuestFullyCompleted(questId))
+                    {
+                        Console.WriteLine($"Quest '{quest.Quest_Description}' è già completata al massimo ({quest.Max_Complete} volte).");
+                        return false;
+                    }
 
-                    // 🔹 Controlla se raggiunge il requisito attuale
+                    int completata = Completions[questId];  // Quante volte è stata completata finora
+                    int requireDinamico = quest.Require + (completata * Variabili_Server.moltiplicatore_Quest); // Aumenta il requisito di 5 per ogni completamento
+
+                    player.Punti_Quest += quest.Experience;
+                    CurrentProgress[questId] += amount; // Aggiungi il progresso
+
+                    // 🔹 Se completata
                     if (CurrentProgress[questId] >= requireDinamico)
                     {
-                        CurrentProgress[questId] = 0;
-                        Completions[questId]++;
+                        CurrentProgress[questId] = 0; // Resetta il progresso per la prossima volta
+                        Completions[questId]++; // Incrementa il conteggio delle completazioni
+                        Console.WriteLine($"Quest '{quest.Quest_Description}' completata {Completions[questId]} / {quest.Max_Complete} volte.");
 
-                        // (opzionale) feedback
-                        Console.WriteLine($"Quest {quest.Quest_Description} completata da {Completions[questId] + 1} volte, nuovo requisito: {requireDinamico + 5}");
+                        if (Completions[questId] == quest.Max_Complete)
+                            QuestManager.OnEvent(player, QuestEventType.Miglioramento, "", 1); // Per ogni quest completata, aggiorna la quest
 
                         return true; // Quest completata
                     }
@@ -533,25 +544,37 @@ namespace Server_Strategico.Gioco
 
             public void ProduceResources() //produzione risorse
             {
-                Cibo += Fattoria * (Strutture.Edifici.Fattoria.Produzione + Ricerca_Produzione * Ricerca.Tipi.Incremento.Cibo);
-                Legno += Segheria * (Strutture.Edifici.Segheria.Produzione + Ricerca_Produzione * Ricerca.Tipi.Incremento.Legno);
-                Pietra += CavaPietra * (Strutture.Edifici.CavaPietra.Produzione + Ricerca_Produzione * Ricerca.Tipi.Incremento.Pietra);
-                Ferro += MinieraFerro * (Strutture.Edifici.MinieraFerro.Produzione + Ricerca_Produzione * Ricerca.Tipi.Incremento.Ferro);
-                Oro += MinieraOro * (Strutture.Edifici.MinieraOro.Produzione + Ricerca_Produzione * Ricerca.Tipi.Incremento.Oro);
-                Popolazione += Abitazioni * (Strutture.Edifici.Case.Produzione + Ricerca_Produzione * Ricerca.Tipi.Incremento.Popolazione);
+                if (Cibo < Fattoria * Strutture.Edifici.Fattoria.Limite)
+                    Cibo += Fattoria * (Strutture.Edifici.Fattoria.Produzione + Ricerca_Produzione * Ricerca.Tipi.Incremento.Cibo);
+                if (Legno < Segheria * Strutture.Edifici.Segheria.Limite)
+                    Legno += Segheria * (Strutture.Edifici.Segheria.Produzione + Ricerca_Produzione * Ricerca.Tipi.Incremento.Legno);
+                if (Pietra < CavaPietra * Strutture.Edifici.CavaPietra.Limite)
+                    Pietra += CavaPietra * (Strutture.Edifici.CavaPietra.Produzione + Ricerca_Produzione * Ricerca.Tipi.Incremento.Pietra);
+                if (Ferro < MinieraFerro * Strutture.Edifici.MinieraFerro.Limite)
+                    Ferro += MinieraFerro * (Strutture.Edifici.MinieraFerro.Produzione + Ricerca_Produzione * Ricerca.Tipi.Incremento.Ferro);
+                if (Oro < MinieraOro * Strutture.Edifici.MinieraOro.Limite)
+                    Oro += MinieraOro * (Strutture.Edifici.MinieraOro.Produzione + Ricerca_Produzione * Ricerca.Tipi.Incremento.Oro);
+                if (Popolazione < Abitazioni * Strutture.Edifici.Case.Limite)
+                    Popolazione += Abitazioni * (Strutture.Edifici.Case.Produzione + Ricerca_Produzione * Ricerca.Tipi.Incremento.Popolazione);
 
                 Dollari_Virtuali += (decimal)(Terreno_Comune * Variabili_Server.Terreni_Virtuali.Comune.Produzione) +
                     (decimal)(Terreno_NonComune * Variabili_Server.Terreni_Virtuali.NonComune.Produzione) +
                     (decimal)(Terreno_Raro * Variabili_Server.Terreni_Virtuali.Raro.Produzione) +
                     (decimal)(Terreno_Epico * Variabili_Server.Terreni_Virtuali.Epico.Produzione) +
-                    (decimal)(Terreno_Leggendario * Variabili_Server.Terreni_Virtuali.Leggendario.Produzione); 
+                    (decimal)(Terreno_Leggendario * Variabili_Server.Terreni_Virtuali.Leggendario.Produzione);
 
-                Spade += Workshop_Spade * Strutture.Edifici.ProduzioneSpade.Produzione;
-                Lance += Workshop_Lance * Strutture.Edifici.ProduzioneLance.Produzione;
-                Archi += Workshop_Archi * Strutture.Edifici.ProduzioneArchi.Produzione;
-                Scudi += Workshop_Scudi * Strutture.Edifici.ProduzioneScudi.Produzione;
-                Armature += Workshop_Armature * Strutture.Edifici.ProduzioneArmature.Produzione;
-                Frecce += Workshop_Frecce * Strutture.Edifici.ProduzioneFrecce.Produzione;
+                if (Spade < Workshop_Spade * Strutture.Edifici.ProduzioneSpade.Limite)
+                    Spade += Workshop_Spade * Strutture.Edifici.ProduzioneSpade.Produzione;
+                if (Lance < Workshop_Lance * Strutture.Edifici.ProduzioneLance.Limite)
+                    Lance += Workshop_Lance * Strutture.Edifici.ProduzioneLance.Produzione;
+                if (Archi < Workshop_Archi * Strutture.Edifici.ProduzioneArchi.Limite)
+                    Archi += Workshop_Archi * Strutture.Edifici.ProduzioneArchi.Produzione;
+                if (Scudi < Workshop_Scudi * Strutture.Edifici.ProduzioneScudi.Limite)
+                    Scudi += Workshop_Scudi * Strutture.Edifici.ProduzioneScudi.Produzione;
+                if (Armature < Workshop_Armature * Strutture.Edifici.ProduzioneArmature.Limite)
+                    Armature += Workshop_Armature * Strutture.Edifici.ProduzioneArmature.Produzione;
+                if (Frecce < Workshop_Frecce * Strutture.Edifici.ProduzioneFrecce.Limite)
+                    Frecce += Workshop_Frecce * Strutture.Edifici.ProduzioneFrecce.Produzione;
             }
             public void ManutenzioneEsercito() //produzione risorse
             {
@@ -566,7 +589,7 @@ namespace Server_Strategico.Gioco
                 Oro -= Guerrieri[2] * Esercito.Unità.Guerriero_3.Salario + Lanceri[2] * Esercito.Unità.Lancere_3.Salario + Arceri[2] * Esercito.Unità.Arcere_3.Salario + Catapulte[2] * Esercito.Unità.Catapulta_3.Salario;
                 Oro -= Guerrieri[3] * Esercito.Unità.Guerriero_4.Salario + Lanceri[3] * Esercito.Unità.Lancere_4.Salario + Arceri[3] * Esercito.Unità.Arcere_4.Salario + Catapulte[3] * Esercito.Unità.Catapulta_4.Salario;
                 Oro -= Guerrieri[4] * Esercito.Unità.Guerriero_5.Salario + Lanceri[4] * Esercito.Unità.Lancere_5.Salario + Arceri[4] * Esercito.Unità.Arcere_5.Salario + Catapulte[4] * Esercito.Unità.Catapulta_5.Salario;
-                
+
                 if (Cibo <= 0) Cibo = 0;
                 if (Oro <= 0) Oro = 0;
             }

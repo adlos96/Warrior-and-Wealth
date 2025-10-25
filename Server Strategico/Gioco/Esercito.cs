@@ -4,11 +4,11 @@
     {
         public class CostoReclutamento
         {
-            public int Spade { get; set; }
-            public int Lance { get; set; }
-            public int Archi { get; set; }
-            public int Scudi { get; set; }
-            public int Armature { get; set; }
+            public double Spade { get; set; }
+            public double Lance { get; set; }
+            public double Archi { get; set; }
+            public double Scudi { get; set; }
+            public double Armature { get; set; }
             public double Cibo { get; set; }
             public double Legno { get; set; }
             public double Pietra { get; set; }

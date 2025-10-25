@@ -3,6 +3,9 @@ namespace Server_Strategico.Gioco
 {
     internal class Variabili_Server
     {
+        public static int moltiplicatore_Quest = 1;
+        public static int moltiplicatore_Esperienza = 10;
+
         public class QuestRewardPacket
         {
             public string Type { get; set; } = "QuestRewards";
@@ -51,9 +54,7 @@ namespace Server_Strategico.Gioco
                 { 17, new Quest_Template { Id = 17, Quest_Description = "Costruisci qualsiasi struttura militare", Experience = 10, Require = 15, Max_Complete = 4 } },
 
                 // --- COSTRUZIONI AVANZATE / SPECIALI ---
-                { 18, new Quest_Template { Id = 18, Quest_Description = "Espandi il tuo regno costruendo nuove strutture", Experience = 15, Require = 20, Max_Complete = 4 } },
-                { 19, new Quest_Template { Id = 19, Quest_Description = "Migliora gli edifici esistenti al livello successivo", Experience = 20, Require = 10, Max_Complete = 3 } },
-                { 20, new Quest_Template { Id = 20, Quest_Description = "Completa tutte le quest iniziali", Experience = 50, Require = 10, Max_Complete = 1 } },
+                { 18, new Quest_Template { Id = 18, Quest_Description = "Completa tutte le quest iniziali", Experience = 50, Require = 17, Max_Complete = 1 } },
             };
         }
 

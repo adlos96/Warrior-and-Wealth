@@ -51,7 +51,12 @@ namespace Server_Strategico.Gioco
                 Pietra = 0.08,
                 Ferro = 0.06,
                 Oro = 0.04,
-                Popolazione = 0.001
+                Popolazione = 0.001,
+                Spade = 0.01,
+                Lance = 0.01,
+                Archi = 0.01,
+                Scudi = 0.01,
+                Armature = 0.01
             };
 
         }

@@ -108,6 +108,8 @@ namespace Server_Strategico.Server
 
             // Simula il passare del tempo sul server
 
+
+
             cts = new CancellationTokenSource();
             gameLoopTask = servers_.RunGameLoopAsync(cts.Token);
         }
@@ -149,6 +151,7 @@ namespace Server_Strategico.Server
 
             player1.Diamanati_Blu = 1500;
             player1.Diamanti_Viola = 1500;
+
         }
         // ----------------------- Client Connessione --------------------------
         static void ClientConnected(object? sender, ConnectionEventArgs args)
@@ -198,7 +201,7 @@ namespace Server_Strategico.Server
 
         public class GameServer
         {
-            private Dictionary<string, Player> players = new Dictionary<string, Player>();
+            public Dictionary<string, Player> players = new Dictionary<string, Player>();
             public async Task<bool> AddPlayer(string username, string password, Guid guid)
             {
                 if (!players.ContainsKey(username))
@@ -317,6 +320,7 @@ namespace Server_Strategico.Server
                 await GameSave.Load_Player_Data_Auto();
                 servers_.Lista_Player_Auto();
 
+                Gioco.Barbari.Inizializza();   // <--- aggiungi qui
                 while (!cancellationToken.IsCancellationRequested)
                 {
                     saveCounter++;

@@ -34,7 +34,8 @@ namespace Server_Strategico
                 player.Legno >= buildingCost.Legno * count &&
                 player.Pietra >= buildingCost.Pietra * count &&
                 player.Ferro >= buildingCost.Ferro * count &&
-                player.Oro >= buildingCost.Oro * count)
+                player.Oro >= buildingCost.Oro * count &&
+                player.Popolazione >= buildingCost.Popolazione * count)
             {
                 // Scala risorse
                 player.Cibo -= buildingCost.Cibo * count;
@@ -42,6 +43,7 @@ namespace Server_Strategico
                 player.Pietra -= buildingCost.Pietra * count;
                 player.Ferro -= buildingCost.Ferro * count;
                 player.Oro -= buildingCost.Oro * count;
+                player.Popolazione -= buildingCost.Popolazione * count;
 
                 Server.Server.Send(clientGuid, $"Log_Server|Risorse utilizzate per {count} costruzione/i di {buildingType}...");
 

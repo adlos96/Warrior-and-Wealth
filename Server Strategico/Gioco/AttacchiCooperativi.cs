@@ -125,17 +125,20 @@ namespace Server_Strategico.Gioco
                 Send(clientGuid, $"Log_Server|Non hai abbastanza truppe disponibili.");
                 return false;
             }
-            int[] Guerrieri = player.Guerrieri;
-            int[] Lanceri = player.Guerrieri;
-            int[] Arceri = player.Guerrieri;
-            int[] Catapulte = player.Guerrieri;
+            int[] Guerrieri = { 0, 0, 0, 0, 0 };
+            int[] Lanceri = { 0, 0, 0, 0, 0 };
+            int[] Arceri = { 0, 0, 0, 0, 0 };
+            int[] Catapulte = { 0, 0, 0, 0, 0 };
+            //Assegnavo il valore corretto di unità
+            Guerrieri[0] = guerrieri;
+            Lanceri[0] = lancieri;
+            Arceri[0] = arcieri;
+            Catapulte[0] = catapulte;
 
-            // Crea l'oggetto truppe da aggiungere
+            // Crea l'oggetto globale truppe per aggiunegre le unità dei partecipanti
             var truppe = new TruppeContribuite(Guerrieri, Lanceri, Arceri, Catapulte, player.Username);
-            
-            // Aggiungi le truppe all'attacco (con il metodo corretto che abbiamo già sistemato)
-            AttacchiInCorso[idAttacco].AggiungiGiocatore(username, truppe);
-            
+            AttacchiInCorso[idAttacco].AggiungiGiocatore(username, truppe); // Aggiungi le truppe all'attacco (con il metodo corretto che abbiamo già sistemato)
+
             // IMPORTANTE: Rimuovi le truppe dal giocatore DOPO aver confermato che l'aggiunta è avvenuta con successo
             player.Guerrieri[0] -= guerrieri;
             player.Lanceri[0] -= lancieri;
@@ -158,8 +161,10 @@ namespace Server_Strategico.Gioco
             Send(clientGuid, $"Log_Server|Hai contribuito all'attacco #{idAttacco} con: {guerrieri} Guerrieri, {lancieri} Lancieri, {arcieri} Arcieri, {catapulte} Catapulte.");
             Send(clientGuid, $"Log_Server|Forze totali: {totGuerrieri} Guerrieri, {totLancieri} Lancieri, {totArcieri} Arcieri, {totCatapulte} Catapulte.");
             
-            // Notifica tutti i partecipanti dell'aggiornamento
-            foreach (var partecipante in attacco.GiocatoriPartecipanti)
+            // Invia il messaggio di RadunoPartecipo per aggiornare l'interfaccia client
+            Send(clientGuid, $"RadunoPartecipo|{attacco.CreatoreUsername}|{idAttacco}|{attacco.GiocatoriPartecipanti.Count}|{guerrieri}|{lancieri}|{arcieri}|{catapulte}|{attacco.TempoRimanente / 60}");
+
+            foreach (var partecipante in attacco.GiocatoriPartecipanti) // Notifica tutti i partecipanti dell'aggiornamento
             {
                 var giocatore = servers_.GetPlayer_Data(partecipante.Key);
                 if (giocatore != null && giocatore.guid_Player != Guid.Empty && giocatore.guid_Player != clientGuid)
@@ -168,10 +173,6 @@ namespace Server_Strategico.Gioco
                     Send(giocatore.guid_Player, $"Log_Server|Forze totali: {totGuerrieri} Guerrieri, {totLancieri} Lancieri, {totArcieri} Arcieri, {totCatapulte} Catapulte.");
                 }
             }
-            
-            // Invia il messaggio di RadunoPartecipo per aggiornare l'interfaccia client
-            Send(clientGuid, $"RadunoPartecipo|{attacco.CreatoreUsername}|{idAttacco}|{attacco.GiocatoriPartecipanti.Count}|{guerrieri}|{lancieri}|{arcieri}|{catapulte}|{attacco.TempoRimanente/60}");
-            
             return true;
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using Server_Strategico.Gioco;
+using System.Text.Json;
 using static Server_Strategico.Gioco.Giocatori;
 using static Server_Strategico.Gioco.Variabili_Server;
 
@@ -62,60 +63,60 @@ namespace Server_Strategico
             switch (tipo)
             {
                 case "Fattoria":
-                    player.QuestProgress.AddProgress(11, quantita);
-                    player.QuestProgress.AddProgress(10, quantita); // qualsiasi struttura civile
+                    player.QuestProgress.AddProgress(11, quantita, player);
+                    player.QuestProgress.AddProgress(10, quantita, player); // qualsiasi struttura civile
                     break;
                     case "Segheria":
-                    player.QuestProgress.AddProgress(12, quantita);
-                    player.QuestProgress.AddProgress(10, quantita); // qualsiasi struttura civile
+                    player.QuestProgress.AddProgress(12, quantita, player);
+                    player.QuestProgress.AddProgress(10, quantita, player); // qualsiasi struttura civile
                     break;
                     case "Cava di Pietra":
-                    player.QuestProgress.AddProgress(13, quantita);
-                    player.QuestProgress.AddProgress(10, quantita); // qualsiasi struttura civile
+                    player.QuestProgress.AddProgress(13, quantita, player);
+                    player.QuestProgress.AddProgress(10, quantita, player); // qualsiasi struttura civile
                     break;
                     case "Miniera Ferro":
-                    player.QuestProgress.AddProgress(14, quantita);
-                    player.QuestProgress.AddProgress(10, quantita); // qualsiasi struttura civile
+                    player.QuestProgress.AddProgress(14, quantita, player);
+                    player.QuestProgress.AddProgress(10, quantita, player); // qualsiasi struttura civile
                     break;
                     case "Miniera Oro":
-                    player.QuestProgress.AddProgress(15, quantita);
-                    player.QuestProgress.AddProgress(10, quantita); // qualsiasi struttura civile
+                    player.QuestProgress.AddProgress(15, quantita, player);
+                    player.QuestProgress.AddProgress(10, quantita, player); // qualsiasi struttura civile
                     break;
                     case "Casa":
-                    player.QuestProgress.AddProgress(16, quantita);
-                    player.QuestProgress.AddProgress(10, quantita); // qualsiasi struttura civile
+                    player.QuestProgress.AddProgress(16, quantita, player);
+                    player.QuestProgress.AddProgress(10, quantita, player); // qualsiasi struttura civile
                     break;
 
                 case "ProduzioneSpade":
-                    player.QuestProgress.AddProgress(17, quantita); // struttura militare generica
+                    player.QuestProgress.AddProgress(17, quantita, player); // struttura militare generica
                     break;
                 case "ProduzioneLance":
-                    player.QuestProgress.AddProgress(17, quantita); // struttura militare generica
+                    player.QuestProgress.AddProgress(17, quantita, player); // struttura militare generica
                     break;
                 case "ProduzioneArchi":
-                    player.QuestProgress.AddProgress(17, quantita); // struttura militare generica
+                    player.QuestProgress.AddProgress(17, quantita, player); // struttura militare generica
                     break;
                 case "ProduzioneScudi":
-                    player.QuestProgress.AddProgress(17, quantita); // struttura militare generica
+                    player.QuestProgress.AddProgress(17, quantita, player); // struttura militare generica
                     break;
                 case "ProduzioneArmature":
-                    player.QuestProgress.AddProgress(17, quantita); // struttura militare generica
+                    player.QuestProgress.AddProgress(17, quantita, player); // struttura militare generica
                     break;
                 case "ProduzioneFrecce":
-                    player.QuestProgress.AddProgress(17, quantita); // struttura militare generica
+                    player.QuestProgress.AddProgress(17, quantita, player); // struttura militare generica
                     break;
 
                 case "CasermaGuerrieri":
-                    player.QuestProgress.AddProgress(17, quantita); // struttura militare generica
+                    player.QuestProgress.AddProgress(17, quantita, player); // struttura militare generica
                     break;
                 case "CasermaLancieri":
-                    player.QuestProgress.AddProgress(17, quantita); // struttura militare generica
+                    player.QuestProgress.AddProgress(17, quantita, player); // struttura militare generica
                     break;
                 case "CasermaArcieri":
-                    player.QuestProgress.AddProgress(17, quantita); // struttura militare generica
+                    player.QuestProgress.AddProgress(17, quantita, player); // struttura militare generica
                     break;
                 case "CasermaCatapulte":
-                    player.QuestProgress.AddProgress(17, quantita); // struttura militare generica
+                    player.QuestProgress.AddProgress(17, quantita, player); // struttura militare generica
                     break;
 
             }
@@ -123,57 +124,61 @@ namespace Server_Strategico
 
         private static void GestisciAddestramento(Player player, string tipo, int quantita)
         {
-            if (tipo == "Guerrieri_1") player.QuestProgress.AddProgress(1, quantita);
-            else if (tipo == "Lanceri_1") player.QuestProgress.AddProgress(2, quantita);
-            else if (tipo == "Arceri_1") player.QuestProgress.AddProgress(3, quantita);
-            else if (tipo == "Catapulta") player.QuestProgress.AddProgress(4, quantita);
+            if (tipo == "Guerrieri_1") player.QuestProgress.AddProgress(1, quantita, player);
+            else if (tipo == "Lanceri_1") player.QuestProgress.AddProgress(2, quantita, player);
+            else if (tipo == "Arceri_1") player.QuestProgress.AddProgress(3, quantita, player);
+            else if (tipo == "Catapulta") player.QuestProgress.AddProgress(4, quantita, player);
         }
 
         private static void GestisciEliminazione(Player player, string tipo, int quantita)
         {
-            if (tipo == "Guerrieri_1") player.QuestProgress.AddProgress(5, quantita);
-            else if (tipo == "Lanceri_1") player.QuestProgress.AddProgress(6, quantita);
-            else if (tipo == "Arceri_1") player.QuestProgress.AddProgress(7, quantita);
-            else if (tipo == "Catapulta") player.QuestProgress.AddProgress(8, quantita);
+            if (tipo == "Guerrieri_1") player.QuestProgress.AddProgress(5, quantita, player);
+            else if (tipo == "Lanceri_1") player.QuestProgress.AddProgress(6, quantita, player);
+            else if (tipo == "Arceri_1") player.QuestProgress.AddProgress(7, quantita, player);
+            else if (tipo == "Catapulta") player.QuestProgress.AddProgress(8, quantita, player);
 
             // Quest generica
-            player.QuestProgress.AddProgress(9, quantita);
+            player.QuestProgress.AddProgress(9, quantita, player);
         }
 
         private static void GestisciAcquisto(Player player, string tipo, int quantita)
         {
-            if (tipo == "Terreno") player.QuestProgress.AddProgress(0, quantita);
+            if (tipo == "Terreno") player.QuestProgress.AddProgress(0, quantita, player);
         }
 
         private static void GestisciMiglioramento(Player player, string tipo, int quantita)
         {
-            player.QuestProgress.AddProgress(19, quantita);
+            player.QuestProgress.AddProgress(18, quantita, player);
         }
 
         // 🔸 INVIO AL CLIENT
 
         public static void QuestUpdate(Player player)
         {
-            var questData = QuestDatabase.Quests.Values.Select(q =>
-            {
-                int completata = player.QuestProgress.Completions[q.Id];
-                int progress = player.QuestProgress.CurrentProgress[q.Id];
-
-                int experienceBase = q.Experience;
-                int experienceBonus = experienceBase + (completata * 10); // esempio +10 exp per ogni completamento
-                int requireDinamico = q.Require + (completata * 3);
-
-                return new
+            var questData = QuestDatabase.Quests.Values
+                // 🔹 Filtra solo le quest non completamente completate
+                .Where(q => player.QuestProgress.Completions[q.Id] < q.Max_Complete)
+                .Select(q =>
                 {
-                    q.Id,
-                    q.Quest_Description,
-                    Experience = experienceBonus,
-                    Require = requireDinamico,
-                    Progress = progress,
-                    q.Max_Complete,
-                    Completata = completata
-                };
-            }).ToList();
+                    int completata = player.QuestProgress.Completions[q.Id]; // Quante volte è stata completata
+                    int progress = player.QuestProgress.CurrentProgress[q.Id]; // Progresso attuale
+
+                    int experienceBase = q.Experience;
+                    int experienceBonus = experienceBase + (completata * Variabili_Server.moltiplicatore_Esperienza);
+                    int requireDinamico = q.Require + (completata * Variabili_Server.moltiplicatore_Quest);
+
+                    return new
+                    {
+                        q.Id,
+                        q.Quest_Description,
+                        Experience = experienceBonus,
+                        Require = requireDinamico,
+                        Progress = progress,
+                        q.Max_Complete,
+                        Completata = completata
+                    };
+                })
+                .ToList();
 
             var questUpdate = new
             {
