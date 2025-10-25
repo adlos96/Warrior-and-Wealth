@@ -3,11 +3,34 @@ using System.Globalization;
 using System.Text;
 using System.Text.Json;
 using WatsonTcp;
+using static Strategico_V2.Variabili_Client;
 
 namespace Strategico_V2
 {
     public class ClientConnection
     {
+        // Classe Villaggio con array per unità
+        public class VillaggioClient
+        {
+            public int Id { get; set; }
+            public string Nome { get; set; }
+            public int Livello { get; set; }
+            public bool Sconfitto { get; set; }
+            public bool Esplorato { get; set; }
+
+            public int Guerrieri { get; set; }
+            public int Lancieri { get; set; }
+            public int Arcieri { get; set; }
+            public int Catapulte { get; set; }
+        }
+
+        // Pacchetto contenente la lista dei villaggi o città
+        public class PacchettoVillaggi
+        {
+            public string Type { get; set; } // "VillaggiPersonali" o "CittaGlobali"
+            public List<VillaggioClient> Dati { get; set; }
+        }
+
         public class QuestUpdatePacket
         {
             public string Type { get; set; }
@@ -164,7 +187,88 @@ namespace Strategico_V2
                 Console.WriteLine("Messaggio Ricevuto");
                 Console.WriteLine("Ricevuto: " + messaggio);
 
+                Quest(messaggio);
+                AggiornaVillaggiDalServer(messaggio);
 
+                string[] mess = null;
+                if (messaggio.Contains('|'))
+                {
+                    mess = messaggio.Split('|');
+                    switch (mess[0])
+                    {
+                        case "Login":
+                            if (mess[1] == "true") Variabili_Client.Utente.User_Login = true;
+                            else Variabili_Client.Utente.User_Login = false;
+                            if (mess.Count() >= 3) Login.login_data = mess[2];
+                            break;
+                        case "Update_Data": Update_Data(mess); break;
+                        case "Log_Server": Update_Log(mess[1]); break;
+                        case "Update_PVP_Player": Update_PVP_List(mess); break;
+                        case "Descrizione": Update_Desc(mess[1], mess[2]); break;
+                        case "Raduno": Update_Lista_Raduni(mess); break;
+                        case "Raduni_Player": Update_Lista_Raduni_Player(mess); break;
+                        case "RadunoPartecipo":
+                            Update_Raduni_Partecipazione(mess);
+                            break;
+
+                        default: Console.WriteLine($"[Errore] >> [{messaggio}] Comando non riconosciuto"); break;
+                    }
+                    Console.WriteLine("");
+                    Console.WriteLine("-----------------------------");
+                    Console.WriteLine($"Comando:        {mess[0]}");
+                    Console.WriteLine("-----------------------------");
+                    Console.WriteLine("");
+                }
+
+            }
+            public static void AggiornaVillaggiDalServer(string messaggio)
+            {
+                if (messaggio.StartsWith("{"))
+                {
+                    var pacchetto = JsonSerializer.Deserialize<PacchettoVillaggi>(messaggio);
+                    if (pacchetto?.Dati == null) return;
+
+                    if (pacchetto.Type == "VillaggiPersonali")
+                    {
+                        VillaggiPersonali = pacchetto.Dati
+                        .Select(v => new Variabili_Client.VillaggioClient
+                        {
+                            Id = v.Id,
+                            Nome = v.Nome,
+                            Livello = v.Livello,
+                            Sconfitto = v.Sconfitto,
+                            Esplorato = v.Esplorato,
+                            Guerrieri = v.Guerrieri,
+                            Lancieri = v.Lancieri,
+                            Arcieri = v.Arcieri,
+                            Catapulte = v.Catapulte
+                        })
+                        .ToList();
+
+                        Console.WriteLine($"Villaggi caricati: {VillaggiPersonali.Count}");
+                    }
+                    else if (pacchetto.Type == "CittaGlobali")
+                    {
+                        Variabili_Client.CittaGlobali = pacchetto.Dati
+                        .Select(v => new Variabili_Client.VillaggioClient
+                        {
+                            Id = v.Id,
+                            Nome = v.Nome,
+                            Livello = v.Livello,
+                            Sconfitto = v.Sconfitto,
+                            Esplorato = v.Esplorato,
+                            Guerrieri = v.Guerrieri,
+                            Lancieri = v.Lancieri,
+                            Arcieri = v.Arcieri,
+                            Catapulte = v.Catapulte
+                        })
+                        .ToList();
+                    }
+                }
+            }
+
+            static void Quest(string messaggio)
+                            {
                 // Se il messaggio è JSON di quest
                 if (messaggio.StartsWith("{") && messaggio.Contains("\"Quests\""))
                 {
@@ -226,39 +330,7 @@ namespace Strategico_V2
 
                     return;
                 }
-
-                string[] mess = null;
-                if (messaggio.Contains('|'))
-                {
-                    mess = messaggio.Split('|');
-                    switch (mess[0])
-                    {
-                        case "Login":
-                            if (mess[1] == "true") Variabili_Client.Utente.User_Login = true;
-                            else Variabili_Client.Utente.User_Login = false;
-                            if (mess.Count() >= 3) Login.login_data = mess[2];
-                            break;
-                        case "Update_Data": Update_Data(mess); break;
-                        case "Log_Server": Update_Log(mess[1]); break;
-                        case "Update_PVP_Player": Update_PVP_List(mess); break;
-                        case "Descrizione": Update_Desc(mess[1]); break;
-                        case "Raduno": Update_Lista_Raduni(mess); break;
-                        case "Raduni_Player": Update_Lista_Raduni_Player(mess); break;
-                        case "RadunoPartecipo":
-                            Update_Raduni_Partecipazione(mess);
-                            break;
-
-                        default: Console.WriteLine($"[Errore] >> [{messaggio}] Comando non riconosciuto"); break;
-                    }
-                    Console.WriteLine("");
-                    Console.WriteLine("-----------------------------");
-                    Console.WriteLine($"Comando:        {mess[0]}");
-                    Console.WriteLine("-----------------------------");
-                    Console.WriteLine("");
-                }
-
             }
-
             static void Update_Data(string[] mess)
             {
 
@@ -366,6 +438,9 @@ namespace Strategico_V2
                 // Utente
                 SetValue<string>("livello", v => Variabili_Client.Utente.Livello = v);
                 SetValue<string>("esperienza", v => Variabili_Client.Utente.Esperienza = v);
+                SetValue<bool>("vip", v => Variabili_Client.Utente.User_Vip = v);
+                SetValue<string>("punti_quest", v => Variabili_Client.Utente.Montly_Quest_Point = v);
+
                 SetValue<string>("costo_terreni_Virtuali", v => Variabili_Client.Utente.Costo_terreni_Virtuali = v);
 
 
@@ -387,6 +462,39 @@ namespace Strategico_V2
                 SetValue<string>("dollari_virtuali", v => Variabili_Client.Utente_Risorse.Virtual_Dolla = v);
                 SetValue<string>("diamanti_blu", v => Variabili_Client.Utente_Risorse.Diamond_Blu = v);
                 SetValue<string>("diamanti_viola", v => Variabili_Client.Utente_Risorse.Diamond_Viola = v);
+
+                //Produzione Risorse
+                SetValue<string>("cibo_s", v => Variabili_Client.Utente_Risorse.Cibo_s = v);
+                SetValue<string>("legna_s", v => Variabili_Client.Utente_Risorse.Legna_s = v);
+                SetValue<string>("pietra_s", v => Variabili_Client.Utente_Risorse.Pietra_s = v);
+                SetValue<string>("ferro_s", v => Variabili_Client.Utente_Risorse.Ferro_s = v);
+                SetValue<string>("oro_s", v => Variabili_Client.Utente_Risorse.Oro_s = v);
+                SetValue<string>("popolazione_s", v => Variabili_Client.Utente_Risorse.Popolazione_s = v);
+
+                SetValue<string>("spade_s", v => Variabili_Client.Utente_Risorse.Spade_s = v);
+                SetValue<string>("lance_s", v => Variabili_Client.Utente_Risorse.Lance_s = v);
+                SetValue<string>("archi_s", v => Variabili_Client.Utente_Risorse.Archi_s = v);
+                SetValue<string>("scudi_s", v => Variabili_Client.Utente_Risorse.Scudi_s = v);
+                SetValue<string>("armature_s", v => Variabili_Client.Utente_Risorse.Armature_s = v);
+                SetValue<string>("frecce_s", v => Variabili_Client.Utente_Risorse.Frecce_s = v);
+
+                SetValue<string>("consumo_cibo_s", v => Variabili_Client.Utente_Risorse.Mantenimento_Cibo = v);
+                SetValue<string>("consumo_oro_s", v => Variabili_Client.Utente_Risorse.Mantenimento_Oro = v);
+
+                // Limite Risorse
+                SetValue<string>("cibo_limite", v => Variabili_Client.Utente_Risorse.Cibo_Limite = v);
+                SetValue<string>("legna_limite", v => Variabili_Client.Utente_Risorse.Legna_Limite = v);
+                SetValue<string>("pietra_limite", v => Variabili_Client.Utente_Risorse.Pietra_Limite = v);
+                SetValue<string>("ferro_limite", v => Variabili_Client.Utente_Risorse.Ferro_Limite = v);
+                SetValue<string>("oro_limite", v => Variabili_Client.Utente_Risorse.Oro_Limite = v);
+                SetValue<string>("popolazione_limite", v => Variabili_Client.Utente_Risorse.Popolazione_Limite = v);
+
+                SetValue<string>("spade_limite", v => Variabili_Client.Utente_Risorse.Spade_Limite = v);
+                SetValue<string>("lance_limite", v => Variabili_Client.Utente_Risorse.Lance_Limite = v);
+                SetValue<string>("archi_limite", v => Variabili_Client.Utente_Risorse.Archi_Limite = v);
+                SetValue<string>("scudi_limite", v => Variabili_Client.Utente_Risorse.Scudi_Limite = v);
+                SetValue<string>("armature_limite", v => Variabili_Client.Utente_Risorse.Armature_Limite = v);
+                SetValue<string>("frecce_limite", v => Variabili_Client.Utente_Risorse.Frecce_Limite = v);
 
                 // Costruzioni
                 SetValue<string>("fattorie", v => Variabili_Client.Costruzione.Fattorie.Quantità = v);
@@ -448,11 +556,11 @@ namespace Strategico_V2
                 SetValue<string>("lanceri_4", v => Variabili_Client.Reclutamento.Lanceri_4.Quantità = v);
                 SetValue<string>("lanceri_5", v => Variabili_Client.Reclutamento.Lanceri_5.Quantità = v);
 
-                SetValue<string>("arcieri_1", v => Variabili_Client.Reclutamento.Arceri_1.Quantità = v);
-                SetValue<string>("arcieri_2", v => Variabili_Client.Reclutamento.Arceri_2.Quantità = v);
-                SetValue<string>("arcieri_3", v => Variabili_Client.Reclutamento.Arceri_3.Quantità = v);
-                SetValue<string>("arcieri_4", v => Variabili_Client.Reclutamento.Arceri_4.Quantità = v);
-                SetValue<string>("arcieri_5", v => Variabili_Client.Reclutamento.Arceri_5.Quantità = v);
+                SetValue<string>("arceri_1", v => Variabili_Client.Reclutamento.Arceri_1.Quantità = v);
+                SetValue<string>("arceri_2", v => Variabili_Client.Reclutamento.Arceri_2.Quantità = v);
+                SetValue<string>("arceri_3", v => Variabili_Client.Reclutamento.Arceri_3.Quantità = v);
+                SetValue<string>("arceri_4", v => Variabili_Client.Reclutamento.Arceri_4.Quantità = v);
+                SetValue<string>("arceri_5", v => Variabili_Client.Reclutamento.Arceri_5.Quantità = v);
 
                 SetValue<string>("catapulte_1", v => Variabili_Client.Reclutamento.Catapulte_1.Quantità = v);
                 SetValue<string>("catapulte_2", v => Variabili_Client.Reclutamento.Catapulte_2.Quantità = v);
@@ -619,16 +727,88 @@ namespace Strategico_V2
             {
                 Gioco.Log_Update(mes);
             }
-            static void Update_Desc(string mes)
+            static void Update_Desc(string tipo, string desc)
             {
-                //Home.Desc_Update(mes);
+                switch (tipo)
+                {
+                    case "Esperienza":
+                        Variabili_Client.Esperienza_Desc = desc;
+                        break;
+                    case "Livello":
+                        Variabili_Client.Livello_Desc = desc;
+                        break;
+
+                    case "Fattoria":
+                        Variabili_Client.Costruzione.Fattorie.Descrizione = desc;
+                        break;
+                    case "Segheria":
+                        Variabili_Client.Costruzione.Segherie.Descrizione = desc;
+                        break;
+                    case "Cava di Pietra":
+                        Variabili_Client.Costruzione.CaveDiPietra.Descrizione = desc;
+                        break;
+                    case "Miniera di Ferro":
+                        Variabili_Client.Costruzione.Miniera_Ferro.Descrizione = desc;
+                        break;
+                    case "Miniera d'Oro":
+                        Variabili_Client.Costruzione.Miniera_Oro.Descrizione = desc;
+                        break;
+                    case "Case":
+                        Variabili_Client.Costruzione.Case.Descrizione = desc;
+                        break;
+
+                    case "Produzione Spade":
+                        Variabili_Client.Costruzione.Workshop_Spade.Descrizione = desc;
+                        break;
+                    case "Produzione Lance":
+                        Variabili_Client.Costruzione.Workshop_Lance.Descrizione = desc;
+                        break;
+                    case "Produzione Archi":
+                        Variabili_Client.Costruzione.Workshop_Archi.Descrizione = desc;
+                        break;
+                    case "Produzione Scudi":
+                        Variabili_Client.Costruzione.Workshop_Scudi.Descrizione = desc;
+                        break;
+                    case "Produzione Armature":
+                        Variabili_Client.Costruzione.Workshop_Armature.Descrizione = desc;
+                        break;
+                    case "Produzione Frecce":
+                        Variabili_Client.Costruzione.Workshop_Frecce.Descrizione = desc;
+                        break;
+
+                    case "Guerrieri":
+                        Variabili_Client.Reclutamento.Guerrieri_1.Descrizione = desc;
+                        break;
+                    case "Lanceri":
+                        Variabili_Client.Reclutamento.Lanceri_1.Descrizione = desc;
+                        break;
+                    case "Arceri":
+                        Variabili_Client.Reclutamento.Arceri_1.Descrizione = desc;
+                        break;
+                    case "Catapulte":
+                        Variabili_Client.Reclutamento.Catapulte_1.Descrizione = desc;
+                        break;
+
+                    case "Caserme Guerrieri":
+                        Variabili_Client.Costruzione.Caserme_Guerrieri.Descrizione = desc;
+                        break;
+                    case "Caserme Lanceri":
+                        Variabili_Client.Costruzione.Caserme_Lanceri.Descrizione = desc;
+                        break;
+                    case "Caserme Arceri":
+                        Variabili_Client.Costruzione.Caserme_arceri.Descrizione = desc;
+                        break;
+                    case "Caserme Catapulte":
+                        Variabili_Client.Costruzione.Caserme_Catapulte.Descrizione = desc;
+                        break;
+                }
             }
             static void Update_PVP_List(string[] mess)
             {
                 if (mess[1] != "")
                     for (int i = 2; i <= mess.Count() - 1; i++)
                     {
-                        if (!Variabili_Client.Giocatori_PVP.Contains(mess[i]) && !Variabili_Client.Utente.User_Name.Contains(mess[i]))
+                        if (!Variabili_Client.Giocatori_PVP.Contains(mess[i]) && !Variabili_Client.Utente.Username.Contains(mess[i]))
                             Variabili_Client.Giocatori_PVP.Add(mess[i]);
                     }
             }
@@ -669,6 +849,7 @@ namespace Strategico_V2
                 if (Variabili_Client.Raduni_InCorso.Count == 0)
                     foreach (string attacco in datiCompleti)
                     {
+                        if (attacco == "") return;
                         var dato = attacco.Split('|');
                         if (!string.IsNullOrEmpty(attacco))
                             Variabili_Client.Raduni_InCorso.Add(dato[0] + " - " + dato[1] + " - " + dato[2] + " - " + dato[3] + " - " + dato[4] + " - " + dato[5] + " - " + dato[6]);

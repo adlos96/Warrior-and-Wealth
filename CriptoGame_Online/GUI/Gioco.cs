@@ -69,9 +69,6 @@ namespace CriptoGame_Online
             toolTip1.ReshowDelay = 200;     // ritardo tra un controllo e l'altro
             toolTip1.ShowAlways = true;     // mostra anche se la finestra non è attiva
 
-            // Associa il tooltip ad un controllo
-            toolTip1.SetToolTip(this.textBox1, "Qui puoi inserire del testo");
-
             // Pannelli e Cose
             panel_1.BackColor = Color.FromArgb(100, 229, 208, 181);
             panel_2.BackColor = Color.FromArgb(100, 229, 208, 181);
@@ -104,14 +101,14 @@ namespace CriptoGame_Online
                 Thread.Sleep(1000);
                 logBox.Invoke((Action)(async () =>
                 {
-                    toolTip1.SetToolTip(this.ico_1, $"Cibo, utilissimo per il funzionamento della città. \r\n Produzione: {Variabili_Client.Utente_Risorse.Cibo}");
-                    toolTip1.SetToolTip(this.ico_2, $"Legno, utilissimo per il funzionamento della città. \r\n Produzione: {Variabili_Client.Utente_Risorse.Legna}");
-                    toolTip1.SetToolTip(this.ico_3, $"Pietra, utilissimo per il funzionamento della città. \r\n Produzione: {Variabili_Client.Utente_Risorse.Pietra}");
-                    toolTip1.SetToolTip(this.ico_4, $"Ferro, utilissimo per il funzionamento della città. \r\n Produzione: {Variabili_Client.Utente_Risorse.Ferro}");
-                    toolTip1.SetToolTip(this.ico_5, $"Oro, utilissimo per il funzionamento della città. \r\n Produzione: {Variabili_Client.Utente_Risorse.Oro}");
-                    toolTip1.SetToolTip(this.ico_6, $"Popolazione, utilissimo per il funzionamento della città. \r\n Produzione: {Variabili_Client.Utente_Risorse.Popolazione}");
+                    toolTip1.SetToolTip(this.ico_11, $"Diamanti Blu, fondamentali per una migliore gestione della città.");
+                    toolTip1.SetToolTip(this.ico_12, $"Diamanti Viola, utilizzato principalmente per l'acquito di terreni virtuali.");
+                    toolTip1.SetToolTip(this.ico_13, $"Dollari Virtuali, risorsa ottenuta tramite i terreni virtuali.");
 
-                    txt_Username.Text = Variabili_Client.Utente.User_Name;
+                    toolTip1.SetToolTip(this.ico_8, Variabili_Client.Esperienza_Desc);
+                    toolTip1.SetToolTip(this.ico_9, Variabili_Client.Livello_Desc);
+
+                    txt_Username.Text = Variabili_Client.Utente.Username;
                     txt_Livello.Text = Variabili_Client.Utente.Livello;
                     txt_Esperienza.Text = Variabili_Client.Utente.Esperienza + " XP";
 
@@ -125,22 +122,15 @@ namespace CriptoGame_Online
                     txt_Terreno_4.Text = Variabili_Client.Terreni_Virtuali.Epico.Quantità;
                     txt_Terreno_5.Text = Variabili_Client.Terreni_Virtuali.Leggendario.Quantità;
 
-                    txt_Structure_1.Text = Variabili_Client.Costruzione.Fattorie.Quantità;
-                    txt_Structure_2.Text = Variabili_Client.Costruzione.Segherie.Quantità;
-                    txt_Structure_3.Text = Variabili_Client.Costruzione.CaveDiPietra.Quantità;
-                    txt_Structure_4.Text = Variabili_Client.Costruzione.Miniera_Ferro.Quantità;
-                    txt_Structure_5.Text = Variabili_Client.Costruzione.Miniera_Oro.Quantità;
-                    txt_Structure_6.Text = Variabili_Client.Costruzione.Case.Quantità;
-
-                    txt_Structure_Coda_1.Text = Variabili_Client.Costruzione_Coda.Fattorie.Quantità;
-                    txt_Structure_Coda_2.Text = Variabili_Client.Costruzione_Coda.Segherie.Quantità;
-                    txt_Structure_Coda_3.Text = Variabili_Client.Costruzione_Coda.CaveDiPietra.Quantità;
-                    txt_Structure_Coda_4.Text = Variabili_Client.Costruzione_Coda.Miniera_Ferro.Quantità;
-                    txt_Structure_Coda_5.Text = Variabili_Client.Costruzione_Coda.Miniera_Oro.Quantità;
-                    txt_Structure_Coda_6.Text = Variabili_Client.Costruzione_Coda.Case.Quantità;
-
                     if (strutture == "Militare")
                     {
+                        toolTip1.SetToolTip(this.ico_Structure_1, Variabili_Client.Costruzione.Workshop_Spade.Descrizione);
+                        toolTip1.SetToolTip(this.ico_Structure_2, Variabili_Client.Costruzione.Workshop_Lance.Descrizione);
+                        toolTip1.SetToolTip(this.ico_Structure_3, Variabili_Client.Costruzione.Workshop_Archi.Descrizione);
+                        toolTip1.SetToolTip(this.ico_Structure_4, Variabili_Client.Costruzione.Workshop_Scudi.Descrizione);
+                        toolTip1.SetToolTip(this.ico_Structure_5, Variabili_Client.Costruzione.Workshop_Armature.Descrizione);
+                        toolTip1.SetToolTip(this.ico_Structure_6, Variabili_Client.Costruzione.Workshop_Frecce.Descrizione);
+
                         txt_Structure_1.Text = Variabili_Client.Costruzione.Workshop_Spade.Quantità;
                         txt_Structure_2.Text = Variabili_Client.Costruzione.Workshop_Lance.Quantità;
                         txt_Structure_3.Text = Variabili_Client.Costruzione.Workshop_Archi.Quantità;
@@ -155,13 +145,63 @@ namespace CriptoGame_Online
                         txt_Structure_Coda_5.Text = Variabili_Client.Costruzione_Coda.Workshop_Armature.Quantità;
                         txt_Structure_Coda_6.Text = Variabili_Client.Costruzione_Coda.Workshop_Frecce.Quantità;
                     }
+                    else
+                    {
+                        toolTip1.SetToolTip(this.ico_Structure_1, Variabili_Client.Costruzione.Fattorie.Descrizione);
+                        toolTip1.SetToolTip(this.ico_Structure_2, Variabili_Client.Costruzione.Segherie.Descrizione);
+                        toolTip1.SetToolTip(this.ico_Structure_3, Variabili_Client.Costruzione.CaveDiPietra.Descrizione);
+                        toolTip1.SetToolTip(this.ico_Structure_4, Variabili_Client.Costruzione.Miniera_Ferro.Descrizione);
+                        toolTip1.SetToolTip(this.ico_Structure_5, Variabili_Client.Costruzione.Miniera_Oro.Descrizione);
+                        toolTip1.SetToolTip(this.ico_Structure_6, Variabili_Client.Costruzione.Case.Descrizione);
 
-                    txt_Risorsa1.Text = Variabili_Client.Utente_Risorse.Cibo;
-                    txt_Risorsa2.Text = Variabili_Client.Utente_Risorse.Legna;
-                    txt_Risorsa3.Text = Variabili_Client.Utente_Risorse.Pietra;
-                    txt_Risorsa4.Text = Variabili_Client.Utente_Risorse.Ferro;
-                    txt_Risorsa5.Text = Variabili_Client.Utente_Risorse.Oro;
-                    txt_Risorsa6.Text = Variabili_Client.Utente_Risorse.Popolazione;
+                        txt_Structure_1.Text = Variabili_Client.Costruzione.Fattorie.Quantità;
+                        txt_Structure_2.Text = Variabili_Client.Costruzione.Segherie.Quantità;
+                        txt_Structure_3.Text = Variabili_Client.Costruzione.CaveDiPietra.Quantità;
+                        txt_Structure_4.Text = Variabili_Client.Costruzione.Miniera_Ferro.Quantità;
+                        txt_Structure_5.Text = Variabili_Client.Costruzione.Miniera_Oro.Quantità;
+                        txt_Structure_6.Text = Variabili_Client.Costruzione.Case.Quantità;
+
+                        txt_Structure_Coda_1.Text = Variabili_Client.Costruzione_Coda.Fattorie.Quantità;
+                        txt_Structure_Coda_2.Text = Variabili_Client.Costruzione_Coda.Segherie.Quantità;
+                        txt_Structure_Coda_3.Text = Variabili_Client.Costruzione_Coda.CaveDiPietra.Quantità;
+                        txt_Structure_Coda_4.Text = Variabili_Client.Costruzione_Coda.Miniera_Ferro.Quantità;
+                        txt_Structure_Coda_5.Text = Variabili_Client.Costruzione_Coda.Miniera_Oro.Quantità;
+                        txt_Structure_Coda_6.Text = Variabili_Client.Costruzione_Coda.Case.Quantità;
+                    }
+
+
+                    if (tipo_Risorse == "Militare")
+                    {
+                        toolTip1.SetToolTip(this.ico_1, $"Spade, utilissimo per l'addestramento delle unità. \r\n Produzione: {Variabili_Client.Utente_Risorse.Spade_s} \r\n Limite: {Variabili_Client.Utente_Risorse.Spade_Limite}");
+                        toolTip1.SetToolTip(this.ico_2, $"Lance, utilissimo per l'addestramento delle unità. \r\n Produzione: {Variabili_Client.Utente_Risorse.Lance_s} \r\n Limite: {Variabili_Client.Utente_Risorse.Lance_Limite}");
+                        toolTip1.SetToolTip(this.ico_3, $"Archi, utilissimo per l'addestramento delle unità. \r\n Produzione: {Variabili_Client.Utente_Risorse.Archi_s} \r\n Limite: {Variabili_Client.Utente_Risorse.Archi_Limite}");
+                        toolTip1.SetToolTip(this.ico_4, $"Scudi, utilissimo per l'addestramento delle unità. \r\n Produzione: {Variabili_Client.Utente_Risorse.Scudi_s} \r\n Limite: {Variabili_Client.Utente_Risorse.Scudi_Limite}");
+                        toolTip1.SetToolTip(this.ico_5, $"Armature, utilissimo per l'addestramento delle unità. \r\n Produzione: {Variabili_Client.Utente_Risorse.Armature_s} \r\n Limite: {Variabili_Client.Utente_Risorse.Armature_Limite}");
+                        toolTip1.SetToolTip(this.ico_6, $"Frecce, utilissimo per l'addestramento delle unità. \r\n Produzione: {Variabili_Client.Utente_Risorse.Frecce_s} \r\n Limite: {Variabili_Client.Utente_Risorse.Frecce_Limite}");
+
+                        txt_Risorsa1.Text = Variabili_Client.Utente_Risorse.Spade;
+                        txt_Risorsa2.Text = Variabili_Client.Utente_Risorse.Lance;
+                        txt_Risorsa3.Text = Variabili_Client.Utente_Risorse.Archi;
+                        txt_Risorsa4.Text = Variabili_Client.Utente_Risorse.Scudi;
+                        txt_Risorsa5.Text = Variabili_Client.Utente_Risorse.Armature;
+                        txt_Risorsa6.Text = Variabili_Client.Utente_Risorse.Frecce;
+                    }
+                    else
+                    {
+                        toolTip1.SetToolTip(this.ico_1, $"Cibo, utilissimo per il funzionamento della città. \r\n Produzione: {Variabili_Client.Utente_Risorse.Cibo_s} \r\n Consumo: {Variabili_Client.Utente_Risorse.Mantenimento_Cibo} \r\n Limite: {Variabili_Client.Utente_Risorse.Cibo_Limite}");
+                        toolTip1.SetToolTip(this.ico_2, $"Legno, utilissimo per il funzionamento della città. \r\n Produzione: {Variabili_Client.Utente_Risorse.Legna_s} \r\n Limite: {Variabili_Client.Utente_Risorse.Legna_Limite}");
+                        toolTip1.SetToolTip(this.ico_3, $"Pietra, utilissimo per il funzionamento della città. \r\n Produzione: {Variabili_Client.Utente_Risorse.Pietra_s} \r\n Limite: {Variabili_Client.Utente_Risorse.Pietra_Limite}");
+                        toolTip1.SetToolTip(this.ico_4, $"Ferro, utilissimo per il funzionamento della città. \r\n Produzione: {Variabili_Client.Utente_Risorse.Ferro_s} \r\n Limite: {Variabili_Client.Utente_Risorse.Ferro_Limite}");
+                        toolTip1.SetToolTip(this.ico_5, $"Oro, utilissimo per il funzionamento della città. \r\n Produzione: {Variabili_Client.Utente_Risorse.Oro_s} \r\n Consumo: {Variabili_Client.Utente_Risorse.Mantenimento_Oro} \r\n Limite: {Variabili_Client.Utente_Risorse.Oro_Limite}");
+                        toolTip1.SetToolTip(this.ico_6, $"Popolazione, utilissimo per il funzionamento della città. \r\n Produzione: {Variabili_Client.Utente_Risorse.Popolazione_s} \r\n Limite: {Variabili_Client.Utente_Risorse.Popolazione_Limite}");
+
+                        txt_Risorsa1.Text = Variabili_Client.Utente_Risorse.Cibo;
+                        txt_Risorsa2.Text = Variabili_Client.Utente_Risorse.Legna;
+                        txt_Risorsa3.Text = Variabili_Client.Utente_Risorse.Pietra;
+                        txt_Risorsa4.Text = Variabili_Client.Utente_Risorse.Ferro;
+                        txt_Risorsa5.Text = Variabili_Client.Utente_Risorse.Oro;
+                        txt_Risorsa6.Text = Variabili_Client.Utente_Risorse.Popolazione;
+                    }
 
                     //Caserme
                     if (Caserme == "Caserme")
@@ -175,17 +215,6 @@ namespace CriptoGame_Online
                         txt_Unit_Coda_2.Text = Variabili_Client.Costruzione_Coda.Caserme_Lanceri.Quantità;
                         txt_Unit_Coda_3.Text = Variabili_Client.Costruzione_Coda.Caserme_arceri.Quantità;
                         txt_Unit_Coda_4.Text = Variabili_Client.Costruzione_Coda.Caserme_Catapulte.Quantità;
-                    }
-
-
-                    if (tipo_Risorse == "Militare")
-                    {
-                        txt_Risorsa1.Text = Variabili_Client.Utente_Risorse.Spade;
-                        txt_Risorsa2.Text = Variabili_Client.Utente_Risorse.Lance;
-                        txt_Risorsa3.Text = Variabili_Client.Utente_Risorse.Archi;
-                        txt_Risorsa4.Text = Variabili_Client.Utente_Risorse.Scudi;
-                        txt_Risorsa5.Text = Variabili_Client.Utente_Risorse.Armature;
-                        txt_Risorsa6.Text = Variabili_Client.Utente_Risorse.Frecce;
                     }
 
                     if (btn_I.Enabled == false && Caserme == "Esercito")
@@ -645,7 +674,13 @@ namespace CriptoGame_Online
 
         private void btn_Acquista_Terreni_Click(object sender, EventArgs e)
         {
-            ClientConnection.TestClient.Send($"Costruzione_Terreni|{Variabili_Client.Utente.User_Name}|{Variabili_Client.Utente.Password}|");
+            ClientConnection.TestClient.Send($"Costruzione_Terreni|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|");
+        }
+
+        private void PVP_PVE_Click(object sender, EventArgs e)
+        {
+            AttaccoCoordinato form_Gioco = new AttaccoCoordinato();
+            form_Gioco.ShowDialog();
         }
     }
 }

@@ -140,6 +140,7 @@ namespace CriptoGame_Online
             txt_Virtual_Dolla = new TextBox();
             ico_13 = new DoubleBufferedPanel();
             panel1 = new DoubleBufferedPanel();
+            PVP_PVE = new Button();
             panel_2.SuspendLayout();
             panel2.SuspendLayout();
             Terreni.SuspendLayout();
@@ -157,14 +158,15 @@ namespace CriptoGame_Online
             // 
             // panel_2
             // 
+            panel_2.Controls.Add(PVP_PVE);
             panel_2.Controls.Add(panel2);
+            panel_2.Controls.Add(btn_Citta);
+            panel_2.Controls.Add(btn_Shop);
+            panel_2.Controls.Add(Btn_Costruzione);
+            panel_2.Controls.Add(btn_Ricerca);
             panel_2.Controls.Add(btn_Quest_Mensile);
             panel_2.Controls.Add(Terreni);
-            panel_2.Controls.Add(btn_Ricerca);
             panel_2.Controls.Add(groupBox_Esercito);
-            panel_2.Controls.Add(btn_Citta);
-            panel_2.Controls.Add(Btn_Costruzione);
-            panel_2.Controls.Add(btn_Shop);
             panel_2.Controls.Add(groupBox_Strutture);
             panel_2.Location = new Point(69, 82);
             panel_2.Name = "panel_2";
@@ -209,9 +211,9 @@ namespace CriptoGame_Online
             btn_Quest_Mensile.FlatAppearance.BorderSize = 0;
             btn_Quest_Mensile.FlatStyle = FlatStyle.Popup;
             btn_Quest_Mensile.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Quest_Mensile.Location = new Point(705, 331);
+            btn_Quest_Mensile.Location = new Point(584, 331);
             btn_Quest_Mensile.Name = "btn_Quest_Mensile";
-            btn_Quest_Mensile.Size = new Size(118, 32);
+            btn_Quest_Mensile.Size = new Size(104, 32);
             btn_Quest_Mensile.TabIndex = 36;
             btn_Quest_Mensile.Text = "Quest Mensile";
             btn_Quest_Mensile.UseVisualStyleBackColor = true;
@@ -389,9 +391,9 @@ namespace CriptoGame_Online
             btn_Ricerca.FlatAppearance.BorderSize = 0;
             btn_Ricerca.FlatStyle = FlatStyle.Popup;
             btn_Ricerca.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Ricerca.Location = new Point(581, 331);
+            btn_Ricerca.Location = new Point(474, 331);
             btn_Ricerca.Name = "btn_Ricerca";
-            btn_Ricerca.Size = new Size(118, 32);
+            btn_Ricerca.Size = new Size(104, 32);
             btn_Ricerca.TabIndex = 35;
             btn_Ricerca.Text = "Ricerca";
             btn_Ricerca.UseVisualStyleBackColor = true;
@@ -687,9 +689,9 @@ namespace CriptoGame_Online
             btn_Citta.FlatAppearance.BorderSize = 0;
             btn_Citta.FlatStyle = FlatStyle.Popup;
             btn_Citta.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Citta.Location = new Point(333, 331);
+            btn_Citta.Location = new Point(253, 331);
             btn_Citta.Name = "btn_Citta";
-            btn_Citta.Size = new Size(118, 32);
+            btn_Citta.Size = new Size(105, 32);
             btn_Citta.TabIndex = 34;
             btn_Citta.Text = "Citta";
             btn_Citta.UseVisualStyleBackColor = true;
@@ -701,9 +703,9 @@ namespace CriptoGame_Online
             Btn_Costruzione.FlatAppearance.BorderSize = 0;
             Btn_Costruzione.FlatStyle = FlatStyle.Popup;
             Btn_Costruzione.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            Btn_Costruzione.Location = new Point(209, 331);
+            Btn_Costruzione.Location = new Point(142, 331);
             Btn_Costruzione.Name = "Btn_Costruzione";
-            Btn_Costruzione.Size = new Size(118, 32);
+            Btn_Costruzione.Size = new Size(105, 32);
             Btn_Costruzione.TabIndex = 5;
             Btn_Costruzione.Text = "Costruzione";
             Btn_Costruzione.UseVisualStyleBackColor = true;
@@ -715,9 +717,9 @@ namespace CriptoGame_Online
             btn_Shop.FlatAppearance.BorderSize = 0;
             btn_Shop.FlatStyle = FlatStyle.Popup;
             btn_Shop.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Shop.Location = new Point(457, 331);
+            btn_Shop.Location = new Point(364, 331);
             btn_Shop.Name = "btn_Shop";
-            btn_Shop.Size = new Size(118, 32);
+            btn_Shop.Size = new Size(104, 32);
             btn_Shop.TabIndex = 32;
             btn_Shop.Text = "Shop";
             btn_Shop.UseVisualStyleBackColor = true;
@@ -1351,6 +1353,20 @@ namespace CriptoGame_Online
             panel1.Size = new Size(954, 10);
             panel1.TabIndex = 6;
             // 
+            // PVP_PVE
+            // 
+            PVP_PVE.BackgroundImage = Properties.Resources.Texture_Wood_2;
+            PVP_PVE.FlatAppearance.BorderSize = 0;
+            PVP_PVE.FlatStyle = FlatStyle.Popup;
+            PVP_PVE.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            PVP_PVE.Location = new Point(694, 331);
+            PVP_PVE.Name = "PVP_PVE";
+            PVP_PVE.Size = new Size(104, 32);
+            PVP_PVE.TabIndex = 41;
+            PVP_PVE.Text = "PVP/PVE";
+            PVP_PVE.UseVisualStyleBackColor = true;
+            PVP_PVE.Click += PVP_PVE_Click;
+            // 
             // Gioco
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1509,5 +1525,6 @@ namespace CriptoGame_Online
         private PictureBox pictureBox_Speed_Reclutamento;
         private PictureBox pictureBox_Speed_Costruzione;
         private Button btn_Esercito_Caserme;
+        private Button PVP_PVE;
     }
 }

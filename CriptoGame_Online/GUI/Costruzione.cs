@@ -102,7 +102,7 @@ namespace CriptoGame_Online
 
         private void Btn_Costruzione_Click(object sender, EventArgs e)
         {
-            ClientConnection.TestClient.Send($"Costruzione|{Variabili_Client.Utente.User_Name}|{Variabili_Client.Utente.Password}|" +
+            ClientConnection.TestClient.Send($"Costruzione|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|" +
                 $"{txt_Fattoria_Costruzione.Text}|" +
                 $"{txt_Segheria_Costruzione.Text}|" +
                 $"{txt_Cava_Costruzione.Text}|" +
@@ -146,7 +146,7 @@ namespace CriptoGame_Online
             if (btn_IV.Enabled == false) livello = "4";
             if (btn_V.Enabled == false) livello = "5";
 
-            ClientConnection.TestClient.Send($"Reclutamento|{Variabili_Client.Utente.User_Name}|{Variabili_Client.Utente.Password}|{livello}|" +
+            ClientConnection.TestClient.Send($"Reclutamento|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{livello}|" +
                 $"{txt_Guerriero_Reclutamento.Text}|" +
                 $"{txt_Lancere_Reclutamento.Text}|" +
                 $"{txt_Arcere_Reclutamento.Text}|" +

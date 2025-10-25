@@ -264,30 +264,30 @@ namespace CriptoGame_Online
         }
         private void pictureBox_Speed_Click(object sender, EventArgs e)
         {
-            ClientConnection.TestClient.Send($"Speed_Ricerca_Citta|{Variabili_Client.Utente.User_Name}|{Variabili_Client.Utente.Password}|5Diamanti"); //Serve form apposta...
+            ClientConnection.TestClient.Send($"Speed_Ricerca_Citta|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|5Diamanti"); //Serve form apposta...
         }
 
         private void btn_Livello_Guerrieri_Click(object sender, EventArgs e)
         {
-            ClientConnection.TestClient.Send($"Ricerca|{Variabili_Client.Utente.User_Name}|{Variabili_Client.Utente.Password}|Truppe|Livello|Guerriero");
+            ClientConnection.TestClient.Send($"Ricerca|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Truppe|Livello|Guerriero");
             Variabili_Client.Ricerca_1_Bottone_Cliccato = "btn_Livello_Guerrieri";
         }
 
         private void btn_Attacco_Guerrieri_Click(object sender, EventArgs e)
         {
-            ClientConnection.TestClient.Send($"Ricerca|{Variabili_Client.Utente.User_Name}|{Variabili_Client.Utente.Password}|Truppe|Attacco|Guerriero");
+            ClientConnection.TestClient.Send($"Ricerca|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Truppe|Attacco|Guerriero");
             Variabili_Client.Ricerca_1_Bottone_Cliccato = "btn_Attacco_Guerrieri";
         }
 
         private void btn_Difesa_Guerrieri_Click(object sender, EventArgs e)
         {
-            ClientConnection.TestClient.Send($"Ricerca|{Variabili_Client.Utente.User_Name}|{Variabili_Client.Utente.Password}|Truppe|Difesa|Guerriero");
+            ClientConnection.TestClient.Send($"Ricerca|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Truppe|Difesa|Guerriero");
             Variabili_Client.Ricerca_1_Bottone_Cliccato = "btn_Difesa_Guerrieri";
         }
 
         private void btn_Salute_Guerrieri_Click(object sender, EventArgs e)
         {
-            ClientConnection.TestClient.Send($"Ricerca|{Variabili_Client.Utente.User_Name}|{Variabili_Client.Utente.Password}|Truppe|Salute|Guerriero");
+            ClientConnection.TestClient.Send($"Ricerca|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Truppe|Salute|Guerriero");
             Variabili_Client.Ricerca_1_Bottone_Cliccato = "btn_Salute_Guerrieri";
         }
 
@@ -298,27 +298,27 @@ namespace CriptoGame_Online
         private void bnt_Costruzione_Click(object sender, EventArgs e)
         {
             panel_Costruzione.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-            ClientConnection.TestClient.Send($"Ricerca|{Variabili_Client.Utente.User_Name}|{Variabili_Client.Utente.Password}|Costruzione");
+            ClientConnection.TestClient.Send($"Ricerca|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Costruzione");
             Variabili_Client.Ricerca_1_Bottone_Cliccato = "btn_Costruzione";
         }
         private void btn_Risorse_Click(object sender, EventArgs e)
         {
             panel_Risorse.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-            ClientConnection.TestClient.Send($"Ricerca|{Variabili_Client.Utente.User_Name}|{Variabili_Client.Utente.Password}|Produzione");
+            ClientConnection.TestClient.Send($"Ricerca|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Produzione");
             Variabili_Client.Ricerca_1_Bottone_Cliccato = "btn_Produzione";
         }
 
         private void btn_Addestramento_Click(object sender, EventArgs e)
         {
             panel_Addestramento.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-            ClientConnection.TestClient.Send($"Ricerca|{Variabili_Client.Utente.User_Name}|{Variabili_Client.Utente.Password}|Addestramento");
+            ClientConnection.TestClient.Send($"Ricerca|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Addestramento");
             Variabili_Client.Ricerca_1_Bottone_Cliccato = "btn_Addestramento";
         }
 
         private void btn_Popolazione_Click(object sender, EventArgs e)
         {
             panel_Popolazione.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-            ClientConnection.TestClient.Send($"Ricerca|{Variabili_Client.Utente.User_Name}|{Variabili_Client.Utente.Password}|Popolazione");
+            ClientConnection.TestClient.Send($"Ricerca|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Popolazione");
             Variabili_Client.Ricerca_1_Bottone_Cliccato = "btn_Popolazione";
         }
     }

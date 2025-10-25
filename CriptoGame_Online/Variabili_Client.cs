@@ -4,19 +4,47 @@ namespace Strategico_V2
 {
     internal class Variabili_Client
     {
+        public class VillaggioClient
+        {
+            public int Id { get; set; }
+            public string Nome { get; set; }
+            public int Livello { get; set; }
+            public bool Sconfitto { get; set; }
+            public bool Esplorato { get; set; }
+
+            public int Guerrieri { get; set; }
+            public int Lancieri { get; set; }
+            public int Arcieri { get; set; }
+            public int Catapulte { get; set; }
+
+        }
+
+        public class PacchettoVillaggi
+        {
+            public string Type { get; set; }
+            public List<VillaggioClient> Dati { get; set; }
+        }
+
         public static string Ricerca_1_Bottone_Cliccato = "";
         public static string Server = "0";
         public static string Versione = "0";
+
+        public static string Esperienza_Desc = "0";
+        public static string Livello_Desc = "0";
+
 
         public static List<string> Giocatori_PVP = new List<string>();
         public static List<string> Raduni_Creati = new List<string>(); //Raduni pubblici
         public static List<string> Raduni_InCorso = new List<string>(); //Raduni a cui si partecipa inviando truppe
 
+        public static List<VillaggioClient> VillaggiPersonali = new();
+        public static List<VillaggioClient> CittaGlobali = new();
+
         public class Dati
         {
             public string Costo_terreni_Virtuali { get; set; }
 
-            public string User_Name { get; set; }
+            public string Username { get; set; }
             public string Password { get; set; }
             public string Montly_Quest_Point { get; set; }
             public bool User_Vip { get; set; }
@@ -39,6 +67,7 @@ namespace Strategico_V2
             public int Difesa_Max { get; set; }
             public int Guarnigione_Max { get; set; }
             public string Quantità { get; set; }
+            public string Descrizione { get; set; }
             public string Riparazione { get; set; }
 
             public string Costo_Cibo { get; set; }
@@ -64,6 +93,10 @@ namespace Strategico_V2
             public string Oro { get; set; }
             public string Popolazione { get; set; }
 
+            public string Diamond_Blu { get; set; }
+            public string Diamond_Viola { get; set; }
+            public string Virtual_Dolla { get; set; }
+
             public string Spade { get; set; }
             public string Lance { get; set; }
             public string Archi { get; set; }
@@ -71,30 +104,65 @@ namespace Strategico_V2
             public string Armature { get; set; }
             public string Frecce { get; set; }
 
-            public string Virtual_Dolla { get; set; }
-            public string Diamond_Viola { get; set; }
-            public string Diamond_Blu { get; set; }
+            //Produzione
+            public string Cibo_s { get; set; }
+            public string Legna_s { get; set; }
+            public string Pietra_s { get; set; }
+            public string Ferro_s { get; set; }
+            public string Oro_s { get; set; }
+            public string Popolazione_s { get; set; }
+
+            public string Spade_s { get; set; }
+            public string Lance_s { get; set; }
+            public string Archi_s { get; set; }
+            public string Scudi_s { get; set; }
+            public string Armature_s { get; set; }
+            public string Frecce_s { get; set; }
+
+            // Limite risorse
+            public string Cibo_Limite { get; set; }
+            public string Legna_Limite { get; set; }
+            public string Pietra_Limite { get; set; }
+            public string Ferro_Limite { get; set; }
+            public string Oro_Limite { get; set; }
+            public string Popolazione_Limite { get; set; }
+
+            public string Spade_Limite { get; set; }
+            public string Lance_Limite { get; set; }
+            public string Archi_Limite { get; set; }
+            public string Scudi_Limite { get; set; }
+            public string Armature_Limite { get; set; }
+            public string Frecce_Limite { get; set; }
 
             public int Guerrieri_1 { get; set; }
             public int Guerrieri_2 { get; set; }
             public int Guerrieri_3 { get; set; }
             public int Guerrieri_4 { get; set; }
             public int Guerrieri_5 { get; set; }
+
             public int Lanceri_1 { get; set; }
             public int Lanceri_2 { get; set; }
             public int Lanceri_3 { get; set; }
             public int Lanceri_4 { get; set; }
             public int Lanceri_5 { get; set; }
+
             public int Arceri_1 { get; set; }
             public int Arceri_2 { get; set; }
             public int Arceri_3 { get; set; }
             public int Arceri_4 { get; set; }
             public int Arceri_5 { get; set; }
+
             public int Catapulte_1 { get; set; }
             public int Catapulte_2 { get; set; }
             public int Catapulte_3 { get; set; }
             public int Catapulte_4 { get; set; }
             public int Catapulte_5 { get; set; }
+
+            public int Guerrieri_Max { get; set; }
+            public int Lanceri_Max { get; set; }
+            public int Arceri_Max { get; set; }
+            public int Catapulte_Max { get; set; }
+
         }
         public class Bonus_Ricerca
         {
@@ -159,7 +227,7 @@ namespace Strategico_V2
 
         public static Dati Utente = new Dati
         {
-            User_Name = "0",
+            Username = "0",
             Livello = "0",
             Esperienza = "0",
             Montly_Quest_Point = "0",
@@ -187,7 +255,43 @@ namespace Strategico_V2
             Scudi = "0",
             Armature = "0",
             Frecce = "0",
-         
+
+            Cibo_s = "0",
+            Legna_s = "0",
+            Pietra_s = "0",
+            Ferro_s = "0",
+            Oro_s = "0",
+            Popolazione_s = "0",
+
+            Spade_s = "0",
+            Lance_s = "0",
+            Archi_s = "0",
+            Scudi_s = "0",
+            Armature_s = "0",
+            Frecce_s = "0",
+
+            Cibo_Limite = "0",
+            Legna_Limite = "0",
+            Pietra_Limite = "0",
+            Ferro_Limite = "0",
+            Oro_Limite = "0",
+            Popolazione_Limite = "0",
+
+            Spade_Limite = "0",
+            Lance_Limite = "0",
+            Archi_Limite = "0",
+            Scudi_Limite = "0",
+            Armature_Limite = "0",
+            Frecce_Limite = "0",
+
+            Mantenimento_Cibo = "0",
+            Mantenimento_Oro = "0",
+
+            Guerrieri_Max = 0,
+            Lanceri_Max = 0,
+            Arceri_Max = 0,
+            Catapulte_Max = 0,
+
             Virtual_Dolla = "0",
             Diamond_Viola = "0",
             Diamond_Blu = "0"
@@ -296,127 +400,6 @@ namespace Strategico_V2
                 Reward = "0"
             };
 
-
-        }
-        public class Quest
-        {
-            public string Quest_Description { get; set; }
-            public string Require { get; set; }
-            public string Max_Complete { get; set; }
-
-            public static Quest Terreno_Virtuale = new Quest
-            {
-                Quest_Description = "Aquista un terreno vistuale",
-                Require = "0",
-                Max_Complete = "0"
-            };
-            public static Quest Addestra_Guerrieri = new Quest
-            {
-                Quest_Description = "Addestra guerrieri",
-                Require = "0",
-                Max_Complete = "0"
-            };
-            public static Quest Addestra_Lancer = new Quest
-            {
-                Quest_Description = "Addestra lanceri",
-                Require = "0",
-                Max_Complete = "0"
-            };
-            public static Quest Addestra_Arceri = new Quest
-            {
-                Quest_Description = "Addestra arceri",
-                Require = "0",
-                Max_Complete = "0"
-            };
-            public static Quest Addestra_Catapulte = new Quest
-            {
-                Quest_Description = "Addestra catapulte",
-                Require = "0",
-                Max_Complete = "0"
-            };
-
-            public static Quest Elimina_Guerrieri = new Quest
-            {
-                Quest_Description = "Elimina guerrieri",
-                Require = "0",
-                Max_Complete = "0"
-            };
-            public static Quest Elimina_Lancer = new Quest
-            {
-                Quest_Description = "Elimina lanceri",
-                Require = "0",
-                Max_Complete = "0"
-            };
-            public static Quest Elimina_Arceri = new Quest
-            {
-                Quest_Description = "Elimina arceri",
-                Require = "0",
-                Max_Complete = "0"
-            };
-            public static Quest Elimina_Catapulte = new Quest
-            {
-                Quest_Description = "Elimina catapulte",
-                Require = "0",
-                Max_Complete = "0"
-            };
-
-            public static Quest Elimina_Truppe = new Quest
-            {
-                Quest_Description = "Elimina qualsiasi unità",
-                Require = "0",
-                Max_Complete = "0"
-            };
-
-            public static Quest Costruisci_Civile = new Quest
-            {
-                Quest_Description = "Costruisci qualsiasi struttura civile",
-                Require = "0",
-                Max_Complete = "0"
-            };
-
-            public static Quest Costruisci_Fattorie = new Quest
-            {
-                Quest_Description = "Bisogno di grano, Costruisci fattorie",
-                Require = "0",
-                Max_Complete = "0"
-            };
-            public static Quest Costruisci_Segherie = new Quest 
-            {
-                Quest_Description = "Bisogno di legno, Costruisci segherie",
-                Require = "0",
-                Max_Complete = "0"
-            };
-            public static Quest Costruisci_Cava_Pietra = new Quest
-            {
-                Quest_Description = "Bisogno di pietra, Costruisci cava di pietra",
-                Require = "0",
-                Max_Complete = "0"
-            };
-            public static Quest Costruisci_Miniere_Ferro = new Quest
-            {
-                Quest_Description = "Bisogno di ferro, costruisci miniere ferro",
-                Require = "0",
-                Max_Complete = "0"
-            };
-            public static Quest Costruisci_Miniere_Oro = new Quest
-            {
-                Quest_Description = "Bisogno di oro, costruisci miniere d'oro",
-                Require = "0",
-                Max_Complete = "0"
-            };
-            public static Quest Costruisci_Case = new Quest
-            {
-                Quest_Description = "Bisogno di popolazione, costruisci case",
-                Require = "0",
-                Max_Complete = "0"
-            };
-
-            public static Quest Costruisci_Militare = new Quest
-            {
-                Quest_Description = "Costruisci qualsiasi struttura civile",
-                Require = "0",
-                Max_Complete = "0"
-            };
 
         }
         public class Quest_Reward
@@ -792,6 +775,7 @@ namespace Strategico_V2
         {
             public static Dati Guerrieri_1 = new Dati
             {
+                Descrizione = "",
                 Livello = "0",
                 Salute = 0,
                 Difesa = 0,
@@ -815,6 +799,7 @@ namespace Strategico_V2
             };
             public static Dati Lanceri_1 = new Dati
             {
+                Descrizione = "",
                 Livello = "0",
                 Salute = 0,
                 Difesa = 0,
@@ -838,6 +823,7 @@ namespace Strategico_V2
             };
             public static Dati Arceri_1 = new Dati
             {
+                Descrizione = "",
                 Livello = "0",
                 Salute = 0,
                 Difesa = 0,
@@ -861,6 +847,7 @@ namespace Strategico_V2
             };
             public static Dati Catapulte_1 = new Dati
             {
+                Descrizione = "",
                 Livello = "0",
                 Salute = 0,
                 Difesa = 0,
@@ -1346,72 +1333,88 @@ namespace Strategico_V2
         {
             public static Dati Fattorie = new Dati
             {
-                Quantità = "0"
+                Quantità = "0",
+                Descrizione = ""
             };
             public static Dati Segherie = new Dati
             {
-                Quantità = "0"
+                Quantità = "0",
+                Descrizione = ""
             };
             public static Dati CaveDiPietra = new Dati
             {
-                Quantità = "0"
+                Quantità = "0",
+                Descrizione = ""
             };
             public static Dati Miniera_Ferro = new Dati
             {
-                Quantità = "0"
+                Quantità = "0",
+                Descrizione = ""
             };
 
             public static Dati Miniera_Oro = new Dati
             {
-                Quantità = "0"
+                Quantità = "0",
+                Descrizione = ""
             };
             public static Dati Case = new Dati
             {
-                Quantità = "0"
+                Quantità = "0",
+                Descrizione = ""
             };
 
             public static Dati Workshop_Spade = new Dati
             {
-                Quantità = "0"
+                Quantità = "0",
+                Descrizione = ""
             };
             public static Dati Workshop_Lance = new Dati
             {
-                Quantità = "0"
+                Quantità = "0",
+                Descrizione = ""
             };
             public static Dati Workshop_Archi = new Dati
             {
-                Quantità = "0"
+                Quantità = "0",
+                Descrizione = ""
             };
             public static Dati Workshop_Scudi = new Dati
             {
-                Quantità = "0"
+                Quantità = "0",
+                Descrizione = ""
             };
 
             public static Dati Workshop_Armature = new Dati
             {
-                Quantità = "0"
+                Quantità = "0",
+                Descrizione = ""
             };
             public static Dati Workshop_Frecce = new Dati
             {
-                Quantità = "0"
+                Quantità = "0",
+                Descrizione = ""
             };
 
             public static Dati Caserme_Guerrieri = new Dati
             {
-                Quantità = "0"
+                Quantità = "0",
+                Descrizione = ""
             };
             public static Dati Caserme_Lanceri = new Dati
             {
-                Quantità = "0"
+                Quantità = "0",
+                Descrizione = ""
             };
             public static Dati Caserme_arceri = new Dati
             {
-                Quantità = "0"
+                Quantità = "0",
+                Descrizione = ""
             };
 
             public static Dati Caserme_Catapulte = new Dati
             {
-                Quantità = "0"
+                Quantità = "0",
+                Descrizione = ""
             };
         }
         public class Costruzione_Coda
@@ -1582,31 +1585,6 @@ namespace Strategico_V2
             public int MieiArcieri { get; set; }
             public int MieiCatapulte { get; set; }
             public int TempoRimanente { get; set; }
-            
-            public override string ToString()
-            {
-                return $"ID: {ID} - Creato da: {Creatore} - Le mie truppe: G:{MieiGuerrieri} L:{MieiLancieri} A:{MieiArcieri} C:{MieiCatapulte} - {TempoRimanente} min";
-            }
-            
-            public static AttaccoPartecipazione FromString(string data)
-            {
-                string[] parts = data.Split('|');
-                if (parts.Length >= 8)
-                {
-                    return new AttaccoPartecipazione
-                    {
-                        Creatore = parts[0],
-                        ID = parts[1],
-                        NumPartecipanti = int.Parse(parts[2]),
-                        MieiGuerrieri = int.Parse(parts[3]),
-                        MieiLancieri = int.Parse(parts[4]),
-                        MieiArcieri = int.Parse(parts[5]),
-                        MieiCatapulte = int.Parse(parts[6]),
-                        TempoRimanente = int.Parse(parts[7])
-                    };
-                }
-                return null;
-            }
         }
 
     }

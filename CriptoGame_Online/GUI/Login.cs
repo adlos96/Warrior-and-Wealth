@@ -111,7 +111,7 @@ namespace CriptoGame_Online
 
             if (Variabili_Client.Utente.User_Login == true)
             {
-                Variabili_Client.Utente.User_Name = txt_Username_Login.Text;
+                Variabili_Client.Utente.Username = txt_Username_Login.Text;
                 Variabili_Client.Utente.Password = txt_Password_Login.Text;
                 this.DialogResult = DialogResult.OK; // Se il login riesce
             }
@@ -162,7 +162,7 @@ namespace CriptoGame_Online
 
             if (Variabili_Client.Utente.User_Login == true)
             {
-                Variabili_Client.Utente.User_Name = txt_Username_Login.Text;
+                Variabili_Client.Utente.Username = txt_Username_Login.Text;
                 Variabili_Client.Utente.Password = txt_Password_Login.Text;
                 this.DialogResult = DialogResult.OK; // Se il login riesce
             }

@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             panel2 = new Panel();
+            txt_Quest_Desc_10 = new TextBox();
             Btn_Costruzione = new Button();
             txt_Quest_2 = new TextBox();
             txt_Quest_1 = new TextBox();
@@ -36,7 +37,6 @@
             txt_Quest_Desc_1 = new TextBox();
             txt_Quest_Desc_2 = new TextBox();
             txt_Quest_4 = new TextBox();
-            txt_Quest_Desc_10 = new TextBox();
             txt_Quest_Desc_3 = new TextBox();
             txt_Quest_5 = new TextBox();
             txt_Quest_Desc_9 = new TextBox();
@@ -169,6 +169,7 @@
             // 
             panel2.BackColor = Color.FromArgb(55, 47, 36);
             panel2.BackgroundImageLayout = ImageLayout.None;
+            panel2.Controls.Add(txt_Quest_Desc_10);
             panel2.Controls.Add(Btn_Costruzione);
             panel2.Controls.Add(txt_Quest_2);
             panel2.Controls.Add(txt_Quest_1);
@@ -176,7 +177,6 @@
             panel2.Controls.Add(txt_Quest_Desc_1);
             panel2.Controls.Add(txt_Quest_Desc_2);
             panel2.Controls.Add(txt_Quest_4);
-            panel2.Controls.Add(txt_Quest_Desc_10);
             panel2.Controls.Add(txt_Quest_Desc_3);
             panel2.Controls.Add(txt_Quest_5);
             panel2.Controls.Add(txt_Quest_Desc_9);
@@ -196,6 +196,20 @@
             panel2.Size = new Size(380, 321);
             panel2.TabIndex = 4;
             // 
+            // txt_Quest_Desc_10
+            // 
+            txt_Quest_Desc_10.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            txt_Quest_Desc_10.BackColor = Color.FromArgb(55, 47, 36);
+            txt_Quest_Desc_10.BorderStyle = BorderStyle.None;
+            txt_Quest_Desc_10.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txt_Quest_Desc_10.ForeColor = Color.LightGray;
+            txt_Quest_Desc_10.Location = new Point(3, 268);
+            txt_Quest_Desc_10.Name = "txt_Quest_Desc_10";
+            txt_Quest_Desc_10.ReadOnly = true;
+            txt_Quest_Desc_10.Size = new Size(267, 16);
+            txt_Quest_Desc_10.TabIndex = 17;
+            txt_Quest_Desc_10.Text = "Quest";
+            // 
             // Btn_Costruzione
             // 
             Btn_Costruzione.BackgroundImage = Properties.Resources.Texture_Wood_2;
@@ -206,9 +220,8 @@
             Btn_Costruzione.Name = "Btn_Costruzione";
             Btn_Costruzione.Size = new Size(252, 23);
             Btn_Costruzione.TabIndex = 16;
-            Btn_Costruzione.Text = "Reward";
+            Btn_Costruzione.Text = "Random Quest";
             Btn_Costruzione.UseVisualStyleBackColor = true;
-            Btn_Costruzione.Visible = false;
             Btn_Costruzione.Click += Btn_Costruzione_Click;
             // 
             // txt_Quest_2
@@ -218,10 +231,10 @@
             txt_Quest_2.BorderStyle = BorderStyle.None;
             txt_Quest_2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Quest_2.ForeColor = Color.LightGray;
-            txt_Quest_2.Location = new Point(293, 36);
+            txt_Quest_2.Location = new Point(276, 36);
             txt_Quest_2.Name = "txt_Quest_2";
             txt_Quest_2.ReadOnly = true;
-            txt_Quest_2.Size = new Size(84, 16);
+            txt_Quest_2.Size = new Size(101, 16);
             txt_Quest_2.TabIndex = 15;
             txt_Quest_2.Text = "0";
             // 
@@ -232,10 +245,10 @@
             txt_Quest_1.BorderStyle = BorderStyle.None;
             txt_Quest_1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Quest_1.ForeColor = Color.LightGray;
-            txt_Quest_1.Location = new Point(293, 7);
+            txt_Quest_1.Location = new Point(276, 7);
             txt_Quest_1.Name = "txt_Quest_1";
             txt_Quest_1.ReadOnly = true;
-            txt_Quest_1.Size = new Size(84, 16);
+            txt_Quest_1.Size = new Size(101, 16);
             txt_Quest_1.TabIndex = 15;
             txt_Quest_1.Text = "0/3";
             // 
@@ -246,10 +259,10 @@
             txt_Quest_3.BorderStyle = BorderStyle.None;
             txt_Quest_3.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Quest_3.ForeColor = Color.LightGray;
-            txt_Quest_3.Location = new Point(293, 65);
+            txt_Quest_3.Location = new Point(276, 65);
             txt_Quest_3.Name = "txt_Quest_3";
             txt_Quest_3.ReadOnly = true;
-            txt_Quest_3.Size = new Size(84, 16);
+            txt_Quest_3.Size = new Size(101, 16);
             txt_Quest_3.TabIndex = 15;
             txt_Quest_3.Text = "0";
             // 
@@ -263,7 +276,7 @@
             txt_Quest_Desc_1.Location = new Point(3, 7);
             txt_Quest_Desc_1.Name = "txt_Quest_Desc_1";
             txt_Quest_Desc_1.ReadOnly = true;
-            txt_Quest_Desc_1.Size = new Size(284, 16);
+            txt_Quest_Desc_1.Size = new Size(267, 16);
             txt_Quest_Desc_1.TabIndex = 14;
             txt_Quest_Desc_1.Text = "[25] Acquista terreni virtuali";
             // 
@@ -277,7 +290,7 @@
             txt_Quest_Desc_2.Location = new Point(3, 36);
             txt_Quest_Desc_2.Name = "txt_Quest_Desc_2";
             txt_Quest_Desc_2.ReadOnly = true;
-            txt_Quest_Desc_2.Size = new Size(284, 16);
+            txt_Quest_Desc_2.Size = new Size(267, 16);
             txt_Quest_Desc_2.TabIndex = 14;
             txt_Quest_Desc_2.Text = "Quest";
             // 
@@ -288,27 +301,12 @@
             txt_Quest_4.BorderStyle = BorderStyle.None;
             txt_Quest_4.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Quest_4.ForeColor = Color.LightGray;
-            txt_Quest_4.Location = new Point(293, 94);
+            txt_Quest_4.Location = new Point(276, 94);
             txt_Quest_4.Name = "txt_Quest_4";
             txt_Quest_4.ReadOnly = true;
-            txt_Quest_4.Size = new Size(84, 16);
+            txt_Quest_4.Size = new Size(101, 16);
             txt_Quest_4.TabIndex = 15;
             txt_Quest_4.Text = "0";
-            // 
-            // txt_Quest_Desc_10
-            // 
-            txt_Quest_Desc_10.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            txt_Quest_Desc_10.BackColor = Color.FromArgb(55, 47, 36);
-            txt_Quest_Desc_10.BorderStyle = BorderStyle.None;
-            txt_Quest_Desc_10.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txt_Quest_Desc_10.ForeColor = Color.LightGray;
-            txt_Quest_Desc_10.Location = new Point(3, 268);
-            txt_Quest_Desc_10.Name = "txt_Quest_Desc_10";
-            txt_Quest_Desc_10.ReadOnly = true;
-            txt_Quest_Desc_10.Size = new Size(284, 16);
-            txt_Quest_Desc_10.TabIndex = 14;
-            txt_Quest_Desc_10.Text = "Quest";
-            txt_Quest_Desc_10.Visible = false;
             // 
             // txt_Quest_Desc_3
             // 
@@ -320,7 +318,7 @@
             txt_Quest_Desc_3.Location = new Point(3, 65);
             txt_Quest_Desc_3.Name = "txt_Quest_Desc_3";
             txt_Quest_Desc_3.ReadOnly = true;
-            txt_Quest_Desc_3.Size = new Size(284, 16);
+            txt_Quest_Desc_3.Size = new Size(267, 16);
             txt_Quest_Desc_3.TabIndex = 14;
             txt_Quest_Desc_3.Text = "Quest";
             // 
@@ -331,10 +329,10 @@
             txt_Quest_5.BorderStyle = BorderStyle.None;
             txt_Quest_5.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Quest_5.ForeColor = Color.LightGray;
-            txt_Quest_5.Location = new Point(293, 123);
+            txt_Quest_5.Location = new Point(276, 123);
             txt_Quest_5.Name = "txt_Quest_5";
             txt_Quest_5.ReadOnly = true;
-            txt_Quest_5.Size = new Size(84, 16);
+            txt_Quest_5.Size = new Size(101, 16);
             txt_Quest_5.TabIndex = 15;
             txt_Quest_5.Text = "0";
             // 
@@ -348,7 +346,7 @@
             txt_Quest_Desc_9.Location = new Point(3, 239);
             txt_Quest_Desc_9.Name = "txt_Quest_Desc_9";
             txt_Quest_Desc_9.ReadOnly = true;
-            txt_Quest_Desc_9.Size = new Size(284, 16);
+            txt_Quest_Desc_9.Size = new Size(267, 16);
             txt_Quest_Desc_9.TabIndex = 14;
             txt_Quest_Desc_9.Text = "Quest";
             // 
@@ -362,7 +360,7 @@
             txt_Quest_Desc_4.Location = new Point(3, 94);
             txt_Quest_Desc_4.Name = "txt_Quest_Desc_4";
             txt_Quest_Desc_4.ReadOnly = true;
-            txt_Quest_Desc_4.Size = new Size(284, 16);
+            txt_Quest_Desc_4.Size = new Size(267, 16);
             txt_Quest_Desc_4.TabIndex = 14;
             txt_Quest_Desc_4.Text = "Quest";
             // 
@@ -373,10 +371,10 @@
             txt_Quest_10.BorderStyle = BorderStyle.None;
             txt_Quest_10.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Quest_10.ForeColor = Color.LightGray;
-            txt_Quest_10.Location = new Point(293, 268);
+            txt_Quest_10.Location = new Point(276, 268);
             txt_Quest_10.Name = "txt_Quest_10";
             txt_Quest_10.ReadOnly = true;
-            txt_Quest_10.Size = new Size(84, 16);
+            txt_Quest_10.Size = new Size(101, 16);
             txt_Quest_10.TabIndex = 15;
             txt_Quest_10.Text = "0";
             // 
@@ -387,10 +385,10 @@
             txt_Quest_6.BorderStyle = BorderStyle.None;
             txt_Quest_6.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Quest_6.ForeColor = Color.LightGray;
-            txt_Quest_6.Location = new Point(293, 152);
+            txt_Quest_6.Location = new Point(276, 152);
             txt_Quest_6.Name = "txt_Quest_6";
             txt_Quest_6.ReadOnly = true;
-            txt_Quest_6.Size = new Size(84, 16);
+            txt_Quest_6.Size = new Size(101, 16);
             txt_Quest_6.TabIndex = 15;
             txt_Quest_6.Text = "0";
             // 
@@ -404,7 +402,7 @@
             txt_Quest_Desc_8.Location = new Point(3, 210);
             txt_Quest_Desc_8.Name = "txt_Quest_Desc_8";
             txt_Quest_Desc_8.ReadOnly = true;
-            txt_Quest_Desc_8.Size = new Size(284, 16);
+            txt_Quest_Desc_8.Size = new Size(267, 16);
             txt_Quest_Desc_8.TabIndex = 14;
             txt_Quest_Desc_8.Text = "Quest";
             // 
@@ -418,7 +416,7 @@
             txt_Quest_Desc_5.Location = new Point(3, 123);
             txt_Quest_Desc_5.Name = "txt_Quest_Desc_5";
             txt_Quest_Desc_5.ReadOnly = true;
-            txt_Quest_Desc_5.Size = new Size(284, 16);
+            txt_Quest_Desc_5.Size = new Size(267, 16);
             txt_Quest_Desc_5.TabIndex = 14;
             txt_Quest_Desc_5.Text = "Quest";
             // 
@@ -429,10 +427,10 @@
             txt_Quest_9.BorderStyle = BorderStyle.None;
             txt_Quest_9.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Quest_9.ForeColor = Color.LightGray;
-            txt_Quest_9.Location = new Point(293, 239);
+            txt_Quest_9.Location = new Point(276, 239);
             txt_Quest_9.Name = "txt_Quest_9";
             txt_Quest_9.ReadOnly = true;
-            txt_Quest_9.Size = new Size(84, 16);
+            txt_Quest_9.Size = new Size(101, 16);
             txt_Quest_9.TabIndex = 15;
             txt_Quest_9.Text = "0";
             // 
@@ -443,10 +441,10 @@
             txt_Quest_7.BorderStyle = BorderStyle.None;
             txt_Quest_7.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Quest_7.ForeColor = Color.LightGray;
-            txt_Quest_7.Location = new Point(293, 181);
+            txt_Quest_7.Location = new Point(276, 181);
             txt_Quest_7.Name = "txt_Quest_7";
             txt_Quest_7.ReadOnly = true;
-            txt_Quest_7.Size = new Size(84, 16);
+            txt_Quest_7.Size = new Size(101, 16);
             txt_Quest_7.TabIndex = 15;
             txt_Quest_7.Text = "0";
             // 
@@ -460,7 +458,7 @@
             txt_Quest_Desc_7.Location = new Point(3, 181);
             txt_Quest_Desc_7.Name = "txt_Quest_Desc_7";
             txt_Quest_Desc_7.ReadOnly = true;
-            txt_Quest_Desc_7.Size = new Size(284, 16);
+            txt_Quest_Desc_7.Size = new Size(267, 16);
             txt_Quest_Desc_7.TabIndex = 14;
             txt_Quest_Desc_7.Text = "Quest";
             // 
@@ -474,7 +472,7 @@
             txt_Quest_Desc_6.Location = new Point(3, 152);
             txt_Quest_Desc_6.Name = "txt_Quest_Desc_6";
             txt_Quest_Desc_6.ReadOnly = true;
-            txt_Quest_Desc_6.Size = new Size(284, 16);
+            txt_Quest_Desc_6.Size = new Size(267, 16);
             txt_Quest_Desc_6.TabIndex = 14;
             txt_Quest_Desc_6.Text = "Quest";
             // 
@@ -485,10 +483,10 @@
             txt_Quest_8.BorderStyle = BorderStyle.None;
             txt_Quest_8.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Quest_8.ForeColor = Color.LightGray;
-            txt_Quest_8.Location = new Point(293, 210);
+            txt_Quest_8.Location = new Point(276, 210);
             txt_Quest_8.Name = "txt_Quest_8";
             txt_Quest_8.ReadOnly = true;
-            txt_Quest_8.Size = new Size(84, 16);
+            txt_Quest_8.Size = new Size(101, 16);
             txt_Quest_8.TabIndex = 15;
             txt_Quest_8.Text = "0";
             // 
@@ -1754,7 +1752,7 @@
             textBox57.BorderStyle = BorderStyle.None;
             textBox57.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox57.ForeColor = Color.Orange;
-            textBox57.Location = new Point(9966, 100);
+            textBox57.Location = new Point(12262, 100);
             textBox57.Name = "textBox57";
             textBox57.ReadOnly = true;
             textBox57.Size = new Size(36, 15);
@@ -1769,7 +1767,7 @@
             textBox58.BorderStyle = BorderStyle.None;
             textBox58.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox58.ForeColor = Color.Orange;
-            textBox58.Location = new Point(9894, 100);
+            textBox58.Location = new Point(12190, 100);
             textBox58.Name = "textBox58";
             textBox58.ReadOnly = true;
             textBox58.Size = new Size(36, 15);
@@ -2093,6 +2091,7 @@
             Controls.Add(panel2);
             Name = "MontlyQuest";
             Text = "MontlyQuest";
+            FormClosing += MontlyQuest_FormClosing;
             Load += MontlyQuest_Load;
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
@@ -2128,7 +2127,6 @@
         private TextBox txt_Quest_9;
         private TextBox txt_Quest_Desc_9;
         private TextBox txt_Quest_10;
-        private TextBox txt_Quest_Desc_10;
         private Button Btn_Costruzione;
         private Panel panel1;
         private ProgressBar progressBar1;
@@ -2238,5 +2236,6 @@
         private Button btn_Reward_5;
         private Button btn_Reward_6;
         private Button btn_Reward_14;
+        private TextBox txt_Quest_Desc_10;
     }
 }
