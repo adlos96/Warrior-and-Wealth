@@ -8,6 +8,8 @@ namespace CriptoGame_Online.GUI
         public AttaccoCoordinato()
         {
             InitializeComponent();
+            this.Size = new Size(1178, 258);
+            groupBox_Raduno.Visible = false;
         }
         private async void AttaccoCoordinato_Load(object sender, EventArgs e)
         {
@@ -19,8 +21,9 @@ namespace CriptoGame_Online.GUI
 
             comboBox_Città.Items.Clear();
             foreach (var item in Variabili_Client.CittaGlobali)
-                comboBox_Città.Items.Add("Città Barbara - Livello: " + item.Livello);
-
+                comboBox_Città.Items.Add("Citta Barbara - Livello: " + item.Livello);
+            txt_Villaggio_B_Desc.Text = "Esplora il barbaro per avere una stima delle sue truppe";
+            txt_Città_B_Desc.Text = "Raggiungi il livello 5 per sbloccare le città. \n\rEsplora il barbaro per avere una stima delle sue truppe";
 
             this.ActiveControl = btn_Crea; // assegna il focus al bottone
         }
@@ -68,12 +71,15 @@ namespace CriptoGame_Online.GUI
             if (comboBox_Raduni_InCorso.Items.Count > 0)
                 comboBox_Raduni_InCorso.Text = comboBox_Raduni_InCorso.Items[0].ToString();
 
-            if (comboBox_Raduni_InCorso.Text == "")
+            if (comboBox_Raduni_Creati.Items.Count == 0)
             {
-                txt_Guerriero_Spedizione.Text = "0";
-                txt_Lanciere_Spedizione.Text = "0";
-                txt_Arciere_Spedizione.Text = "0";
-                txt_Catapulta_Spedizione.Text = "0";
+                comboBox_Raduni_InCorso.Enabled = false;
+                comboBox_Raduni_Creati.Enabled = false;
+            }
+            else
+            {
+                comboBox_Raduni_InCorso.Enabled = true;
+                comboBox_Raduni_Creati.Enabled = true;
             }
 
             txt_Guerriero_Esercito.Text = Variabili_Client.Reclutamento.Guerrieri_1.Quantità.ToString();
@@ -122,11 +128,12 @@ namespace CriptoGame_Online.GUI
                 index = 1;
             else index = comboBox_Villaggi.SelectedIndex;
 
-            //Update truppe
+            //Update truppe Villaggi Barbari
             var villaggio = Variabili_Client.VillaggiPersonali.FirstOrDefault(v => v.Livello == index);
-
             if (comboBox_Villaggi.SelectedIndex != -1)
-                if (villaggio != null)
+            {
+                int T_Truppe = villaggio.Guerrieri + villaggio.Lancieri + villaggio.Arcieri + villaggio.Catapulte;
+                if (villaggio != null && T_Truppe > 0)
                 {
                     txt_Guerriero_Villaggio.Text = villaggio.Guerrieri.ToString();
                     txt_Lancere_Villaggio.Text = villaggio.Lancieri.ToString();
@@ -135,15 +142,59 @@ namespace CriptoGame_Online.GUI
                 }
                 else
                 {
-                    txt_Guerriero_Villaggio.Text = "?";
-                    txt_Lancere_Villaggio.Text = "?";
-                    txt_Arcere_Villaggio.Text = "?";
-                    txt_Catapulta_Villaggio.Text = "?";
+                    txt_Guerriero_Villaggio.Text = "????";
+                    txt_Lancere_Villaggio.Text = "????";
+                    txt_Arcere_Villaggio.Text = "????";
+                    txt_Catapulta_Villaggio.Text = "????";
                 }
+
+                if (villaggio.Esplorato == true)
+                    btn_Esplora_PVE_Villaggio_B.Enabled = false;
+                else
+                if (comboBox_Villaggi.SelectedIndex < 0)
+                    btn_Esplora_PVE_Villaggio_B.Enabled = false;
+                else
+                    btn_Esplora_PVE_Villaggio_B.Enabled = true;
+                btn_Attacco_PVE_Villaggio_B.Enabled = true;
+            }
+
+            //Update truppe Citta Barbara
+            var Città = Variabili_Client.CittaGlobali.FirstOrDefault(v => v.Livello == index);
+            if (comboBox_Città.SelectedIndex != -1)
+            {
+                int T_Truppe = Città.Guerrieri + Città.Lancieri + Città.Arcieri + Città.Catapulte;
+                if (Città != null && T_Truppe > 0)
+                {
+                    txt_Guerriero_Città.Text = Città.Guerrieri.ToString();
+                    txt_Lancere_Città.Text = Città.Lancieri.ToString();
+                    txt_Arcere_Città.Text = Città.Arcieri.ToString();
+                    txt_Catapulta_Città.Text = Città.Catapulte.ToString();
+                }
+                else
+                {
+                    txt_Guerriero_Città.Text = "????";
+                    txt_Lancere_Città.Text = "????";
+                    txt_Arcere_Città.Text = "????";
+                    txt_Catapulta_Città.Text = "????";
+                }
+
+                if (Città.Esplorato == true)
+                    btn_Esplora_PVE_Città_B.Enabled = false;
+                else
+                    if (comboBox_Città.SelectedIndex < 0)
+                    btn_Esplora_PVE_Città_B.Enabled = false;
+                else
+                    btn_Esplora_PVE_Città_B.Enabled = true;
+                btn_Attacco_PVE_Città_B.Enabled = true;
+            }
+
+            //Descrizioni Villaggi e Città
+            if (Città.Esplorato == true)
+                txt_Città_B_Desc.Text = $"Hai esplorato con successo la città barbara, Bottino;\r\n Exp: {Città.Esperienza} Liv: {Città.Livello}\r\n Diamanti Blu: {Città.Diamanti_Blu} Diamanti Viola: {Città.Diamanti_Viola}\r\n" +
+                    $"Cibo: {Città.Cibo} Legno: {Città.Legno} Pietra: {Città.Pietra}\r\nFerro: {Città.Ferro} Oro: {Città.Oro}";
             if (villaggio.Esplorato == true)
-                btn_Esplora_PVE_Villaggio_B.Enabled = false;
-            else
-                btn_Esplora_PVE_Villaggio_B.Enabled = true;
+                txt_Villaggio_B_Desc.Text = $"Hai esplorato con successo il villaggio barbaro, Bottino;\r\n Exp: {villaggio.Esperienza} Liv: {villaggio.Livello}\r\n Diamanti Blu: {villaggio.Diamanti_Blu} Diamanti Viola: {villaggio.Diamanti_Viola}\r\n" +
+                    $"Cibo: {villaggio.Cibo} Legno: {villaggio.Legno} Pietra: {villaggio.Pietra}\r\nFerro: {villaggio.Ferro} Oro: {villaggio.Oro}";
 
             this.ActiveControl = btn_Crea; // assegna il focus al bottone
         }
@@ -151,8 +202,12 @@ namespace CriptoGame_Online.GUI
         private async void btn_Crea_Click(object sender, EventArgs e)
         {
             btn_Crea.Enabled = false;
+            btn_Attacco_PVE_Città_B.Text = "Raid";
+            btn_Esplora_PVE_Città_B.Text = "Esplora";
+
+
             ClientConnection.TestClient.Send($"AttaccoCooperativo|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Crea|");
-            await Login.Sleep(2);
+            await Login.Sleep(3);
             Load_Guid();
             btn_Crea.Enabled = true;
         }
@@ -259,6 +314,7 @@ namespace CriptoGame_Online.GUI
         private async void btn_Attacco_PVP_Click(object sender, EventArgs e)
         {
             btn_Attacco_PVP.Enabled = false;
+
             ClientConnection.TestClient.Send($"Battaglia|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|PVP|{comboBox_PVP.Text}");
             await Login.Sleep(20);
             btn_Attacco_PVP.Enabled = true;
@@ -272,15 +328,81 @@ namespace CriptoGame_Online.GUI
         private async void btn_Esplora_PVE_Villaggio_B_Click(object sender, EventArgs e)
         {
             btn_Esplora_PVE_Villaggio_B.Enabled = false;
-            ClientConnection.TestClient.Send($"Esplora|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{comboBox_Villaggi.Text.Replace("Villaggio Barbaro - Livello: ", "")}|Villaggio");
+            btn_Attacco_PVE_Villaggio_B.Enabled = false;
+            ClientConnection.TestClient.Send($"Esplora|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Villaggio Barbaro|{comboBox_Villaggi.Text.Replace("Villaggio Barbaro - Livello: ", "")}");
             await Login.Sleep(5);
-            Load_Guid();
             btn_Esplora_PVE_Villaggio_B.Enabled = true;
+            btn_Attacco_PVE_Villaggio_B.Enabled = true;
+            Load_Guid();
+        }
+        private async void btn_Esplora_PVE_Città_B_Click(object sender, EventArgs e)
+        {
+            btn_Esplora_PVE_Città_B.Enabled = false;
+            btn_Attacco_PVE_Città_B.Enabled = false;
+            groupBox_Raduno.Visible = true;
+
+            if (btn_Esplora_PVE_Città_B.Text == "Attacco") //Attacco con truppe
+            {
+                this.Size = new Size(1178, 488); //1178, 454
+
+
+                //Lettura truppe da inviare
+
+                //Invio comando attacco
+                //IL server esegue l'attacco ed invia indietro qualcosa
+            }
+            else
+            {
+                //Semplice esplorazione
+                ClientConnection.TestClient.Send($"Esplora|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Citta Barbara|{comboBox_Città.Text.Replace("Citta Barbara - Livello: ", "")}");
+                await Login.Sleep(5);
+            }
+
+            btn_Esplora_PVE_Città_B.Enabled = true;
+            btn_Attacco_PVE_Città_B.Enabled = true;
+            Load_Guid();
         }
 
         private void comboBox_Villaggi_TextChanged(object sender, EventArgs e)
         {
             Load_Guid();
+        }
+        private void comboBox_Città_TextChanged(object sender, EventArgs e)
+        {
+            Load_Guid();
+        }
+
+        private async void btn_Attacco_PVE_Villaggio_B_Click(object sender, EventArgs e)
+        {
+            btn_Esplora_PVE_Villaggio_B.Enabled = false;
+            btn_Attacco_PVE_Villaggio_B.Enabled = false;
+
+            if (groupBox_Raduno.Visible == true)
+            {
+
+            }
+
+            ClientConnection.TestClient.Send($"Battaglia|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Villaggio Barbaro|{comboBox_Villaggi.Text.Replace("Villaggio Barbaro - Livello: ", "")}");
+            await Login.Sleep(5);
+            btn_Esplora_PVE_Villaggio_B.Enabled = true;
+            btn_Attacco_PVE_Villaggio_B.Enabled = true;
+        }
+
+        private void btn_Attacco_PVE_Città_B_Click(object sender, EventArgs e)
+        {
+            if (btn_Attacco_PVE_Città_B.Text == "Raid")
+            {
+                btn_Attacco_PVE_Città_B.Text = "Raduno";
+                btn_Esplora_PVE_Città_B.Text = "Attacco";
+                groupBox_Raduno.Visible = true;
+                return;
+            }
+            if (btn_Attacco_PVE_Città_B.Text == "Raduno")
+            {
+                this.Size = new Size(1178, 592);
+
+                return;
+            }
         }
     }
 }
