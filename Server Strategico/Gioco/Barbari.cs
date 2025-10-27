@@ -10,14 +10,10 @@ namespace Server_Strategico.Gioco
     public class Barbari
     {
         public static bool start = false;
-        // Sostituisci l'uso di System.Threading.Timer con System.Timers.Timer
+
         private static System.Timers.Timer timerReset;
-
-        // 🌍 Lista globale delle città barbariche (visibili da tutti)
-        public static List<CittaBarbara> CittaGlobali = new();
-
-        // 🔒 Random condiviso
-        private static Random rnd = new();
+        public static List<CittaBarbara> CittaGlobali = new(); // 🌍 Lista globale delle città barbariche (visibili da tutti)
+        private static Random rnd = new(); // 🔒 Random condiviso 
 
         // 🧱 Classe base per villaggi e città
         public abstract class BarbarianBase
@@ -27,6 +23,16 @@ namespace Server_Strategico.Gioco
             public int Livello { get; set; }
             public bool Sconfitto { get; set; }
             public bool Esplorato { get; set; }
+            public int Esperienza { get; set; }
+
+            public int Diamanti_Viola { get; set; }
+            public int Diamanti_Blu { get; set; }
+
+            public double Cibo { get; set; }
+            public double Legno { get; set; }
+            public double Pietra { get; set; }
+            public double Ferro { get; set; }
+            public double Oro { get; set; }
 
             public int Guerrieri { get; set; }
             public int Lancieri { get; set; }
@@ -36,33 +42,17 @@ namespace Server_Strategico.Gioco
             public abstract bool IsGlobal { get; }
         }
 
-        // 🏚️ Villaggio personale (solo per il giocatore)
-        public class VillaggioBarbaro : BarbarianBase
+        public class VillaggioBarbaro : BarbarianBase // 🏚️ Villaggio personale (solo per il giocatore)
         {
             public override bool IsGlobal => false;
         }
 
-        // 🏰 Città globale (visibile a tutti)
-        public class CittaBarbara : BarbarianBase
+        public class CittaBarbara : BarbarianBase  // 🏰 Città globale (visibile a tutti)
         {
             public override bool IsGlobal => true;
-
-            public bool AttaccoCooperativoAperto { get; set; } = false;
-            public List<PartecipazioneCoop> Partecipanti { get; set; } = new();
         }
 
-        // 👥 Partecipazioni cooperative
-        public class PartecipazioneCoop
-        {
-            public string Giocatore { get; set; } = "";
-            public int Guerrieri { get; set; }
-            public int Lancieri { get; set; }
-            public int Arcieri { get; set; }
-            public int Catapulte { get; set; }
-        }
-
-        // 🔹 Generazione villaggio barbaro personale
-        public static VillaggioBarbaro GeneraVillaggio(int livello)
+        public static VillaggioBarbaro GeneraVillaggio(int livello) // 🔹 Generazione villaggio barbaro personale
         {
             int baseTruppe = 50 * livello;
             return new VillaggioBarbaro
@@ -72,6 +62,14 @@ namespace Server_Strategico.Gioco
                 Livello = livello,
                 Sconfitto = false,
                 Esplorato = false,
+                Esperienza = 20 * livello,
+                Diamanti_Viola = 0 * livello,
+                Diamanti_Blu = 1 * livello,
+                Cibo = 100 * livello,
+                Legno = 100 * livello,
+                Pietra = 100 * livello,
+                Ferro = 100 * livello,
+                Oro = 50 * livello,
                 Guerrieri = baseTruppe,
                 Lancieri = baseTruppe,
                 Arcieri = baseTruppe,
@@ -79,17 +77,24 @@ namespace Server_Strategico.Gioco
             };
         }
 
-        // 🔹 Generazione città barbarica globale
-        public static CittaBarbara GeneraCitta(int livello)
+        public static CittaBarbara GeneraCitta(int livello) // 🔹 Generazione città barbarica globale
         {
             int baseTruppe = 125 * livello;
             return new CittaBarbara
             {
                 Id = Guid.NewGuid().GetHashCode(),
-                Nome = $"Città Barbara Lv{livello}",
+                Nome = $"Citta Barbara Lv{livello}",
                 Livello = livello,
                 Sconfitto = false,
                 Esplorato = false,
+                Esperienza = 20 * livello,
+                Diamanti_Viola = 1 * livello,
+                Diamanti_Blu = 1 * livello,
+                Cibo = 100 * livello,
+                Legno = 100 * livello,
+                Pietra = 100 * livello,
+                Ferro = 100 * livello,
+                Oro = 50 * livello,
                 Guerrieri = baseTruppe,
                 Lancieri = baseTruppe,
                 Arcieri = baseTruppe,
@@ -109,28 +114,22 @@ namespace Server_Strategico.Gioco
             Console.WriteLine($"[Barbari] Generati {player.VillaggiPersonali.Count} villaggi per {player.Username}");
         }
 
-        // ⚙️ Inizializzazione globale (da chiamare all’avvio del server)
-        public static void Inizializza()
+        public static void Inizializza() // Inizializzazione globale (da chiamare all’avvio del server)
         {
             if (start) return;
             start = true;
 
-            // 🔹 Genera 5 città barbariche globali
-            for (int i = 1; i <= 20; i++)
+            for (int i = 1; i <= 20; i++) // Genera 20 città barbariche globali
                 CittaGlobali.Add(GeneraCitta(i));
 
-            Console.WriteLine($"[Barbari] Generate {CittaGlobali.Count} città globali iniziali.");
-
-            // 🔹 Genera villaggi per tutti i giocatori esistenti
-            foreach (var player in Server.Server.servers_.players.Values)
+            foreach (var player in Server.Server.servers_.players.Values) // Genera villaggi per tutti i giocatori esistenti
                 GeneraVillaggiPerGiocatore(player);
 
-            // Avvia il timer giornaliero
-            AvviaTimerReset();
+            Console.WriteLine($"[Barbari] Generate {CittaGlobali.Count} città globali iniziali.");
+            AvviaTimerReset(); // Avvia il timer giornaliero
         }
 
-        // 🕒 Avvia timer per rigenerare barbari ogni giorno
-        private static void AvviaTimerReset()
+        private static void AvviaTimerReset() // Avvia timer per rigenerare barbari ogni giorno
         {
             // Calcola il tempo mancante alla mezzanotte
             DateTime ora = DateTime.Now;
@@ -150,8 +149,7 @@ namespace Server_Strategico.Gioco
             Console.WriteLine($"[Barbari] Timer di rigenerazione impostato: primo reset tra {(int)(tempoIniziale / 1000 / 60)} minuti.");
         }
 
-        // 🔁 Rigenera città globali e villaggi personali
-        public static void RigeneraBarbari()
+        public static void RigeneraBarbari() // 🔁 Rigenera città globali e villaggi personali
         {
             Console.WriteLine($"[Barbari] Rigenerazione giornaliera iniziata ({DateTime.Now:HH:mm:ss})");
 
@@ -172,20 +170,17 @@ namespace Server_Strategico.Gioco
                 for (int lv = 1; lv <= villaggi; lv++)
                     player.VillaggiPersonali.Add(GeneraVillaggio(lv));
             }
-
             Console.WriteLine($"[Barbari] Rigenerazione completata: {CittaGlobali.Count} città e villaggi per {Server.Server.servers_.players.Count} giocatori.");
         }
 
-        // 🔍 Esplorazione — stima truppe (±20%)
-        public static (int, int, int, int) StimaTruppe(BarbarianBase target)
+        public static (int, int, int, int) StimaTruppe(BarbarianBase target) // 🔍 Esplorazione — stima truppe (±20%)
         {
             int Deviazione(int val) => (int)(val * (1 + rnd.Next(-20, 21) / 100.0));
             return (Deviazione(target.Guerrieri), Deviazione(target.Lancieri),
                     Deviazione(target.Arcieri), Deviazione(target.Catapulte));
         }
 
-        // 💰 Esplorazione con costo in oro
-        public static (int G, int L, int A, int C) EsploraTruppe(Player g, BarbarianBase target)
+        public static (int G, int L, int A, int C) EsploraTruppe(Player g, BarbarianBase target)  // 💰 Esplorazione con costo in oro
         {
             int costo = target.IsGlobal ? 2 : 1; // 500 : 100
             if (g.Oro < costo)
@@ -193,44 +188,7 @@ namespace Server_Strategico.Gioco
 
             g.Oro -= costo;
             target.Esplorato = true;
-
             return StimaTruppe(target); // restituisce (guerrieri, lancieri, arcieri, catapulte)
-        }
-
-        // ⚔️ Attacco cooperativo città
-        public static string AggiungiPartecipante(int idCitta, string username, int g, int l, int a, int c)
-        {
-            var citta = CittaGlobali.FirstOrDefault(c => c.Id == idCitta);
-            if (citta == null) return "Città non trovata.";
-
-            if (!citta.AttaccoCooperativoAperto)
-                return "L'attacco cooperativo non è attualmente aperto per questa città.";
-
-            citta.Partecipanti.Add(new PartecipazioneCoop
-            {
-                Giocatore = username,
-                Guerrieri = g,
-                Lancieri = l,
-                Arcieri = a,
-                Catapulte = c
-            });
-
-            return $"{username} ha inviato truppe per attaccare {citta.Nome}!";
-        }
-
-        // 🧨 Avvia un attacco cooperativo su una città
-        public static string ApriAttaccoCoop(int idCitta)
-        {
-            var citta = CittaGlobali.FirstOrDefault(c => c.Id == idCitta);
-            if (citta == null) return "Città non trovata.";
-
-            if (citta.AttaccoCooperativoAperto)
-                return "L'attacco cooperativo è già aperto.";
-
-            citta.AttaccoCooperativoAperto = true;
-            citta.Partecipanti.Clear();
-
-            return $"Attacco cooperativo aperto contro {citta.Nome}!";
         }
     }
 }
