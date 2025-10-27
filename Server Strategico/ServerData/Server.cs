@@ -326,7 +326,6 @@ namespace Server_Strategico.Server
                     saveCounter++;
                     foreach (var player in players.Values)
                     {
-
                         BuildingManager.CompleteBuilds(player.guid_Player, player);
                         UnitManager.CompleteRecruitment(player.guid_Player, player);
                         ResearchManager.CompleteResearch(player.guid_Player, player);
