@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Text.Json;
-using static Server_Strategico.BuildingManager;
+using static Server_Strategico.Gioco.BuildingManager;
 using static Server_Strategico.Gioco.Giocatori;
 using static Server_Strategico.Gioco.Variabili_Server;
-using static Server_Strategico.QuestManager;
+using static Server_Strategico.Gioco.QuestManager;
 using static Server_Strategico.Server.Server;
 
 namespace Server_Strategico.Gioco
@@ -38,7 +38,7 @@ namespace Server_Strategico.Gioco
         {
             #region Variabili giocatore
             //Quest
-            public PlayerQuestProgress QuestProgress { get; set; } = new();
+            public QuestManager.PlayerQuestProgress QuestProgress { get; set; } = new();
             public List<Gioco.Barbari.VillaggioBarbaro> VillaggiPersonali { get; set; } = new();
 
             // Giocatori
@@ -111,6 +111,7 @@ namespace Server_Strategico.Gioco
             public int Lanceri_Uccisi { get; set; }
             public int Arceri_Uccisi { get; set; }
             public int Catapulte_Uccisi { get; set; }
+
             public int Unità_Perse { get; set; }
             public int Guerrieri_Persi { get; set; }
             public int Lanceri_Persi { get; set; }
@@ -118,20 +119,29 @@ namespace Server_Strategico.Gioco
             public int Catapulte_Persi { get; set; }
             public int Risorse_Razziate { get; set; }
 
+            public int Strutture_Civili_Costruite { get; set; }
+            public int Strutture_Militari_Costruite { get; set; }
+            public int Caserme_Costruite { get; set; }
+
             public int Frecce_Utilizzate { get; set; }
             public int Battaglie_Vinte { get; set; }
             public int Battaglie_Perse { get; set; }
-            public int Barbari_Sconfitti { get; set; }
-            public int Accampamenti_Barbari_Sconfitti { get; set; }
-            public int Città_Barbare_Sconfitte { get; set; }
             public int Missioni_Completate { get; set; }
             public int Attacchi_Subiti_PVP { get; set; }
             public int Attacchi_Effettuati_PVP { get; set; }
 
+            public int Barbari_Sconfitti { get; set; } //Totale uomini barbari sconfitti (villaggi e città)
+            public int Accampamenti_Barbari_Sconfitti { get; set; } //Villaggi barbari sconfitti
+            public int Città_Barbare_Sconfitte { get; set; }
+            public int Danno_HP_Barbaro { get; set; }
+            public int Danno_DEF_Barbaro { get; set; }
+
             public int Unità_Addestrate { get; set; }
             public int Risorse_Utilizzate { get; set; }
-            public int Tempo_Addestramento_Risparmiato { get; set; }
-            public int Tempo_Costruzione_Risparmiato { get; set; }
+            public int Tempo_Addestramento { get; set; }
+            public int Tempo_Costruzione { get; set; }
+            public int Tempo_Ricerca { get; set; }
+            public int Tempo_Sottratto_Diamanti { get; set; } //Tempo risparmiato usando diamanti
 
             public int Consumo_Cibo_Esercito { get; set; }
             public int Consumo_Oro_Esercito { get; set; }
@@ -285,8 +295,6 @@ namespace Server_Strategico.Gioco
                 VillaggiPersonali = new List<Gioco.Barbari.VillaggioBarbaro>();
 
                 //Statistiche
-                Tempo_Addestramento_Risparmiato = 0;
-                Tempo_Costruzione_Risparmiato = 0;
 
                 //Dati Giocatore
                 Username = username;
@@ -367,6 +375,7 @@ namespace Server_Strategico.Gioco
                 CatapulteMax = 5;
 
                 //Città
+                #region Città
                 Guarnigione_Ingresso = 0;
                 Guarnigione_IngressoMax = 100;
 
@@ -443,7 +452,7 @@ namespace Server_Strategico.Gioco
                     Arceri_Citta[i] = 0;
                     Catapulte_Citta[i] = 0;
                 }
-
+                #endregion
                 //Ricerche
                 Ricerca_Produzione = 0;
                 Ricerca_Costruzione = 0;
@@ -491,50 +500,6 @@ namespace Server_Strategico.Gioco
                 Catapulta_Salute = 0;
                 Catapulta_Difesa = 0;
                 Catapulta_Attacco = 0;
-            }
-
-            public class PlayerQuestProgress
-            {
-                public int[] Completions { get; set; } = new int[QuestDatabase.Quests.Count]; // Indica quante volte ogni quest è stata completata
-                public int[] CurrentProgress { get; set; } = new int[QuestDatabase.Quests.Count]; // Puoi anche tenere traccia di progressi parziali
-
-                public bool IsQuestFullyCompleted(int questId) // Restituisce true se la quest è completata il numero massimo di volte
-                {
-                    return Completions[questId] >= QuestDatabase.Quests[questId].Max_Complete;
-                }
-
-                public bool AddProgress(int questId, int amount, Player player)
-                {
-                    var quest = QuestDatabase.Quests[questId];
-
-                    // Se la quest è già completata il numero massimo di volte, non fare nulla
-                    if (IsQuestFullyCompleted(questId))
-                    {
-                        Console.WriteLine($"Quest '{quest.Quest_Description}' è già completata al massimo ({quest.Max_Complete} volte).");
-                        return false;
-                    }
-
-                    int completata = Completions[questId];  // Quante volte è stata completata finora
-                    int requireDinamico = quest.Require + (completata * Variabili_Server.moltiplicatore_Quest); // Aumenta il requisito di 5 per ogni completamento
-
-                    player.Punti_Quest += quest.Experience;
-                    CurrentProgress[questId] += amount; // Aggiungi il progresso
-
-                    // 🔹 Se completata
-                    if (CurrentProgress[questId] >= requireDinamico)
-                    {
-                        CurrentProgress[questId] = 0; // Resetta il progresso per la prossima volta
-                        Completions[questId]++; // Incrementa il conteggio delle completazioni
-                        Console.WriteLine($"Quest '{quest.Quest_Description}' completata {Completions[questId]} / {quest.Max_Complete} volte.");
-
-                        if (Completions[questId] == quest.Max_Complete)
-                            QuestManager.OnEvent(player, QuestEventType.Miglioramento, "", 1); // Per ogni quest completata, aggiorna la quest
-
-                        return true; // Quest completata
-                    }
-
-                    return false;
-                }
             }
 
             public bool ValidatePassword(string password)
