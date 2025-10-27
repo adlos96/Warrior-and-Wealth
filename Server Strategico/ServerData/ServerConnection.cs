@@ -50,7 +50,11 @@ namespace Server_Strategico.Server
                     break;
                 case "Login":
                     bool login = await Login(msgArgs[1], msgArgs[2], clientGuid);
-                    if (login == true) Server.Send(clientGuid, "Login|true");
+                    if (login == true)
+                    {
+                        Server.Send(clientGuid, "Login|true");
+                        AggiornaVillaggiClient(player);
+                    }
                     else
                         Server.Send(clientGuid, $"Login|false|Username o password non corrispondono. User: [{msgArgs[1]}] psw: [{msgArgs[2]}]");
                     break;
@@ -83,10 +87,19 @@ namespace Server_Strategico.Server
                 case "Costruzione_Terreni":
                     BuildingManager.Terreni_Virtuali(clientGuid, player); // Costruisci fattorie
                     break;
+                case "Esplora":
+                    Esplora(player, Convert.ToInt32(msgArgs[4]), msgArgs[3]);
+                    break;
                 case "Battaglia":
                     if (msgArgs[3] == "Barbari_PVE") Battaglie.Battaglia_Barbari(player, clientGuid, "Barbari_PVE");
                     if (msgArgs[3] == "Barbari_PVP") Battaglie.Battaglia_Barbari(player, clientGuid, "Barbari_PVP");
                     if (msgArgs[3] == "PVP")
+                    {
+                        var temp = msgArgs[4].Split(",");
+                        var player2 = Server.servers_.GetPlayer_Data(temp[0]);
+                        Battaglie.Battaglia_PVP(player, clientGuid, player2, player2.guid_Player);
+                    }
+                    if (msgArgs[3] == "Villaggio_Barbaro")
                     {
                         var temp = msgArgs[4].Split(",");
                         var player2 = Server.servers_.GetPlayer_Data(temp[0]);
@@ -345,9 +358,7 @@ namespace Server_Strategico.Server
                 case "AttaccoCooperativo":
                     await AttacchiCooperativi.GestisciComando(msgArgs, clientGuid, player);
                     break;
-                case "Esplora":
-                    Esplora(player, Convert.ToInt32(msgArgs[3]), msgArgs[4]);
-                    break;
+                
                 default: Console.WriteLine($"Messaggio: [{msgArgs}]"); break;
             }
            
@@ -356,16 +367,12 @@ namespace Server_Strategico.Server
         {
             BarbarianBase target;
 
-            if (globale == "Città")
-            {
-                // Cerca la città globale del livello richiesto
-                target = Gioco.Barbari.CittaGlobali.FirstOrDefault(c => c.Livello == livello_Barbaro);
-            }
-            else
-            {
-                // Cerca il villaggio personale del giocatore
-                target = player.VillaggiPersonali.FirstOrDefault(v => v.Livello == livello_Barbaro);
-            }
+            if (globale == "Citta Barbara")
+                target = Gioco.Barbari.CittaGlobali.FirstOrDefault(c => c.Livello == livello_Barbaro); // Cerca la città globale del livello richiesto
+            else if (globale == "Villaggio Barbaro")
+                target = player.VillaggiPersonali.FirstOrDefault(v => v.Livello == livello_Barbaro); // Cerca il villaggio personale del giocatore
+            else             
+                target = null;
 
             if (target == null)
             {
@@ -378,11 +385,8 @@ namespace Server_Strategico.Server
                 return;
             }
 
-            // Chiama la funzione che restituisce le truppe stimate
-            var (gw, ln, ar, ct) = Gioco.Barbari.EsploraTruppe(player, target);
-
-            // Controlla se c'è abbastanza oro
-            if (gw == -1)
+            var (gw, ln, ar, ct) = Gioco.Barbari.EsploraTruppe(player, target); // Chiama la funzione che restituisce le truppe stimate
+            if (gw == -1) // Controlla se c'è abbastanza oro
             {
                 var errore = new
                 {
@@ -391,6 +395,81 @@ namespace Server_Strategico.Server
                 };
                 Server.Send(player.guid_Player, JsonSerializer.Serialize(errore));
                 return;
+            }
+
+
+            if (globale == "Villaggio Barbaro") // --- Villaggi personali ---
+            {
+                var villaggiDaInviare = new List<object>();
+                for (int i = 0; i < player.VillaggiPersonali.Count; i++)
+                {
+                    var v = player.VillaggiPersonali[i];
+                    if (i == 0 || player.VillaggiPersonali[i - 1].Sconfitto) // Primo villaggio sempre inviato, gli altri solo se il precedente è sconfitto
+                        villaggiDaInviare.Add(new
+                        {
+                            v.Id,
+                            v.Nome,
+                            v.Livello,
+                            Esperienza = v.Esperienza,
+                            Diamanti_Viola = v.Diamanti_Viola,
+                            Diamanti_Blu = v.Diamanti_Blu,
+                            Esplorato = v.Esplorato,
+                            Sconfitto = v.Sconfitto,
+                            Cibo = v.Cibo,
+                            Legno = v.Legno,
+                            Pietra = v.Pietra,
+                            Ferro = v.Ferro,
+                            Oro = v.Oro,
+                            Guerrieri = gw,
+                            Lancieri = ln,
+                            Arcieri = ar,
+                            Catapulte = ct
+                        });
+                    else break;
+                }
+
+                var villaggiUpdate = new
+                {
+                    Type = "VillaggiPersonali",
+                    Dati = villaggiDaInviare
+                };
+                Server.Send(player.guid_Player, JsonSerializer.Serialize(villaggiUpdate));
+            }else
+            {
+                var cittaDaInviare = new List<object>();
+                for (int i = 0; i < CittaGlobali.Count; i++)
+                {
+                    var v = CittaGlobali[i];
+                    if (i == 0 || CittaGlobali[i - 1].Sconfitto) // Primo villaggio sempre inviato, gli altri solo se il precedente è sconfitto
+                        cittaDaInviare.Add(new
+                        {
+                            v.Id,
+                            v.Nome,
+                            v.Livello,
+                            Esperienza = v.Esperienza,
+                            Diamanti_Viola = v.Diamanti_Viola,
+                            Diamanti_Blu = v.Diamanti_Blu,
+                            Esplorato = v.Esplorato,
+                            Sconfitto = v.Sconfitto,
+                            Cibo = v.Cibo,
+                            Legno = v.Legno,
+                            Pietra = v.Pietra,
+                            Ferro = v.Ferro,
+                            Oro = v.Oro,
+                            Guerrieri = gw,
+                            Lancieri = ln,
+                            Arcieri = ar,
+                            Catapulte = ct
+                        });
+                    else break;
+                }
+
+                var cittaUpdate = new
+                {
+                    Type = "CittaGlobali",
+                    Dati = cittaDaInviare
+                };
+                Server.Send(player.guid_Player, JsonSerializer.Serialize(cittaUpdate));
             }
         }
 
@@ -680,28 +759,28 @@ namespace Server_Strategico.Server
             for (int i = 0; i < player.VillaggiPersonali.Count; i++)
             {
                 var v = player.VillaggiPersonali[i];
-
-                // Primo villaggio sempre inviato, gli altri solo se il precedente è sconfitto
-                if (i == 0 || player.VillaggiPersonali[i - 1].Sconfitto)
-                {
+                if (i == 0 || player.VillaggiPersonali[i - 1].Sconfitto) // Primo villaggio sempre inviato, gli altri solo se il precedente è sconfitto
                     villaggiDaInviare.Add(new
                     {
                         v.Id,
                         v.Nome,
                         v.Livello,
-                        Esplorabile = true,
-                        Sconfitto = v.Sconfitto,
+                        Esperienza = v.Esperienza,
                         Esplorato = v.Esplorato,
+                        Sconfitto = v.Sconfitto,
+                        Diamanti_Viola = v.Diamanti_Viola,
+                        Diamanti_Blu = v.Diamanti_Blu,
+                        Cibo = v.Cibo,
+                        Legno = v.Legno,
+                        Pietra = v.Pietra,
+                        Ferro = v.Ferro,
+                        Oro = v.Oro,
                         Guerrieri = v.Esplorato ? v.Guerrieri : 0,
                         Lancieri = v.Esplorato ? v.Lancieri : 0,
                         Arcieri = v.Esplorato ? v.Arcieri : 0,
                         Catapulte = v.Esplorato ? v.Catapulte : 0
                     });
-                }
-                else
-                {
-                    break;
-                }
+                else break;
             }
 
             var villaggiUpdate = new
@@ -709,7 +788,6 @@ namespace Server_Strategico.Server
                 Type = "VillaggiPersonali",
                 Dati = villaggiDaInviare
             };
-
             Server.Send(player.guid_Player, JsonSerializer.Serialize(villaggiUpdate));
 
             // --- Città globali ---
@@ -717,27 +795,28 @@ namespace Server_Strategico.Server
             for (int i = 0; i < Gioco.Barbari.CittaGlobali.Count; i++)
             {
                 var c = Gioco.Barbari.CittaGlobali[i];
-
                 if (i == 0 || Gioco.Barbari.CittaGlobali[i - 1].Sconfitto)
-                {
                     cittaDaInviare.Add(new
                     {
                         c.Id,
                         c.Nome,
                         c.Livello,
-                        Esplorabile = true,
-                        Sconfitto = c.Sconfitto,
+                        Esperienza = c.Esperienza,
                         Esplorato = c.Esplorato,
+                        Sconfitto = c.Sconfitto,
+                        Diamanti_Viola = c.Diamanti_Viola,
+                        Diamanti_Blu = c.Diamanti_Blu,
+                        Cibo = c.Cibo,
+                        Legno = c.Legno,
+                        Pietra = c.Pietra,
+                        Ferro = c.Ferro,
+                        Oro = c.Oro,
                         Guerrieri = c.Esplorato ? c.Guerrieri : 0,
                         Lancieri = c.Esplorato ? c.Lancieri : 0,
                         Arcieri = c.Esplorato ? c.Arcieri : 0,
                         Catapulte = c.Esplorato ? c.Catapulte : 0
                     });
-                }
-                else
-                {
-                    break;
-                }
+                else break;
             }
 
             var cittaUpdate = new
@@ -745,7 +824,6 @@ namespace Server_Strategico.Server
                 Type = "CittaGlobali",
                 Dati = cittaDaInviare
             };
-
             Server.Send(player.guid_Player, JsonSerializer.Serialize(cittaUpdate));
         }
 
@@ -771,11 +849,9 @@ namespace Server_Strategico.Server
             Oro -= player.Guerrieri[3] * Esercito.Unità.Guerriero_4.Salario + player.Lanceri[3] * Esercito.Unità.Lancere_4.Salario + player.Arceri[3] * Esercito.Unità.Arcere_4.Salario + player.Catapulte[3] * Esercito.Unità.Catapulta_4.Salario;
             Oro -= player.Guerrieri[4] * Esercito.Unità.Guerriero_5.Salario + player.Lanceri[4] * Esercito.Unità.Lancere_5.Salario + player.Arceri[4] * Esercito.Unità.Arcere_5.Salario + player.Catapulte[4] * Esercito.Unità.Catapulta_5.Salario;
 
-
             QuestManager.QuestUpdate(player);
             QuestManager.QuestRewardUpdate(player);
             DescUpdate(player);
-            AggiornaVillaggiClient(player);
 
             string data =
             "Update_Data|" +
@@ -807,22 +883,22 @@ namespace Server_Strategico.Server
             $"popolazione_max={Edifici.Case.Limite:#,0}|" +
 
             //Produzione Risorse
-            $"cibo_s={player.Fattoria * (Strutture.Edifici.Fattoria.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Cibo):#,0.00}|" +
-            $"legna_s={player.Segheria * (Strutture.Edifici.Segheria.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Legno):#,0.00}|" +
-            $"pietra_s={player.CavaPietra * (Strutture.Edifici.CavaPietra.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Pietra):#,0.00}|" +
-            $"ferro_s={player.MinieraFerro * (Strutture.Edifici.MinieraFerro.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Ferro):#,0.00}|" +
+            $"cibo_s={player.Fattoria * (Strutture.Edifici.Fattoria.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Cibo):#,0.000}|" +
+            $"legna_s={player.Segheria * (Strutture.Edifici.Segheria.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Legno):#,0.000}|" +
+            $"pietra_s={player.CavaPietra * (Strutture.Edifici.CavaPietra.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Pietra):#,0.000}|" +
+            $"ferro_s={player.MinieraFerro * (Strutture.Edifici.MinieraFerro.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Ferro):#,0.000}|" +
             $"oro_s={player.MinieraOro * (Strutture.Edifici.MinieraOro.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Oro):#,0.00}|" +
-            $"popolazione_s={player.Abitazioni * (Strutture.Edifici.Case.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Popolazione):#,0.00}|" +
+            $"popolazione_s={player.Abitazioni * (Strutture.Edifici.Case.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Popolazione):#,0.000}|" +
 
-            $"spade_s={player.Workshop_Spade * (Strutture.Edifici.ProduzioneSpade.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Spade):#,0.00}|" +
-            $"lance_s={player.Abitazioni * (Strutture.Edifici.ProduzioneLance.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Lance):#,0.00}|" +
-            $"archi_s={player.Abitazioni * (Strutture.Edifici.ProduzioneArchi.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Archi):#,0.00}|" +
-            $"scudi_s={player.Abitazioni * (Strutture.Edifici.ProduzioneScudi.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Scudi):#,0.00}|" +
-            $"armature_s={player.Abitazioni * (Strutture.Edifici.ProduzioneArmature.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Armature):#,0.00}|" +
-            $"frecce_s={player.Abitazioni * (Strutture.Edifici.ProduzioneFrecce.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Popolazione):#,0.00}|" +
+            $"spade_s={player.Workshop_Spade * (Strutture.Edifici.ProduzioneSpade.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Spade):#,0.000}|" +
+            $"lance_s={player.Workshop_Lance * (Strutture.Edifici.ProduzioneLance.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Lance):#,0.000}|" +
+            $"archi_s={player.Workshop_Archi * (Strutture.Edifici.ProduzioneArchi.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Archi):#,0.000}|" +
+            $"scudi_s={player.Workshop_Scudi * (Strutture.Edifici.ProduzioneScudi.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Scudi):#,0.000}|" +
+            $"armature_s={player.Workshop_Armature * (Strutture.Edifici.ProduzioneArmature.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Armature):#,0.000}|" +
+            $"frecce_s={player.Workshop_Frecce * (Strutture.Edifici.ProduzioneFrecce.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Popolazione):#,0.000}|" +
 
-            $"consumo_cibo_s={Cibo:#,0.00}|" +
-            $"consumo_oro_s={Oro:#,0.00}|" +
+            $"consumo_cibo_s={Cibo:#,0.00}|" + //Esercito
+            $"consumo_oro_s={Oro:#,0.00}|" + //Esercito
 
             //Limiti Risorse
             $"cibo_limite={player.Fattoria * Strutture.Edifici.Fattoria.Limite:#,0.00}|" +
@@ -833,11 +909,11 @@ namespace Server_Strategico.Server
             $"popolazione_limite={player.Abitazioni * Strutture.Edifici.Case.Limite:#,0.00}|" +
 
             $"spade_limite={player.Workshop_Spade * Strutture.Edifici.ProduzioneSpade.Limite :#,0.00}|" +
-            $"lance_limite={player.Abitazioni * Strutture.Edifici.ProduzioneLance.Limite:#,0.00}|" +
-            $"archi_limite={player.Abitazioni * Strutture.Edifici.ProduzioneArchi.Limite:#,0.00}|" +
-            $"scudi_limite={player.Abitazioni * Strutture.Edifici.ProduzioneScudi.Limite:#,0.00}|" +
-            $"armature_limite={player.Abitazioni * Strutture.Edifici.ProduzioneArmature.Limite:#,0.00}|" +
-            $"frecce_limite={player.Abitazioni * Strutture.Edifici.ProduzioneFrecce.Limite:#,0.00}|" +
+            $"lance_limite={player.Workshop_Lance * Strutture.Edifici.ProduzioneLance.Limite:#,0.00}|" +
+            $"archi_limite={player.Workshop_Archi * Strutture.Edifici.ProduzioneArchi.Limite:#,0.00}|" +
+            $"scudi_limite={player.Workshop_Scudi * Strutture.Edifici.ProduzioneScudi.Limite:#,0.00}|" +
+            $"armature_limite={player.Workshop_Armature * Strutture.Edifici.ProduzioneArmature.Limite:#,0.00}|" +
+            $"frecce_limite={player.Workshop_Frecce * Strutture.Edifici.ProduzioneFrecce.Limite:#,0.00}|" +
 
             //Risorse Militari
             $"spade={player.Spade:#,0.00}|" +
@@ -886,24 +962,6 @@ namespace Server_Strategico.Server
             $"lanceri_max={player.LancieriMax}|" +
             $"arceri_max={player.ArceriMax}|" +
             $"catapulte_max={player.CatapulteMax}|" +
-
-            //Produzione /s
-            $"produzione_cibo={player.Workshop_Spade * Strutture.Edifici.ProduzioneSpade.Produzione:#,0.00}|" +
-            $"produzione_legno={player.Workshop_Lance * Strutture.Edifici.ProduzioneLance.Produzione:#,0.00}|" +
-            $"produzione_pietra={player.Workshop_Archi * Strutture.Edifici.ProduzioneArchi.Produzione:#,0.00}|" +
-            $"produzione_ferro={player.Workshop_Scudi * Strutture.Edifici.ProduzioneScudi.Produzione:#,0.00}|" +
-            $"produzione_oro={player.Workshop_Armature * Strutture.Edifici.ProduzioneArmature.Produzione:#,0.00}|" +
-            $"produzione_popolazione={player.Workshop_Frecce * Strutture.Edifici.ProduzioneFrecce.Produzione:#,0.00}|" +
-
-            $"produzione_spade={player.Workshop_Spade * Strutture.Edifici.ProduzioneSpade.Produzione:#,0.00}|" +
-            $"produzione_lance={player.Workshop_Lance * Strutture.Edifici.ProduzioneLance.Produzione:#,0.00}|" +
-            $"produzione_archi={player.Workshop_Archi * Strutture.Edifici.ProduzioneArchi.Produzione:#,0.00}|" +
-            $"produzione_scudi={player.Workshop_Scudi * Strutture.Edifici.ProduzioneScudi.Produzione:#,0.00}|" +
-            $"produzione_armature={player.Workshop_Armature * Strutture.Edifici.ProduzioneArmature.Produzione:#,0.00}|" +
-            $"produzione_frecce={player.Workshop_Frecce * Strutture.Edifici.ProduzioneFrecce.Produzione:#,0.00}|" +
-
-            $"consumo_cibo_esercito={player.Workshop_Frecce * Strutture.Edifici.ProduzioneFrecce.Produzione:#,0.00}|" +   //Hey aggiornare
-            $"consumo_oro_esercito={player.Workshop_Frecce * Strutture.Edifici.ProduzioneFrecce.Produzione:#,0.00}|" +    //Hey aggiornare
 
             // Code edifici in formato key=valore (chiavi minuscole)
             $"fattoria_coda={buildingsQueue.GetValueOrDefault("Fattoria", 0)}|" +
