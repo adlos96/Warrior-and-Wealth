@@ -9,27 +9,6 @@ namespace Strategico_V2
 {
     public class ClientConnection
     {
-        // Classe Villaggio con array per unità
-        public class VillaggioClient
-        {
-            public int Id { get; set; }
-            public string Nome { get; set; }
-            public int Livello { get; set; }
-            public bool Sconfitto { get; set; }
-            public bool Esplorato { get; set; }
-
-            public int Guerrieri { get; set; }
-            public int Lancieri { get; set; }
-            public int Arcieri { get; set; }
-            public int Catapulte { get; set; }
-        }
-
-        // Pacchetto contenente la lista dei villaggi o città
-        public class PacchettoVillaggi
-        {
-            public string Type { get; set; } // "VillaggiPersonali" o "CittaGlobali"
-            public List<VillaggioClient> Dati { get; set; }
-        }
 
         public class QuestUpdatePacket
         {
@@ -236,8 +215,18 @@ namespace Strategico_V2
                             Id = v.Id,
                             Nome = v.Nome,
                             Livello = v.Livello,
-                            Sconfitto = v.Sconfitto,
+                            Esperienza = v.Esperienza,
                             Esplorato = v.Esplorato,
+                            Sconfitto = v.Sconfitto,
+                            
+                            Cibo = v.Cibo,
+                            Legno = v.Legno,
+                            Pietra = v.Pietra,
+                            Ferro = v.Ferro,
+                            Oro = v.Oro,
+                            Diamanti_Viola = v.Diamanti_Viola,
+                            Diamanti_Blu = v.Diamanti_Blu,
+
                             Guerrieri = v.Guerrieri,
                             Lancieri = v.Lancieri,
                             Arcieri = v.Arcieri,
@@ -255,8 +244,18 @@ namespace Strategico_V2
                             Id = v.Id,
                             Nome = v.Nome,
                             Livello = v.Livello,
-                            Sconfitto = v.Sconfitto,
+                            Esperienza = v.Esperienza,
                             Esplorato = v.Esplorato,
+                            Sconfitto = v.Sconfitto,
+
+                            Cibo = v.Cibo,
+                            Legno = v.Legno,
+                            Pietra = v.Pietra,
+                            Ferro = v.Ferro,
+                            Oro = v.Oro,
+                            Diamanti_Viola = v.Diamanti_Viola,
+                            Diamanti_Blu = v.Diamanti_Blu,
+
                             Guerrieri = v.Guerrieri,
                             Lancieri = v.Lancieri,
                             Arcieri = v.Arcieri,
@@ -271,7 +270,6 @@ namespace Strategico_V2
                             {
                 // Se il messaggio è JSON di quest
                 if (messaggio.StartsWith("{") && messaggio.Contains("\"Quests\""))
-                {
                     try
                     {
                         var packet = JsonSerializer.Deserialize<QuestUpdatePacket>(messaggio);
@@ -281,12 +279,10 @@ namespace Strategico_V2
                     catch (Exception ex)
                     {
                         Console.WriteLine("Errore deserializzazione JSON: " + ex.Message);
+                        return;
                     }
-                    return;
-                }
-
+                
                 if (messaggio.StartsWith("{") && messaggio.Contains("\"QuestRewards\""))
-                {
                     try
                     {
                         using JsonDocument doc = JsonDocument.Parse(messaggio);
@@ -327,15 +323,10 @@ namespace Strategico_V2
                     {
                         Console.WriteLine($"❌ Errore deserializzazione QuestRewards: {ex.Message}");
                     }
-
-                    return;
-                }
             }
             static void Update_Data(string[] mess)
             {
-
                 var dict = new Dictionary<string, string>();
-
                 for (int i = 1; i < mess.Length; i++)
                 {
                     var parts = mess[i].Split('=');
