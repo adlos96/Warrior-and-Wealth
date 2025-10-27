@@ -11,6 +11,16 @@ namespace Strategico_V2
             public int Livello { get; set; }
             public bool Sconfitto { get; set; }
             public bool Esplorato { get; set; }
+            public int Esperienza { get; set; }
+
+            public int Diamanti_Viola { get; set; }
+            public int Diamanti_Blu { get; set; }
+
+            public double Cibo { get; set; }
+            public double Legno { get; set; }
+            public double Pietra { get; set; }
+            public double Ferro { get; set; }
+            public double Oro { get; set; }
 
             public int Guerrieri { get; set; }
             public int Lancieri { get; set; }

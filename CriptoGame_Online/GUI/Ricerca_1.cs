@@ -12,7 +12,49 @@ namespace CriptoGame_Online
         }
         private void Ricerca_1_Load(object sender, EventArgs e)
         {
-            btn_Costruzione.Font = new Font("Cinzel Decorative", 8, FontStyle.Bold);
+            btn_Costruzione.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+            btn_Risorse.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+            btn_Addestramento.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+            btn_Popolazione.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+
+            btn_Livello_Guerrieri.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+            btn_Attacco_Guerrieri.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+            btn_Difesa_Guerrieri.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+            btn_Salute_Guerrieri.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+
+            btn_Livello_Lanceri.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+            btn_Attacco_Lanceri.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+            btn_Difesa_Lanceri.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+            btn_Salute_Lanceri.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+
+            btn_Livello_Arceri.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+            btn_Attacco_Arceri.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+            btn_Difesa_Arceri.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+            btn_Salute_Arceri.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+
+            btn_Livello_Catapulte.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+            btn_Attacco_Catapulte.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+            btn_Difesa_Catapulte.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+            btn_Salute_Catapulte.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+
+            btn_Guarnigione_Castello.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+            btn_Difesa_Castello.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+            btn_Salute_Castello.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+
+            btn_Guarnigione_Torri.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+            btn_Difesa_Torri.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+            btn_Salute_Torri.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+
+            btn_Guarnigione_Mura.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+            btn_Difesa_Mura.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+            btn_Salute_Mura.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+
+            btn_Guarnigione_Cancello.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+            btn_Difesa_Cancello.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+            btn_Salute_Cancello.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+
+            btn_Guarnigione_Ingresso.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+            btn_Guarnigione_Citta.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
 
             Task.Run(() => Gui_Update(cts.Token), cts.Token);
         }

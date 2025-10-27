@@ -53,8 +53,6 @@
             label71 = new Label();
             panel_Catapulta = new Panel();
             txt_Catapulta_Esercito = new TextBox();
-            groupBox3 = new GroupBox();
-            groupBox1 = new GroupBox();
             panel1 = new Panel();
             label1 = new Label();
             panel2 = new Panel();
@@ -98,28 +96,29 @@
             panel16 = new Panel();
             txt_Guerriero_Villaggio = new TextBox();
             groupBox4 = new GroupBox();
-            textBox5 = new TextBox();
-            btn_Attacco_PVE_Città_B = new Button();
+            btn_Esercito_Caserme = new Button();
+            txt_Villaggio_B_Desc = new TextBox();
+            btn_Attacco_PVE_Villaggio_B = new Button();
             btn_Esplora_PVE_Villaggio_B = new Button();
             comboBox_Villaggi = new ComboBox();
             groupBox5 = new GroupBox();
-            textBox6 = new TextBox();
-            btn_Raid_PVE_Città_B = new Button();
+            txt_Città_B_Desc = new TextBox();
+            btn_Attacco_PVE_Città_B = new Button();
             btn_Esplora_PVE_Città_B = new Button();
             comboBox_Città = new ComboBox();
             groupBox6 = new GroupBox();
             panel17 = new Panel();
             label11 = new Label();
             panel18 = new Panel();
-            textBox7 = new TextBox();
+            txt_Catapulta_Città = new TextBox();
             panel19 = new Panel();
             label12 = new Label();
             panel20 = new Panel();
-            textBox8 = new TextBox();
+            txt_Arcere_Città = new TextBox();
             panel21 = new Panel();
             label13 = new Label();
             panel22 = new Panel();
-            textBox9 = new TextBox();
+            txt_Lancere_Città = new TextBox();
             panel23 = new Panel();
             label14 = new Label();
             panel24 = new Panel();
@@ -147,6 +146,23 @@
             label18 = new Label();
             panel32 = new Panel();
             txt_Guerriero_PVE = new TextBox();
+            groupBox_Raduno = new GroupBox();
+            groupBox9 = new GroupBox();
+            label20 = new Label();
+            doubleBufferedPanel1 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            btn_V_Spedizione = new Button();
+            btn_I_Spedizione = new Button();
+            btn_III_Spedizione = new Button();
+            btn_IV_Spedizione = new Button();
+            btn_II_Spedizione = new Button();
+            groupBox_Esercito = new GroupBox();
+            lbl_Esercito = new Label();
+            panel_Sfondo_Bottoni = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            btn_V_Esercito = new Button();
+            btn_I_Esercito = new Button();
+            btn_III_Esercito = new Button();
+            btn_IV_Esercito = new Button();
+            btn_II_Esercito = new Button();
             ((System.ComponentModel.ISupportInitialize)trackBar_Guerriero).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trackBar_Lanciere).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trackBar_Arciere).BeginInit();
@@ -155,8 +171,6 @@
             panel41.SuspendLayout();
             panel39.SuspendLayout();
             panel37.SuspendLayout();
-            groupBox3.SuspendLayout();
-            groupBox1.SuspendLayout();
             panel1.SuspendLayout();
             panel3.SuspendLayout();
             panel5.SuspendLayout();
@@ -179,6 +193,11 @@
             panel27.SuspendLayout();
             panel29.SuspendLayout();
             panel31.SuspendLayout();
+            groupBox_Raduno.SuspendLayout();
+            groupBox9.SuspendLayout();
+            doubleBufferedPanel1.SuspendLayout();
+            groupBox_Esercito.SuspendLayout();
+            panel_Sfondo_Bottoni.SuspendLayout();
             SuspendLayout();
             // 
             // comboBox_Raduni_Creati
@@ -189,7 +208,7 @@
             comboBox_Raduni_Creati.ForeColor = Color.FromArgb(32, 36, 47);
             comboBox_Raduni_Creati.FormattingEnabled = true;
             comboBox_Raduni_Creati.Items.AddRange(new object[] { "ciao", "ciao" });
-            comboBox_Raduni_Creati.Location = new Point(522, 241);
+            comboBox_Raduni_Creati.Location = new Point(90, 245);
             comboBox_Raduni_Creati.Margin = new Padding(4, 3, 4, 3);
             comboBox_Raduni_Creati.Name = "comboBox_Raduni_Creati";
             comboBox_Raduni_Creati.Size = new Size(139, 21);
@@ -199,10 +218,10 @@
             // 
             btn_Crea.BackColor = Color.FromArgb(32, 36, 47);
             btn_Crea.ForeColor = SystemColors.Control;
-            btn_Crea.Location = new Point(433, 283);
+            btn_Crea.Location = new Point(11, 287);
             btn_Crea.Margin = new Padding(4, 3, 4, 3);
             btn_Crea.Name = "btn_Crea";
-            btn_Crea.Size = new Size(106, 43);
+            btn_Crea.Size = new Size(91, 37);
             btn_Crea.TabIndex = 122;
             btn_Crea.Text = "Crea";
             btn_Crea.UseVisualStyleBackColor = false;
@@ -212,10 +231,10 @@
             // 
             btn_Partecipa.BackColor = Color.FromArgb(32, 36, 47);
             btn_Partecipa.ForeColor = Color.CornflowerBlue;
-            btn_Partecipa.Location = new Point(546, 283);
+            btn_Partecipa.Location = new Point(110, 287);
             btn_Partecipa.Margin = new Padding(4, 3, 4, 3);
             btn_Partecipa.Name = "btn_Partecipa";
-            btn_Partecipa.Size = new Size(106, 43);
+            btn_Partecipa.Size = new Size(91, 37);
             btn_Partecipa.TabIndex = 123;
             btn_Partecipa.Text = "Partecipa";
             btn_Partecipa.UseVisualStyleBackColor = false;
@@ -225,10 +244,10 @@
             // 
             btn_Abbandona.BackColor = Color.FromArgb(32, 36, 47);
             btn_Abbandona.ForeColor = Color.Red;
-            btn_Abbandona.Location = new Point(818, 271);
+            btn_Abbandona.Location = new Point(485, 242);
             btn_Abbandona.Margin = new Padding(4, 3, 4, 3);
             btn_Abbandona.Name = "btn_Abbandona";
-            btn_Abbandona.Size = new Size(106, 43);
+            btn_Abbandona.Size = new Size(91, 37);
             btn_Abbandona.TabIndex = 124;
             btn_Abbandona.Text = "Abbandona";
             btn_Abbandona.UseVisualStyleBackColor = false;
@@ -238,10 +257,10 @@
             // 
             btn_Inizia.BackColor = Color.FromArgb(32, 36, 47);
             btn_Inizia.ForeColor = Color.ForestGreen;
-            btn_Inizia.Location = new Point(659, 283);
+            btn_Inizia.Location = new Point(209, 287);
             btn_Inizia.Margin = new Padding(4, 3, 4, 3);
             btn_Inizia.Name = "btn_Inizia";
-            btn_Inizia.Size = new Size(106, 43);
+            btn_Inizia.Size = new Size(92, 37);
             btn_Inizia.TabIndex = 125;
             btn_Inizia.Text = "Avvia Attacco";
             btn_Inizia.UseVisualStyleBackColor = false;
@@ -249,7 +268,7 @@
             // 
             // trackBar_Guerriero
             // 
-            trackBar_Guerriero.Location = new Point(5, 239);
+            trackBar_Guerriero.Location = new Point(159, 35);
             trackBar_Guerriero.Margin = new Padding(4, 3, 4, 3);
             trackBar_Guerriero.Name = "trackBar_Guerriero";
             trackBar_Guerriero.Size = new Size(270, 45);
@@ -258,7 +277,7 @@
             // 
             // trackBar_Lanciere
             // 
-            trackBar_Lanciere.Location = new Point(5, 282);
+            trackBar_Lanciere.Location = new Point(159, 78);
             trackBar_Lanciere.Margin = new Padding(4, 3, 4, 3);
             trackBar_Lanciere.Name = "trackBar_Lanciere";
             trackBar_Lanciere.Size = new Size(270, 45);
@@ -267,7 +286,7 @@
             // 
             // trackBar_Arciere
             // 
-            trackBar_Arciere.Location = new Point(5, 325);
+            trackBar_Arciere.Location = new Point(159, 121);
             trackBar_Arciere.Margin = new Padding(4, 3, 4, 3);
             trackBar_Arciere.Name = "trackBar_Arciere";
             trackBar_Arciere.Size = new Size(270, 45);
@@ -276,7 +295,7 @@
             // 
             // trackBar_Catapulta
             // 
-            trackBar_Catapulta.Location = new Point(5, 368);
+            trackBar_Catapulta.Location = new Point(159, 164);
             trackBar_Catapulta.Margin = new Padding(4, 3, 4, 3);
             trackBar_Catapulta.Name = "trackBar_Catapulta";
             trackBar_Catapulta.Size = new Size(270, 45);
@@ -289,7 +308,7 @@
             panel43.Controls.Add(label86);
             panel43.Controls.Add(panel_Guerriero);
             panel43.Controls.Add(txt_Guerriero_Esercito);
-            panel43.Location = new Point(4, 15);
+            panel43.Location = new Point(10, 52);
             panel43.Margin = new Padding(4, 3, 4, 3);
             panel43.Name = "panel43";
             panel43.Size = new Size(133, 42);
@@ -340,7 +359,7 @@
             panel41.Controls.Add(label81);
             panel41.Controls.Add(panel_Lanciere);
             panel41.Controls.Add(txt_Lanciere_Esercito);
-            panel41.Location = new Point(4, 56);
+            panel41.Location = new Point(10, 93);
             panel41.Margin = new Padding(4, 3, 4, 3);
             panel41.Name = "panel41";
             panel41.Size = new Size(133, 42);
@@ -391,7 +410,7 @@
             panel39.Controls.Add(label76);
             panel39.Controls.Add(panel_Arciere);
             panel39.Controls.Add(txt_Arciere_Esercito);
-            panel39.Location = new Point(4, 97);
+            panel39.Location = new Point(10, 134);
             panel39.Margin = new Padding(4, 3, 4, 3);
             panel39.Name = "panel39";
             panel39.Size = new Size(133, 42);
@@ -405,9 +424,9 @@
             label76.Location = new Point(48, 1);
             label76.Margin = new Padding(4, 0, 4, 0);
             label76.Name = "label76";
-            label76.Size = new Size(44, 15);
+            label76.Size = new Size(41, 15);
             label76.TabIndex = 3;
-            label76.Text = "Arciere";
+            label76.Text = "Arcere";
             // 
             // panel_Arciere
             // 
@@ -442,7 +461,7 @@
             panel37.Controls.Add(label71);
             panel37.Controls.Add(panel_Catapulta);
             panel37.Controls.Add(txt_Catapulta_Esercito);
-            panel37.Location = new Point(4, 138);
+            panel37.Location = new Point(10, 175);
             panel37.Margin = new Padding(4, 3, 4, 3);
             panel37.Name = "panel37";
             panel37.Size = new Size(133, 42);
@@ -487,47 +506,13 @@
             txt_Catapulta_Esercito.Text = "0";
             txt_Catapulta_Esercito.TextAlign = HorizontalAlignment.Center;
             // 
-            // groupBox3
-            // 
-            groupBox3.BackColor = Color.FromArgb(32, 36, 47);
-            groupBox3.Controls.Add(panel37);
-            groupBox3.Controls.Add(panel39);
-            groupBox3.Controls.Add(panel41);
-            groupBox3.Controls.Add(panel43);
-            groupBox3.ForeColor = Color.White;
-            groupBox3.Location = new Point(5, 4);
-            groupBox3.Margin = new Padding(4, 3, 4, 3);
-            groupBox3.Name = "groupBox3";
-            groupBox3.Padding = new Padding(4, 3, 4, 3);
-            groupBox3.Size = new Size(144, 186);
-            groupBox3.TabIndex = 127;
-            groupBox3.TabStop = false;
-            groupBox3.Text = "Esercito Villaggio";
-            // 
-            // groupBox1
-            // 
-            groupBox1.BackColor = Color.FromArgb(32, 36, 47);
-            groupBox1.Controls.Add(panel1);
-            groupBox1.Controls.Add(panel3);
-            groupBox1.Controls.Add(panel5);
-            groupBox1.Controls.Add(panel7);
-            groupBox1.ForeColor = Color.White;
-            groupBox1.Location = new Point(282, 229);
-            groupBox1.Margin = new Padding(4, 3, 4, 3);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Padding = new Padding(4, 3, 4, 3);
-            groupBox1.Size = new Size(144, 186);
-            groupBox1.TabIndex = 132;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "Spedizione";
-            // 
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(32, 36, 47);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(panel2);
             panel1.Controls.Add(txt_Catapulta_Spedizione);
-            panel1.Location = new Point(4, 137);
+            panel1.Location = new Point(10, 174);
             panel1.Margin = new Padding(4, 3, 4, 3);
             panel1.Name = "panel1";
             panel1.Size = new Size(133, 43);
@@ -578,7 +563,7 @@
             panel3.Controls.Add(label2);
             panel3.Controls.Add(panel4);
             panel3.Controls.Add(txt_Arciere_Spedizione);
-            panel3.Location = new Point(4, 96);
+            panel3.Location = new Point(10, 133);
             panel3.Margin = new Padding(4, 3, 4, 3);
             panel3.Name = "panel3";
             panel3.Size = new Size(133, 42);
@@ -592,9 +577,9 @@
             label2.Location = new Point(48, 1);
             label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
-            label2.Size = new Size(44, 15);
+            label2.Size = new Size(41, 15);
             label2.TabIndex = 3;
-            label2.Text = "Arciere";
+            label2.Text = "Arcere";
             // 
             // panel4
             // 
@@ -629,7 +614,7 @@
             panel5.Controls.Add(label3);
             panel5.Controls.Add(panel6);
             panel5.Controls.Add(txt_Lanciere_Spedizione);
-            panel5.Location = new Point(4, 55);
+            panel5.Location = new Point(10, 92);
             panel5.Margin = new Padding(4, 3, 4, 3);
             panel5.Name = "panel5";
             panel5.Size = new Size(133, 42);
@@ -680,7 +665,7 @@
             panel7.Controls.Add(label4);
             panel7.Controls.Add(panel8);
             panel7.Controls.Add(txt_Guerriero_Spedizione);
-            panel7.Location = new Point(4, 15);
+            panel7.Location = new Point(10, 52);
             panel7.Margin = new Padding(4, 3, 4, 3);
             panel7.Name = "panel7";
             panel7.Size = new Size(133, 41);
@@ -729,7 +714,7 @@
             // 
             label5.AutoSize = true;
             label5.ForeColor = SystemColors.ControlLight;
-            label5.Location = new Point(435, 244);
+            label5.Location = new Point(9, 248);
             label5.Margin = new Padding(4, 0, 4, 0);
             label5.Name = "label5";
             label5.Size = new Size(79, 15);
@@ -740,7 +725,7 @@
             // 
             label6.AutoSize = true;
             label6.ForeColor = SystemColors.ControlLight;
-            label6.Location = new Point(675, 244);
+            label6.Location = new Point(237, 247);
             label6.Margin = new Padding(4, 0, 4, 0);
             label6.Name = "label6";
             label6.Size = new Size(83, 15);
@@ -755,7 +740,7 @@
             comboBox_Raduni_InCorso.ForeColor = Color.FromArgb(32, 36, 47);
             comboBox_Raduni_InCorso.FormattingEnabled = true;
             comboBox_Raduni_InCorso.Items.AddRange(new object[] { "ciao", "ciao" });
-            comboBox_Raduni_InCorso.Location = new Point(766, 241);
+            comboBox_Raduni_InCorso.Location = new Point(328, 246);
             comboBox_Raduni_InCorso.Margin = new Padding(4, 3, 4, 3);
             comboBox_Raduni_InCorso.Name = "comboBox_Raduni_InCorso";
             comboBox_Raduni_InCorso.Size = new Size(139, 21);
@@ -766,10 +751,10 @@
             // 
             button1.BackColor = Color.FromArgb(32, 36, 47);
             button1.ForeColor = SystemColors.Control;
-            button1.Location = new Point(818, 320);
+            button1.Location = new Point(485, 291);
             button1.Margin = new Padding(4, 3, 4, 3);
             button1.Name = "button1";
-            button1.Size = new Size(106, 43);
+            button1.Size = new Size(91, 37);
             button1.TabIndex = 136;
             button1.Text = "Spedizioni";
             button1.UseVisualStyleBackColor = false;
@@ -778,13 +763,13 @@
             // button2
             // 
             button2.BackColor = Color.FromArgb(32, 36, 47);
-            button2.ForeColor = SystemColors.Control;
-            button2.Location = new Point(546, 333);
+            button2.ForeColor = Color.DarkOrange;
+            button2.Location = new Point(309, 287);
             button2.Margin = new Padding(4, 3, 4, 3);
             button2.Name = "button2";
-            button2.Size = new Size(106, 43);
+            button2.Size = new Size(91, 37);
             button2.TabIndex = 137;
-            button2.Text = "Load_Guid";
+            button2.Text = "Update GUI";
             button2.UseVisualStyleBackColor = false;
             button2.Click += button2_Click;
             // 
@@ -793,7 +778,7 @@
             lbl_Guerriero.AutoSize = true;
             lbl_Guerriero.Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Guerriero.ForeColor = SystemColors.ControlLight;
-            lbl_Guerriero.Location = new Point(12, 268);
+            lbl_Guerriero.Location = new Point(166, 66);
             lbl_Guerriero.Margin = new Padding(4, 0, 4, 0);
             lbl_Guerriero.Name = "lbl_Guerriero";
             lbl_Guerriero.Size = new Size(14, 13);
@@ -805,7 +790,7 @@
             lbl_Lanciere.AutoSize = true;
             lbl_Lanciere.Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Lanciere.ForeColor = SystemColors.ControlLight;
-            lbl_Lanciere.Location = new Point(12, 311);
+            lbl_Lanciere.Location = new Point(166, 109);
             lbl_Lanciere.Margin = new Padding(4, 0, 4, 0);
             lbl_Lanciere.Name = "lbl_Lanciere";
             lbl_Lanciere.Size = new Size(14, 13);
@@ -817,7 +802,7 @@
             lbl_Arciere.AutoSize = true;
             lbl_Arciere.Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Arciere.ForeColor = SystemColors.ControlLight;
-            lbl_Arciere.Location = new Point(12, 354);
+            lbl_Arciere.Location = new Point(166, 152);
             lbl_Arciere.Margin = new Padding(4, 0, 4, 0);
             lbl_Arciere.Name = "lbl_Arciere";
             lbl_Arciere.Size = new Size(14, 13);
@@ -829,7 +814,7 @@
             lbl_Catapulta.AutoSize = true;
             lbl_Catapulta.Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Catapulta.ForeColor = SystemColors.ControlLight;
-            lbl_Catapulta.Location = new Point(12, 397);
+            lbl_Catapulta.Location = new Point(166, 195);
             lbl_Catapulta.Margin = new Padding(4, 0, 4, 0);
             lbl_Catapulta.Name = "lbl_Catapulta";
             lbl_Catapulta.Size = new Size(14, 13);
@@ -924,9 +909,9 @@
             label8.Location = new Point(48, 3);
             label8.Margin = new Padding(4, 0, 4, 0);
             label8.Name = "label8";
-            label8.Size = new Size(44, 15);
+            label8.Size = new Size(41, 15);
             label8.TabIndex = 3;
-            label8.Text = "Arciere";
+            label8.Text = "Arcere";
             // 
             // panel12
             // 
@@ -1060,13 +1045,14 @@
             // groupBox4
             // 
             groupBox4.BackColor = Color.FromArgb(32, 36, 47);
-            groupBox4.Controls.Add(textBox5);
-            groupBox4.Controls.Add(btn_Attacco_PVE_Città_B);
+            groupBox4.Controls.Add(btn_Esercito_Caserme);
+            groupBox4.Controls.Add(txt_Villaggio_B_Desc);
+            groupBox4.Controls.Add(btn_Attacco_PVE_Villaggio_B);
             groupBox4.Controls.Add(btn_Esplora_PVE_Villaggio_B);
             groupBox4.Controls.Add(comboBox_Villaggi);
             groupBox4.Controls.Add(groupBox2);
             groupBox4.ForeColor = Color.White;
-            groupBox4.Location = new Point(157, 4);
+            groupBox4.Location = new Point(5, 4);
             groupBox4.Margin = new Padding(4, 3, 4, 3);
             groupBox4.Name = "groupBox4";
             groupBox4.Padding = new Padding(4, 3, 4, 3);
@@ -1075,38 +1061,53 @@
             groupBox4.TabStop = false;
             groupBox4.Text = "Villaggi Barbari";
             // 
-            // textBox5
+            // btn_Esercito_Caserme
             // 
-            textBox5.BackColor = Color.FromArgb(32, 36, 47);
-            textBox5.Font = new Font("Microsoft Sans Serif", 9.25F);
-            textBox5.ForeColor = SystemColors.Control;
-            textBox5.Location = new Point(8, 50);
-            textBox5.Margin = new Padding(4, 3, 4, 3);
-            textBox5.Multiline = true;
-            textBox5.Name = "textBox5";
-            textBox5.ReadOnly = true;
-            textBox5.Size = new Size(206, 75);
-            textBox5.TabIndex = 147;
-            textBox5.Text = "Esplora il barbaro per vedere in dettaglio le sue truppe";
-            textBox5.TextAlign = HorizontalAlignment.Center;
+            btn_Esercito_Caserme.BackgroundImage = Properties.Resources.exchange_Edit_removebg_preview;
+            btn_Esercito_Caserme.BackgroundImageLayout = ImageLayout.Stretch;
+            btn_Esercito_Caserme.FlatAppearance.BorderSize = 0;
+            btn_Esercito_Caserme.FlatStyle = FlatStyle.Flat;
+            btn_Esercito_Caserme.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_Esercito_Caserme.Location = new Point(197, 0);
+            btn_Esercito_Caserme.Name = "btn_Esercito_Caserme";
+            btn_Esercito_Caserme.Size = new Size(23, 22);
+            btn_Esercito_Caserme.TabIndex = 38;
+            btn_Esercito_Caserme.UseVisualStyleBackColor = true;
             // 
-            // btn_Attacco_PVE_Città_B
+            // txt_Villaggio_B_Desc
             // 
-            btn_Attacco_PVE_Città_B.BackColor = Color.FromArgb(32, 36, 47);
-            btn_Attacco_PVE_Città_B.ForeColor = SystemColors.Control;
-            btn_Attacco_PVE_Città_B.Location = new Point(117, 162);
-            btn_Attacco_PVE_Città_B.Margin = new Padding(4, 3, 4, 3);
-            btn_Attacco_PVE_Città_B.Name = "btn_Attacco_PVE_Città_B";
-            btn_Attacco_PVE_Città_B.Size = new Size(99, 34);
-            btn_Attacco_PVE_Città_B.TabIndex = 146;
-            btn_Attacco_PVE_Città_B.Text = "Attacca";
-            btn_Attacco_PVE_Città_B.UseVisualStyleBackColor = false;
+            txt_Villaggio_B_Desc.BackColor = Color.FromArgb(32, 36, 47);
+            txt_Villaggio_B_Desc.Font = new Font("Microsoft Sans Serif", 8F);
+            txt_Villaggio_B_Desc.ForeColor = SystemColors.Control;
+            txt_Villaggio_B_Desc.Location = new Point(8, 50);
+            txt_Villaggio_B_Desc.Margin = new Padding(4, 3, 4, 3);
+            txt_Villaggio_B_Desc.Multiline = true;
+            txt_Villaggio_B_Desc.Name = "txt_Villaggio_B_Desc";
+            txt_Villaggio_B_Desc.ReadOnly = true;
+            txt_Villaggio_B_Desc.Size = new Size(211, 106);
+            txt_Villaggio_B_Desc.TabIndex = 147;
+            txt_Villaggio_B_Desc.TextAlign = HorizontalAlignment.Center;
+            // 
+            // btn_Attacco_PVE_Villaggio_B
+            // 
+            btn_Attacco_PVE_Villaggio_B.BackColor = Color.FromArgb(32, 36, 47);
+            btn_Attacco_PVE_Villaggio_B.Enabled = false;
+            btn_Attacco_PVE_Villaggio_B.ForeColor = SystemColors.Control;
+            btn_Attacco_PVE_Villaggio_B.Location = new Point(120, 162);
+            btn_Attacco_PVE_Villaggio_B.Margin = new Padding(4, 3, 4, 3);
+            btn_Attacco_PVE_Villaggio_B.Name = "btn_Attacco_PVE_Villaggio_B";
+            btn_Attacco_PVE_Villaggio_B.Size = new Size(99, 34);
+            btn_Attacco_PVE_Villaggio_B.TabIndex = 146;
+            btn_Attacco_PVE_Villaggio_B.Text = "Attacca";
+            btn_Attacco_PVE_Villaggio_B.UseVisualStyleBackColor = false;
+            btn_Attacco_PVE_Villaggio_B.Click += btn_Attacco_PVE_Villaggio_B_Click;
             // 
             // btn_Esplora_PVE_Villaggio_B
             // 
             btn_Esplora_PVE_Villaggio_B.BackColor = Color.FromArgb(32, 36, 47);
+            btn_Esplora_PVE_Villaggio_B.Enabled = false;
             btn_Esplora_PVE_Villaggio_B.ForeColor = SystemColors.Control;
-            btn_Esplora_PVE_Villaggio_B.Location = new Point(10, 162);
+            btn_Esplora_PVE_Villaggio_B.Location = new Point(8, 162);
             btn_Esplora_PVE_Villaggio_B.Margin = new Padding(4, 3, 4, 3);
             btn_Esplora_PVE_Villaggio_B.Name = "btn_Esplora_PVE_Villaggio_B";
             btn_Esplora_PVE_Villaggio_B.Size = new Size(99, 34);
@@ -1133,61 +1134,63 @@
             // groupBox5
             // 
             groupBox5.BackColor = Color.FromArgb(32, 36, 47);
-            groupBox5.Controls.Add(textBox6);
-            groupBox5.Controls.Add(btn_Raid_PVE_Città_B);
+            groupBox5.Controls.Add(txt_Città_B_Desc);
+            groupBox5.Controls.Add(btn_Attacco_PVE_Città_B);
             groupBox5.Controls.Add(btn_Esplora_PVE_Città_B);
             groupBox5.Controls.Add(comboBox_Città);
             groupBox5.Controls.Add(groupBox6);
             groupBox5.ForeColor = Color.White;
-            groupBox5.Location = new Point(540, 4);
+            groupBox5.Location = new Point(770, 4);
             groupBox5.Margin = new Padding(4, 3, 4, 3);
             groupBox5.Name = "groupBox5";
             groupBox5.Padding = new Padding(4, 3, 4, 3);
             groupBox5.Size = new Size(384, 209);
             groupBox5.TabIndex = 144;
             groupBox5.TabStop = false;
-            groupBox5.Text = "Città Barbare";
+            groupBox5.Text = "Citta Barbara";
             // 
-            // textBox6
+            // txt_Città_B_Desc
             // 
-            textBox6.BackColor = Color.FromArgb(32, 36, 47);
-            textBox6.Font = new Font("Microsoft Sans Serif", 9.25F);
-            textBox6.ForeColor = SystemColors.Control;
-            textBox6.Location = new Point(8, 50);
-            textBox6.Margin = new Padding(4, 3, 4, 3);
-            textBox6.Multiline = true;
-            textBox6.Name = "textBox6";
-            textBox6.ReadOnly = true;
-            textBox6.Size = new Size(206, 75);
-            textBox6.TabIndex = 147;
-            textBox6.Text = "Raggiungi il livello 5.\r\nEsplora il barbaro per vedere in dettaglio le sue truppe";
-            textBox6.TextAlign = HorizontalAlignment.Center;
+            txt_Città_B_Desc.BackColor = Color.FromArgb(32, 36, 47);
+            txt_Città_B_Desc.Font = new Font("Microsoft Sans Serif", 8F);
+            txt_Città_B_Desc.ForeColor = SystemColors.Control;
+            txt_Città_B_Desc.Location = new Point(8, 50);
+            txt_Città_B_Desc.Margin = new Padding(4, 3, 4, 3);
+            txt_Città_B_Desc.Multiline = true;
+            txt_Città_B_Desc.Name = "txt_Città_B_Desc";
+            txt_Città_B_Desc.ReadOnly = true;
+            txt_Città_B_Desc.Size = new Size(211, 106);
+            txt_Città_B_Desc.TabIndex = 147;
+            txt_Città_B_Desc.Text = "Raggiungi il livello 5.\r\nEsplora il barbaro per vedere in dettaglio le sue truppe";
+            txt_Città_B_Desc.TextAlign = HorizontalAlignment.Center;
             // 
-            // btn_Raid_PVE_Città_B
+            // btn_Attacco_PVE_Città_B
             // 
-            btn_Raid_PVE_Città_B.BackColor = Color.FromArgb(32, 36, 47);
-            btn_Raid_PVE_Città_B.Enabled = false;
-            btn_Raid_PVE_Città_B.ForeColor = SystemColors.Control;
-            btn_Raid_PVE_Città_B.Location = new Point(117, 162);
-            btn_Raid_PVE_Città_B.Margin = new Padding(4, 3, 4, 3);
-            btn_Raid_PVE_Città_B.Name = "btn_Raid_PVE_Città_B";
-            btn_Raid_PVE_Città_B.Size = new Size(99, 34);
-            btn_Raid_PVE_Città_B.TabIndex = 146;
-            btn_Raid_PVE_Città_B.Text = "Raid";
-            btn_Raid_PVE_Città_B.UseVisualStyleBackColor = false;
+            btn_Attacco_PVE_Città_B.BackColor = Color.FromArgb(32, 36, 47);
+            btn_Attacco_PVE_Città_B.Enabled = false;
+            btn_Attacco_PVE_Città_B.ForeColor = SystemColors.Control;
+            btn_Attacco_PVE_Città_B.Location = new Point(120, 162);
+            btn_Attacco_PVE_Città_B.Margin = new Padding(4, 3, 4, 3);
+            btn_Attacco_PVE_Città_B.Name = "btn_Attacco_PVE_Città_B";
+            btn_Attacco_PVE_Città_B.Size = new Size(99, 34);
+            btn_Attacco_PVE_Città_B.TabIndex = 146;
+            btn_Attacco_PVE_Città_B.Text = "Raid";
+            btn_Attacco_PVE_Città_B.UseVisualStyleBackColor = false;
+            btn_Attacco_PVE_Città_B.Click += btn_Attacco_PVE_Città_B_Click;
             // 
             // btn_Esplora_PVE_Città_B
             // 
             btn_Esplora_PVE_Città_B.BackColor = Color.FromArgb(32, 36, 47);
             btn_Esplora_PVE_Città_B.Enabled = false;
             btn_Esplora_PVE_Città_B.ForeColor = SystemColors.Control;
-            btn_Esplora_PVE_Città_B.Location = new Point(10, 162);
+            btn_Esplora_PVE_Città_B.Location = new Point(8, 162);
             btn_Esplora_PVE_Città_B.Margin = new Padding(4, 3, 4, 3);
             btn_Esplora_PVE_Città_B.Name = "btn_Esplora_PVE_Città_B";
             btn_Esplora_PVE_Città_B.Size = new Size(99, 34);
             btn_Esplora_PVE_Città_B.TabIndex = 145;
             btn_Esplora_PVE_Città_B.Text = "Esplora";
             btn_Esplora_PVE_Città_B.UseVisualStyleBackColor = false;
+            btn_Esplora_PVE_Città_B.Click += btn_Esplora_PVE_Città_B_Click;
             // 
             // comboBox_Città
             // 
@@ -1202,6 +1205,7 @@
             comboBox_Città.Name = "comboBox_Città";
             comboBox_Città.Size = new Size(211, 21);
             comboBox_Città.TabIndex = 144;
+            comboBox_Città.TextChanged += comboBox_Città_TextChanged;
             // 
             // groupBox6
             // 
@@ -1225,7 +1229,7 @@
             panel17.BackColor = Color.FromArgb(32, 36, 47);
             panel17.Controls.Add(label11);
             panel17.Controls.Add(panel18);
-            panel17.Controls.Add(textBox7);
+            panel17.Controls.Add(txt_Catapulta_Città);
             panel17.Location = new Point(4, 137);
             panel17.Margin = new Padding(4, 3, 4, 3);
             panel17.Name = "panel17";
@@ -1257,26 +1261,26 @@
             panel18.Size = new Size(37, 35);
             panel18.TabIndex = 24;
             // 
-            // textBox7
+            // txt_Catapulta_Città
             // 
-            textBox7.BackColor = Color.FromArgb(32, 36, 47);
-            textBox7.Font = new Font("Microsoft Sans Serif", 9.25F);
-            textBox7.ForeColor = SystemColors.Control;
-            textBox7.Location = new Point(48, 19);
-            textBox7.Margin = new Padding(4, 3, 4, 3);
-            textBox7.Name = "textBox7";
-            textBox7.ReadOnly = true;
-            textBox7.Size = new Size(78, 21);
-            textBox7.TabIndex = 25;
-            textBox7.Text = "????";
-            textBox7.TextAlign = HorizontalAlignment.Center;
+            txt_Catapulta_Città.BackColor = Color.FromArgb(32, 36, 47);
+            txt_Catapulta_Città.Font = new Font("Microsoft Sans Serif", 9.25F);
+            txt_Catapulta_Città.ForeColor = SystemColors.Control;
+            txt_Catapulta_Città.Location = new Point(48, 19);
+            txt_Catapulta_Città.Margin = new Padding(4, 3, 4, 3);
+            txt_Catapulta_Città.Name = "txt_Catapulta_Città";
+            txt_Catapulta_Città.ReadOnly = true;
+            txt_Catapulta_Città.Size = new Size(78, 21);
+            txt_Catapulta_Città.TabIndex = 25;
+            txt_Catapulta_Città.Text = "????";
+            txt_Catapulta_Città.TextAlign = HorizontalAlignment.Center;
             // 
             // panel19
             // 
             panel19.BackColor = Color.FromArgb(32, 36, 47);
             panel19.Controls.Add(label12);
             panel19.Controls.Add(panel20);
-            panel19.Controls.Add(textBox8);
+            panel19.Controls.Add(txt_Arcere_Città);
             panel19.Location = new Point(4, 96);
             panel19.Margin = new Padding(4, 3, 4, 3);
             panel19.Name = "panel19";
@@ -1291,9 +1295,9 @@
             label12.Location = new Point(48, 3);
             label12.Margin = new Padding(4, 0, 4, 0);
             label12.Name = "label12";
-            label12.Size = new Size(44, 15);
+            label12.Size = new Size(41, 15);
             label12.TabIndex = 3;
-            label12.Text = "Arciere";
+            label12.Text = "Arcere";
             // 
             // panel20
             // 
@@ -1308,26 +1312,26 @@
             panel20.Size = new Size(37, 35);
             panel20.TabIndex = 24;
             // 
-            // textBox8
+            // txt_Arcere_Città
             // 
-            textBox8.BackColor = Color.FromArgb(32, 36, 47);
-            textBox8.Font = new Font("Microsoft Sans Serif", 9.25F);
-            textBox8.ForeColor = SystemColors.Control;
-            textBox8.Location = new Point(48, 18);
-            textBox8.Margin = new Padding(4, 3, 4, 3);
-            textBox8.Name = "textBox8";
-            textBox8.ReadOnly = true;
-            textBox8.Size = new Size(78, 21);
-            textBox8.TabIndex = 25;
-            textBox8.Text = "????";
-            textBox8.TextAlign = HorizontalAlignment.Center;
+            txt_Arcere_Città.BackColor = Color.FromArgb(32, 36, 47);
+            txt_Arcere_Città.Font = new Font("Microsoft Sans Serif", 9.25F);
+            txt_Arcere_Città.ForeColor = SystemColors.Control;
+            txt_Arcere_Città.Location = new Point(48, 18);
+            txt_Arcere_Città.Margin = new Padding(4, 3, 4, 3);
+            txt_Arcere_Città.Name = "txt_Arcere_Città";
+            txt_Arcere_Città.ReadOnly = true;
+            txt_Arcere_Città.Size = new Size(78, 21);
+            txt_Arcere_Città.TabIndex = 25;
+            txt_Arcere_Città.Text = "????";
+            txt_Arcere_Città.TextAlign = HorizontalAlignment.Center;
             // 
             // panel21
             // 
             panel21.BackColor = Color.FromArgb(32, 36, 47);
             panel21.Controls.Add(label13);
             panel21.Controls.Add(panel22);
-            panel21.Controls.Add(textBox9);
+            panel21.Controls.Add(txt_Lancere_Città);
             panel21.Location = new Point(4, 55);
             panel21.Margin = new Padding(4, 3, 4, 3);
             panel21.Name = "panel21";
@@ -1359,19 +1363,19 @@
             panel22.Size = new Size(37, 35);
             panel22.TabIndex = 24;
             // 
-            // textBox9
+            // txt_Lancere_Città
             // 
-            textBox9.BackColor = Color.FromArgb(32, 36, 47);
-            textBox9.Font = new Font("Microsoft Sans Serif", 9.25F);
-            textBox9.ForeColor = SystemColors.Control;
-            textBox9.Location = new Point(48, 18);
-            textBox9.Margin = new Padding(4, 3, 4, 3);
-            textBox9.Name = "textBox9";
-            textBox9.ReadOnly = true;
-            textBox9.Size = new Size(78, 21);
-            textBox9.TabIndex = 25;
-            textBox9.Text = "????";
-            textBox9.TextAlign = HorizontalAlignment.Center;
+            txt_Lancere_Città.BackColor = Color.FromArgb(32, 36, 47);
+            txt_Lancere_Città.Font = new Font("Microsoft Sans Serif", 9.25F);
+            txt_Lancere_Città.ForeColor = SystemColors.Control;
+            txt_Lancere_Città.Location = new Point(48, 18);
+            txt_Lancere_Città.Margin = new Padding(4, 3, 4, 3);
+            txt_Lancere_Città.Name = "txt_Lancere_Città";
+            txt_Lancere_Città.ReadOnly = true;
+            txt_Lancere_Città.Size = new Size(78, 21);
+            txt_Lancere_Città.TabIndex = 25;
+            txt_Lancere_Città.Text = "????";
+            txt_Lancere_Città.TextAlign = HorizontalAlignment.Center;
             // 
             // panel23
             // 
@@ -1434,7 +1438,7 @@
             groupBox7.Controls.Add(comboBox_PVP);
             groupBox7.Controls.Add(groupBox8);
             groupBox7.ForeColor = Color.White;
-            groupBox7.Location = new Point(451, 384);
+            groupBox7.Location = new Point(388, 4);
             groupBox7.Margin = new Padding(4, 3, 4, 3);
             groupBox7.Name = "groupBox7";
             groupBox7.Padding = new Padding(4, 3, 4, 3);
@@ -1457,7 +1461,7 @@
             // textBox11
             // 
             textBox11.BackColor = Color.FromArgb(32, 36, 47);
-            textBox11.Font = new Font("Microsoft Sans Serif", 9.25F);
+            textBox11.Font = new Font("Microsoft Sans Serif", 8F);
             textBox11.ForeColor = SystemColors.Control;
             textBox11.Location = new Point(8, 71);
             textBox11.Margin = new Padding(4, 3, 4, 3);
@@ -1472,6 +1476,7 @@
             // btn_Attacco_PVP
             // 
             btn_Attacco_PVP.BackColor = Color.FromArgb(32, 36, 47);
+            btn_Attacco_PVP.Enabled = false;
             btn_Attacco_PVP.ForeColor = SystemColors.Control;
             btn_Attacco_PVP.Location = new Point(117, 162);
             btn_Attacco_PVP.Margin = new Padding(4, 3, 4, 3);
@@ -1485,6 +1490,7 @@
             // btn_Esplora_PVP
             // 
             btn_Esplora_PVP.BackColor = Color.FromArgb(32, 36, 47);
+            btn_Esplora_PVP.Enabled = false;
             btn_Esplora_PVP.ForeColor = SystemColors.Control;
             btn_Esplora_PVP.Location = new Point(10, 162);
             btn_Esplora_PVP.Margin = new Padding(4, 3, 4, 3);
@@ -1595,9 +1601,9 @@
             label16.Location = new Point(48, 3);
             label16.Margin = new Padding(4, 0, 4, 0);
             label16.Name = "label16";
-            label16.Size = new Size(44, 15);
+            label16.Size = new Size(41, 15);
             label16.TabIndex = 3;
-            label16.Text = "Arciere";
+            label16.Text = "Arcere";
             // 
             // panel28
             // 
@@ -1728,35 +1734,258 @@
             txt_Guerriero_PVE.Text = "????";
             txt_Guerriero_PVE.TextAlign = HorizontalAlignment.Center;
             // 
+            // groupBox_Raduno
+            // 
+            groupBox_Raduno.BackColor = Color.FromArgb(32, 36, 47);
+            groupBox_Raduno.Controls.Add(groupBox9);
+            groupBox_Raduno.Controls.Add(groupBox_Esercito);
+            groupBox_Raduno.Controls.Add(lbl_Guerriero);
+            groupBox_Raduno.Controls.Add(btn_Crea);
+            groupBox_Raduno.Controls.Add(btn_Partecipa);
+            groupBox_Raduno.Controls.Add(btn_Abbandona);
+            groupBox_Raduno.Controls.Add(lbl_Catapulta);
+            groupBox_Raduno.Controls.Add(btn_Inizia);
+            groupBox_Raduno.Controls.Add(lbl_Arciere);
+            groupBox_Raduno.Controls.Add(trackBar_Guerriero);
+            groupBox_Raduno.Controls.Add(lbl_Lanciere);
+            groupBox_Raduno.Controls.Add(trackBar_Lanciere);
+            groupBox_Raduno.Controls.Add(trackBar_Arciere);
+            groupBox_Raduno.Controls.Add(button2);
+            groupBox_Raduno.Controls.Add(trackBar_Catapulta);
+            groupBox_Raduno.Controls.Add(button1);
+            groupBox_Raduno.Controls.Add(comboBox_Raduni_Creati);
+            groupBox_Raduno.Controls.Add(label6);
+            groupBox_Raduno.Controls.Add(label5);
+            groupBox_Raduno.Controls.Add(comboBox_Raduni_InCorso);
+            groupBox_Raduno.ForeColor = Color.White;
+            groupBox_Raduno.Location = new Point(5, 212);
+            groupBox_Raduno.Margin = new Padding(4, 3, 4, 3);
+            groupBox_Raduno.Name = "groupBox_Raduno";
+            groupBox_Raduno.Padding = new Padding(4, 3, 4, 3);
+            groupBox_Raduno.RightToLeft = RightToLeft.No;
+            groupBox_Raduno.Size = new Size(767, 336);
+            groupBox_Raduno.TabIndex = 146;
+            groupBox_Raduno.TabStop = false;
+            groupBox_Raduno.Visible = false;
+            // 
+            // groupBox9
+            // 
+            groupBox9.Controls.Add(panel1);
+            groupBox9.Controls.Add(label20);
+            groupBox9.Controls.Add(panel3);
+            groupBox9.Controls.Add(doubleBufferedPanel1);
+            groupBox9.Controls.Add(panel5);
+            groupBox9.Controls.Add(panel7);
+            groupBox9.Location = new Point(426, 10);
+            groupBox9.Name = "groupBox9";
+            groupBox9.Size = new Size(155, 222);
+            groupBox9.TabIndex = 143;
+            groupBox9.TabStop = false;
+            // 
+            // label20
+            // 
+            label20.AutoSize = true;
+            label20.Font = new Font("Segoe UI", 9F);
+            label20.ForeColor = SystemColors.Control;
+            label20.Location = new Point(7, 0);
+            label20.Name = "label20";
+            label20.Size = new Size(64, 15);
+            label20.TabIndex = 30;
+            label20.Text = "Spedizione";
+            // 
+            // doubleBufferedPanel1
+            // 
+            doubleBufferedPanel1.Controls.Add(btn_V_Spedizione);
+            doubleBufferedPanel1.Controls.Add(btn_I_Spedizione);
+            doubleBufferedPanel1.Controls.Add(btn_III_Spedizione);
+            doubleBufferedPanel1.Controls.Add(btn_IV_Spedizione);
+            doubleBufferedPanel1.Controls.Add(btn_II_Spedizione);
+            doubleBufferedPanel1.Location = new Point(3, 17);
+            doubleBufferedPanel1.Name = "doubleBufferedPanel1";
+            doubleBufferedPanel1.Size = new Size(147, 36);
+            doubleBufferedPanel1.TabIndex = 29;
+            // 
+            // btn_V_Spedizione
+            // 
+            btn_V_Spedizione.FlatAppearance.BorderSize = 0;
+            btn_V_Spedizione.FlatStyle = FlatStyle.Popup;
+            btn_V_Spedizione.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_V_Spedizione.ForeColor = SystemColors.Control;
+            btn_V_Spedizione.Location = new Point(115, 4);
+            btn_V_Spedizione.Name = "btn_V_Spedizione";
+            btn_V_Spedizione.Size = new Size(28, 28);
+            btn_V_Spedizione.TabIndex = 33;
+            btn_V_Spedizione.Text = "V";
+            btn_V_Spedizione.UseVisualStyleBackColor = true;
+            // 
+            // btn_I_Spedizione
+            // 
+            btn_I_Spedizione.BackColor = Color.DimGray;
+            btn_I_Spedizione.BackgroundImageLayout = ImageLayout.Stretch;
+            btn_I_Spedizione.FlatAppearance.BorderSize = 0;
+            btn_I_Spedizione.FlatStyle = FlatStyle.Popup;
+            btn_I_Spedizione.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_I_Spedizione.ForeColor = SystemColors.Control;
+            btn_I_Spedizione.Location = new Point(3, 4);
+            btn_I_Spedizione.Name = "btn_I_Spedizione";
+            btn_I_Spedizione.Size = new Size(28, 28);
+            btn_I_Spedizione.TabIndex = 29;
+            btn_I_Spedizione.Text = "I";
+            btn_I_Spedizione.UseVisualStyleBackColor = false;
+            // 
+            // btn_III_Spedizione
+            // 
+            btn_III_Spedizione.FlatAppearance.BorderSize = 0;
+            btn_III_Spedizione.FlatStyle = FlatStyle.Popup;
+            btn_III_Spedizione.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_III_Spedizione.ForeColor = SystemColors.Control;
+            btn_III_Spedizione.Location = new Point(59, 4);
+            btn_III_Spedizione.Name = "btn_III_Spedizione";
+            btn_III_Spedizione.Size = new Size(28, 28);
+            btn_III_Spedizione.TabIndex = 31;
+            btn_III_Spedizione.Text = "III";
+            btn_III_Spedizione.UseVisualStyleBackColor = true;
+            // 
+            // btn_IV_Spedizione
+            // 
+            btn_IV_Spedizione.FlatAppearance.BorderSize = 0;
+            btn_IV_Spedizione.FlatStyle = FlatStyle.Popup;
+            btn_IV_Spedizione.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_IV_Spedizione.ForeColor = SystemColors.Control;
+            btn_IV_Spedizione.Location = new Point(87, 4);
+            btn_IV_Spedizione.Name = "btn_IV_Spedizione";
+            btn_IV_Spedizione.Size = new Size(28, 28);
+            btn_IV_Spedizione.TabIndex = 32;
+            btn_IV_Spedizione.Text = "IV";
+            btn_IV_Spedizione.UseVisualStyleBackColor = true;
+            // 
+            // btn_II_Spedizione
+            // 
+            btn_II_Spedizione.FlatAppearance.BorderSize = 0;
+            btn_II_Spedizione.FlatStyle = FlatStyle.Popup;
+            btn_II_Spedizione.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_II_Spedizione.ForeColor = SystemColors.Control;
+            btn_II_Spedizione.Location = new Point(31, 4);
+            btn_II_Spedizione.Name = "btn_II_Spedizione";
+            btn_II_Spedizione.Size = new Size(28, 28);
+            btn_II_Spedizione.TabIndex = 30;
+            btn_II_Spedizione.Text = "II";
+            btn_II_Spedizione.UseVisualStyleBackColor = true;
+            // 
+            // groupBox_Esercito
+            // 
+            groupBox_Esercito.Controls.Add(panel37);
+            groupBox_Esercito.Controls.Add(lbl_Esercito);
+            groupBox_Esercito.Controls.Add(panel_Sfondo_Bottoni);
+            groupBox_Esercito.Controls.Add(panel43);
+            groupBox_Esercito.Controls.Add(panel39);
+            groupBox_Esercito.Controls.Add(panel41);
+            groupBox_Esercito.Location = new Point(7, 10);
+            groupBox_Esercito.Name = "groupBox_Esercito";
+            groupBox_Esercito.Size = new Size(155, 222);
+            groupBox_Esercito.TabIndex = 142;
+            groupBox_Esercito.TabStop = false;
+            // 
+            // lbl_Esercito
+            // 
+            lbl_Esercito.AutoSize = true;
+            lbl_Esercito.Font = new Font("Segoe UI", 9F);
+            lbl_Esercito.ForeColor = SystemColors.Control;
+            lbl_Esercito.Location = new Point(7, 0);
+            lbl_Esercito.Name = "lbl_Esercito";
+            lbl_Esercito.Size = new Size(97, 15);
+            lbl_Esercito.TabIndex = 30;
+            lbl_Esercito.Text = "Esercito Villaggio";
+            // 
+            // panel_Sfondo_Bottoni
+            // 
+            panel_Sfondo_Bottoni.Controls.Add(btn_V_Esercito);
+            panel_Sfondo_Bottoni.Controls.Add(btn_I_Esercito);
+            panel_Sfondo_Bottoni.Controls.Add(btn_III_Esercito);
+            panel_Sfondo_Bottoni.Controls.Add(btn_IV_Esercito);
+            panel_Sfondo_Bottoni.Controls.Add(btn_II_Esercito);
+            panel_Sfondo_Bottoni.Location = new Point(3, 17);
+            panel_Sfondo_Bottoni.Name = "panel_Sfondo_Bottoni";
+            panel_Sfondo_Bottoni.Size = new Size(147, 36);
+            panel_Sfondo_Bottoni.TabIndex = 29;
+            // 
+            // btn_V_Esercito
+            // 
+            btn_V_Esercito.FlatAppearance.BorderSize = 0;
+            btn_V_Esercito.FlatStyle = FlatStyle.Popup;
+            btn_V_Esercito.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_V_Esercito.ForeColor = SystemColors.Control;
+            btn_V_Esercito.Location = new Point(115, 4);
+            btn_V_Esercito.Name = "btn_V_Esercito";
+            btn_V_Esercito.Size = new Size(28, 28);
+            btn_V_Esercito.TabIndex = 33;
+            btn_V_Esercito.Text = "V";
+            btn_V_Esercito.UseVisualStyleBackColor = true;
+            // 
+            // btn_I_Esercito
+            // 
+            btn_I_Esercito.BackColor = Color.DimGray;
+            btn_I_Esercito.BackgroundImageLayout = ImageLayout.Stretch;
+            btn_I_Esercito.FlatAppearance.BorderSize = 0;
+            btn_I_Esercito.FlatStyle = FlatStyle.Flat;
+            btn_I_Esercito.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_I_Esercito.ForeColor = SystemColors.Control;
+            btn_I_Esercito.Location = new Point(3, 4);
+            btn_I_Esercito.Name = "btn_I_Esercito";
+            btn_I_Esercito.Size = new Size(28, 28);
+            btn_I_Esercito.TabIndex = 29;
+            btn_I_Esercito.Text = "I";
+            btn_I_Esercito.UseVisualStyleBackColor = false;
+            // 
+            // btn_III_Esercito
+            // 
+            btn_III_Esercito.FlatAppearance.BorderSize = 0;
+            btn_III_Esercito.FlatStyle = FlatStyle.Popup;
+            btn_III_Esercito.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_III_Esercito.ForeColor = SystemColors.Control;
+            btn_III_Esercito.Location = new Point(59, 4);
+            btn_III_Esercito.Name = "btn_III_Esercito";
+            btn_III_Esercito.Size = new Size(28, 28);
+            btn_III_Esercito.TabIndex = 31;
+            btn_III_Esercito.Text = "III";
+            btn_III_Esercito.UseVisualStyleBackColor = true;
+            // 
+            // btn_IV_Esercito
+            // 
+            btn_IV_Esercito.FlatAppearance.BorderSize = 0;
+            btn_IV_Esercito.FlatStyle = FlatStyle.Popup;
+            btn_IV_Esercito.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_IV_Esercito.ForeColor = SystemColors.Control;
+            btn_IV_Esercito.Location = new Point(87, 4);
+            btn_IV_Esercito.Name = "btn_IV_Esercito";
+            btn_IV_Esercito.Size = new Size(28, 28);
+            btn_IV_Esercito.TabIndex = 32;
+            btn_IV_Esercito.Text = "IV";
+            btn_IV_Esercito.UseVisualStyleBackColor = true;
+            // 
+            // btn_II_Esercito
+            // 
+            btn_II_Esercito.FlatAppearance.BorderSize = 0;
+            btn_II_Esercito.FlatStyle = FlatStyle.Popup;
+            btn_II_Esercito.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_II_Esercito.ForeColor = SystemColors.Control;
+            btn_II_Esercito.Location = new Point(31, 4);
+            btn_II_Esercito.Name = "btn_II_Esercito";
+            btn_II_Esercito.Size = new Size(28, 28);
+            btn_II_Esercito.TabIndex = 30;
+            btn_II_Esercito.Text = "II";
+            btn_II_Esercito.UseVisualStyleBackColor = true;
+            // 
             // AttaccoCoordinato
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(32, 36, 47);
-            ClientSize = new Size(930, 627);
+            ClientSize = new Size(1162, 554);
+            Controls.Add(groupBox_Raduno);
             Controls.Add(groupBox7);
             Controls.Add(groupBox5);
             Controls.Add(groupBox4);
-            Controls.Add(lbl_Catapulta);
-            Controls.Add(lbl_Arciere);
-            Controls.Add(lbl_Lanciere);
-            Controls.Add(lbl_Guerriero);
-            Controls.Add(button2);
-            Controls.Add(button1);
-            Controls.Add(label6);
-            Controls.Add(comboBox_Raduni_InCorso);
-            Controls.Add(label5);
-            Controls.Add(comboBox_Raduni_Creati);
-            Controls.Add(groupBox1);
-            Controls.Add(trackBar_Catapulta);
-            Controls.Add(trackBar_Arciere);
-            Controls.Add(trackBar_Lanciere);
-            Controls.Add(trackBar_Guerriero);
-            Controls.Add(groupBox3);
-            Controls.Add(btn_Inizia);
-            Controls.Add(btn_Abbandona);
-            Controls.Add(btn_Partecipa);
-            Controls.Add(btn_Crea);
             Margin = new Padding(4, 3, 4, 3);
             Name = "AttaccoCoordinato";
             Text = "PVE-PVP";
@@ -1773,8 +2002,6 @@
             panel39.PerformLayout();
             panel37.ResumeLayout(false);
             panel37.PerformLayout();
-            groupBox3.ResumeLayout(false);
-            groupBox1.ResumeLayout(false);
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panel3.ResumeLayout(false);
@@ -1816,8 +2043,15 @@
             panel29.PerformLayout();
             panel31.ResumeLayout(false);
             panel31.PerformLayout();
+            groupBox_Raduno.ResumeLayout(false);
+            groupBox_Raduno.PerformLayout();
+            groupBox9.ResumeLayout(false);
+            groupBox9.PerformLayout();
+            doubleBufferedPanel1.ResumeLayout(false);
+            groupBox_Esercito.ResumeLayout(false);
+            groupBox_Esercito.PerformLayout();
+            panel_Sfondo_Bottoni.ResumeLayout(false);
             ResumeLayout(false);
-            PerformLayout();
 
         }
 
@@ -1848,8 +2082,6 @@
         private System.Windows.Forms.Label label71;
         private System.Windows.Forms.Panel panel_Catapulta;
         private System.Windows.Forms.TextBox txt_Catapulta_Esercito;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel2;
@@ -1893,28 +2125,28 @@
         private Panel panel16;
         private TextBox txt_Guerriero_Villaggio;
         private GroupBox groupBox4;
-        private TextBox textBox5;
-        private Button btn_Attacco_PVE_Città_B;
+        private TextBox txt_Villaggio_B_Desc;
+        private Button btn_Attacco_PVE_Villaggio_B;
         private Button btn_Esplora_PVE_Villaggio_B;
         private ComboBox comboBox_Villaggi;
         private GroupBox groupBox5;
-        private TextBox textBox6;
-        private Button btn_Raid_PVE_Città_B;
+        private TextBox txt_Città_B_Desc;
+        private Button btn_Attacco_PVE_Città_B;
         private Button btn_Esplora_PVE_Città_B;
         private ComboBox comboBox_Città;
         private GroupBox groupBox6;
         private Panel panel17;
         private Label label11;
         private Panel panel18;
-        private TextBox textBox7;
+        private TextBox txt_Catapulta_Città;
         private Panel panel19;
         private Label label12;
         private Panel panel20;
-        private TextBox textBox8;
+        private TextBox txt_Arcere_Città;
         private Panel panel21;
         private Label label13;
         private Panel panel22;
-        private TextBox textBox9;
+        private TextBox txt_Lancere_Città;
         private Panel panel23;
         private Label label14;
         private Panel panel24;
@@ -1942,5 +2174,23 @@
         private Label label18;
         private Panel panel32;
         private TextBox txt_Guerriero_PVE;
+        private GroupBox groupBox_Raduno;
+        private GroupBox groupBox_Esercito;
+        private Button btn_Esercito_Caserme;
+        private Label lbl_Esercito;
+        private Strumenti.DoubleBufferedPanel panel_Sfondo_Bottoni;
+        private Button btn_V_Esercito;
+        private Button btn_I_Esercito;
+        private Button btn_III_Esercito;
+        private Button btn_IV_Esercito;
+        private Button btn_II_Esercito;
+        private GroupBox groupBox9;
+        private Label label20;
+        private Strumenti.DoubleBufferedPanel doubleBufferedPanel1;
+        private Button btn_V_Spedizione;
+        private Button btn_I_Spedizione;
+        private Button btn_III_Spedizione;
+        private Button btn_IV_Spedizione;
+        private Button btn_II_Spedizione;
     }
 }

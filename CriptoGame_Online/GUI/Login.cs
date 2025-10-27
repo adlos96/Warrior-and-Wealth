@@ -102,17 +102,23 @@ namespace CriptoGame_Online
             if (txt_Ip.Text != "IP: AUTO")
                 ClientConnection.TestClient._ServerIp = txt_Ip.Text;
 
+            string username = txt_Username_Login.Text;
+            string password = txt_Password_Login.Text;
+
+            username = "adlos";
+            password = "123";
+
             await Sleep(2);
             txt_Log.Text = "Login...";
             await Sleep(2);
-            ClientConnection.TestClient.Send($"Login|{txt_Username_Login.Text}|{txt_Password_Login.Text}");
+            ClientConnection.TestClient.Send($"Login|{username}|{password}");
             await Loop_Login(5);
             await Sleep(2);
 
             if (Variabili_Client.Utente.User_Login == true)
             {
-                Variabili_Client.Utente.Username = txt_Username_Login.Text;
-                Variabili_Client.Utente.Password = txt_Password_Login.Text;
+                Variabili_Client.Utente.Username = username;
+                Variabili_Client.Utente.Password = password;
                 this.DialogResult = DialogResult.OK; // Se il login riesce
             }
             else

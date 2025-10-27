@@ -234,7 +234,7 @@ namespace CriptoGame_Online
             panel_Sfondo.Dock = DockStyle.Bottom;
             panel_Sfondo.Location = new Point(0, 69);
             panel_Sfondo.Name = "panel_Sfondo";
-            panel_Sfondo.Size = new Size(739, 499);
+            panel_Sfondo.Size = new Size(827, 499);
             panel_Sfondo.TabIndex = 0;
             panel_Sfondo.Scroll += panel_Sfondo_Scroll;
             // 
@@ -257,7 +257,7 @@ namespace CriptoGame_Online
             label19.BackColor = Color.Transparent;
             label19.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label19.ForeColor = Color.Black;
-            label19.Location = new Point(331, 367);
+            label19.Location = new Point(286, 333);
             label19.Name = "label19";
             label19.Size = new Size(67, 17);
             label19.TabIndex = 121;
@@ -271,9 +271,9 @@ namespace CriptoGame_Online
             panel_Salute_Catapulte.Controls.Add(btn_Salute_Catapulte);
             panel_Salute_Catapulte.Controls.Add(button10);
             panel_Salute_Catapulte.ForeColor = SystemColors.ControlText;
-            panel_Salute_Catapulte.Location = new Point(367, 386);
+            panel_Salute_Catapulte.Location = new Point(324, 352);
             panel_Salute_Catapulte.Name = "panel_Salute_Catapulte";
-            panel_Salute_Catapulte.Size = new Size(170, 62);
+            panel_Salute_Catapulte.Size = new Size(121, 50);
             panel_Salute_Catapulte.TabIndex = 119;
             // 
             // btn_Salute_Catapulte
@@ -282,11 +282,11 @@ namespace CriptoGame_Online
             btn_Salute_Catapulte.BackColor = Color.FromArgb(99, 52, 24);
             btn_Salute_Catapulte.FlatAppearance.BorderSize = 0;
             btn_Salute_Catapulte.FlatStyle = FlatStyle.Flat;
-            btn_Salute_Catapulte.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            btn_Salute_Catapulte.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
             btn_Salute_Catapulte.ForeColor = Color.Silver;
-            btn_Salute_Catapulte.Location = new Point(33, 20);
+            btn_Salute_Catapulte.Location = new Point(19, 12);
             btn_Salute_Catapulte.Name = "btn_Salute_Catapulte";
-            btn_Salute_Catapulte.Size = new Size(104, 22);
+            btn_Salute_Catapulte.Size = new Size(80, 23);
             btn_Salute_Catapulte.TabIndex = 36;
             btn_Salute_Catapulte.Text = "Salute I";
             btn_Salute_Catapulte.UseVisualStyleBackColor = false;
@@ -301,7 +301,7 @@ namespace CriptoGame_Online
             button10.ForeColor = Color.Silver;
             button10.Location = new Point(33, 18);
             button10.Name = "button10";
-            button10.Size = new Size(44, 0);
+            button10.Size = new Size(0, 0);
             button10.TabIndex = 35;
             button10.Text = "Salute I";
             button10.UseVisualStyleBackColor = false;
@@ -314,9 +314,9 @@ namespace CriptoGame_Online
             panel_Livello_Catapulte.Controls.Add(btn_Livello_Catapulte);
             panel_Livello_Catapulte.Controls.Add(button11);
             panel_Livello_Catapulte.ForeColor = SystemColors.ControlText;
-            panel_Livello_Catapulte.Location = new Point(543, 386);
+            panel_Livello_Catapulte.Location = new Point(451, 352);
             panel_Livello_Catapulte.Name = "panel_Livello_Catapulte";
-            panel_Livello_Catapulte.Size = new Size(170, 62);
+            panel_Livello_Catapulte.Size = new Size(121, 50);
             panel_Livello_Catapulte.TabIndex = 120;
             // 
             // btn_Livello_Catapulte
@@ -325,11 +325,11 @@ namespace CriptoGame_Online
             btn_Livello_Catapulte.BackColor = Color.FromArgb(99, 52, 24);
             btn_Livello_Catapulte.FlatAppearance.BorderSize = 0;
             btn_Livello_Catapulte.FlatStyle = FlatStyle.Flat;
-            btn_Livello_Catapulte.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            btn_Livello_Catapulte.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
             btn_Livello_Catapulte.ForeColor = Color.Silver;
-            btn_Livello_Catapulte.Location = new Point(33, 20);
+            btn_Livello_Catapulte.Location = new Point(19, 12);
             btn_Livello_Catapulte.Name = "btn_Livello_Catapulte";
-            btn_Livello_Catapulte.Size = new Size(104, 22);
+            btn_Livello_Catapulte.Size = new Size(83, 23);
             btn_Livello_Catapulte.TabIndex = 36;
             btn_Livello_Catapulte.Text = "Livello I";
             btn_Livello_Catapulte.UseVisualStyleBackColor = false;
@@ -344,7 +344,7 @@ namespace CriptoGame_Online
             button11.ForeColor = Color.Silver;
             button11.Location = new Point(33, 18);
             button11.Name = "button11";
-            button11.Size = new Size(44, 0);
+            button11.Size = new Size(0, 0);
             button11.TabIndex = 35;
             button11.Text = "Livello I";
             button11.UseVisualStyleBackColor = false;
@@ -357,9 +357,9 @@ namespace CriptoGame_Online
             panel_Difesa_Catapulte.Controls.Add(btn_Difesa_Catapulte);
             panel_Difesa_Catapulte.Controls.Add(button12);
             panel_Difesa_Catapulte.ForeColor = SystemColors.ControlText;
-            panel_Difesa_Catapulte.Location = new Point(191, 386);
+            panel_Difesa_Catapulte.Location = new Point(197, 352);
             panel_Difesa_Catapulte.Name = "panel_Difesa_Catapulte";
-            panel_Difesa_Catapulte.Size = new Size(170, 62);
+            panel_Difesa_Catapulte.Size = new Size(121, 50);
             panel_Difesa_Catapulte.TabIndex = 118;
             // 
             // btn_Difesa_Catapulte
@@ -368,11 +368,11 @@ namespace CriptoGame_Online
             btn_Difesa_Catapulte.BackColor = Color.FromArgb(99, 52, 24);
             btn_Difesa_Catapulte.FlatAppearance.BorderSize = 0;
             btn_Difesa_Catapulte.FlatStyle = FlatStyle.Flat;
-            btn_Difesa_Catapulte.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            btn_Difesa_Catapulte.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
             btn_Difesa_Catapulte.ForeColor = Color.Silver;
-            btn_Difesa_Catapulte.Location = new Point(33, 20);
+            btn_Difesa_Catapulte.Location = new Point(19, 12);
             btn_Difesa_Catapulte.Name = "btn_Difesa_Catapulte";
-            btn_Difesa_Catapulte.Size = new Size(104, 22);
+            btn_Difesa_Catapulte.Size = new Size(80, 23);
             btn_Difesa_Catapulte.TabIndex = 36;
             btn_Difesa_Catapulte.Text = "Difesa I";
             btn_Difesa_Catapulte.UseVisualStyleBackColor = false;
@@ -387,7 +387,7 @@ namespace CriptoGame_Online
             button12.ForeColor = Color.Silver;
             button12.Location = new Point(33, 18);
             button12.Name = "button12";
-            button12.Size = new Size(44, 0);
+            button12.Size = new Size(0, 0);
             button12.TabIndex = 35;
             button12.Text = "Difesa I";
             button12.UseVisualStyleBackColor = false;
@@ -400,9 +400,9 @@ namespace CriptoGame_Online
             panel_Attacco_Catapulte.Controls.Add(btn_Attacco_Catapulte);
             panel_Attacco_Catapulte.Controls.Add(button13);
             panel_Attacco_Catapulte.ForeColor = SystemColors.ControlText;
-            panel_Attacco_Catapulte.Location = new Point(15, 386);
+            panel_Attacco_Catapulte.Location = new Point(70, 352);
             panel_Attacco_Catapulte.Name = "panel_Attacco_Catapulte";
-            panel_Attacco_Catapulte.Size = new Size(170, 62);
+            panel_Attacco_Catapulte.Size = new Size(121, 50);
             panel_Attacco_Catapulte.TabIndex = 117;
             // 
             // btn_Attacco_Catapulte
@@ -411,11 +411,11 @@ namespace CriptoGame_Online
             btn_Attacco_Catapulte.BackColor = Color.FromArgb(99, 52, 24);
             btn_Attacco_Catapulte.FlatAppearance.BorderSize = 0;
             btn_Attacco_Catapulte.FlatStyle = FlatStyle.Flat;
-            btn_Attacco_Catapulte.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            btn_Attacco_Catapulte.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
             btn_Attacco_Catapulte.ForeColor = Color.Silver;
-            btn_Attacco_Catapulte.Location = new Point(33, 20);
+            btn_Attacco_Catapulte.Location = new Point(19, 12);
             btn_Attacco_Catapulte.Name = "btn_Attacco_Catapulte";
-            btn_Attacco_Catapulte.Size = new Size(104, 22);
+            btn_Attacco_Catapulte.Size = new Size(80, 23);
             btn_Attacco_Catapulte.TabIndex = 36;
             btn_Attacco_Catapulte.Text = "Attacco I";
             btn_Attacco_Catapulte.UseVisualStyleBackColor = false;
@@ -430,7 +430,7 @@ namespace CriptoGame_Online
             button13.ForeColor = Color.Silver;
             button13.Location = new Point(33, 18);
             button13.Name = "button13";
-            button13.Size = new Size(44, 0);
+            button13.Size = new Size(0, 0);
             button13.TabIndex = 35;
             button13.Text = "Attacco I";
             button13.UseVisualStyleBackColor = false;
@@ -441,7 +441,7 @@ namespace CriptoGame_Online
             label18.BackColor = Color.Transparent;
             label18.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label18.ForeColor = Color.Black;
-            label18.Location = new Point(339, 283);
+            label18.Location = new Point(294, 255);
             label18.Name = "label18";
             label18.Size = new Size(44, 17);
             label18.TabIndex = 116;
@@ -455,9 +455,9 @@ namespace CriptoGame_Online
             panel_Salute_Arceri.Controls.Add(btn_Salute_Arceri);
             panel_Salute_Arceri.Controls.Add(button6);
             panel_Salute_Arceri.ForeColor = SystemColors.ControlText;
-            panel_Salute_Arceri.Location = new Point(364, 302);
+            panel_Salute_Arceri.Location = new Point(321, 274);
             panel_Salute_Arceri.Name = "panel_Salute_Arceri";
-            panel_Salute_Arceri.Size = new Size(170, 62);
+            panel_Salute_Arceri.Size = new Size(121, 50);
             panel_Salute_Arceri.TabIndex = 114;
             // 
             // btn_Salute_Arceri
@@ -466,11 +466,11 @@ namespace CriptoGame_Online
             btn_Salute_Arceri.BackColor = Color.FromArgb(99, 52, 24);
             btn_Salute_Arceri.FlatAppearance.BorderSize = 0;
             btn_Salute_Arceri.FlatStyle = FlatStyle.Flat;
-            btn_Salute_Arceri.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            btn_Salute_Arceri.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
             btn_Salute_Arceri.ForeColor = Color.Silver;
-            btn_Salute_Arceri.Location = new Point(33, 20);
+            btn_Salute_Arceri.Location = new Point(19, 13);
             btn_Salute_Arceri.Name = "btn_Salute_Arceri";
-            btn_Salute_Arceri.Size = new Size(104, 22);
+            btn_Salute_Arceri.Size = new Size(80, 22);
             btn_Salute_Arceri.TabIndex = 36;
             btn_Salute_Arceri.Text = "Salute I";
             btn_Salute_Arceri.UseVisualStyleBackColor = false;
@@ -485,7 +485,7 @@ namespace CriptoGame_Online
             button6.ForeColor = Color.Silver;
             button6.Location = new Point(33, 18);
             button6.Name = "button6";
-            button6.Size = new Size(44, 0);
+            button6.Size = new Size(0, 0);
             button6.TabIndex = 35;
             button6.Text = "Salute I";
             button6.UseVisualStyleBackColor = false;
@@ -498,9 +498,9 @@ namespace CriptoGame_Online
             panel_Livello_Arceri.Controls.Add(btn_Livello_Arceri);
             panel_Livello_Arceri.Controls.Add(button7);
             panel_Livello_Arceri.ForeColor = SystemColors.ControlText;
-            panel_Livello_Arceri.Location = new Point(540, 302);
+            panel_Livello_Arceri.Location = new Point(448, 274);
             panel_Livello_Arceri.Name = "panel_Livello_Arceri";
-            panel_Livello_Arceri.Size = new Size(170, 62);
+            panel_Livello_Arceri.Size = new Size(121, 50);
             panel_Livello_Arceri.TabIndex = 115;
             // 
             // btn_Livello_Arceri
@@ -509,11 +509,11 @@ namespace CriptoGame_Online
             btn_Livello_Arceri.BackColor = Color.FromArgb(99, 52, 24);
             btn_Livello_Arceri.FlatAppearance.BorderSize = 0;
             btn_Livello_Arceri.FlatStyle = FlatStyle.Flat;
-            btn_Livello_Arceri.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            btn_Livello_Arceri.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
             btn_Livello_Arceri.ForeColor = Color.Silver;
-            btn_Livello_Arceri.Location = new Point(33, 20);
+            btn_Livello_Arceri.Location = new Point(19, 13);
             btn_Livello_Arceri.Name = "btn_Livello_Arceri";
-            btn_Livello_Arceri.Size = new Size(104, 22);
+            btn_Livello_Arceri.Size = new Size(83, 22);
             btn_Livello_Arceri.TabIndex = 36;
             btn_Livello_Arceri.Text = "Livello I";
             btn_Livello_Arceri.UseVisualStyleBackColor = false;
@@ -528,7 +528,7 @@ namespace CriptoGame_Online
             button7.ForeColor = Color.Silver;
             button7.Location = new Point(33, 18);
             button7.Name = "button7";
-            button7.Size = new Size(44, 0);
+            button7.Size = new Size(0, 0);
             button7.TabIndex = 35;
             button7.Text = "Livello I";
             button7.UseVisualStyleBackColor = false;
@@ -541,9 +541,9 @@ namespace CriptoGame_Online
             panel_Difesa_Arceri.Controls.Add(btn_Difesa_Arceri);
             panel_Difesa_Arceri.Controls.Add(button8);
             panel_Difesa_Arceri.ForeColor = SystemColors.ControlText;
-            panel_Difesa_Arceri.Location = new Point(188, 302);
+            panel_Difesa_Arceri.Location = new Point(194, 274);
             panel_Difesa_Arceri.Name = "panel_Difesa_Arceri";
-            panel_Difesa_Arceri.Size = new Size(170, 62);
+            panel_Difesa_Arceri.Size = new Size(121, 50);
             panel_Difesa_Arceri.TabIndex = 113;
             // 
             // btn_Difesa_Arceri
@@ -552,11 +552,11 @@ namespace CriptoGame_Online
             btn_Difesa_Arceri.BackColor = Color.FromArgb(99, 52, 24);
             btn_Difesa_Arceri.FlatAppearance.BorderSize = 0;
             btn_Difesa_Arceri.FlatStyle = FlatStyle.Flat;
-            btn_Difesa_Arceri.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            btn_Difesa_Arceri.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
             btn_Difesa_Arceri.ForeColor = Color.Silver;
-            btn_Difesa_Arceri.Location = new Point(33, 20);
+            btn_Difesa_Arceri.Location = new Point(22, 13);
             btn_Difesa_Arceri.Name = "btn_Difesa_Arceri";
-            btn_Difesa_Arceri.Size = new Size(104, 22);
+            btn_Difesa_Arceri.Size = new Size(77, 22);
             btn_Difesa_Arceri.TabIndex = 36;
             btn_Difesa_Arceri.Text = "Difesa I";
             btn_Difesa_Arceri.UseVisualStyleBackColor = false;
@@ -571,7 +571,7 @@ namespace CriptoGame_Online
             button8.ForeColor = Color.Silver;
             button8.Location = new Point(33, 18);
             button8.Name = "button8";
-            button8.Size = new Size(44, 0);
+            button8.Size = new Size(0, 0);
             button8.TabIndex = 35;
             button8.Text = "Difesa I";
             button8.UseVisualStyleBackColor = false;
@@ -584,9 +584,9 @@ namespace CriptoGame_Online
             panel_Attacco_Arceri.Controls.Add(btn_Attacco_Arceri);
             panel_Attacco_Arceri.Controls.Add(button9);
             panel_Attacco_Arceri.ForeColor = SystemColors.ControlText;
-            panel_Attacco_Arceri.Location = new Point(12, 302);
+            panel_Attacco_Arceri.Location = new Point(67, 274);
             panel_Attacco_Arceri.Name = "panel_Attacco_Arceri";
-            panel_Attacco_Arceri.Size = new Size(170, 62);
+            panel_Attacco_Arceri.Size = new Size(121, 50);
             panel_Attacco_Arceri.TabIndex = 112;
             // 
             // btn_Attacco_Arceri
@@ -595,11 +595,11 @@ namespace CriptoGame_Online
             btn_Attacco_Arceri.BackColor = Color.FromArgb(99, 52, 24);
             btn_Attacco_Arceri.FlatAppearance.BorderSize = 0;
             btn_Attacco_Arceri.FlatStyle = FlatStyle.Flat;
-            btn_Attacco_Arceri.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            btn_Attacco_Arceri.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
             btn_Attacco_Arceri.ForeColor = Color.Silver;
-            btn_Attacco_Arceri.Location = new Point(33, 20);
+            btn_Attacco_Arceri.Location = new Point(19, 13);
             btn_Attacco_Arceri.Name = "btn_Attacco_Arceri";
-            btn_Attacco_Arceri.Size = new Size(104, 22);
+            btn_Attacco_Arceri.Size = new Size(80, 22);
             btn_Attacco_Arceri.TabIndex = 36;
             btn_Attacco_Arceri.Text = "Attacco I";
             btn_Attacco_Arceri.UseVisualStyleBackColor = false;
@@ -614,7 +614,7 @@ namespace CriptoGame_Online
             button9.ForeColor = Color.Silver;
             button9.Location = new Point(33, 18);
             button9.Name = "button9";
-            button9.Size = new Size(44, 0);
+            button9.Size = new Size(0, 0);
             button9.TabIndex = 35;
             button9.Text = "Attacco I";
             button9.UseVisualStyleBackColor = false;
@@ -625,7 +625,7 @@ namespace CriptoGame_Online
             label16.BackColor = Color.Transparent;
             label16.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label16.ForeColor = Color.Black;
-            label16.Location = new Point(331, 199);
+            label16.Location = new Point(294, 178);
             label16.Name = "label16";
             label16.Size = new Size(52, 17);
             label16.TabIndex = 111;
@@ -639,9 +639,9 @@ namespace CriptoGame_Online
             panel_Salute_Lanceri.Controls.Add(btn_Salute_Lanceri);
             panel_Salute_Lanceri.Controls.Add(button2);
             panel_Salute_Lanceri.ForeColor = SystemColors.ControlText;
-            panel_Salute_Lanceri.Location = new Point(367, 218);
+            panel_Salute_Lanceri.Location = new Point(324, 197);
             panel_Salute_Lanceri.Name = "panel_Salute_Lanceri";
-            panel_Salute_Lanceri.Size = new Size(170, 62);
+            panel_Salute_Lanceri.Size = new Size(121, 50);
             panel_Salute_Lanceri.TabIndex = 109;
             // 
             // btn_Salute_Lanceri
@@ -650,11 +650,11 @@ namespace CriptoGame_Online
             btn_Salute_Lanceri.BackColor = Color.FromArgb(99, 52, 24);
             btn_Salute_Lanceri.FlatAppearance.BorderSize = 0;
             btn_Salute_Lanceri.FlatStyle = FlatStyle.Flat;
-            btn_Salute_Lanceri.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            btn_Salute_Lanceri.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
             btn_Salute_Lanceri.ForeColor = Color.Silver;
-            btn_Salute_Lanceri.Location = new Point(33, 20);
+            btn_Salute_Lanceri.Location = new Point(19, 12);
             btn_Salute_Lanceri.Name = "btn_Salute_Lanceri";
-            btn_Salute_Lanceri.Size = new Size(104, 22);
+            btn_Salute_Lanceri.Size = new Size(80, 23);
             btn_Salute_Lanceri.TabIndex = 36;
             btn_Salute_Lanceri.Text = "Salute I";
             btn_Salute_Lanceri.UseVisualStyleBackColor = false;
@@ -669,7 +669,7 @@ namespace CriptoGame_Online
             button2.ForeColor = Color.Silver;
             button2.Location = new Point(33, 18);
             button2.Name = "button2";
-            button2.Size = new Size(74, 0);
+            button2.Size = new Size(25, 0);
             button2.TabIndex = 35;
             button2.Text = "Salute I";
             button2.UseVisualStyleBackColor = false;
@@ -682,9 +682,9 @@ namespace CriptoGame_Online
             panel_Livello_Lanceri.Controls.Add(btn_Livello_Lanceri);
             panel_Livello_Lanceri.Controls.Add(button3);
             panel_Livello_Lanceri.ForeColor = SystemColors.ControlText;
-            panel_Livello_Lanceri.Location = new Point(543, 218);
+            panel_Livello_Lanceri.Location = new Point(451, 197);
             panel_Livello_Lanceri.Name = "panel_Livello_Lanceri";
-            panel_Livello_Lanceri.Size = new Size(170, 62);
+            panel_Livello_Lanceri.Size = new Size(121, 50);
             panel_Livello_Lanceri.TabIndex = 110;
             // 
             // btn_Livello_Lanceri
@@ -693,11 +693,11 @@ namespace CriptoGame_Online
             btn_Livello_Lanceri.BackColor = Color.FromArgb(99, 52, 24);
             btn_Livello_Lanceri.FlatAppearance.BorderSize = 0;
             btn_Livello_Lanceri.FlatStyle = FlatStyle.Flat;
-            btn_Livello_Lanceri.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            btn_Livello_Lanceri.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
             btn_Livello_Lanceri.ForeColor = Color.Silver;
-            btn_Livello_Lanceri.Location = new Point(33, 20);
+            btn_Livello_Lanceri.Location = new Point(19, 12);
             btn_Livello_Lanceri.Name = "btn_Livello_Lanceri";
-            btn_Livello_Lanceri.Size = new Size(104, 22);
+            btn_Livello_Lanceri.Size = new Size(83, 23);
             btn_Livello_Lanceri.TabIndex = 36;
             btn_Livello_Lanceri.Text = "Livello I";
             btn_Livello_Lanceri.UseVisualStyleBackColor = false;
@@ -712,7 +712,7 @@ namespace CriptoGame_Online
             button3.ForeColor = Color.Silver;
             button3.Location = new Point(33, 18);
             button3.Name = "button3";
-            button3.Size = new Size(74, 0);
+            button3.Size = new Size(25, 0);
             button3.TabIndex = 35;
             button3.Text = "Livello I";
             button3.UseVisualStyleBackColor = false;
@@ -725,9 +725,9 @@ namespace CriptoGame_Online
             panel_Difesa_Lanceri.Controls.Add(btn_Difesa_Lanceri);
             panel_Difesa_Lanceri.Controls.Add(button4);
             panel_Difesa_Lanceri.ForeColor = SystemColors.ControlText;
-            panel_Difesa_Lanceri.Location = new Point(191, 218);
+            panel_Difesa_Lanceri.Location = new Point(197, 197);
             panel_Difesa_Lanceri.Name = "panel_Difesa_Lanceri";
-            panel_Difesa_Lanceri.Size = new Size(170, 62);
+            panel_Difesa_Lanceri.Size = new Size(121, 50);
             panel_Difesa_Lanceri.TabIndex = 108;
             // 
             // btn_Difesa_Lanceri
@@ -736,11 +736,11 @@ namespace CriptoGame_Online
             btn_Difesa_Lanceri.BackColor = Color.FromArgb(99, 52, 24);
             btn_Difesa_Lanceri.FlatAppearance.BorderSize = 0;
             btn_Difesa_Lanceri.FlatStyle = FlatStyle.Flat;
-            btn_Difesa_Lanceri.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            btn_Difesa_Lanceri.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
             btn_Difesa_Lanceri.ForeColor = Color.Silver;
-            btn_Difesa_Lanceri.Location = new Point(33, 20);
+            btn_Difesa_Lanceri.Location = new Point(22, 12);
             btn_Difesa_Lanceri.Name = "btn_Difesa_Lanceri";
-            btn_Difesa_Lanceri.Size = new Size(104, 22);
+            btn_Difesa_Lanceri.Size = new Size(77, 23);
             btn_Difesa_Lanceri.TabIndex = 36;
             btn_Difesa_Lanceri.Text = "Difesa I";
             btn_Difesa_Lanceri.UseVisualStyleBackColor = false;
@@ -755,7 +755,7 @@ namespace CriptoGame_Online
             button4.ForeColor = Color.Silver;
             button4.Location = new Point(33, 18);
             button4.Name = "button4";
-            button4.Size = new Size(74, 0);
+            button4.Size = new Size(25, 0);
             button4.TabIndex = 35;
             button4.Text = "Difesa I";
             button4.UseVisualStyleBackColor = false;
@@ -768,9 +768,9 @@ namespace CriptoGame_Online
             panel_Attacco_Lanceri.Controls.Add(btn_Attacco_Lanceri);
             panel_Attacco_Lanceri.Controls.Add(button5);
             panel_Attacco_Lanceri.ForeColor = SystemColors.ControlText;
-            panel_Attacco_Lanceri.Location = new Point(15, 218);
+            panel_Attacco_Lanceri.Location = new Point(70, 197);
             panel_Attacco_Lanceri.Name = "panel_Attacco_Lanceri";
-            panel_Attacco_Lanceri.Size = new Size(170, 62);
+            panel_Attacco_Lanceri.Size = new Size(121, 50);
             panel_Attacco_Lanceri.TabIndex = 107;
             // 
             // btn_Attacco_Lanceri
@@ -779,11 +779,11 @@ namespace CriptoGame_Online
             btn_Attacco_Lanceri.BackColor = Color.FromArgb(99, 52, 24);
             btn_Attacco_Lanceri.FlatAppearance.BorderSize = 0;
             btn_Attacco_Lanceri.FlatStyle = FlatStyle.Flat;
-            btn_Attacco_Lanceri.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            btn_Attacco_Lanceri.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
             btn_Attacco_Lanceri.ForeColor = Color.Silver;
-            btn_Attacco_Lanceri.Location = new Point(33, 20);
+            btn_Attacco_Lanceri.Location = new Point(19, 12);
             btn_Attacco_Lanceri.Name = "btn_Attacco_Lanceri";
-            btn_Attacco_Lanceri.Size = new Size(104, 22);
+            btn_Attacco_Lanceri.Size = new Size(80, 23);
             btn_Attacco_Lanceri.TabIndex = 36;
             btn_Attacco_Lanceri.Text = "Attacco I";
             btn_Attacco_Lanceri.UseVisualStyleBackColor = false;
@@ -798,7 +798,7 @@ namespace CriptoGame_Online
             button5.ForeColor = Color.Silver;
             button5.Location = new Point(33, 18);
             button5.Name = "button5";
-            button5.Size = new Size(74, 0);
+            button5.Size = new Size(25, 0);
             button5.TabIndex = 35;
             button5.Text = "Attacco I";
             button5.UseVisualStyleBackColor = false;
@@ -810,9 +810,9 @@ namespace CriptoGame_Online
             doubleBufferedPanel1.BackgroundImageLayout = ImageLayout.Stretch;
             doubleBufferedPanel1.Controls.Add(btn_Guarnigione_Citta);
             doubleBufferedPanel1.Controls.Add(button1);
-            doubleBufferedPanel1.Location = new Point(439, 903);
+            doubleBufferedPanel1.Location = new Point(409, 785);
             doubleBufferedPanel1.Name = "doubleBufferedPanel1";
-            doubleBufferedPanel1.Size = new Size(187, 62);
+            doubleBufferedPanel1.Size = new Size(158, 50);
             doubleBufferedPanel1.TabIndex = 106;
             // 
             // btn_Guarnigione_Citta
@@ -823,9 +823,9 @@ namespace CriptoGame_Online
             btn_Guarnigione_Citta.FlatStyle = FlatStyle.Flat;
             btn_Guarnigione_Citta.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
             btn_Guarnigione_Citta.ForeColor = Color.Silver;
-            btn_Guarnigione_Citta.Location = new Point(37, 18);
+            btn_Guarnigione_Citta.Location = new Point(30, 13);
             btn_Guarnigione_Citta.Name = "btn_Guarnigione_Citta";
-            btn_Guarnigione_Citta.Size = new Size(121, 22);
+            btn_Guarnigione_Citta.Size = new Size(104, 23);
             btn_Guarnigione_Citta.TabIndex = 36;
             btn_Guarnigione_Citta.Text = "Guarnigione I";
             btn_Guarnigione_Citta.UseVisualStyleBackColor = false;
@@ -840,7 +840,7 @@ namespace CriptoGame_Online
             button1.ForeColor = Color.Silver;
             button1.Location = new Point(33, 18);
             button1.Name = "button1";
-            button1.Size = new Size(108, 0);
+            button1.Size = new Size(79, 0);
             button1.TabIndex = 35;
             button1.Text = "Guarnigione I";
             button1.UseVisualStyleBackColor = false;
@@ -851,7 +851,7 @@ namespace CriptoGame_Online
             label15.BackColor = Color.Transparent;
             label15.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label15.ForeColor = Color.Black;
-            label15.Location = new Point(443, 883);
+            label15.Location = new Point(414, 765);
             label15.Name = "label15";
             label15.Size = new Size(37, 17);
             label15.TabIndex = 105;
@@ -861,7 +861,7 @@ namespace CriptoGame_Online
             // 
             label14.AutoSize = true;
             label14.BackColor = Color.Transparent;
-            label14.Location = new Point(53, 769);
+            label14.Location = new Point(37, 668);
             label14.Name = "label14";
             label14.Size = new Size(577, 15);
             label14.TabIndex = 103;
@@ -871,7 +871,7 @@ namespace CriptoGame_Online
             // 
             label13.AutoSize = true;
             label13.BackColor = Color.Transparent;
-            label13.Location = new Point(53, 869);
+            label13.Location = new Point(37, 751);
             label13.Name = "label13";
             label13.Size = new Size(577, 15);
             label13.TabIndex = 102;
@@ -881,7 +881,7 @@ namespace CriptoGame_Online
             // 
             label12.AutoSize = true;
             label12.BackColor = Color.Transparent;
-            label12.Location = new Point(53, 670);
+            label12.Location = new Point(37, 585);
             label12.Name = "label12";
             label12.Size = new Size(577, 15);
             label12.TabIndex = 101;
@@ -891,7 +891,7 @@ namespace CriptoGame_Online
             // 
             label6.AutoSize = true;
             label6.BackColor = Color.Transparent;
-            label6.Location = new Point(53, 575);
+            label6.Location = new Point(37, 502);
             label6.Name = "label6";
             label6.Size = new Size(577, 15);
             label6.TabIndex = 100;
@@ -903,9 +903,9 @@ namespace CriptoGame_Online
             panel_Guarnigione_Ingresso.BackgroundImage = (Image)resources.GetObject("panel_Guarnigione_Ingresso.BackgroundImage");
             panel_Guarnigione_Ingresso.BackgroundImageLayout = ImageLayout.Stretch;
             panel_Guarnigione_Ingresso.Controls.Add(btn_Guarnigione_Ingresso);
-            panel_Guarnigione_Ingresso.Location = new Point(53, 903);
+            panel_Guarnigione_Ingresso.Location = new Point(78, 785);
             panel_Guarnigione_Ingresso.Name = "panel_Guarnigione_Ingresso";
-            panel_Guarnigione_Ingresso.Size = new Size(187, 62);
+            panel_Guarnigione_Ingresso.Size = new Size(158, 50);
             panel_Guarnigione_Ingresso.TabIndex = 97;
             // 
             // btn_Guarnigione_Ingresso
@@ -916,9 +916,9 @@ namespace CriptoGame_Online
             btn_Guarnigione_Ingresso.FlatStyle = FlatStyle.Flat;
             btn_Guarnigione_Ingresso.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
             btn_Guarnigione_Ingresso.ForeColor = Color.Silver;
-            btn_Guarnigione_Ingresso.Location = new Point(33, 18);
+            btn_Guarnigione_Ingresso.Location = new Point(24, 13);
             btn_Guarnigione_Ingresso.Name = "btn_Guarnigione_Ingresso";
-            btn_Guarnigione_Ingresso.Size = new Size(121, 22);
+            btn_Guarnigione_Ingresso.Size = new Size(107, 23);
             btn_Guarnigione_Ingresso.TabIndex = 35;
             btn_Guarnigione_Ingresso.Text = "Guarnigione I";
             btn_Guarnigione_Ingresso.UseVisualStyleBackColor = false;
@@ -929,9 +929,9 @@ namespace CriptoGame_Online
             panel_Difesa_Cancello.BackgroundImage = (Image)resources.GetObject("panel_Difesa_Cancello.BackgroundImage");
             panel_Difesa_Cancello.BackgroundImageLayout = ImageLayout.Stretch;
             panel_Difesa_Cancello.Controls.Add(btn_Difesa_Cancello);
-            panel_Difesa_Cancello.Location = new Point(246, 804);
+            panel_Difesa_Cancello.Location = new Point(245, 699);
             panel_Difesa_Cancello.Name = "panel_Difesa_Cancello";
-            panel_Difesa_Cancello.Size = new Size(187, 62);
+            panel_Difesa_Cancello.Size = new Size(158, 50);
             panel_Difesa_Cancello.TabIndex = 88;
             // 
             // btn_Difesa_Cancello
@@ -942,9 +942,9 @@ namespace CriptoGame_Online
             btn_Difesa_Cancello.FlatStyle = FlatStyle.Flat;
             btn_Difesa_Cancello.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
             btn_Difesa_Cancello.ForeColor = Color.Silver;
-            btn_Difesa_Cancello.Location = new Point(33, 18);
+            btn_Difesa_Cancello.Location = new Point(25, 13);
             btn_Difesa_Cancello.Name = "btn_Difesa_Cancello";
-            btn_Difesa_Cancello.Size = new Size(121, 22);
+            btn_Difesa_Cancello.Size = new Size(107, 23);
             btn_Difesa_Cancello.TabIndex = 35;
             btn_Difesa_Cancello.Text = "Difesa I";
             btn_Difesa_Cancello.UseVisualStyleBackColor = false;
@@ -967,9 +967,9 @@ namespace CriptoGame_Online
             panel_Guarnigione_Cancello.BackgroundImage = (Image)resources.GetObject("panel_Guarnigione_Cancello.BackgroundImage");
             panel_Guarnigione_Cancello.BackgroundImageLayout = ImageLayout.Stretch;
             panel_Guarnigione_Cancello.Controls.Add(btn_Guarnigione_Cancello);
-            panel_Guarnigione_Cancello.Location = new Point(439, 804);
+            panel_Guarnigione_Cancello.Location = new Point(409, 699);
             panel_Guarnigione_Cancello.Name = "panel_Guarnigione_Cancello";
-            panel_Guarnigione_Cancello.Size = new Size(187, 62);
+            panel_Guarnigione_Cancello.Size = new Size(158, 50);
             panel_Guarnigione_Cancello.TabIndex = 96;
             // 
             // btn_Guarnigione_Cancello
@@ -980,9 +980,9 @@ namespace CriptoGame_Online
             btn_Guarnigione_Cancello.FlatStyle = FlatStyle.Flat;
             btn_Guarnigione_Cancello.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
             btn_Guarnigione_Cancello.ForeColor = Color.Silver;
-            btn_Guarnigione_Cancello.Location = new Point(33, 18);
+            btn_Guarnigione_Cancello.Location = new Point(26, 13);
             btn_Guarnigione_Cancello.Name = "btn_Guarnigione_Cancello";
-            btn_Guarnigione_Cancello.Size = new Size(121, 22);
+            btn_Guarnigione_Cancello.Size = new Size(104, 23);
             btn_Guarnigione_Cancello.TabIndex = 35;
             btn_Guarnigione_Cancello.Text = "Guarnigione I";
             btn_Guarnigione_Cancello.UseVisualStyleBackColor = false;
@@ -993,7 +993,7 @@ namespace CriptoGame_Online
             label10.BackColor = Color.Transparent;
             label10.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label10.ForeColor = Color.Black;
-            label10.Location = new Point(331, 115);
+            label10.Location = new Point(288, 102);
             label10.Name = "label10";
             label10.Size = new Size(62, 17);
             label10.TabIndex = 68;
@@ -1005,9 +1005,9 @@ namespace CriptoGame_Online
             panel_Salute_Cancello.BackgroundImage = (Image)resources.GetObject("panel_Salute_Cancello.BackgroundImage");
             panel_Salute_Cancello.BackgroundImageLayout = ImageLayout.Stretch;
             panel_Salute_Cancello.Controls.Add(btn_Salute_Cancello);
-            panel_Salute_Cancello.Location = new Point(53, 804);
+            panel_Salute_Cancello.Location = new Point(78, 699);
             panel_Salute_Cancello.Name = "panel_Salute_Cancello";
-            panel_Salute_Cancello.Size = new Size(187, 62);
+            panel_Salute_Cancello.Size = new Size(158, 50);
             panel_Salute_Cancello.TabIndex = 92;
             // 
             // btn_Salute_Cancello
@@ -1018,9 +1018,9 @@ namespace CriptoGame_Online
             btn_Salute_Cancello.FlatStyle = FlatStyle.Flat;
             btn_Salute_Cancello.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
             btn_Salute_Cancello.ForeColor = Color.Silver;
-            btn_Salute_Cancello.Location = new Point(33, 18);
+            btn_Salute_Cancello.Location = new Point(24, 13);
             btn_Salute_Cancello.Name = "btn_Salute_Cancello";
-            btn_Salute_Cancello.Size = new Size(121, 22);
+            btn_Salute_Cancello.Size = new Size(107, 23);
             btn_Salute_Cancello.TabIndex = 35;
             btn_Salute_Cancello.Text = "Salute I";
             btn_Salute_Cancello.UseVisualStyleBackColor = false;
@@ -1031,11 +1031,11 @@ namespace CriptoGame_Online
             label17.BackColor = Color.Transparent;
             label17.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label17.ForeColor = Color.Black;
-            label17.Location = new Point(342, 11);
+            label17.Location = new Point(285, 11);
             label17.Name = "label17";
-            label17.Size = new Size(42, 17);
+            label17.Size = new Size(98, 17);
             label17.TabIndex = 69;
-            label17.Text = "Civile";
+            label17.Text = "Srtutture Civili";
             // 
             // panel_Difesa_Mura
             // 
@@ -1043,9 +1043,9 @@ namespace CriptoGame_Online
             panel_Difesa_Mura.BackgroundImage = (Image)resources.GetObject("panel_Difesa_Mura.BackgroundImage");
             panel_Difesa_Mura.BackgroundImageLayout = ImageLayout.Stretch;
             panel_Difesa_Mura.Controls.Add(btn_Difesa_Mura);
-            panel_Difesa_Mura.Location = new Point(246, 704);
+            panel_Difesa_Mura.Location = new Point(245, 616);
             panel_Difesa_Mura.Name = "panel_Difesa_Mura";
-            panel_Difesa_Mura.Size = new Size(187, 62);
+            panel_Difesa_Mura.Size = new Size(158, 50);
             panel_Difesa_Mura.TabIndex = 89;
             // 
             // btn_Difesa_Mura
@@ -1056,9 +1056,9 @@ namespace CriptoGame_Online
             btn_Difesa_Mura.FlatStyle = FlatStyle.Flat;
             btn_Difesa_Mura.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
             btn_Difesa_Mura.ForeColor = Color.Silver;
-            btn_Difesa_Mura.Location = new Point(33, 18);
+            btn_Difesa_Mura.Location = new Point(25, 13);
             btn_Difesa_Mura.Name = "btn_Difesa_Mura";
-            btn_Difesa_Mura.Size = new Size(121, 22);
+            btn_Difesa_Mura.Size = new Size(107, 23);
             btn_Difesa_Mura.TabIndex = 35;
             btn_Difesa_Mura.Text = "Difesa I";
             btn_Difesa_Mura.UseVisualStyleBackColor = false;
@@ -1070,9 +1070,9 @@ namespace CriptoGame_Online
             panel_Addestramento.BackgroundImageLayout = ImageLayout.Stretch;
             panel_Addestramento.Controls.Add(btn_Addestramento);
             panel_Addestramento.ForeColor = SystemColors.ControlText;
-            panel_Addestramento.Location = new Point(367, 30);
+            panel_Addestramento.Location = new Point(326, 30);
             panel_Addestramento.Name = "panel_Addestramento";
-            panel_Addestramento.Size = new Size(170, 62);
+            panel_Addestramento.Size = new Size(155, 50);
             panel_Addestramento.TabIndex = 61;
             // 
             // btn_Addestramento
@@ -1081,13 +1081,13 @@ namespace CriptoGame_Online
             btn_Addestramento.BackColor = Color.FromArgb(99, 52, 24);
             btn_Addestramento.FlatAppearance.BorderSize = 0;
             btn_Addestramento.FlatStyle = FlatStyle.Flat;
-            btn_Addestramento.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            btn_Addestramento.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
             btn_Addestramento.ForeColor = Color.Silver;
-            btn_Addestramento.Location = new Point(33, 18);
+            btn_Addestramento.Location = new Point(24, 13);
             btn_Addestramento.Name = "btn_Addestramento";
-            btn_Addestramento.Size = new Size(104, 22);
+            btn_Addestramento.Size = new Size(108, 21);
             btn_Addestramento.TabIndex = 35;
-            btn_Addestramento.Text = "Addestraento IV";
+            btn_Addestramento.Text = "Addestramento IV";
             btn_Addestramento.UseVisualStyleBackColor = false;
             btn_Addestramento.Click += btn_Addestramento_Click;
             // 
@@ -1097,9 +1097,9 @@ namespace CriptoGame_Online
             panel_Difesa_Torri.BackgroundImage = (Image)resources.GetObject("panel_Difesa_Torri.BackgroundImage");
             panel_Difesa_Torri.BackgroundImageLayout = ImageLayout.Stretch;
             panel_Difesa_Torri.Controls.Add(btn_Difesa_Torri);
-            panel_Difesa_Torri.Location = new Point(246, 605);
+            panel_Difesa_Torri.Location = new Point(245, 533);
             panel_Difesa_Torri.Name = "panel_Difesa_Torri";
-            panel_Difesa_Torri.Size = new Size(187, 62);
+            panel_Difesa_Torri.Size = new Size(158, 50);
             panel_Difesa_Torri.TabIndex = 90;
             // 
             // btn_Difesa_Torri
@@ -1110,9 +1110,9 @@ namespace CriptoGame_Online
             btn_Difesa_Torri.FlatStyle = FlatStyle.Flat;
             btn_Difesa_Torri.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
             btn_Difesa_Torri.ForeColor = Color.Silver;
-            btn_Difesa_Torri.Location = new Point(33, 18);
+            btn_Difesa_Torri.Location = new Point(25, 13);
             btn_Difesa_Torri.Name = "btn_Difesa_Torri";
-            btn_Difesa_Torri.Size = new Size(121, 22);
+            btn_Difesa_Torri.Size = new Size(107, 23);
             btn_Difesa_Torri.TabIndex = 35;
             btn_Difesa_Torri.Text = "Difesa I";
             btn_Difesa_Torri.UseVisualStyleBackColor = false;
@@ -1124,9 +1124,9 @@ namespace CriptoGame_Online
             panel_Popolazione.BackgroundImageLayout = ImageLayout.Stretch;
             panel_Popolazione.Controls.Add(btn_Popolazione);
             panel_Popolazione.ForeColor = SystemColors.ControlText;
-            panel_Popolazione.Location = new Point(543, 30);
+            panel_Popolazione.Location = new Point(484, 30);
             panel_Popolazione.Name = "panel_Popolazione";
-            panel_Popolazione.Size = new Size(170, 62);
+            panel_Popolazione.Size = new Size(155, 50);
             panel_Popolazione.TabIndex = 62;
             // 
             // btn_Popolazione
@@ -1135,11 +1135,11 @@ namespace CriptoGame_Online
             btn_Popolazione.BackColor = Color.FromArgb(99, 52, 24);
             btn_Popolazione.FlatAppearance.BorderSize = 0;
             btn_Popolazione.FlatStyle = FlatStyle.Flat;
-            btn_Popolazione.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            btn_Popolazione.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
             btn_Popolazione.ForeColor = Color.Silver;
-            btn_Popolazione.Location = new Point(33, 18);
+            btn_Popolazione.Location = new Point(24, 13);
             btn_Popolazione.Name = "btn_Popolazione";
-            btn_Popolazione.Size = new Size(105, 22);
+            btn_Popolazione.Size = new Size(108, 22);
             btn_Popolazione.TabIndex = 35;
             btn_Popolazione.Text = "Popolazione VI";
             btn_Popolazione.UseVisualStyleBackColor = false;
@@ -1151,9 +1151,9 @@ namespace CriptoGame_Online
             panel_Guarnigione_Mura.BackgroundImage = (Image)resources.GetObject("panel_Guarnigione_Mura.BackgroundImage");
             panel_Guarnigione_Mura.BackgroundImageLayout = ImageLayout.Stretch;
             panel_Guarnigione_Mura.Controls.Add(btn_Guarnigione_Mura);
-            panel_Guarnigione_Mura.Location = new Point(439, 704);
+            panel_Guarnigione_Mura.Location = new Point(409, 616);
             panel_Guarnigione_Mura.Name = "panel_Guarnigione_Mura";
-            panel_Guarnigione_Mura.Size = new Size(187, 62);
+            panel_Guarnigione_Mura.Size = new Size(158, 50);
             panel_Guarnigione_Mura.TabIndex = 95;
             // 
             // btn_Guarnigione_Mura
@@ -1164,9 +1164,9 @@ namespace CriptoGame_Online
             btn_Guarnigione_Mura.FlatStyle = FlatStyle.Flat;
             btn_Guarnigione_Mura.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
             btn_Guarnigione_Mura.ForeColor = Color.Silver;
-            btn_Guarnigione_Mura.Location = new Point(33, 18);
+            btn_Guarnigione_Mura.Location = new Point(26, 13);
             btn_Guarnigione_Mura.Name = "btn_Guarnigione_Mura";
-            btn_Guarnigione_Mura.Size = new Size(121, 22);
+            btn_Guarnigione_Mura.Size = new Size(104, 23);
             btn_Guarnigione_Mura.TabIndex = 35;
             btn_Guarnigione_Mura.Text = "Guarnigione I";
             btn_Guarnigione_Mura.UseVisualStyleBackColor = false;
@@ -1178,9 +1178,9 @@ namespace CriptoGame_Online
             panel_Salute_Guerrieri.BackgroundImageLayout = ImageLayout.Stretch;
             panel_Salute_Guerrieri.Controls.Add(btn_Salute_Guerrieri);
             panel_Salute_Guerrieri.ForeColor = SystemColors.ControlText;
-            panel_Salute_Guerrieri.Location = new Point(367, 134);
+            panel_Salute_Guerrieri.Location = new Point(324, 121);
             panel_Salute_Guerrieri.Name = "panel_Salute_Guerrieri";
-            panel_Salute_Guerrieri.Size = new Size(170, 62);
+            panel_Salute_Guerrieri.Size = new Size(121, 50);
             panel_Salute_Guerrieri.TabIndex = 65;
             // 
             // btn_Salute_Guerrieri
@@ -1189,11 +1189,11 @@ namespace CriptoGame_Online
             btn_Salute_Guerrieri.BackColor = Color.FromArgb(99, 52, 24);
             btn_Salute_Guerrieri.FlatAppearance.BorderSize = 0;
             btn_Salute_Guerrieri.FlatStyle = FlatStyle.Flat;
-            btn_Salute_Guerrieri.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            btn_Salute_Guerrieri.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
             btn_Salute_Guerrieri.ForeColor = Color.Silver;
-            btn_Salute_Guerrieri.Location = new Point(33, 18);
+            btn_Salute_Guerrieri.Location = new Point(19, 12);
             btn_Salute_Guerrieri.Name = "btn_Salute_Guerrieri";
-            btn_Salute_Guerrieri.Size = new Size(104, 22);
+            btn_Salute_Guerrieri.Size = new Size(80, 22);
             btn_Salute_Guerrieri.TabIndex = 35;
             btn_Salute_Guerrieri.Text = "Salute I";
             btn_Salute_Guerrieri.UseVisualStyleBackColor = false;
@@ -1205,9 +1205,9 @@ namespace CriptoGame_Online
             panel_Guarnigione_Torri.BackgroundImage = (Image)resources.GetObject("panel_Guarnigione_Torri.BackgroundImage");
             panel_Guarnigione_Torri.BackgroundImageLayout = ImageLayout.Stretch;
             panel_Guarnigione_Torri.Controls.Add(btn_Guarnigione_Torri);
-            panel_Guarnigione_Torri.Location = new Point(439, 605);
+            panel_Guarnigione_Torri.Location = new Point(409, 533);
             panel_Guarnigione_Torri.Name = "panel_Guarnigione_Torri";
-            panel_Guarnigione_Torri.Size = new Size(187, 62);
+            panel_Guarnigione_Torri.Size = new Size(158, 50);
             panel_Guarnigione_Torri.TabIndex = 94;
             // 
             // btn_Guarnigione_Torri
@@ -1218,9 +1218,9 @@ namespace CriptoGame_Online
             btn_Guarnigione_Torri.FlatStyle = FlatStyle.Flat;
             btn_Guarnigione_Torri.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
             btn_Guarnigione_Torri.ForeColor = Color.Silver;
-            btn_Guarnigione_Torri.Location = new Point(33, 18);
+            btn_Guarnigione_Torri.Location = new Point(26, 13);
             btn_Guarnigione_Torri.Name = "btn_Guarnigione_Torri";
-            btn_Guarnigione_Torri.Size = new Size(121, 22);
+            btn_Guarnigione_Torri.Size = new Size(104, 23);
             btn_Guarnigione_Torri.TabIndex = 35;
             btn_Guarnigione_Torri.Text = "Guarnigione I";
             btn_Guarnigione_Torri.UseVisualStyleBackColor = false;
@@ -1232,9 +1232,9 @@ namespace CriptoGame_Online
             panel_Livello_Guerrieri.BackgroundImageLayout = ImageLayout.Stretch;
             panel_Livello_Guerrieri.Controls.Add(btn_Livello_Guerrieri);
             panel_Livello_Guerrieri.ForeColor = SystemColors.ControlText;
-            panel_Livello_Guerrieri.Location = new Point(543, 134);
+            panel_Livello_Guerrieri.Location = new Point(451, 121);
             panel_Livello_Guerrieri.Name = "panel_Livello_Guerrieri";
-            panel_Livello_Guerrieri.Size = new Size(170, 62);
+            panel_Livello_Guerrieri.Size = new Size(121, 50);
             panel_Livello_Guerrieri.TabIndex = 66;
             // 
             // btn_Livello_Guerrieri
@@ -1243,11 +1243,11 @@ namespace CriptoGame_Online
             btn_Livello_Guerrieri.BackColor = Color.FromArgb(99, 52, 24);
             btn_Livello_Guerrieri.FlatAppearance.BorderSize = 0;
             btn_Livello_Guerrieri.FlatStyle = FlatStyle.Flat;
-            btn_Livello_Guerrieri.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            btn_Livello_Guerrieri.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
             btn_Livello_Guerrieri.ForeColor = Color.Silver;
-            btn_Livello_Guerrieri.Location = new Point(33, 18);
+            btn_Livello_Guerrieri.Location = new Point(19, 13);
             btn_Livello_Guerrieri.Name = "btn_Livello_Guerrieri";
-            btn_Livello_Guerrieri.Size = new Size(104, 22);
+            btn_Livello_Guerrieri.Size = new Size(83, 22);
             btn_Livello_Guerrieri.TabIndex = 35;
             btn_Livello_Guerrieri.Text = "Livello I";
             btn_Livello_Guerrieri.UseVisualStyleBackColor = false;
@@ -1259,9 +1259,9 @@ namespace CriptoGame_Online
             panel_Salute_Mura.BackgroundImage = (Image)resources.GetObject("panel_Salute_Mura.BackgroundImage");
             panel_Salute_Mura.BackgroundImageLayout = ImageLayout.Stretch;
             panel_Salute_Mura.Controls.Add(btn_Salute_Mura);
-            panel_Salute_Mura.Location = new Point(53, 704);
+            panel_Salute_Mura.Location = new Point(78, 616);
             panel_Salute_Mura.Name = "panel_Salute_Mura";
-            panel_Salute_Mura.Size = new Size(187, 62);
+            panel_Salute_Mura.Size = new Size(158, 50);
             panel_Salute_Mura.TabIndex = 93;
             // 
             // btn_Salute_Mura
@@ -1272,9 +1272,9 @@ namespace CriptoGame_Online
             btn_Salute_Mura.FlatStyle = FlatStyle.Flat;
             btn_Salute_Mura.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
             btn_Salute_Mura.ForeColor = Color.Silver;
-            btn_Salute_Mura.Location = new Point(33, 18);
+            btn_Salute_Mura.Location = new Point(24, 13);
             btn_Salute_Mura.Name = "btn_Salute_Mura";
-            btn_Salute_Mura.Size = new Size(121, 22);
+            btn_Salute_Mura.Size = new Size(107, 23);
             btn_Salute_Mura.TabIndex = 35;
             btn_Salute_Mura.Text = "Salute I";
             btn_Salute_Mura.UseVisualStyleBackColor = false;
@@ -1286,9 +1286,9 @@ namespace CriptoGame_Online
             panel_Risorse.BackgroundImageLayout = ImageLayout.Stretch;
             panel_Risorse.Controls.Add(btn_Risorse);
             panel_Risorse.ForeColor = SystemColors.ControlText;
-            panel_Risorse.Location = new Point(191, 30);
+            panel_Risorse.Location = new Point(168, 30);
             panel_Risorse.Name = "panel_Risorse";
-            panel_Risorse.Size = new Size(170, 62);
+            panel_Risorse.Size = new Size(155, 50);
             panel_Risorse.TabIndex = 60;
             // 
             // btn_Risorse
@@ -1297,11 +1297,11 @@ namespace CriptoGame_Online
             btn_Risorse.BackColor = Color.FromArgb(99, 52, 24);
             btn_Risorse.FlatAppearance.BorderSize = 0;
             btn_Risorse.FlatStyle = FlatStyle.Flat;
-            btn_Risorse.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            btn_Risorse.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
             btn_Risorse.ForeColor = Color.Silver;
-            btn_Risorse.Location = new Point(33, 18);
+            btn_Risorse.Location = new Point(24, 13);
             btn_Risorse.Name = "btn_Risorse";
-            btn_Risorse.Size = new Size(104, 22);
+            btn_Risorse.Size = new Size(105, 22);
             btn_Risorse.TabIndex = 35;
             btn_Risorse.Text = "Risorse I";
             btn_Risorse.UseVisualStyleBackColor = false;
@@ -1313,9 +1313,9 @@ namespace CriptoGame_Online
             panel_Salute_Torri.BackgroundImage = (Image)resources.GetObject("panel_Salute_Torri.BackgroundImage");
             panel_Salute_Torri.BackgroundImageLayout = ImageLayout.Stretch;
             panel_Salute_Torri.Controls.Add(btn_Salute_Torri);
-            panel_Salute_Torri.Location = new Point(53, 605);
+            panel_Salute_Torri.Location = new Point(78, 533);
             panel_Salute_Torri.Name = "panel_Salute_Torri";
-            panel_Salute_Torri.Size = new Size(187, 62);
+            panel_Salute_Torri.Size = new Size(158, 50);
             panel_Salute_Torri.TabIndex = 91;
             // 
             // btn_Salute_Torri
@@ -1326,9 +1326,9 @@ namespace CriptoGame_Online
             btn_Salute_Torri.FlatStyle = FlatStyle.Flat;
             btn_Salute_Torri.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
             btn_Salute_Torri.ForeColor = Color.Silver;
-            btn_Salute_Torri.Location = new Point(33, 18);
+            btn_Salute_Torri.Location = new Point(24, 13);
             btn_Salute_Torri.Name = "btn_Salute_Torri";
-            btn_Salute_Torri.Size = new Size(121, 22);
+            btn_Salute_Torri.Size = new Size(107, 23);
             btn_Salute_Torri.TabIndex = 35;
             btn_Salute_Torri.Text = "Salute I";
             btn_Salute_Torri.UseVisualStyleBackColor = false;
@@ -1340,9 +1340,9 @@ namespace CriptoGame_Online
             panel_Difesa_Guerrieri.BackgroundImageLayout = ImageLayout.Stretch;
             panel_Difesa_Guerrieri.Controls.Add(btn_Difesa_Guerrieri);
             panel_Difesa_Guerrieri.ForeColor = SystemColors.ControlText;
-            panel_Difesa_Guerrieri.Location = new Point(191, 134);
+            panel_Difesa_Guerrieri.Location = new Point(197, 121);
             panel_Difesa_Guerrieri.Name = "panel_Difesa_Guerrieri";
-            panel_Difesa_Guerrieri.Size = new Size(170, 62);
+            panel_Difesa_Guerrieri.Size = new Size(121, 50);
             panel_Difesa_Guerrieri.TabIndex = 64;
             // 
             // btn_Difesa_Guerrieri
@@ -1351,11 +1351,11 @@ namespace CriptoGame_Online
             btn_Difesa_Guerrieri.BackColor = Color.FromArgb(99, 52, 24);
             btn_Difesa_Guerrieri.FlatAppearance.BorderSize = 0;
             btn_Difesa_Guerrieri.FlatStyle = FlatStyle.Flat;
-            btn_Difesa_Guerrieri.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            btn_Difesa_Guerrieri.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
             btn_Difesa_Guerrieri.ForeColor = Color.Silver;
-            btn_Difesa_Guerrieri.Location = new Point(33, 18);
+            btn_Difesa_Guerrieri.Location = new Point(19, 12);
             btn_Difesa_Guerrieri.Name = "btn_Difesa_Guerrieri";
-            btn_Difesa_Guerrieri.Size = new Size(104, 22);
+            btn_Difesa_Guerrieri.Size = new Size(80, 22);
             btn_Difesa_Guerrieri.TabIndex = 35;
             btn_Difesa_Guerrieri.Text = "Difesa I";
             btn_Difesa_Guerrieri.UseVisualStyleBackColor = false;
@@ -1367,9 +1367,9 @@ namespace CriptoGame_Online
             panel_Difesa_Castello.BackgroundImage = (Image)resources.GetObject("panel_Difesa_Castello.BackgroundImage");
             panel_Difesa_Castello.BackgroundImageLayout = ImageLayout.Stretch;
             panel_Difesa_Castello.Controls.Add(btn_Difesa_Castello);
-            panel_Difesa_Castello.Location = new Point(246, 510);
+            panel_Difesa_Castello.Location = new Point(245, 450);
             panel_Difesa_Castello.Name = "panel_Difesa_Castello";
-            panel_Difesa_Castello.Size = new Size(187, 62);
+            panel_Difesa_Castello.Size = new Size(158, 50);
             panel_Difesa_Castello.TabIndex = 84;
             // 
             // btn_Difesa_Castello
@@ -1380,9 +1380,9 @@ namespace CriptoGame_Online
             btn_Difesa_Castello.FlatStyle = FlatStyle.Flat;
             btn_Difesa_Castello.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
             btn_Difesa_Castello.ForeColor = Color.Silver;
-            btn_Difesa_Castello.Location = new Point(33, 18);
+            btn_Difesa_Castello.Location = new Point(25, 13);
             btn_Difesa_Castello.Name = "btn_Difesa_Castello";
-            btn_Difesa_Castello.Size = new Size(121, 22);
+            btn_Difesa_Castello.Size = new Size(107, 23);
             btn_Difesa_Castello.TabIndex = 35;
             btn_Difesa_Castello.Text = "Difesa I";
             btn_Difesa_Castello.UseVisualStyleBackColor = false;
@@ -1394,9 +1394,9 @@ namespace CriptoGame_Online
             panel_Costruzione.BackgroundImageLayout = ImageLayout.Stretch;
             panel_Costruzione.Controls.Add(btn_Costruzione);
             panel_Costruzione.ForeColor = SystemColors.ControlText;
-            panel_Costruzione.Location = new Point(15, 30);
+            panel_Costruzione.Location = new Point(10, 30);
             panel_Costruzione.Name = "panel_Costruzione";
-            panel_Costruzione.Size = new Size(170, 62);
+            panel_Costruzione.Size = new Size(155, 50);
             panel_Costruzione.TabIndex = 59;
             // 
             // btn_Costruzione
@@ -1405,9 +1405,9 @@ namespace CriptoGame_Online
             btn_Costruzione.BackColor = Color.FromArgb(99, 52, 24);
             btn_Costruzione.FlatAppearance.BorderSize = 0;
             btn_Costruzione.FlatStyle = FlatStyle.Flat;
-            btn_Costruzione.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            btn_Costruzione.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
             btn_Costruzione.ForeColor = Color.Silver;
-            btn_Costruzione.Location = new Point(33, 18);
+            btn_Costruzione.Location = new Point(25, 12);
             btn_Costruzione.Name = "btn_Costruzione";
             btn_Costruzione.Size = new Size(104, 22);
             btn_Costruzione.TabIndex = 35;
@@ -1421,7 +1421,7 @@ namespace CriptoGame_Online
             label2.BackColor = Color.Transparent;
             label2.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.Black;
-            label2.Location = new Point(57, 883);
+            label2.Location = new Point(82, 765);
             label2.Name = "label2";
             label2.Size = new Size(60, 17);
             label2.TabIndex = 87;
@@ -1434,9 +1434,9 @@ namespace CriptoGame_Online
             panel_Attacco_Guerrieri.BackgroundImageLayout = ImageLayout.Stretch;
             panel_Attacco_Guerrieri.Controls.Add(btn_Attacco_Guerrieri);
             panel_Attacco_Guerrieri.ForeColor = SystemColors.ControlText;
-            panel_Attacco_Guerrieri.Location = new Point(15, 134);
+            panel_Attacco_Guerrieri.Location = new Point(70, 121);
             panel_Attacco_Guerrieri.Name = "panel_Attacco_Guerrieri";
-            panel_Attacco_Guerrieri.Size = new Size(170, 62);
+            panel_Attacco_Guerrieri.Size = new Size(121, 50);
             panel_Attacco_Guerrieri.TabIndex = 63;
             // 
             // btn_Attacco_Guerrieri
@@ -1445,11 +1445,11 @@ namespace CriptoGame_Online
             btn_Attacco_Guerrieri.BackColor = Color.FromArgb(99, 52, 24);
             btn_Attacco_Guerrieri.FlatAppearance.BorderSize = 0;
             btn_Attacco_Guerrieri.FlatStyle = FlatStyle.Flat;
-            btn_Attacco_Guerrieri.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+            btn_Attacco_Guerrieri.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
             btn_Attacco_Guerrieri.ForeColor = Color.Silver;
-            btn_Attacco_Guerrieri.Location = new Point(33, 18);
+            btn_Attacco_Guerrieri.Location = new Point(19, 13);
             btn_Attacco_Guerrieri.Name = "btn_Attacco_Guerrieri";
-            btn_Attacco_Guerrieri.Size = new Size(104, 22);
+            btn_Attacco_Guerrieri.Size = new Size(80, 22);
             btn_Attacco_Guerrieri.TabIndex = 35;
             btn_Attacco_Guerrieri.Text = "Attacco I";
             btn_Attacco_Guerrieri.UseVisualStyleBackColor = false;
@@ -1461,9 +1461,9 @@ namespace CriptoGame_Online
             panel_Guarnigione_Castello.BackgroundImage = (Image)resources.GetObject("panel_Guarnigione_Castello.BackgroundImage");
             panel_Guarnigione_Castello.BackgroundImageLayout = ImageLayout.Stretch;
             panel_Guarnigione_Castello.Controls.Add(btn_Guarnigione_Castello);
-            panel_Guarnigione_Castello.Location = new Point(439, 510);
+            panel_Guarnigione_Castello.Location = new Point(409, 450);
             panel_Guarnigione_Castello.Name = "panel_Guarnigione_Castello";
-            panel_Guarnigione_Castello.Size = new Size(187, 62);
+            panel_Guarnigione_Castello.Size = new Size(158, 50);
             panel_Guarnigione_Castello.TabIndex = 86;
             // 
             // btn_Guarnigione_Castello
@@ -1474,9 +1474,9 @@ namespace CriptoGame_Online
             btn_Guarnigione_Castello.FlatStyle = FlatStyle.Flat;
             btn_Guarnigione_Castello.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
             btn_Guarnigione_Castello.ForeColor = Color.Silver;
-            btn_Guarnigione_Castello.Location = new Point(33, 18);
+            btn_Guarnigione_Castello.Location = new Point(26, 13);
             btn_Guarnigione_Castello.Name = "btn_Guarnigione_Castello";
-            btn_Guarnigione_Castello.Size = new Size(121, 22);
+            btn_Guarnigione_Castello.Size = new Size(104, 23);
             btn_Guarnigione_Castello.TabIndex = 35;
             btn_Guarnigione_Castello.Text = "Guarnigione I";
             btn_Guarnigione_Castello.UseVisualStyleBackColor = false;
@@ -1487,7 +1487,7 @@ namespace CriptoGame_Online
             label11.BackColor = Color.Transparent;
             label11.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label11.ForeColor = Color.Black;
-            label11.Location = new Point(321, 482);
+            label11.Location = new Point(303, 408);
             label11.Name = "label11";
             label11.Size = new Size(37, 17);
             label11.TabIndex = 79;
@@ -1499,9 +1499,9 @@ namespace CriptoGame_Online
             panel_Salute_Castello.BackgroundImage = (Image)resources.GetObject("panel_Salute_Castello.BackgroundImage");
             panel_Salute_Castello.BackgroundImageLayout = ImageLayout.Stretch;
             panel_Salute_Castello.Controls.Add(btn_Salute_Castello);
-            panel_Salute_Castello.Location = new Point(53, 510);
+            panel_Salute_Castello.Location = new Point(78, 450);
             panel_Salute_Castello.Name = "panel_Salute_Castello";
-            panel_Salute_Castello.Size = new Size(187, 62);
+            panel_Salute_Castello.Size = new Size(158, 50);
             panel_Salute_Castello.TabIndex = 85;
             // 
             // btn_Salute_Castello
@@ -1512,9 +1512,9 @@ namespace CriptoGame_Online
             btn_Salute_Castello.FlatStyle = FlatStyle.Flat;
             btn_Salute_Castello.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
             btn_Salute_Castello.ForeColor = Color.Silver;
-            btn_Salute_Castello.Location = new Point(33, 18);
+            btn_Salute_Castello.Location = new Point(24, 13);
             btn_Salute_Castello.Name = "btn_Salute_Castello";
-            btn_Salute_Castello.Size = new Size(121, 22);
+            btn_Salute_Castello.Size = new Size(107, 23);
             btn_Salute_Castello.TabIndex = 35;
             btn_Salute_Castello.Text = "Salute I";
             btn_Salute_Castello.UseVisualStyleBackColor = false;
@@ -1525,7 +1525,7 @@ namespace CriptoGame_Online
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.Black;
-            label1.Location = new Point(55, 585);
+            label1.Location = new Point(80, 513);
             label1.Name = "label1";
             label1.Size = new Size(37, 17);
             label1.TabIndex = 80;
@@ -1537,7 +1537,7 @@ namespace CriptoGame_Online
             label8.BackColor = Color.Transparent;
             label8.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label8.ForeColor = Color.Black;
-            label8.Location = new Point(57, 684);
+            label8.Location = new Point(82, 596);
             label8.Name = "label8";
             label8.Size = new Size(40, 17);
             label8.TabIndex = 83;
@@ -1549,7 +1549,7 @@ namespace CriptoGame_Online
             label7.BackColor = Color.Transparent;
             label7.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label7.ForeColor = Color.Black;
-            label7.Location = new Point(55, 490);
+            label7.Location = new Point(80, 430);
             label7.Name = "label7";
             label7.Size = new Size(57, 17);
             label7.TabIndex = 81;
@@ -1561,7 +1561,7 @@ namespace CriptoGame_Online
             label9.BackColor = Color.Transparent;
             label9.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label9.ForeColor = Color.Black;
-            label9.Location = new Point(57, 784);
+            label9.Location = new Point(82, 679);
             label9.Name = "label9";
             label9.Size = new Size(60, 17);
             label9.TabIndex = 82;
@@ -1571,7 +1571,7 @@ namespace CriptoGame_Online
             // 
             label4.AutoSize = true;
             label4.BackColor = Color.Transparent;
-            label4.Location = new Point(64, 94);
+            label4.Location = new Point(37, 82);
             label4.Name = "label4";
             label4.Size = new Size(592, 15);
             label4.TabIndex = 98;
@@ -1581,7 +1581,7 @@ namespace CriptoGame_Online
             // 
             label5.AutoSize = true;
             label5.BackColor = Color.Transparent;
-            label5.Location = new Point(63, 458);
+            label5.Location = new Point(36, 404);
             label5.Name = "label5";
             label5.Size = new Size(592, 15);
             label5.TabIndex = 104;
@@ -1598,7 +1598,7 @@ namespace CriptoGame_Online
             txt_Testo.Multiline = true;
             txt_Testo.Name = "txt_Testo";
             txt_Testo.ReadOnly = true;
-            txt_Testo.Size = new Size(739, 69);
+            txt_Testo.Size = new Size(827, 69);
             txt_Testo.TabIndex = 33;
             txt_Testo.Text = "Acquista il tuo terreno virtuale e diventa proprietario di una porzione di terra. Ogni terreno genera una rendita giornaliera automatica. L’ammontare della rendita dipende dalla rarità.";
             txt_Testo.TextAlign = HorizontalAlignment.Center;
@@ -1607,7 +1607,7 @@ namespace CriptoGame_Online
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(739, 568);
+            ClientSize = new Size(827, 568);
             Controls.Add(panel_Sfondo);
             Controls.Add(txt_Testo);
             Name = "Ricerca_1";
