@@ -149,7 +149,7 @@ namespace Server_Strategico.Server
             player1.Armature = 200;
             player1.Frecce = 200;
 
-            player1.Diamanati_Blu = 1500;
+            player1.Diamanti_Blu = 1500;
             player1.Diamanti_Viola = 1500;
 
         }
@@ -331,19 +331,27 @@ namespace Server_Strategico.Server
                         ResearchManager.CompleteResearch(player.guid_Player, player);
                         player.ProduceResources();
                         player.ManutenzioneEsercito();
+                        player.VIP(); //Se il vip è attivo applica bonus
 
                         // Salva i dati ogni 60 secondi
-                        if (saveCounter >= 60)
+                        if (saveCounter >= 90)
                             await GameSave.SavePlayer(player);
 
                         player.forza_Esercito =
-                        player.Guerrieri[0] * (Esercito.Unità.Guerrieri_1.Salute * 0.20 + Esercito.Unità.Guerrieri_1.Attacco * 0.25) +
-                        player.Lanceri[0] * (Esercito.Unità.Lanceri_1.Salute * 0.20 + Esercito.Unità.Lanceri_1.Attacco * 0.25) +
-                        player.Arceri[0] * (Esercito.Unità.Arceri_1.Salute * 0.20 + Esercito.Unità.Arceri_1.Attacco * 0.25) +
-                        player.Catapulte[0] * (Esercito.Unità.Catapulte_1.Salute * 0.20 + Esercito.Unità.Catapulte_1.Attacco * 0.25);
+                        player.Guerrieri[0] * (Esercito.Unità.Guerriero_1.Salute * 0.20 + Esercito.Unità.Guerriero_1.Attacco * 0.25) +
+                        player.Lanceri[0] * (Esercito.Unità.Lancere_1.Salute * 0.20 + Esercito.Unità.Lancere_1.Attacco * 0.25) +
+                        player.Arceri[0] * (Esercito.Unità.Arcere_1.Salute * 0.20 + Esercito.Unità.Arcere_1.Attacco * 0.25) +
+                        player.Catapulte[0] * (Esercito.Unità.Catapulta_1.Salute * 0.20 + Esercito.Unità.Catapulta_1.Attacco * 0.25);
 
                         await Auto_Update_Clients();
                         await Esperienza.LevelUp(player);
+
+                        if (player.currentTasks_Building.Count > 0)
+                            player.Tempo_Addestramento++;
+                        if (player.currentTasks_Recruit.Count > 0)
+                            player.Tempo_Addestramento++;
+                        if (player.currentTasks_Research.Count > 0)
+                            player.Tempo_Ricerca++;
                     }
                     if (saveCounter >= 60)
                     {
