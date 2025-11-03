@@ -37,10 +37,6 @@ namespace Server_Strategico.Gioco
         public class Player
         {
             #region Variabili giocatore
-            //Quest
-            public QuestManager.PlayerQuestProgress QuestProgress { get; set; } = new();
-            public List<Gioco.Barbari.VillaggioBarbaro> VillaggiPersonali { get; set; } = new();
-
             // Giocatori
             public string Username { get; set; }
             public string Password { get; set; }
@@ -93,7 +89,7 @@ namespace Server_Strategico.Gioco
             public double Popolazione { get; set; }
 
             // Risorse speciali
-            public int Diamanati_Blu { get; set; }
+            public int Diamanti_Blu { get; set; }
             public int Diamanti_Viola { get; set; }
             public decimal Dollari_Virtuali { get; set; }
 
@@ -106,17 +102,18 @@ namespace Server_Strategico.Gioco
             public double Frecce { get; set; }
 
             // Statistiche
-            public int Unità_Uccise { get; set; }
-            public int Guerrieri_Uccisi { get; set; }
-            public int Lanceri_Uccisi { get; set; }
-            public int Arceri_Uccisi { get; set; }
-            public int Catapulte_Uccisi { get; set; }
+            #region Stats
+            public int Unità_Eliminate { get; set; }
+            public int Guerrieri_Eliminate { get; set; }
+            public int Lanceri_Eliminate { get; set; }
+            public int Arceri_Eliminate { get; set; }
+            public int Catapulte_Eliminate { get; set; }
 
             public int Unità_Perse { get; set; }
             public int Guerrieri_Persi { get; set; }
             public int Lanceri_Persi { get; set; }
             public int Arceri_Persi { get; set; }
-            public int Catapulte_Persi { get; set; }
+            public int Catapulte_Perse { get; set; }
             public int Risorse_Razziate { get; set; }
 
             public int Strutture_Civili_Costruite { get; set; }
@@ -126,7 +123,7 @@ namespace Server_Strategico.Gioco
             public int Frecce_Utilizzate { get; set; }
             public int Battaglie_Vinte { get; set; }
             public int Battaglie_Perse { get; set; }
-            public int Missioni_Completate { get; set; }
+            public int Quest_Completate { get; set; }
             public int Attacchi_Subiti_PVP { get; set; }
             public int Attacchi_Effettuati_PVP { get; set; }
 
@@ -145,6 +142,10 @@ namespace Server_Strategico.Gioco
 
             public int Consumo_Cibo_Esercito { get; set; }
             public int Consumo_Oro_Esercito { get; set; }
+
+            public int Diamanti_Viola_Utilizzati { get; set; }
+            public int Diamanti_Blu_Utilizzati { get; set; }
+            #endregion
 
             // Esercito
             public int[] Guerrieri = new int[5];
@@ -169,8 +170,8 @@ namespace Server_Strategico.Gioco
             public int Ricerca_Popolazione { get; set; }
             public int Ricerca_Riparazione { get; set; }
 
-            //Ricerca Città
 
+            //Ricerca Città
             public int Ricerca_Ingresso_Guarnigione { get; set; }
             public int Ricerca_Citta_Guarnigione { get; set; }
 
@@ -216,6 +217,7 @@ namespace Server_Strategico.Gioco
             public bool[] PremiVIP { get; set; } = new bool[20];
 
             // Città - Ingresso
+            #region Città
             public int Guarnigione_Ingresso { get; set; }
             public int Guarnigione_IngressoMax { get; set; }
             public int[] Guerrieri_Ingresso { get; set; } = new int[5];
@@ -279,22 +281,28 @@ namespace Server_Strategico.Gioco
             public int[] Arceri_Citta { get; set; } = new int[5];
             public int[] Catapulte_Citta { get; set; } = new int[5];
             #endregion
+            #endregion
+
+            //Quest
+            public QuestManager.PlayerQuestProgress QuestProgress { get; set; } = new();
+            public List<Gioco.Barbari.VillaggioBarbaro> VillaggiPersonali { get; set; } = new();
 
             public List<BuildingManager.ConstructionTask> currentTasks_Building = new(); // Lista dei task attualmente in costruzione (slot globali, max = Code_Costruzione)
             public Queue<BuildingManager.ConstructionTask> building_Queue = new(); // Coda globale di attesa (quando tutti gli slot sono occupati)
 
-            public List<BuildingManager.ConstructionTask> currentTasks_Recruit = new(); // Lista dei task attualmente in costruzione (slot globali, max = Code_Reclutamento)
-            public Queue<BuildingManager.ConstructionTask> recruit_Queue = new(); // Coda globale di attesa (quando tutti gli slot sono occupati)
+            public List<UnitManager.RecruitTask> currentTasks_Recruit = new(); // Lista dei task attualmente in costruzione (slot globali, max = Code_Reclutamento)
+            public Queue<UnitManager.RecruitTask> recruit_Queue = new(); // Coda globale di attesa (quando tutti gli slot sono occupati)
 
-            public List<BuildingManager.ConstructionTask> currentTasks_Research = new(); // Lista dei task attualmente in costruzione (slot globali, max = 1)
-            public Queue<BuildingManager.ConstructionTask> research_Queue = new(); // Coda globale di attesa (quando tutti gli slot sono occupati)
+            public List<ResearchManager.ResearchTask> currentTasks_Research = new(); // Lista dei task attualmente in costruzione (slot globali, max = 1)
+            public Queue<ResearchManager.ResearchTask> research_Queue = new(); // Coda globale di attesa (quando tutti gli slot sono occupati)
 
             public Player(string username, string password, Guid guid_Client)
             {
                 // Inizializza lista villaggi barbarici
                 VillaggiPersonali = new List<Gioco.Barbari.VillaggioBarbaro>();
 
-                //Statistiche
+                PremiNormali = new bool[20];
+                PremiVIP = new bool[20];
 
                 //Dati Giocatore
                 Username = username;
@@ -310,7 +318,7 @@ namespace Server_Strategico.Gioco
                 Punti_Quest = 0;
                 Vip = false;
                 Ricerca_Attiva = false;
-                Diamanati_Blu = 0;
+                Diamanti_Blu = 0;
                 Diamanti_Viola = 0;
                 Dollari_Virtuali = 0;
                 forza_Esercito = 0;
@@ -453,6 +461,7 @@ namespace Server_Strategico.Gioco
                     Catapulte_Citta[i] = 0;
                 }
                 #endregion
+
                 //Ricerche
                 Ricerca_Produzione = 0;
                 Ricerca_Costruzione = 0;
@@ -500,6 +509,51 @@ namespace Server_Strategico.Gioco
                 Catapulta_Salute = 0;
                 Catapulta_Difesa = 0;
                 Catapulta_Attacco = 0;
+
+                // Statistiche
+                Unità_Eliminate = 0;
+                Guerrieri_Eliminate = 0;
+                Lanceri_Eliminate = 0;
+                Arceri_Eliminate = 0;
+                Catapulte_Eliminate = 0;
+                Unità_Addestrate = 0;           // Fatto
+
+                Unità_Perse = 0;
+                Guerrieri_Persi = 0;
+                Lanceri_Persi = 0;
+                Arceri_Persi = 0;
+                Catapulte_Perse = 0;
+                Risorse_Razziate = 0;
+
+                Strutture_Civili_Costruite = 0;     //Fatto
+                Strutture_Militari_Costruite = 0;   //Fatto
+                Caserme_Costruite = 0;              //Fatto
+
+                Frecce_Utilizzate = 0;
+                Battaglie_Vinte = 0;
+                Battaglie_Perse = 0;
+                Quest_Completate = 0;           //Fatto
+                Attacchi_Subiti_PVP = 0;
+                Attacchi_Effettuati_PVP = 0;
+
+                Barbari_Sconfitti = 0; //Totale uomini barbari sconfitti (villaggi e città)
+                Accampamenti_Barbari_Sconfitti = 0; //Villaggi barbari sconfitti
+                Città_Barbare_Sconfitte = 0;     
+                Danno_HP_Barbaro = 0;           
+                Danno_DEF_Barbaro = 0;          
+
+                Risorse_Utilizzate = 0;         //Fatto
+                Tempo_Addestramento = 0;        //Fatto
+                Tempo_Costruzione = 0;          //Fatto
+                Tempo_Ricerca = 0;              //Fatto
+                Tempo_Sottratto_Diamanti = 0;   //Tempo risparmiato usando diamanti
+
+                Consumo_Cibo_Esercito = 0;      //Fatto
+                Consumo_Oro_Esercito = 0;       //Fatto
+                Diamanti_Viola_Utilizzati = 0;  //Fatto
+                Diamanti_Blu_Utilizzati = 0;
+                
+                
             }
 
             public bool ValidatePassword(string password)
@@ -543,20 +597,37 @@ namespace Server_Strategico.Gioco
             }
             public void ManutenzioneEsercito() //produzione risorse
             {
-                Cibo -= Guerrieri[0] * Esercito.Unità.Guerrieri_1.Cibo + Lanceri[0] * Esercito.Unità.Lanceri_1.Cibo + Arceri[0] * Esercito.Unità.Arceri_1.Cibo + Catapulte[0] * Esercito.Unità.Catapulte_1.Cibo;
-                Cibo -= Guerrieri[1] * Esercito.Unità.Guerriero_2.Cibo + Lanceri[1] * Esercito.Unità.Lancere_2.Cibo + Arceri[1] * Esercito.Unità.Arcere_2.Cibo + Catapulte[1] * Esercito.Unità.Catapulta_2.Cibo;
-                Cibo -= Guerrieri[2] * Esercito.Unità.Guerriero_3.Cibo + Lanceri[2] * Esercito.Unità.Lancere_3.Cibo + Arceri[2] * Esercito.Unità.Arcere_3.Cibo + Catapulte[2] * Esercito.Unità.Catapulta_3.Cibo;
-                Cibo -= Guerrieri[3] * Esercito.Unità.Guerriero_4.Cibo + Lanceri[3] * Esercito.Unità.Lancere_4.Cibo + Arceri[3] * Esercito.Unità.Arcere_4.Cibo + Catapulte[3] * Esercito.Unità.Catapulta_4.Cibo;
-                Cibo -= Guerrieri[4] * Esercito.Unità.Guerriero_5.Cibo + Lanceri[4] * Esercito.Unità.Lancere_5.Cibo + Arceri[4] * Esercito.Unità.Arcere_5.Cibo + Catapulte[4] * Esercito.Unità.Catapulta_5.Cibo;
+                double cibo = 0;
+                double oro = 0;
 
-                Oro -= Guerrieri[0] * Esercito.Unità.Guerrieri_1.Salario + Lanceri[0] * Esercito.Unità.Lanceri_1.Salario + Arceri[0] * Esercito.Unità.Arceri_1.Salario + Catapulte[0] * Esercito.Unità.Catapulte_1.Salario;
-                Oro -= Guerrieri[1] * Esercito.Unità.Guerriero_2.Salario + Lanceri[1] * Esercito.Unità.Lancere_2.Salario + Arceri[1] * Esercito.Unità.Arcere_2.Salario + Catapulte[1] * Esercito.Unità.Catapulta_2.Salario;
-                Oro -= Guerrieri[2] * Esercito.Unità.Guerriero_3.Salario + Lanceri[2] * Esercito.Unità.Lancere_3.Salario + Arceri[2] * Esercito.Unità.Arcere_3.Salario + Catapulte[2] * Esercito.Unità.Catapulta_3.Salario;
-                Oro -= Guerrieri[3] * Esercito.Unità.Guerriero_4.Salario + Lanceri[3] * Esercito.Unità.Lancere_4.Salario + Arceri[3] * Esercito.Unità.Arcere_4.Salario + Catapulte[3] * Esercito.Unità.Catapulta_4.Salario;
-                Oro -= Guerrieri[4] * Esercito.Unità.Guerriero_5.Salario + Lanceri[4] * Esercito.Unità.Lancere_5.Salario + Arceri[4] * Esercito.Unità.Arcere_5.Salario + Catapulte[4] * Esercito.Unità.Catapulta_5.Salario;
+                cibo += Guerrieri[0] * Esercito.Unità.Guerriero_1.Cibo + Lanceri[0] * Esercito.Unità.Lancere_1.Cibo + Arceri[0] * Esercito.Unità.Arcere_1.Cibo + Catapulte[0] * Esercito.Unità.Catapulta_1.Cibo;
+                cibo += Guerrieri[1] * Esercito.Unità.Guerriero_2.Cibo + Lanceri[1] * Esercito.Unità.Lancere_2.Cibo + Arceri[1] * Esercito.Unità.Arcere_2.Cibo + Catapulte[1] * Esercito.Unità.Catapulta_2.Cibo;
+                cibo += Guerrieri[2] * Esercito.Unità.Guerriero_3.Cibo + Lanceri[2] * Esercito.Unità.Lancere_3.Cibo + Arceri[2] * Esercito.Unità.Arcere_3.Cibo + Catapulte[2] * Esercito.Unità.Catapulta_3.Cibo;
+                cibo += Guerrieri[3] * Esercito.Unità.Guerriero_4.Cibo + Lanceri[3] * Esercito.Unità.Lancere_4.Cibo + Arceri[3] * Esercito.Unità.Arcere_4.Cibo + Catapulte[3] * Esercito.Unità.Catapulta_4.Cibo;
+                cibo += Guerrieri[4] * Esercito.Unità.Guerriero_5.Cibo + Lanceri[4] * Esercito.Unità.Lancere_5.Cibo + Arceri[4] * Esercito.Unità.Arcere_5.Cibo + Catapulte[4] * Esercito.Unità.Catapulta_5.Cibo;
+
+                oro += Guerrieri[0] * Esercito.Unità.Guerriero_1.Salario + Lanceri[0] * Esercito.Unità.Lancere_1.Salario + Arceri[0] * Esercito.Unità.Arcere_1.Salario + Catapulte[0] * Esercito.Unità.Catapulta_1.Salario;
+                oro += Guerrieri[1] * Esercito.Unità.Guerriero_2.Salario + Lanceri[1] * Esercito.Unità.Lancere_2.Salario + Arceri[1] * Esercito.Unità.Arcere_2.Salario + Catapulte[1] * Esercito.Unità.Catapulta_2.Salario;
+                oro += Guerrieri[2] * Esercito.Unità.Guerriero_3.Salario + Lanceri[2] * Esercito.Unità.Lancere_3.Salario + Arceri[2] * Esercito.Unità.Arcere_3.Salario + Catapulte[2] * Esercito.Unità.Catapulta_3.Salario;
+                oro += Guerrieri[3] * Esercito.Unità.Guerriero_4.Salario + Lanceri[3] * Esercito.Unità.Lancere_4.Salario + Arceri[3] * Esercito.Unità.Arcere_4.Salario + Catapulte[3] * Esercito.Unità.Catapulta_4.Salario;
+                oro += Guerrieri[4] * Esercito.Unità.Guerriero_5.Salario + Lanceri[4] * Esercito.Unità.Lancere_5.Salario + Arceri[4] * Esercito.Unità.Arcere_5.Salario + Catapulte[4] * Esercito.Unità.Catapulta_5.Salario;
+
+                Cibo -= cibo;
+                Oro -= oro;
+                Consumo_Cibo_Esercito += (int)cibo;
+                Consumo_Oro_Esercito += (int)oro;
 
                 if (Cibo <= 0) Cibo = 0;
                 if (Oro <= 0) Oro = 0;
+            }
+            public void VIP() //produzione risorse
+            {
+                if (Vip == true)
+                {
+                    Code_Costruzione = 2;
+                    Code_Reclutamento = 2;
+                    Code_Ricerca = 2;
+                }
             }
 
             public string FormatTime(double seconds)

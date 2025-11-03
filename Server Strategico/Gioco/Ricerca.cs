@@ -14,7 +14,7 @@ namespace Server_Strategico.Gioco
                 Pietra = 3000,
                 Ferro = 2750,
                 Oro = 2550,
-                TempoReclutamento = 60
+                TempoReclutamento = 180
             };
             public static CostoReclutamento Produzione = new CostoReclutamento
             {
@@ -23,7 +23,7 @@ namespace Server_Strategico.Gioco
                 Pietra = 4000,
                 Ferro = 3750,
                 Oro = 3500,
-                TempoReclutamento = 60
+                TempoReclutamento = 180
             };
             public static CostoReclutamento Addestramento = new CostoReclutamento
             {
@@ -32,7 +32,7 @@ namespace Server_Strategico.Gioco
                 Pietra = 4500,
                 Ferro = 4250,
                 Oro = 4000,
-                TempoReclutamento = 60
+                TempoReclutamento = 180
             };
             public static CostoReclutamento Popolazione = new CostoReclutamento
             {
@@ -41,7 +41,7 @@ namespace Server_Strategico.Gioco
                 Pietra = 5500,
                 Ferro = 5250,
                 Oro = 5000,
-                TempoReclutamento = 60
+                TempoReclutamento = 180
             };
 
             public static CostoReclutamento Incremento = new CostoReclutamento
@@ -69,6 +69,7 @@ namespace Server_Strategico.Gioco
                 Pietra = 3500,
                 Ferro = 3250,
                 Oro = 3000,
+                TempoReclutamento = 180
             };
             public static CostoReclutamento Difesa = new CostoReclutamento
             {
@@ -77,6 +78,7 @@ namespace Server_Strategico.Gioco
                 Pietra = 2500,
                 Ferro = 2500,
                 Oro = 2250,
+                TempoReclutamento = 180
             };
             public static CostoReclutamento Attacco = new CostoReclutamento
             {
@@ -85,6 +87,7 @@ namespace Server_Strategico.Gioco
                 Pietra = 4000,
                 Ferro = 3750,
                 Oro = 3500,
+                TempoReclutamento = 180
             };
             public static CostoReclutamento Livello = new CostoReclutamento
             {
@@ -93,6 +96,7 @@ namespace Server_Strategico.Gioco
                 Pietra = 5500,
                 Ferro = 5250,
                 Oro = 5000,
+                TempoReclutamento = 180
             };
 
             public static Unità Incremento = new Unità

@@ -18,7 +18,7 @@
             public double Popolazione { get; set; }
 
             // Costruttore per inizializzare i costi
-            public static CostoReclutamento Guerrieri_1 = new CostoReclutamento
+            public static CostoReclutamento Guerriero_1 = new CostoReclutamento
             {
                 Spade = 1,
                 Lance = 0,
@@ -34,7 +34,7 @@
                 TempoReclutamento = 5, //55
                 Popolazione = 1
             };
-            public static CostoReclutamento Lanceri_1 = new CostoReclutamento
+            public static CostoReclutamento Lancere_1 = new CostoReclutamento
             {
                 Spade = 0,
                 Lance = 1,
@@ -50,7 +50,7 @@
                 TempoReclutamento = 109,
                 Popolazione = 1
             };
-            public static CostoReclutamento Arceri_1 = new CostoReclutamento
+            public static CostoReclutamento Arcere_1 = new CostoReclutamento
             {
                 Spade = 0,
                 Lance = 0,
@@ -66,7 +66,7 @@
                 TempoReclutamento = 127,
                 Popolazione = 1
             };
-            public static CostoReclutamento Catapulte_1 = new CostoReclutamento
+            public static CostoReclutamento Catapulta_1 = new CostoReclutamento
             {
                 Spade = 3,
                 Lance = 3,
@@ -98,7 +98,7 @@
                 TempoReclutamento = 5, //55
                 Popolazione = 1
             };
-            public static CostoReclutamento Lanciere_2 = new CostoReclutamento
+            public static CostoReclutamento Lancere_2 = new CostoReclutamento
             {
                 Spade = 0,
                 Lance = 1,
@@ -114,7 +114,7 @@
                 TempoReclutamento = 109,
                 Popolazione = 1
             };
-            public static CostoReclutamento Arciere_2 = new CostoReclutamento
+            public static CostoReclutamento Arcere_2 = new CostoReclutamento
             {
                 Spade = 0,
                 Lance = 0,
@@ -162,7 +162,7 @@
                 TempoReclutamento = 5, //55
                 Popolazione = 1
             };
-            public static CostoReclutamento Lanciere_3 = new CostoReclutamento
+            public static CostoReclutamento Lancere_3 = new CostoReclutamento
             {
                 Spade = 0,
                 Lance = 1,
@@ -178,7 +178,7 @@
                 TempoReclutamento = 109,
                 Popolazione = 1
             };
-            public static CostoReclutamento Arciere_3 = new CostoReclutamento
+            public static CostoReclutamento Arcere_3 = new CostoReclutamento
             {
                 Spade = 0,
                 Lance = 0,
@@ -226,7 +226,7 @@
                 TempoReclutamento = 5, //55
                 Popolazione = 1
             };
-            public static CostoReclutamento Lanciere_4 = new CostoReclutamento
+            public static CostoReclutamento Lancere_4 = new CostoReclutamento
             {
                 Spade = 0,
                 Lance = 1,
@@ -242,7 +242,7 @@
                 TempoReclutamento = 109,
                 Popolazione = 1
             };
-            public static CostoReclutamento Arciere_4 = new CostoReclutamento
+            public static CostoReclutamento Arcere_4 = new CostoReclutamento
             {
                 Spade = 0,
                 Lance = 0,
@@ -290,7 +290,7 @@
                 TempoReclutamento = 5, //55
                 Popolazione = 1
             };
-            public static CostoReclutamento Lanciere_5 = new CostoReclutamento
+            public static CostoReclutamento Lancere_5 = new CostoReclutamento
             {
                 Spade = 0,
                 Lance = 1,
@@ -306,7 +306,7 @@
                 TempoReclutamento = 109,
                 Popolazione = 1
             };
-            public static CostoReclutamento Arciere_5 = new CostoReclutamento
+            public static CostoReclutamento Arcere_5 = new CostoReclutamento
             {
                 Spade = 0,
                 Lance = 0,
@@ -374,9 +374,173 @@
             };
             public static Unità Catapulte_1 = new Unità
             {
-                Salute = (int)(Guerrieri_1.Salute * 0.58 * CostoReclutamento.Catapulte_1.Popolazione),
+                Salute = 11,
                 Attacco = 12,
-                Difesa = (int)(Guerrieri_1.Difesa * 0.58 * CostoReclutamento.Catapulte_1.Popolazione),
+                Difesa = 13,
+                Distanza = 14,
+                Quantità = 0,
+                TempoReclutamento = 159,
+                Esperienza = 3
+            };
+
+            public static Unità Guerrieri_2 = new Unità
+            {
+                Salute = 6,
+                Attacco = 3,
+                Difesa = 3,
+                Distanza = 1,
+                Quantità = 0,
+                TempoReclutamento = 95,
+                Esperienza = 1
+            };
+            public static Unità Lanceri_2 = new Unità
+            {
+                Salute = 7,
+                Attacco = 4,
+                Difesa = 4,
+                Distanza = 2,
+                Quantità = 0,
+                TempoReclutamento = 109,
+                Esperienza = 1
+            };
+            public static Unità Arceri_2 = new Unità
+            {
+                Salute = 5,
+                Attacco = 6,
+                Difesa = 2,
+                Distanza = 6,
+                Quantità = 0,
+                TempoReclutamento = 127,
+                Esperienza = 2
+            };
+            public static Unità Catapulte_2 = new Unità
+            {
+                Salute = 11,
+                Attacco = 12,
+                Difesa = 13,
+                Distanza = 14,
+                Quantità = 0,
+                TempoReclutamento = 159,
+                Esperienza = 3
+            };
+
+            public static Unità Guerrieri_3 = new Unità
+            {
+                Salute = 6,
+                Attacco = 3,
+                Difesa = 3,
+                Distanza = 1,
+                Quantità = 0,
+                TempoReclutamento = 95,
+                Esperienza = 1
+            };
+            public static Unità Lanceri_3 = new Unità
+            {
+                Salute = 7,
+                Attacco = 4,
+                Difesa = 4,
+                Distanza = 2,
+                Quantità = 0,
+                TempoReclutamento = 109,
+                Esperienza = 1
+            };
+            public static Unità Arceri_3 = new Unità
+            {
+                Salute = 5,
+                Attacco = 6,
+                Difesa = 2,
+                Distanza = 6,
+                Quantità = 0,
+                TempoReclutamento = 127,
+                Esperienza = 2
+            };
+            public static Unità Catapulte_3 = new Unità
+            {
+                Salute = 11,
+                Attacco = 12,
+                Difesa = 13,
+                Distanza = 14,
+                Quantità = 0,
+                TempoReclutamento = 159,
+                Esperienza = 3
+            };
+
+            public static Unità Guerrieri_4 = new Unità
+            {
+                Salute = 6,
+                Attacco = 3,
+                Difesa = 3,
+                Distanza = 1,
+                Quantità = 0,
+                TempoReclutamento = 95,
+                Esperienza = 1
+            };
+            public static Unità Lanceri_4 = new Unità
+            {
+                Salute = 7,
+                Attacco = 4,
+                Difesa = 4,
+                Distanza = 2,
+                Quantità = 0,
+                TempoReclutamento = 109,
+                Esperienza = 1
+            };
+            public static Unità Arceri_4 = new Unità
+            {
+                Salute = 5,
+                Attacco = 6,
+                Difesa = 2,
+                Distanza = 6,
+                Quantità = 0,
+                TempoReclutamento = 127,
+                Esperienza = 2
+            };
+            public static Unità Catapulte_4 = new Unità
+            {
+                Salute = 11,
+                Attacco = 12,
+                Difesa = 13,
+                Distanza = 14,
+                Quantità = 0,
+                TempoReclutamento = 159,
+                Esperienza = 3
+            };
+
+            public static Unità Guerrieri_5 = new Unità
+            {
+                Salute = 6,
+                Attacco = 3,
+                Difesa = 3,
+                Distanza = 1,
+                Quantità = 0,
+                TempoReclutamento = 95,
+                Esperienza = 1
+            };
+            public static Unità Lanceri_5 = new Unità
+            {
+                Salute = 7,
+                Attacco = 4,
+                Difesa = 4,
+                Distanza = 2,
+                Quantità = 0,
+                TempoReclutamento = 109,
+                Esperienza = 1
+            };
+            public static Unità Arceri_5 = new Unità
+            {
+                Salute = 5,
+                Attacco = 6,
+                Difesa = 2,
+                Distanza = 6,
+                Quantità = 0,
+                TempoReclutamento = 127,
+                Esperienza = 2
+            };
+            public static Unità Catapulte_5 = new Unità
+            {
+                Salute = 11,
+                Attacco = 12,
+                Difesa = 13,
                 Distanza = 14,
                 Quantità = 0,
                 TempoReclutamento = 159,
@@ -397,7 +561,7 @@
             public int Componente_Lancio { get; set; }
             public int Trasporto { get; set; }
 
-            public static Unità Guerrieri_1 = new Unità
+            public static Unità Guerriero_1 = new Unità
             {
                 Salute = 5,
                 Attacco = 3,
@@ -409,7 +573,7 @@
                 Esperienza = 1,
                 Trasporto = 100
             };
-            public static Unità Lanceri_1 = new Unità
+            public static Unità Lancere_1 = new Unità
             {
                 Salute = 6,
                 Attacco = 4,
@@ -421,7 +585,7 @@
                 Esperienza = 1,
                 Trasporto = 150
             };
-            public static Unità Arceri_1 = new Unità
+            public static Unità Arcere_1 = new Unità
             {
                 Salute = 4,
                 Attacco = 7,
@@ -434,14 +598,14 @@
                 Componente_Lancio = 4,
                 Trasporto = 200
             };
-            public static Unità Catapulte_1 = new Unità
+            public static Unità Catapulta_1 = new Unità
             {
-                Salute = (int)(Guerrieri_1.Salute * 0.60 * CostoReclutamento.Catapulte_1.Popolazione),
+                Salute = (int)(Guerriero_1.Salute * 0.60 * CostoReclutamento.Catapulta_1.Popolazione),
                 Attacco = 12,
-                Difesa = (int)(Guerrieri_1.Difesa * 0.60 * CostoReclutamento.Catapulte_1.Popolazione),
+                Difesa = (int)(Guerriero_1.Difesa * 0.60 * CostoReclutamento.Catapulta_1.Popolazione),
                 Distanza = 14,
-                Salario = CostoReclutamento.Catapulte_1.Popolazione * Guerrieri_1.Salario * 0.629,
-                Cibo = CostoReclutamento.Catapulte_1.Popolazione * Guerrieri_1.Cibo * 0.779,
+                Salario = CostoReclutamento.Catapulta_1.Popolazione * Guerriero_1.Salario * 0.629,
+                Cibo = CostoReclutamento.Catapulta_1.Popolazione * Guerriero_1.Cibo * 0.779,
                 Quantità = 0,
                 Esperienza = 3,
                 Componente_Lancio = 8,

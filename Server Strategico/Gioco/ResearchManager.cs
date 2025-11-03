@@ -1,4 +1,5 @@
 ﻿using static Server_Strategico.Gioco.Giocatori;
+using static Server_Strategico.Gioco.QuestManager;
 using static Server_Strategico.Gioco.Ricerca;
 
 namespace Server_Strategico.Gioco
@@ -51,6 +52,14 @@ namespace Server_Strategico.Gioco
                 player.Ferro -= researchCost.Ferro;
                 player.Oro -= researchCost.Oro;
 
+                int risorse = Convert.ToInt32(researchCost.Cibo + researchCost.Legno + researchCost.Pietra + researchCost.Ferro + researchCost.Oro);
+                player.Risorse_Utilizzate += risorse;
+                OnEvent(player, QuestEventType.Risorse, "Cibo", (int)researchCost.Cibo);
+                OnEvent(player, QuestEventType.Risorse, "Legno", (int)researchCost.Legno);
+                OnEvent(player, QuestEventType.Risorse, "Pietra", (int)researchCost.Pietra);
+                OnEvent(player, QuestEventType.Risorse, "Ferro", (int)researchCost.Ferro);
+                OnEvent(player, QuestEventType.Risorse, "Oro", (int)researchCost.Oro);
+
                 Server.Server.Send(clientGuid, $"Log_Server|Risorse utilizzate per la ricerca {researchType} livello {livello}...");
                 Console.WriteLine($"Risorse utilizzate per {researchType} livello {livello}: " +
                                   $"Cibo={researchCost.Cibo}, Legno={researchCost.Legno}, Pietra={researchCost.Pietra}, " +
@@ -60,7 +69,7 @@ namespace Server_Strategico.Gioco
 
                 // Inserisci nella coda
                 if (player.Code_Ricerca > 1 || player.research_Queue.Count == 0 && player.currentTasks_Research.Count == 0)
-                    player.research_Queue.Enqueue(new BuildingManager.ConstructionTask(researchType, tempoRicercaInSecondi));
+                    player.research_Queue.Enqueue(new ResearchManager.ResearchTask(researchType, tempoRicercaInSecondi));
                 else
                 {
                     Server.Server.Send(clientGuid, $"Log_Server|Una singola ricerca è possibile. Ricerca {researchType} annullata.");
@@ -183,6 +192,58 @@ namespace Server_Strategico.Gioco
                 _ => null
             };
         }
+
+        public static void UsaDiamantiPerVelocizzareRicerca(Guid clientGuid, Player player, int diamantiBluDaUsare)
+        {
+            if (diamantiBluDaUsare <= 0)
+            {
+                Server.Server.Send(clientGuid, "Log_Server|Numero diamanti non valido.");
+                return;
+            }
+
+            if (player.Diamanti_Blu < diamantiBluDaUsare)
+            {
+                Server.Server.Send(clientGuid, "Log_Server|Non hai abbastanza Diamanti Blu!");
+                return;
+            }
+
+            int riduzioneTotale = diamantiBluDaUsare * Variabili_Server.Velocizzazione_Tempo;             // Ogni diamante riduce 30 secondi
+            int riduzioneResidua = riduzioneTotale;
+            double tempoTotaleRimanente = player.currentTasks_Recruit.Sum(t => t.GetRemainingTime());
+            int maxDiamantiUtili = (int)Math.Ceiling(tempoTotaleRimanente / Variabili_Server.Velocizzazione_Tempo); // Se si usano più diamanti del necessario, limita alla quantità utile
+
+            if (diamantiBluDaUsare > maxDiamantiUtili)
+            {
+                diamantiBluDaUsare = maxDiamantiUtili;
+                riduzioneTotale = diamantiBluDaUsare * Variabili_Server.Velocizzazione_Tempo;
+                riduzioneResidua = riduzioneTotale;
+            }
+
+            player.Diamanti_Blu -= diamantiBluDaUsare;
+            player.Diamanti_Blu_Utilizzati += diamantiBluDaUsare;
+
+            foreach (var task in player.currentTasks_Research)
+            {
+                double rimanente = task.GetRemainingTime();
+                if (rimanente <= 0) continue;
+
+                if (riduzioneResidua >= rimanente)
+                {
+                    task.ForzaCompletamento();
+                    riduzioneResidua -= (int)rimanente;
+                }
+                else
+                {
+                    task.RiduciTempo(riduzioneResidua);
+                    riduzioneResidua = 0;
+                }
+
+                if (riduzioneResidua <= 0)
+                    break;
+            }
+
+            Server.Server.Send(clientGuid, $"Log_Server|Hai usato {diamantiBluDaUsare} 💎 Diamanti Blu per velocizzare le ricerche!");
+        }
         public class ResearchCost
         {
             public double Cibo { get; set; }
@@ -191,6 +252,64 @@ namespace Server_Strategico.Gioco
             public double Ferro { get; set; }
             public double Oro { get; set; }
             public double TempoRicerca { get; set; } = 60; // default 60 secondi
+
+
+        }
+        public class ResearchTask
+        {
+            public string Type { get; }
+            public int DurationInSeconds { get; private set; }
+            private DateTime startTime;
+            private bool forceComplete = false;
+
+            public ResearchTask(string type, int durationInSeconds)
+            {
+                Type = type;
+                DurationInSeconds = durationInSeconds;
+            }
+
+            public void Start()
+            {
+                startTime = DateTime.Now;
+            }
+
+            public bool IsComplete()
+            {
+                if (forceComplete) return true;
+                return DateTime.Now >= startTime.AddSeconds(DurationInSeconds);
+            }
+
+            public double GetRemainingTime()
+            {
+                if (forceComplete) return 0;
+                if (startTime == default) return DurationInSeconds;
+
+                double elapsed = (DateTime.Now - startTime).TotalSeconds;
+                return Math.Max(0, DurationInSeconds - elapsed);
+            }
+
+            // 👉 Forza il completamento immediato
+            public void ForzaCompletamento()
+            {
+                forceComplete = true;
+            }
+
+            // 👉 Riduce il tempo rimanente di "secondi"
+            public void RiduciTempo(int secondi)
+            {
+                double rimanente = GetRemainingTime();
+
+                if (rimanente <= 0)
+                    return;
+
+                // Riduce la durata totale per accorciare il tempo rimanente
+                DurationInSeconds -= secondi;
+                if (DurationInSeconds < (DateTime.Now - startTime).TotalSeconds)
+                {
+                    // Se è diventata minore del tempo già trascorso, forza completamento
+                    ForzaCompletamento();
+                }
+            }
         }
     }
 }

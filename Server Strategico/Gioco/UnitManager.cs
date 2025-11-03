@@ -7,28 +7,28 @@ namespace Server_Strategico.Gioco
 {
     public class UnitManager
     {
-        public static void Reclutamento(string buildingType, int count, Guid clientGuid, Player player)
+        public static void Reclutamento(string unitType, string livello, int count, Guid clientGuid, Player player)
         {
             var manager = new UnitManager();
-            manager.QueueTrainUnits(buildingType, count, clientGuid, player);
+            manager.QueueTrainUnits(unitType, livello, count, clientGuid, player);
         }
 
-        public static void Reclutamento_1(string buildingType, int count, Player player) //Caricamento dati da fil db
+        public static void Reclutamento_1(string unitType, string livello, int count, Player player) //Caricamento dati da fil db
         {
             var manager = new UnitManager();
-            manager.QueueTrainUnits(buildingType, count, player.guid_Player, player);
+            manager.QueueTrainUnits(unitType, livello, count, player.guid_Player, player);
         }
 
-        public void QueueTrainUnits(string unitType, int count, Guid clientGuid, Player player)
+        public void QueueTrainUnits(string unitType, string livello, int count, Guid clientGuid, Player player)
         {
-            var unitCost = GetUnitCost(unitType);
+            var unitCost = GetUnitCost(unitType, livello);
             if (unitCost == null) return;
 
             int ridurre_Addestramento = unitType switch
             {
-                "Guerrieri_1" => 1,
-                "Lanceri_1" => 1,
-                "Arceri_1" => 2,
+                "Guerrieri" => 1,
+                "Lanceri" => 1,
+                "Arceri" => 2,
                 "Catapulta" => 3,
                 _ => 0
             };
@@ -46,6 +46,24 @@ namespace Server_Strategico.Gioco
                 player.Scudi < unitCost.Scudi * count ||
                 player.Armature < unitCost.Armature * count) return;
 
+            int risorse = Convert.ToInt32((unitCost.Cibo + unitCost.Legno + unitCost.Pietra + unitCost.Ferro + unitCost.Oro) * count);
+            int risorse_M = Convert.ToInt32((unitCost.Spade + unitCost.Lance + unitCost.Archi + unitCost.Scudi + unitCost.Armature) * count);
+            player.Risorse_Utilizzate += risorse;
+            player.Risorse_Utilizzate += risorse_M;
+
+            OnEvent(player, QuestEventType.Risorse, "Cibo", Convert.ToInt32(unitCost.Cibo * count));
+            OnEvent(player, QuestEventType.Risorse, "Legno", Convert.ToInt32(unitCost.Legno * count));
+            OnEvent(player, QuestEventType.Risorse, "Pietra", Convert.ToInt32(unitCost.Pietra * count));
+            OnEvent(player, QuestEventType.Risorse, "Ferro", Convert.ToInt32(unitCost.Ferro * count));
+            OnEvent(player, QuestEventType.Risorse, "Oro", Convert.ToInt32(unitCost.Oro * count));
+            OnEvent(player, QuestEventType.Risorse, "Popolazione", Convert.ToInt32(unitCost.Popolazione * count));
+
+            OnEvent(player, QuestEventType.Risorse, "Spade", Convert.ToInt32(unitCost.Popolazione * count));
+            OnEvent(player, QuestEventType.Risorse, "Lance", Convert.ToInt32(unitCost.Popolazione * count));
+            OnEvent(player, QuestEventType.Risorse, "Archi", Convert.ToInt32(unitCost.Popolazione * count));
+            OnEvent(player, QuestEventType.Risorse, "Scudi", Convert.ToInt32(unitCost.Popolazione * count));
+            OnEvent(player, QuestEventType.Risorse, "Armature", Convert.ToInt32(unitCost.Popolazione * count));
+
             // Deduzione risorse
             player.Cibo -= unitCost.Cibo * count;
             player.Legno -= unitCost.Legno * count;
@@ -61,13 +79,11 @@ namespace Server_Strategico.Gioco
 
             int tempoAddestramento = Math.Max(1, Convert.ToInt32(unitCost.TempoReclutamento - player.Ricerca_Addestramento * ridurre_Addestramento));
 
-            // Inizializza coda se nulla
-            if (player.recruit_Queue == null)
-                player.recruit_Queue = new Queue<BuildingManager.ConstructionTask>();
+            if (player.recruit_Queue == null) // Inizializza coda se nulla
+                player.recruit_Queue = new Queue<RecruitTask>();
 
-            // Inserisci ogni unità come singolo task
-            for (int i = 0; i < count; i++)
-                player.recruit_Queue.Enqueue(new BuildingManager.ConstructionTask(unitType, tempoAddestramento));
+            for (int i = 0; i < count; i++) // Inserisci ogni unità come singolo task
+                player.recruit_Queue.Enqueue(new RecruitTask(unitType, tempoAddestramento));
 
             StartNextRecruitments(player, clientGuid);
 
@@ -94,6 +110,7 @@ namespace Server_Strategico.Gioco
                 var task = player.currentTasks_Recruit[i];
                 if (task.IsComplete())
                 {
+                    player.Unità_Addestrate++;
                     switch (task.Type)
                     {
                         case "Guerrieri_1": 
@@ -108,23 +125,71 @@ namespace Server_Strategico.Gioco
                             player.Arceri[0]++;
                             OnEvent(player, QuestEventType.Addestramento, "Arceri_1", 1);
                             break;
-                        case "Catapulta": 
+                        case "Catapulta_1": 
                             player.Catapulte[0]++;
-                            OnEvent(player, QuestEventType.Addestramento, "Catapulta", 1);
+                            OnEvent(player, QuestEventType.Addestramento, "Catapulta_1", 1);
+                            break;
+
+                        case "Guerrieri_2":
+                            player.Guerrieri[1]++;
+                            OnEvent(player, QuestEventType.Addestramento, "Guerrieri_2", 1);
+                            break;
+                        case "Lanceri_2":
+                            player.Lanceri[1]++;
+                            OnEvent(player, QuestEventType.Addestramento, "Lanceri_2", 1);
+                            break;
+                        case "Arceri_2":
+                            player.Arceri[1]++;
+                            OnEvent(player, QuestEventType.Addestramento, "Arceri_2", 1);
+                            break;
+                        case "Catapulta_2":
+                            player.Catapulte[1]++;
+                            OnEvent(player, QuestEventType.Addestramento, "Catapulta_2", 1);
+                            break;
+
+                        case "Guerrieri_3":
+                            player.Guerrieri[2]++;
+                            OnEvent(player, QuestEventType.Addestramento, "Guerrieri_3", 1);
+                            break;
+                        case "Lanceri_3":
+                            player.Lanceri[2]++;
+                            OnEvent(player, QuestEventType.Addestramento, "Lanceri_3", 1);
+                            break;
+                        case "Arceri_3":
+                            player.Arceri[2]++;
+                            OnEvent(player, QuestEventType.Addestramento, "Arceri_3", 1);
+                            break;
+                        case "Catapulta_3":
+                            player.Catapulte[2]++;
+                            OnEvent(player, QuestEventType.Addestramento, "Catapulta_3", 1);
+                            break;
+
+                        case "Guerrieri_4":
+                            player.Guerrieri[3]++;
+                            OnEvent(player, QuestEventType.Addestramento, "Guerrieri_4", 1);
+                            break;
+                        case "Lanceri_4":
+                            player.Lanceri[3]++;
+                            OnEvent(player, QuestEventType.Addestramento, "Lanceri_4", 1);
+                            break;
+                        case "Arceri_4":
+                            player.Arceri[3]++;
+                            OnEvent(player, QuestEventType.Addestramento, "Arceri_4", 1);
+                            break;
+                        case "Catapulta_4":
+                            player.Catapulte[3]++;
+                            OnEvent(player, QuestEventType.Addestramento, "Catapulta_4", 1);
                             break;
                     }
-
                     Server.Server.Send(clientGuid, $"Log_Server|{task.Type} addestrato!");
                     player.currentTasks_Recruit.RemoveAt(i);
                 }
             }
-
             StartNextRecruitments(player, clientGuid);
         }
         public static string Get_Total_Recruit_Time(Player player)
         {
             double total = 0;
-
             foreach (var task in player.recruit_Queue)
                 total += task.DurationInSeconds;
 
@@ -146,17 +211,119 @@ namespace Server_Strategico.Gioco
         }
 
         // Recupera costo unità
-        private Esercito.CostoReclutamento GetUnitCost(string unitType)
+        private Esercito.CostoReclutamento GetUnitCost(string unitType, string level)
         {
-            return unitType switch
+            string unit = unitType + level;
+            return unit switch
             {
-                "Guerrieri_1" => Esercito.CostoReclutamento.Guerrieri_1,
-                "Lanceri_1" => Esercito.CostoReclutamento.Lanceri_1,
-                "Arceri_1" => Esercito.CostoReclutamento.Arceri_1,
-                "Catapulta_1" => Esercito.CostoReclutamento.Catapulte_1,
+                "Guerrieri_1" => Esercito.CostoReclutamento.Guerriero_1,
+                "Lanceri_1" => Esercito.CostoReclutamento.Lancere_1,
+                "Arceri_1" => Esercito.CostoReclutamento.Arcere_1,
+                "Catapulta_1" => Esercito.CostoReclutamento.Catapulta_1,
+
+                "Guerrieri_2" => Esercito.CostoReclutamento.Guerriero_2,
+                "Lanceri_2" => Esercito.CostoReclutamento.Lancere_2,
+                "Arceri_2" => Esercito.CostoReclutamento.Arcere_2,
+                "Catapulta_2" => Esercito.CostoReclutamento.Catapulta_2,
+
+                "Guerrieri_3" => Esercito.CostoReclutamento.Guerriero_3,
+                "Lanceri_3" => Esercito.CostoReclutamento.Lancere_3,
+                "Arceri_3" => Esercito.CostoReclutamento.Arcere_3,
+                "Catapulta_3" => Esercito.CostoReclutamento.Catapulta_3,
+
+                "Guerrieri_4" => Esercito.CostoReclutamento.Guerriero_4,
+                "Lanceri_4" => Esercito.CostoReclutamento.Lancere_4,
+                "Arceri_4" => Esercito.CostoReclutamento.Arcere_4,
+                "Catapulta_4" => Esercito.CostoReclutamento.Catapulta_4,
+
+                "Guerrieri_5" => Esercito.CostoReclutamento.Guerriero_5,
+                "Lanceri_5" => Esercito.CostoReclutamento.Lancere_5,
+                "Arceri_5" => Esercito.CostoReclutamento.Arcere_5,
+                "Catapulta_5" => Esercito.CostoReclutamento.Catapulta_5,
                 _ => null,
             };
         }
+        public static void UsaDiamantiPerVelocizzareReclutamento(Guid clientGuid, Player player, int diamantiBluDaUsare)
+        {
+            if (diamantiBluDaUsare <= 0)
+            {
+                Server.Server.Send(clientGuid, "Log_Server|Numero diamanti non valido.");
+                return;
+            }
+
+            if (player.Diamanti_Blu < diamantiBluDaUsare)
+            {
+                Server.Server.Send(clientGuid, "Log_Server|Non hai abbastanza Diamanti Blu!");
+                return;
+            }
+
+            double tempoTotale = 0; // Calcola il tempo totale ancora necessario
+            foreach (var task in player.currentTasks_Recruit) //Task in corso
+                tempoTotale += task.GetRemainingTime();
+            foreach (var task in player.recruit_Queue) //Task in coda
+                tempoTotale += task.GetRemainingTime();
+
+            if (tempoTotale <= 0)
+            {
+                Server.Server.Send(clientGuid, "Log_Server|Non ci sono costruzioni da velocizzare.");
+                return;
+            }
+            int riduzioneTotale = diamantiBluDaUsare * Variabili_Server.Velocizzazione_Tempo;             // Ogni diamante riduce 30 secondi
+            int maxDiamantiUtili = (int)Math.Ceiling(tempoTotale / Variabili_Server.Velocizzazione_Tempo); // Se si usano più diamanti del necessario, limita alla quantità utile
+
+            if (diamantiBluDaUsare > maxDiamantiUtili)
+            {
+                diamantiBluDaUsare = maxDiamantiUtili;
+                riduzioneTotale = diamantiBluDaUsare * Variabili_Server.Velocizzazione_Tempo;
+            }
+            player.Diamanti_Blu -= diamantiBluDaUsare;
+            player.Diamanti_Blu_Utilizzati += diamantiBluDaUsare;
+
+            foreach (var task in player.recruit_Queue) //Task in coda
+            {
+                double rimanente = task.GetRemainingTime();
+                if (rimanente <= 0) continue;
+
+                if (riduzioneTotale >= rimanente)
+                {
+                    task.ForzaCompletamento();
+                    riduzioneTotale -= (int)rimanente;
+                }
+                else
+                {
+                    if (rimanente - riduzioneTotale < 1)
+                        riduzioneTotale -= 1;
+                    task.RiduciTempo(riduzioneTotale);
+                    riduzioneTotale = 0;
+                }
+                if (riduzioneTotale <= 0)
+                    break;
+            }
+
+            foreach (var task in player.currentTasks_Recruit) //Task in corso
+            {
+                double rimanente = task.GetRemainingTime();
+                if (rimanente <= 0) continue;
+
+                if (riduzioneTotale >= rimanente)
+                {
+                    task.ForzaCompletamento();
+                    riduzioneTotale -= (int)rimanente;
+                }
+                else
+                {
+                    if (rimanente - riduzioneTotale < 1)
+                        riduzioneTotale -= 1;
+                    task.RiduciTempo(riduzioneTotale);
+                    riduzioneTotale = 0;
+                }
+                if (riduzioneTotale <= 0)
+                    break;
+            }
+            CompleteRecruitment(clientGuid, player);
+            Server.Server.Send(clientGuid, $"Log_Server|Hai usato {diamantiBluDaUsare} 💎 Diamanti Blu per velocizzare l'addestramento!");
+        }
+
         public class RecruitTask // Classe privata per rappresentare un task di reclutamento
         {
             public string Type { get; }
@@ -182,6 +349,15 @@ namespace Server_Strategico.Gioco
                 if (startTime == default) return DurationInSeconds; // se non è ancora partito
                 double elapsed = (DateTime.Now - startTime).TotalSeconds;
                 return Math.Max(0, DurationInSeconds - elapsed);
+            }
+            public void ForzaCompletamento()
+            {
+                startTime = DateTime.Now.AddSeconds(-DurationInSeconds);
+            }
+
+            public void RiduciTempo(int secondi)
+            {
+                startTime = startTime.AddSeconds(-secondi);
             }
         }
     }
