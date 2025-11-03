@@ -142,9 +142,9 @@
             label.ForeColor = Color.LightGray;
             label.Location = new Point(243, 328);
             label.Name = "label";
-            label.Size = new Size(33, 15);
+            label.Size = new Size(66, 15);
             label.TabIndex = 44;
-            label.Text = "Città";
+            label.Text = "Città      [5]";
             // 
             // btn_Citta
             // 
@@ -159,6 +159,7 @@
             btn_Citta.TabIndex = 45;
             btn_Citta.Text = "Aggiungi";
             btn_Citta.UseVisualStyleBackColor = true;
+            btn_Citta.Click += btn_Citta_Click;
             // 
             // panel_Soldier_Citta
             // 
@@ -179,9 +180,9 @@
             label2.ForeColor = Color.LightGray;
             label2.Location = new Point(398, 448);
             label2.Name = "label2";
-            label2.Size = new Size(33, 15);
+            label2.Size = new Size(66, 15);
             label2.TabIndex = 17;
-            label2.Text = "Torri";
+            label2.Text = "Torri      [4]";
             // 
             // label5
             // 
@@ -191,9 +192,9 @@
             label5.ForeColor = Color.LightGray;
             label5.Location = new Point(493, 39);
             label5.Name = "label5";
-            label5.Size = new Size(54, 15);
+            label5.Size = new Size(87, 15);
             label5.TabIndex = 41;
-            label5.Text = "Ingresso";
+            label5.Text = "Ingresso      [1]";
             // 
             // btn_Castello
             // 
@@ -202,12 +203,13 @@
             btn_Castello.FlatStyle = FlatStyle.Popup;
             btn_Castello.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_Castello.ForeColor = Color.Black;
-            btn_Castello.Location = new Point(67, 236);
+            btn_Castello.Location = new Point(53, 236);
             btn_Castello.Name = "btn_Castello";
             btn_Castello.Size = new Size(65, 25);
             btn_Castello.TabIndex = 35;
             btn_Castello.Text = "Aggiungi";
             btn_Castello.UseVisualStyleBackColor = true;
+            btn_Castello.Click += btn_Castello_Click;
             // 
             // btn_Ingresso
             // 
@@ -222,6 +224,7 @@
             btn_Ingresso.TabIndex = 42;
             btn_Ingresso.Text = "Aggiungi";
             btn_Ingresso.UseVisualStyleBackColor = true;
+            btn_Ingresso.Click += btn_Ingresso_Click;
             // 
             // panel_Def_Torri
             // 
@@ -258,6 +261,7 @@
             btn_Mura.TabIndex = 38;
             btn_Mura.Text = "Aggiungi";
             btn_Mura.UseVisualStyleBackColor = true;
+            btn_Mura.Click += btn_Mura_Click;
             // 
             // panel_Hp_Torri
             // 
@@ -276,11 +280,11 @@
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.LightGray;
-            label1.Location = new Point(59, 149);
+            label1.Location = new Point(45, 149);
             label1.Name = "label1";
-            label1.Size = new Size(50, 15);
+            label1.Size = new Size(83, 15);
             label1.TabIndex = 16;
-            label1.Text = "Castello";
+            label1.Text = "Castello      [6]";
             // 
             // panel_Soldier_Torri
             // 
@@ -298,7 +302,7 @@
             panel_Soldier_Castello.BackColor = Color.Transparent;
             panel_Soldier_Castello.BackgroundImageLayout = ImageLayout.Stretch;
             panel_Soldier_Castello.ForeColor = Color.Transparent;
-            panel_Soldier_Castello.Location = new Point(56, 213);
+            panel_Soldier_Castello.Location = new Point(42, 213);
             panel_Soldier_Castello.Name = "panel_Soldier_Castello";
             panel_Soldier_Castello.Size = new Size(143, 17);
             panel_Soldier_Castello.TabIndex = 14;
@@ -323,9 +327,9 @@
             label4.ForeColor = Color.LightGray;
             label4.Location = new Point(308, 109);
             label4.Name = "label4";
-            label4.Size = new Size(53, 15);
+            label4.Size = new Size(86, 15);
             label4.TabIndex = 19;
-            label4.Text = "Cancello";
+            label4.Text = "Cancello      [3]";
             // 
             // btn_Cancello
             // 
@@ -340,13 +344,14 @@
             btn_Cancello.TabIndex = 37;
             btn_Cancello.Text = "Aggiungi";
             btn_Cancello.UseVisualStyleBackColor = true;
+            btn_Cancello.Click += btn_Cancello_Click;
             // 
             // panel_Hp_Castello
             // 
             panel_Hp_Castello.BackColor = Color.Transparent;
             panel_Hp_Castello.BackgroundImageLayout = ImageLayout.Stretch;
             panel_Hp_Castello.ForeColor = Color.Transparent;
-            panel_Hp_Castello.Location = new Point(56, 167);
+            panel_Hp_Castello.Location = new Point(42, 167);
             panel_Hp_Castello.Name = "panel_Hp_Castello";
             panel_Hp_Castello.Size = new Size(143, 17);
             panel_Hp_Castello.TabIndex = 13;
@@ -371,9 +376,9 @@
             label3.ForeColor = Color.LightGray;
             label3.Location = new Point(556, 257);
             label3.Name = "label3";
-            label3.Size = new Size(36, 15);
+            label3.Size = new Size(69, 15);
             label3.TabIndex = 18;
-            label3.Text = "Mura";
+            label3.Text = "Mura      [2]";
             // 
             // panel_Def_Mura
             // 
@@ -391,7 +396,7 @@
             panel_Def_Castello.BackColor = Color.Transparent;
             panel_Def_Castello.BackgroundImageLayout = ImageLayout.Stretch;
             panel_Def_Castello.ForeColor = Color.Transparent;
-            panel_Def_Castello.Location = new Point(56, 190);
+            panel_Def_Castello.Location = new Point(42, 190);
             panel_Def_Castello.Name = "panel_Def_Castello";
             panel_Def_Castello.Size = new Size(143, 17);
             panel_Def_Castello.TabIndex = 15;
@@ -410,6 +415,7 @@
             btn_Torri.TabIndex = 36;
             btn_Torri.Text = "Aggiungi";
             btn_Torri.UseVisualStyleBackColor = true;
+            btn_Torri.Click += btn_Torri_Click;
             // 
             // panel_Soldier_Mura
             // 

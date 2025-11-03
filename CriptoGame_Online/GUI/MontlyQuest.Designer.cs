@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MontlyQuest));
             panel2 = new Panel();
             txt_Quest_Desc_10 = new TextBox();
             Btn_Costruzione = new Button();
@@ -193,7 +194,7 @@
             panel2.Dock = DockStyle.Top;
             panel2.Location = new Point(0, 0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(380, 321);
+            panel2.Size = new Size(391, 321);
             panel2.TabIndex = 4;
             // 
             // txt_Quest_Desc_10
@@ -206,7 +207,7 @@
             txt_Quest_Desc_10.Location = new Point(3, 268);
             txt_Quest_Desc_10.Name = "txt_Quest_Desc_10";
             txt_Quest_Desc_10.ReadOnly = true;
-            txt_Quest_Desc_10.Size = new Size(267, 16);
+            txt_Quest_Desc_10.Size = new Size(226, 16);
             txt_Quest_Desc_10.TabIndex = 17;
             txt_Quest_Desc_10.Text = "Quest";
             // 
@@ -216,7 +217,7 @@
             Btn_Costruzione.FlatAppearance.BorderSize = 0;
             Btn_Costruzione.FlatStyle = FlatStyle.Popup;
             Btn_Costruzione.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            Btn_Costruzione.Location = new Point(49, 293);
+            Btn_Costruzione.Location = new Point(76, 293);
             Btn_Costruzione.Name = "Btn_Costruzione";
             Btn_Costruzione.Size = new Size(252, 23);
             Btn_Costruzione.TabIndex = 16;
@@ -231,10 +232,10 @@
             txt_Quest_2.BorderStyle = BorderStyle.None;
             txt_Quest_2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Quest_2.ForeColor = Color.LightGray;
-            txt_Quest_2.Location = new Point(276, 36);
+            txt_Quest_2.Location = new Point(234, 36);
             txt_Quest_2.Name = "txt_Quest_2";
             txt_Quest_2.ReadOnly = true;
-            txt_Quest_2.Size = new Size(101, 16);
+            txt_Quest_2.Size = new Size(154, 16);
             txt_Quest_2.TabIndex = 15;
             txt_Quest_2.Text = "0";
             // 
@@ -245,10 +246,10 @@
             txt_Quest_1.BorderStyle = BorderStyle.None;
             txt_Quest_1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Quest_1.ForeColor = Color.LightGray;
-            txt_Quest_1.Location = new Point(276, 7);
+            txt_Quest_1.Location = new Point(234, 7);
             txt_Quest_1.Name = "txt_Quest_1";
             txt_Quest_1.ReadOnly = true;
-            txt_Quest_1.Size = new Size(101, 16);
+            txt_Quest_1.Size = new Size(154, 16);
             txt_Quest_1.TabIndex = 15;
             txt_Quest_1.Text = "0/3";
             // 
@@ -259,10 +260,10 @@
             txt_Quest_3.BorderStyle = BorderStyle.None;
             txt_Quest_3.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Quest_3.ForeColor = Color.LightGray;
-            txt_Quest_3.Location = new Point(276, 65);
+            txt_Quest_3.Location = new Point(234, 65);
             txt_Quest_3.Name = "txt_Quest_3";
             txt_Quest_3.ReadOnly = true;
-            txt_Quest_3.Size = new Size(101, 16);
+            txt_Quest_3.Size = new Size(154, 16);
             txt_Quest_3.TabIndex = 15;
             txt_Quest_3.Text = "0";
             // 
@@ -276,7 +277,7 @@
             txt_Quest_Desc_1.Location = new Point(3, 7);
             txt_Quest_Desc_1.Name = "txt_Quest_Desc_1";
             txt_Quest_Desc_1.ReadOnly = true;
-            txt_Quest_Desc_1.Size = new Size(267, 16);
+            txt_Quest_Desc_1.Size = new Size(226, 16);
             txt_Quest_Desc_1.TabIndex = 14;
             txt_Quest_Desc_1.Text = "[25] Acquista terreni virtuali";
             // 
@@ -290,7 +291,7 @@
             txt_Quest_Desc_2.Location = new Point(3, 36);
             txt_Quest_Desc_2.Name = "txt_Quest_Desc_2";
             txt_Quest_Desc_2.ReadOnly = true;
-            txt_Quest_Desc_2.Size = new Size(267, 16);
+            txt_Quest_Desc_2.Size = new Size(226, 16);
             txt_Quest_Desc_2.TabIndex = 14;
             txt_Quest_Desc_2.Text = "Quest";
             // 
@@ -301,10 +302,10 @@
             txt_Quest_4.BorderStyle = BorderStyle.None;
             txt_Quest_4.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Quest_4.ForeColor = Color.LightGray;
-            txt_Quest_4.Location = new Point(276, 94);
+            txt_Quest_4.Location = new Point(234, 94);
             txt_Quest_4.Name = "txt_Quest_4";
             txt_Quest_4.ReadOnly = true;
-            txt_Quest_4.Size = new Size(101, 16);
+            txt_Quest_4.Size = new Size(154, 16);
             txt_Quest_4.TabIndex = 15;
             txt_Quest_4.Text = "0";
             // 
@@ -318,7 +319,7 @@
             txt_Quest_Desc_3.Location = new Point(3, 65);
             txt_Quest_Desc_3.Name = "txt_Quest_Desc_3";
             txt_Quest_Desc_3.ReadOnly = true;
-            txt_Quest_Desc_3.Size = new Size(267, 16);
+            txt_Quest_Desc_3.Size = new Size(226, 16);
             txt_Quest_Desc_3.TabIndex = 14;
             txt_Quest_Desc_3.Text = "Quest";
             // 
@@ -329,10 +330,10 @@
             txt_Quest_5.BorderStyle = BorderStyle.None;
             txt_Quest_5.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Quest_5.ForeColor = Color.LightGray;
-            txt_Quest_5.Location = new Point(276, 123);
+            txt_Quest_5.Location = new Point(234, 123);
             txt_Quest_5.Name = "txt_Quest_5";
             txt_Quest_5.ReadOnly = true;
-            txt_Quest_5.Size = new Size(101, 16);
+            txt_Quest_5.Size = new Size(154, 16);
             txt_Quest_5.TabIndex = 15;
             txt_Quest_5.Text = "0";
             // 
@@ -346,7 +347,7 @@
             txt_Quest_Desc_9.Location = new Point(3, 239);
             txt_Quest_Desc_9.Name = "txt_Quest_Desc_9";
             txt_Quest_Desc_9.ReadOnly = true;
-            txt_Quest_Desc_9.Size = new Size(267, 16);
+            txt_Quest_Desc_9.Size = new Size(226, 16);
             txt_Quest_Desc_9.TabIndex = 14;
             txt_Quest_Desc_9.Text = "Quest";
             // 
@@ -360,7 +361,7 @@
             txt_Quest_Desc_4.Location = new Point(3, 94);
             txt_Quest_Desc_4.Name = "txt_Quest_Desc_4";
             txt_Quest_Desc_4.ReadOnly = true;
-            txt_Quest_Desc_4.Size = new Size(267, 16);
+            txt_Quest_Desc_4.Size = new Size(226, 16);
             txt_Quest_Desc_4.TabIndex = 14;
             txt_Quest_Desc_4.Text = "Quest";
             // 
@@ -371,10 +372,10 @@
             txt_Quest_10.BorderStyle = BorderStyle.None;
             txt_Quest_10.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Quest_10.ForeColor = Color.LightGray;
-            txt_Quest_10.Location = new Point(276, 268);
+            txt_Quest_10.Location = new Point(234, 268);
             txt_Quest_10.Name = "txt_Quest_10";
             txt_Quest_10.ReadOnly = true;
-            txt_Quest_10.Size = new Size(101, 16);
+            txt_Quest_10.Size = new Size(154, 16);
             txt_Quest_10.TabIndex = 15;
             txt_Quest_10.Text = "0";
             // 
@@ -385,10 +386,10 @@
             txt_Quest_6.BorderStyle = BorderStyle.None;
             txt_Quest_6.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Quest_6.ForeColor = Color.LightGray;
-            txt_Quest_6.Location = new Point(276, 152);
+            txt_Quest_6.Location = new Point(234, 152);
             txt_Quest_6.Name = "txt_Quest_6";
             txt_Quest_6.ReadOnly = true;
-            txt_Quest_6.Size = new Size(101, 16);
+            txt_Quest_6.Size = new Size(154, 16);
             txt_Quest_6.TabIndex = 15;
             txt_Quest_6.Text = "0";
             // 
@@ -402,7 +403,7 @@
             txt_Quest_Desc_8.Location = new Point(3, 210);
             txt_Quest_Desc_8.Name = "txt_Quest_Desc_8";
             txt_Quest_Desc_8.ReadOnly = true;
-            txt_Quest_Desc_8.Size = new Size(267, 16);
+            txt_Quest_Desc_8.Size = new Size(226, 16);
             txt_Quest_Desc_8.TabIndex = 14;
             txt_Quest_Desc_8.Text = "Quest";
             // 
@@ -416,7 +417,7 @@
             txt_Quest_Desc_5.Location = new Point(3, 123);
             txt_Quest_Desc_5.Name = "txt_Quest_Desc_5";
             txt_Quest_Desc_5.ReadOnly = true;
-            txt_Quest_Desc_5.Size = new Size(267, 16);
+            txt_Quest_Desc_5.Size = new Size(226, 16);
             txt_Quest_Desc_5.TabIndex = 14;
             txt_Quest_Desc_5.Text = "Quest";
             // 
@@ -427,10 +428,10 @@
             txt_Quest_9.BorderStyle = BorderStyle.None;
             txt_Quest_9.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Quest_9.ForeColor = Color.LightGray;
-            txt_Quest_9.Location = new Point(276, 239);
+            txt_Quest_9.Location = new Point(234, 239);
             txt_Quest_9.Name = "txt_Quest_9";
             txt_Quest_9.ReadOnly = true;
-            txt_Quest_9.Size = new Size(101, 16);
+            txt_Quest_9.Size = new Size(154, 16);
             txt_Quest_9.TabIndex = 15;
             txt_Quest_9.Text = "0";
             // 
@@ -441,10 +442,10 @@
             txt_Quest_7.BorderStyle = BorderStyle.None;
             txt_Quest_7.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Quest_7.ForeColor = Color.LightGray;
-            txt_Quest_7.Location = new Point(276, 181);
+            txt_Quest_7.Location = new Point(234, 181);
             txt_Quest_7.Name = "txt_Quest_7";
             txt_Quest_7.ReadOnly = true;
-            txt_Quest_7.Size = new Size(101, 16);
+            txt_Quest_7.Size = new Size(154, 16);
             txt_Quest_7.TabIndex = 15;
             txt_Quest_7.Text = "0";
             // 
@@ -458,7 +459,7 @@
             txt_Quest_Desc_7.Location = new Point(3, 181);
             txt_Quest_Desc_7.Name = "txt_Quest_Desc_7";
             txt_Quest_Desc_7.ReadOnly = true;
-            txt_Quest_Desc_7.Size = new Size(267, 16);
+            txt_Quest_Desc_7.Size = new Size(226, 16);
             txt_Quest_Desc_7.TabIndex = 14;
             txt_Quest_Desc_7.Text = "Quest";
             // 
@@ -472,7 +473,7 @@
             txt_Quest_Desc_6.Location = new Point(3, 152);
             txt_Quest_Desc_6.Name = "txt_Quest_Desc_6";
             txt_Quest_Desc_6.ReadOnly = true;
-            txt_Quest_Desc_6.Size = new Size(267, 16);
+            txt_Quest_Desc_6.Size = new Size(226, 16);
             txt_Quest_Desc_6.TabIndex = 14;
             txt_Quest_Desc_6.Text = "Quest";
             // 
@@ -483,10 +484,10 @@
             txt_Quest_8.BorderStyle = BorderStyle.None;
             txt_Quest_8.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Quest_8.ForeColor = Color.LightGray;
-            txt_Quest_8.Location = new Point(276, 210);
+            txt_Quest_8.Location = new Point(234, 210);
             txt_Quest_8.Name = "txt_Quest_8";
             txt_Quest_8.ReadOnly = true;
-            txt_Quest_8.Size = new Size(101, 16);
+            txt_Quest_8.Size = new Size(154, 16);
             txt_Quest_8.TabIndex = 15;
             txt_Quest_8.Text = "0";
             // 
@@ -504,7 +505,7 @@
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 321);
             panel1.Name = "panel1";
-            panel1.Size = new Size(380, 202);
+            panel1.Size = new Size(391, 219);
             panel1.TabIndex = 5;
             // 
             // panel5
@@ -570,9 +571,9 @@
             panel5.Controls.Add(txt_Reward_13);
             panel5.Controls.Add(txt_Reward_12);
             panel5.Controls.Add(txt_Reward_17);
-            panel5.Location = new Point(6, 61);
+            panel5.Location = new Point(1, 58);
             panel5.Name = "panel5";
-            panel5.Size = new Size(1522, 59);
+            panel5.Size = new Size(1614, 59);
             panel5.TabIndex = 33;
             // 
             // txt_Reward_Vip_1
@@ -582,9 +583,10 @@
             txt_Reward_Vip_1.BorderStyle = BorderStyle.None;
             txt_Reward_Vip_1.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_Vip_1.ForeColor = Color.DarkOrange;
-            txt_Reward_Vip_1.Location = new Point(3, 39);
+            txt_Reward_Vip_1.Location = new Point(3, 42);
             txt_Reward_Vip_1.Name = "txt_Reward_Vip_1";
-            txt_Reward_Vip_1.Size = new Size(48, 15);
+            txt_Reward_Vip_1.ReadOnly = true;
+            txt_Reward_Vip_1.Size = new Size(58, 15);
             txt_Reward_Vip_1.TabIndex = 53;
             txt_Reward_Vip_1.Text = "15";
             txt_Reward_Vip_1.TextAlign = HorizontalAlignment.Center;
@@ -596,9 +598,10 @@
             txt_Reward_Vip_2.BorderStyle = BorderStyle.None;
             txt_Reward_Vip_2.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_Vip_2.ForeColor = Color.DarkOrange;
-            txt_Reward_Vip_2.Location = new Point(83, 39);
+            txt_Reward_Vip_2.Location = new Point(83, 42);
             txt_Reward_Vip_2.Name = "txt_Reward_Vip_2";
-            txt_Reward_Vip_2.Size = new Size(48, 15);
+            txt_Reward_Vip_2.ReadOnly = true;
+            txt_Reward_Vip_2.Size = new Size(58, 15);
             txt_Reward_Vip_2.TabIndex = 54;
             txt_Reward_Vip_2.Text = "15";
             txt_Reward_Vip_2.TextAlign = HorizontalAlignment.Center;
@@ -610,8 +613,9 @@
             txt_Punti_Reward_19.BorderStyle = BorderStyle.None;
             txt_Punti_Reward_19.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Punti_Reward_19.ForeColor = Color.DarkOrange;
-            txt_Punti_Reward_19.Location = new Point(1399, 21);
+            txt_Punti_Reward_19.Location = new Point(1454, 21);
             txt_Punti_Reward_19.Name = "txt_Punti_Reward_19";
+            txt_Punti_Reward_19.ReadOnly = true;
             txt_Punti_Reward_19.Size = new Size(36, 15);
             txt_Punti_Reward_19.TabIndex = 57;
             txt_Punti_Reward_19.Text = "2000";
@@ -624,9 +628,10 @@
             txt_Reward_Vip_20.BorderStyle = BorderStyle.None;
             txt_Reward_Vip_20.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_Vip_20.ForeColor = Color.DarkOrange;
-            txt_Reward_Vip_20.Location = new Point(1465, 39);
+            txt_Reward_Vip_20.Location = new Point(1523, 42);
             txt_Reward_Vip_20.Name = "txt_Reward_Vip_20";
-            txt_Reward_Vip_20.Size = new Size(48, 15);
+            txt_Reward_Vip_20.ReadOnly = true;
+            txt_Reward_Vip_20.Size = new Size(58, 15);
             txt_Reward_Vip_20.TabIndex = 72;
             txt_Reward_Vip_20.Text = "15";
             txt_Reward_Vip_20.TextAlign = HorizontalAlignment.Center;
@@ -638,8 +643,9 @@
             txt_Punti_Reward_20.BorderStyle = BorderStyle.None;
             txt_Punti_Reward_20.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Punti_Reward_20.ForeColor = Color.DarkOrange;
-            txt_Punti_Reward_20.Location = new Point(1476, 21);
+            txt_Punti_Reward_20.Location = new Point(1534, 21);
             txt_Punti_Reward_20.Name = "txt_Punti_Reward_20";
+            txt_Punti_Reward_20.ReadOnly = true;
             txt_Punti_Reward_20.Size = new Size(36, 15);
             txt_Punti_Reward_20.TabIndex = 56;
             txt_Punti_Reward_20.Text = "2000";
@@ -652,9 +658,10 @@
             txt_Reward_Vip_3.BorderStyle = BorderStyle.None;
             txt_Reward_Vip_3.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_Vip_3.ForeColor = Color.DarkOrange;
-            txt_Reward_Vip_3.Location = new Point(163, 39);
+            txt_Reward_Vip_3.Location = new Point(163, 42);
             txt_Reward_Vip_3.Name = "txt_Reward_Vip_3";
-            txt_Reward_Vip_3.Size = new Size(48, 15);
+            txt_Reward_Vip_3.ReadOnly = true;
+            txt_Reward_Vip_3.Size = new Size(58, 15);
             txt_Reward_Vip_3.TabIndex = 55;
             txt_Reward_Vip_3.Text = "15";
             txt_Reward_Vip_3.TextAlign = HorizontalAlignment.Center;
@@ -666,8 +673,9 @@
             txt_Punti_Reward_18.BorderStyle = BorderStyle.None;
             txt_Punti_Reward_18.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Punti_Reward_18.ForeColor = Color.DarkOrange;
-            txt_Punti_Reward_18.Location = new Point(1320, 21);
+            txt_Punti_Reward_18.Location = new Point(1374, 21);
             txt_Punti_Reward_18.Name = "txt_Punti_Reward_18";
+            txt_Punti_Reward_18.ReadOnly = true;
             txt_Punti_Reward_18.Size = new Size(36, 15);
             txt_Punti_Reward_18.TabIndex = 55;
             txt_Punti_Reward_18.Text = "2000";
@@ -680,9 +688,10 @@
             txt_Reward_Vip_4.BorderStyle = BorderStyle.None;
             txt_Reward_Vip_4.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_Vip_4.ForeColor = Color.DarkOrange;
-            txt_Reward_Vip_4.Location = new Point(241, 39);
+            txt_Reward_Vip_4.Location = new Point(243, 42);
             txt_Reward_Vip_4.Name = "txt_Reward_Vip_4";
-            txt_Reward_Vip_4.Size = new Size(48, 15);
+            txt_Reward_Vip_4.ReadOnly = true;
+            txt_Reward_Vip_4.Size = new Size(58, 15);
             txt_Reward_Vip_4.TabIndex = 56;
             txt_Reward_Vip_4.Text = "15";
             txt_Reward_Vip_4.TextAlign = HorizontalAlignment.Center;
@@ -694,9 +703,10 @@
             txt_Reward_Vip_15.BorderStyle = BorderStyle.None;
             txt_Reward_Vip_15.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_Vip_15.ForeColor = Color.DarkOrange;
-            txt_Reward_Vip_15.Location = new Point(1078, 39);
+            txt_Reward_Vip_15.Location = new Point(1123, 42);
             txt_Reward_Vip_15.Name = "txt_Reward_Vip_15";
-            txt_Reward_Vip_15.Size = new Size(48, 15);
+            txt_Reward_Vip_15.ReadOnly = true;
+            txt_Reward_Vip_15.Size = new Size(58, 15);
             txt_Reward_Vip_15.TabIndex = 67;
             txt_Reward_Vip_15.Text = "15";
             txt_Reward_Vip_15.TextAlign = HorizontalAlignment.Center;
@@ -708,9 +718,10 @@
             txt_Reward_Vip_5.BorderStyle = BorderStyle.None;
             txt_Reward_Vip_5.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_Vip_5.ForeColor = Color.DarkOrange;
-            txt_Reward_Vip_5.Location = new Point(314, 39);
+            txt_Reward_Vip_5.Location = new Point(323, 42);
             txt_Reward_Vip_5.Name = "txt_Reward_Vip_5";
-            txt_Reward_Vip_5.Size = new Size(48, 15);
+            txt_Reward_Vip_5.ReadOnly = true;
+            txt_Reward_Vip_5.Size = new Size(58, 15);
             txt_Reward_Vip_5.TabIndex = 57;
             txt_Reward_Vip_5.Text = "15";
             txt_Reward_Vip_5.TextAlign = HorizontalAlignment.Center;
@@ -722,8 +733,9 @@
             txt_Punti_Reward_16.BorderStyle = BorderStyle.None;
             txt_Punti_Reward_16.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Punti_Reward_16.ForeColor = Color.DarkOrange;
-            txt_Punti_Reward_16.Location = new Point(1162, 21);
+            txt_Punti_Reward_16.Location = new Point(1214, 21);
             txt_Punti_Reward_16.Name = "txt_Punti_Reward_16";
+            txt_Punti_Reward_16.ReadOnly = true;
             txt_Punti_Reward_16.Size = new Size(36, 15);
             txt_Punti_Reward_16.TabIndex = 51;
             txt_Punti_Reward_16.Text = "2000";
@@ -736,9 +748,10 @@
             txt_Reward_Vip_6.BorderStyle = BorderStyle.None;
             txt_Reward_Vip_6.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_Vip_6.ForeColor = Color.DarkOrange;
-            txt_Reward_Vip_6.Location = new Point(386, 39);
+            txt_Reward_Vip_6.Location = new Point(403, 42);
             txt_Reward_Vip_6.Name = "txt_Reward_Vip_6";
-            txt_Reward_Vip_6.Size = new Size(48, 15);
+            txt_Reward_Vip_6.ReadOnly = true;
+            txt_Reward_Vip_6.Size = new Size(58, 15);
             txt_Reward_Vip_6.TabIndex = 58;
             txt_Reward_Vip_6.Text = "15";
             txt_Reward_Vip_6.TextAlign = HorizontalAlignment.Center;
@@ -750,8 +763,9 @@
             txt_Punti_Reward_17.BorderStyle = BorderStyle.None;
             txt_Punti_Reward_17.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Punti_Reward_17.ForeColor = Color.DarkOrange;
-            txt_Punti_Reward_17.Location = new Point(1239, 21);
+            txt_Punti_Reward_17.Location = new Point(1294, 21);
             txt_Punti_Reward_17.Name = "txt_Punti_Reward_17";
+            txt_Punti_Reward_17.ReadOnly = true;
             txt_Punti_Reward_17.Size = new Size(36, 15);
             txt_Punti_Reward_17.TabIndex = 50;
             txt_Punti_Reward_17.Text = "2000";
@@ -764,9 +778,10 @@
             txt_Reward_Vip_19.BorderStyle = BorderStyle.None;
             txt_Reward_Vip_19.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_Vip_19.ForeColor = Color.DarkOrange;
-            txt_Reward_Vip_19.Location = new Point(1391, 39);
+            txt_Reward_Vip_19.Location = new Point(1443, 42);
             txt_Reward_Vip_19.Name = "txt_Reward_Vip_19";
-            txt_Reward_Vip_19.Size = new Size(48, 15);
+            txt_Reward_Vip_19.ReadOnly = true;
+            txt_Reward_Vip_19.Size = new Size(58, 15);
             txt_Reward_Vip_19.TabIndex = 71;
             txt_Reward_Vip_19.Text = "15";
             txt_Reward_Vip_19.TextAlign = HorizontalAlignment.Center;
@@ -778,8 +793,9 @@
             txt_Punti_Reward_15.BorderStyle = BorderStyle.None;
             txt_Punti_Reward_15.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Punti_Reward_15.ForeColor = Color.DarkOrange;
-            txt_Punti_Reward_15.Location = new Point(1083, 21);
+            txt_Punti_Reward_15.Location = new Point(1134, 21);
             txt_Punti_Reward_15.Name = "txt_Punti_Reward_15";
+            txt_Punti_Reward_15.ReadOnly = true;
             txt_Punti_Reward_15.Size = new Size(36, 15);
             txt_Punti_Reward_15.TabIndex = 49;
             txt_Punti_Reward_15.Text = "2000";
@@ -792,9 +808,10 @@
             txt_Reward_Vip_7.BorderStyle = BorderStyle.None;
             txt_Reward_Vip_7.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_Vip_7.ForeColor = Color.DarkOrange;
-            txt_Reward_Vip_7.Location = new Point(466, 39);
+            txt_Reward_Vip_7.Location = new Point(484, 42);
             txt_Reward_Vip_7.Name = "txt_Reward_Vip_7";
-            txt_Reward_Vip_7.Size = new Size(48, 15);
+            txt_Reward_Vip_7.ReadOnly = true;
+            txt_Reward_Vip_7.Size = new Size(58, 15);
             txt_Reward_Vip_7.TabIndex = 59;
             txt_Reward_Vip_7.Text = "15";
             txt_Reward_Vip_7.TextAlign = HorizontalAlignment.Center;
@@ -806,8 +823,9 @@
             txt_Punti_Reward_13.BorderStyle = BorderStyle.None;
             txt_Punti_Reward_13.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Punti_Reward_13.ForeColor = Color.DarkOrange;
-            txt_Punti_Reward_13.Location = new Point(931, 21);
+            txt_Punti_Reward_13.Location = new Point(974, 21);
             txt_Punti_Reward_13.Name = "txt_Punti_Reward_13";
+            txt_Punti_Reward_13.ReadOnly = true;
             txt_Punti_Reward_13.Size = new Size(36, 15);
             txt_Punti_Reward_13.TabIndex = 48;
             txt_Punti_Reward_13.Text = "2000";
@@ -820,9 +838,10 @@
             txt_Reward_Vip_8.BorderStyle = BorderStyle.None;
             txt_Reward_Vip_8.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_Vip_8.ForeColor = Color.DarkOrange;
-            txt_Reward_Vip_8.Location = new Point(546, 39);
+            txt_Reward_Vip_8.Location = new Point(563, 42);
             txt_Reward_Vip_8.Name = "txt_Reward_Vip_8";
-            txt_Reward_Vip_8.Size = new Size(48, 15);
+            txt_Reward_Vip_8.ReadOnly = true;
+            txt_Reward_Vip_8.Size = new Size(58, 15);
             txt_Reward_Vip_8.TabIndex = 60;
             txt_Reward_Vip_8.Text = "15";
             txt_Reward_Vip_8.TextAlign = HorizontalAlignment.Center;
@@ -834,8 +853,9 @@
             txt_Punti_Reward_14.BorderStyle = BorderStyle.None;
             txt_Punti_Reward_14.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Punti_Reward_14.ForeColor = Color.DarkOrange;
-            txt_Punti_Reward_14.Location = new Point(1008, 21);
+            txt_Punti_Reward_14.Location = new Point(1054, 21);
             txt_Punti_Reward_14.Name = "txt_Punti_Reward_14";
+            txt_Punti_Reward_14.ReadOnly = true;
             txt_Punti_Reward_14.Size = new Size(36, 15);
             txt_Punti_Reward_14.TabIndex = 47;
             txt_Punti_Reward_14.Text = "2000";
@@ -848,9 +868,10 @@
             txt_Reward_Vip_14.BorderStyle = BorderStyle.None;
             txt_Reward_Vip_14.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_Vip_14.ForeColor = Color.DarkOrange;
-            txt_Reward_Vip_14.Location = new Point(1005, 39);
+            txt_Reward_Vip_14.Location = new Point(1043, 42);
             txt_Reward_Vip_14.Name = "txt_Reward_Vip_14";
-            txt_Reward_Vip_14.Size = new Size(48, 15);
+            txt_Reward_Vip_14.ReadOnly = true;
+            txt_Reward_Vip_14.Size = new Size(58, 15);
             txt_Reward_Vip_14.TabIndex = 66;
             txt_Reward_Vip_14.Text = "15";
             txt_Reward_Vip_14.TextAlign = HorizontalAlignment.Center;
@@ -862,8 +883,9 @@
             txt_Punti_Reward_12.BorderStyle = BorderStyle.None;
             txt_Punti_Reward_12.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Punti_Reward_12.ForeColor = Color.DarkOrange;
-            txt_Punti_Reward_12.Location = new Point(849, 21);
+            txt_Punti_Reward_12.Location = new Point(894, 21);
             txt_Punti_Reward_12.Name = "txt_Punti_Reward_12";
+            txt_Punti_Reward_12.ReadOnly = true;
             txt_Punti_Reward_12.Size = new Size(36, 15);
             txt_Punti_Reward_12.TabIndex = 46;
             txt_Punti_Reward_12.Text = "2000";
@@ -876,9 +898,10 @@
             txt_Reward_Vip_9.BorderStyle = BorderStyle.None;
             txt_Reward_Vip_9.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_Vip_9.ForeColor = Color.DarkOrange;
-            txt_Reward_Vip_9.Location = new Point(624, 39);
+            txt_Reward_Vip_9.Location = new Point(643, 42);
             txt_Reward_Vip_9.Name = "txt_Reward_Vip_9";
-            txt_Reward_Vip_9.Size = new Size(48, 15);
+            txt_Reward_Vip_9.ReadOnly = true;
+            txt_Reward_Vip_9.Size = new Size(58, 15);
             txt_Reward_Vip_9.TabIndex = 61;
             txt_Reward_Vip_9.Text = "15";
             txt_Reward_Vip_9.TextAlign = HorizontalAlignment.Center;
@@ -890,8 +913,9 @@
             txt_Punti_Reward_10.BorderStyle = BorderStyle.None;
             txt_Punti_Reward_10.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Punti_Reward_10.ForeColor = Color.DarkOrange;
-            txt_Punti_Reward_10.Location = new Point(702, 21);
+            txt_Punti_Reward_10.Location = new Point(734, 21);
             txt_Punti_Reward_10.Name = "txt_Punti_Reward_10";
+            txt_Punti_Reward_10.ReadOnly = true;
             txt_Punti_Reward_10.Size = new Size(36, 15);
             txt_Punti_Reward_10.TabIndex = 45;
             txt_Punti_Reward_10.Text = "2000";
@@ -904,9 +928,10 @@
             txt_Reward_Vip_10.BorderStyle = BorderStyle.None;
             txt_Reward_Vip_10.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_Vip_10.ForeColor = Color.DarkOrange;
-            txt_Reward_Vip_10.Location = new Point(697, 39);
+            txt_Reward_Vip_10.Location = new Point(723, 42);
             txt_Reward_Vip_10.Name = "txt_Reward_Vip_10";
-            txt_Reward_Vip_10.Size = new Size(48, 15);
+            txt_Reward_Vip_10.ReadOnly = true;
+            txt_Reward_Vip_10.Size = new Size(58, 15);
             txt_Reward_Vip_10.TabIndex = 62;
             txt_Reward_Vip_10.Text = "15";
             txt_Reward_Vip_10.TextAlign = HorizontalAlignment.Center;
@@ -918,8 +943,9 @@
             txt_Punti_Reward_11.BorderStyle = BorderStyle.None;
             txt_Punti_Reward_11.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Punti_Reward_11.ForeColor = Color.DarkOrange;
-            txt_Punti_Reward_11.Location = new Point(773, 21);
+            txt_Punti_Reward_11.Location = new Point(814, 21);
             txt_Punti_Reward_11.Name = "txt_Punti_Reward_11";
+            txt_Punti_Reward_11.ReadOnly = true;
             txt_Punti_Reward_11.Size = new Size(36, 15);
             txt_Punti_Reward_11.TabIndex = 44;
             txt_Punti_Reward_11.Text = "2000";
@@ -932,9 +958,10 @@
             txt_Reward_Vip_18.BorderStyle = BorderStyle.None;
             txt_Reward_Vip_18.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_Vip_18.ForeColor = Color.DarkOrange;
-            txt_Reward_Vip_18.Location = new Point(1313, 39);
+            txt_Reward_Vip_18.Location = new Point(1363, 42);
             txt_Reward_Vip_18.Name = "txt_Reward_Vip_18";
-            txt_Reward_Vip_18.Size = new Size(48, 15);
+            txt_Reward_Vip_18.ReadOnly = true;
+            txt_Reward_Vip_18.Size = new Size(58, 15);
             txt_Reward_Vip_18.TabIndex = 70;
             txt_Reward_Vip_18.Text = "15";
             txt_Reward_Vip_18.TextAlign = HorizontalAlignment.Center;
@@ -946,8 +973,9 @@
             txt_Punti_Reward_9.BorderStyle = BorderStyle.None;
             txt_Punti_Reward_9.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Punti_Reward_9.ForeColor = Color.DarkOrange;
-            txt_Punti_Reward_9.Location = new Point(628, 21);
+            txt_Punti_Reward_9.Location = new Point(654, 21);
             txt_Punti_Reward_9.Name = "txt_Punti_Reward_9";
+            txt_Punti_Reward_9.ReadOnly = true;
             txt_Punti_Reward_9.Size = new Size(36, 15);
             txt_Punti_Reward_9.TabIndex = 43;
             txt_Punti_Reward_9.Text = "2000";
@@ -960,9 +988,10 @@
             txt_Reward_Vip_11.BorderStyle = BorderStyle.None;
             txt_Reward_Vip_11.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_Vip_11.ForeColor = Color.DarkOrange;
-            txt_Reward_Vip_11.Location = new Point(767, 39);
+            txt_Reward_Vip_11.Location = new Point(803, 42);
             txt_Reward_Vip_11.Name = "txt_Reward_Vip_11";
-            txt_Reward_Vip_11.Size = new Size(48, 15);
+            txt_Reward_Vip_11.ReadOnly = true;
+            txt_Reward_Vip_11.Size = new Size(58, 15);
             txt_Reward_Vip_11.TabIndex = 63;
             txt_Reward_Vip_11.Text = "15";
             txt_Reward_Vip_11.TextAlign = HorizontalAlignment.Center;
@@ -974,8 +1003,9 @@
             txt_Punti_Reward_7.BorderStyle = BorderStyle.None;
             txt_Punti_Reward_7.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Punti_Reward_7.ForeColor = Color.DarkOrange;
-            txt_Punti_Reward_7.Location = new Point(471, 21);
+            txt_Punti_Reward_7.Location = new Point(494, 21);
             txt_Punti_Reward_7.Name = "txt_Punti_Reward_7";
+            txt_Punti_Reward_7.ReadOnly = true;
             txt_Punti_Reward_7.Size = new Size(36, 15);
             txt_Punti_Reward_7.TabIndex = 42;
             txt_Punti_Reward_7.Text = "2000";
@@ -988,9 +1018,10 @@
             txt_Reward_Vip_16.BorderStyle = BorderStyle.None;
             txt_Reward_Vip_16.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_Vip_16.ForeColor = Color.DarkOrange;
-            txt_Reward_Vip_16.Location = new Point(1153, 39);
+            txt_Reward_Vip_16.Location = new Point(1203, 42);
             txt_Reward_Vip_16.Name = "txt_Reward_Vip_16";
-            txt_Reward_Vip_16.Size = new Size(48, 15);
+            txt_Reward_Vip_16.ReadOnly = true;
+            txt_Reward_Vip_16.Size = new Size(58, 15);
             txt_Reward_Vip_16.TabIndex = 68;
             txt_Reward_Vip_16.Text = "15";
             txt_Reward_Vip_16.TextAlign = HorizontalAlignment.Center;
@@ -1002,8 +1033,9 @@
             txt_Punti_Reward_8.BorderStyle = BorderStyle.None;
             txt_Punti_Reward_8.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Punti_Reward_8.ForeColor = Color.DarkOrange;
-            txt_Punti_Reward_8.Location = new Point(550, 21);
+            txt_Punti_Reward_8.Location = new Point(574, 21);
             txt_Punti_Reward_8.Name = "txt_Punti_Reward_8";
+            txt_Punti_Reward_8.ReadOnly = true;
             txt_Punti_Reward_8.Size = new Size(36, 15);
             txt_Punti_Reward_8.TabIndex = 41;
             txt_Punti_Reward_8.Text = "2000";
@@ -1016,9 +1048,10 @@
             txt_Reward_Vip_13.BorderStyle = BorderStyle.None;
             txt_Reward_Vip_13.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_Vip_13.ForeColor = Color.DarkOrange;
-            txt_Reward_Vip_13.Location = new Point(927, 39);
+            txt_Reward_Vip_13.Location = new Point(963, 42);
             txt_Reward_Vip_13.Name = "txt_Reward_Vip_13";
-            txt_Reward_Vip_13.Size = new Size(48, 15);
+            txt_Reward_Vip_13.ReadOnly = true;
+            txt_Reward_Vip_13.Size = new Size(58, 15);
             txt_Reward_Vip_13.TabIndex = 65;
             txt_Reward_Vip_13.Text = "15";
             txt_Reward_Vip_13.TextAlign = HorizontalAlignment.Center;
@@ -1030,8 +1063,9 @@
             txt_Punti_Reward_6.BorderStyle = BorderStyle.None;
             txt_Punti_Reward_6.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Punti_Reward_6.ForeColor = Color.DarkOrange;
-            txt_Punti_Reward_6.Location = new Point(393, 21);
+            txt_Punti_Reward_6.Location = new Point(414, 21);
             txt_Punti_Reward_6.Name = "txt_Punti_Reward_6";
+            txt_Punti_Reward_6.ReadOnly = true;
             txt_Punti_Reward_6.Size = new Size(36, 15);
             txt_Punti_Reward_6.TabIndex = 40;
             txt_Punti_Reward_6.Text = "2000";
@@ -1044,9 +1078,10 @@
             txt_Reward_Vip_12.BorderStyle = BorderStyle.None;
             txt_Reward_Vip_12.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_Vip_12.ForeColor = Color.DarkOrange;
-            txt_Reward_Vip_12.Location = new Point(847, 39);
+            txt_Reward_Vip_12.Location = new Point(883, 42);
             txt_Reward_Vip_12.Name = "txt_Reward_Vip_12";
-            txt_Reward_Vip_12.Size = new Size(48, 15);
+            txt_Reward_Vip_12.ReadOnly = true;
+            txt_Reward_Vip_12.Size = new Size(58, 15);
             txt_Reward_Vip_12.TabIndex = 64;
             txt_Reward_Vip_12.Text = "15";
             txt_Reward_Vip_12.TextAlign = HorizontalAlignment.Center;
@@ -1058,8 +1093,9 @@
             txt_Punti_Reward_4.BorderStyle = BorderStyle.None;
             txt_Punti_Reward_4.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Punti_Reward_4.ForeColor = Color.DarkOrange;
-            txt_Punti_Reward_4.Location = new Point(248, 21);
+            txt_Punti_Reward_4.Location = new Point(254, 21);
             txt_Punti_Reward_4.Name = "txt_Punti_Reward_4";
+            txt_Punti_Reward_4.ReadOnly = true;
             txt_Punti_Reward_4.Size = new Size(36, 15);
             txt_Punti_Reward_4.TabIndex = 39;
             txt_Punti_Reward_4.Text = "2000";
@@ -1072,9 +1108,10 @@
             txt_Reward_Vip_17.BorderStyle = BorderStyle.None;
             txt_Reward_Vip_17.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_Vip_17.ForeColor = Color.DarkOrange;
-            txt_Reward_Vip_17.Location = new Point(1232, 39);
+            txt_Reward_Vip_17.Location = new Point(1283, 42);
             txt_Reward_Vip_17.Name = "txt_Reward_Vip_17";
-            txt_Reward_Vip_17.Size = new Size(48, 15);
+            txt_Reward_Vip_17.ReadOnly = true;
+            txt_Reward_Vip_17.Size = new Size(58, 15);
             txt_Reward_Vip_17.TabIndex = 69;
             txt_Reward_Vip_17.Text = "15";
             txt_Reward_Vip_17.TextAlign = HorizontalAlignment.Center;
@@ -1086,8 +1123,9 @@
             txt_Punti_Reward_5.BorderStyle = BorderStyle.None;
             txt_Punti_Reward_5.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Punti_Reward_5.ForeColor = Color.DarkOrange;
-            txt_Punti_Reward_5.Location = new Point(321, 21);
+            txt_Punti_Reward_5.Location = new Point(334, 21);
             txt_Punti_Reward_5.Name = "txt_Punti_Reward_5";
+            txt_Punti_Reward_5.ReadOnly = true;
             txt_Punti_Reward_5.Size = new Size(36, 15);
             txt_Punti_Reward_5.TabIndex = 38;
             txt_Punti_Reward_5.Text = "2000";
@@ -1100,9 +1138,10 @@
             txt_Reward_1.BorderStyle = BorderStyle.None;
             txt_Reward_1.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_1.ForeColor = Color.DarkOrange;
-            txt_Reward_1.Location = new Point(3, 3);
+            txt_Reward_1.Location = new Point(3, 2);
             txt_Reward_1.Name = "txt_Reward_1";
-            txt_Reward_1.Size = new Size(48, 15);
+            txt_Reward_1.ReadOnly = true;
+            txt_Reward_1.Size = new Size(58, 15);
             txt_Reward_1.TabIndex = 33;
             txt_Reward_1.Text = "15";
             txt_Reward_1.TextAlign = HorizontalAlignment.Center;
@@ -1114,8 +1153,9 @@
             txt_Punti_Reward_3.BorderStyle = BorderStyle.None;
             txt_Punti_Reward_3.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Punti_Reward_3.ForeColor = Color.DarkOrange;
-            txt_Punti_Reward_3.Location = new Point(170, 21);
+            txt_Punti_Reward_3.Location = new Point(174, 21);
             txt_Punti_Reward_3.Name = "txt_Punti_Reward_3";
+            txt_Punti_Reward_3.ReadOnly = true;
             txt_Punti_Reward_3.Size = new Size(36, 15);
             txt_Punti_Reward_3.TabIndex = 37;
             txt_Punti_Reward_3.Text = "2000";
@@ -1128,9 +1168,10 @@
             txt_Reward_2.BorderStyle = BorderStyle.None;
             txt_Reward_2.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_2.ForeColor = Color.DarkOrange;
-            txt_Reward_2.Location = new Point(83, 3);
+            txt_Reward_2.Location = new Point(83, 2);
             txt_Reward_2.Name = "txt_Reward_2";
-            txt_Reward_2.Size = new Size(48, 15);
+            txt_Reward_2.ReadOnly = true;
+            txt_Reward_2.Size = new Size(58, 15);
             txt_Reward_2.TabIndex = 34;
             txt_Reward_2.Text = "15";
             txt_Reward_2.TextAlign = HorizontalAlignment.Center;
@@ -1142,11 +1183,12 @@
             txt_Punti_Reward_1.BorderStyle = BorderStyle.None;
             txt_Punti_Reward_1.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Punti_Reward_1.ForeColor = Color.DarkOrange;
-            txt_Punti_Reward_1.Location = new Point(10, 21);
+            txt_Punti_Reward_1.Location = new Point(14, 22);
             txt_Punti_Reward_1.Name = "txt_Punti_Reward_1";
+            txt_Punti_Reward_1.ReadOnly = true;
             txt_Punti_Reward_1.Size = new Size(36, 15);
             txt_Punti_Reward_1.TabIndex = 36;
-            txt_Punti_Reward_1.Text = "2000";
+            txt_Punti_Reward_1.Text = "20";
             txt_Punti_Reward_1.TextAlign = HorizontalAlignment.Center;
             // 
             // txt_Punti_Reward_2
@@ -1156,11 +1198,12 @@
             txt_Punti_Reward_2.BorderStyle = BorderStyle.None;
             txt_Punti_Reward_2.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Punti_Reward_2.ForeColor = Color.DarkOrange;
-            txt_Punti_Reward_2.Location = new Point(90, 21);
+            txt_Punti_Reward_2.Location = new Point(94, 21);
             txt_Punti_Reward_2.Name = "txt_Punti_Reward_2";
+            txt_Punti_Reward_2.ReadOnly = true;
             txt_Punti_Reward_2.Size = new Size(36, 15);
             txt_Punti_Reward_2.TabIndex = 35;
-            txt_Punti_Reward_2.Text = "2000";
+            txt_Punti_Reward_2.Text = "40";
             txt_Punti_Reward_2.TextAlign = HorizontalAlignment.Center;
             // 
             // txt_Reward_20
@@ -1170,9 +1213,10 @@
             txt_Reward_20.BorderStyle = BorderStyle.None;
             txt_Reward_20.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_20.ForeColor = Color.DarkOrange;
-            txt_Reward_20.Location = new Point(1465, 3);
+            txt_Reward_20.Location = new Point(1523, 2);
             txt_Reward_20.Name = "txt_Reward_20";
-            txt_Reward_20.Size = new Size(48, 15);
+            txt_Reward_20.ReadOnly = true;
+            txt_Reward_20.Size = new Size(58, 15);
             txt_Reward_20.TabIndex = 52;
             txt_Reward_20.Text = "15";
             txt_Reward_20.TextAlign = HorizontalAlignment.Center;
@@ -1184,9 +1228,10 @@
             txt_Reward_3.BorderStyle = BorderStyle.None;
             txt_Reward_3.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_3.ForeColor = Color.DarkOrange;
-            txt_Reward_3.Location = new Point(163, 3);
+            txt_Reward_3.Location = new Point(163, 2);
             txt_Reward_3.Name = "txt_Reward_3";
-            txt_Reward_3.Size = new Size(48, 15);
+            txt_Reward_3.ReadOnly = true;
+            txt_Reward_3.Size = new Size(58, 15);
             txt_Reward_3.TabIndex = 35;
             txt_Reward_3.Text = "15";
             txt_Reward_3.TextAlign = HorizontalAlignment.Center;
@@ -1198,9 +1243,10 @@
             txt_Reward_4.BorderStyle = BorderStyle.None;
             txt_Reward_4.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_4.ForeColor = Color.DarkOrange;
-            txt_Reward_4.Location = new Point(241, 3);
+            txt_Reward_4.Location = new Point(243, 2);
             txt_Reward_4.Name = "txt_Reward_4";
-            txt_Reward_4.Size = new Size(48, 15);
+            txt_Reward_4.ReadOnly = true;
+            txt_Reward_4.Size = new Size(58, 15);
             txt_Reward_4.TabIndex = 36;
             txt_Reward_4.Text = "15";
             txt_Reward_4.TextAlign = HorizontalAlignment.Center;
@@ -1208,10 +1254,10 @@
             // progressBar1
             // 
             progressBar1.ForeColor = Color.DarkOrange;
-            progressBar1.Location = new Point(0, 20);
-            progressBar1.Maximum = 2000;
+            progressBar1.Location = new Point(0, 21);
+            progressBar1.Maximum = 3000;
             progressBar1.Name = "progressBar1";
-            progressBar1.Size = new Size(1513, 17);
+            progressBar1.Size = new Size(1595, 17);
             progressBar1.Style = ProgressBarStyle.Continuous;
             progressBar1.TabIndex = 17;
             // 
@@ -1222,9 +1268,10 @@
             txt_Reward_15.BorderStyle = BorderStyle.None;
             txt_Reward_15.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_15.ForeColor = Color.DarkOrange;
-            txt_Reward_15.Location = new Point(1078, 3);
+            txt_Reward_15.Location = new Point(1123, 2);
             txt_Reward_15.Name = "txt_Reward_15";
-            txt_Reward_15.Size = new Size(48, 15);
+            txt_Reward_15.ReadOnly = true;
+            txt_Reward_15.Size = new Size(58, 15);
             txt_Reward_15.TabIndex = 47;
             txt_Reward_15.Text = "15";
             txt_Reward_15.TextAlign = HorizontalAlignment.Center;
@@ -1236,9 +1283,10 @@
             txt_Reward_5.BorderStyle = BorderStyle.None;
             txt_Reward_5.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_5.ForeColor = Color.DarkOrange;
-            txt_Reward_5.Location = new Point(314, 3);
+            txt_Reward_5.Location = new Point(323, 2);
             txt_Reward_5.Name = "txt_Reward_5";
-            txt_Reward_5.Size = new Size(48, 15);
+            txt_Reward_5.ReadOnly = true;
+            txt_Reward_5.Size = new Size(58, 15);
             txt_Reward_5.TabIndex = 37;
             txt_Reward_5.Text = "15";
             txt_Reward_5.TextAlign = HorizontalAlignment.Center;
@@ -1250,9 +1298,10 @@
             txt_Reward_6.BorderStyle = BorderStyle.None;
             txt_Reward_6.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_6.ForeColor = Color.DarkOrange;
-            txt_Reward_6.Location = new Point(386, 3);
+            txt_Reward_6.Location = new Point(403, 2);
             txt_Reward_6.Name = "txt_Reward_6";
-            txt_Reward_6.Size = new Size(48, 15);
+            txt_Reward_6.ReadOnly = true;
+            txt_Reward_6.Size = new Size(58, 15);
             txt_Reward_6.TabIndex = 38;
             txt_Reward_6.Text = "15";
             txt_Reward_6.TextAlign = HorizontalAlignment.Center;
@@ -1264,9 +1313,10 @@
             txt_Reward_19.BorderStyle = BorderStyle.None;
             txt_Reward_19.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_19.ForeColor = Color.DarkOrange;
-            txt_Reward_19.Location = new Point(1391, 3);
+            txt_Reward_19.Location = new Point(1443, 2);
             txt_Reward_19.Name = "txt_Reward_19";
-            txt_Reward_19.Size = new Size(48, 15);
+            txt_Reward_19.ReadOnly = true;
+            txt_Reward_19.Size = new Size(58, 15);
             txt_Reward_19.TabIndex = 51;
             txt_Reward_19.Text = "15";
             txt_Reward_19.TextAlign = HorizontalAlignment.Center;
@@ -1278,9 +1328,10 @@
             txt_Reward_7.BorderStyle = BorderStyle.None;
             txt_Reward_7.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_7.ForeColor = Color.DarkOrange;
-            txt_Reward_7.Location = new Point(466, 3);
+            txt_Reward_7.Location = new Point(484, 2);
             txt_Reward_7.Name = "txt_Reward_7";
-            txt_Reward_7.Size = new Size(48, 15);
+            txt_Reward_7.ReadOnly = true;
+            txt_Reward_7.Size = new Size(58, 15);
             txt_Reward_7.TabIndex = 39;
             txt_Reward_7.Text = "15";
             txt_Reward_7.TextAlign = HorizontalAlignment.Center;
@@ -1292,9 +1343,10 @@
             txt_Reward_8.BorderStyle = BorderStyle.None;
             txt_Reward_8.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_8.ForeColor = Color.DarkOrange;
-            txt_Reward_8.Location = new Point(546, 3);
+            txt_Reward_8.Location = new Point(563, 2);
             txt_Reward_8.Name = "txt_Reward_8";
-            txt_Reward_8.Size = new Size(48, 15);
+            txt_Reward_8.ReadOnly = true;
+            txt_Reward_8.Size = new Size(58, 15);
             txt_Reward_8.TabIndex = 40;
             txt_Reward_8.Text = "15";
             txt_Reward_8.TextAlign = HorizontalAlignment.Center;
@@ -1306,9 +1358,10 @@
             txt_Reward_14.BorderStyle = BorderStyle.None;
             txt_Reward_14.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_14.ForeColor = Color.DarkOrange;
-            txt_Reward_14.Location = new Point(1005, 3);
+            txt_Reward_14.Location = new Point(1043, 2);
             txt_Reward_14.Name = "txt_Reward_14";
-            txt_Reward_14.Size = new Size(48, 15);
+            txt_Reward_14.ReadOnly = true;
+            txt_Reward_14.Size = new Size(58, 15);
             txt_Reward_14.TabIndex = 46;
             txt_Reward_14.Text = "15";
             txt_Reward_14.TextAlign = HorizontalAlignment.Center;
@@ -1320,9 +1373,10 @@
             txt_Reward_9.BorderStyle = BorderStyle.None;
             txt_Reward_9.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_9.ForeColor = Color.DarkOrange;
-            txt_Reward_9.Location = new Point(624, 3);
+            txt_Reward_9.Location = new Point(643, 2);
             txt_Reward_9.Name = "txt_Reward_9";
-            txt_Reward_9.Size = new Size(48, 15);
+            txt_Reward_9.ReadOnly = true;
+            txt_Reward_9.Size = new Size(58, 15);
             txt_Reward_9.TabIndex = 41;
             txt_Reward_9.Text = "15";
             txt_Reward_9.TextAlign = HorizontalAlignment.Center;
@@ -1334,9 +1388,10 @@
             txt_Reward_10.BorderStyle = BorderStyle.None;
             txt_Reward_10.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_10.ForeColor = Color.DarkOrange;
-            txt_Reward_10.Location = new Point(697, 3);
+            txt_Reward_10.Location = new Point(723, 2);
             txt_Reward_10.Name = "txt_Reward_10";
-            txt_Reward_10.Size = new Size(48, 15);
+            txt_Reward_10.ReadOnly = true;
+            txt_Reward_10.Size = new Size(58, 15);
             txt_Reward_10.TabIndex = 42;
             txt_Reward_10.Text = "15";
             txt_Reward_10.TextAlign = HorizontalAlignment.Center;
@@ -1348,9 +1403,10 @@
             txt_Reward_18.BorderStyle = BorderStyle.None;
             txt_Reward_18.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_18.ForeColor = Color.DarkOrange;
-            txt_Reward_18.Location = new Point(1313, 3);
+            txt_Reward_18.Location = new Point(1363, 2);
             txt_Reward_18.Name = "txt_Reward_18";
-            txt_Reward_18.Size = new Size(48, 15);
+            txt_Reward_18.ReadOnly = true;
+            txt_Reward_18.Size = new Size(58, 15);
             txt_Reward_18.TabIndex = 50;
             txt_Reward_18.Text = "15";
             txt_Reward_18.TextAlign = HorizontalAlignment.Center;
@@ -1362,9 +1418,10 @@
             txt_Reward_11.BorderStyle = BorderStyle.None;
             txt_Reward_11.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_11.ForeColor = Color.DarkOrange;
-            txt_Reward_11.Location = new Point(767, 3);
+            txt_Reward_11.Location = new Point(803, 2);
             txt_Reward_11.Name = "txt_Reward_11";
-            txt_Reward_11.Size = new Size(48, 15);
+            txt_Reward_11.ReadOnly = true;
+            txt_Reward_11.Size = new Size(58, 15);
             txt_Reward_11.TabIndex = 43;
             txt_Reward_11.Text = "15";
             txt_Reward_11.TextAlign = HorizontalAlignment.Center;
@@ -1376,9 +1433,10 @@
             txt_Reward_16.BorderStyle = BorderStyle.None;
             txt_Reward_16.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_16.ForeColor = Color.DarkOrange;
-            txt_Reward_16.Location = new Point(1153, 3);
+            txt_Reward_16.Location = new Point(1203, 2);
             txt_Reward_16.Name = "txt_Reward_16";
-            txt_Reward_16.Size = new Size(48, 15);
+            txt_Reward_16.ReadOnly = true;
+            txt_Reward_16.Size = new Size(58, 15);
             txt_Reward_16.TabIndex = 48;
             txt_Reward_16.Text = "15";
             txt_Reward_16.TextAlign = HorizontalAlignment.Center;
@@ -1390,9 +1448,10 @@
             txt_Reward_13.BorderStyle = BorderStyle.None;
             txt_Reward_13.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_13.ForeColor = Color.DarkOrange;
-            txt_Reward_13.Location = new Point(927, 3);
+            txt_Reward_13.Location = new Point(963, 2);
             txt_Reward_13.Name = "txt_Reward_13";
-            txt_Reward_13.Size = new Size(48, 15);
+            txt_Reward_13.ReadOnly = true;
+            txt_Reward_13.Size = new Size(58, 15);
             txt_Reward_13.TabIndex = 45;
             txt_Reward_13.Text = "15";
             txt_Reward_13.TextAlign = HorizontalAlignment.Center;
@@ -1404,9 +1463,10 @@
             txt_Reward_12.BorderStyle = BorderStyle.None;
             txt_Reward_12.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_12.ForeColor = Color.DarkOrange;
-            txt_Reward_12.Location = new Point(847, 3);
+            txt_Reward_12.Location = new Point(883, 2);
             txt_Reward_12.Name = "txt_Reward_12";
-            txt_Reward_12.Size = new Size(48, 15);
+            txt_Reward_12.ReadOnly = true;
+            txt_Reward_12.Size = new Size(58, 15);
             txt_Reward_12.TabIndex = 44;
             txt_Reward_12.Text = "15";
             txt_Reward_12.TextAlign = HorizontalAlignment.Center;
@@ -1418,9 +1478,10 @@
             txt_Reward_17.BorderStyle = BorderStyle.None;
             txt_Reward_17.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Reward_17.ForeColor = Color.DarkOrange;
-            txt_Reward_17.Location = new Point(1232, 3);
+            txt_Reward_17.Location = new Point(1283, 2);
             txt_Reward_17.Name = "txt_Reward_17";
-            txt_Reward_17.Size = new Size(48, 15);
+            txt_Reward_17.ReadOnly = true;
+            txt_Reward_17.Size = new Size(58, 15);
             txt_Reward_17.TabIndex = 49;
             txt_Reward_17.Text = "15";
             txt_Reward_17.TextAlign = HorizontalAlignment.Center;
@@ -1448,9 +1509,9 @@
             panel4.Controls.Add(btn_Reward_Vip_11);
             panel4.Controls.Add(btn_Reward_Vip_9);
             panel4.Controls.Add(btn_Reward_Vip_10);
-            panel4.Location = new Point(6, 126);
+            panel4.Location = new Point(1, 116);
             panel4.Name = "panel4";
-            panel4.Size = new Size(1522, 59);
+            panel4.Size = new Size(1614, 63);
             panel4.TabIndex = 58;
             // 
             // btn_Reward_Vip_1
@@ -1460,7 +1521,7 @@
             btn_Reward_Vip_1.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_1.FlatStyle = FlatStyle.Flat;
             btn_Reward_Vip_1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_Vip_1.Location = new Point(5, 5);
+            btn_Reward_Vip_1.Location = new Point(5, 8);
             btn_Reward_Vip_1.Name = "btn_Reward_Vip_1";
             btn_Reward_Vip_1.Size = new Size(50, 48);
             btn_Reward_Vip_1.TabIndex = 79;
@@ -1469,12 +1530,12 @@
             // 
             // btn_Reward_Vip_20
             // 
-            btn_Reward_Vip_20.BackgroundImage = Properties.Resources.Banner_Red_removebg_preview;
-            btn_Reward_Vip_20.BackgroundImageLayout = ImageLayout.Stretch;
+            btn_Reward_Vip_20.BackgroundImage = (Image)resources.GetObject("btn_Reward_Vip_20.BackgroundImage");
+            btn_Reward_Vip_20.BackgroundImageLayout = ImageLayout.Zoom;
             btn_Reward_Vip_20.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_20.FlatStyle = FlatStyle.Flat;
             btn_Reward_Vip_20.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_Vip_20.Location = new Point(1468, 5);
+            btn_Reward_Vip_20.Location = new Point(1527, 8);
             btn_Reward_Vip_20.Name = "btn_Reward_Vip_20";
             btn_Reward_Vip_20.Size = new Size(50, 48);
             btn_Reward_Vip_20.TabIndex = 78;
@@ -1500,7 +1561,7 @@
             btn_Reward_Vip_19.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_19.FlatStyle = FlatStyle.Flat;
             btn_Reward_Vip_19.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_Vip_19.Location = new Point(1395, 5);
+            btn_Reward_Vip_19.Location = new Point(1447, 8);
             btn_Reward_Vip_19.Name = "btn_Reward_Vip_19";
             btn_Reward_Vip_19.Size = new Size(50, 48);
             btn_Reward_Vip_19.TabIndex = 77;
@@ -1514,7 +1575,7 @@
             btn_Reward_Vip_18.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_18.FlatStyle = FlatStyle.Flat;
             btn_Reward_Vip_18.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_Vip_18.Location = new Point(1317, 5);
+            btn_Reward_Vip_18.Location = new Point(1367, 8);
             btn_Reward_Vip_18.Name = "btn_Reward_Vip_18";
             btn_Reward_Vip_18.Size = new Size(50, 48);
             btn_Reward_Vip_18.TabIndex = 76;
@@ -1528,7 +1589,7 @@
             btn_Reward_Vip_2.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_2.FlatStyle = FlatStyle.Flat;
             btn_Reward_Vip_2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_Vip_2.Location = new Point(85, 5);
+            btn_Reward_Vip_2.Location = new Point(87, 8);
             btn_Reward_Vip_2.Name = "btn_Reward_Vip_2";
             btn_Reward_Vip_2.Size = new Size(50, 48);
             btn_Reward_Vip_2.TabIndex = 60;
@@ -1542,7 +1603,7 @@
             btn_Reward_Vip_17.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_17.FlatStyle = FlatStyle.Flat;
             btn_Reward_Vip_17.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_Vip_17.Location = new Point(1237, 5);
+            btn_Reward_Vip_17.Location = new Point(1287, 8);
             btn_Reward_Vip_17.Name = "btn_Reward_Vip_17";
             btn_Reward_Vip_17.Size = new Size(50, 48);
             btn_Reward_Vip_17.TabIndex = 75;
@@ -1556,7 +1617,7 @@
             btn_Reward_Vip_3.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_3.FlatStyle = FlatStyle.Flat;
             btn_Reward_Vip_3.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_Vip_3.Location = new Point(167, 5);
+            btn_Reward_Vip_3.Location = new Point(167, 8);
             btn_Reward_Vip_3.Name = "btn_Reward_Vip_3";
             btn_Reward_Vip_3.Size = new Size(50, 48);
             btn_Reward_Vip_3.TabIndex = 61;
@@ -1570,7 +1631,7 @@
             btn_Reward_Vip_16.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_16.FlatStyle = FlatStyle.Flat;
             btn_Reward_Vip_16.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_Vip_16.Location = new Point(1157, 5);
+            btn_Reward_Vip_16.Location = new Point(1207, 8);
             btn_Reward_Vip_16.Name = "btn_Reward_Vip_16";
             btn_Reward_Vip_16.Size = new Size(50, 48);
             btn_Reward_Vip_16.TabIndex = 74;
@@ -1584,7 +1645,7 @@
             btn_Reward_Vip_4.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_4.FlatStyle = FlatStyle.Flat;
             btn_Reward_Vip_4.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_Vip_4.Location = new Point(245, 5);
+            btn_Reward_Vip_4.Location = new Point(247, 8);
             btn_Reward_Vip_4.Name = "btn_Reward_Vip_4";
             btn_Reward_Vip_4.Size = new Size(50, 48);
             btn_Reward_Vip_4.TabIndex = 62;
@@ -1598,7 +1659,7 @@
             btn_Reward_Vip_15.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_15.FlatStyle = FlatStyle.Flat;
             btn_Reward_Vip_15.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_Vip_15.Location = new Point(1082, 5);
+            btn_Reward_Vip_15.Location = new Point(1127, 8);
             btn_Reward_Vip_15.Name = "btn_Reward_Vip_15";
             btn_Reward_Vip_15.Size = new Size(50, 48);
             btn_Reward_Vip_15.TabIndex = 73;
@@ -1612,7 +1673,7 @@
             btn_Reward_Vip_5.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_5.FlatStyle = FlatStyle.Flat;
             btn_Reward_Vip_5.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_Vip_5.Location = new Point(318, 5);
+            btn_Reward_Vip_5.Location = new Point(327, 8);
             btn_Reward_Vip_5.Name = "btn_Reward_Vip_5";
             btn_Reward_Vip_5.Size = new Size(50, 48);
             btn_Reward_Vip_5.TabIndex = 63;
@@ -1626,7 +1687,7 @@
             btn_Reward_Vip_14.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_14.FlatStyle = FlatStyle.Flat;
             btn_Reward_Vip_14.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_Vip_14.Location = new Point(1009, 5);
+            btn_Reward_Vip_14.Location = new Point(1047, 8);
             btn_Reward_Vip_14.Name = "btn_Reward_Vip_14";
             btn_Reward_Vip_14.Size = new Size(50, 48);
             btn_Reward_Vip_14.TabIndex = 72;
@@ -1640,7 +1701,7 @@
             btn_Reward_Vip_6.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_6.FlatStyle = FlatStyle.Flat;
             btn_Reward_Vip_6.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_Vip_6.Location = new Point(390, 5);
+            btn_Reward_Vip_6.Location = new Point(407, 8);
             btn_Reward_Vip_6.Name = "btn_Reward_Vip_6";
             btn_Reward_Vip_6.Size = new Size(50, 48);
             btn_Reward_Vip_6.TabIndex = 64;
@@ -1654,7 +1715,7 @@
             btn_Reward_Vip_13.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_13.FlatStyle = FlatStyle.Flat;
             btn_Reward_Vip_13.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_Vip_13.Location = new Point(931, 5);
+            btn_Reward_Vip_13.Location = new Point(967, 8);
             btn_Reward_Vip_13.Name = "btn_Reward_Vip_13";
             btn_Reward_Vip_13.Size = new Size(50, 48);
             btn_Reward_Vip_13.TabIndex = 71;
@@ -1668,7 +1729,7 @@
             btn_Reward_Vip_7.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_7.FlatStyle = FlatStyle.Flat;
             btn_Reward_Vip_7.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_Vip_7.Location = new Point(470, 5);
+            btn_Reward_Vip_7.Location = new Point(487, 8);
             btn_Reward_Vip_7.Name = "btn_Reward_Vip_7";
             btn_Reward_Vip_7.Size = new Size(50, 48);
             btn_Reward_Vip_7.TabIndex = 65;
@@ -1682,7 +1743,7 @@
             btn_Reward_Vip_12.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_12.FlatStyle = FlatStyle.Flat;
             btn_Reward_Vip_12.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_Vip_12.Location = new Point(851, 5);
+            btn_Reward_Vip_12.Location = new Point(887, 8);
             btn_Reward_Vip_12.Name = "btn_Reward_Vip_12";
             btn_Reward_Vip_12.Size = new Size(50, 48);
             btn_Reward_Vip_12.TabIndex = 70;
@@ -1696,7 +1757,7 @@
             btn_Reward_Vip_8.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_8.FlatStyle = FlatStyle.Flat;
             btn_Reward_Vip_8.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_Vip_8.Location = new Point(550, 5);
+            btn_Reward_Vip_8.Location = new Point(567, 8);
             btn_Reward_Vip_8.Name = "btn_Reward_Vip_8";
             btn_Reward_Vip_8.Size = new Size(50, 48);
             btn_Reward_Vip_8.TabIndex = 66;
@@ -1710,7 +1771,7 @@
             btn_Reward_Vip_11.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_11.FlatStyle = FlatStyle.Flat;
             btn_Reward_Vip_11.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_Vip_11.Location = new Point(771, 5);
+            btn_Reward_Vip_11.Location = new Point(807, 8);
             btn_Reward_Vip_11.Name = "btn_Reward_Vip_11";
             btn_Reward_Vip_11.Size = new Size(50, 48);
             btn_Reward_Vip_11.TabIndex = 69;
@@ -1724,7 +1785,7 @@
             btn_Reward_Vip_9.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_9.FlatStyle = FlatStyle.Flat;
             btn_Reward_Vip_9.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_Vip_9.Location = new Point(628, 5);
+            btn_Reward_Vip_9.Location = new Point(647, 8);
             btn_Reward_Vip_9.Name = "btn_Reward_Vip_9";
             btn_Reward_Vip_9.Size = new Size(50, 48);
             btn_Reward_Vip_9.TabIndex = 67;
@@ -1738,7 +1799,7 @@
             btn_Reward_Vip_10.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_10.FlatStyle = FlatStyle.Flat;
             btn_Reward_Vip_10.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_Vip_10.Location = new Point(701, 5);
+            btn_Reward_Vip_10.Location = new Point(727, 8);
             btn_Reward_Vip_10.Name = "btn_Reward_Vip_10";
             btn_Reward_Vip_10.Size = new Size(50, 48);
             btn_Reward_Vip_10.TabIndex = 68;
@@ -1752,7 +1813,7 @@
             textBox57.BorderStyle = BorderStyle.None;
             textBox57.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox57.ForeColor = Color.Orange;
-            textBox57.Location = new Point(12262, 100);
+            textBox57.Location = new Point(17472, 100);
             textBox57.Name = "textBox57";
             textBox57.ReadOnly = true;
             textBox57.Size = new Size(36, 15);
@@ -1767,7 +1828,7 @@
             textBox58.BorderStyle = BorderStyle.None;
             textBox58.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox58.ForeColor = Color.Orange;
-            textBox58.Location = new Point(12190, 100);
+            textBox58.Location = new Point(17400, 100);
             textBox58.Name = "textBox58";
             textBox58.ReadOnly = true;
             textBox58.Size = new Size(36, 15);
@@ -1797,9 +1858,9 @@
             panel3.Controls.Add(btn_Reward_5);
             panel3.Controls.Add(btn_Reward_6);
             panel3.Controls.Add(btn_Reward_14);
-            panel3.Location = new Point(6, 3);
+            panel3.Location = new Point(1, 0);
             panel3.Name = "panel3";
-            panel3.Size = new Size(1522, 59);
+            panel3.Size = new Size(1614, 59);
             panel3.TabIndex = 19;
             // 
             // btn_Reward_1
@@ -1823,7 +1884,7 @@
             btn_Reward_20.FlatAppearance.BorderSize = 0;
             btn_Reward_20.FlatStyle = FlatStyle.Flat;
             btn_Reward_20.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_20.Location = new Point(1468, 5);
+            btn_Reward_20.Location = new Point(1523, 5);
             btn_Reward_20.Name = "btn_Reward_20";
             btn_Reward_20.Size = new Size(50, 48);
             btn_Reward_20.TabIndex = 97;
@@ -1837,7 +1898,7 @@
             btn_Reward_19.FlatAppearance.BorderSize = 0;
             btn_Reward_19.FlatStyle = FlatStyle.Flat;
             btn_Reward_19.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_19.Location = new Point(1395, 5);
+            btn_Reward_19.Location = new Point(1447, 5);
             btn_Reward_19.Name = "btn_Reward_19";
             btn_Reward_19.Size = new Size(50, 48);
             btn_Reward_19.TabIndex = 96;
@@ -1851,7 +1912,7 @@
             btn_Reward_2.FlatAppearance.BorderSize = 0;
             btn_Reward_2.FlatStyle = FlatStyle.Flat;
             btn_Reward_2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_2.Location = new Point(85, 5);
+            btn_Reward_2.Location = new Point(87, 5);
             btn_Reward_2.Name = "btn_Reward_2";
             btn_Reward_2.Size = new Size(50, 48);
             btn_Reward_2.TabIndex = 79;
@@ -1865,7 +1926,7 @@
             btn_Reward_18.FlatAppearance.BorderSize = 0;
             btn_Reward_18.FlatStyle = FlatStyle.Flat;
             btn_Reward_18.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_18.Location = new Point(1317, 5);
+            btn_Reward_18.Location = new Point(1367, 5);
             btn_Reward_18.Name = "btn_Reward_18";
             btn_Reward_18.Size = new Size(50, 48);
             btn_Reward_18.TabIndex = 95;
@@ -1879,7 +1940,7 @@
             btn_Reward_10.FlatAppearance.BorderSize = 0;
             btn_Reward_10.FlatStyle = FlatStyle.Flat;
             btn_Reward_10.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_10.Location = new Point(701, 5);
+            btn_Reward_10.Location = new Point(727, 5);
             btn_Reward_10.Name = "btn_Reward_10";
             btn_Reward_10.Size = new Size(50, 48);
             btn_Reward_10.TabIndex = 87;
@@ -1893,7 +1954,7 @@
             btn_Reward_9.FlatAppearance.BorderSize = 0;
             btn_Reward_9.FlatStyle = FlatStyle.Flat;
             btn_Reward_9.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_9.Location = new Point(628, 5);
+            btn_Reward_9.Location = new Point(647, 5);
             btn_Reward_9.Name = "btn_Reward_9";
             btn_Reward_9.Size = new Size(50, 48);
             btn_Reward_9.TabIndex = 86;
@@ -1907,7 +1968,7 @@
             btn_Reward_17.FlatAppearance.BorderSize = 0;
             btn_Reward_17.FlatStyle = FlatStyle.Flat;
             btn_Reward_17.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_17.Location = new Point(1237, 5);
+            btn_Reward_17.Location = new Point(1287, 5);
             btn_Reward_17.Name = "btn_Reward_17";
             btn_Reward_17.Size = new Size(50, 48);
             btn_Reward_17.TabIndex = 94;
@@ -1921,7 +1982,7 @@
             btn_Reward_11.FlatAppearance.BorderSize = 0;
             btn_Reward_11.FlatStyle = FlatStyle.Flat;
             btn_Reward_11.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_11.Location = new Point(771, 5);
+            btn_Reward_11.Location = new Point(807, 5);
             btn_Reward_11.Name = "btn_Reward_11";
             btn_Reward_11.Size = new Size(50, 48);
             btn_Reward_11.TabIndex = 88;
@@ -1949,7 +2010,7 @@
             btn_Reward_8.FlatAppearance.BorderSize = 0;
             btn_Reward_8.FlatStyle = FlatStyle.Flat;
             btn_Reward_8.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_8.Location = new Point(550, 5);
+            btn_Reward_8.Location = new Point(567, 5);
             btn_Reward_8.Name = "btn_Reward_8";
             btn_Reward_8.Size = new Size(50, 48);
             btn_Reward_8.TabIndex = 85;
@@ -1963,7 +2024,7 @@
             btn_Reward_16.FlatAppearance.BorderSize = 0;
             btn_Reward_16.FlatStyle = FlatStyle.Flat;
             btn_Reward_16.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_16.Location = new Point(1157, 5);
+            btn_Reward_16.Location = new Point(1207, 5);
             btn_Reward_16.Name = "btn_Reward_16";
             btn_Reward_16.Size = new Size(50, 48);
             btn_Reward_16.TabIndex = 93;
@@ -1977,7 +2038,7 @@
             btn_Reward_12.FlatAppearance.BorderSize = 0;
             btn_Reward_12.FlatStyle = FlatStyle.Flat;
             btn_Reward_12.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_12.Location = new Point(851, 5);
+            btn_Reward_12.Location = new Point(887, 5);
             btn_Reward_12.Name = "btn_Reward_12";
             btn_Reward_12.Size = new Size(50, 48);
             btn_Reward_12.TabIndex = 89;
@@ -1991,7 +2052,7 @@
             btn_Reward_4.FlatAppearance.BorderSize = 0;
             btn_Reward_4.FlatStyle = FlatStyle.Flat;
             btn_Reward_4.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_4.Location = new Point(245, 5);
+            btn_Reward_4.Location = new Point(247, 5);
             btn_Reward_4.Name = "btn_Reward_4";
             btn_Reward_4.Size = new Size(50, 48);
             btn_Reward_4.TabIndex = 81;
@@ -2005,7 +2066,7 @@
             btn_Reward_7.FlatAppearance.BorderSize = 0;
             btn_Reward_7.FlatStyle = FlatStyle.Flat;
             btn_Reward_7.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_7.Location = new Point(470, 5);
+            btn_Reward_7.Location = new Point(487, 5);
             btn_Reward_7.Name = "btn_Reward_7";
             btn_Reward_7.Size = new Size(50, 48);
             btn_Reward_7.TabIndex = 84;
@@ -2019,7 +2080,7 @@
             btn_Reward_15.FlatAppearance.BorderSize = 0;
             btn_Reward_15.FlatStyle = FlatStyle.Flat;
             btn_Reward_15.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_15.Location = new Point(1082, 5);
+            btn_Reward_15.Location = new Point(1127, 5);
             btn_Reward_15.Name = "btn_Reward_15";
             btn_Reward_15.Size = new Size(50, 48);
             btn_Reward_15.TabIndex = 92;
@@ -2033,7 +2094,7 @@
             btn_Reward_13.FlatAppearance.BorderSize = 0;
             btn_Reward_13.FlatStyle = FlatStyle.Flat;
             btn_Reward_13.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_13.Location = new Point(931, 5);
+            btn_Reward_13.Location = new Point(967, 5);
             btn_Reward_13.Name = "btn_Reward_13";
             btn_Reward_13.Size = new Size(50, 48);
             btn_Reward_13.TabIndex = 90;
@@ -2047,7 +2108,7 @@
             btn_Reward_5.FlatAppearance.BorderSize = 0;
             btn_Reward_5.FlatStyle = FlatStyle.Flat;
             btn_Reward_5.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_5.Location = new Point(318, 5);
+            btn_Reward_5.Location = new Point(327, 5);
             btn_Reward_5.Name = "btn_Reward_5";
             btn_Reward_5.Size = new Size(50, 48);
             btn_Reward_5.TabIndex = 82;
@@ -2061,7 +2122,7 @@
             btn_Reward_6.FlatAppearance.BorderSize = 0;
             btn_Reward_6.FlatStyle = FlatStyle.Flat;
             btn_Reward_6.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_6.Location = new Point(390, 5);
+            btn_Reward_6.Location = new Point(407, 5);
             btn_Reward_6.Name = "btn_Reward_6";
             btn_Reward_6.Size = new Size(50, 48);
             btn_Reward_6.TabIndex = 83;
@@ -2075,7 +2136,7 @@
             btn_Reward_14.FlatAppearance.BorderSize = 0;
             btn_Reward_14.FlatStyle = FlatStyle.Flat;
             btn_Reward_14.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_14.Location = new Point(1009, 5);
+            btn_Reward_14.Location = new Point(1047, 5);
             btn_Reward_14.Name = "btn_Reward_14";
             btn_Reward_14.Size = new Size(50, 48);
             btn_Reward_14.TabIndex = 91;
@@ -2086,7 +2147,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(380, 523);
+            ClientSize = new Size(391, 552);
             Controls.Add(panel1);
             Controls.Add(panel2);
             Name = "MontlyQuest";

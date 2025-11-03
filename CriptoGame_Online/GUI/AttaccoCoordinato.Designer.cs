@@ -39,15 +39,12 @@
             trackBar_Catapulta = new TrackBar();
             panel43 = new Panel();
             label86 = new Label();
-            panel_Guerriero = new Panel();
             txt_Guerriero_Esercito = new TextBox();
             panel41 = new Panel();
             label81 = new Label();
-            panel_Lanciere = new Panel();
             txt_Lanciere_Esercito = new TextBox();
             panel39 = new Panel();
             label76 = new Label();
-            panel_Arciere = new Panel();
             txt_Arciere_Esercito = new TextBox();
             panel37 = new Panel();
             label71 = new Label();
@@ -59,15 +56,12 @@
             txt_Catapulta_Spedizione = new TextBox();
             panel3 = new Panel();
             label2 = new Label();
-            panel4 = new Panel();
             txt_Arciere_Spedizione = new TextBox();
             panel5 = new Panel();
             label3 = new Label();
-            panel6 = new Panel();
             txt_Lanciere_Spedizione = new TextBox();
             panel7 = new Panel();
             label4 = new Label();
-            panel8 = new Panel();
             txt_Guerriero_Spedizione = new TextBox();
             label5 = new Label();
             label6 = new Label();
@@ -85,15 +79,12 @@
             txt_Catapulta_Villaggio = new TextBox();
             panel11 = new Panel();
             label8 = new Label();
-            panel12 = new Panel();
             txt_Arcere_Villaggio = new TextBox();
             panel13 = new Panel();
             label9 = new Label();
-            panel14 = new Panel();
             txt_Lancere_Villaggio = new TextBox();
             panel15 = new Panel();
             label10 = new Label();
-            panel16 = new Panel();
             txt_Guerriero_Villaggio = new TextBox();
             groupBox4 = new GroupBox();
             btn_Esercito_Caserme = new Button();
@@ -113,15 +104,12 @@
             txt_Catapulta_Città = new TextBox();
             panel19 = new Panel();
             label12 = new Label();
-            panel20 = new Panel();
             txt_Arcere_Città = new TextBox();
             panel21 = new Panel();
             label13 = new Label();
-            panel22 = new Panel();
             txt_Lancere_Città = new TextBox();
             panel23 = new Panel();
             label14 = new Label();
-            panel24 = new Panel();
             txt_Guerriero_Città = new TextBox();
             groupBox7 = new GroupBox();
             lbl_Giocatori_PVP = new Label();
@@ -136,15 +124,12 @@
             textBox12 = new TextBox();
             panel27 = new Panel();
             label16 = new Label();
-            panel28 = new Panel();
             textBox13 = new TextBox();
             panel29 = new Panel();
             label17 = new Label();
-            panel30 = new Panel();
             textBox14 = new TextBox();
             panel31 = new Panel();
             label18 = new Label();
-            panel32 = new Panel();
             txt_Guerriero_PVE = new TextBox();
             groupBox_Raduno = new GroupBox();
             groupBox9 = new GroupBox();
@@ -163,6 +148,21 @@
             btn_III_Esercito = new Button();
             btn_IV_Esercito = new Button();
             btn_II_Esercito = new Button();
+            ico_Unit_1 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            ico_Unit_2 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            ico_Unit_3 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            doubleBufferedPanel2 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            doubleBufferedPanel3 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            doubleBufferedPanel4 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            doubleBufferedPanel5 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            doubleBufferedPanel6 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            doubleBufferedPanel7 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            doubleBufferedPanel8 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            doubleBufferedPanel9 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            doubleBufferedPanel10 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            doubleBufferedPanel11 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            doubleBufferedPanel12 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            doubleBufferedPanel13 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
             ((System.ComponentModel.ISupportInitialize)trackBar_Guerriero).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trackBar_Lanciere).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trackBar_Arciere).BeginInit();
@@ -305,8 +305,8 @@
             // panel43
             // 
             panel43.BackColor = Color.FromArgb(32, 36, 47);
+            panel43.Controls.Add(doubleBufferedPanel2);
             panel43.Controls.Add(label86);
-            panel43.Controls.Add(panel_Guerriero);
             panel43.Controls.Add(txt_Guerriero_Esercito);
             panel43.Location = new Point(10, 52);
             panel43.Margin = new Padding(4, 3, 4, 3);
@@ -326,19 +326,6 @@
             label86.TabIndex = 3;
             label86.Text = "Guerriero";
             // 
-            // panel_Guerriero
-            // 
-            panel_Guerriero.BackColor = Color.FromArgb(32, 36, 47);
-            panel_Guerriero.BackgroundImage = Properties.Resources.Un_guerriero_medievale_1_;
-            panel_Guerriero.BackgroundImageLayout = ImageLayout.Stretch;
-            panel_Guerriero.BorderStyle = BorderStyle.FixedSingle;
-            panel_Guerriero.ImeMode = ImeMode.NoControl;
-            panel_Guerriero.Location = new Point(4, 3);
-            panel_Guerriero.Margin = new Padding(4, 3, 4, 3);
-            panel_Guerriero.Name = "panel_Guerriero";
-            panel_Guerriero.Size = new Size(37, 35);
-            panel_Guerriero.TabIndex = 24;
-            // 
             // txt_Guerriero_Esercito
             // 
             txt_Guerriero_Esercito.BackColor = Color.FromArgb(32, 36, 47);
@@ -356,8 +343,8 @@
             // panel41
             // 
             panel41.BackColor = Color.FromArgb(32, 36, 47);
+            panel41.Controls.Add(doubleBufferedPanel6);
             panel41.Controls.Add(label81);
-            panel41.Controls.Add(panel_Lanciere);
             panel41.Controls.Add(txt_Lanciere_Esercito);
             panel41.Location = new Point(10, 93);
             panel41.Margin = new Padding(4, 3, 4, 3);
@@ -377,19 +364,6 @@
             label81.TabIndex = 3;
             label81.Text = "Lancere";
             // 
-            // panel_Lanciere
-            // 
-            panel_Lanciere.BackColor = Color.FromArgb(32, 36, 47);
-            panel_Lanciere.BackgroundImage = Properties.Resources.picchiere;
-            panel_Lanciere.BackgroundImageLayout = ImageLayout.Stretch;
-            panel_Lanciere.BorderStyle = BorderStyle.FixedSingle;
-            panel_Lanciere.ImeMode = ImeMode.NoControl;
-            panel_Lanciere.Location = new Point(4, 3);
-            panel_Lanciere.Margin = new Padding(4, 3, 4, 3);
-            panel_Lanciere.Name = "panel_Lanciere";
-            panel_Lanciere.Size = new Size(37, 35);
-            panel_Lanciere.TabIndex = 24;
-            // 
             // txt_Lanciere_Esercito
             // 
             txt_Lanciere_Esercito.BackColor = Color.FromArgb(32, 36, 47);
@@ -407,8 +381,8 @@
             // panel39
             // 
             panel39.BackColor = Color.FromArgb(32, 36, 47);
+            panel39.Controls.Add(doubleBufferedPanel10);
             panel39.Controls.Add(label76);
-            panel39.Controls.Add(panel_Arciere);
             panel39.Controls.Add(txt_Arciere_Esercito);
             panel39.Location = new Point(10, 134);
             panel39.Margin = new Padding(4, 3, 4, 3);
@@ -427,19 +401,6 @@
             label76.Size = new Size(41, 15);
             label76.TabIndex = 3;
             label76.Text = "Arcere";
-            // 
-            // panel_Arciere
-            // 
-            panel_Arciere.BackColor = Color.FromArgb(32, 36, 47);
-            panel_Arciere.BackgroundImage = Properties.Resources.Arciere;
-            panel_Arciere.BackgroundImageLayout = ImageLayout.Stretch;
-            panel_Arciere.BorderStyle = BorderStyle.FixedSingle;
-            panel_Arciere.ImeMode = ImeMode.NoControl;
-            panel_Arciere.Location = new Point(4, 3);
-            panel_Arciere.Margin = new Padding(4, 3, 4, 3);
-            panel_Arciere.Name = "panel_Arciere";
-            panel_Arciere.Size = new Size(37, 35);
-            panel_Arciere.TabIndex = 24;
             // 
             // txt_Arciere_Esercito
             // 
@@ -561,7 +522,7 @@
             // 
             panel3.BackColor = Color.FromArgb(32, 36, 47);
             panel3.Controls.Add(label2);
-            panel3.Controls.Add(panel4);
+            panel3.Controls.Add(ico_Unit_3);
             panel3.Controls.Add(txt_Arciere_Spedizione);
             panel3.Location = new Point(10, 133);
             panel3.Margin = new Padding(4, 3, 4, 3);
@@ -581,19 +542,6 @@
             label2.TabIndex = 3;
             label2.Text = "Arcere";
             // 
-            // panel4
-            // 
-            panel4.BackColor = Color.FromArgb(32, 36, 47);
-            panel4.BackgroundImage = Properties.Resources.Arciere__2_;
-            panel4.BackgroundImageLayout = ImageLayout.Stretch;
-            panel4.BorderStyle = BorderStyle.FixedSingle;
-            panel4.ImeMode = ImeMode.NoControl;
-            panel4.Location = new Point(4, 3);
-            panel4.Margin = new Padding(4, 3, 4, 3);
-            panel4.Name = "panel4";
-            panel4.Size = new Size(37, 35);
-            panel4.TabIndex = 24;
-            // 
             // txt_Arciere_Spedizione
             // 
             txt_Arciere_Spedizione.BackColor = Color.FromArgb(32, 36, 47);
@@ -611,8 +559,8 @@
             // panel5
             // 
             panel5.BackColor = Color.FromArgb(32, 36, 47);
+            panel5.Controls.Add(ico_Unit_2);
             panel5.Controls.Add(label3);
-            panel5.Controls.Add(panel6);
             panel5.Controls.Add(txt_Lanciere_Spedizione);
             panel5.Location = new Point(10, 92);
             panel5.Margin = new Padding(4, 3, 4, 3);
@@ -632,19 +580,6 @@
             label3.TabIndex = 3;
             label3.Text = "Lancere";
             // 
-            // panel6
-            // 
-            panel6.BackColor = Color.FromArgb(32, 36, 47);
-            panel6.BackgroundImage = Properties.Resources.picchiere;
-            panel6.BackgroundImageLayout = ImageLayout.Stretch;
-            panel6.BorderStyle = BorderStyle.FixedSingle;
-            panel6.ImeMode = ImeMode.NoControl;
-            panel6.Location = new Point(4, 3);
-            panel6.Margin = new Padding(4, 3, 4, 3);
-            panel6.Name = "panel6";
-            panel6.Size = new Size(37, 35);
-            panel6.TabIndex = 24;
-            // 
             // txt_Lanciere_Spedizione
             // 
             txt_Lanciere_Spedizione.BackColor = Color.FromArgb(32, 36, 47);
@@ -662,8 +597,8 @@
             // panel7
             // 
             panel7.BackColor = Color.FromArgb(32, 36, 47);
+            panel7.Controls.Add(ico_Unit_1);
             panel7.Controls.Add(label4);
-            panel7.Controls.Add(panel8);
             panel7.Controls.Add(txt_Guerriero_Spedizione);
             panel7.Location = new Point(10, 52);
             panel7.Margin = new Padding(4, 3, 4, 3);
@@ -682,19 +617,6 @@
             label4.Size = new Size(56, 15);
             label4.TabIndex = 3;
             label4.Text = "Guerriero";
-            // 
-            // panel8
-            // 
-            panel8.BackColor = Color.FromArgb(32, 36, 47);
-            panel8.BackgroundImage = Properties.Resources.Un_guerriero_medievale_1_;
-            panel8.BackgroundImageLayout = ImageLayout.Stretch;
-            panel8.BorderStyle = BorderStyle.FixedSingle;
-            panel8.ImeMode = ImeMode.NoControl;
-            panel8.Location = new Point(4, 3);
-            panel8.Margin = new Padding(4, 3, 4, 3);
-            panel8.Name = "panel8";
-            panel8.Size = new Size(37, 35);
-            panel8.TabIndex = 24;
             // 
             // txt_Guerriero_Spedizione
             // 
@@ -892,8 +814,8 @@
             // panel11
             // 
             panel11.BackColor = Color.FromArgb(32, 36, 47);
+            panel11.Controls.Add(doubleBufferedPanel11);
             panel11.Controls.Add(label8);
-            panel11.Controls.Add(panel12);
             panel11.Controls.Add(txt_Arcere_Villaggio);
             panel11.Location = new Point(4, 96);
             panel11.Margin = new Padding(4, 3, 4, 3);
@@ -913,19 +835,6 @@
             label8.TabIndex = 3;
             label8.Text = "Arcere";
             // 
-            // panel12
-            // 
-            panel12.BackColor = Color.FromArgb(32, 36, 47);
-            panel12.BackgroundImage = Properties.Resources.Arciere__2_;
-            panel12.BackgroundImageLayout = ImageLayout.Stretch;
-            panel12.BorderStyle = BorderStyle.FixedSingle;
-            panel12.ImeMode = ImeMode.NoControl;
-            panel12.Location = new Point(4, 3);
-            panel12.Margin = new Padding(4, 3, 4, 3);
-            panel12.Name = "panel12";
-            panel12.Size = new Size(37, 35);
-            panel12.TabIndex = 24;
-            // 
             // txt_Arcere_Villaggio
             // 
             txt_Arcere_Villaggio.BackColor = Color.FromArgb(32, 36, 47);
@@ -943,8 +852,8 @@
             // panel13
             // 
             panel13.BackColor = Color.FromArgb(32, 36, 47);
+            panel13.Controls.Add(doubleBufferedPanel7);
             panel13.Controls.Add(label9);
-            panel13.Controls.Add(panel14);
             panel13.Controls.Add(txt_Lancere_Villaggio);
             panel13.Location = new Point(4, 55);
             panel13.Margin = new Padding(4, 3, 4, 3);
@@ -964,19 +873,6 @@
             label9.TabIndex = 3;
             label9.Text = "Lancere";
             // 
-            // panel14
-            // 
-            panel14.BackColor = Color.FromArgb(32, 36, 47);
-            panel14.BackgroundImage = Properties.Resources.picchiere;
-            panel14.BackgroundImageLayout = ImageLayout.Stretch;
-            panel14.BorderStyle = BorderStyle.FixedSingle;
-            panel14.ImeMode = ImeMode.NoControl;
-            panel14.Location = new Point(4, 3);
-            panel14.Margin = new Padding(4, 3, 4, 3);
-            panel14.Name = "panel14";
-            panel14.Size = new Size(37, 35);
-            panel14.TabIndex = 24;
-            // 
             // txt_Lancere_Villaggio
             // 
             txt_Lancere_Villaggio.BackColor = Color.FromArgb(32, 36, 47);
@@ -994,8 +890,8 @@
             // panel15
             // 
             panel15.BackColor = Color.FromArgb(32, 36, 47);
+            panel15.Controls.Add(doubleBufferedPanel3);
             panel15.Controls.Add(label10);
-            panel15.Controls.Add(panel16);
             panel15.Controls.Add(txt_Guerriero_Villaggio);
             panel15.Location = new Point(4, 15);
             panel15.Margin = new Padding(4, 3, 4, 3);
@@ -1014,19 +910,6 @@
             label10.Size = new Size(56, 15);
             label10.TabIndex = 3;
             label10.Text = "Guerriero";
-            // 
-            // panel16
-            // 
-            panel16.BackColor = Color.FromArgb(32, 36, 47);
-            panel16.BackgroundImage = Properties.Resources.Un_guerriero_medievale_1_;
-            panel16.BackgroundImageLayout = ImageLayout.Stretch;
-            panel16.BorderStyle = BorderStyle.FixedSingle;
-            panel16.ImeMode = ImeMode.NoControl;
-            panel16.Location = new Point(4, 3);
-            panel16.Margin = new Padding(4, 3, 4, 3);
-            panel16.Name = "panel16";
-            panel16.Size = new Size(37, 35);
-            panel16.TabIndex = 24;
             // 
             // txt_Guerriero_Villaggio
             // 
@@ -1278,8 +1161,8 @@
             // panel19
             // 
             panel19.BackColor = Color.FromArgb(32, 36, 47);
+            panel19.Controls.Add(doubleBufferedPanel13);
             panel19.Controls.Add(label12);
-            panel19.Controls.Add(panel20);
             panel19.Controls.Add(txt_Arcere_Città);
             panel19.Location = new Point(4, 96);
             panel19.Margin = new Padding(4, 3, 4, 3);
@@ -1299,19 +1182,6 @@
             label12.TabIndex = 3;
             label12.Text = "Arcere";
             // 
-            // panel20
-            // 
-            panel20.BackColor = Color.FromArgb(32, 36, 47);
-            panel20.BackgroundImage = Properties.Resources.Arciere__2_;
-            panel20.BackgroundImageLayout = ImageLayout.Stretch;
-            panel20.BorderStyle = BorderStyle.FixedSingle;
-            panel20.ImeMode = ImeMode.NoControl;
-            panel20.Location = new Point(4, 3);
-            panel20.Margin = new Padding(4, 3, 4, 3);
-            panel20.Name = "panel20";
-            panel20.Size = new Size(37, 35);
-            panel20.TabIndex = 24;
-            // 
             // txt_Arcere_Città
             // 
             txt_Arcere_Città.BackColor = Color.FromArgb(32, 36, 47);
@@ -1329,8 +1199,8 @@
             // panel21
             // 
             panel21.BackColor = Color.FromArgb(32, 36, 47);
+            panel21.Controls.Add(doubleBufferedPanel9);
             panel21.Controls.Add(label13);
-            panel21.Controls.Add(panel22);
             panel21.Controls.Add(txt_Lancere_Città);
             panel21.Location = new Point(4, 55);
             panel21.Margin = new Padding(4, 3, 4, 3);
@@ -1350,19 +1220,6 @@
             label13.TabIndex = 3;
             label13.Text = "Lancere";
             // 
-            // panel22
-            // 
-            panel22.BackColor = Color.FromArgb(32, 36, 47);
-            panel22.BackgroundImage = Properties.Resources.picchiere;
-            panel22.BackgroundImageLayout = ImageLayout.Stretch;
-            panel22.BorderStyle = BorderStyle.FixedSingle;
-            panel22.ImeMode = ImeMode.NoControl;
-            panel22.Location = new Point(4, 3);
-            panel22.Margin = new Padding(4, 3, 4, 3);
-            panel22.Name = "panel22";
-            panel22.Size = new Size(37, 35);
-            panel22.TabIndex = 24;
-            // 
             // txt_Lancere_Città
             // 
             txt_Lancere_Città.BackColor = Color.FromArgb(32, 36, 47);
@@ -1380,8 +1237,8 @@
             // panel23
             // 
             panel23.BackColor = Color.FromArgb(32, 36, 47);
+            panel23.Controls.Add(doubleBufferedPanel5);
             panel23.Controls.Add(label14);
-            panel23.Controls.Add(panel24);
             panel23.Controls.Add(txt_Guerriero_Città);
             panel23.Location = new Point(4, 15);
             panel23.Margin = new Padding(4, 3, 4, 3);
@@ -1400,19 +1257,6 @@
             label14.Size = new Size(56, 15);
             label14.TabIndex = 3;
             label14.Text = "Guerriero";
-            // 
-            // panel24
-            // 
-            panel24.BackColor = Color.FromArgb(32, 36, 47);
-            panel24.BackgroundImage = Properties.Resources.Un_guerriero_medievale_1_;
-            panel24.BackgroundImageLayout = ImageLayout.Stretch;
-            panel24.BorderStyle = BorderStyle.FixedSingle;
-            panel24.ImeMode = ImeMode.NoControl;
-            panel24.Location = new Point(4, 3);
-            panel24.Margin = new Padding(4, 3, 4, 3);
-            panel24.Name = "panel24";
-            panel24.Size = new Size(37, 35);
-            panel24.TabIndex = 24;
             // 
             // txt_Guerriero_Città
             // 
@@ -1584,8 +1428,8 @@
             // panel27
             // 
             panel27.BackColor = Color.FromArgb(32, 36, 47);
+            panel27.Controls.Add(doubleBufferedPanel12);
             panel27.Controls.Add(label16);
-            panel27.Controls.Add(panel28);
             panel27.Controls.Add(textBox13);
             panel27.Location = new Point(4, 96);
             panel27.Margin = new Padding(4, 3, 4, 3);
@@ -1605,19 +1449,6 @@
             label16.TabIndex = 3;
             label16.Text = "Arcere";
             // 
-            // panel28
-            // 
-            panel28.BackColor = Color.FromArgb(32, 36, 47);
-            panel28.BackgroundImage = Properties.Resources.Arciere__2_;
-            panel28.BackgroundImageLayout = ImageLayout.Stretch;
-            panel28.BorderStyle = BorderStyle.FixedSingle;
-            panel28.ImeMode = ImeMode.NoControl;
-            panel28.Location = new Point(4, 3);
-            panel28.Margin = new Padding(4, 3, 4, 3);
-            panel28.Name = "panel28";
-            panel28.Size = new Size(37, 35);
-            panel28.TabIndex = 24;
-            // 
             // textBox13
             // 
             textBox13.BackColor = Color.FromArgb(32, 36, 47);
@@ -1635,8 +1466,8 @@
             // panel29
             // 
             panel29.BackColor = Color.FromArgb(32, 36, 47);
+            panel29.Controls.Add(doubleBufferedPanel8);
             panel29.Controls.Add(label17);
-            panel29.Controls.Add(panel30);
             panel29.Controls.Add(textBox14);
             panel29.Location = new Point(4, 55);
             panel29.Margin = new Padding(4, 3, 4, 3);
@@ -1656,19 +1487,6 @@
             label17.TabIndex = 3;
             label17.Text = "Lancere";
             // 
-            // panel30
-            // 
-            panel30.BackColor = Color.FromArgb(32, 36, 47);
-            panel30.BackgroundImage = Properties.Resources.picchiere;
-            panel30.BackgroundImageLayout = ImageLayout.Stretch;
-            panel30.BorderStyle = BorderStyle.FixedSingle;
-            panel30.ImeMode = ImeMode.NoControl;
-            panel30.Location = new Point(4, 3);
-            panel30.Margin = new Padding(4, 3, 4, 3);
-            panel30.Name = "panel30";
-            panel30.Size = new Size(37, 35);
-            panel30.TabIndex = 24;
-            // 
             // textBox14
             // 
             textBox14.BackColor = Color.FromArgb(32, 36, 47);
@@ -1686,8 +1504,8 @@
             // panel31
             // 
             panel31.BackColor = Color.FromArgb(32, 36, 47);
+            panel31.Controls.Add(doubleBufferedPanel4);
             panel31.Controls.Add(label18);
-            panel31.Controls.Add(panel32);
             panel31.Controls.Add(txt_Guerriero_PVE);
             panel31.Location = new Point(4, 15);
             panel31.Margin = new Padding(4, 3, 4, 3);
@@ -1706,19 +1524,6 @@
             label18.Size = new Size(56, 15);
             label18.TabIndex = 3;
             label18.Text = "Guerriero";
-            // 
-            // panel32
-            // 
-            panel32.BackColor = Color.FromArgb(32, 36, 47);
-            panel32.BackgroundImage = Properties.Resources.Un_guerriero_medievale_1_;
-            panel32.BackgroundImageLayout = ImageLayout.Stretch;
-            panel32.BorderStyle = BorderStyle.FixedSingle;
-            panel32.ImeMode = ImeMode.NoControl;
-            panel32.Location = new Point(4, 3);
-            panel32.Margin = new Padding(4, 3, 4, 3);
-            panel32.Name = "panel32";
-            panel32.Size = new Size(37, 35);
-            panel32.TabIndex = 24;
             // 
             // txt_Guerriero_PVE
             // 
@@ -1976,6 +1781,141 @@
             btn_II_Esercito.Text = "II";
             btn_II_Esercito.UseVisualStyleBackColor = true;
             // 
+            // ico_Unit_1
+            // 
+            ico_Unit_1.BackgroundImage = Properties.Resources.Guerriero_V2_removebg_preview;
+            ico_Unit_1.BackgroundImageLayout = ImageLayout.Zoom;
+            ico_Unit_1.Location = new Point(4, 3);
+            ico_Unit_1.Name = "ico_Unit_1";
+            ico_Unit_1.Size = new Size(37, 35);
+            ico_Unit_1.TabIndex = 144;
+            // 
+            // ico_Unit_2
+            // 
+            ico_Unit_2.BackgroundImage = Properties.Resources.Lancere_V2_removebg_preview;
+            ico_Unit_2.BackgroundImageLayout = ImageLayout.Zoom;
+            ico_Unit_2.Location = new Point(4, 4);
+            ico_Unit_2.Name = "ico_Unit_2";
+            ico_Unit_2.Size = new Size(37, 35);
+            ico_Unit_2.TabIndex = 145;
+            // 
+            // ico_Unit_3
+            // 
+            ico_Unit_3.BackgroundImage = Properties.Resources.Arciere_V2_removebg_preview;
+            ico_Unit_3.BackgroundImageLayout = ImageLayout.Zoom;
+            ico_Unit_3.Location = new Point(4, 4);
+            ico_Unit_3.Name = "ico_Unit_3";
+            ico_Unit_3.Size = new Size(37, 35);
+            ico_Unit_3.TabIndex = 146;
+            // 
+            // doubleBufferedPanel2
+            // 
+            doubleBufferedPanel2.BackgroundImage = Properties.Resources.Guerriero_V2_removebg_preview;
+            doubleBufferedPanel2.BackgroundImageLayout = ImageLayout.Zoom;
+            doubleBufferedPanel2.Location = new Point(4, 3);
+            doubleBufferedPanel2.Name = "doubleBufferedPanel2";
+            doubleBufferedPanel2.Size = new Size(37, 35);
+            doubleBufferedPanel2.TabIndex = 145;
+            // 
+            // doubleBufferedPanel3
+            // 
+            doubleBufferedPanel3.BackgroundImage = Properties.Resources.Guerriero_V2_removebg_preview;
+            doubleBufferedPanel3.BackgroundImageLayout = ImageLayout.Zoom;
+            doubleBufferedPanel3.Location = new Point(4, 3);
+            doubleBufferedPanel3.Name = "doubleBufferedPanel3";
+            doubleBufferedPanel3.Size = new Size(37, 35);
+            doubleBufferedPanel3.TabIndex = 145;
+            // 
+            // doubleBufferedPanel4
+            // 
+            doubleBufferedPanel4.BackgroundImage = Properties.Resources.Guerriero_V2_removebg_preview;
+            doubleBufferedPanel4.BackgroundImageLayout = ImageLayout.Zoom;
+            doubleBufferedPanel4.Location = new Point(4, 3);
+            doubleBufferedPanel4.Name = "doubleBufferedPanel4";
+            doubleBufferedPanel4.Size = new Size(37, 35);
+            doubleBufferedPanel4.TabIndex = 145;
+            // 
+            // doubleBufferedPanel5
+            // 
+            doubleBufferedPanel5.BackgroundImage = Properties.Resources.Guerriero_V2_removebg_preview;
+            doubleBufferedPanel5.BackgroundImageLayout = ImageLayout.Zoom;
+            doubleBufferedPanel5.Location = new Point(4, 3);
+            doubleBufferedPanel5.Name = "doubleBufferedPanel5";
+            doubleBufferedPanel5.Size = new Size(37, 35);
+            doubleBufferedPanel5.TabIndex = 145;
+            // 
+            // doubleBufferedPanel6
+            // 
+            doubleBufferedPanel6.BackgroundImage = Properties.Resources.Lancere_V2_removebg_preview;
+            doubleBufferedPanel6.BackgroundImageLayout = ImageLayout.Zoom;
+            doubleBufferedPanel6.Location = new Point(4, 3);
+            doubleBufferedPanel6.Name = "doubleBufferedPanel6";
+            doubleBufferedPanel6.Size = new Size(37, 35);
+            doubleBufferedPanel6.TabIndex = 146;
+            // 
+            // doubleBufferedPanel7
+            // 
+            doubleBufferedPanel7.BackgroundImage = Properties.Resources.Lancere_V2_removebg_preview;
+            doubleBufferedPanel7.BackgroundImageLayout = ImageLayout.Zoom;
+            doubleBufferedPanel7.Location = new Point(4, 3);
+            doubleBufferedPanel7.Name = "doubleBufferedPanel7";
+            doubleBufferedPanel7.Size = new Size(37, 35);
+            doubleBufferedPanel7.TabIndex = 146;
+            // 
+            // doubleBufferedPanel8
+            // 
+            doubleBufferedPanel8.BackgroundImage = Properties.Resources.Lancere_V2_removebg_preview;
+            doubleBufferedPanel8.BackgroundImageLayout = ImageLayout.Zoom;
+            doubleBufferedPanel8.Location = new Point(4, 3);
+            doubleBufferedPanel8.Name = "doubleBufferedPanel8";
+            doubleBufferedPanel8.Size = new Size(37, 35);
+            doubleBufferedPanel8.TabIndex = 146;
+            // 
+            // doubleBufferedPanel9
+            // 
+            doubleBufferedPanel9.BackgroundImage = Properties.Resources.Lancere_V2_removebg_preview;
+            doubleBufferedPanel9.BackgroundImageLayout = ImageLayout.Zoom;
+            doubleBufferedPanel9.Location = new Point(4, 3);
+            doubleBufferedPanel9.Name = "doubleBufferedPanel9";
+            doubleBufferedPanel9.Size = new Size(37, 35);
+            doubleBufferedPanel9.TabIndex = 146;
+            // 
+            // doubleBufferedPanel10
+            // 
+            doubleBufferedPanel10.BackgroundImage = Properties.Resources.Arciere_V2_removebg_preview;
+            doubleBufferedPanel10.BackgroundImageLayout = ImageLayout.Zoom;
+            doubleBufferedPanel10.Location = new Point(4, 3);
+            doubleBufferedPanel10.Name = "doubleBufferedPanel10";
+            doubleBufferedPanel10.Size = new Size(37, 35);
+            doubleBufferedPanel10.TabIndex = 147;
+            // 
+            // doubleBufferedPanel11
+            // 
+            doubleBufferedPanel11.BackgroundImage = Properties.Resources.Arciere_V2_removebg_preview;
+            doubleBufferedPanel11.BackgroundImageLayout = ImageLayout.Zoom;
+            doubleBufferedPanel11.Location = new Point(4, 3);
+            doubleBufferedPanel11.Name = "doubleBufferedPanel11";
+            doubleBufferedPanel11.Size = new Size(37, 35);
+            doubleBufferedPanel11.TabIndex = 147;
+            // 
+            // doubleBufferedPanel12
+            // 
+            doubleBufferedPanel12.BackgroundImage = Properties.Resources.Arciere_V2_removebg_preview;
+            doubleBufferedPanel12.BackgroundImageLayout = ImageLayout.Zoom;
+            doubleBufferedPanel12.Location = new Point(4, 3);
+            doubleBufferedPanel12.Name = "doubleBufferedPanel12";
+            doubleBufferedPanel12.Size = new Size(37, 35);
+            doubleBufferedPanel12.TabIndex = 147;
+            // 
+            // doubleBufferedPanel13
+            // 
+            doubleBufferedPanel13.BackgroundImage = Properties.Resources.Arciere_V2_removebg_preview;
+            doubleBufferedPanel13.BackgroundImageLayout = ImageLayout.Zoom;
+            doubleBufferedPanel13.Location = new Point(4, 3);
+            doubleBufferedPanel13.Name = "doubleBufferedPanel13";
+            doubleBufferedPanel13.Size = new Size(37, 35);
+            doubleBufferedPanel13.TabIndex = 147;
+            // 
             // AttaccoCoordinato
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -2068,15 +2008,12 @@
         private System.Windows.Forms.TrackBar trackBar_Catapulta;
         private System.Windows.Forms.Panel panel43;
         private System.Windows.Forms.Label label86;
-        private System.Windows.Forms.Panel panel_Guerriero;
         private System.Windows.Forms.TextBox txt_Guerriero_Esercito;
         private System.Windows.Forms.Panel panel41;
         private System.Windows.Forms.Label label81;
-        private System.Windows.Forms.Panel panel_Lanciere;
         private System.Windows.Forms.TextBox txt_Lanciere_Esercito;
         private System.Windows.Forms.Panel panel39;
         private System.Windows.Forms.Label label76;
-        private System.Windows.Forms.Panel panel_Arciere;
         private System.Windows.Forms.TextBox txt_Arciere_Esercito;
         private System.Windows.Forms.Panel panel37;
         private System.Windows.Forms.Label label71;
@@ -2088,15 +2025,12 @@
         private System.Windows.Forms.TextBox txt_Catapulta_Spedizione;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.TextBox txt_Arciere_Spedizione;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.TextBox txt_Lanciere_Spedizione;
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Panel panel8;
         private System.Windows.Forms.TextBox txt_Guerriero_Spedizione;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
@@ -2114,15 +2048,12 @@
         private TextBox txt_Catapulta_Villaggio;
         private Panel panel11;
         private Label label8;
-        private Panel panel12;
         private TextBox txt_Arcere_Villaggio;
         private Panel panel13;
         private Label label9;
-        private Panel panel14;
         private TextBox txt_Lancere_Villaggio;
         private Panel panel15;
         private Label label10;
-        private Panel panel16;
         private TextBox txt_Guerriero_Villaggio;
         private GroupBox groupBox4;
         private TextBox txt_Villaggio_B_Desc;
@@ -2141,15 +2072,12 @@
         private TextBox txt_Catapulta_Città;
         private Panel panel19;
         private Label label12;
-        private Panel panel20;
         private TextBox txt_Arcere_Città;
         private Panel panel21;
         private Label label13;
-        private Panel panel22;
         private TextBox txt_Lancere_Città;
         private Panel panel23;
         private Label label14;
-        private Panel panel24;
         private TextBox txt_Guerriero_Città;
         private GroupBox groupBox7;
         private Label lbl_Giocatori_PVP;
@@ -2164,15 +2092,12 @@
         private TextBox textBox12;
         private Panel panel27;
         private Label label16;
-        private Panel panel28;
         private TextBox textBox13;
         private Panel panel29;
         private Label label17;
-        private Panel panel30;
         private TextBox textBox14;
         private Panel panel31;
         private Label label18;
-        private Panel panel32;
         private TextBox txt_Guerriero_PVE;
         private GroupBox groupBox_Raduno;
         private GroupBox groupBox_Esercito;
@@ -2192,5 +2117,20 @@
         private Button btn_III_Spedizione;
         private Button btn_IV_Spedizione;
         private Button btn_II_Spedizione;
+        private Strumenti.DoubleBufferedPanel doubleBufferedPanel2;
+        private Strumenti.DoubleBufferedPanel doubleBufferedPanel6;
+        private Strumenti.DoubleBufferedPanel doubleBufferedPanel10;
+        private Strumenti.DoubleBufferedPanel ico_Unit_3;
+        private Strumenti.DoubleBufferedPanel ico_Unit_2;
+        private Strumenti.DoubleBufferedPanel ico_Unit_1;
+        private Strumenti.DoubleBufferedPanel doubleBufferedPanel11;
+        private Strumenti.DoubleBufferedPanel doubleBufferedPanel7;
+        private Strumenti.DoubleBufferedPanel doubleBufferedPanel3;
+        private Strumenti.DoubleBufferedPanel doubleBufferedPanel13;
+        private Strumenti.DoubleBufferedPanel doubleBufferedPanel9;
+        private Strumenti.DoubleBufferedPanel doubleBufferedPanel5;
+        private Strumenti.DoubleBufferedPanel doubleBufferedPanel12;
+        private Strumenti.DoubleBufferedPanel doubleBufferedPanel8;
+        private Strumenti.DoubleBufferedPanel doubleBufferedPanel4;
     }
 }

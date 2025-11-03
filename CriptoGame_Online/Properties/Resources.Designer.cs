@@ -113,6 +113,16 @@ namespace CriptoGame_Online.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Arciere_V2_removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("Arciere_V2-removebg-preview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Attack {
             get {
                 object obj = ResourceManager.GetObject("Attack", resourceCulture);
@@ -343,6 +353,16 @@ namespace CriptoGame_Online.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Guerriero_V2_removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("Guerriero_V2-removebg-preview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_armor_48_1_ {
             get {
                 object obj = ResourceManager.GetObject("icons8-armor-48(1)", resourceCulture);
@@ -456,6 +476,16 @@ namespace CriptoGame_Online.Properties {
         internal static System.Drawing.Bitmap Ingot__Iron_icon_icon {
             get {
                 object obj = ResourceManager.GetObject("Ingot, Iron icon icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Lancere_V2_removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("Lancere_V2-removebg-preview", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -606,6 +636,16 @@ namespace CriptoGame_Online.Properties {
         internal static System.Drawing.Bitmap Sfondo_Chat_removebg_preview {
             get {
                 object obj = ResourceManager.GetObject("Sfondo_Chat-removebg-preview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Sfondo_Chat_V2_removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("Sfondo_Chat_V2-removebg-preview", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

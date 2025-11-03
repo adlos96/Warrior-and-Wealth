@@ -19,6 +19,15 @@
     <Compile Update="GUI\Ricerca_1.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="GUI\Scambia_Diamanti.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Spostamento_Truppe.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Velocizza_Diamanti.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Strumenti\DoubleBufferedPanel.cs">
       <SubType>Component</SubType>
     </Compile>

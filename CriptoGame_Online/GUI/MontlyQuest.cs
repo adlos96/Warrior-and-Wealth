@@ -1,4 +1,5 @@
 ﻿using Strategico_V2;
+using System.Diagnostics.Eventing.Reader;
 using static Strategico_V2.ClientConnection;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
@@ -6,14 +7,15 @@ namespace CriptoGame_Online
 {
     public partial class MontlyQuest : Form
     {
-        // Lista di quest attuali
+        // Lista di Quest_Reward attuali
         public static List<ClientQuestData> CurrentQuests { get; set; } = new List<ClientQuestData>();
         int currentIndex = 0;
 
         public static List<int> CurrentRewardsNormali { get; set; } = new(); // Ricompense Normali
         public static List<int> CurrentRewardsVip { get; set; } = new(); // Ricompense VIP
         public static List<int> CurrentRewardPoints { get; set; } = new(); //Punti necessari per sbloccare le ricompense
-        public static List<bool> CurrentRewardClaim { get; set; } = new(); // Ricompense già ritirate
+        public static List<bool> CurrentRewardClaimNormal { get; set; } = new(); // Ricompense già ritirate
+        public static List<bool> CurrentRewardClaimVip { get; set; } = new(); // Ricompense già ritirate
 
         private CancellationTokenSource cts = new CancellationTokenSource();
         public MontlyQuest()
@@ -24,16 +26,17 @@ namespace CriptoGame_Online
 
         private void MontlyQuest_Load(object sender, EventArgs e)
         {
-            Update_Reward();
-            Check_Unlock_Reward();
-            Check_Unlock_Reward_Vip();
-            AggiornaInterfacciaQuest();
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+
             AggiornaInterfacciaRewards();
+            AggiornaInterfacciaQuest();
             Task.Run(() => Gui_Update(cts.Token), cts.Token);
         }
 
         async void Gui_Update(CancellationToken token)
         {
+            this.ActiveControl = label1;
             while (!token.IsCancellationRequested)
             {
                 if (panel1.IsHandleCreated && !panel1.IsDisposed)
@@ -41,12 +44,15 @@ namespace CriptoGame_Online
                     panel1.BeginInvoke((Action)(() =>
                     {
                         Update_Reward();
-                        AggiornaInterfacciaQuest();
                         Check_Unlock_Reward();
                         Check_Unlock_Reward_Vip();
+                        this.ActiveControl = null;
+                        progressBar1.Maximum = Convert.ToInt32(Variabili_Client.Utente.Montly_Quest_Point);
+                        progressBar1.Value = Convert.ToInt32(Variabili_Client.Utente.Montly_Quest_Point);
+
                     }));
                 }
-                await Task.Delay(1000); // meglio di Thread.Sleep
+                await Task.Delay(750); // meglio di Thread.Sleep
             }
 
         }
@@ -61,52 +67,52 @@ namespace CriptoGame_Online
                     if (i == 0)
                     {
                         txt_Quest_Desc_1.Text = CurrentQuests[questIndex].Quest_Description;
-                        txt_Quest_1.Text = $"[{CurrentQuests[questIndex].Experience}] Exp   " + CurrentQuests[questIndex].Progress + "/" + CurrentQuests[questIndex].Require;
+                        txt_Quest_1.Text = $"[{CurrentQuests[questIndex].Experience:#,0.}] Exp   {CurrentQuests[questIndex].Progress:#,0.}/{CurrentQuests[questIndex].Require:#,0.}";
                     }
                     if (i == 1)
                     {
                         txt_Quest_Desc_2.Text = CurrentQuests[questIndex].Quest_Description;
-                        txt_Quest_2.Text = $"[{CurrentQuests[questIndex].Experience}] Exp   " + CurrentQuests[questIndex].Progress + "/" + CurrentQuests[questIndex].Require;
+                        txt_Quest_2.Text = $"[{CurrentQuests[questIndex].Experience:#,0.}] Exp   {CurrentQuests[questIndex].Progress:#,0.}/{CurrentQuests[questIndex].Require:#,0.}";
                     }
                     if (i == 2)
                     {
                         txt_Quest_Desc_3.Text = CurrentQuests[questIndex].Quest_Description;
-                        txt_Quest_3.Text = $"[{CurrentQuests[questIndex].Experience}] Exp   " + CurrentQuests[questIndex].Progress + "/" + CurrentQuests[questIndex].Require;
+                        txt_Quest_3.Text = $"[{CurrentQuests[questIndex].Experience:#,0.}] Exp   {CurrentQuests[questIndex].Progress:#,0.}/{CurrentQuests[questIndex].Require:#,0.}";
                     }
                     if (i == 3)
                     {
                         txt_Quest_Desc_4.Text = CurrentQuests[questIndex].Quest_Description;
-                        txt_Quest_4.Text = $"[{CurrentQuests[questIndex].Experience}] Exp   " + CurrentQuests[questIndex].Progress + "/" + CurrentQuests[questIndex].Require;
+                        txt_Quest_4.Text = $"[{CurrentQuests[questIndex].Experience:#,0.}] Exp   {CurrentQuests[questIndex].Progress:#,0.}/{CurrentQuests[questIndex].Require:#,0.}";
                     }
                     if (i == 4)
                     {
                         txt_Quest_Desc_5.Text = CurrentQuests[questIndex].Quest_Description;
-                        txt_Quest_5.Text = $"[{CurrentQuests[questIndex].Experience}] Exp   " + CurrentQuests[questIndex].Progress + "/" + CurrentQuests[questIndex].Require;
+                        txt_Quest_5.Text = $"[{CurrentQuests[questIndex].Experience:#,0.}] Exp   {CurrentQuests[questIndex].Progress:#,0.}/{CurrentQuests[questIndex].Require:#,0.}";
                     }
                     if (i == 5)
                     {
                         txt_Quest_Desc_6.Text = CurrentQuests[questIndex].Quest_Description;
-                        txt_Quest_6.Text = $"[{CurrentQuests[questIndex].Experience}] Exp  " + CurrentQuests[questIndex].Progress + "/" + CurrentQuests[questIndex].Require;
+                        txt_Quest_6.Text = $"[{CurrentQuests[questIndex].Experience:#,0.}] Exp   {CurrentQuests[questIndex].Progress:#,0.}/{CurrentQuests[questIndex].Require:#,0.}";
                     }
                     if (i == 6)
                     {
                         txt_Quest_Desc_7.Text = CurrentQuests[questIndex].Quest_Description;
-                        txt_Quest_7.Text = $"[{CurrentQuests[questIndex].Experience}] Exp   " + CurrentQuests[questIndex].Progress + "/" + CurrentQuests[questIndex].Require;
+                        txt_Quest_7.Text = $"[{CurrentQuests[questIndex].Experience:#,0.}] Exp   {CurrentQuests[questIndex].Progress:#,0.}/{CurrentQuests[questIndex].Require:#,0.}";
                     }
                     if (i == 7)
                     {
                         txt_Quest_Desc_8.Text = CurrentQuests[questIndex].Quest_Description;
-                        txt_Quest_8.Text = $"[{CurrentQuests[questIndex].Experience}] Exp   " + CurrentQuests[questIndex].Progress + "/" + CurrentQuests[questIndex].Require;
+                        txt_Quest_8.Text = $"[{CurrentQuests[questIndex].Experience:#,0.}] Exp   {CurrentQuests[questIndex].Progress:#,0.}/{CurrentQuests[questIndex].Require:#,0.}";
                     }
                     if (i == 8)
                     {
                         txt_Quest_Desc_9.Text = CurrentQuests[questIndex].Quest_Description;
-                        txt_Quest_9.Text = $"[{CurrentQuests[questIndex].Experience}] Exp   " + CurrentQuests[questIndex].Progress + "/" + CurrentQuests[questIndex].Require;
+                        txt_Quest_9.Text = $"[{CurrentQuests[questIndex].Experience:#,0.}] Exp   {CurrentQuests[questIndex].Progress:#,0.}/{CurrentQuests[questIndex].Require:#,0.}";
                     }
                     if (i == 9)
                     {
                         txt_Quest_Desc_10.Text = CurrentQuests[questIndex].Quest_Description;
-                        txt_Quest_10.Text = $"[{CurrentQuests[questIndex].Experience}] Exp  " + CurrentQuests[questIndex].Progress + "/" + CurrentQuests[questIndex].Require;
+                        txt_Quest_10.Text = $"[{CurrentQuests[questIndex].Experience:#,0.}] Exp   {CurrentQuests[questIndex].Progress:#,0.}/{CurrentQuests[questIndex].Require:#,0.}";
                     }
                 }
 
@@ -199,214 +205,431 @@ namespace CriptoGame_Online
 
         private void Check_Unlock_Reward()
         {
-            int point = Convert.ToInt32(Variabili_Client.Utente.Esperienza);
+            int point = Convert.ToInt32(Variabili_Client.Utente.Montly_Quest_Point);
 
-            if (point >= Convert.ToInt32(CurrentRewardPoints[0]))
-            {
-                btn_Reward_1.Enabled = true;
-                btn_Reward_1.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_2.Text))
-            {
-                btn_Reward_2.Enabled = true;
-                btn_Reward_2.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_3.Text))
-            {
-                btn_Reward_3.Enabled = true;
-                btn_Reward_3.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_4.Text))
-            {
-                btn_Reward_4.Enabled = true;
-                btn_Reward_4.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_5.Text))
-            {
-                btn_Reward_5.Enabled = true;
-                btn_Reward_5.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_6.Text))
-            {
-                btn_Reward_6.Enabled = true;
-                btn_Reward_6.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_7.Text))
-            {
-                btn_Reward_7.Enabled = true;
-                btn_Reward_7.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_8.Text))
-            {
-                btn_Reward_8.Enabled = true;
-                btn_Reward_8.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_9.Text))
-            {
-                btn_Reward_9.Enabled = true;
-                btn_Reward_9.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_10.Text))
-            {
-                btn_Reward_10.Enabled = true;
-                btn_Reward_10.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_11.Text))
-            {
-                btn_Reward_11.Enabled = true;
-                btn_Reward_11.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_12.Text))
-            {
-                btn_Reward_12.Enabled = true;
-                btn_Reward_12.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_13.Text))
-            {
-                btn_Reward_13.Enabled = true;
-                btn_Reward_13.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_14.Text))
-            {
-                btn_Reward_14.Enabled = true;
-                btn_Reward_14.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_15.Text))
-            {
-                btn_Reward_15.Enabled = true;
-                btn_Reward_15.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_16.Text))
-            {
-                btn_Reward_16.Enabled = true;
-                btn_Reward_16.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_17.Text))
-            {
-                btn_Reward_17.Enabled = true;
-                btn_Reward_17.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_18.Text))
-            {
-                btn_Reward_18.Enabled = true;
-                btn_Reward_18.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_19.Text))
-            {
-                btn_Reward_19.Enabled = true;
-                btn_Reward_19.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_20.Text))
-            {
-                btn_Reward_20.Enabled = true;
-                btn_Reward_20.BackColor = Color.FromArgb(6, 176, 37);
-            }
+            if (point >= CurrentRewardPoints[0])
+                if (CurrentRewardClaimNormal[0] == false)
+                {
+                    btn_Reward_1.Enabled = true;
+                    btn_Reward_1.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimNormal[0] == false)
+                    btn_Reward_1.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_1.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[1])
+                if (CurrentRewardClaimNormal[1] == false && CurrentRewardClaimNormal[0] == true)
+                {
+                    btn_Reward_2.Enabled = true;
+                    btn_Reward_2.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimNormal[1] == false)
+                    btn_Reward_2.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_2.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[2])
+                if (CurrentRewardClaimNormal[2] == false && CurrentRewardClaimNormal[1] == true)
+                {
+                    btn_Reward_3.Enabled = true;
+                    btn_Reward_3.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimNormal[2] == false)
+                    btn_Reward_3.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_3.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[3])
+                if (CurrentRewardClaimNormal[3] == false && CurrentRewardClaimNormal[2] == true)
+                {
+                    btn_Reward_4.Enabled = true;
+                    btn_Reward_4.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimNormal[3] == false)
+                    btn_Reward_4.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_4.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[4])
+                if (CurrentRewardClaimNormal[4] == false && CurrentRewardClaimNormal[3] == true)
+                {
+                    btn_Reward_5.Enabled = true;
+                    btn_Reward_5.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimNormal[4] == false)
+                    btn_Reward_5.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_5.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[5])
+                if (CurrentRewardClaimNormal[5] == false && CurrentRewardClaimNormal[4] == true)
+                {
+                    btn_Reward_6.Enabled = true;
+                    btn_Reward_6.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimNormal[5] == false)
+                    btn_Reward_6.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_6.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[6])
+                if (CurrentRewardClaimNormal[6] == false && CurrentRewardClaimNormal[5] == true)
+                {
+                    btn_Reward_7.Enabled = true;
+                    btn_Reward_7.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimNormal[6] == false)
+                    btn_Reward_7.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_7.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[7])
+                if (CurrentRewardClaimNormal[7] == false && CurrentRewardClaimNormal[6] == true)
+                {
+                    btn_Reward_8.Enabled = true;
+                    btn_Reward_8.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimNormal[7] == false)
+                    btn_Reward_8.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_8.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[8])
+                if (CurrentRewardClaimNormal[8] == false && CurrentRewardClaimNormal[7] == true)
+                {
+                    btn_Reward_9.Enabled = true;
+                    btn_Reward_9.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimNormal[8] == false)
+                    btn_Reward_9.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_9.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[9])
+                if (CurrentRewardClaimNormal[9] == false && CurrentRewardClaimNormal[8] == true)
+                {
+                    btn_Reward_10.Enabled = true;
+                    btn_Reward_10.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimNormal[9] == false)
+                    btn_Reward_10.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_10.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[10])
+                if (CurrentRewardClaimNormal[10] == false && CurrentRewardClaimNormal[9] == true)
+                {
+                    btn_Reward_11.Enabled = true;
+                    btn_Reward_11.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimNormal[10] == false)
+                    btn_Reward_11.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_11.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[11])
+                if (CurrentRewardClaimNormal[11] == false && CurrentRewardClaimNormal[10] == true)
+                {
+                    btn_Reward_12.Enabled = true;
+                    btn_Reward_12.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimNormal[11] == false)
+                    btn_Reward_12.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_12.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[12])
+                if (CurrentRewardClaimNormal[12] == false && CurrentRewardClaimNormal[11] == true)
+                {
+                    btn_Reward_13.Enabled = true;
+                    btn_Reward_13.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimNormal[12] == false)
+                    btn_Reward_13.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_13.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[13])
+                if (CurrentRewardClaimNormal[13] == false && CurrentRewardClaimNormal[12] == true)
+                {
+                    btn_Reward_14.Enabled = true;
+                    btn_Reward_14.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimNormal[13] == false)
+                    btn_Reward_14.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_14.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[14])
+                if (CurrentRewardClaimNormal[14] == false && CurrentRewardClaimNormal[13] == true)
+                {
+                    btn_Reward_15.Enabled = true;
+                    btn_Reward_15.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimNormal[14] == false)
+                    btn_Reward_15.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_15.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[15])
+                if (CurrentRewardClaimNormal[15] == false && CurrentRewardClaimNormal[14] == true)
+                {
+                    btn_Reward_16.Enabled = true;
+                    btn_Reward_16.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimNormal[15] == false)
+                    btn_Reward_16.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_16.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[16])
+                if (CurrentRewardClaimNormal[16] == false && CurrentRewardClaimNormal[15] == true)
+                {
+                    btn_Reward_17.Enabled = true;
+                    btn_Reward_17.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimNormal[16] == false)
+                    btn_Reward_17.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_17.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[17])
+                if (CurrentRewardClaimNormal[17] == false && CurrentRewardClaimNormal[16] == true)
+                {
+                    btn_Reward_18.Enabled = true;
+                    btn_Reward_18.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimNormal[17] == false)
+                    btn_Reward_18.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_18.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[18])
+                if (CurrentRewardClaimNormal[18] == false && CurrentRewardClaimNormal[17] == true)
+                {
+                    btn_Reward_19.Enabled = true;
+                    btn_Reward_19.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimNormal[18] == false)
+                    btn_Reward_19.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_19.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[19])
+                if (CurrentRewardClaimNormal[19] == false && CurrentRewardClaimNormal[18] == true)
+                {
+                    btn_Reward_20.Enabled = true;
+                    btn_Reward_20.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimNormal[19] == false)
+                    btn_Reward_20.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_20.BackColor = Color.FromArgb(90, 80, 70);
+
+            txt_Punti_Reward_1.BackColor = Color.FromArgb(6, 176, 37);
+            txt_Punti_Reward_2.BackColor = Color.FromArgb(6, 176, 37);
+            txt_Punti_Reward_3.BackColor = Color.FromArgb(6, 176, 37);
+            txt_Punti_Reward_4.BackColor = Color.FromArgb(6, 176, 37);
+            txt_Punti_Reward_5.BackColor = Color.FromArgb(6, 176, 37);
+            txt_Punti_Reward_6.BackColor = Color.FromArgb(6, 176, 37);
+            txt_Punti_Reward_7.BackColor = Color.FromArgb(6, 176, 37);
+            txt_Punti_Reward_8.BackColor = Color.FromArgb(6, 176, 37);
+            txt_Punti_Reward_9.BackColor = Color.FromArgb(6, 176, 37);
+            txt_Punti_Reward_10.BackColor = Color.FromArgb(6, 176, 37);
+            txt_Punti_Reward_11.BackColor = Color.FromArgb(6, 176, 37);
+            txt_Punti_Reward_12.BackColor = Color.FromArgb(6, 176, 37);
+            txt_Punti_Reward_13.BackColor = Color.FromArgb(6, 176, 37);
+            txt_Punti_Reward_14.BackColor = Color.FromArgb(6, 176, 37);
+            txt_Punti_Reward_15.BackColor = Color.FromArgb(6, 176, 37);
+            txt_Punti_Reward_16.BackColor = Color.FromArgb(6, 176, 37);
+            txt_Punti_Reward_17.BackColor = Color.FromArgb(6, 176, 37);
+            txt_Punti_Reward_18.BackColor = Color.FromArgb(6, 176, 37);
+            txt_Punti_Reward_19.BackColor = Color.FromArgb(6, 176, 37);
+            txt_Punti_Reward_20.BackColor = Color.FromArgb(6, 176, 37);
         }
         private void Check_Unlock_Reward_Vip()
         {
             if (Variabili_Client.Utente.User_Vip == false) return; // Vip attivo?
-            int point = Convert.ToInt32(Variabili_Client.Quest_Reward.Point_Montly.Points_1);
+            int point = Convert.ToInt32(Variabili_Client.Utente.Montly_Quest_Point);
 
-            if (point >= Convert.ToInt32(txt_Punti_Reward_1.Text))
-            {
-                btn_Reward_Vip_1.Enabled = true;
-                btn_Reward_Vip_1.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_2.Text))
-            {
-                btn_Reward_Vip_2.Enabled = true;
-                btn_Reward_Vip_2.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_3.Text))
-            {
-                btn_Reward_Vip_3.Enabled = true;
-                btn_Reward_Vip_3.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_4.Text))
-            {
-                btn_Reward_Vip_4.Enabled = true;
-                btn_Reward_Vip_4.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_5.Text))
-            {
-                btn_Reward_Vip_5.Enabled = true;
-                btn_Reward_Vip_5.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_6.Text))
-            {
-                btn_Reward_Vip_6.Enabled = true;
-                btn_Reward_Vip_6.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_7.Text))
-            {
-                btn_Reward_Vip_7.Enabled = true;
-                btn_Reward_Vip_7.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_8.Text))
-            {
-                btn_Reward_Vip_8.Enabled = true;
-                btn_Reward_Vip_8.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_9.Text))
-            {
-                btn_Reward_Vip_9.Enabled = true;
-                btn_Reward_Vip_9.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_10.Text))
-            {
-                btn_Reward_Vip_10.Enabled = true;
-                btn_Reward_Vip_10.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_11.Text))
-            {
-                btn_Reward_Vip_11.Enabled = true;
-                btn_Reward_Vip_11.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_12.Text))
-            {
-                btn_Reward_Vip_12.Enabled = true;
-                btn_Reward_Vip_12.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_13.Text))
-            {
-                btn_Reward_Vip_13.Enabled = true;
-                btn_Reward_Vip_13.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_14.Text))
-            {
-                btn_Reward_Vip_14.Enabled = true;
-                btn_Reward_Vip_14.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_15.Text))
-            {
-                btn_Reward_Vip_15.Enabled = true;
-                btn_Reward_Vip_15.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_16.Text))
-            {
-                btn_Reward_Vip_16.Enabled = true;
-                btn_Reward_Vip_16.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_17.Text))
-            {
-                btn_Reward_Vip_17.Enabled = true;
-                btn_Reward_Vip_17.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_18.Text))
-            {
-                btn_Reward_Vip_18.Enabled = true;
-                btn_Reward_Vip_18.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_19.Text))
-            {
-                btn_Reward_Vip_19.Enabled = true;
-                btn_Reward_Vip_19.BackColor = Color.FromArgb(6, 176, 37);
-            }
-            if (point >= Convert.ToInt32(txt_Punti_Reward_20.Text))
-            {
-                btn_Reward_Vip_20.Enabled = true;
-                btn_Reward_Vip_20.BackColor = Color.FromArgb(6, 176, 37);
-            }
+            if (point >= CurrentRewardPoints[0])
+                if (CurrentRewardClaimVip[0] == false)
+                {
+                    btn_Reward_Vip_1.Enabled = true;
+                    btn_Reward_Vip_1.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else btn_Reward_Vip_1.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[1])
+                if (CurrentRewardClaimVip[0] == true && CurrentRewardClaimVip[1] == false)
+                {
+                    btn_Reward_Vip_2.Enabled = true;
+                    btn_Reward_Vip_2.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimVip[1] == false)
+                    btn_Reward_Vip_2.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_Vip_2.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[2])
+                if (CurrentRewardClaimVip[1] == true && CurrentRewardClaimVip[2] == false)
+                {
+                    btn_Reward_Vip_3.Enabled = true;
+                    btn_Reward_Vip_3.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimVip[2] == false)
+                    btn_Reward_Vip_3.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_Vip_3.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[3])
+                if (CurrentRewardClaimVip[2] == true && CurrentRewardClaimVip[3] == false)
+                {
+                    btn_Reward_Vip_4.Enabled = true;
+                    btn_Reward_Vip_4.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimVip[3] == false)
+                    btn_Reward_Vip_4.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_Vip_4.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[4])
+                if (CurrentRewardClaimVip[3] == true && CurrentRewardClaimVip[4] == false)
+                {
+                    btn_Reward_Vip_5.Enabled = true;
+                    btn_Reward_Vip_5.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimVip[4] == false)
+                    btn_Reward_Vip_5.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_Vip_5.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[5])
+                if (CurrentRewardClaimVip[4] == true && CurrentRewardClaimVip[5] == false)
+                {
+                    btn_Reward_Vip_6.Enabled = true;
+                    btn_Reward_Vip_6.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimVip[5] == false)
+                    btn_Reward_Vip_6.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_Vip_6.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[6])
+                if (CurrentRewardClaimVip[5] == true && CurrentRewardClaimVip[6] == false)
+                {
+                    btn_Reward_Vip_7.Enabled = true;
+                    btn_Reward_Vip_7.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimVip[6] == false)
+                    btn_Reward_Vip_7.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_Vip_7.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[7])
+                if (CurrentRewardClaimVip[6] == true && CurrentRewardClaimVip[7] == false)
+                {
+                    btn_Reward_Vip_8.Enabled = true;
+                    btn_Reward_Vip_8.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimVip[7] == false)
+                    btn_Reward_Vip_8.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_Vip_8.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[8])
+                if (CurrentRewardClaimVip[7] == true && CurrentRewardClaimVip[8] == false)
+                {
+                    btn_Reward_Vip_9.Enabled = true;
+                    btn_Reward_Vip_9.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimVip[8] == false)
+                    btn_Reward_Vip_9.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_Vip_9.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[9])
+                if (CurrentRewardClaimVip[8] == true && CurrentRewardClaimVip[9] == false)
+                {
+                    btn_Reward_Vip_10.Enabled = true;
+                    btn_Reward_Vip_10.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimVip[9] == false)
+                    btn_Reward_Vip_10.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_Vip_10.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[10])
+                if (CurrentRewardClaimVip[9] == true && CurrentRewardClaimVip[10] == false)
+                {
+                    btn_Reward_Vip_11.Enabled = true;
+                    btn_Reward_Vip_11.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimVip[10] == false)
+                    btn_Reward_Vip_11.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_Vip_11.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[11])
+                if (CurrentRewardClaimVip[10] == true && CurrentRewardClaimVip[11] == false)
+                {
+                    btn_Reward_Vip_12.Enabled = true;
+                    btn_Reward_Vip_12.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimVip[11] == false)
+                    btn_Reward_Vip_12.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_Vip_12.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[12])
+                if (CurrentRewardClaimVip[11] == true && CurrentRewardClaimVip[12] == false)
+                {
+                    btn_Reward_Vip_13.Enabled = true;
+                    btn_Reward_Vip_13.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimVip[12] == false)
+                    btn_Reward_Vip_13.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_Vip_13.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[13])
+                if (CurrentRewardClaimVip[12] == true && CurrentRewardClaimVip[13] == false)
+                {
+                    btn_Reward_Vip_14.Enabled = true;
+                    btn_Reward_Vip_14.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimVip[13] == false)
+                    btn_Reward_Vip_14.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_Vip_14.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[14])
+                if (CurrentRewardClaimVip[13] == true && CurrentRewardClaimVip[14] == false)
+                {
+                    btn_Reward_Vip_15.Enabled = true;
+                    btn_Reward_Vip_15.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimVip[14] == false)
+                    btn_Reward_Vip_15.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_Vip_15.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[15])
+                if (CurrentRewardClaimVip[14] == true && CurrentRewardClaimVip[15] == false)
+                {
+                    btn_Reward_Vip_16.Enabled = true;
+                    btn_Reward_Vip_16.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimVip[15] == false)
+                    btn_Reward_Vip_16.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_Vip_16.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[16])
+                if (CurrentRewardClaimVip[15] == true && CurrentRewardClaimVip[16] == false)
+                {
+                    btn_Reward_Vip_17.Enabled = true;
+                    btn_Reward_Vip_17.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimVip[16] == false)
+                    btn_Reward_Vip_17.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_Vip_17.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[17])
+                if (CurrentRewardClaimVip[16] == true && CurrentRewardClaimVip[17] == false)
+                {
+                    btn_Reward_Vip_18.Enabled = true;
+                    btn_Reward_Vip_18.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimVip[17] == false)
+                    btn_Reward_Vip_18.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_Vip_18.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[18])
+                if (CurrentRewardClaimVip[17] == true && CurrentRewardClaimVip[18] == false)
+                {
+                    btn_Reward_Vip_19.Enabled = true;
+                    btn_Reward_Vip_19.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimVip[18] == false)
+                    btn_Reward_Vip_19.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_Vip_19.BackColor = Color.FromArgb(90, 80, 70);
+
+            if (point >= CurrentRewardPoints[19])
+                if (CurrentRewardClaimVip[18] == true && CurrentRewardClaimVip[19] == false)
+                {
+                    btn_Reward_Vip_20.Enabled = true;
+                    btn_Reward_Vip_20.BackColor = Color.FromArgb(6, 176, 37);
+                }
+                else if (CurrentRewardClaimVip[19] == false)
+                    btn_Reward_Vip_20.BackColor = Color.FromArgb(55, 47, 36);
+                else btn_Reward_Vip_20.BackColor = Color.FromArgb(90, 80, 70);
         }
         private void Update_Reward()
         {
@@ -554,250 +777,382 @@ namespace CriptoGame_Online
 
         private void Btn_Costruzione_Click(object sender, EventArgs e)
         {
-            currentIndex = (currentIndex + 10) % CurrentQuests.Count; //Varia l'index per cambiare le quest mostrate
+            currentIndex = (currentIndex + 10) % CurrentQuests.Count; //Varia l'index per cambiare le Quest_Reward mostrate
         }
 
+        async void Scroll_Panel(int Valore)
+        {
+            Thread.Sleep(400); // Attendi 100 millisecondi
+            if ((Variabili_Client.Utente.User_Vip == true && CurrentRewardClaimVip[Valore] == true && CurrentRewardClaimNormal[Valore] == true) ||
+                (Variabili_Client.Utente.User_Vip == false && CurrentRewardClaimNormal[Valore] == true))
+                panel1.AutoScrollPosition = new Point(Math.Abs(panel1.AutoScrollPosition.X) + 80); // Scorri di 100 pixel verso destra
+
+
+            Check_Unlock_Reward();
+            Check_Unlock_Reward_Vip();
+            this.ActiveControl = null;
+        }
 
         #region btn_Reward_Click F2P
-        private void btn_Reward_1_Click(object sender, EventArgs e)
+        private async void btn_Reward_1_Click(object sender, EventArgs e)
         {
-            btn_Reward_1.Enabled = false;
-            btn_Reward_1.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimNormal[0] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Normale|1");
+            else btn_Reward_1.Enabled = false;
+
+            Scroll_Panel(0);
         }
 
         private void btn_Reward_2_Click(object sender, EventArgs e)
         {
-            btn_Reward_2.Enabled = false;
-            btn_Reward_2.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimNormal[1] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Normale|2");
+            else btn_Reward_2.Enabled = false;
+
+            Scroll_Panel(1);
         }
 
         private void btn_Reward_3_Click(object sender, EventArgs e)
         {
-            btn_Reward_3.Enabled = false;
-            btn_Reward_3.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimNormal[2] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Normale|3");
+            else btn_Reward_3.Enabled = false;
+
+            Scroll_Panel(2);
         }
 
         private void btn_Reward_4_Click(object sender, EventArgs e)
         {
-            btn_Reward_4.Enabled = false;
-            btn_Reward_4.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimNormal[3] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Normale|4");
+            else btn_Reward_4.Enabled = false;
+
+            Scroll_Panel(3);
         }
 
         private void btn_Reward_5_Click(object sender, EventArgs e)
         {
-            btn_Reward_5.Enabled = false;
-            btn_Reward_5.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimNormal[4] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Normale|5");
+            else btn_Reward_5.Enabled = false;
+
+            Scroll_Panel(4);
         }
 
         private void btn_Reward_6_Click(object sender, EventArgs e)
         {
-            btn_Reward_6.Enabled = false;
-            btn_Reward_6.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimNormal[5] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Normale|6");
+            else btn_Reward_6.Enabled = false;
+
+            Scroll_Panel(5);
         }
 
         private void btn_Reward_7_Click(object sender, EventArgs e)
         {
-            btn_Reward_7.Enabled = false;
-            btn_Reward_7.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimNormal[6] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Normale|7");
+            else btn_Reward_7.Enabled = false;
+
+            Scroll_Panel(6);
         }
 
         private void btn_Reward_8_Click(object sender, EventArgs e)
         {
-            btn_Reward_8.Enabled = false;
-            btn_Reward_8.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimNormal[7] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Normale|8");
+            else btn_Reward_8.Enabled = false;
+
+            Scroll_Panel(7);
         }
 
         private void btn_Reward_9_Click(object sender, EventArgs e)
         {
-            btn_Reward_9.Enabled = false;
-            btn_Reward_9.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimNormal[8] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Normale|9");
+            else btn_Reward_9.Enabled = false;
+
+            Scroll_Panel(8);
         }
 
         private void btn_Reward_10_Click(object sender, EventArgs e)
         {
-            btn_Reward_10.Enabled = false;
-            btn_Reward_10.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimNormal[9] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Normale|10");
+            else btn_Reward_10.Enabled = false;
+
+            Scroll_Panel(9);
         }
 
         private void btn_Reward_11_Click(object sender, EventArgs e)
         {
-            btn_Reward_11.Enabled = false;
-            btn_Reward_11.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimNormal[10] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Normale|11");
+            else btn_Reward_11.Enabled = false;
+
+            Scroll_Panel(10);
         }
 
         private void btn_Reward_12_Click(object sender, EventArgs e)
         {
-            btn_Reward_12.Enabled = false;
-            btn_Reward_12.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimNormal[11] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Normale|12");
+            else btn_Reward_12.Enabled = false;
+
+            Scroll_Panel(11);
         }
 
         private void btn_Reward_13_Click(object sender, EventArgs e)
         {
-            btn_Reward_13.Enabled = false;
-            btn_Reward_13.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimNormal[12] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Normale|13");
+            else btn_Reward_13.Enabled = false;
+
+            Scroll_Panel(12);
         }
 
         private void btn_Reward_14_Click(object sender, EventArgs e)
         {
-            btn_Reward_14.Enabled = false;
-            btn_Reward_14.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimNormal[13] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Normale|14");
+            else btn_Reward_14.Enabled = false;
+
+            Scroll_Panel(13);
         }
 
         private void btn_Reward_15_Click(object sender, EventArgs e)
         {
-            btn_Reward_15.Enabled = false;
-            btn_Reward_15.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimNormal[14] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Normale|15");
+            else btn_Reward_15.Enabled = false;
+
+            Scroll_Panel(14);
         }
 
         private void btn_Reward_16_Click(object sender, EventArgs e)
         {
-            btn_Reward_16.Enabled = false;
-            btn_Reward_16.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimNormal[15] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Normale|16");
+            else btn_Reward_16.Enabled = false;
+
+            Scroll_Panel(15);
         }
 
         private void btn_Reward_17_Click(object sender, EventArgs e)
         {
-            btn_Reward_17.Enabled = false;
-            btn_Reward_17.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimNormal[16] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Normale|17");
+            else btn_Reward_17.Enabled = false;
+
+            Scroll_Panel(16);
         }
 
         private void btn_Reward_18_Click(object sender, EventArgs e)
         {
-            btn_Reward_18.Enabled = false;
-            btn_Reward_18.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimNormal[17] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Normale|18");
+            else btn_Reward_18.Enabled = false;
+
+            Scroll_Panel(17);
         }
 
         private void btn_Reward_19_Click(object sender, EventArgs e)
         {
-            btn_Reward_19.Enabled = false;
-            btn_Reward_19.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimNormal[18] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Normale|19");
+            else btn_Reward_19.Enabled = false;
+
+            Scroll_Panel(18);
         }
 
         private void btn_Reward_20_Click(object sender, EventArgs e)
         {
-            btn_Reward_20.Enabled = false;
-            btn_Reward_20.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimNormal[19] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Normale|20");
+            else btn_Reward_20.Enabled = false;
+
+            Scroll_Panel(19);
         }
         #endregion
         #region btn_Reward_Click VIP
         private void btn_Reward_Vip_1_Click(object sender, EventArgs e)
         {
-            btn_Reward_Vip_1.Enabled = false;
-            btn_Reward_Vip_1.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimVip[0] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Vip|1");
+            else btn_Reward_Vip_1.Enabled = false;
+
+            Scroll_Panel(0);
         }
 
         private void btn_Reward_Vip_2_Click(object sender, EventArgs e)
         {
-            btn_Reward_Vip_2.Enabled = false;
-            btn_Reward_Vip_2.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimVip[1] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Vip|2");
+            else btn_Reward_Vip_2.Enabled = false;
+
+            Scroll_Panel(1);
         }
 
         private void btn_Reward_Vip_3_Click(object sender, EventArgs e)
         {
-            btn_Reward_Vip_3.Enabled = false;
-            btn_Reward_Vip_3.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimVip[2] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Vip|3");
+            else btn_Reward_Vip_3.Enabled = false;
+
+            Scroll_Panel(2);
         }
 
         private void btn_Reward_Vip_4_Click(object sender, EventArgs e)
         {
-            btn_Reward_Vip_4.Enabled = false;
-            btn_Reward_Vip_4.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimVip[3] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Vip|4");
+            else btn_Reward_Vip_4.Enabled = false;
+
+            Scroll_Panel(3);
         }
 
         private void btn_Reward_Vip_5_Click(object sender, EventArgs e)
         {
-            btn_Reward_Vip_5.Enabled = false;
-            btn_Reward_Vip_5.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimVip[4] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Vip|5");
+            else btn_Reward_Vip_5.Enabled = false;
+
+            Scroll_Panel(4);
         }
 
         private void btn_Reward_Vip_6_Click(object sender, EventArgs e)
         {
-            btn_Reward_Vip_6.Enabled = false;
-            btn_Reward_Vip_6.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimVip[5] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Vip|6");
+            else btn_Reward_Vip_6.Enabled = false;
+
+            Scroll_Panel(5);
         }
 
         private void btn_Reward_Vip_7_Click(object sender, EventArgs e)
         {
-            btn_Reward_Vip_7.Enabled = false;
-            btn_Reward_Vip_7.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimVip[6] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Vip|7");
+            else btn_Reward_Vip_7.Enabled = false;
+
+            Scroll_Panel(6);
         }
 
         private void btn_Reward_Vip_8_Click(object sender, EventArgs e)
         {
-            btn_Reward_Vip_8.Enabled = false;
-            btn_Reward_Vip_8.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimVip[7] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Vip|8");
+            else btn_Reward_Vip_8.Enabled = false;
+
+            Scroll_Panel(7);
         }
 
         private void btn_Reward_Vip_9_Click(object sender, EventArgs e)
         {
-            btn_Reward_Vip_9.Enabled = false;
-            btn_Reward_Vip_9.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimVip[8] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Vip|9");
+            else btn_Reward_Vip_9.Enabled = false;
+
+            Scroll_Panel(8);
         }
 
         private void btn_Reward_Vip_10_Click(object sender, EventArgs e)
         {
-            btn_Reward_Vip_10.Enabled = false;
-            btn_Reward_Vip_10.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimVip[9] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Vip|10");
+            else btn_Reward_Vip_10.Enabled = false;
+
+            Scroll_Panel(9);
         }
 
         private void btn_Reward_Vip_11_Click(object sender, EventArgs e)
         {
-            btn_Reward_Vip_11.Enabled = false;
-            btn_Reward_Vip_11.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimVip[10] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Vip|11");
+            else btn_Reward_Vip_11.Enabled = false;
+
+            Scroll_Panel(10);
         }
 
         private void btn_Reward_Vip_12_Click(object sender, EventArgs e)
         {
-            btn_Reward_Vip_12.Enabled = false;
-            btn_Reward_Vip_12.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimVip[11] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Vip|12");
+            else btn_Reward_Vip_12.Enabled = false;
+
+            Scroll_Panel(11);
         }
 
         private void btn_Reward_Vip_13_Click(object sender, EventArgs e)
         {
-            btn_Reward_Vip_13.Enabled = false;
-            btn_Reward_Vip_13.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimVip[12] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Vip|13");
+            else btn_Reward_Vip_13.Enabled = false;
+
+            Scroll_Panel(12);
         }
 
         private void btn_Reward_Vip_14_Click(object sender, EventArgs e)
         {
-            btn_Reward_Vip_14.Enabled = false;
-            btn_Reward_Vip_14.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimVip[14] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Vip|14");
+            else btn_Reward_Vip_14.Enabled = false;
+
+            Scroll_Panel(13);
         }
 
         private void btn_Reward_Vip_15_Click(object sender, EventArgs e)
         {
-            btn_Reward_Vip_15.Enabled = false;
-            btn_Reward_Vip_15.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimVip[14] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Vip|15");
+            else btn_Reward_Vip_15.Enabled = false;
+
+            Scroll_Panel(14);
         }
 
         private void btn_Reward_Vip_16_Click(object sender, EventArgs e)
         {
-            btn_Reward_Vip_16.Enabled = false;
-            btn_Reward_Vip_16.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimVip[15] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Vip|16");
+            else btn_Reward_Vip_16.Enabled = false;
+
+            Scroll_Panel(15);
         }
 
         private void btn_Reward_Vip_17_Click(object sender, EventArgs e)
         {
-            btn_Reward_Vip_17.Enabled = false;
-            btn_Reward_Vip_17.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimVip[16] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Vip|17");
+            else btn_Reward_Vip_17.Enabled = false;
+
+            Scroll_Panel(16);
         }
 
         private void btn_Reward_Vip_18_Click(object sender, EventArgs e)
         {
-            btn_Reward_Vip_18.Enabled = false;
-            btn_Reward_Vip_18.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimVip[17] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Vip|18");
+            else btn_Reward_Vip_18.Enabled = false;
+
+            Scroll_Panel(17);
         }
 
         private void btn_Reward_Vip_19_Click(object sender, EventArgs e)
         {
-            btn_Reward_Vip_19.Enabled = false;
-            btn_Reward_Vip_19.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimVip[18] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Vip|19");
+            else btn_Reward_Vip_19.Enabled = false;
+
+            Scroll_Panel(18);
         }
 
         private void btn_Reward_Vip_20_Click(object sender, EventArgs e)
         {
-            btn_Reward_Vip_20.Enabled = false;
-            btn_Reward_Vip_20.BackColor = Color.FromArgb(55, 47, 36);
+            if (CurrentRewardClaimVip[19] == false)
+                ClientConnection.TestClient.Send($"Quest_Reward|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Vip|20");
+            else btn_Reward_Vip_20.Enabled = false;
+
+            Scroll_Panel(19);
         }
         #endregion
 
