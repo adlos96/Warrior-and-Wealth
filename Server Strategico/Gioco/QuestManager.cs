@@ -6,6 +6,114 @@ namespace Server_Strategico.Gioco
 {
     public class QuestManager
     {
+        public class Quest_Template
+        {
+            public int Id { get; set; }                     // ID univoco per identificare la quest
+            public string Quest_Description { get; set; }   // Descrizione
+            public int Experience { get; set; }             // Exp guadagnata
+            public int Require { get; set; }                // Requisito per completare
+            public int Max_Complete { get; set; }           // Quante volte può essere completata
+        }
+        public static class QuestDatabase
+        {
+            public static readonly Dictionary<int, Quest_Template> Quests = new()
+            {
+                // --- ACQUISTI E GENERALI ---
+                { 0, new Quest_Template { Id = 0, Quest_Description = "Acquista un terreno virtuale", Experience = 40, Require = 1, Max_Complete = 5 } },
+
+                // --- ADDESTRAMENTO TRUPPE ---
+                { 1, new Quest_Template { Id = 1, Quest_Description = "Addestra guerrieri", Experience = 15, Require = 50, Max_Complete = 3 } },
+                { 2, new Quest_Template { Id = 2, Quest_Description = "Addestra lancieri", Experience = 15, Require = 50, Max_Complete = 3 } },
+                { 3, new Quest_Template { Id = 3, Quest_Description = "Addestra arcieri", Experience = 15, Require = 50, Max_Complete = 3 } },
+                { 4, new Quest_Template { Id = 4, Quest_Description = "Addestra catapulte", Experience = 15, Require = 50, Max_Complete = 3 } },
+
+                // --- ELIMINA TRUPPE --- da fare
+                { 5, new Quest_Template { Id = 5, Quest_Description = "Elimina guerrieri", Experience = 20, Require = 50, Max_Complete = 4 } },
+                { 6, new Quest_Template { Id = 6, Quest_Description = "Elimina lancieri", Experience = 20, Require = 50, Max_Complete = 4 } },
+                { 7, new Quest_Template { Id = 7, Quest_Description = "Elimina arcieri", Experience = 20, Require = 50, Max_Complete = 4 } },
+                { 8, new Quest_Template { Id = 8, Quest_Description = "Elimina catapulte", Experience = 20, Require = 50, Max_Complete = 4 } },
+                { 9, new Quest_Template { Id = 9, Quest_Description = "Elimina qualsiasi unità", Experience = 20, Require = 500, Max_Complete = 5 } },
+
+                // --- COSTRUZIONI CIVILI ---
+                { 10, new Quest_Template { Id = 10, Quest_Description = "Costruisci qualsiasi struttura civile", Experience = 25, Require = 15, Max_Complete = 5 } },
+                { 11, new Quest_Template { Id = 11, Quest_Description = "Costruisci fattorie", Experience = 10, Require = 10, Max_Complete = 4 } },
+                { 12, new Quest_Template { Id = 12, Quest_Description = "Costruisci segherie", Experience = 10, Require = 10, Max_Complete = 4 } },
+                { 13, new Quest_Template { Id = 13, Quest_Description = "Costruisci cave di pietra", Experience = 10, Require = 10, Max_Complete = 4 } },
+                { 14, new Quest_Template { Id = 14, Quest_Description = "Costruisci miniere di ferro", Experience = 10, Require = 10, Max_Complete = 4 } },
+                { 15, new Quest_Template { Id = 15, Quest_Description = "Costruisci miniere d'oro", Experience = 10, Require = 10, Max_Complete = 4 } },
+                { 16, new Quest_Template { Id = 16, Quest_Description = "Costruisci case", Experience = 15, Require = 10, Max_Complete = 4 } },
+
+                { 17, new Quest_Template { Id = 17, Quest_Description = "Costruisci workshop spade", Experience = 10, Require = 5, Max_Complete = 3 } },
+                { 18, new Quest_Template { Id = 18, Quest_Description = "Costruisci workshop lance", Experience = 10, Require = 5, Max_Complete = 3 } },
+                { 19, new Quest_Template { Id = 19, Quest_Description = "Costruisci workshop archi", Experience = 10, Require = 5, Max_Complete = 3 } },
+                { 20, new Quest_Template { Id = 20, Quest_Description = "Costruisci workshop scudi", Experience = 10, Require = 5, Max_Complete = 3 } },
+                { 21, new Quest_Template { Id = 21, Quest_Description = "Costruisci workshop armature", Experience = 10, Require = 5, Max_Complete = 3 } },
+                { 22, new Quest_Template { Id = 22, Quest_Description = "Costruisci workshop frecce", Experience = 10, Require = 5, Max_Complete = 3 } },
+
+                { 23, new Quest_Template { Id = 23, Quest_Description = "Costruisci caserme guerrieri", Experience = 15, Require = 2, Max_Complete = 3 } },
+                { 24, new Quest_Template { Id = 24, Quest_Description = "Costruisci caserme lanceri", Experience = 15, Require = 2, Max_Complete = 3 } },
+                { 25, new Quest_Template { Id = 25, Quest_Description = "Costruisci caserme arceri", Experience = 15, Require = 2, Max_Complete = 3 } },
+                { 26, new Quest_Template { Id = 26, Quest_Description = "Costruisci caserme catapulte", Experience = 15, Require = 2, Max_Complete = 3 } },
+
+
+                { 27, new Quest_Template { Id = 27, Quest_Description = "Utilizza diamanti blu", Experience = 35, Require = 200, Max_Complete = 4 } },
+                { 28, new Quest_Template { Id = 28, Quest_Description = "Utilizza diamanti viola", Experience = 50, Require = 300, Max_Complete = 4 } },
+
+                { 29, new Quest_Template { Id = 29, Quest_Description = "Velocizza costruzioni", Experience = 25, Require = 400, Max_Complete = 3 } }, //Minuti
+                { 30, new Quest_Template { Id = 30, Quest_Description = "Velocizza addestramento", Experience = 25, Require = 400, Max_Complete = 3 } },
+                { 31, new Quest_Template { Id = 31, Quest_Description = "Velocizza qualsiasi cosa", Experience = 25, Require = 700, Max_Complete = 3 } },
+
+                { 32, new Quest_Template { Id = 32, Quest_Description = "Attacca giocatori", Experience = 40, Require = 5, Max_Complete = 4 } },
+                { 33, new Quest_Template { Id = 33, Quest_Description = "Attacca villaggi barbari", Experience = 30, Require = 5, Max_Complete = 4 } },
+                { 34, new Quest_Template { Id = 34, Quest_Description = "Attacca città barbare", Experience = 35, Require = 5, Max_Complete = 4 } },
+
+                // --- COSTRUZIONI MILITARI ---
+                { 35, new Quest_Template { Id = 35, Quest_Description = "Costruisci qualsiasi struttura militare", Experience = 60, Require = 15, Max_Complete = 4 } },
+                { 36, new Quest_Template { Id = 36, Quest_Description = "Addestra qualsiasi unità militare", Experience = 50, Require = 200, Max_Complete = 4 } },
+
+                //Risorse
+                { 37, new Quest_Template { Id = 37, Quest_Description = "Utilizza cibo", Experience = 10, Require = 20000, Max_Complete = 4 } },
+                { 38, new Quest_Template { Id = 38, Quest_Description = "Utilizza legno", Experience = 10, Require = 19000, Max_Complete = 4 } },
+                { 39, new Quest_Template { Id = 39, Quest_Description = "Utilizza pietra", Experience = 10, Require = 18000, Max_Complete = 4 } },
+                { 40, new Quest_Template { Id = 40, Quest_Description = "Utilizza ferro", Experience = 10, Require = 17000, Max_Complete = 4 } },
+                { 41, new Quest_Template { Id = 41, Quest_Description = "Utilizza oro", Experience = 10, Require = 15000, Max_Complete = 4 } },
+                { 42, new Quest_Template { Id = 42, Quest_Description = "Utilizza popolazione", Experience = 10, Require = 400, Max_Complete = 4 } },
+
+                { 43, new Quest_Template { Id = 43, Quest_Description = "Utilizza spade", Experience = 10, Require = 200, Max_Complete = 4 } },
+                { 44, new Quest_Template { Id = 44, Quest_Description = "Utilizza lance", Experience = 10, Require = 200, Max_Complete = 4 } },
+                { 45, new Quest_Template { Id = 45, Quest_Description = "Utilizza archi", Experience = 10, Require = 200, Max_Complete = 4 } },
+                { 46, new Quest_Template { Id = 46, Quest_Description = "Utilizza scudi", Experience = 10, Require = 200, Max_Complete = 4 } },
+                { 47, new Quest_Template { Id = 47, Quest_Description = "Utilizza armature", Experience = 10, Require = 200, Max_Complete = 4 } },
+                { 48, new Quest_Template { Id = 48, Quest_Description = "Utilizza frecce", Experience = 10, Require = 200, Max_Complete = 4 } },
+
+                // --- COSTRUZIONI AVANZATE / SPECIALI ---
+                { 49, new Quest_Template { Id = 49, Quest_Description = "Completa tutte le quest iniziali", Experience = 200, Require = 17, Max_Complete = 1 } },
+
+                { 50, new Quest_Template { Id = 50, Quest_Description = "Esplora villaggio barbaro", Experience = 5, Require = 17, Max_Complete = 2 } },
+                { 51, new Quest_Template { Id = 51, Quest_Description = "Esplora città barbare", Experience = 5, Require = 17, Max_Complete = 2 } },
+                { 52, new Quest_Template { Id = 52, Quest_Description = "Esplora giocatori", Experience = 5, Require = 17, Max_Complete = 2 } },
+                { 53, new Quest_Template { Id = 53, Quest_Description = "Esegui esplorazioni", Experience = 10, Require = 17, Max_Complete = 2 } },
+
+            };
+        }
+
+        public class QuestRewardSet
+        {
+            public List<int> Rewards { get; set; } = new();
+            public List<int> Points { get; set; } = new();
+
+            public static QuestRewardSet Normali_Monthly = new QuestRewardSet
+            {
+                Rewards = new List<int> { 5, 10, 7, 15, 9, 13, 19, 17, 25, 30, 23, 40, 50, 27, 60, 80, 34, 110, 130, 150 }, //Reward normali per tutti i giocatori
+                Points = new List<int> { 20, 60, 120, 180, 250, 320, 450, 680, 820, 980, 1130, 1250, 1400, 1680, 1810, 1920, 2150, 2375, 2500, 3000 } //Punti richiesti
+            };
+
+            public static QuestRewardSet Vip_Monthly = new QuestRewardSet
+            {
+                Rewards = new List<int> { 1, 2, 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, //Reward solo per i vip
+            };
+        }
+
         public class PlayerQuestProgress
         {
             public int[] Completions { get; set; } = new int[QuestDatabase.Quests.Count]; // Indica quante volte ogni quest è stata completata
@@ -28,18 +136,21 @@ namespace Server_Strategico.Gioco
                 }
 
                 int completata = Completions[questId];  // Quante volte è stata completata finora
-                int requireDinamico = quest.Require + (completata * Variabili_Server.moltiplicatore_Quest); // Aumenta il requisito di 5 per ogni completamento
-                player.Punti_Quest += quest.Experience;
+                int requireDinamico = quest.Require + (completata * quest.Require); // Aumenta il requisito
                 CurrentProgress[questId] += amount; // Aggiungi il progresso
 
                 if (CurrentProgress[questId] >= requireDinamico) // 🔹 Se completata
                 {
                     CurrentProgress[questId] = 0; // Resetta il progresso per la prossima volta
                     Completions[questId]++; // Incrementa il conteggio delle completazioni
+                    player.Punti_Quest += quest.Experience; //Aggiunge i punti guadagnati
                     Console.WriteLine($"Quest '{quest.Quest_Description}' completata {Completions[questId]} / {quest.Max_Complete} volte.");
 
                     if (Completions[questId] == quest.Max_Complete)
+                    {
                         QuestManager.OnEvent(player, QuestEventType.Miglioramento, "", 1); // Per ogni quest completata, aggiorna la quest
+                        player.Quest_Completate++;
+                    }
                     return true; // Quest completata
                 }
                 return false;
@@ -51,7 +162,7 @@ namespace Server_Strategico.Gioco
             Costruzione,
             Addestramento,
             Eliminazione,
-            Acquisto,
+            Risorse,
             Miglioramento
         }
 
@@ -74,8 +185,8 @@ namespace Server_Strategico.Gioco
                     GestisciEliminazione(player, targetName, amount);
                     break;
 
-                case QuestEventType.Acquisto:
-                    GestisciAcquisto(player, targetName, amount);
+                case QuestEventType.Risorse:
+                    GestisciRisorse(player, targetName, amount);
                     break;
 
                 case QuestEventType.Miglioramento:
@@ -90,6 +201,10 @@ namespace Server_Strategico.Gioco
             // Costruzioni civili specifiche
             switch (tipo)
             {
+                case "Terreno":
+                    player.QuestProgress.AddProgress(0, quantita, player);
+                    break;
+
                 case "Fattoria":
                     player.QuestProgress.AddProgress(11, quantita, player);
                     player.QuestProgress.AddProgress(10, quantita, player); // qualsiasi struttura civile
@@ -159,35 +274,101 @@ namespace Server_Strategico.Gioco
 
             }
         }
-
         private static void GestisciAddestramento(Player player, string tipo, int quantita)
         {
-            if (tipo == "Guerrieri_1") player.QuestProgress.AddProgress(1, quantita, player);
-            else if (tipo == "Lanceri_1") player.QuestProgress.AddProgress(2, quantita, player);
-            else if (tipo == "Arceri_1") player.QuestProgress.AddProgress(3, quantita, player);
-            else if (tipo == "Catapulta") player.QuestProgress.AddProgress(4, quantita, player);
-
-            player.QuestProgress.AddProgress(36, quantita, player); //Addestramento truppe generico
+            switch (tipo)
+            {
+                case "Guerrieri_1":
+                    player.QuestProgress.AddProgress(1, quantita, player);
+                    player.QuestProgress.AddProgress(36, quantita, player); //Addestra qualsiasi unità
+                    break;
+                case "Lanceri_1":
+                    player.QuestProgress.AddProgress(2, quantita, player);
+                    player.QuestProgress.AddProgress(36, quantita, player); //Addestra qualsiasi unità
+                    break;
+                case "Arceri_1":
+                    player.QuestProgress.AddProgress(3, quantita, player);
+                    player.QuestProgress.AddProgress(36, quantita, player); //Addestra qualsiasi unità
+                    break;
+                case "Catapulta":
+                    player.QuestProgress.AddProgress(4, quantita, player);
+                    player.QuestProgress.AddProgress(36, quantita, player); //Addestra qualsiasi unità
+                    break;
+            }
         }
-
         private static void GestisciEliminazione(Player player, string tipo, int quantita)
         {
-            if (tipo == "Guerrieri_1") player.QuestProgress.AddProgress(5, quantita, player);
-            else if (tipo == "Lanceri_1") player.QuestProgress.AddProgress(6, quantita, player);
-            else if (tipo == "Arceri_1") player.QuestProgress.AddProgress(7, quantita, player);
-            else if (tipo == "Catapulta") player.QuestProgress.AddProgress(8, quantita, player);
+            switch (tipo)
+            {
+                case "Guerrieri_1":
+                    player.QuestProgress.AddProgress(5, quantita, player);
+                    break;
+                case "Lanceri_1":
+                    player.QuestProgress.AddProgress(6, quantita, player);
+                    break;
+                case "Arceri_1":
+                    player.QuestProgress.AddProgress(7, quantita, player);
+                    break;
+                case "Catapulta":
+                    player.QuestProgress.AddProgress(8, quantita, player);
+                    break;
+            }
 
             player.QuestProgress.AddProgress(9, quantita, player); //Eliminazione truppe generico
         }
-
-        private static void GestisciAcquisto(Player player, string tipo, int quantita)
+        private static void GestisciRisorse(Player player, string tipo, int quantita)
         {
-            if (tipo == "Terreno") player.QuestProgress.AddProgress(0, quantita, player);
-        }
+            switch (tipo)
+            {
+                case "Cibo":
+                    player.QuestProgress.AddProgress(37, quantita, player);
+                    break;
+                case "Legno":
+                    player.QuestProgress.AddProgress(38, quantita, player);
+                    break;
+                case "Pietra":
+                    player.QuestProgress.AddProgress(39, quantita, player);
+                    break;
+                case "Ferro":
+                    player.QuestProgress.AddProgress(40, quantita, player);
+                    break;
+                case "Oro":
+                    player.QuestProgress.AddProgress(41, quantita, player);
+                    break;
+                case "Popolazione":
+                    player.QuestProgress.AddProgress(42, quantita, player);
+                    break;
 
+                case "Spade":
+                    player.QuestProgress.AddProgress(43, quantita, player);
+                    break;
+                case "Lance":
+                    player.QuestProgress.AddProgress(44, quantita, player);
+                    break;
+                case "Archi":
+                    player.QuestProgress.AddProgress(45, quantita, player);
+                    break;
+                case "Scudi":
+                    player.QuestProgress.AddProgress(46, quantita, player);
+                    break;
+                case "Armature":
+                    player.QuestProgress.AddProgress(47, quantita, player);
+                    break;
+                case "Frecce":
+                    player.QuestProgress.AddProgress(48, quantita, player);
+                    break;
+
+                case "Diamanti Viola":
+                    player.QuestProgress.AddProgress(28, quantita, player);
+                    break;
+                case "Diamanti Blu":
+                    player.QuestProgress.AddProgress(27, quantita, player);
+                    break;
+            }
+        }
         private static void GestisciMiglioramento(Player player, string tipo, int quantita) //Completa tutte le quest.
         {
-            player.QuestProgress.AddProgress(47, quantita, player);
+            player.QuestProgress.AddProgress(49, quantita, player);
         }
 
         public static void QuestUpdate(Player player) // 🔸 INVIO AL CLIENT
@@ -202,7 +383,7 @@ namespace Server_Strategico.Gioco
 
                     int experienceBase = q.Experience;
                     int experienceBonus = experienceBase + completata * moltiplicatore_Esperienza;
-                    int requireDinamico = q.Require + completata * moltiplicatore_Quest;
+                    int requireDinamico = q.Require + (completata * q.Require);
 
                     return new
                     {
@@ -234,6 +415,8 @@ namespace Server_Strategico.Gioco
                 var rewardsNormali = QuestRewardSet.Normali_Monthly.Rewards;
                 var rewardsVip = QuestRewardSet.Vip_Monthly.Rewards;
                 var points = QuestRewardSet.Normali_Monthly.Points;
+                var completo = player.PremiNormali;
+                var completo_vip = player.PremiVIP;
 
                 var packet = new // Crea il pacchetto
                 {
@@ -241,7 +424,8 @@ namespace Server_Strategico.Gioco
                     Rewards_Normali = rewardsNormali,
                     Rewards_VIP = rewardsVip,
                     Points = points,
-                    VipPlayer = player.Vip // Info utile lato client
+                    Completo = completo,
+                    Completo_Vip = completo_vip
                 };
 
                 var options = new JsonSerializerOptions { WriteIndented = true };
