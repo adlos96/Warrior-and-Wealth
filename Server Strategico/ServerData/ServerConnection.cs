@@ -79,10 +79,10 @@ namespace Server_Strategico.Server
                     if (Convert.ToInt32(msgArgs[18]) > 0) BuildingManager.Costruzione("CasermaCatapulte", Convert.ToInt32(msgArgs[18]), clientGuid, player); // Costruisci fattorie
                     break;
                 case "Reclutamento":
-                    if (Convert.ToInt32(msgArgs[4]) > 0) UnitManager.Reclutamento("Guerrieri_1", Convert.ToInt32(msgArgs[4]), clientGuid, player); // Costruisci fattorie
-                    if (Convert.ToInt32(msgArgs[5]) > 0) UnitManager.Reclutamento("Lanceri_1", Convert.ToInt32(msgArgs[5]), clientGuid, player); // Costruisci fattorie
-                    if (Convert.ToInt32(msgArgs[6]) > 0) UnitManager.Reclutamento("Arceri_1", Convert.ToInt32(msgArgs[6]), clientGuid, player); // Costruisci fattorie
-                    if (Convert.ToInt32(msgArgs[7]) > 0) UnitManager.Reclutamento("Catapulte_1", Convert.ToInt32(msgArgs[7]), clientGuid, player); // Costruisci fattorie
+                    if (Convert.ToInt32(msgArgs[4]) > 0) UnitManager.Reclutamento("Guerrieri", $"_{msgArgs[3]}", Convert.ToInt32(msgArgs[4]), clientGuid, player); // Costruisci fattorie
+                    if (Convert.ToInt32(msgArgs[5]) > 0) UnitManager.Reclutamento("Lanceri", $"_{msgArgs[3]}", Convert.ToInt32(msgArgs[5]), clientGuid, player); // Costruisci fattorie
+                    if (Convert.ToInt32(msgArgs[6]) > 0) UnitManager.Reclutamento("Arceri", $"_{msgArgs[3]}", Convert.ToInt32(msgArgs[6]), clientGuid, player); // Costruisci fattorie
+                    if (Convert.ToInt32(msgArgs[7]) > 0) UnitManager.Reclutamento("Catapulte", $"_{msgArgs[3]}", Convert.ToInt32(msgArgs[7]), clientGuid, player); // Costruisci fattorie
                     break;
                 case "Costruzione_Terreni":
                     BuildingManager.Terreni_Virtuali(clientGuid, player); // Costruisci fattorie
@@ -91,8 +91,8 @@ namespace Server_Strategico.Server
                     Esplora(player, Convert.ToInt32(msgArgs[4]), msgArgs[3]);
                     break;
                 case "Battaglia":
-                    if (msgArgs[3] == "Barbari_PVE") Battaglie.Battaglia_Barbari(player, clientGuid, "Barbari_PVE");
-                    if (msgArgs[3] == "Barbari_PVP") Battaglie.Battaglia_Barbari(player, clientGuid, "Barbari_PVP");
+                    if (msgArgs[3] == "Barbari_PVE") Battaglie.Battaglia_Barbari(player, clientGuid, "Barbari_PVE", "1");
+                    if (msgArgs[3] == "Barbari_PVP") Battaglie.Battaglia_Barbari(player, clientGuid, "Barbari_PVP", "1");
                     if (msgArgs[3] == "PVP")
                     {
                         var temp = msgArgs[4].Split(",");
@@ -265,77 +265,77 @@ namespace Server_Strategico.Server
                             Server.Send(clientGuid, $"Descrizione|I guerrieri sono la spina dorsale dell'esercito, anche se sprovvisti di scudo sono sa prina dorsale di ogni esercito,  " +
                                 $"sono facili da reclutare e non chiedono molta manutenzione in cibo ed oro.\r\n \r\n" +
                                 $"Costo Addestramento:\r\n" +
-                                $"Cibo: {Esercito.CostoReclutamento.Guerrieri_1.Cibo.ToString("#,0")}                  Spade: {Esercito.CostoReclutamento.Guerrieri_1.Spade.ToString("#,0")}\r\n" +
-                                $"Legno: {Esercito.CostoReclutamento.Guerrieri_1.Legno.ToString("#,0")}               Lancie: {Esercito.CostoReclutamento.Guerrieri_1.Lance.ToString("#,0")}\r\n" +
-                                $"Pietra: {Esercito.CostoReclutamento.Guerrieri_1.Pietra.ToString("#,0")}                Archi: {Esercito.CostoReclutamento.Guerrieri_1.Archi.ToString("#,0")}\r\n" +
-                                $"Ferro: {Esercito.CostoReclutamento.Guerrieri_1.Ferro.ToString("#,0")}                 Scudi: {Esercito.CostoReclutamento.Guerrieri_1.Scudi.ToString("#,0")}\r\n" +
-                                $"Oro: {Esercito.CostoReclutamento.Guerrieri_1.Oro.ToString("#,0")}                    Armature: {Esercito.CostoReclutamento.Guerrieri_1.Armature.ToString("#,0")}\r\n \r\n" +
-                                $"Popolazione: {Esercito.CostoReclutamento.Guerrieri_1.Popolazione}\r\n" +
-                                $"Tempo di Addestramento: {Esercito.CostoReclutamento.Guerrieri_1.TempoReclutamento.ToString()} s\r\n" +
-                                $"Mantenimento Cibo: {Esercito.Unità.Guerrieri_1.Cibo.ToString()} s\r\n" +
-                                $"Mantenimento Oro: {Esercito.Unità.Guerrieri_1.Salario.ToString()} s\r\n \r\n" +
+                                $"Cibo: {Esercito.CostoReclutamento.Guerriero_1.Cibo.ToString("#,0")}                  Spade: {Esercito.CostoReclutamento.Guerriero_1.Spade.ToString("#,0")}\r\n" +
+                                $"Legno: {Esercito.CostoReclutamento.Guerriero_1.Legno.ToString("#,0")}               Lancie: {Esercito.CostoReclutamento.Guerriero_1.Lance.ToString("#,0")}\r\n" +
+                                $"Pietra: {Esercito.CostoReclutamento.Guerriero_1.Pietra.ToString("#,0")}                Archi: {Esercito.CostoReclutamento.Guerriero_1.Archi.ToString("#,0")}\r\n" +
+                                $"Ferro: {Esercito.CostoReclutamento.Guerriero_1.Ferro.ToString("#,0")}                 Scudi: {Esercito.CostoReclutamento.Guerriero_1.Scudi.ToString("#,0")}\r\n" +
+                                $"Oro: {Esercito.CostoReclutamento.Guerriero_1.Oro.ToString("#,0")}                    Armature: {Esercito.CostoReclutamento.Guerriero_1.Armature.ToString("#,0")}\r\n \r\n" +
+                                $"Popolazione: {Esercito.CostoReclutamento.Guerriero_1.Popolazione}\r\n" +
+                                $"Tempo di Addestramento: {Esercito.CostoReclutamento.Guerriero_1.TempoReclutamento.ToString()} s\r\n" +
+                                $"Mantenimento Cibo: {Esercito.Unità.Guerriero_1.Cibo.ToString()} s\r\n" +
+                                $"Mantenimento Oro: {Esercito.Unità.Guerriero_1.Salario.ToString()} s\r\n \r\n" +
                                 $"Statistiche:\r\n" +
                                 $"Livello: {player.Guerriero_Livello.ToString("#,0")}\r\n" +
-                                $"Salute:  {(Esercito.Unità.Guerrieri_1.Salute + player.Guerriero_Livello).ToString("#,0")}\r\n" +
-                                $"Difesa:  {(Esercito.Unità.Guerrieri_1.Difesa + player.Guerriero_Livello).ToString("#,0")}\r\n" +
-                                $"Attacco: {(Esercito.Unità.Guerrieri_1.Attacco + player.Guerriero_Livello).ToString("#,0")}\r\n \r\n");
+                                $"Salute:  {(Esercito.Unità.Guerriero_1.Salute + player.Guerriero_Livello).ToString("#,0")}\r\n" +
+                                $"Difesa:  {(Esercito.Unità.Guerriero_1.Difesa + player.Guerriero_Livello).ToString("#,0")}\r\n" +
+                                $"Attacco: {(Esercito.Unità.Guerriero_1.Attacco + player.Guerriero_Livello).ToString("#,0")}\r\n \r\n");
                             break;
                         case "Lanciere":
                             Server.Send(clientGuid, $"Descrizione|I Lancieri sono la spina dorsale di ogni esercito ben organizzato. Armati di lance, " +
                                 $"questi soldati costituiscono un baluardo formidabile contro gli assalti nemici.\r\n \r\n" +
                                 $"Costo Addestramento:\r\n" +
-                                $"Cibo: {Esercito.CostoReclutamento.Lanceri_1.Cibo.ToString("#,0")}                  Spade: {Esercito.CostoReclutamento.Lanceri_1.Spade.ToString("#,0")}\r\n" +
-                                $"Legno: {Esercito.CostoReclutamento.Lanceri_1.Legno.ToString("#,0")}               Lancie: {Esercito.CostoReclutamento.Lanceri_1.Lance.ToString("#,0")}\r\n" +
-                                $"Pietra: {Esercito.CostoReclutamento.Lanceri_1.Pietra.ToString("#,0")}                Archi: {Esercito.CostoReclutamento.Lanceri_1.Archi.ToString("#,0")}\r\n" +
-                                $"Ferro: {Esercito.CostoReclutamento.Lanceri_1.Ferro.ToString("#,0")}                 Scudi: {Esercito.CostoReclutamento.Lanceri_1.Scudi.ToString("#,0")}\r\n" +
-                                $"Oro: {Esercito.CostoReclutamento.Lanceri_1.Oro.ToString("#,0")}                    Armature: {Esercito.CostoReclutamento.Lanceri_1.Armature.ToString("#,0")}\r\n \r\n" +
-                                $"Popolazione: {Esercito.CostoReclutamento.Lanceri_1.Popolazione}\r\n" +
-                                $"Tempo di Addestramento: {Esercito.CostoReclutamento.Lanceri_1.TempoReclutamento.ToString()} s\r\n" +
-                                $"Mantenimento Cibo: {Esercito.Unità.Lanceri_1.Cibo.ToString()} s\r\n" +
-                                $"Mantenimento Oro: {Esercito.Unità.Lanceri_1.Salario.ToString()} s\r\n \r\n" +
+                                $"Cibo: {Esercito.CostoReclutamento.Lancere_1.Cibo.ToString("#,0")}                  Spade: {Esercito.CostoReclutamento.Lancere_1.Spade.ToString("#,0")}\r\n" +
+                                $"Legno: {Esercito.CostoReclutamento.Lancere_1.Legno.ToString("#,0")}               Lancie: {Esercito.CostoReclutamento.Lancere_1.Lance.ToString("#,0")}\r\n" +
+                                $"Pietra: {Esercito.CostoReclutamento.Lancere_1.Pietra.ToString("#,0")}                Archi: {Esercito.CostoReclutamento.Lancere_1.Archi.ToString("#,0")}\r\n" +
+                                $"Ferro: {Esercito.CostoReclutamento.Lancere_1.Ferro.ToString("#,0")}                 Scudi: {Esercito.CostoReclutamento.Lancere_1.Scudi.ToString("#,0")}\r\n" +
+                                $"Oro: {Esercito.CostoReclutamento.Lancere_1.Oro.ToString("#,0")}                    Armature: {Esercito.CostoReclutamento.Lancere_1.Armature.ToString("#,0")}\r\n \r\n" +
+                                $"Popolazione: {Esercito.CostoReclutamento.Lancere_1.Popolazione}\r\n" +
+                                $"Tempo di Addestramento: {Esercito.CostoReclutamento.Lancere_1.TempoReclutamento.ToString()} s\r\n" +
+                                $"Mantenimento Cibo: {Esercito.Unità.Lancere_1.Cibo.ToString()} s\r\n" +
+                                $"Mantenimento Oro: {Esercito.Unità.Lancere_1.Salario.ToString()} s\r\n \r\n" +
                                 $"Statistiche:\r\n" +
                                 $"Livello: {player.Lancere_Livello.ToString("#,0")}\r\n" +
-                                $"Salute:  {(Esercito.Unità.Lanceri_1.Salute + player.Lancere_Livello).ToString("#,0")}\r\n" +
-                                $"Difesa:  {(Esercito.Unità.Lanceri_1.Difesa + player.Lancere_Livello).ToString("#,0")}\r\n" +
-                                $"Attacco: {(Esercito.Unità.Lanceri_1.Attacco + player.Lancere_Livello).ToString("#,0")}\r\n \r\n");
+                                $"Salute:  {(Esercito.Unità.Lancere_1.Salute + player.Lancere_Livello).ToString("#,0")}\r\n" +
+                                $"Difesa:  {(Esercito.Unità.Lancere_1.Difesa + player.Lancere_Livello).ToString("#,0")}\r\n" +
+                                $"Attacco: {(Esercito.Unità.Lancere_1.Attacco + player.Lancere_Livello).ToString("#,0")}\r\n \r\n");
                             break;
                         case "Arciere":
                             Server.Send(clientGuid, $"Descrizione|Gli Arcieri armati di arco e faretra, sono soldati specializzati, dominano il campo di battaglia dalla distanza, " +
                                 $"lanciando frecce mortali sulle linee nemiche, prima che possano avvicinarsi.\r\n \r\n" +
                                 $"Costo Addestramento:\r\n" +
-                                $"Cibo: {Esercito.CostoReclutamento.Arceri_1.Cibo.ToString("#,0")}                  Spade: {Esercito.CostoReclutamento.Arceri_1.Spade.ToString("#,0")}\r\n" +
-                                $"Legno: {Esercito.CostoReclutamento.Arceri_1.Legno.ToString("#,0")}               Lancie: {Esercito.CostoReclutamento.Arceri_1.Lance.ToString("#,0")}\r\n" +
-                                $"Pietra: {Esercito.CostoReclutamento.Arceri_1.Pietra.ToString("#,0")}                Archi: {Esercito.CostoReclutamento.Arceri_1.Archi.ToString("#,0")}\r\n" +
-                                $"Ferro: {Esercito.CostoReclutamento.Arceri_1.Ferro.ToString("#,0")}                 Scudi: {Esercito.CostoReclutamento.Arceri_1.Scudi.ToString("#,0")}\r\n" +
-                                $"Oro: {Esercito.CostoReclutamento.Arceri_1.Oro.ToString("#,0")}                    Armature: {Esercito.CostoReclutamento.Arceri_1.Armature.ToString("#,0")}\r\n \r\n" +
-                                $"Popolazione: {Esercito.CostoReclutamento.Arceri_1.Popolazione}\r\n" +
-                                $"Tempo di Addestramento: {Esercito.CostoReclutamento.Arceri_1.TempoReclutamento.ToString()} s\r\n" +
-                                $"Mantenimento Cibo: {Esercito.Unità.Arceri_1.Cibo.ToString()} s\r\n" +
-                                $"Mantenimento Oro: {Esercito.Unità.Arceri_1.Salario.ToString()} s\r\n \r\n" +
+                                $"Cibo: {Esercito.CostoReclutamento.Arcere_1.Cibo.ToString("#,0")}                  Spade: {Esercito.CostoReclutamento.Arcere_1.Spade.ToString("#,0")}\r\n" +
+                                $"Legno: {Esercito.CostoReclutamento.Arcere_1.Legno.ToString("#,0")}               Lancie: {Esercito.CostoReclutamento.Arcere_1.Lance.ToString("#,0")}\r\n" +
+                                $"Pietra: {Esercito.CostoReclutamento.Arcere_1.Pietra.ToString("#,0")}                Archi: {Esercito.CostoReclutamento.Arcere_1.Archi.ToString("#,0")}\r\n" +
+                                $"Ferro: {Esercito.CostoReclutamento.Arcere_1.Ferro.ToString("#,0")}                 Scudi: {Esercito.CostoReclutamento.Arcere_1.Scudi.ToString("#,0")}\r\n" +
+                                $"Oro: {Esercito.CostoReclutamento.Arcere_1.Oro.ToString("#,0")}                    Armature: {Esercito.CostoReclutamento.Arcere_1.Armature.ToString("#,0")}\r\n \r\n" +
+                                $"Popolazione: {Esercito.CostoReclutamento.Arcere_1.Popolazione}\r\n" +
+                                $"Tempo di Addestramento: {Esercito.CostoReclutamento.Arcere_1.TempoReclutamento.ToString()} s\r\n" +
+                                $"Mantenimento Cibo: {Esercito.Unità.Arcere_1.Cibo.ToString()} s\r\n" +
+                                $"Mantenimento Oro: {Esercito.Unità.Arcere_1.Salario.ToString()} s\r\n \r\n" +
                                 $"Statistiche:\r\n" +
                                 $"Livello: {player.Arcere_Livello.ToString("#,0")}\r\n" +
-                                $"Salute:  {(Esercito.Unità.Arceri_1.Salute + player.Arcere_Livello).ToString("#,0")}\r\n" +
-                                $"Difesa:  {(Esercito.Unità.Arceri_1.Difesa + player.Arcere_Livello).ToString("#,0")}\r\n" +
-                                $"Attacco: {(Esercito.Unità.Arceri_1.Attacco + player.Arcere_Livello).ToString("#,0")}\r\n \r\n");
+                                $"Salute:  {(Esercito.Unità.Arcere_1.Salute + player.Arcere_Livello).ToString("#,0")}\r\n" +
+                                $"Difesa:  {(Esercito.Unità.Arcere_1.Difesa + player.Arcere_Livello).ToString("#,0")}\r\n" +
+                                $"Attacco: {(Esercito.Unità.Arcere_1.Attacco + player.Arcere_Livello).ToString("#,0")}\r\n \r\n");
                             break;
                         case "Catapulta":
                             Server.Send(clientGuid, $"Descrizione|Le Catapulte sono potenti macchine d'assedio che cambiano le sorti delle battaglie, " +
                                 $"scagliano enormi proiettili distruggendo mura e seminando il terrore tra le fila nemiche\r\n \r\n" +
                                 $"Costo Addestramento:\r\n" +
-                                $"Cibo: {Esercito.CostoReclutamento.Catapulte_1.Cibo.ToString("#,0")}                  Spade: {Esercito.CostoReclutamento.Catapulte_1.Spade.ToString("#,0")}\r\n" +
-                                $"Legno: {Esercito.CostoReclutamento.Catapulte_1.Legno.ToString("#,0")}               Lancie: {Esercito.CostoReclutamento.Catapulte_1.Lance.ToString("#,0")}\r\n" +
-                                $"Pietra: {Esercito.CostoReclutamento.Catapulte_1.Pietra.ToString("#,0")}                Archi: {Esercito.CostoReclutamento.Catapulte_1.Archi.ToString("#,0")}\r\n" +
-                                $"Ferro: {Esercito.CostoReclutamento.Catapulte_1.Ferro.ToString("#,0")}                 Scudi: {Esercito.CostoReclutamento.Catapulte_1.Scudi.ToString("#,0")}\r\n" +
-                                $"Oro: {Esercito.CostoReclutamento.Catapulte_1.Oro.ToString("#,0")}                    Armature: {Esercito.CostoReclutamento.Catapulte_1.Armature.ToString("#,0")}\r\n \r\n" +
-                                $"Popolazione: {Esercito.CostoReclutamento.Catapulte_1.Popolazione}\r\n" +
-                                $"Tempo di Addestramento: {Esercito.CostoReclutamento.Catapulte_1.TempoReclutamento.ToString()} s\r\n" +
-                                $"Mantenimento Cibo: {Esercito.Unità.Catapulte_1.Cibo.ToString("0.00")} s\r\n" +
-                                $"Mantenimento Oro: {Esercito.Unità.Catapulte_1.Salario.ToString("0.00")} s\r\n \r\n" +
+                                $"Cibo: {Esercito.CostoReclutamento.Catapulta_1.Cibo.ToString("#,0")}                  Spade: {Esercito.CostoReclutamento.Catapulta_1.Spade.ToString("#,0")}\r\n" +
+                                $"Legno: {Esercito.CostoReclutamento.Catapulta_1.Legno.ToString("#,0")}               Lancie: {Esercito.CostoReclutamento.Catapulta_1.Lance.ToString("#,0")}\r\n" +
+                                $"Pietra: {Esercito.CostoReclutamento.Catapulta_1.Pietra.ToString("#,0")}                Archi: {Esercito.CostoReclutamento.Catapulta_1.Archi.ToString("#,0")}\r\n" +
+                                $"Ferro: {Esercito.CostoReclutamento.Catapulta_1.Ferro.ToString("#,0")}                 Scudi: {Esercito.CostoReclutamento.Catapulta_1.Scudi.ToString("#,0")}\r\n" +
+                                $"Oro: {Esercito.CostoReclutamento.Catapulta_1.Oro.ToString("#,0")}                    Armature: {Esercito.CostoReclutamento.Catapulta_1.Armature.ToString("#,0")}\r\n \r\n" +
+                                $"Popolazione: {Esercito.CostoReclutamento.Catapulta_1.Popolazione}\r\n" +
+                                $"Tempo di Addestramento: {Esercito.CostoReclutamento.Catapulta_1.TempoReclutamento.ToString()} s\r\n" +
+                                $"Mantenimento Cibo: {Esercito.Unità.Catapulta_1.Cibo.ToString("0.00")} s\r\n" +
+                                $"Mantenimento Oro: {Esercito.Unità.Catapulta_1.Salario.ToString("0.00")} s\r\n \r\n" +
                                 $"Statistiche:\r\n" +
                                 $"Livello: {player.Catapulta_Livello.ToString("#,0")}\r\n" +
-                                $"Salute:  {(Esercito.Unità.Catapulte_1.Salute + player.Catapulta_Livello).ToString("#,0")}\r\n" +
-                                $"Difesa:  {(Esercito.Unità.Catapulte_1.Difesa + player.Catapulta_Livello).ToString("#,0")}\r\n" +
-                                $"Attacco: {(Esercito.Unità.Catapulte_1.Attacco + player.Catapulta_Livello).ToString("#,0")}\r\n \r\n");
+                                $"Salute:  {(Esercito.Unità.Catapulta_1.Salute + player.Catapulta_Livello).ToString("#,0")}\r\n" +
+                                $"Difesa:  {(Esercito.Unità.Catapulta_1.Difesa + player.Catapulta_Livello).ToString("#,0")}\r\n" +
+                                $"Attacco: {(Esercito.Unità.Catapulta_1.Attacco + player.Catapulta_Livello).ToString("#,0")}\r\n \r\n");
                             break;
                         case "Raduno":
                             Server.Send(clientGuid, $"Descrizione|Il Raduno ti permette di creare e gestire attacchi coordinati con altri giocatori, " +
@@ -358,11 +358,36 @@ namespace Server_Strategico.Server
                 case "AttaccoCooperativo":
                     await AttacchiCooperativi.GestisciComando(msgArgs, clientGuid, player);
                     break;
-                
+                case "Quest_Reward":
+                    Quest_Reward(msgArgs, player, clientGuid);
+                    break;
+                case "Velocizza_Diamanti":
+                    if (msgArgs[3] == "Costruzione")
+                        BuildingManager.UsaDiamantiPerVelocizzare(clientGuid, player, Convert.ToInt32(msgArgs[4]));
+                    if (msgArgs[3] == "Reclutamento")
+                        UnitManager.UsaDiamantiPerVelocizzareReclutamento(clientGuid, player, Convert.ToInt32(msgArgs[4]));
+                    if (msgArgs[3] == "Ricerca")
+                        ResearchManager.UsaDiamantiPerVelocizzareRicerca(clientGuid, player, Convert.ToInt32(msgArgs[4]));
+                    break;
+                case "Scambia_Diamanti":
+                      Scambia_Diamanti(clientGuid, player, msgArgs[3]); //Diamanti viola --> blu
+                    break;
+
                 default: Console.WriteLine($"Messaggio: [{msgArgs}]"); break;
             }
            
         }
+        public static void Scambia_Diamanti(Guid guid, Player player, string Quantità)
+        {
+            int diamanti_Viola = Convert.ToInt32(Quantità);
+            if (player.Diamanti_Viola >= diamanti_Viola)
+            {
+                player.Diamanti_Viola -= diamanti_Viola;
+                player.Diamanti_Blu += diamanti_Viola * Variabili_Server.D_Viola_To_Blu;
+                Server.Send(player.guid_Player, $"Log_Server|Scambiati {diamanti_Viola} --> {diamanti_Viola * Variabili_Server.D_Viola_To_Blu}");
+            }
+        }
+
         public static void Esplora(Player player, int livello_Barbaro, string globale)
         {
             BarbarianBase target;
@@ -472,7 +497,46 @@ namespace Server_Strategico.Server
                 Server.Send(player.guid_Player, JsonSerializer.Serialize(cittaUpdate));
             }
         }
+        static async void Quest_Reward(string[] msgArgs, Player player, Guid guid)
+        {
+            int reward = Convert.ToInt32(msgArgs[4]) -1;
+            switch (msgArgs[3])
+            {
+                case "Normale":
+                    {
+                        if (player.PremiNormali[reward] == true) return;
+                        if (reward == 2 || reward == 4 || reward == 7 || reward == 11 || reward == 14 || reward == 17)
+                        {
+                            player.PremiNormali[reward] = true;
+                            player.Diamanti_Blu += QuestManager.QuestRewardSet.Normali_Monthly.Rewards[reward];
+                            return;
+                        }
+                        player.PremiNormali[reward] = true;
+                        player.Diamanti_Viola += QuestManager.QuestRewardSet.Normali_Monthly.Rewards[reward];
+                    }
+                    break;
+                case "Vip":
+                    {
+                        if (player.PremiVIP[reward] == true) return;
+                        if (reward == 3)
+                        {
+                            player.PremiVIP[2] = true;
+                            player.Diamanti_Blu += QuestManager.QuestRewardSet.Vip_Monthly.Rewards[2];
+                        }
+                        else if (reward == 20)
+                        {
+                            player.PremiVIP[19] = true;
+                            player.Terreno_Leggendario += 1;
+                            return;
+                        }
+                        player.PremiVIP[reward] = true;
+                        player.Diamanti_Viola += QuestManager.QuestRewardSet.Vip_Monthly.Rewards[reward];
+                    }
+                    break;
+            }
 
+            Update_Data(guid, player.Username, player.Password);
+        }
         static async Task<bool> New_Player(string username, string password, Guid guid)
         {
             var existingPlayer = Server.servers_.GetPlayer(username, password);
@@ -675,74 +739,74 @@ namespace Server_Strategico.Server
             Server.Send(player.guid_Player, $"Descrizione|Guerrieri|I guerrieri sono la spina dorsale dell'esercito, anche se sprovvisti di scudo sono,\r\n " +
                 $"sono facili da reclutare e non chiedono molta manutenzione in cibo ed oro.\r\n\r\n" +
                 $"Costo Addestramento:\r\n" +
-                $"Cibo: {Esercito.CostoReclutamento.Guerrieri_1.Cibo.ToString("#,0")}                  Spade: {Esercito.CostoReclutamento.Guerrieri_1.Spade.ToString("#,0")}\r\n" +
-                $"Legno: {Esercito.CostoReclutamento.Guerrieri_1.Legno.ToString("#,0")}               Lancie: {Esercito.CostoReclutamento.Guerrieri_1.Lance.ToString("#,0")}\r\n" +
-                $"Pietra: {Esercito.CostoReclutamento.Guerrieri_1.Pietra.ToString("#,0")}                Archi: {Esercito.CostoReclutamento.Guerrieri_1.Archi.ToString("#,0")}\r\n" +
-                $"Ferro: {Esercito.CostoReclutamento.Guerrieri_1.Ferro.ToString("#,0")}                 Scudi: {Esercito.CostoReclutamento.Guerrieri_1.Scudi.ToString("#,0")}\r\n" +
-                $"Oro: {Esercito.CostoReclutamento.Guerrieri_1.Oro.ToString("#,0")}                    Armature: {Esercito.CostoReclutamento.Guerrieri_1.Armature.ToString("#,0")}\r\n \r\n" +
-                $"Popolazione: {Esercito.CostoReclutamento.Guerrieri_1.Popolazione}\r\n" +
-                $"Tempo di Addestramento: {Esercito.CostoReclutamento.Guerrieri_1.TempoReclutamento.ToString()} s\r\n" +
-                $"Mantenimento Cibo: {Esercito.Unità.Guerrieri_1.Cibo.ToString()} s\r\n" +
-                $"Mantenimento Oro: {Esercito.Unità.Guerrieri_1.Salario.ToString()} s\r\n \r\n" +
+                $"Cibo: {Esercito.CostoReclutamento.Guerriero_1.Cibo.ToString("#,0")}                  Spade: {Esercito.CostoReclutamento.Guerriero_1.Spade.ToString("#,0")}\r\n" +
+                $"Legno: {Esercito.CostoReclutamento.Guerriero_1.Legno.ToString("#,0")}               Lancie: {Esercito.CostoReclutamento.Guerriero_1.Lance.ToString("#,0")}\r\n" +
+                $"Pietra: {Esercito.CostoReclutamento.Guerriero_1.Pietra.ToString("#,0")}                Archi: {Esercito.CostoReclutamento.Guerriero_1.Archi.ToString("#,0")}\r\n" +
+                $"Ferro: {Esercito.CostoReclutamento.Guerriero_1.Ferro.ToString("#,0")}                 Scudi: {Esercito.CostoReclutamento.Guerriero_1.Scudi.ToString("#,0")}\r\n" +
+                $"Oro: {Esercito.CostoReclutamento.Guerriero_1.Oro.ToString("#,0")}                    Armature: {Esercito.CostoReclutamento.Guerriero_1.Armature.ToString("#,0")}\r\n \r\n" +
+                $"Popolazione: {Esercito.CostoReclutamento.Guerriero_1.Popolazione}\r\n" +
+                $"Tempo di Addestramento: {Esercito.CostoReclutamento.Guerriero_1.TempoReclutamento.ToString()} s\r\n" +
+                $"Mantenimento Cibo: {Esercito.Unità.Guerriero_1.Cibo.ToString()} s\r\n" +
+                $"Mantenimento Oro: {Esercito.Unità.Guerriero_1.Salario.ToString()} s\r\n \r\n" +
                 $"Statistiche:\r\n" +
                 $"Livello: {player.Guerriero_Livello.ToString("#,0")}\r\n" +
-                $"Salute:  {(Esercito.Unità.Guerrieri_1.Salute + player.Guerriero_Livello).ToString("#,0")}\r\n" +
-                $"Difesa:  {(Esercito.Unità.Guerrieri_1.Difesa + player.Guerriero_Livello).ToString("#,0")}\r\n" +
-                $"Attacco: {(Esercito.Unità.Guerrieri_1.Attacco + player.Guerriero_Livello).ToString("#,0")}\r\n \r\n");
+                $"Salute:  {(Esercito.Unità.Guerriero_1.Salute + player.Guerriero_Livello).ToString("#,0")}\r\n" +
+                $"Difesa:  {(Esercito.Unità.Guerriero_1.Difesa + player.Guerriero_Livello).ToString("#,0")}\r\n" +
+                $"Attacco: {(Esercito.Unità.Guerriero_1.Attacco + player.Guerriero_Livello).ToString("#,0")}\r\n \r\n");
 
             Server.Send(player.guid_Player, $"Descrizione|Lanceri|I lanceri sono la spina dorsale di ogni esercito ben organizzato. Armati di lance,\r\n " +
                 $"questi soldati costituiscono un baluardo formidabile contro gli assalti nemici.\r\n\r\n" +
                 $"Costo Addestramento:\r\n" +
-                $"Cibo: {Esercito.CostoReclutamento.Lanceri_1.Cibo.ToString("#,0")}                  Spade: {Esercito.CostoReclutamento.Lanceri_1.Spade.ToString("#,0")}\r\n" +
-                $"Legno: {Esercito.CostoReclutamento.Lanceri_1.Legno.ToString("#,0")}               Lancie: {Esercito.CostoReclutamento.Lanceri_1.Lance.ToString("#,0")}\r\n" +
-                $"Pietra: {Esercito.CostoReclutamento.Lanceri_1.Pietra.ToString("#,0")}                Archi: {Esercito.CostoReclutamento.Lanceri_1.Archi.ToString("#,0")}\r\n" +
-                $"Ferro: {Esercito.CostoReclutamento.Lanceri_1.Ferro.ToString("#,0")}                 Scudi: {Esercito.CostoReclutamento.Lanceri_1.Scudi.ToString("#,0")}\r\n" +
-                $"Oro: {Esercito.CostoReclutamento.Lanceri_1.Oro.ToString("#,0")}                    Armature: {Esercito.CostoReclutamento.Lanceri_1.Armature.ToString("#,0")}\r\n \r\n" +
-                $"Popolazione: {Esercito.CostoReclutamento.Lanceri_1.Popolazione}\r\n" +
-                $"Tempo di Addestramento: {Esercito.CostoReclutamento.Lanceri_1.TempoReclutamento.ToString()} s\r\n" +
-                $"Mantenimento Cibo: {Esercito.Unità.Lanceri_1.Cibo.ToString()} s\r\n" +
-                $"Mantenimento Oro: {Esercito.Unità.Lanceri_1.Salario.ToString()} s\r\n \r\n" +
+                $"Cibo: {Esercito.CostoReclutamento.Lancere_1.Cibo.ToString("#,0")}                  Spade: {Esercito.CostoReclutamento.Lancere_1.Spade.ToString("#,0")}\r\n" +
+                $"Legno: {Esercito.CostoReclutamento.Lancere_1.Legno.ToString("#,0")}               Lancie: {Esercito.CostoReclutamento.Lancere_1.Lance.ToString("#,0")}\r\n" +
+                $"Pietra: {Esercito.CostoReclutamento.Lancere_1.Pietra.ToString("#,0")}                Archi: {Esercito.CostoReclutamento.Lancere_1.Archi.ToString("#,0")}\r\n" +
+                $"Ferro: {Esercito.CostoReclutamento.Lancere_1.Ferro.ToString("#,0")}                 Scudi: {Esercito.CostoReclutamento.Lancere_1.Scudi.ToString("#,0")}\r\n" +
+                $"Oro: {Esercito.CostoReclutamento.Lancere_1.Oro.ToString("#,0")}                    Armature: {Esercito.CostoReclutamento.Lancere_1.Armature.ToString("#,0")}\r\n \r\n" +
+                $"Popolazione: {Esercito.CostoReclutamento.Lancere_1.Popolazione}\r\n" +
+                $"Tempo di Addestramento: {Esercito.CostoReclutamento.Lancere_1.TempoReclutamento.ToString()} s\r\n" +
+                $"Mantenimento Cibo: {Esercito.Unità.Lancere_1.Cibo.ToString()} s\r\n" +
+                $"Mantenimento Oro: {Esercito.Unità.Lancere_1.Salario.ToString()} s\r\n \r\n" +
                 $"Statistiche:\r\n" +
                 $"Livello: {player.Lancere_Livello.ToString("#,0")}\r\n" +
-                $"Salute:  {(Esercito.Unità.Lanceri_1.Salute + player.Lancere_Livello).ToString("#,0")}\r\n" +
-                $"Difesa:  {(Esercito.Unità.Lanceri_1.Difesa + player.Lancere_Livello).ToString("#,0")}\r\n" +
-                $"Attacco: {(Esercito.Unità.Lanceri_1.Attacco + player.Lancere_Livello).ToString("#,0")}\r\n \r\n");
+                $"Salute:  {(Esercito.Unità.Lancere_1.Salute + player.Lancere_Livello).ToString("#,0")}\r\n" +
+                $"Difesa:  {(Esercito.Unità.Lancere_1.Difesa + player.Lancere_Livello).ToString("#,0")}\r\n" +
+                $"Attacco: {(Esercito.Unità.Lancere_1.Attacco + player.Lancere_Livello).ToString("#,0")}\r\n \r\n");
 
             Server.Send(player.guid_Player, $"Descrizione|Arceri|Gli arceri armati di arco e faretra, sono soldati specializzati, dominano il campo di battaglia dalla distanza,\r\n " +
                 $"lanciando frecce mortali sulle linee nemiche, prima che possano avvicinarsi.\r\n\r\n" +
                 $"Costo Addestramento:\r\n" +
-                $"Cibo: {Esercito.CostoReclutamento.Arceri_1.Cibo.ToString("#,0")}                  Spade: {Esercito.CostoReclutamento.Arceri_1.Spade.ToString("#,0")}\r\n" +
-                $"Legno: {Esercito.CostoReclutamento.Arceri_1.Legno.ToString("#,0")}               Lancie: {Esercito.CostoReclutamento.Arceri_1.Lance.ToString("#,0")}\r\n" +
-                $"Pietra: {Esercito.CostoReclutamento.Arceri_1.Pietra.ToString("#,0")}                Archi: {Esercito.CostoReclutamento.Arceri_1.Archi.ToString("#,0")}\r\n" +
-                $"Ferro: {Esercito.CostoReclutamento.Arceri_1.Ferro.ToString("#,0")}                 Scudi: {Esercito.CostoReclutamento.Arceri_1.Scudi.ToString("#,0")}\r\n" +
-                $"Oro: {Esercito.CostoReclutamento.Arceri_1.Oro.ToString("#,0")}                    Armature: {Esercito.CostoReclutamento.Arceri_1.Armature.ToString("#,0")}\r\n \r\n" +
-                $"Popolazione: {Esercito.CostoReclutamento.Arceri_1.Popolazione}\r\n" +
-                $"Tempo di Addestramento: {Esercito.CostoReclutamento.Arceri_1.TempoReclutamento.ToString()} s\r\n" +
-                $"Mantenimento Cibo: {Esercito.Unità.Arceri_1.Cibo.ToString()} s\r\n" +
-                $"Mantenimento Oro: {Esercito.Unità.Arceri_1.Salario.ToString()} s\r\n \r\n" +
+                $"Cibo: {Esercito.CostoReclutamento.Arcere_1.Cibo.ToString("#,0")}                  Spade: {Esercito.CostoReclutamento.Arcere_1.Spade.ToString("#,0")}\r\n" +
+                $"Legno: {Esercito.CostoReclutamento.Arcere_1.Legno.ToString("#,0")}               Lancie: {Esercito.CostoReclutamento.Arcere_1.Lance.ToString("#,0")}\r\n" +
+                $"Pietra: {Esercito.CostoReclutamento.Arcere_1.Pietra.ToString("#,0")}                Archi: {Esercito.CostoReclutamento.Arcere_1.Archi.ToString("#,0")}\r\n" +
+                $"Ferro: {Esercito.CostoReclutamento.Arcere_1.Ferro.ToString("#,0")}                 Scudi: {Esercito.CostoReclutamento.Arcere_1.Scudi.ToString("#,0")}\r\n" +
+                $"Oro: {Esercito.CostoReclutamento.Arcere_1.Oro.ToString("#,0")}                    Armature: {Esercito.CostoReclutamento.Arcere_1.Armature.ToString("#,0")}\r\n \r\n" +
+                $"Popolazione: {Esercito.CostoReclutamento.Arcere_1.Popolazione}\r\n" +
+                $"Tempo di Addestramento: {Esercito.CostoReclutamento.Arcere_1.TempoReclutamento.ToString()} s\r\n" +
+                $"Mantenimento Cibo: {Esercito.Unità.Arcere_1.Cibo.ToString()} s\r\n" +
+                $"Mantenimento Oro: {Esercito.Unità.Arcere_1.Salario.ToString()} s\r\n \r\n" +
                 $"Statistiche:\r\n" +
                 $"Livello: {player.Arcere_Livello.ToString("#,0")}\r\n" +
-                $"Salute:  {(Esercito.Unità.Arceri_1.Salute + player.Arcere_Livello).ToString("#,0")}\r\n" +
-                $"Difesa:  {(Esercito.Unità.Arceri_1.Difesa + player.Arcere_Livello).ToString("#,0")}\r\n" +
-                $"Attacco: {(Esercito.Unità.Arceri_1.Attacco + player.Arcere_Livello).ToString("#,0")}\r\n \r\n");
+                $"Salute:  {(Esercito.Unità.Arcere_1.Salute + player.Arcere_Livello).ToString("#,0")}\r\n" +
+                $"Difesa:  {(Esercito.Unità.Arcere_1.Difesa + player.Arcere_Livello).ToString("#,0")}\r\n" +
+                $"Attacco: {(Esercito.Unità.Arcere_1.Attacco + player.Arcere_Livello).ToString("#,0")}\r\n \r\n");
 
             Server.Send(player.guid_Player, $"Descrizione|Catapulte|Le catapulte sono potenti macchine d'assedio che cambiano le sorti delle battaglie,\r\n " +
                 $"scagliano enormi proiettili distruggendo mura e seminando il terrore tra le fila nemiche\r\n\r\n" +
                 $"Costo Addestramento:\r\n" +
-                $"Cibo: {Esercito.CostoReclutamento.Catapulte_1.Cibo.ToString("#,0")}                  Spade: {Esercito.CostoReclutamento.Catapulte_1.Spade.ToString("#,0")}\r\n" +
-                $"Legno: {Esercito.CostoReclutamento.Catapulte_1.Legno.ToString("#,0")}               Lancie: {Esercito.CostoReclutamento.Catapulte_1.Lance.ToString("#,0")}\r\n" +
-                $"Pietra: {Esercito.CostoReclutamento.Catapulte_1.Pietra.ToString("#,0")}                Archi: {Esercito.CostoReclutamento.Catapulte_1.Archi.ToString("#,0")}\r\n" +
-                $"Ferro: {Esercito.CostoReclutamento.Catapulte_1.Ferro.ToString("#,0")}                 Scudi: {Esercito.CostoReclutamento.Catapulte_1.Scudi.ToString("#,0")}\r\n" +
-                $"Oro: {Esercito.CostoReclutamento.Catapulte_1.Oro.ToString("#,0")}                    Armature: {Esercito.CostoReclutamento.Catapulte_1.Armature.ToString("#,0")}\r\n \r\n" +
-                $"Popolazione: {Esercito.CostoReclutamento.Catapulte_1.Popolazione}\r\n" +
-                $"Tempo di Addestramento: {Esercito.CostoReclutamento.Catapulte_1.TempoReclutamento.ToString()} s\r\n" +
-                $"Mantenimento Cibo: {Esercito.Unità.Catapulte_1.Cibo.ToString("0.00")} s\r\n" +
-                $"Mantenimento Oro: {Esercito.Unità.Catapulte_1.Salario.ToString("0.00")} s\r\n \r\n" +
+                $"Cibo: {Esercito.CostoReclutamento.Catapulta_1.Cibo.ToString("#,0")}                  Spade: {Esercito.CostoReclutamento.Catapulta_1.Spade.ToString("#,0")}\r\n" +
+                $"Legno: {Esercito.CostoReclutamento.Catapulta_1.Legno.ToString("#,0")}               Lancie: {Esercito.CostoReclutamento.Catapulta_1.Lance.ToString("#,0")}\r\n" +
+                $"Pietra: {Esercito.CostoReclutamento.Catapulta_1.Pietra.ToString("#,0")}                Archi: {Esercito.CostoReclutamento.Catapulta_1.Archi.ToString("#,0")}\r\n" +
+                $"Ferro: {Esercito.CostoReclutamento.Catapulta_1.Ferro.ToString("#,0")}                 Scudi: {Esercito.CostoReclutamento.Catapulta_1.Scudi.ToString("#,0")}\r\n" +
+                $"Oro: {Esercito.CostoReclutamento.Catapulta_1.Oro.ToString("#,0")}                    Armature: {Esercito.CostoReclutamento.Catapulta_1.Armature.ToString("#,0")}\r\n \r\n" +
+                $"Popolazione: {Esercito.CostoReclutamento.Catapulta_1.Popolazione}\r\n" +
+                $"Tempo di Addestramento: {Esercito.CostoReclutamento.Catapulta_1.TempoReclutamento.ToString()} s\r\n" +
+                $"Mantenimento Cibo: {Esercito.Unità.Catapulta_1.Cibo.ToString("0.00")} s\r\n" +
+                $"Mantenimento Oro: {Esercito.Unità.Catapulta_1.Salario.ToString("0.00")} s\r\n \r\n" +
                 $"Statistiche:\r\n" +
                 $"Livello: {player.Catapulta_Livello.ToString("#,0")}\r\n" +
-                $"Salute:  {(Esercito.Unità.Catapulte_1.Salute + player.Catapulta_Livello).ToString("#,0")}\r\n" +
-                $"Difesa:  {(Esercito.Unità.Catapulte_1.Difesa + player.Catapulta_Livello).ToString("#,0")}\r\n" +
-                $"Attacco: {(Esercito.Unità.Catapulte_1.Attacco + player.Catapulta_Livello).ToString("#,0")}\r\n");
+                $"Salute:  {(Esercito.Unità.Catapulta_1.Salute + player.Catapulta_Livello).ToString("#,0")}\r\n" +
+                $"Difesa:  {(Esercito.Unità.Catapulta_1.Difesa + player.Catapulta_Livello).ToString("#,0")}\r\n" +
+                $"Attacco: {(Esercito.Unità.Catapulta_1.Attacco + player.Catapulta_Livello).ToString("#,0")}\r\n");
 
             Server.Send(player.guid_Player, $"Descrizione|Esperienza|L’esperienza rappresenta la crescita del giocatore nel tempo.\r\nAccumulare esperienza permette di salire di livello\r\n\r\n");
             Server.Send(player.guid_Player, $"Descrizione|Livello|Il livello indica il grado di avanzamento del giocatore.\r\nLivelli più alti richiedono quantità crescenti di esperienza, ma garantiscono vantaggi permanenti e prestigio.\r\n\r\n");
@@ -837,13 +901,13 @@ namespace Server_Strategico.Server
             double Cibo = 0;
             double Oro = 0;
 
-            Cibo -= player.Guerrieri[0] * Esercito.Unità.Guerrieri_1.Cibo + player.Lanceri[0] * Esercito.Unità.Lanceri_1.Cibo + player.Arceri[0] * Esercito.Unità.Arceri_1.Cibo + player.Catapulte[0] * Esercito.Unità.Catapulte_1.Cibo;
+            Cibo -= player.Guerrieri[0] * Esercito.Unità.Guerriero_1.Cibo + player.Lanceri[0] * Esercito.Unità.Lancere_1.Cibo + player.Arceri[0] * Esercito.Unità.Arcere_1.Cibo + player.Catapulte[0] * Esercito.Unità.Catapulta_1.Cibo;
             Cibo -= player.Guerrieri[1] * Esercito.Unità.Guerriero_2.Cibo + player.Lanceri[1] * Esercito.Unità.Lancere_2.Cibo + player.Arceri[1] * Esercito.Unità.Arcere_2.Cibo + player.Catapulte[1] * Esercito.Unità.Catapulta_2.Cibo;
             Cibo -= player.Guerrieri[2] * Esercito.Unità.Guerriero_3.Cibo + player.Lanceri[2] * Esercito.Unità.Lancere_3.Cibo + player.Arceri[2] * Esercito.Unità.Arcere_3.Cibo + player.Catapulte[2] * Esercito.Unità.Catapulta_3.Cibo;
             Cibo -= player.Guerrieri[3] * Esercito.Unità.Guerriero_4.Cibo + player.Lanceri[3] * Esercito.Unità.Lancere_4.Cibo + player.Arceri[3] * Esercito.Unità.Arcere_4.Cibo + player.Catapulte[3] * Esercito.Unità.Catapulta_4.Cibo;
             Cibo -= player.Guerrieri[4] * Esercito.Unità.Guerriero_5.Cibo + player.Lanceri[4] * Esercito.Unità.Lancere_5.Cibo + player.Arceri[4] * Esercito.Unità.Arcere_5.Cibo + player.Catapulte[4] * Esercito.Unità.Catapulta_5.Cibo;
 
-            Oro -= player.Guerrieri[0] * Esercito.Unità.Guerrieri_1.Salario + player.Lanceri[0] * Esercito.Unità.Lanceri_1.Salario + player.Arceri[0] * Esercito.Unità.Arceri_1.Salario + player.Catapulte[0] * Esercito.Unità.Catapulte_1.Salario;
+            Oro -= player.Guerrieri[0] * Esercito.Unità.Guerriero_1.Salario + player.Lanceri[0] * Esercito.Unità.Lancere_1.Salario + player.Arceri[0] * Esercito.Unità.Arcere_1.Salario + player.Catapulte[0] * Esercito.Unità.Catapulta_1.Salario;
             Oro -= player.Guerrieri[1] * Esercito.Unità.Guerriero_2.Salario + player.Lanceri[1] * Esercito.Unità.Lancere_2.Salario + player.Arceri[1] * Esercito.Unità.Arcere_2.Salario + player.Catapulte[1] * Esercito.Unità.Catapulta_2.Salario;
             Oro -= player.Guerrieri[2] * Esercito.Unità.Guerriero_3.Salario + player.Lanceri[2] * Esercito.Unità.Lancere_3.Salario + player.Arceri[2] * Esercito.Unità.Arcere_3.Salario + player.Catapulte[2] * Esercito.Unità.Catapulta_3.Salario;
             Oro -= player.Guerrieri[3] * Esercito.Unità.Guerriero_4.Salario + player.Lanceri[3] * Esercito.Unità.Lancere_4.Salario + player.Arceri[3] * Esercito.Unità.Arcere_4.Salario + player.Catapulte[3] * Esercito.Unità.Catapulta_4.Salario;
@@ -869,10 +933,10 @@ namespace Server_Strategico.Server
             $"pietra={player.Pietra:#,0}|" +
             $"ferro={player.Ferro:#,0}|" +
             $"oro={player.Oro:#,0}|" +
-            $"popolazione={player.Popolazione:#,0}|" +
+            $"popolazione={player.Popolazione:#,0.00}|" +
 
             $"dollari_virtuali={player.Dollari_Virtuali}|" +
-            $"diamanti_blu={player.Diamanati_Blu}|" +
+            $"diamanti_blu={player.Diamanti_Blu}|" +
             $"diamanti_viola={player.Diamanti_Viola}|" +
 
             $"cibo_max={Edifici.Fattoria.Limite:#,0}|" +
@@ -883,10 +947,10 @@ namespace Server_Strategico.Server
             $"popolazione_max={Edifici.Case.Limite:#,0}|" +
 
             //Produzione Risorse
-            $"cibo_s={player.Fattoria * (Strutture.Edifici.Fattoria.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Cibo):#,0.000}|" +
-            $"legna_s={player.Segheria * (Strutture.Edifici.Segheria.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Legno):#,0.000}|" +
-            $"pietra_s={player.CavaPietra * (Strutture.Edifici.CavaPietra.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Pietra):#,0.000}|" +
-            $"ferro_s={player.MinieraFerro * (Strutture.Edifici.MinieraFerro.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Ferro):#,0.000}|" +
+            $"cibo_s={player.Fattoria * (Strutture.Edifici.Fattoria.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Cibo):#,0.00}|" +
+            $"legna_s={player.Segheria * (Strutture.Edifici.Segheria.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Legno):#,0.00}|" +
+            $"pietra_s={player.CavaPietra * (Strutture.Edifici.CavaPietra.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Pietra):#,0.00}|" +
+            $"ferro_s={player.MinieraFerro * (Strutture.Edifici.MinieraFerro.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Ferro):#,0.00}|" +
             $"oro_s={player.MinieraOro * (Strutture.Edifici.MinieraOro.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Oro):#,0.00}|" +
             $"popolazione_s={player.Abitazioni * (Strutture.Edifici.Case.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Popolazione):#,0.000}|" +
 
@@ -1266,31 +1330,45 @@ namespace Server_Strategico.Server
 
             $"Ricerca_Attiva={player.Ricerca_Attiva}|" +
 
-            //Statistiche
-            $"Unità_Uccise={player.Unità_Uccise}|" +
-            $"Guerrieri_Uccisi={player.Guerrieri_Uccisi}|" +
-            $"Lanceri_Uccisi={player.Lanceri_Uccisi}|" +
-            $"Arceri_Uccisi={player.Arceri_Uccisi}|" +
-            $"Catapulte_Uccisi={player.Catapulte_Uccisi}|" +
+            $"D_Viola_D_Blu={Variabili_Server.D_Viola_To_Blu}|" +
+            $"Tempo_D_Blu={Variabili_Server.Velocizzazione_Tempo}|" +
+            // Statistiche
+            $"Unità_Eliminate={player.Unità_Eliminate}|" +
+            $"Guerrieri_Eliminate={player.Guerrieri_Eliminate}|" +
+            $"Lanceri_Eliminate={player.Lanceri_Eliminate}|" +
+            $"Arceri_Eliminate={player.Arceri_Eliminate}|" +
+            $"Catapulte_Eliminate={player.Catapulte_Eliminate}|" +
+
             $"Unità_Perse={player.Unità_Perse}|" +
             $"Guerrieri_Persi={player.Guerrieri_Persi}|" +
             $"Lanceri_Persi={player.Lanceri_Persi}|" +
             $"Arceri_Persi={player.Arceri_Persi}|" +
-            $"Catapulte_Persi={player.Catapulte_Persi}|" +
+            $"Catapulte_Persi={player.Catapulte_Perse}|" +
             $"Risorse_Razziate={player.Risorse_Razziate}|" +
+
+            $"Strutture_Civili_Costruite={player.Strutture_Civili_Costruite}|" +
+            $"Strutture_Militari_Costruite={player.Strutture_Militari_Costruite}|" +
+            $"Caserme_Costruite={player.Caserme_Costruite}|" +
+
             $"Frecce_Utilizzate={player.Frecce_Utilizzate}|" +
             $"Battaglie_Vinte={player.Battaglie_Vinte}|" +
             $"Battaglie_Perse={player.Battaglie_Perse}|" +
+            $"Quest_Completate={player.Quest_Completate}|" +
+            $"Attacchi_Subiti_PVP={player.Attacchi_Subiti_PVP}|" +
+            $"Attacchi_Effettuati_PVP={player.Attacchi_Effettuati_PVP}|" +
+
             $"Barbari_Sconfitti={player.Barbari_Sconfitti}|" +
             $"Accampamenti_Barbari_Sconfitti={player.Accampamenti_Barbari_Sconfitti}|" +
             $"Città_Barbare_Sconfitte={player.Città_Barbare_Sconfitte}|" +
-            $"Missioni_Completate={player.Missioni_Completate}|" +
-            $"Attacchi_Subiti_PVP={player.Attacchi_Subiti_PVP}|" +
-            $"Attacchi_Effettuati_PVP={player.Attacchi_Effettuati_PVP}|" +
+            $"Danno_HP_Barbaro={player.Danno_HP_Barbaro}|" +
+            $"Danno_DEF_Barbaro={player.Danno_DEF_Barbaro}|" +
+
             $"Unità_Addestrate={player.Unità_Addestrate}|" +
             $"Risorse_Utilizzate={player.Risorse_Utilizzate}|" +
-            $"Tempo_Addestramento_Risparmiato={player.Tempo_Addestramento_Risparmiato}|" +
-            $"Tempo_Costruzione_Risparmiato={player.Tempo_Costruzione_Risparmiato}|";
+            $"Tempo_Addestramento_Risparmiato={player.Tempo_Addestramento}|"+
+            $"Tempo_Costruzione_Risparmiato={player.Tempo_Costruzione}|" +
+            $"Tempo_Ricerca_Risparmiato={player.Tempo_Ricerca}|" +
+            $"Tempo_Sottratto_Diamanti={player.Tempo_Sottratto_Diamanti}|";
 
             Server.Send(guid, data);
 
