@@ -1,9 +1,4 @@
-﻿using Server_Strategico.Server;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Timers;
-using static Server_Strategico.Gioco.Giocatori;
+﻿using static Server_Strategico.Gioco.Giocatori;
 
 namespace Server_Strategico.Gioco
 {
@@ -65,40 +60,40 @@ namespace Server_Strategico.Gioco
                 Esperienza = 20 * livello,
                 Diamanti_Viola = 0 * livello,
                 Diamanti_Blu = 1 * livello,
-                Cibo = 100 * livello,
-                Legno = 100 * livello,
-                Pietra = 100 * livello,
-                Ferro = 100 * livello,
-                Oro = 50 * livello,
+                Cibo = 2300 * livello,
+                Legno = 2150 * livello,
+                Pietra = 2000 * livello,
+                Ferro = 1800 * livello,
+                Oro = 1050 * livello,
                 Guerrieri = baseTruppe,
-                Lancieri = baseTruppe,
-                Arcieri = baseTruppe,
-                Catapulte = baseTruppe
+                Lancieri = (int)(baseTruppe * 0.98),
+                Arcieri = (int)(baseTruppe * 0.70),
+                Catapulte = (int)(baseTruppe* 0.58)
             };
         }
 
         public static CittaBarbara GeneraCitta(int livello) // 🔹 Generazione città barbarica globale
         {
-            int baseTruppe = 125 * livello;
+            int baseTruppe = 130 * livello;
             return new CittaBarbara
             {
                 Id = Guid.NewGuid().GetHashCode(),
-                Nome = $"Citta Barbara Lv{livello}",
+                Nome = $"Citta Barbare Lv{livello}",
                 Livello = livello,
                 Sconfitto = false,
                 Esplorato = false,
                 Esperienza = 20 * livello,
                 Diamanti_Viola = 1 * livello,
                 Diamanti_Blu = 1 * livello,
-                Cibo = 100 * livello,
-                Legno = 100 * livello,
-                Pietra = 100 * livello,
-                Ferro = 100 * livello,
-                Oro = 50 * livello,
+                Cibo = 23000 * livello,
+                Legno = 21500 * livello,
+                Pietra = 20000 * livello,
+                Ferro = 18000 * livello,
+                Oro = 10500 * livello,
                 Guerrieri = baseTruppe,
-                Lancieri = baseTruppe,
-                Arcieri = baseTruppe,
-                Catapulte = baseTruppe
+                Lancieri = (int)(baseTruppe * 0.98),
+                Arcieri = (int)(baseTruppe * 0.70),
+                Catapulte = (int)(baseTruppe * 0.58)
             };
         }
         public static void GeneraVillaggiPerGiocatore(Player player)
@@ -119,13 +114,33 @@ namespace Server_Strategico.Gioco
             if (start) return;
             start = true;
 
-            for (int i = 1; i <= 20; i++) // Genera 20 città barbariche globali
-                CittaGlobali.Add(GeneraCitta(i));
-
+            if (Gioco.Barbari.CittaGlobali.Count() == 0)
+            {
+                for (int i = 1; i <= 20; i++) // Genera 20 città barbariche globali
+                    CittaGlobali.Add(GeneraCitta(i));
+            }
             foreach (var player in Server.Server.servers_.players.Values) // Genera villaggi per tutti i giocatori esistenti
-                GeneraVillaggiPerGiocatore(player);
+                if (player.VillaggiPersonali.Count() == 0)
+                    GeneraVillaggiPerGiocatore(player);
 
-            Console.WriteLine($"[Barbari] Generate {CittaGlobali.Count} città globali iniziali.");
+            Console.WriteLine($"[Barbari] Generate {CittaGlobali.Count} città iniziali.");
+
+            int diamanti_Viola = 0;
+            int guerrieri = 0;
+            int lancieri = 0;
+            int arcieri = 0;
+            int catapulte = 0;
+
+            foreach (var data in CittaGlobali)
+            {
+                diamanti_Viola += data.Diamanti_Viola;
+                guerrieri += data.Guerrieri;
+                lancieri += data.Lancieri;
+                arcieri += data.Arcieri;
+                catapulte += data.Catapulte;
+            }
+
+            Console.WriteLine($"[Barbari] Stats Città Barbare: {diamanti_Viola} D, {guerrieri} G, {lancieri} L, {arcieri} A, {catapulte} C");
             AvviaTimerReset(); // Avvia il timer giornaliero
         }
 
