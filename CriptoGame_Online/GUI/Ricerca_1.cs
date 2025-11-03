@@ -1,4 +1,5 @@
-﻿using Strategico_V2;
+﻿using CriptoGame_Online.GUI;
+using Strategico_V2;
 
 namespace CriptoGame_Online
 {
@@ -67,12 +68,12 @@ namespace CriptoGame_Online
                 {
                     btn_Addestramento.BeginInvoke((Action)(() =>
                     {
-                        if (lbl_Tempo_Ricerca.Text == "Tempo ricerca: 0s")
+                        lbl_Tempo_Ricerca.Text = "Tempo ricerca: " + Variabili_Client.Utente.Tempo_Ricerca + "s";
+
+                        if (lbl_Tempo_Ricerca.Text == "Tempo ricerca: 00:00:00s")
                             pictureBox_Speed.Visible = false;
                         else
                             pictureBox_Speed.Visible = true;
-
-                        lbl_Tempo_Ricerca.Text = "Tempo ricerca: " + Variabili_Client.Utente.Tempo_Ricerca;
 
                         btn_Livello_Guerrieri.Text = $"Livello: {Variabili_Client.Utente_Ricerca.Livello_Spadaccini}";
                         btn_Attacco_Guerrieri.Text = $"Attacco: {Variabili_Client.Utente_Ricerca.Attacco_Spadaccini}";
@@ -306,7 +307,9 @@ namespace CriptoGame_Online
         }
         private void pictureBox_Speed_Click(object sender, EventArgs e)
         {
-            ClientConnection.TestClient.Send($"Speed_Ricerca_Citta|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|5Diamanti"); //Serve form apposta...
+            Velocizza_Diamanti form_Gioco = new Velocizza_Diamanti();
+            Velocizza_Diamanti.tipo = "Ricerca";
+            form_Gioco.ShowDialog();
         }
 
         private void btn_Livello_Guerrieri_Click(object sender, EventArgs e)

@@ -277,36 +277,29 @@ namespace CriptoGame_Online
                         txt_Unit_Coda_4.Text = Variabili_Client.Reclutamento_Coda.Catapulte_5.Quantità;
                     }
 
-                    lbl_Coda_Costruzione.Text = $"Code disponibili: {Variabili_Client.Utente.Code_Costruzione}/{Variabili_Client.Utente.Code_Costruzione}";
-                    lbl_Coda_Reclutamento.Text = $"Code disponibili: {Variabili_Client.Utente.Code_Reclutamento}/{Variabili_Client.Utente.Code_Reclutamento}";
                     lbl_Timer_Costruzione.Text = "Build: " + Variabili_Client.Utente.Tempo_Costruzione;
                     lbl_Timer_Addestramento.Text = "Recruit: " + Variabili_Client.Utente.Tempo_Reclutamento;
 
                     if (lbl_Timer_Costruzione.Text == "Build: 0s")
+                    {
                         pictureBox_Speed_Costruzione.Visible = false;
+                        lbl_Coda_Costruzione.Text = $"Code disponibili: {Variabili_Client.Utente.Code_Costruzione}/{Variabili_Client.Utente.Code_Costruzione}";
+                    }
                     else
+                    {
                         pictureBox_Speed_Costruzione.Visible = true;
+                        lbl_Coda_Costruzione.Text = $"Code disponibili: {0}/{Variabili_Client.Utente.Code_Costruzione}";
+                    }
 
-                    pictureBox_Speed_Reclutamento.Visible = false;//nel dubbio, mi son rotto, poi se è si cambia sotto...
-
-                    if (lbl_Timer_Addestramento.Text == "Recruit: 0s" && Caserme == "Caserme")
+                    if (lbl_Timer_Addestramento.Text == "Recruit: 0s" || Caserme == "Caserme")
+                    {
                         pictureBox_Speed_Reclutamento.Visible = false;
-                    else if (Caserme == "Esercito")
+                        lbl_Coda_Reclutamento.Text = $"Code disponibili: {Variabili_Client.Utente.Code_Reclutamento}/{Variabili_Client.Utente.Code_Reclutamento}";
+                    }
+                    else if (Caserme == "Esercito") // Non serve la coda, finisce in building
                         pictureBox_Speed_Reclutamento.Visible = true;
-
-                    //txt_Forza_Esercito_PVE_Barbari.Text = "Forza Esercito: " + Variabili_Client.Forza_Esercito_PVE;
-                    //txt_Forza_Esercito_PVP_Barbari.Text = "Forza Esercito: " + Variabili_Client.Forza_Esercito_PVP;
-                    //
-                    //btn_Giocatori.Text = "Giocatori: " + comboBox_PVP.Items.Count;
-                    //
-                    //comboBox_PVP.Text = "Seleziona Giocatore";
-                    //
-                    //var items = comboBox_PVP.Items;
-                    //
-                    //if (Variabili_Client.Giocatori_PVP.Count > 0)
-                    //    foreach (var a in Variabili_Client.Giocatori_PVP)
-                    //        if (!items.Contains(a) && !a.Contains(Variabili_Client.username))
-                    //            comboBox_PVP.Items.Add(a);
+                    else
+                        lbl_Coda_Reclutamento.Text = $"Code disponibili: {0}/{Variabili_Client.Utente.Code_Reclutamento}";
                 }));
             }
         }
@@ -632,12 +625,16 @@ namespace CriptoGame_Online
 
         private void pictureBox_Speed_Costruzione_Click(object sender, EventArgs e)
         {
-
+            Velocizza_Diamanti form_Gioco = new Velocizza_Diamanti();
+            Velocizza_Diamanti.tipo = "Costruzione";
+            form_Gioco.ShowDialog();
         }
 
         private void pictureBox_Speed_Reclutamento_Click(object sender, EventArgs e)
         {
-
+            Velocizza_Diamanti form_Gioco = new Velocizza_Diamanti();
+            Velocizza_Diamanti.tipo = "Reclutamento";
+            form_Gioco.ShowDialog();
         }
 
         private void btn_Esercito_Caserme_Click(object sender, EventArgs e)
@@ -680,6 +677,12 @@ namespace CriptoGame_Online
         private void PVP_PVE_Click(object sender, EventArgs e)
         {
             AttaccoCoordinato form_Gioco = new AttaccoCoordinato();
+            form_Gioco.ShowDialog();
+        }
+
+        private void btn_Scambia_Click(object sender, EventArgs e)
+        {
+            Scambia_Diamanti form_Gioco = new Scambia_Diamanti();
             form_Gioco.ShowDialog();
         }
     }

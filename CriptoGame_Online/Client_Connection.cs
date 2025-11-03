@@ -311,12 +311,21 @@ namespace Strategico_V2
                             var points = root.GetProperty("Points").EnumerateArray()
                                              .Select(ToInt).ToList();
 
-                            bool vipPlayer = root.TryGetProperty("VipPlayer", out var vipProp) && vipProp.GetBoolean();
+                            var completo = root.GetProperty("Completo").EnumerateArray()
+                                             .Select(e => e.GetBoolean())
+                                             .ToList();
+
+                            var completo_Vip = root.GetProperty("Completo_Vip").EnumerateArray()
+                                             .Select(e => e.GetBoolean())
+                                             .ToList();
 
                             // Aggiorna la memoria locale
                             MontlyQuest.CurrentRewardsNormali = rewardsNormali;
                             MontlyQuest.CurrentRewardsVip = rewardsVip;
                             MontlyQuest.CurrentRewardPoints = points;
+                            MontlyQuest.CurrentRewardClaimNormal = completo;
+                            MontlyQuest.CurrentRewardClaimVip = completo_Vip;
+
                         }
                     }
                     catch (Exception ex)
@@ -702,17 +711,15 @@ namespace Strategico_V2
                 //Dati
                 SetValue<string>("Code_Costruzioni", v => Variabili_Client.Utente.Code_Costruzione = v);
                 SetValue<string>("Code_Reclutamenti", v => Variabili_Client.Utente.Code_Reclutamento = v);
-
                 SetValue<string>("Tempo_Costruzione", v => Variabili_Client.Utente.Tempo_Costruzione = v);
                 SetValue<string>("Tempo_Reclutamento", v => Variabili_Client.Utente.Tempo_Reclutamento = v);
-
                 SetValue<string>("Tempo_Ricerca_Citta", v => Variabili_Client.Utente.Tempo_Ricerca = v);
                 //SetValue<int>("Tempo_Ricerca_Globale", v => Variabili_Client.Utente.Tempo_Ricerca = v);
 
                 SetValue<bool>("Ricerca_Attiva", v => Variabili_Client.Utente.Ricerca_Attiva = v);
 
-                //Dati
-
+                SetValue<string>("D_Viola_D_Blu", v => Variabili_Client.D_Viola_D_Blu = v);
+                SetValue<string>("Tempo_D_Blu", v => Variabili_Client.Tempo_D_Blu = v);
             }
             static void Update_Log(string mes)
             {

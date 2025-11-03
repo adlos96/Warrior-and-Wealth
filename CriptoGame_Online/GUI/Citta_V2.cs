@@ -468,6 +468,48 @@ namespace CriptoGame_Online.GUI
         {
             cts.Cancel();
         }
+
+        private void btn_Ingresso_Click(object sender, EventArgs e)
+        {
+            Spostamento_Truppe.struttura = "Ingresso";
+            Spostamento_Truppe form_Gioco = new Spostamento_Truppe();
+            form_Gioco.ShowDialog();
+        }
+
+        private void btn_Mura_Click(object sender, EventArgs e)
+        {
+            Spostamento_Truppe.struttura = "Mura";
+            Spostamento_Truppe form_Gioco = new Spostamento_Truppe();
+            form_Gioco.ShowDialog();
+        }
+
+        private void btn_Cancello_Click(object sender, EventArgs e)
+        {
+            Spostamento_Truppe.struttura = "Cancello";
+            Spostamento_Truppe form_Gioco = new Spostamento_Truppe();
+            form_Gioco.ShowDialog();
+        }
+
+        private void btn_Torri_Click(object sender, EventArgs e)
+        {
+            Spostamento_Truppe.struttura = "Torri";
+            Spostamento_Truppe form_Gioco = new Spostamento_Truppe();
+            form_Gioco.ShowDialog();
+        }
+
+        private void btn_Citta_Click(object sender, EventArgs e)
+        {
+            Spostamento_Truppe.struttura = "Città";
+            Spostamento_Truppe form_Gioco = new Spostamento_Truppe();
+            form_Gioco.ShowDialog();
+        }
+
+        private void btn_Castello_Click(object sender, EventArgs e)
+        {
+            Spostamento_Truppe.struttura = "Castello";
+            Spostamento_Truppe form_Gioco = new Spostamento_Truppe();
+            form_Gioco.ShowDialog();
+        }
     }
 
 }
