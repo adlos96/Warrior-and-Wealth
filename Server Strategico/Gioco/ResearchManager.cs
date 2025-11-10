@@ -86,6 +86,11 @@ namespace Server_Strategico.Gioco
         private static void StartNextResearch(Player player, Guid clientGuid)
         {
             int maxSlots = player.Code_Ricerca; // Parametrizzabile
+            bool ciSonoRicercheInCorso = player.currentTasks_Research.Any(t => !t.IsComplete());
+
+            if (ciSonoRicercheInCorso) // 🔒 Se esistono costruzioni ancora in corso, NON iniziare nuove
+                return;
+
             while (player.currentTasks_Research.Count < maxSlots && player.research_Queue.Count > 0)
             {
                 player.Ricerca_Attiva = true;// blocca i pulsanti ricerca del client
@@ -117,7 +122,6 @@ namespace Server_Strategico.Gioco
 
             StartNextResearch(player, clientGuid);
         }
-
         private static void ApplyResearchEffects(string researchType, Player player) // Funzione dove applichi gli effetti della ricerca
         {
             switch (researchType)
@@ -139,7 +143,6 @@ namespace Server_Strategico.Gioco
                     break;
             }
         }
-
         public static string GetTotalResearchTime(Player player) // Totale tempo ricerche in coda + in corso
         {
             double total = 0;

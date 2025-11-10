@@ -150,7 +150,7 @@ namespace Server_Strategico.Server
             player1.Frecce = 200;
 
             player1.Diamanti_Blu = 1500;
-            player1.Diamanti_Viola = 1500;
+            player1.Diamanti_Viola = 1500000;
 
         }
         // ----------------------- Client Connessione --------------------------
@@ -275,7 +275,7 @@ namespace Server_Strategico.Server
                 foreach (var item in players)
                 {
                     bool utentePresente = false;
-                    if (Utenti_PVP.Count == 0) // Se la lista è vuota, aggiungi direttamente l'utente
+                    if (Utenti_PVP.Count == 0 && item.Value.Vip) // Se la lista è vuota, aggiungi direttamente l'utente
                     {
                         utentiDaAggiungere.Add($"{item.Value.Username}, Livello: {item.Value.Livello}, Esperienza: {item.Value.Esperienza}");
                         continue;
@@ -289,7 +289,7 @@ namespace Server_Strategico.Server
                             break;
                         }
                     }
-                    if (!utentePresente)  // Se l'utente non è presente, aggiungilo alla lista temporanea
+                    if (!utentePresente && item.Value.Vip)  // Se l'utente non è presente, aggiungilo alla lista temporanea
                         utentiDaAggiungere.Add($"{item.Value.Username}, Livello: {item.Value.Livello}, Esperienza: {item.Value.Esperienza}");
                 }
                 foreach (var utente in utentiDaAggiungere) // Dopo aver terminato l'enumerazione, aggiungi tutti gli utenti dalla lista temporanea
@@ -318,6 +318,7 @@ namespace Server_Strategico.Server
 
                 await GameSave.LoadBarbariPVP();
                 await GameSave.Load_Player_Data_Auto();
+                QuestManager.AvviaTimerReset();
                 servers_.Lista_Player_Auto();
 
                 Gioco.Barbari.Inizializza();   // <--- aggiungi qui
@@ -329,38 +330,29 @@ namespace Server_Strategico.Server
                         BuildingManager.CompleteBuilds(player.guid_Player, player);
                         UnitManager.CompleteRecruitment(player.guid_Player, player);
                         ResearchManager.CompleteResearch(player.guid_Player, player);
+
+                        player.SetupVillaggioGiocatore(); // Aggiusta il valore Max per rimanere coerente con i client...
                         player.ProduceResources();
                         player.ManutenzioneEsercito();
-                        player.VIP(); //Se il vip è attivo applica bonus
+                        player.VIP();
 
-                        // Salva i dati ogni 60 secondi
-                        if (saveCounter >= 90)
-                            await GameSave.SavePlayer(player);
-
-                        player.forza_Esercito =
-                        player.Guerrieri[0] * (Esercito.Unità.Guerriero_1.Salute * 0.20 + Esercito.Unità.Guerriero_1.Attacco * 0.25) +
-                        player.Lanceri[0] * (Esercito.Unità.Lancere_1.Salute * 0.20 + Esercito.Unità.Lancere_1.Attacco * 0.25) +
-                        player.Arceri[0] * (Esercito.Unità.Arcere_1.Salute * 0.20 + Esercito.Unità.Arcere_1.Attacco * 0.25) +
-                        player.Catapulte[0] * (Esercito.Unità.Catapulta_1.Salute * 0.20 + Esercito.Unità.Catapulta_1.Attacco * 0.25);
+                        if (saveCounter >= 120) await GameSave.SavePlayer(player); // Salva i dati ogni 60 secondi
 
                         await Auto_Update_Clients();
                         await Esperienza.LevelUp(player);
 
-                        if (player.currentTasks_Building.Count > 0)
-                            player.Tempo_Addestramento++;
-                        if (player.currentTasks_Recruit.Count > 0)
-                            player.Tempo_Addestramento++;
-                        if (player.currentTasks_Research.Count > 0)
-                            player.Tempo_Ricerca++;
+                        //Stats
+                        if (player.currentTasks_Building.Count > 0)  player.Tempo_Addestramento++;
+                        if (player.currentTasks_Recruit.Count > 0) player.Tempo_Addestramento++;
+                        if (player.currentTasks_Research.Count > 0) player.Tempo_Ricerca++;
                     }
-                    if (saveCounter >= 60)
+                    if (saveCounter >= 120)
                     {
                         saveCounter = 0;
-                        await GameSave.SaveBarbariPVP();
+                        await GameSave.SaveGameServer();
                         servers_.Lista_Player_Auto();
                     }
                     await Task.Delay(1000); // Ciclo ogni secondo, o regola il ritardo come necessario
-
                     AttacchiCooperativi.AggiornaAttacchi();
                 }
             }

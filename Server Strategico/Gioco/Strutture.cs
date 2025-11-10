@@ -10,13 +10,21 @@
             public int Ferro { get; set; }
             public int Oro { get; set; }
             public int Popolazione { get; set; }
+
             public int Diamanti_Viola { get; set; }
             public double Produzione { get; set; }
             public double Consumo_Legno { get; set; }
             public double Consumo_Pietra { get; set; }
             public double Consumo_Ferro { get; set; }
-            public double TempoCostruzione { get; set; }
+
+            public int Salute { get; set; }
+            public int Difesa { get; set; }
+            public int Attacco { get; set; }
+            public int Guarnigione { get; set; }
+
             public int Limite { get; set; }
+            public double Incremento { get; set; }
+            public double TempoCostruzione { get; set; }
 
             public static Edifici Terreni_Virtuali = new Edifici
             {
@@ -104,7 +112,7 @@
                 Pietra = 1750,
                 Ferro = 1750,
                 Oro = 1750,
-                Popolazione = 5,
+                Popolazione = 10,
                 Produzione = 0.008,
                 Consumo_Legno = 0.15,
                 Consumo_Ferro = 0.25,
@@ -118,7 +126,7 @@
                 Pietra = 2000,
                 Ferro = 2000,
                 Oro = 2000,
-                Popolazione = 5,
+                Popolazione = 10,
                 Produzione = 0.007,
                 Consumo_Legno = 0.35,
                 Consumo_Ferro = 0.18,
@@ -132,7 +140,7 @@
                 Pietra = 2250,
                 Ferro = 2250,
                 Oro = 2250,
-                Popolazione = 5,
+                Popolazione = 10,
                 Consumo_Legno = 0.45,
                 Produzione = 0.0075,
                 TempoCostruzione = 214,
@@ -145,7 +153,7 @@
                 Pietra = 2500,
                 Ferro = 2500,
                 Oro = 2500,
-                Popolazione = 5,
+                Popolazione = 10,
                 Produzione = 0.008,
                 Consumo_Legno = 0.22,
                 Consumo_Ferro = 0.35,
@@ -159,7 +167,7 @@
                 Pietra = 2750,
                 Ferro = 2750,
                 Oro = 2750,
-                Popolazione = 5,
+                Popolazione = 10,
                 Produzione = 0.0065,
                 Consumo_Ferro = 0.50,
                 TempoCostruzione = 253,
@@ -172,7 +180,7 @@
                 Pietra = 3750,
                 Ferro = 3750,
                 Oro = 3750,
-                Popolazione = 5,
+                Popolazione = 10,
                 Produzione = 0.005,
                 Consumo_Legno = 0.25,
                 Consumo_Ferro = 0.18,
@@ -190,7 +198,7 @@
                 Oro = 2450,
                 Popolazione = 25,
                 TempoCostruzione = 274,
-                Limite = 2000
+                Limite = 15
             };
             public static Edifici CasermaLanceri = new Edifici
             {
@@ -201,7 +209,7 @@
                 Oro = 2650,
                 Popolazione = 30,
                 TempoCostruzione = 295,
-                Limite = 2000
+                Limite = 10
             };
             public static Edifici CasermaArceri = new Edifici
             {
@@ -212,7 +220,7 @@
                 Oro = 3850,
                 Popolazione = 35,
                 TempoCostruzione = 316,
-                Limite = 2000
+                Limite = 5
             };
             public static Edifici CasermaCatapulte = new Edifici
             {
@@ -223,7 +231,40 @@
                 Oro = 4550,
                 Popolazione = 50,
                 TempoCostruzione = 337,
-                Limite = 2000
+                Limite = 3
+            };
+
+            public static Edifici Ingresso = new Edifici
+            {
+                Guarnigione = 100
+            };
+            public static Edifici Citta = new Edifici
+            {
+                Guarnigione = 200
+            };
+            public static Edifici Cancello = new Edifici
+            {
+                Salute = 50,
+                Difesa = 50,
+                Guarnigione = 50
+            };
+            public static Edifici Mura = new Edifici
+            {
+                Salute = 50,
+                Difesa = 50,
+                Guarnigione = 50
+            };
+            public static Edifici Torri = new Edifici
+            {
+                Salute = 50,
+                Difesa = 50,
+                Guarnigione = 50
+            };
+            public static Edifici Castello = new Edifici
+            {
+                Salute = 75,
+                Difesa = 75,
+                Guarnigione = 75
             };
         }
     }

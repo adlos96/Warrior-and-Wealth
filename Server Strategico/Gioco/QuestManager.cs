@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using static Server_Strategico.Gioco.Barbari;
 using static Server_Strategico.Gioco.Giocatori;
 using static Server_Strategico.Gioco.Variabili_Server;
 
@@ -6,6 +7,7 @@ namespace Server_Strategico.Gioco
 {
     public class QuestManager
     {
+        public static System.Timers.Timer timerResetQuest;
         public class Quest_Template
         {
             public int Id { get; set; }                     // ID univoco per identificare la quest
@@ -104,13 +106,17 @@ namespace Server_Strategico.Gioco
 
             public static QuestRewardSet Normali_Monthly = new QuestRewardSet
             {
-                Rewards = new List<int> { 5, 10, 7, 15, 9, 13, 19, 17, 25, 30, 23, 40, 50, 27, 60, 80, 34, 110, 130, 150 }, //Reward normali per tutti i giocatori
+                // V-B-V-B-V-V-B-V-V-V-B-V-V-B-V-V-B-V-V-V --Z nomali
+                // V-V-B-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V-V
+
+                Rewards = new List<int> { 3, 5, 5, 10, 9, 13, 15, 17, 21, 26, 22, 31, 35, 30, 40, 44, 35, 49, 55, 60 }, //Reward normali per tutti i giocatori
                 Points = new List<int> { 20, 60, 120, 180, 250, 320, 450, 680, 820, 980, 1130, 1250, 1400, 1680, 1810, 1920, 2150, 2375, 2500, 3000 } //Punti richiesti
+                //Points = new List<int> { 20, 40, 70, 111, 164, 229, 307, 396, 499, 616, 746, 890, 1048, 1220, 1407, 1608, 1824, 2055, 2301, 2600 }
             };
 
             public static QuestRewardSet Vip_Monthly = new QuestRewardSet
             {
-                Rewards = new List<int> { 1, 2, 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, //Reward solo per i vip
+                Rewards = new List<int> { 3, 6, 40, 9, 13, 16, 19, 25, 30, 36, 41, 45, 49, 54, 59, 65, 71, 76, 81 }, //Reward solo per i vip
             };
         }
 
@@ -127,14 +133,11 @@ namespace Server_Strategico.Gioco
             public bool AddProgress(int questId, int amount, Player player)
             {
                 var quest = QuestDatabase.Quests[questId];
-
-                // Se la quest è già completata il numero massimo di volte, non fare nulla
-                if (IsQuestFullyCompleted(questId))
+                if (IsQuestFullyCompleted(questId)) // Se la quest è già completata il numero massimo di volte, non fare nulla
                 {
                     Console.WriteLine($"Quest '{quest.Quest_Description}' è già completata al massimo ({quest.Max_Complete} volte).");
                     return false;
                 }
-
                 int completata = Completions[questId];  // Quante volte è stata completata finora
                 int requireDinamico = quest.Require + (completata * quest.Require); // Aumenta il requisito
                 CurrentProgress[questId] += amount; // Aggiungi il progresso
@@ -168,8 +171,7 @@ namespace Server_Strategico.Gioco
 
         public static void OnEvent(Player player, QuestEventType eventType, string targetName, int amount = 1) // 🔸 Metodo principale: riceve un evento dal gioco
         {
-            //Richiamo evento --> QuestManager.OnEvent(player, QuestEventType.Costruzione, "Fattoria", 1);
-            if (player == null) return;
+            if (player == null) return; //Richiamo evento --> QuestManager.OnEvent(player, QuestEventType.Costruzione, "Fattoria", 1);
 
             switch (eventType)
             {
@@ -436,6 +438,46 @@ namespace Server_Strategico.Gioco
             {
                 Console.WriteLine($"[ERRORE] Invio QuestRewards fallito per {player.Username}: {ex.Message}");
             }
+        }
+
+        public static void AvviaTimerReset() // Avvia timer per rigenerare QuestMensile ogni giorno
+        {
+            double tempoIniziale = TimeSpan.FromDays(1).TotalMilliseconds;
+
+            // Primo timer fino alla mezzanotte
+            timerResetQuest = new System.Timers.Timer(tempoIniziale);
+            timerResetQuest.Elapsed += (s, e) =>
+            {
+                RigeneraQuest();
+                timerResetQuest.Interval = TimeSpan.FromDays(1).TotalMilliseconds; // dopo la prima volta, ripete ogni 24 ore
+            };
+            timerResetQuest.AutoReset = true;
+            timerResetQuest.Start();
+
+            Console.WriteLine($"[QuestMensile] Timer di rigenerazione impostato: primo reset tra {(int)(tempoIniziale / 1000 / 60 / 60)} ore.");
+        }
+
+        public static void RigeneraQuest() // 🔁 Rigenera città globali e villaggi personali
+        {
+            Console.WriteLine($"[QuestMensile] Rigenerazione giornaliera iniziata ({DateTime.Now:HH:mm:ss})");
+
+            foreach (var player in Server.Server.servers_.players.Values) // Rigenera quest mensili per ogni giocatore
+            {
+                for (int i = 0; i < player.QuestProgress.Completions.Length; i++) // Resetta il numero di completamenti delle quest mensili
+                    player.QuestProgress.Completions[i] = 0;
+
+                for (int i = 0; i < player.QuestProgress.CurrentProgress.Length; i++) // Resetta i progressi delle quest mensili
+                    player.QuestProgress.CurrentProgress[i] = 0;
+
+                for (int i = 0; i < player.PremiNormali.Length; i++) // Resetta la raccolta dei premi normali
+                    player.PremiNormali[i] = false;
+                for (int i = 0; i < player.PremiNormali.Length; i++) // Resetta la raccolta dei premi vip
+                    player.PremiVIP[i] = false;
+
+                player.Punti_Quest = 0;
+                Console.WriteLine($"[QuestMensile] Rigenerazione completata: {player.Username} quest mensili e progressi per {Server.Server.servers_.players.Count} giocatori.");
+            }
+            
         }
     }
 }

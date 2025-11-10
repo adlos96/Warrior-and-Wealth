@@ -45,7 +45,7 @@ namespace Server_Strategico.Gioco
                 player.Popolazione -= buildingCost.Popolazione * count;
 
                 int risorse = (buildingCost.Cibo + buildingCost.Legno + buildingCost.Pietra + buildingCost.Ferro + buildingCost.Oro) * count;
-                player.Risorse_Utilizzate += risorse;
+                player.Risorse_Utilizzate += (int)risorse;
                 OnEvent(player, QuestEventType.Risorse, "Cibo", buildingCost.Cibo * count);
                 OnEvent(player, QuestEventType.Risorse, "Legno", buildingCost.Legno * count);
                 OnEvent(player, QuestEventType.Risorse, "Pietra", buildingCost.Pietra * count);
@@ -53,7 +53,8 @@ namespace Server_Strategico.Gioco
                 OnEvent(player, QuestEventType.Risorse, "Oro", buildingCost.Oro * count);
                 OnEvent(player, QuestEventType.Risorse, "Popolazione", buildingCost.Popolazione * count);
 
-                Server.Server.Send(clientGuid, $"Log_Server|Risorse utilizzate per {count} costruzione/i di {buildingType}...");
+                Server.Server.Send(clientGuid, $"Log_Server|Risorse utilizzate per {count} costruzione/i di {buildingType}...\r\n" +
+                    $"Cibo= {buildingCost.Cibo}, Legno= {buildingCost.Legno}, Pietra= {buildingCost.Pietra}, Ferro= {buildingCost.Ferro},\r\n Oro= {buildingCost.Oro}, Popolazione= {buildingCost.Popolazione}");
                 int tempoCostruzioneInSecondi = Math.Max(1, Convert.ToInt32(buildingCost.TempoCostruzione - player.Ricerca_Costruzione));
 
                 for (int i = 0; i < count; i++)
@@ -66,26 +67,59 @@ namespace Server_Strategico.Gioco
                 Server.Server.Send(clientGuid, $"Log_Server|Risorse insufficienti per costruire {count} {buildingType}.");
             }
         }
-
         private static void StartNextConstructions(Player player, Guid clientGuid)
         {
             int maxSlots = player.Code_Costruzione;
-
-            while (player.currentTasks_Building.Count < maxSlots && player.building_Queue.Count > 0)
+            if (player.currentTasks_Building.Count > maxSlots) // 1) Se ci sono più costruzioni attive del consentito -> metti in pausa le eccedenze (ultime avviate)
             {
-                var nextTask = player.building_Queue.Dequeue();
-                nextTask.Start();
-                player.currentTasks_Building.Add(nextTask);
+                // Ordina per l'ordine in lista (assumendo che l'ultima aggiunta sia l'ultima avviata)
+                // Metti in pausa le eccedenze partendo dalle ultime
+                var extras = player.currentTasks_Building
+                    .Skip(maxSlots)
+                    .ToList(); // prende quelle oltre maxSlots
 
-                Console.WriteLine($"Costruzione di {nextTask.Type} iniziata, durata {nextTask.DurationInSeconds}s");
-                Server.Server.Send(clientGuid, $"Log_Server|Costruzione di {nextTask.Type} iniziata.");
+                foreach (var t in extras)
+                {
+                    t.Pause();
+                    player.currentTasks_Building.Remove(t);
+                    player.pausedTasks_Building.Enqueue(t);
+
+                    Console.WriteLine($"Costruzione di {t.Type} messa in pausa (slot ridotto)");
+                    Server.Server.Send(clientGuid, $"Log_Server|Costruzione di {t.Type} messa in pausa per riduzione slot.");
+                }
+                return; // usciamo: prima delle pause non facciamo altro
+            }
+
+            while (player.currentTasks_Building.Count < maxSlots) // 2) Se ci sono slot liberi, prima riprendi le costruzioni in pausa (FIFO)
+            {
+                if (player.pausedTasks_Building != null && player.pausedTasks_Building.Count > 0)
+                {
+                    var resumed = player.pausedTasks_Building.Dequeue();
+                    resumed.Resume();
+                    player.currentTasks_Building.Add(resumed);
+
+                    Console.WriteLine($"Costruzione di {resumed.Type} ripresa.");
+                    Server.Server.Send(clientGuid, $"Log_Server|Costruzione di {resumed.Type} ripresa.");
+                    continue;
+                }
+                if (player.building_Queue.Count > 0)  // 3) Se non ci sono sospese, avvia dalla coda normale
+                {
+                    var nextTask = player.building_Queue.Dequeue();
+                    nextTask.Start();
+                    player.currentTasks_Building.Add(nextTask);
+
+                    Console.WriteLine($"Costruzione di {nextTask.Type} iniziata, durata {nextTask.DurationInSeconds}s");
+                    Server.Server.Send(clientGuid, $"Log_Server|Costruzione di {nextTask.Type} iniziata.");
+                }
+                else break;
             }
         }
-
         public static void CompleteBuilds(Guid clientGuid, Player player)
         {
             for (int i = player.currentTasks_Building.Count - 1; i >= 0; i--)
             {
+                //Probabile qui bisogna controllare il numero di costruttori disponibili, suppongo errori se si passa da 2 a 1 costruttore e ci sono strutture in entrambe le code...
+
                 var task = player.currentTasks_Building[i];
                 if (task.IsComplete())
                 {
@@ -204,19 +238,21 @@ namespace Server_Strategico.Gioco
 
             double tempoTotale = 0; // Calcola il tempo totale ancora necessario
 
-            //Potrebbe essere riutilizzato per tutti i task e code, "Costr. Addestr. Ricerca", Tanto cambia solo il riferimento alla coda
             foreach (var task in player.currentTasks_Building) //Task in corso
                 tempoTotale += task.GetRemainingTime();
             foreach (var task in player.building_Queue) //Task in coda
                 tempoTotale += task.GetRemainingTime();
+            if (player.pausedTasks_Building != null)
+                foreach (var task in player.pausedTasks_Building) //Task in pausa
+                    tempoTotale += task.GetRemainingTime();
 
             if (tempoTotale <= 0)
             {
                 Server.Server.Send(clientGuid, "Log_Server|Non ci sono costruzioni da velocizzare.");
                 return;
             }
-            int riduzioneTotale = diamantiBluDaUsare * Variabili_Server.Velocizzazione_Tempo;             // Ogni diamante riduce 30 secondi
-            int maxDiamantiUtili = (int)Math.Ceiling(tempoTotale / Variabili_Server.Velocizzazione_Tempo); // Se si usano più diamanti del necessario, limita alla quantità utile
+            int riduzioneTotale = diamantiBluDaUsare * Variabili_Server.Velocizzazione_Tempo;             // Ogni diamante riduce X secondi
+            int maxDiamantiUtili = (int)Math.Ceiling(tempoTotale / Variabili_Server.Velocizzazione_Tempo);
 
             if (diamantiBluDaUsare > maxDiamantiUtili)
             {
@@ -226,7 +262,8 @@ namespace Server_Strategico.Gioco
             player.Diamanti_Blu -= diamantiBluDaUsare;
             player.Diamanti_Blu_Utilizzati += diamantiBluDaUsare;
 
-            foreach (var task in player.building_Queue) //Task in coda
+            // Applica prima alla coda (come facevi)
+            foreach (var task in player.building_Queue)
             {
                 double rimanente = task.GetRemainingTime();
                 if (rimanente <= 0) continue;
@@ -246,7 +283,9 @@ namespace Server_Strategico.Gioco
                 if (riduzioneTotale <= 0)
                     break;
             }
-            foreach (var task in player.currentTasks_Building) //Task in corso
+
+            // Poi alle costruzioni in corso
+            foreach (var task in player.currentTasks_Building)
             {
                 double rimanente = task.GetRemainingTime();
                 if (rimanente <= 0) continue;
@@ -267,6 +306,34 @@ namespace Server_Strategico.Gioco
                     break;
             }
 
+            // Infine anche le costruzioni in pausa (riduce il RemainingSeconds memorizzato)
+            if (player.pausedTasks_Building != null)
+            {
+                var pausedArray = player.pausedTasks_Building.ToArray();
+                for (int i = 0; i < pausedArray.Length; i++)
+                {
+                    var task = pausedArray[i];
+                    double rimanente = task.GetRemainingTime();
+                    if (rimanente <= 0) continue;
+
+                    if (riduzioneTotale >= rimanente)
+                    {
+                        task.ForzaCompletamento();
+                        riduzioneTotale -= (int)rimanente;
+                    }
+                    else
+                    {
+                        if (rimanente - riduzioneTotale < 1)
+                            riduzioneTotale -= 1;
+                        task.RiduciTempo(riduzioneTotale);
+                        riduzioneTotale = 0;
+                    }
+                    if (riduzioneTotale <= 0)
+                        break;
+                }
+            }
+
+            // Dopo la modifica dei tempi, prova a completare (completa quelle forzate)
             CompleteBuilds(clientGuid, player);
             Server.Server.Send(clientGuid, $"Log_Server|Hai usato {diamantiBluDaUsare} 💎 Diamanti Blu per velocizzare le costruzioni!");
         }
@@ -310,7 +377,6 @@ namespace Server_Strategico.Gioco
 
             return player.FormatTime(total);
         }
-
         public Strutture.Edifici GetBuildingCost(string buildingType)
         {
             return buildingType switch
@@ -339,6 +405,8 @@ namespace Server_Strategico.Gioco
             if (player.Diamanti_Viola >= Strutture.Edifici.Terreni_Virtuali.Diamanti_Viola)
             {
                 player.Diamanti_Viola -= Strutture.Edifici.Terreni_Virtuali.Diamanti_Viola;
+                player.Diamanti_Viola_Utilizzati += Strutture.Edifici.Terreni_Virtuali.Diamanti_Viola; //Aggiunge la spesa al totale dei diamanti viola spesi
+                OnEvent(player, QuestEventType.Costruzione, "Terreno", 1); //Aggiungi terreno quest
                 Console.WriteLine($"Log_Server|Diamanti Viola utilizzati per un terreno virtuale...");
             }
             else
@@ -371,9 +439,6 @@ namespace Server_Strategico.Gioco
                     break;
                 }
             }
-
-            OnEvent(player, QuestEventType.Costruzione, "Terreno", 1); //Aggiungi terreno quest
-            player.Diamanti_Viola += Strutture.Edifici.Terreni_Virtuali.Diamanti_Viola; //Aggiunge la spesa al totale dei diamanti viola spesi
             switch (terrenoOttenuto) // Aggiorna player terreno
             {
                 case "Terreno Comune":
@@ -399,9 +464,13 @@ namespace Server_Strategico.Gioco
         public class ConstructionTask
         {
             public string Type { get; }
-            public int DurationInSeconds { get; private set; }
+            public int DurationInSeconds { get; private set; } // durata totale (aggiornabile)
             private DateTime startTime;
             private bool forceComplete = false;
+
+            // gestione pausa
+            public bool IsPaused { get; private set; } = false;
+            private double pausedRemainingSeconds = 0;
 
             public ConstructionTask(string type, int durationInSeconds)
             {
@@ -411,44 +480,99 @@ namespace Server_Strategico.Gioco
 
             public void Start()
             {
+                // avvia (o riavvia) il conto alla rovescia da DurationInSeconds
+                IsPaused = false;
+                if (forceComplete != true)
+                    forceComplete = false;
                 startTime = DateTime.Now;
+            }
+            public void RestoreProgress(double remainingSeconds)
+            {
+                if (remainingSeconds <= 0)
+                {
+                    ForzaCompletamento();
+                    return;
+                }
+                double elapsed = Math.Max(0, DurationInSeconds - remainingSeconds); // calcola elapsed = durata_totale - remaining
+                startTime = DateTime.UtcNow.AddSeconds(-elapsed); // startTime = ora - elapsed
+
+                // reset stati pausa / forza
+                IsPaused = false;
+                pausedRemainingSeconds = 0;
+                forceComplete = false;
+            }
+
+            public void Pause()
+            {
+                if (IsPaused) return;
+                pausedRemainingSeconds = GetRemainingTime();
+                IsPaused = true;
+                // "ferma" il timer semplicemente azzerando startTime
+                startTime = default;
+            }
+
+            public void Resume()
+            {
+                if (!IsPaused) return;
+                IsPaused = false;
+                // ricopia la durata rimanente nella DurationInSeconds e riavvia il timer da adesso
+                DurationInSeconds = (int)Math.Ceiling(pausedRemainingSeconds);
+                startTime = DateTime.Now;
+                pausedRemainingSeconds = 0;
             }
 
             public bool IsComplete()
             {
                 if (forceComplete) return true;
+                if (IsPaused) return false;
+                if (startTime == default) return false;
                 return DateTime.Now >= startTime.AddSeconds(DurationInSeconds);
             }
 
             public double GetRemainingTime()
             {
                 if (forceComplete) return 0;
+                if (IsPaused) return pausedRemainingSeconds;
                 if (startTime == default) return DurationInSeconds;
-
                 double elapsed = (DateTime.Now - startTime).TotalSeconds;
-                return Math.Max(0, DurationInSeconds - elapsed);
+                double rem = Math.Max(0, DurationInSeconds - elapsed);
+                return rem;
             }
 
-            // 👉 Forza il completamento immediato
             public void ForzaCompletamento()
             {
                 forceComplete = true;
+                IsPaused = false;
+                pausedRemainingSeconds = 0;
             }
 
-            // 👉 Riduce il tempo rimanente di "secondi"
             public void RiduciTempo(int secondi)
             {
-                double rimanente = GetRemainingTime();
+                if (secondi <= 0) return;
 
-                if (rimanente <= 0)
-                    return;
-
-                // Riduce la durata totale per accorciare il tempo rimanente
-                DurationInSeconds -= secondi;
-                if (DurationInSeconds < (DateTime.Now - startTime).TotalSeconds)
+                if (IsPaused)
                 {
-                    // Se è diventata minore del tempo già trascorso, forza completamento
+                    pausedRemainingSeconds = Math.Max(0, pausedRemainingSeconds - secondi);
+                    if (pausedRemainingSeconds <= 0) ForzaCompletamento();
+                    return;
+                }
+
+                // se in corso
+                double rem = GetRemainingTime();
+                if (rem <= 0) return;
+
+                // riduci il tempo rimanente aggiornando DurationInSeconds rispetto al tempo già trascorso
+                double elapsed = (startTime == default) ? 0 : (DateTime.Now - startTime).TotalSeconds;
+                double newRem = Math.Max(0, rem - secondi);
+
+                if (newRem <= 0)
+                {
                     ForzaCompletamento();
+                }
+                else
+                {
+                    // impostiamo DurationInSeconds in modo che Duration - elapsed = newRem
+                    DurationInSeconds = (int)Math.Ceiling(elapsed + newRem);
                 }
             }
         }

@@ -48,10 +48,17 @@ namespace Server_Strategico.Gioco
             public int Punti_Quest { get; set; }
             public bool Vip { get; set; }
             public bool Ricerca_Attiva { get; set; }
+            public int Vip_Tempo { get; set; }
+            public int GamePass_Base_Tempo { get; set; }
+            public int GamePass_Avanzato_Tempo { get; set; }
+            public bool GamePass_Base { get; set; }
+            public bool GamePass_Avanzato { get; set; }
             // Coda e scudi
             public int Code_Reclutamento { get; set; }
             public int Code_Costruzione { get; set; }
             public int Code_Ricerca { get; set; }
+            public int Costruttori { get; set; }
+            public int Reclutatori { get; set; }
             public int ScudoDellaPace { get; set; }
 
             // Forza esercito
@@ -288,9 +295,11 @@ namespace Server_Strategico.Gioco
             public List<Gioco.Barbari.VillaggioBarbaro> VillaggiPersonali { get; set; } = new();
 
             public List<BuildingManager.ConstructionTask> currentTasks_Building = new(); // Lista dei task attualmente in costruzione (slot globali, max = Code_Costruzione)
+            public Queue<BuildingManager.ConstructionTask> pausedTasks_Building = new(); 
             public Queue<BuildingManager.ConstructionTask> building_Queue = new(); // Coda globale di attesa (quando tutti gli slot sono occupati)
 
             public List<UnitManager.RecruitTask> currentTasks_Recruit = new(); // Lista dei task attualmente in costruzione (slot globali, max = Code_Reclutamento)
+            public Queue<BuildingManager.ConstructionTask> pausedTasks_Recruit = new();
             public Queue<UnitManager.RecruitTask> recruit_Queue = new(); // Coda globale di attesa (quando tutti gli slot sono occupati)
 
             public List<ResearchManager.ResearchTask> currentTasks_Research = new(); // Lista dei task attualmente in costruzione (slot globali, max = 1)
@@ -309,6 +318,8 @@ namespace Server_Strategico.Gioco
                 Password = password;
                 guid_Player = guid_Client;
                 ScudoDellaPace = 0;
+                Costruttori = 0;
+                Reclutatori = 0;
                 Code_Costruzione = 1;
                 Code_Reclutamento = 1;
                 Code_Ricerca = 1;
@@ -317,6 +328,11 @@ namespace Server_Strategico.Gioco
                 Esperienza = 0;
                 Punti_Quest = 0;
                 Vip = false;
+                Vip_Tempo = 0;
+                GamePass_Base = false;
+                GamePass_Avanzato = false;
+                GamePass_Base_Tempo = 0;
+                GamePass_Avanzato_Tempo = 0;
                 Ricerca_Attiva = false;
                 Diamanti_Blu = 0;
                 Diamanti_Viola = 0;
@@ -377,15 +393,15 @@ namespace Server_Strategico.Gioco
                 }
 
                 //Limite x caserma
-                GuerrieriMax = 35;
-                LancieriMax = 25;
-                ArceriMax = 10;
-                CatapulteMax = 5;
+                GuerrieriMax = Strutture.Edifici.CasermaGuerrieri.Limite;
+                LancieriMax = Strutture.Edifici.CasermaLanceri.Limite;
+                ArceriMax = Strutture.Edifici.CasermaArceri.Limite;
+                CatapulteMax = Strutture.Edifici.CasermaCatapulte.Limite;
 
                 //Città
                 #region Città
                 Guarnigione_Ingresso = 0;
-                Guarnigione_IngressoMax = 100;
+                Guarnigione_IngressoMax = Strutture.Edifici.Ingresso.Guarnigione;
 
                 for (int i = 0; i < 5; i++)
                 {
@@ -396,7 +412,7 @@ namespace Server_Strategico.Gioco
                 }
 
                 Guarnigione_Cancello = 0;
-                Guarnigione_CancelloMax = 50;
+                Guarnigione_CancelloMax = Strutture.Edifici.Cancello.Guarnigione;
                 for (int i = 0; i < 5; i++)
                 {
                     Guerrieri_Cancello[i] = 0;
@@ -404,13 +420,13 @@ namespace Server_Strategico.Gioco
                     Arceri_Cancello[i] = 0;
                     Catapulte_Cancello[i] = 0;
                 }
-                Salute_Cancello = 50;
-                Salute_CancelloMax = 50;
-                Difesa_Cancello = 50;
-                Difesa_CancelloMax = 50;
+                Salute_Cancello = Strutture.Edifici.Cancello.Salute;
+                Salute_CancelloMax = Strutture.Edifici.Cancello.Salute;
+                Difesa_Cancello = Strutture.Edifici.Cancello.Difesa;
+                Difesa_CancelloMax = Strutture.Edifici.Cancello.Difesa;
 
                 Guarnigione_Mura = 0;
-                Guarnigione_MuraMax = 50;
+                Guarnigione_MuraMax = Strutture.Edifici.Mura.Guarnigione;
                 for (int i = 0; i < 5; i++)
                 {
                     Guerrieri_Mura[i] = 0;
@@ -418,13 +434,13 @@ namespace Server_Strategico.Gioco
                     Arceri_Mura[i] = 0;
                     Catapulte_Mura[i] = 0;
                 }
-                Salute_Mura = 50;
-                Salute_MuraMax = 50;
-                Difesa_Mura = 50;
-                Difesa_MuraMax = 50;
+                Salute_Mura = Strutture.Edifici.Mura.Salute;
+                Salute_MuraMax = Strutture.Edifici.Mura.Salute;
+                Difesa_Mura = Strutture.Edifici.Mura.Difesa;
+                Difesa_MuraMax = Strutture.Edifici.Mura.Difesa;
 
                 Guarnigione_Torri = 0;
-                Guarnigione_TorriMax = 50;
+                Guarnigione_TorriMax = Strutture.Edifici.Torri.Guarnigione;
                 for (int i = 0; i < 5; i++)
                 {
                     Guerrieri_Torri[i] = 0;
@@ -432,13 +448,13 @@ namespace Server_Strategico.Gioco
                     Arceri_Torri[i] = 0;
                     Catapulte_Torri[i] = 0;
                 }
-                Salute_Torri = 50;
-                Salute_TorriMax = 50;
-                Difesa_Torri = 50;
-                Difesa_TorriMax = 50;
+                Salute_Torri = Strutture.Edifici.Torri.Salute;
+                Salute_TorriMax = Strutture.Edifici.Torri.Salute;
+                Difesa_Torri = Strutture.Edifici.Torri.Difesa;
+                Difesa_TorriMax = Strutture.Edifici.Torri.Difesa;
 
                 Guarnigione_Castello = 0;
-                Guarnigione_CastelloMax = 75;
+                Guarnigione_CastelloMax = Strutture.Edifici.Castello.Guarnigione;
                 for (int i = 0; i < 5; i++)
                 {
                     Guerrieri_Castello[i] = 0;
@@ -446,13 +462,13 @@ namespace Server_Strategico.Gioco
                     Arceri_Castello[i] = 0;
                     Catapulte_Castello[i] = 0;
                 }
-                Salute_Castello = 75;
-                Salute_CastelloMax = 75;
-                Difesa_Castello = 75;
-                Difesa_CastelloMax = 75;
+                Salute_Castello = Strutture.Edifici.Castello.Salute;
+                Salute_CastelloMax = Strutture.Edifici.Castello.Salute;
+                Difesa_Castello = Strutture.Edifici.Castello.Difesa;
+                Difesa_CastelloMax = Strutture.Edifici.Castello.Difesa;
 
                 Guarnigione_Citta = 0;
-                Guarnigione_CittaMax = 200;
+                Guarnigione_CittaMax = Strutture.Edifici.Citta.Guarnigione;
                 for (int i = 0; i < 5; i++)
                 {
                     Guerrieri_Citta[i] = 0;
@@ -552,8 +568,6 @@ namespace Server_Strategico.Gioco
                 Consumo_Oro_Esercito = 0;       //Fatto
                 Diamanti_Viola_Utilizzati = 0;  //Fatto
                 Diamanti_Blu_Utilizzati = 0;
-                
-                
             }
 
             public bool ValidatePassword(string password)
@@ -595,6 +609,32 @@ namespace Server_Strategico.Gioco
                 if (Frecce < Workshop_Frecce * Strutture.Edifici.ProduzioneFrecce.Limite)
                     Frecce += Workshop_Frecce * Strutture.Edifici.ProduzioneFrecce.Produzione;
             }
+            public void SetupVillaggioGiocatore() // Gestisce il valore massimo delle barre di stato del villaggio.
+            {
+                Guarnigione_IngressoMax = Ricerca_Ingresso_Guarnigione * Strutture.Edifici.Ingresso.Guarnigione + Strutture.Edifici.Ingresso.Guarnigione;
+                Guarnigione_CittaMax = Ricerca_Citta_Guarnigione * Strutture.Edifici.Citta.Guarnigione + Strutture.Edifici.Citta.Guarnigione;
+
+                Guarnigione_CancelloMax = Ricerca_Cancello_Guarnigione * Strutture.Edifici.Cancello.Guarnigione + Strutture.Edifici.Cancello.Guarnigione;
+                Salute_CancelloMax = Ricerca_Cancello_Salute * Strutture.Edifici.Cancello.Salute + Strutture.Edifici.Cancello.Salute;
+                Difesa_CancelloMax = Ricerca_Cancello_Difesa * Strutture.Edifici.Cancello.Difesa + Strutture.Edifici.Cancello.Difesa;
+
+                Guarnigione_MuraMax = Ricerca_Mura_Guarnigione * Strutture.Edifici.Mura.Guarnigione + Strutture.Edifici.Mura.Guarnigione;
+                Salute_MuraMax = Ricerca_Mura_Salute * Strutture.Edifici.Mura.Salute + Strutture.Edifici.Mura.Salute;
+                Difesa_MuraMax = Ricerca_Mura_Difesa * Strutture.Edifici.Mura.Difesa + Strutture.Edifici.Mura.Difesa;
+
+                Guarnigione_TorriMax = Ricerca_Torri_Guarnigione * Strutture.Edifici.Torri.Guarnigione + Strutture.Edifici.Torri.Guarnigione;
+                Salute_TorriMax = Ricerca_Torri_Salute * Strutture.Edifici.Torri.Salute + Strutture.Edifici.Torri.Salute;
+                Difesa_TorriMax = Ricerca_Torri_Difesa * Strutture.Edifici.Torri.Difesa + Strutture.Edifici.Torri.Difesa;
+
+                Guarnigione_CastelloMax = Ricerca_Castello_Guarnigione * Strutture.Edifici.Castello.Guarnigione + Strutture.Edifici.Castello.Guarnigione;
+                Salute_CastelloMax = Ricerca_Castello_Salute * Strutture.Edifici.Castello.Salute + Strutture.Edifici.Castello.Salute;
+                Difesa_CastelloMax = Ricerca_Castello_Difesa * Strutture.Edifici.Castello.Difesa + Strutture.Edifici.Castello.Difesa;
+
+                GuerrieriMax = Caserma_Guerrieri * Strutture.Edifici.CasermaGuerrieri.Limite;
+                LancieriMax = Caserma_Lancieri * Strutture.Edifici.CasermaLanceri.Limite;
+                ArceriMax = Caserma_Arceri * Strutture.Edifici.CasermaArceri.Limite;
+                CatapulteMax = Caserma_Catapulte * Strutture.Edifici.CasermaCatapulte.Limite;
+            }
             public void ManutenzioneEsercito() //produzione risorse
             {
                 double cibo = 0;
@@ -622,12 +662,24 @@ namespace Server_Strategico.Gioco
             }
             public void VIP() //produzione risorse
             {
-                if (Vip == true)
-                {
+                if (Vip_Tempo > 0) Vip_Tempo--;
+                if (Vip_Tempo == 0) Vip = false;
+                if (GamePass_Base_Tempo > 0) GamePass_Base_Tempo--;
+                if (GamePass_Base_Tempo == 0) GamePass_Base = false;
+                if (GamePass_Avanzato_Tempo > 0) GamePass_Avanzato_Tempo--;
+                if (GamePass_Avanzato_Tempo == 0) GamePass_Avanzato = false;
+
+                if (Costruttori > 0) Costruttori--;
+                if (Vip == false && Costruttori == 0)
+                    Code_Costruzione = 1;
+                if (Vip == true && Costruttori == 0)
                     Code_Costruzione = 2;
+
+                if (Reclutatori > 0) Reclutatori--;
+                if (Vip == false && Reclutatori == 0)
+                    Code_Reclutamento = 1;
+                if (Vip == true && Reclutatori == 0)
                     Code_Reclutamento = 2;
-                    Code_Ricerca = 2;
-                }
             }
 
             public string FormatTime(double seconds)

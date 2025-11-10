@@ -6,7 +6,7 @@ namespace Server_Strategico.Gioco
     {
         public static bool start = false;
 
-        private static System.Timers.Timer timerReset;
+        public static System.Timers.Timer timerResetBarbari;
         public static List<CittaBarbara> CittaGlobali = new(); // 🌍 Lista globale delle città barbariche (visibili da tutti)
         private static Random rnd = new(); // 🔒 Random condiviso 
 
@@ -36,12 +36,10 @@ namespace Server_Strategico.Gioco
 
             public abstract bool IsGlobal { get; }
         }
-
         public class VillaggioBarbaro : BarbarianBase // 🏚️ Villaggio personale (solo per il giocatore)
         {
             public override bool IsGlobal => false;
         }
-
         public class CittaBarbara : BarbarianBase  // 🏰 Città globale (visibile a tutti)
         {
             public override bool IsGlobal => true;
@@ -71,7 +69,6 @@ namespace Server_Strategico.Gioco
                 Catapulte = (int)(baseTruppe* 0.58)
             };
         }
-
         public static CittaBarbara GeneraCitta(int livello) // 🔹 Generazione città barbarica globale
         {
             int baseTruppe = 130 * livello;
@@ -152,16 +149,16 @@ namespace Server_Strategico.Gioco
             double tempoIniziale = (prossimaMezzanotte - ora).TotalMilliseconds;
 
             // Primo timer fino alla mezzanotte
-            timerReset = new System.Timers.Timer(tempoIniziale);
-            timerReset.Elapsed += (s, e) =>
+            timerResetBarbari = new System.Timers.Timer(tempoIniziale);
+            timerResetBarbari.Elapsed += (s, e) =>
             {
                 RigeneraBarbari();
-                timerReset.Interval = TimeSpan.FromDays(1).TotalMilliseconds; // dopo la prima volta, ripete ogni 24 ore
+                timerResetBarbari.Interval = TimeSpan.FromDays(1).TotalMilliseconds; // dopo la prima volta, ripete ogni 24 ore
             };
-            timerReset.AutoReset = true;
-            timerReset.Start();
+            timerResetBarbari.AutoReset = true;
+            timerResetBarbari.Start();
 
-            Console.WriteLine($"[Barbari] Timer di rigenerazione impostato: primo reset tra {(int)(tempoIniziale / 1000 / 60)} minuti.");
+            Console.WriteLine($"[Barbari] Timer di rigenerazione impostato: primo reset tra {(int)(tempoIniziale / 1000 / 60 / 60)} ore.");
         }
 
         public static void RigeneraBarbari() // 🔁 Rigenera città globali e villaggi personali

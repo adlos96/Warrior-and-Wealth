@@ -29,9 +29,90 @@ namespace Server_Strategico.Gioco
                 "Guerrieri" => 1,
                 "Lanceri" => 1,
                 "Arceri" => 2,
-                "Catapulta" => 3,
+                "Catapulte" => 3,
                 _ => 0
             };
+
+            if (unitType == "Guerrieri")
+            {
+                int unitàGuerrieri = player.Guerrieri.Sum();
+                unitàGuerrieri += player.recruit_Queue.Count(t => t.Type.StartsWith("Guerrieri"));
+                unitàGuerrieri += player.currentTasks_Recruit.Count(t => t.Type.StartsWith("Guerrieri"));
+                unitàGuerrieri += player.pausedTasks_Recruit.Count(t => t.Type.StartsWith("Guerrieri"));
+
+                unitàGuerrieri += player.Guerrieri_Ingresso.Sum();
+                unitàGuerrieri += player.Guerrieri_Citta.Sum();
+                unitàGuerrieri += player.Guerrieri_Cancello.Sum();
+                unitàGuerrieri += player.Guerrieri_Mura.Sum();
+                unitàGuerrieri += player.Guerrieri_Torri.Sum();
+                unitàGuerrieri += player.Guerrieri_Castello.Sum();
+
+                if (unitàGuerrieri + count > player.Caserma_Guerrieri * Strutture.Edifici.CasermaGuerrieri.Limite)
+                {
+                    Server.Server.Send(clientGuid, $"Log_Server|Limite truppe raggiunto per i Guerrieri. [{unitàGuerrieri}/{player.Caserma_Guerrieri * Strutture.Edifici.CasermaGuerrieri.Limite}]");
+                    return;
+                }
+            }
+            if (unitType == "Lanceri")
+            {
+                int unitàLanceri = player.Lanceri.Sum();
+                unitàLanceri += player.recruit_Queue.Count(t => t.Type.StartsWith("Lanceri"));
+                unitàLanceri += player.currentTasks_Recruit.Count(t => t.Type.StartsWith("Lanceri"));
+                unitàLanceri += player.pausedTasks_Recruit.Count(t => t.Type.StartsWith("Lanceri"));
+
+                unitàLanceri += player.Lanceri_Ingresso.Sum();
+                unitàLanceri += player.Lanceri_Citta.Sum();
+                unitàLanceri += player.Lanceri_Cancello.Sum();
+                unitàLanceri += player.Lanceri_Mura.Sum();
+                unitàLanceri += player.Lanceri_Torri.Sum();
+                unitàLanceri += player.Lanceri_Castello.Sum();
+
+                if (unitàLanceri + count > player.Caserma_Lancieri * Strutture.Edifici.CasermaLanceri.Limite)
+                {
+                    Server.Server.Send(clientGuid, $"Log_Server|Limite truppe raggiunto per i Lanceri. [{unitàLanceri}/{player.Caserma_Lancieri * Strutture.Edifici.CasermaLanceri.Limite}]");
+                    return;
+                }
+            }
+            if (unitType == "Arceri")
+            {
+                int unitàArceri = player.Arceri.Sum();
+                unitàArceri += player.recruit_Queue.Count(t => t.Type.StartsWith("Arceri"));
+                unitàArceri += player.currentTasks_Recruit.Count(t => t.Type.StartsWith("Arceri"));
+                unitàArceri += player.pausedTasks_Recruit.Count(t => t.Type.StartsWith("Arceri"));
+
+                unitàArceri += player.Arceri_Ingresso.Sum();
+                unitàArceri += player.Arceri_Citta.Sum();
+                unitàArceri += player.Arceri_Cancello.Sum();
+                unitàArceri += player.Arceri_Mura.Sum();
+                unitàArceri += player.Arceri_Torri.Sum();
+                unitàArceri += player.Arceri_Castello.Sum();
+
+                if (unitàArceri + count > player.Caserma_Arceri * Strutture.Edifici.CasermaArceri.Limite)
+                {
+                    Server.Server.Send(clientGuid, $"Log_Server|Limite truppe raggiunto per i Arceri. [{unitàArceri}/{player.Caserma_Arceri * Strutture.Edifici.CasermaArceri.Limite}]");
+                    return;
+                }
+            }
+            if (unitType == "Catapulte")
+            {
+                int unitàCatapulta = player.Catapulte.Sum();
+                unitàCatapulta += player.recruit_Queue.Count(t => t.Type.StartsWith("Catapulte"));
+                unitàCatapulta += player.currentTasks_Recruit.Count(t => t.Type.StartsWith("Catapulte"));
+                unitàCatapulta += player.pausedTasks_Recruit.Count(t => t.Type.StartsWith("Catapulte"));
+
+                unitàCatapulta += player.Catapulte_Ingresso.Sum();
+                unitàCatapulta += player.Catapulte_Citta.Sum();
+                unitàCatapulta += player.Catapulte_Cancello.Sum();
+                unitàCatapulta += player.Catapulte_Mura.Sum();
+                unitàCatapulta += player.Catapulte_Torri.Sum();
+                unitàCatapulta += player.Catapulte_Castello.Sum();
+
+                if (unitàCatapulta + count > player.Caserma_Catapulte * Strutture.Edifici.CasermaCatapulte.Limite)
+                {
+                    Server.Server.Send(clientGuid, $"Log_Server|Limite truppe raggiunto per i Catapulte. [{unitàCatapulta}/{player.Caserma_Catapulte * Strutture.Edifici.CasermaCatapulte.Limite}]");
+                    return;
+                }
+            }
 
             // Controllo risorse
             if (player.Cibo < unitCost.Cibo * count ||
@@ -83,15 +164,21 @@ namespace Server_Strategico.Gioco
                 player.recruit_Queue = new Queue<RecruitTask>();
 
             for (int i = 0; i < count; i++) // Inserisci ogni unità come singolo task
-                player.recruit_Queue.Enqueue(new RecruitTask(unitType, tempoAddestramento));
+                player.recruit_Queue.Enqueue(new RecruitTask(unitType + livello, tempoAddestramento));
 
             StartNextRecruitments(player, clientGuid);
 
-            Server.Server.Send(clientGuid, $"Log_Server|Addestramento di {count} {unitType} messo in coda.");
+            Server.Server.Send(clientGuid, $"Log_Server|Risorse utilizzate per l'ddestramento di {count} {unitType + livello}\r\n" +
+                $"Cibo= {unitCost.Cibo}, Legno= {unitCost.Legno}, Pietra= {unitCost.Pietra}, Ferro= {unitCost.Ferro},\r\n Oro= {unitCost.Oro}, Popolazione= {unitCost.Popolazione}\r\n" +
+                $"Spade= {unitCost.Cibo}, Lance= {unitCost.Legno}, Archi= {unitCost.Pietra}, Scudi= {unitCost.Ferro}, Armature= {unitCost.Oro}");
         }
         private static void StartNextRecruitments(Player player, Guid clientGuid)
         {
             int maxSlots = player.Code_Reclutamento;
+            bool ciSonoAddestramentiInCorso = player.currentTasks_Recruit.Any(t => !t.IsComplete());
+
+            if (ciSonoAddestramentiInCorso) // 🔒 Se esistono costruzioni ancora in corso, NON iniziare nuove
+                return;
 
             while (player.currentTasks_Recruit.Count < maxSlots && player.recruit_Queue.Count > 0)
             {
@@ -219,27 +306,27 @@ namespace Server_Strategico.Gioco
                 "Guerrieri_1" => Esercito.CostoReclutamento.Guerriero_1,
                 "Lanceri_1" => Esercito.CostoReclutamento.Lancere_1,
                 "Arceri_1" => Esercito.CostoReclutamento.Arcere_1,
-                "Catapulta_1" => Esercito.CostoReclutamento.Catapulta_1,
+                "Catapulte_1" => Esercito.CostoReclutamento.Catapulta_1,
 
                 "Guerrieri_2" => Esercito.CostoReclutamento.Guerriero_2,
                 "Lanceri_2" => Esercito.CostoReclutamento.Lancere_2,
                 "Arceri_2" => Esercito.CostoReclutamento.Arcere_2,
-                "Catapulta_2" => Esercito.CostoReclutamento.Catapulta_2,
+                "Catapulte_2" => Esercito.CostoReclutamento.Catapulta_2,
 
                 "Guerrieri_3" => Esercito.CostoReclutamento.Guerriero_3,
                 "Lanceri_3" => Esercito.CostoReclutamento.Lancere_3,
                 "Arceri_3" => Esercito.CostoReclutamento.Arcere_3,
-                "Catapulta_3" => Esercito.CostoReclutamento.Catapulta_3,
+                "Catapulte_3" => Esercito.CostoReclutamento.Catapulta_3,
 
                 "Guerrieri_4" => Esercito.CostoReclutamento.Guerriero_4,
                 "Lanceri_4" => Esercito.CostoReclutamento.Lancere_4,
                 "Arceri_4" => Esercito.CostoReclutamento.Arcere_4,
-                "Catapulta_4" => Esercito.CostoReclutamento.Catapulta_4,
+                "Catapulte_4" => Esercito.CostoReclutamento.Catapulta_4,
 
                 "Guerrieri_5" => Esercito.CostoReclutamento.Guerriero_5,
                 "Lanceri_5" => Esercito.CostoReclutamento.Lancere_5,
                 "Arceri_5" => Esercito.CostoReclutamento.Arcere_5,
-                "Catapulta_5" => Esercito.CostoReclutamento.Catapulta_5,
+                "Catapulte_5" => Esercito.CostoReclutamento.Catapulta_5,
                 _ => null,
             };
         }
@@ -327,8 +414,13 @@ namespace Server_Strategico.Gioco
         public class RecruitTask // Classe privata per rappresentare un task di reclutamento
         {
             public string Type { get; }
-            public int DurationInSeconds { get; }
+            public int DurationInSeconds { get; private set; } // durata totale (aggiornabile)
             private DateTime startTime;
+            private bool forceComplete = false;
+
+            // gestione pausa
+            public bool IsPaused { get; private set; } = false;
+            private double pausedRemainingSeconds = 0;
 
             public RecruitTask(string type, int durationInSeconds)
             {
@@ -340,6 +432,22 @@ namespace Server_Strategico.Gioco
             {
                 startTime = DateTime.Now;
             }
+            public void RestoreProgress(double remainingSeconds)
+            {
+                if (remainingSeconds <= 0)
+                {
+                    ForzaCompletamento();
+                    return;
+                }
+                double elapsed = Math.Max(0, DurationInSeconds - remainingSeconds); // calcola elapsed = durata_totale - remaining
+                startTime = DateTime.UtcNow.AddSeconds(-elapsed); // startTime = ora - elapsed
+
+                // reset stati pausa / forza
+                IsPaused = false;
+                pausedRemainingSeconds = 0;
+                forceComplete = false;
+            }
+
             public bool IsComplete()
             {
                 return DateTime.Now >= startTime.AddSeconds(DurationInSeconds);
