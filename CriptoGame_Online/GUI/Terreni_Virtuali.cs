@@ -6,6 +6,9 @@ namespace CriptoGame_Online
         public Terreni_Virtuali()
         {
             InitializeComponent();
+
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
         }
 
         private void Terreni_Virtuali_Load(object sender, EventArgs e)

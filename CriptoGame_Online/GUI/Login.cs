@@ -9,6 +9,8 @@ namespace CriptoGame_Online
         public Login()
         {
             InitializeComponent();
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
         }
 
         private void Gioco_Load(object sender, EventArgs e)

@@ -4,11 +4,13 @@
     "Projects": [
       {
         "Path": "CriptoGame_Online.csproj",
-        "Action": "Start"
+        "Action": "Start",
+        "DebugTarget": "CriptoGame_Online"
       },
       {
         "Path": "..\\Server Strategico\\Server Strategico.csproj",
-        "Action": "Start"
+        "Action": "Start",
+        "DebugTarget": "Server Strategico"
       }
     ]
   }

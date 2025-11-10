@@ -45,9 +45,9 @@ namespace CriptoGame_Online
                     {
                         Update_Reward();
                         Check_Unlock_Reward();
-                        Check_Unlock_Reward_Vip();
+                        Check_Unlock_Reward_GamePass_Base();
                         this.ActiveControl = null;
-                        progressBar1.Maximum = Convert.ToInt32(Variabili_Client.Utente.Montly_Quest_Point);
+                        progressBar1.Maximum = Convert.ToInt32(CurrentRewardPoints[19]);
                         progressBar1.Value = Convert.ToInt32(Variabili_Client.Utente.Montly_Quest_Point);
 
                     }));
@@ -207,6 +207,27 @@ namespace CriptoGame_Online
         {
             int point = Convert.ToInt32(Variabili_Client.Utente.Montly_Quest_Point);
 
+            txt_Punti_Reward_1.BackColor = Color.FromArgb(15, 123, 15);
+            txt_Punti_Reward_2.BackColor = Color.FromArgb(15, 123, 15);
+            txt_Punti_Reward_3.BackColor = Color.FromArgb(15, 123, 15);
+            txt_Punti_Reward_4.BackColor = Color.FromArgb(15, 123, 15);
+            txt_Punti_Reward_5.BackColor = Color.FromArgb(15, 123, 15);
+            txt_Punti_Reward_6.BackColor = Color.FromArgb(15, 123, 15);
+            txt_Punti_Reward_7.BackColor = Color.FromArgb(15, 123, 15);
+            txt_Punti_Reward_8.BackColor = Color.FromArgb(15, 123, 15);
+            txt_Punti_Reward_9.BackColor = Color.FromArgb(15, 123, 15);
+            txt_Punti_Reward_10.BackColor = Color.FromArgb(15, 123, 15);
+            txt_Punti_Reward_11.BackColor = Color.FromArgb(15, 123, 15);
+            txt_Punti_Reward_12.BackColor = Color.FromArgb(15, 123, 15);
+            txt_Punti_Reward_13.BackColor = Color.FromArgb(15, 123, 15);
+            txt_Punti_Reward_14.BackColor = Color.FromArgb(15, 123, 15);
+            txt_Punti_Reward_15.BackColor = Color.FromArgb(15, 123, 15);
+            txt_Punti_Reward_16.BackColor = Color.FromArgb(15, 123, 15);
+            txt_Punti_Reward_17.BackColor = Color.FromArgb(15, 123, 15);
+            txt_Punti_Reward_18.BackColor = Color.FromArgb(15, 123, 15);
+            txt_Punti_Reward_19.BackColor = Color.FromArgb(15, 123, 15);
+            txt_Punti_Reward_20.BackColor = Color.FromArgb(15, 123, 15);
+
             if (point >= CurrentRewardPoints[0])
                 if (CurrentRewardClaimNormal[0] == false)
                 {
@@ -215,7 +236,8 @@ namespace CriptoGame_Online
                 }
                 else if (CurrentRewardClaimNormal[0] == false)
                     btn_Reward_1.BackColor = Color.FromArgb(55, 47, 36);
-                else btn_Reward_1.BackColor = Color.FromArgb(90, 80, 70);
+                else btn_Reward_1.BackColor = Color.FromArgb(90, 80, 70);  
+            else txt_Punti_Reward_1.BackColor = Color.FromArgb(230, 230, 230);
 
             if (point >= CurrentRewardPoints[1])
                 if (CurrentRewardClaimNormal[1] == false && CurrentRewardClaimNormal[0] == true)
@@ -226,6 +248,7 @@ namespace CriptoGame_Online
                 else if (CurrentRewardClaimNormal[1] == false)
                     btn_Reward_2.BackColor = Color.FromArgb(55, 47, 36);
                 else btn_Reward_2.BackColor = Color.FromArgb(90, 80, 70);
+            else txt_Punti_Reward_2.BackColor = Color.FromArgb(230, 230, 230);
 
             if (point >= CurrentRewardPoints[2])
                 if (CurrentRewardClaimNormal[2] == false && CurrentRewardClaimNormal[1] == true)
@@ -236,6 +259,7 @@ namespace CriptoGame_Online
                 else if (CurrentRewardClaimNormal[2] == false)
                     btn_Reward_3.BackColor = Color.FromArgb(55, 47, 36);
                 else btn_Reward_3.BackColor = Color.FromArgb(90, 80, 70);
+            else txt_Punti_Reward_3.BackColor = Color.FromArgb(230, 230, 230);
 
             if (point >= CurrentRewardPoints[3])
                 if (CurrentRewardClaimNormal[3] == false && CurrentRewardClaimNormal[2] == true)
@@ -246,6 +270,7 @@ namespace CriptoGame_Online
                 else if (CurrentRewardClaimNormal[3] == false)
                     btn_Reward_4.BackColor = Color.FromArgb(55, 47, 36);
                 else btn_Reward_4.BackColor = Color.FromArgb(90, 80, 70);
+            else txt_Punti_Reward_4.BackColor = Color.FromArgb(230, 230, 230);
 
             if (point >= CurrentRewardPoints[4])
                 if (CurrentRewardClaimNormal[4] == false && CurrentRewardClaimNormal[3] == true)
@@ -256,6 +281,7 @@ namespace CriptoGame_Online
                 else if (CurrentRewardClaimNormal[4] == false)
                     btn_Reward_5.BackColor = Color.FromArgb(55, 47, 36);
                 else btn_Reward_5.BackColor = Color.FromArgb(90, 80, 70);
+            else txt_Punti_Reward_5.BackColor = Color.FromArgb(230, 230, 230);
 
             if (point >= CurrentRewardPoints[5])
                 if (CurrentRewardClaimNormal[5] == false && CurrentRewardClaimNormal[4] == true)
@@ -266,6 +292,7 @@ namespace CriptoGame_Online
                 else if (CurrentRewardClaimNormal[5] == false)
                     btn_Reward_6.BackColor = Color.FromArgb(55, 47, 36);
                 else btn_Reward_6.BackColor = Color.FromArgb(90, 80, 70);
+            else txt_Punti_Reward_6.BackColor = Color.FromArgb(230, 230, 230);
 
             if (point >= CurrentRewardPoints[6])
                 if (CurrentRewardClaimNormal[6] == false && CurrentRewardClaimNormal[5] == true)
@@ -276,6 +303,7 @@ namespace CriptoGame_Online
                 else if (CurrentRewardClaimNormal[6] == false)
                     btn_Reward_7.BackColor = Color.FromArgb(55, 47, 36);
                 else btn_Reward_7.BackColor = Color.FromArgb(90, 80, 70);
+            else txt_Punti_Reward_7.BackColor = Color.FromArgb(230, 230, 230);
 
             if (point >= CurrentRewardPoints[7])
                 if (CurrentRewardClaimNormal[7] == false && CurrentRewardClaimNormal[6] == true)
@@ -286,6 +314,7 @@ namespace CriptoGame_Online
                 else if (CurrentRewardClaimNormal[7] == false)
                     btn_Reward_8.BackColor = Color.FromArgb(55, 47, 36);
                 else btn_Reward_8.BackColor = Color.FromArgb(90, 80, 70);
+            else txt_Punti_Reward_8.BackColor = Color.FromArgb(230, 230, 230);
 
             if (point >= CurrentRewardPoints[8])
                 if (CurrentRewardClaimNormal[8] == false && CurrentRewardClaimNormal[7] == true)
@@ -296,6 +325,7 @@ namespace CriptoGame_Online
                 else if (CurrentRewardClaimNormal[8] == false)
                     btn_Reward_9.BackColor = Color.FromArgb(55, 47, 36);
                 else btn_Reward_9.BackColor = Color.FromArgb(90, 80, 70);
+            else txt_Punti_Reward_9.BackColor = Color.FromArgb(230, 230, 230);
 
             if (point >= CurrentRewardPoints[9])
                 if (CurrentRewardClaimNormal[9] == false && CurrentRewardClaimNormal[8] == true)
@@ -306,6 +336,7 @@ namespace CriptoGame_Online
                 else if (CurrentRewardClaimNormal[9] == false)
                     btn_Reward_10.BackColor = Color.FromArgb(55, 47, 36);
                 else btn_Reward_10.BackColor = Color.FromArgb(90, 80, 70);
+            else txt_Punti_Reward_10.BackColor = Color.FromArgb(230, 230, 230);
 
             if (point >= CurrentRewardPoints[10])
                 if (CurrentRewardClaimNormal[10] == false && CurrentRewardClaimNormal[9] == true)
@@ -316,6 +347,7 @@ namespace CriptoGame_Online
                 else if (CurrentRewardClaimNormal[10] == false)
                     btn_Reward_11.BackColor = Color.FromArgb(55, 47, 36);
                 else btn_Reward_11.BackColor = Color.FromArgb(90, 80, 70);
+            else txt_Punti_Reward_11.BackColor = Color.FromArgb(230, 230, 230);
 
             if (point >= CurrentRewardPoints[11])
                 if (CurrentRewardClaimNormal[11] == false && CurrentRewardClaimNormal[10] == true)
@@ -326,6 +358,7 @@ namespace CriptoGame_Online
                 else if (CurrentRewardClaimNormal[11] == false)
                     btn_Reward_12.BackColor = Color.FromArgb(55, 47, 36);
                 else btn_Reward_12.BackColor = Color.FromArgb(90, 80, 70);
+            else txt_Punti_Reward_12.BackColor = Color.FromArgb(230, 230, 230);
 
             if (point >= CurrentRewardPoints[12])
                 if (CurrentRewardClaimNormal[12] == false && CurrentRewardClaimNormal[11] == true)
@@ -336,6 +369,7 @@ namespace CriptoGame_Online
                 else if (CurrentRewardClaimNormal[12] == false)
                     btn_Reward_13.BackColor = Color.FromArgb(55, 47, 36);
                 else btn_Reward_13.BackColor = Color.FromArgb(90, 80, 70);
+            else txt_Punti_Reward_13.BackColor = Color.FromArgb(230, 230, 230);
 
             if (point >= CurrentRewardPoints[13])
                 if (CurrentRewardClaimNormal[13] == false && CurrentRewardClaimNormal[12] == true)
@@ -346,6 +380,7 @@ namespace CriptoGame_Online
                 else if (CurrentRewardClaimNormal[13] == false)
                     btn_Reward_14.BackColor = Color.FromArgb(55, 47, 36);
                 else btn_Reward_14.BackColor = Color.FromArgb(90, 80, 70);
+            else txt_Punti_Reward_14.BackColor = Color.FromArgb(230, 230, 230);
 
             if (point >= CurrentRewardPoints[14])
                 if (CurrentRewardClaimNormal[14] == false && CurrentRewardClaimNormal[13] == true)
@@ -356,6 +391,7 @@ namespace CriptoGame_Online
                 else if (CurrentRewardClaimNormal[14] == false)
                     btn_Reward_15.BackColor = Color.FromArgb(55, 47, 36);
                 else btn_Reward_15.BackColor = Color.FromArgb(90, 80, 70);
+            else txt_Punti_Reward_15.BackColor = Color.FromArgb(230, 230, 230);
 
             if (point >= CurrentRewardPoints[15])
                 if (CurrentRewardClaimNormal[15] == false && CurrentRewardClaimNormal[14] == true)
@@ -366,6 +402,7 @@ namespace CriptoGame_Online
                 else if (CurrentRewardClaimNormal[15] == false)
                     btn_Reward_16.BackColor = Color.FromArgb(55, 47, 36);
                 else btn_Reward_16.BackColor = Color.FromArgb(90, 80, 70);
+            else txt_Punti_Reward_16.BackColor = Color.FromArgb(230, 230, 230);
 
             if (point >= CurrentRewardPoints[16])
                 if (CurrentRewardClaimNormal[16] == false && CurrentRewardClaimNormal[15] == true)
@@ -376,6 +413,7 @@ namespace CriptoGame_Online
                 else if (CurrentRewardClaimNormal[16] == false)
                     btn_Reward_17.BackColor = Color.FromArgb(55, 47, 36);
                 else btn_Reward_17.BackColor = Color.FromArgb(90, 80, 70);
+            else txt_Punti_Reward_17.BackColor = Color.FromArgb(230, 230, 230);
 
             if (point >= CurrentRewardPoints[17])
                 if (CurrentRewardClaimNormal[17] == false && CurrentRewardClaimNormal[16] == true)
@@ -386,6 +424,7 @@ namespace CriptoGame_Online
                 else if (CurrentRewardClaimNormal[17] == false)
                     btn_Reward_18.BackColor = Color.FromArgb(55, 47, 36);
                 else btn_Reward_18.BackColor = Color.FromArgb(90, 80, 70);
+            else txt_Punti_Reward_18.BackColor = Color.FromArgb(230, 230, 230);
 
             if (point >= CurrentRewardPoints[18])
                 if (CurrentRewardClaimNormal[18] == false && CurrentRewardClaimNormal[17] == true)
@@ -396,6 +435,7 @@ namespace CriptoGame_Online
                 else if (CurrentRewardClaimNormal[18] == false)
                     btn_Reward_19.BackColor = Color.FromArgb(55, 47, 36);
                 else btn_Reward_19.BackColor = Color.FromArgb(90, 80, 70);
+            else txt_Punti_Reward_19.BackColor = Color.FromArgb(230, 230, 230);
 
             if (point >= CurrentRewardPoints[19])
                 if (CurrentRewardClaimNormal[19] == false && CurrentRewardClaimNormal[18] == true)
@@ -406,31 +446,11 @@ namespace CriptoGame_Online
                 else if (CurrentRewardClaimNormal[19] == false)
                     btn_Reward_20.BackColor = Color.FromArgb(55, 47, 36);
                 else btn_Reward_20.BackColor = Color.FromArgb(90, 80, 70);
-
-            txt_Punti_Reward_1.BackColor = Color.FromArgb(6, 176, 37);
-            txt_Punti_Reward_2.BackColor = Color.FromArgb(6, 176, 37);
-            txt_Punti_Reward_3.BackColor = Color.FromArgb(6, 176, 37);
-            txt_Punti_Reward_4.BackColor = Color.FromArgb(6, 176, 37);
-            txt_Punti_Reward_5.BackColor = Color.FromArgb(6, 176, 37);
-            txt_Punti_Reward_6.BackColor = Color.FromArgb(6, 176, 37);
-            txt_Punti_Reward_7.BackColor = Color.FromArgb(6, 176, 37);
-            txt_Punti_Reward_8.BackColor = Color.FromArgb(6, 176, 37);
-            txt_Punti_Reward_9.BackColor = Color.FromArgb(6, 176, 37);
-            txt_Punti_Reward_10.BackColor = Color.FromArgb(6, 176, 37);
-            txt_Punti_Reward_11.BackColor = Color.FromArgb(6, 176, 37);
-            txt_Punti_Reward_12.BackColor = Color.FromArgb(6, 176, 37);
-            txt_Punti_Reward_13.BackColor = Color.FromArgb(6, 176, 37);
-            txt_Punti_Reward_14.BackColor = Color.FromArgb(6, 176, 37);
-            txt_Punti_Reward_15.BackColor = Color.FromArgb(6, 176, 37);
-            txt_Punti_Reward_16.BackColor = Color.FromArgb(6, 176, 37);
-            txt_Punti_Reward_17.BackColor = Color.FromArgb(6, 176, 37);
-            txt_Punti_Reward_18.BackColor = Color.FromArgb(6, 176, 37);
-            txt_Punti_Reward_19.BackColor = Color.FromArgb(6, 176, 37);
-            txt_Punti_Reward_20.BackColor = Color.FromArgb(6, 176, 37);
+            else txt_Punti_Reward_20.BackColor = Color.FromArgb(230, 230, 230);
         }
-        private void Check_Unlock_Reward_Vip()
+        private void Check_Unlock_Reward_GamePass_Base()
         {
-            if (Variabili_Client.Utente.User_Vip == false) return; // Vip attivo?
+            if (Variabili_Client.Utente.User_GamePass_Base == false) return; // GamePass base attivo?
             int point = Convert.ToInt32(Variabili_Client.Utente.Montly_Quest_Point);
 
             if (point >= CurrentRewardPoints[0])
@@ -778,6 +798,7 @@ namespace CriptoGame_Online
         private void Btn_Costruzione_Click(object sender, EventArgs e)
         {
             currentIndex = (currentIndex + 10) % CurrentQuests.Count; //Varia l'index per cambiare le Quest_Reward mostrate
+            AggiornaInterfacciaQuest();
         }
 
         async void Scroll_Panel(int Valore)
@@ -789,7 +810,7 @@ namespace CriptoGame_Online
 
 
             Check_Unlock_Reward();
-            Check_Unlock_Reward_Vip();
+            Check_Unlock_Reward_GamePass_Base();
             this.ActiveControl = null;
         }
 

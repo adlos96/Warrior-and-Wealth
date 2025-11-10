@@ -9,6 +9,9 @@ namespace CriptoGame_Online.GUI
         {
             InitializeComponent();
 
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+
             if (tipo == "Costruzione")
                 btn_Velocizza.Text = "Velocizza Costruzione";
             if (tipo == "Reclutamento")

@@ -17,6 +17,9 @@ namespace CriptoGame_Online.GUI
         {
             InitializeComponent();
             this.ActiveControl = btn_Scambia; // assegna il focus al bottone
+
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
         }
 
         private void btn_Scambia_Click(object sender, EventArgs e)
@@ -34,11 +37,16 @@ namespace CriptoGame_Online.GUI
 
         private void pictureBox_Meno_Click(object sender, EventArgs e)
         {
-            if (Convert.ToInt32(txt_Diamond_Viola.Text) > 0 )
+            if (Convert.ToInt32(txt_Diamond_Viola.Text) > 0)
             {
                 txt_Diamond_Viola.Text = (Convert.ToInt32(txt_Diamond_Viola.Text) - 1).ToString();
                 txt_Diamond_Blu.Text = (Convert.ToInt32(txt_Diamond_Viola.Text) * Convert.ToInt32(Variabili_Client.D_Viola_D_Blu)).ToString();
             }
+        }
+
+        private void Scambia_Diamanti_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

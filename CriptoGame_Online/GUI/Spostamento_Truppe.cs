@@ -11,6 +11,10 @@ namespace CriptoGame_Online.GUI
         public Spostamento_Truppe()
         {
             InitializeComponent();
+
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+
             lbl_Struttura.Text = struttura;
 
             btn_I_Esercito.Enabled = false;
@@ -188,6 +192,8 @@ namespace CriptoGame_Online.GUI
             btn_III_Struttura.Enabled = false;
             btn_IV_Struttura.Enabled = false;
             btn_V_Struttura.Enabled = false;
+
+            this.ActiveControl = btn_I_Esercito;
         }
 
         private void btn_II_Esercito_Click(object sender, EventArgs e)
@@ -216,6 +222,8 @@ namespace CriptoGame_Online.GUI
             btn_III_Struttura.Enabled = false;
             btn_IV_Struttura.Enabled = false;
             btn_V_Struttura.Enabled = false;
+
+            this.ActiveControl = btn_II_Esercito;
         }
 
         private void btn_III_Esercito_Click(object sender, EventArgs e)
@@ -244,6 +252,8 @@ namespace CriptoGame_Online.GUI
             btn_III_Struttura.Enabled = true;
             btn_IV_Struttura.Enabled = false;
             btn_V_Struttura.Enabled = false;
+
+            this.ActiveControl = btn_III_Esercito;
         }
 
         private void btn_IV_Esercito_Click(object sender, EventArgs e)
@@ -272,6 +282,8 @@ namespace CriptoGame_Online.GUI
             btn_III_Struttura.Enabled = false;
             btn_IV_Struttura.Enabled = true;
             btn_V_Struttura.Enabled = false;
+
+            this.ActiveControl = btn_IV_Esercito;
         }
 
         private void btn_V_Esercito_Click(object sender, EventArgs e)
@@ -300,6 +312,8 @@ namespace CriptoGame_Online.GUI
             btn_III_Struttura.Enabled = false;
             btn_IV_Struttura.Enabled = false;
             btn_V_Struttura.Enabled = true;
+
+            this.ActiveControl = btn_V_Esercito; // assegna il focus al bottone
         }
     }
 }

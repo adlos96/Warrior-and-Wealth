@@ -93,6 +93,26 @@ namespace CriptoGame_Online.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Addestratori_24H_removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("Addestratori_24H-removebg-preview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Addestratori_48H_removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("Addestratori_48H-removebg-preview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Arciere {
             get {
                 object obj = ResourceManager.GetObject("Arciere", resourceCulture);
@@ -186,6 +206,26 @@ namespace CriptoGame_Online.Properties {
         internal static System.Drawing.Bitmap Comune {
             get {
                 object obj = ResourceManager.GetObject("Comune", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Costruttori_24H {
+            get {
+                object obj = ResourceManager.GetObject("Costruttori_24H", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Costruttori_48H {
+            get {
+                object obj = ResourceManager.GetObject("Costruttori_48H", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -336,6 +376,26 @@ namespace CriptoGame_Online.Properties {
         internal static System.Drawing.Bitmap freepik__upload__73441_AAA {
             get {
                 object obj = ResourceManager.GetObject("freepik__upload__73441_AAA", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap GamePass_Avanzato {
+            get {
+                object obj = ResourceManager.GetObject("GamePass_Avanzato", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap GamePass_Base {
+            get {
+                object obj = ResourceManager.GetObject("GamePass_Base", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -573,6 +633,16 @@ namespace CriptoGame_Online.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Pacchetto_Risorse {
+            get {
+                object obj = ResourceManager.GetObject("Pacchetto_Risorse", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap picchiere {
             get {
                 object obj = ResourceManager.GetObject("picchiere", resourceCulture);
@@ -603,6 +673,16 @@ namespace CriptoGame_Online.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Scudo_Pace_1 {
+            get {
+                object obj = ResourceManager.GetObject("Scudo_Pace_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Sfondo {
             get {
                 object obj = ResourceManager.GetObject("Sfondo", resourceCulture);
@@ -626,16 +706,6 @@ namespace CriptoGame_Online.Properties {
         internal static System.Drawing.Bitmap Sfondo_3 {
             get {
                 object obj = ResourceManager.GetObject("Sfondo_3", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Sfondo_Chat_removebg_preview {
-            get {
-                object obj = ResourceManager.GetObject("Sfondo_Chat-removebg-preview", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -727,6 +797,16 @@ namespace CriptoGame_Online.Properties {
         internal static System.Drawing.Bitmap Un_guerriero_medievale_1_ {
             get {
                 object obj = ResourceManager.GetObject("Un guerriero medievale(1)", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap USDT_Logo_removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("USDT_Logo-removebg-preview", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

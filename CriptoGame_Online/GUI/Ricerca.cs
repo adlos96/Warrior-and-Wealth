@@ -15,6 +15,14 @@ namespace CriptoGame_Online
         public Ricerca()
         {
             InitializeComponent();
+
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+        }
+
+        private void Ricerca_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Ricerca));
             panel1 = new Panel();
+            label3 = new Label();
             label1 = new Label();
             pictureBox12 = new PictureBox();
             pictureBox22 = new PictureBox();
@@ -46,7 +47,6 @@
             button2 = new Button();
             button1 = new Button();
             btn_Citta = new Button();
-            label3 = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox12).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox22).BeginInit();
@@ -84,6 +84,16 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(313, 442);
             panel1.TabIndex = 2;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.BackColor = Color.Transparent;
+            label3.Location = new Point(94, 58);
+            label3.Name = "label3";
+            label3.Size = new Size(127, 15);
+            label3.TabIndex = 33;
+            label3.Text = "Tempo Ricerca: 1:02:03";
             // 
             // label1
             // 
@@ -247,16 +257,6 @@
             btn_Citta.Text = "A";
             btn_Citta.UseVisualStyleBackColor = true;
             // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.BackColor = Color.Transparent;
-            label3.Location = new Point(94, 58);
-            label3.Name = "label3";
-            label3.Size = new Size(126, 15);
-            label3.TabIndex = 33;
-            label3.Text = "Tempo Ricerca: 1:02:03";
-            // 
             // Ricerca
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -266,6 +266,7 @@
             Controls.Add(panel1);
             Name = "Ricerca";
             Text = "Ricerca";
+            Load += Ricerca_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox12).EndInit();

@@ -506,7 +506,7 @@
             btn_I_Esercito.BackColor = Color.DimGray;
             btn_I_Esercito.BackgroundImageLayout = ImageLayout.Stretch;
             btn_I_Esercito.FlatAppearance.BorderSize = 0;
-            btn_I_Esercito.FlatStyle = FlatStyle.Flat;
+            btn_I_Esercito.FlatStyle = FlatStyle.Popup;
             btn_I_Esercito.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_I_Esercito.ForeColor = SystemColors.Control;
             btn_I_Esercito.Location = new Point(3, 4);

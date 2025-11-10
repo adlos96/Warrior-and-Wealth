@@ -148,6 +148,7 @@
             Controls.Add(ico_11);
             Name = "Scambia_Diamanti";
             Text = "Scambia_Diamanti";
+            Load += Scambia_Diamanti_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox_Più).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox_Meno).EndInit();
             ResumeLayout(false);

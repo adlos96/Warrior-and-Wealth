@@ -60,12 +60,19 @@ namespace Strategico_V2
             public string Password { get; set; }
             public string Montly_Quest_Point { get; set; }
             public bool User_Vip { get; set; }
+            public string User_Vip_Tempo { get; set; }
+            public bool User_GamePass_Base { get; set; }
+            public string User_GamePass_Base_Tempo { get; set; }
+            public bool User_GamePass_Avanzato { get; set; }
+            public string User_GamePass_Avanzato_Tempo { get; set; }
             public bool Ricerca_Attiva { get; set; }
             public bool User_Login { get; set; }
 
             public bool Scudo_Pace { get; set; }
             public string Code_Costruzione { get; set; }
             public string Code_Reclutamento { get; set; }
+            public string Code_Costruzione_Disponibili { get; set; }
+            public string Code_Reclutamento_Disponibili { get; set; }
             public string Tempo_Costruzione { get; set; }
             public string Tempo_Reclutamento { get; set; }
             public string Tempo_Ricerca { get; set; }
@@ -244,9 +251,16 @@ namespace Strategico_V2
             Esperienza = "0",
             Montly_Quest_Point = "0",
             User_Vip = false,
+            User_Vip_Tempo = "0",
+            User_GamePass_Base = false,
+            User_GamePass_Base_Tempo = "0",
+            User_GamePass_Avanzato = false,
+            User_GamePass_Avanzato_Tempo = "0",
             User_Login = false,
             Code_Costruzione = "0",
             Code_Reclutamento = "0",
+            Code_Costruzione_Disponibili = "0",
+            Code_Reclutamento_Disponibili = "0",
             Tempo_Costruzione = "0",
             Tempo_Reclutamento = "0",
             Tempo_Ricerca = "0",
@@ -382,34 +396,82 @@ namespace Strategico_V2
 
             public static Shop Vip_1 = new Shop
             {
-                Costo = "0",
-                Reward = "0"
+                Costo = "500", //Diamanti_Viola
+                Reward = "24" //VIP
             };
             public static Shop Vip_2 = new Shop
             {
-                Costo = "0",
-                Reward = "0"
+                Costo = "14.99", //USDT
+                Reward = "24" //VIP
             };
 
-            public static Shop Pacchetto_1 = new Shop
+            public static Shop GamePass_Base = new Shop
             {
-                Costo = "0",
-                Reward = "0"
+                Costo = "14.99", //USDT
+                Reward = "1" //VIP
             };
-            public static Shop Pacchetto_2 = new Shop
+            public static Shop GamePass_Avanzato = new Shop
             {
-                Costo = "0",
-                Reward = "0"
+                Costo = "14.99", //USDT
+                Reward = "1" //VIP
             };
-            public static Shop Pacchetto_3 = new Shop
+
+            public static Shop Pacchetto_Diamanti_1 = new Shop
             {
-                Costo = "0",
-                Reward = "0"
+                Costo = "5.99", //USDT
+                Reward = "150" //Diamanti_Viola
             };
-            public static Shop Pacchetto_4 = new Shop
+            public static Shop Pacchetto_Diamanti_2 = new Shop
             {
-                Costo = "0",
-                Reward = "0"
+                Costo = "14.99",
+                Reward = "475"
+            };
+            public static Shop Pacchetto_Diamanti_3 = new Shop
+            {
+                Costo = "24.99",
+                Reward = "800"
+            };
+            public static Shop Pacchetto_Diamanti_4 = new Shop
+            {
+                Costo = "49.99",
+                Reward = "1500"
+            };
+            public static Shop Scudo_Pace_8h = new Shop
+            {
+                Costo = "75",
+                Reward = "8" //8 ore in secondi
+            };
+            public static Shop Scudo_Pace_24h = new Shop
+            {
+                Costo = "210",
+                Reward = "24" //24 ore in secondi
+            };
+            public static Shop Scudo_Pace_72h = new Shop
+            {
+                Costo = "615",
+                Reward = "72" //72 ore in secondi
+            };
+
+            public static Shop Costruttore_24h = new Shop
+            {
+                Costo = "400",
+                Reward = "24" //24 ore in secondi
+            };
+            public static Shop Costruttore_48h = new Shop
+            {
+                Costo = "780",
+                Reward = "48" //48 ore in secondi
+            };
+
+            public static Shop Reclutatore_24h = new Shop
+            {
+                Costo = "580",
+                Reward = "24" //24 ore in secondi
+            };
+            public static Shop Reclutatore_48h = new Shop
+            {
+                Costo = "1120",
+                Reward = "48" //48 ore in secondi
             };
 
 
@@ -602,6 +664,22 @@ namespace Strategico_V2
         }
         public class Reclutamento
         {
+            public static Dati Guerrieri_Max = new Dati
+            {
+                Quantità = "0"
+            };
+            public static Dati Lanceri_Max = new Dati
+            {
+                Quantità = "0"
+            };
+            public static Dati Arceri_Max = new Dati
+            {
+                Quantità = "0"
+            };
+            public static Dati Catapulte_Max = new Dati
+            {
+                Quantità = "0"
+            };
             public static Dati Guerrieri_1 = new Dati
             {
                 Descrizione = "",

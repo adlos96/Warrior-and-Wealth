@@ -234,7 +234,7 @@ namespace CriptoGame_Online
             panel_Sfondo.Dock = DockStyle.Bottom;
             panel_Sfondo.Location = new Point(0, 69);
             panel_Sfondo.Name = "panel_Sfondo";
-            panel_Sfondo.Size = new Size(827, 499);
+            panel_Sfondo.Size = new Size(675, 499);
             panel_Sfondo.TabIndex = 0;
             panel_Sfondo.Scroll += panel_Sfondo_Scroll;
             // 
@@ -290,6 +290,7 @@ namespace CriptoGame_Online
             btn_Salute_Catapulte.TabIndex = 36;
             btn_Salute_Catapulte.Text = "Salute I";
             btn_Salute_Catapulte.UseVisualStyleBackColor = false;
+            btn_Salute_Catapulte.Click += btn_Salute_Catapulte_Click;
             // 
             // button10
             // 
@@ -333,6 +334,7 @@ namespace CriptoGame_Online
             btn_Livello_Catapulte.TabIndex = 36;
             btn_Livello_Catapulte.Text = "Livello I";
             btn_Livello_Catapulte.UseVisualStyleBackColor = false;
+            btn_Livello_Catapulte.Click += btn_Livello_Catapulte_Click;
             // 
             // button11
             // 
@@ -376,6 +378,7 @@ namespace CriptoGame_Online
             btn_Difesa_Catapulte.TabIndex = 36;
             btn_Difesa_Catapulte.Text = "Difesa I";
             btn_Difesa_Catapulte.UseVisualStyleBackColor = false;
+            btn_Difesa_Catapulte.Click += btn_Difesa_Catapulte_Click;
             // 
             // button12
             // 
@@ -419,6 +422,7 @@ namespace CriptoGame_Online
             btn_Attacco_Catapulte.TabIndex = 36;
             btn_Attacco_Catapulte.Text = "Attacco I";
             btn_Attacco_Catapulte.UseVisualStyleBackColor = false;
+            btn_Attacco_Catapulte.Click += btn_Attacco_Catapulte_Click;
             // 
             // button13
             // 
@@ -474,6 +478,7 @@ namespace CriptoGame_Online
             btn_Salute_Arceri.TabIndex = 36;
             btn_Salute_Arceri.Text = "Salute I";
             btn_Salute_Arceri.UseVisualStyleBackColor = false;
+            btn_Salute_Arceri.Click += btn_Salute_Arceri_Click;
             // 
             // button6
             // 
@@ -517,6 +522,7 @@ namespace CriptoGame_Online
             btn_Livello_Arceri.TabIndex = 36;
             btn_Livello_Arceri.Text = "Livello I";
             btn_Livello_Arceri.UseVisualStyleBackColor = false;
+            btn_Livello_Arceri.Click += btn_Livello_Arceri_Click;
             // 
             // button7
             // 
@@ -560,6 +566,7 @@ namespace CriptoGame_Online
             btn_Difesa_Arceri.TabIndex = 36;
             btn_Difesa_Arceri.Text = "Difesa I";
             btn_Difesa_Arceri.UseVisualStyleBackColor = false;
+            btn_Difesa_Arceri.Click += btn_Difesa_Arceri_Click;
             // 
             // button8
             // 
@@ -603,6 +610,7 @@ namespace CriptoGame_Online
             btn_Attacco_Arceri.TabIndex = 36;
             btn_Attacco_Arceri.Text = "Attacco I";
             btn_Attacco_Arceri.UseVisualStyleBackColor = false;
+            btn_Attacco_Arceri.Click += btn_Attacco_Arceri_Click;
             // 
             // button9
             // 
@@ -658,6 +666,7 @@ namespace CriptoGame_Online
             btn_Salute_Lanceri.TabIndex = 36;
             btn_Salute_Lanceri.Text = "Salute I";
             btn_Salute_Lanceri.UseVisualStyleBackColor = false;
+            btn_Salute_Lanceri.Click += btn_Salute_Lanceri_Click;
             // 
             // button2
             // 
@@ -701,6 +710,7 @@ namespace CriptoGame_Online
             btn_Livello_Lanceri.TabIndex = 36;
             btn_Livello_Lanceri.Text = "Livello I";
             btn_Livello_Lanceri.UseVisualStyleBackColor = false;
+            btn_Livello_Lanceri.Click += btn_Livello_Lanceri_Click;
             // 
             // button3
             // 
@@ -744,6 +754,7 @@ namespace CriptoGame_Online
             btn_Difesa_Lanceri.TabIndex = 36;
             btn_Difesa_Lanceri.Text = "Difesa I";
             btn_Difesa_Lanceri.UseVisualStyleBackColor = false;
+            btn_Difesa_Lanceri.Click += btn_Difesa_Lanceri_Click;
             // 
             // button4
             // 
@@ -787,6 +798,7 @@ namespace CriptoGame_Online
             btn_Attacco_Lanceri.TabIndex = 36;
             btn_Attacco_Lanceri.Text = "Attacco I";
             btn_Attacco_Lanceri.UseVisualStyleBackColor = false;
+            btn_Attacco_Lanceri.Click += btn_Attacco_Lanceri_Click;
             // 
             // button5
             // 
@@ -829,6 +841,7 @@ namespace CriptoGame_Online
             btn_Guarnigione_Citta.TabIndex = 36;
             btn_Guarnigione_Citta.Text = "Guarnigione I";
             btn_Guarnigione_Citta.UseVisualStyleBackColor = false;
+            btn_Guarnigione_Citta.Click += btn_Guarnigione_Citta_Click;
             // 
             // button1
             // 
@@ -922,6 +935,7 @@ namespace CriptoGame_Online
             btn_Guarnigione_Ingresso.TabIndex = 35;
             btn_Guarnigione_Ingresso.Text = "Guarnigione I";
             btn_Guarnigione_Ingresso.UseVisualStyleBackColor = false;
+            btn_Guarnigione_Ingresso.Click += btn_Guarnigione_Ingresso_Click;
             // 
             // panel_Difesa_Cancello
             // 
@@ -948,6 +962,7 @@ namespace CriptoGame_Online
             btn_Difesa_Cancello.TabIndex = 35;
             btn_Difesa_Cancello.Text = "Difesa I";
             btn_Difesa_Cancello.UseVisualStyleBackColor = false;
+            btn_Difesa_Cancello.Click += btn_Difesa_Cancello_Click;
             // 
             // lbl_Tempo_Ricerca
             // 
@@ -986,6 +1001,7 @@ namespace CriptoGame_Online
             btn_Guarnigione_Cancello.TabIndex = 35;
             btn_Guarnigione_Cancello.Text = "Guarnigione I";
             btn_Guarnigione_Cancello.UseVisualStyleBackColor = false;
+            btn_Guarnigione_Cancello.Click += btn_Guarnigione_Cancello_Click;
             // 
             // label10
             // 
@@ -1024,6 +1040,7 @@ namespace CriptoGame_Online
             btn_Salute_Cancello.TabIndex = 35;
             btn_Salute_Cancello.Text = "Salute I";
             btn_Salute_Cancello.UseVisualStyleBackColor = false;
+            btn_Salute_Cancello.Click += btn_Salute_Cancello_Click;
             // 
             // label17
             // 
@@ -1062,6 +1079,7 @@ namespace CriptoGame_Online
             btn_Difesa_Mura.TabIndex = 35;
             btn_Difesa_Mura.Text = "Difesa I";
             btn_Difesa_Mura.UseVisualStyleBackColor = false;
+            btn_Difesa_Mura.Click += btn_Difesa_Mura_Click;
             // 
             // panel_Addestramento
             // 
@@ -1116,6 +1134,7 @@ namespace CriptoGame_Online
             btn_Difesa_Torri.TabIndex = 35;
             btn_Difesa_Torri.Text = "Difesa I";
             btn_Difesa_Torri.UseVisualStyleBackColor = false;
+            btn_Difesa_Torri.Click += btn_Difesa_Torri_Click;
             // 
             // panel_Popolazione
             // 
@@ -1170,6 +1189,7 @@ namespace CriptoGame_Online
             btn_Guarnigione_Mura.TabIndex = 35;
             btn_Guarnigione_Mura.Text = "Guarnigione I";
             btn_Guarnigione_Mura.UseVisualStyleBackColor = false;
+            btn_Guarnigione_Mura.Click += btn_Guarnigione_Mura_Click;
             // 
             // panel_Salute_Guerrieri
             // 
@@ -1224,6 +1244,7 @@ namespace CriptoGame_Online
             btn_Guarnigione_Torri.TabIndex = 35;
             btn_Guarnigione_Torri.Text = "Guarnigione I";
             btn_Guarnigione_Torri.UseVisualStyleBackColor = false;
+            btn_Guarnigione_Torri.Click += btn_Guarnigione_Torri_Click;
             // 
             // panel_Livello_Guerrieri
             // 
@@ -1278,6 +1299,7 @@ namespace CriptoGame_Online
             btn_Salute_Mura.TabIndex = 35;
             btn_Salute_Mura.Text = "Salute I";
             btn_Salute_Mura.UseVisualStyleBackColor = false;
+            btn_Salute_Mura.Click += btn_Salute_Mura_Click;
             // 
             // panel_Risorse
             // 
@@ -1332,6 +1354,7 @@ namespace CriptoGame_Online
             btn_Salute_Torri.TabIndex = 35;
             btn_Salute_Torri.Text = "Salute I";
             btn_Salute_Torri.UseVisualStyleBackColor = false;
+            btn_Salute_Torri.Click += btn_Salute_Torri_Click;
             // 
             // panel_Difesa_Guerrieri
             // 
@@ -1386,6 +1409,7 @@ namespace CriptoGame_Online
             btn_Difesa_Castello.TabIndex = 35;
             btn_Difesa_Castello.Text = "Difesa I";
             btn_Difesa_Castello.UseVisualStyleBackColor = false;
+            btn_Difesa_Castello.Click += btn_Difesa_Castello_Click;
             // 
             // panel_Costruzione
             // 
@@ -1480,6 +1504,7 @@ namespace CriptoGame_Online
             btn_Guarnigione_Castello.TabIndex = 35;
             btn_Guarnigione_Castello.Text = "Guarnigione I";
             btn_Guarnigione_Castello.UseVisualStyleBackColor = false;
+            btn_Guarnigione_Castello.Click += btn_Guarnigione_Castello_Click;
             // 
             // label11
             // 
@@ -1518,6 +1543,7 @@ namespace CriptoGame_Online
             btn_Salute_Castello.TabIndex = 35;
             btn_Salute_Castello.Text = "Salute I";
             btn_Salute_Castello.UseVisualStyleBackColor = false;
+            btn_Salute_Castello.Click += btn_Salute_Castello_Click;
             // 
             // label1
             // 
@@ -1598,7 +1624,7 @@ namespace CriptoGame_Online
             txt_Testo.Multiline = true;
             txt_Testo.Name = "txt_Testo";
             txt_Testo.ReadOnly = true;
-            txt_Testo.Size = new Size(827, 69);
+            txt_Testo.Size = new Size(675, 69);
             txt_Testo.TabIndex = 33;
             txt_Testo.Text = "Acquista il tuo terreno virtuale e diventa proprietario di una porzione di terra. Ogni terreno genera una rendita giornaliera automatica. L’ammontare della rendita dipende dalla rarità.";
             txt_Testo.TextAlign = HorizontalAlignment.Center;
@@ -1607,7 +1633,7 @@ namespace CriptoGame_Online
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(827, 568);
+            ClientSize = new Size(675, 568);
             Controls.Add(panel_Sfondo);
             Controls.Add(txt_Testo);
             Name = "Ricerca_1";

@@ -31,23 +31,28 @@ namespace CriptoGame_Online
             // Riga con segmenti colorati
             logBox.AddLine(new[]
             {
-            ("[Sistema] ", Color.Cyan),
-            ("Benvenuto nell'arena!", Color.White)
-        });
+                ("[Sistema] ", Color.Cyan),
+                ("Benvenuto nell'arena!", Color.White)
+            });
 
             // Riga con nickname colorato + messaggio
             logBox.AddLine(new[]
             {
-            ("Player1: ", Color.Orange),
-            ("Attacco critico! Hai ricevuto 1", Color.Red)
-        }, Properties.Resources.diamond_1);
+                ("Player1: ", Color.Orange),
+                ("Attacco critico! Hai ricevuto 1", Color.Red)
+            }, Properties.Resources.diamond_1);
 
             logBox.AddLine(new[]
             {
-            ("Player1: ", Color.Orange),
-            ("Attacco critico!", Color.Red)
-        }, Properties.Resources.diamond_1);
+                ("Player1: ", Color.Orange),
+                ("Attacco critico!", Color.Red)
+            }, Properties.Resources.diamond_1);
 
+            logBox.AddLine(new[]
+            {
+            ("[Sistema] ", Color.Cyan),
+            ("Aggironamento in corso... Attendere!", Color.White)
+            });
         }
 
         public static void Log_Update(string messaggio)
@@ -75,7 +80,8 @@ namespace CriptoGame_Online
             panel_3.BackColor = Color.FromArgb(100, 229, 208, 181);
             panel_Sfondo_Bottoni.BackColor = Color.FromArgb(50, 180, 150, 100);
 
-            panel_Image_2.BackColor = Color.FromArgb(100, 218, 193, 163);
+            panel_Image_2.BackColor = Color.FromArgb(100, 218, 193, 163); //Sfondo immagini diamanti
+            panel_Image_3.BackColor = Color.FromArgb(100, 218, 193, 163); //Sfondo immagini diamanti
             btn_Acquista_Terreni.BackColor = Color.FromArgb(218, 193, 163);
 
             groupBox_Strutture.BackColor = Color.FromArgb(100, 229, 208, 181);
@@ -121,6 +127,11 @@ namespace CriptoGame_Online
                     txt_Terreno_3.Text = Variabili_Client.Terreni_Virtuali.Raro.Quantità;
                     txt_Terreno_4.Text = Variabili_Client.Terreni_Virtuali.Epico.Quantità;
                     txt_Terreno_5.Text = Variabili_Client.Terreni_Virtuali.Leggendario.Quantità;
+
+                    lbl_Guerrieri_Max.Text = $"Max: {Variabili_Client.Reclutamento.Guerrieri_Max.Quantità}";
+                    lbl_Lanceri_Max.Text = $"Max: {Variabili_Client.Reclutamento.Lanceri_Max.Quantità}";
+                    lbl_Arceri_Max.Text = $"Max: {Variabili_Client.Reclutamento.Arceri_Max.Quantità}";
+                    lbl_Catapulte_Max.Text = $"Max: {Variabili_Client.Reclutamento.Catapulte_Max.Quantità}";
 
                     if (strutture == "Militare")
                     {
@@ -169,7 +180,6 @@ namespace CriptoGame_Online
                         txt_Structure_Coda_6.Text = Variabili_Client.Costruzione_Coda.Case.Quantità;
                     }
 
-
                     if (tipo_Risorse == "Militare")
                     {
                         toolTip1.SetToolTip(this.ico_1, $"Spade, utilissimo per l'addestramento delle unità. \r\n Produzione: {Variabili_Client.Utente_Risorse.Spade_s} \r\n Limite: {Variabili_Client.Utente_Risorse.Spade_Limite}");
@@ -206,6 +216,11 @@ namespace CriptoGame_Online
                     //Caserme
                     if (Caserme == "Caserme")
                     {
+                        toolTip1.SetToolTip(this.ico_Unit_1, Variabili_Client.Costruzione.Caserme_Guerrieri.Descrizione);
+                        toolTip1.SetToolTip(this.ico_Unit_2, Variabili_Client.Costruzione.Caserme_Lanceri.Descrizione);
+                        toolTip1.SetToolTip(this.ico_Unit_3, Variabili_Client.Costruzione.Caserme_arceri.Descrizione);
+                        toolTip1.SetToolTip(this.ico_Unit_4, Variabili_Client.Costruzione.Caserme_Catapulte.Descrizione);
+
                         txt_Unit_1.Text = Variabili_Client.Costruzione.Caserme_Guerrieri.Quantità;
                         txt_Unit_2.Text = Variabili_Client.Costruzione.Caserme_Lanceri.Quantità;
                         txt_Unit_3.Text = Variabili_Client.Costruzione.Caserme_arceri.Quantità;
@@ -216,6 +231,11 @@ namespace CriptoGame_Online
                         txt_Unit_Coda_3.Text = Variabili_Client.Costruzione_Coda.Caserme_arceri.Quantità;
                         txt_Unit_Coda_4.Text = Variabili_Client.Costruzione_Coda.Caserme_Catapulte.Quantità;
                     }
+
+                    toolTip1.SetToolTip(this.ico_Unit_1, Variabili_Client.Reclutamento.Guerrieri_1.Descrizione);
+                    toolTip1.SetToolTip(this.ico_Unit_2, Variabili_Client.Reclutamento.Lanceri_1.Descrizione);
+                    toolTip1.SetToolTip(this.ico_Unit_3, Variabili_Client.Reclutamento.Arceri_1.Descrizione);
+                    toolTip1.SetToolTip(this.ico_Unit_4, Variabili_Client.Reclutamento.Catapulte_1.Descrizione);
 
                     if (btn_I.Enabled == false && Caserme == "Esercito")
                     {
@@ -288,13 +308,13 @@ namespace CriptoGame_Online
                     else
                     {
                         pictureBox_Speed_Costruzione.Visible = true;
-                        lbl_Coda_Costruzione.Text = $"Code disponibili: {0}/{Variabili_Client.Utente.Code_Costruzione}";
+                        lbl_Coda_Costruzione.Text = $"Code disponibili: {Convert.ToInt32(Variabili_Client.Utente.Code_Costruzione) - Convert.ToInt32(Variabili_Client.Utente.Code_Costruzione_Disponibili)}/{Variabili_Client.Utente.Code_Costruzione}";
                     }
 
                     if (lbl_Timer_Addestramento.Text == "Recruit: 0s" || Caserme == "Caserme")
                     {
                         pictureBox_Speed_Reclutamento.Visible = false;
-                        lbl_Coda_Reclutamento.Text = $"Code disponibili: {Variabili_Client.Utente.Code_Reclutamento}/{Variabili_Client.Utente.Code_Reclutamento}";
+                        lbl_Coda_Reclutamento.Text = $"Code disponibili: {Variabili_Client.Utente.Code_Reclutamento_Disponibili}/{Variabili_Client.Utente.Code_Reclutamento}";
                     }
                     else if (Caserme == "Esercito") // Non serve la coda, finisce in building
                         pictureBox_Speed_Reclutamento.Visible = true;
@@ -314,6 +334,10 @@ namespace CriptoGame_Online
             btn_Cambia_Risorse.Font = new Font("Cinzel Decorative", 8, FontStyle.Bold);
             btn_Quest_Mensile.Font = new Font("Cinzel Decorative", 8, FontStyle.Bold);
 
+            lbl_Guerrieri_Max.Font = new Font("Cinzel Decorative", 7);
+            lbl_Lanceri_Max.Font = new Font("Cinzel Decorative", 7);
+            lbl_Arceri_Max.Font = new Font("Cinzel Decorative", 7);
+            lbl_Catapulte_Max.Font = new Font("Cinzel Decorative", 7);
 
             lbl_Timer_Addestramento.Font = new Font("Cinzel Decorative", 8, FontStyle.Bold);
             lbl_Timer_Costruzione.Font = new Font("Cinzel Decorative", 8, FontStyle.Bold);
@@ -332,55 +356,55 @@ namespace CriptoGame_Online
         }
         private void Risorse()
         {
-            txt_Livello.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
-            txt_Esperienza.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
-            txt_Username.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
-            txt_Diamond_2.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
-            txt_Diamond_1.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
-            txt_Virtual_Dolla.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
+            txt_Livello.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
+            txt_Esperienza.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
+            txt_Username.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
+            txt_Diamond_2.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
+            txt_Diamond_1.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
+            txt_Virtual_Dolla.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
 
-            txt_Risorsa1.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
-            txt_Risorsa2.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
-            txt_Risorsa3.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
-            txt_Risorsa4.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
-            txt_Risorsa5.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
-            txt_Risorsa6.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
+            txt_Risorsa1.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
+            txt_Risorsa2.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
+            txt_Risorsa3.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
+            txt_Risorsa4.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
+            txt_Risorsa5.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
+            txt_Risorsa6.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
 
         }
         private void Edifici()
         {
-            txt_Terreno_1.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
-            txt_Terreno_2.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
-            txt_Terreno_3.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
-            txt_Terreno_4.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
-            txt_Terreno_5.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
+            txt_Terreno_1.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
+            txt_Terreno_2.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
+            txt_Terreno_3.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
+            txt_Terreno_4.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
+            txt_Terreno_5.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
 
-            txt_Structure_1.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
-            txt_Structure_2.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
-            txt_Structure_3.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
-            txt_Structure_4.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
-            txt_Structure_5.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
-            txt_Structure_6.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
+            txt_Structure_1.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
+            txt_Structure_2.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
+            txt_Structure_3.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
+            txt_Structure_4.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
+            txt_Structure_5.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
+            txt_Structure_6.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
 
-            txt_Structure_Coda_1.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
-            txt_Structure_Coda_2.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
-            txt_Structure_Coda_3.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
-            txt_Structure_Coda_4.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
-            txt_Structure_Coda_5.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
-            txt_Structure_Coda_6.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
+            txt_Structure_Coda_1.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
+            txt_Structure_Coda_2.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
+            txt_Structure_Coda_3.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
+            txt_Structure_Coda_4.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
+            txt_Structure_Coda_5.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
+            txt_Structure_Coda_6.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
 
         }
         private void Esercito()
         {
-            txt_Unit_1.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
-            txt_Unit_2.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
-            txt_Unit_3.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
-            txt_Unit_4.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
+            txt_Unit_1.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
+            txt_Unit_2.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
+            txt_Unit_3.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
+            txt_Unit_4.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
 
-            txt_Unit_Coda_1.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
-            txt_Unit_Coda_2.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
-            txt_Unit_Coda_3.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
-            txt_Unit_Coda_4.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
+            txt_Unit_Coda_1.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
+            txt_Unit_Coda_2.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
+            txt_Unit_Coda_3.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
+            txt_Unit_Coda_4.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
 
         }
         private void Banner()
@@ -541,26 +565,17 @@ namespace CriptoGame_Online
         {
             Costruzione form_Gioco = new Costruzione();
             form_Gioco.ShowDialog();
-
-            logBox.AddLine(new[]
-            {
-            ("[Sistema] ", Color.Cyan),
-            ("Aggironamento in corso... Attendere!", Color.White)
-        });
         }
-
         private void btn_Shop_Click(object sender, EventArgs e)
         {
             Shop form_Gioco = new Shop();
             form_Gioco.ShowDialog();
         }
-
         private void btn_Ricerca_Click(object sender, EventArgs e)
         {
             Ricerca_1 form_Gioco = new Ricerca_1();
             form_Gioco.ShowDialog();
         }
-
         private void btn_Quest_Mensile_Click(object sender, EventArgs e)
         {
             MontlyQuest form_Gioco = new MontlyQuest();
@@ -578,7 +593,6 @@ namespace CriptoGame_Online
             livello_Esercito = 1;
             this.ActiveControl = Btn_Costruzione; // assegna il focus al bottone
         }
-
         private void btn_II_Click(object sender, EventArgs e)
         {
             btn_I.Enabled = true;
@@ -589,7 +603,6 @@ namespace CriptoGame_Online
             livello_Esercito = 2;
             this.ActiveControl = Btn_Costruzione; // assegna il focus al bottone
         }
-
         private void btn_III_Click(object sender, EventArgs e)
         {
             btn_I.Enabled = true;
@@ -600,7 +613,6 @@ namespace CriptoGame_Online
             livello_Esercito = 3;
             this.ActiveControl = Btn_Costruzione; // assegna il focus al bottone
         }
-
         private void btn_IV_Click(object sender, EventArgs e)
         {
             btn_I.Enabled = true;
@@ -611,7 +623,6 @@ namespace CriptoGame_Online
             livello_Esercito = 4;
             this.ActiveControl = Btn_Costruzione; // assegna il focus al bottone
         }
-
         private void btn_V_Click(object sender, EventArgs e)
         {
             btn_I.Enabled = true;
@@ -629,7 +640,6 @@ namespace CriptoGame_Online
             Velocizza_Diamanti.tipo = "Costruzione";
             form_Gioco.ShowDialog();
         }
-
         private void pictureBox_Speed_Reclutamento_Click(object sender, EventArgs e)
         {
             Velocizza_Diamanti form_Gioco = new Velocizza_Diamanti();
@@ -651,6 +661,11 @@ namespace CriptoGame_Online
                 ico_Unit_3.BackgroundImage = Properties.Resources.cross;
                 ico_Unit_4.BackgroundImage = Properties.Resources.cross;
 
+                lbl_Guerrieri_Max.Visible = false;
+                lbl_Lanceri_Max.Visible = false;
+                lbl_Arceri_Max.Visible = false;
+                lbl_Catapulte_Max.Visible = false;
+
                 Caserme = "Caserme";
             }
             else
@@ -663,6 +678,11 @@ namespace CriptoGame_Online
                 ico_Unit_2.BackgroundImage = Properties.Resources.picchiere;
                 ico_Unit_3.BackgroundImage = Properties.Resources.Un_arciere_medievale_a_figura_intera__stile_videogame_fantasy__con_arco_teso_e_faretra__abbigliamento_da_cacciatore__sfondo_trasparente__icona_PNG;
                 ico_Unit_4.BackgroundImage = Properties.Resources.icons8_medieval_48;
+
+                lbl_Guerrieri_Max.Visible = true;
+                lbl_Lanceri_Max.Visible = true;
+                lbl_Arceri_Max.Visible = true;
+                lbl_Catapulte_Max.Visible = true;
 
                 Caserme = "Esercito";
             }

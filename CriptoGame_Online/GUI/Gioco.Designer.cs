@@ -32,7 +32,6 @@ namespace CriptoGame_Online
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Gioco));
             panel_2 = new DoubleBufferedPanel();
-            btn_Scambia = new Button();
             PVP_PVE = new Button();
             panel2 = new DoubleBufferedPanel();
             textBox1 = new TextBox();
@@ -43,6 +42,7 @@ namespace CriptoGame_Online
             btn_Ricerca = new Button();
             btn_Quest_Mensile = new Button();
             Terreni = new GroupBox();
+            panel_Image_3 = new DoubleBufferedPanel();
             panel3 = new DoubleBufferedPanel();
             ico_Terreno_1 = new DoubleBufferedPanel();
             txt_Terreno_4 = new TextBox();
@@ -55,11 +55,16 @@ namespace CriptoGame_Online
             ico_Terreno_3 = new DoubleBufferedPanel();
             txt_Terreno_1 = new TextBox();
             ico_Terreno_2 = new DoubleBufferedPanel();
+            btn_Scambia = new Button();
             panel_Image_2 = new DoubleBufferedPanel();
             btn_Acquista_Terreni = new Button();
             groupBox_Esercito = new GroupBox();
             btn_Esercito_Caserme = new Button();
             panel7 = new DoubleBufferedPanel();
+            lbl_Catapulte_Max = new Label();
+            lbl_Arceri_Max = new Label();
+            lbl_Lanceri_Max = new Label();
+            lbl_Guerrieri_Max = new Label();
             pictureBox_Speed_Reclutamento = new PictureBox();
             lbl_Coda_Reclutamento = new Label();
             lbl_Timer_Addestramento = new Label();
@@ -159,7 +164,6 @@ namespace CriptoGame_Online
             // 
             // panel_2
             // 
-            panel_2.Controls.Add(btn_Scambia);
             panel_2.Controls.Add(PVP_PVE);
             panel_2.Controls.Add(panel2);
             panel_2.Controls.Add(btn_Citta);
@@ -175,27 +179,13 @@ namespace CriptoGame_Online
             panel_2.Size = new Size(893, 372);
             panel_2.TabIndex = 2;
             // 
-            // btn_Scambia
-            // 
-            btn_Scambia.BackgroundImage = Properties.Resources.Texture_Wood_2;
-            btn_Scambia.FlatAppearance.BorderSize = 0;
-            btn_Scambia.FlatStyle = FlatStyle.Popup;
-            btn_Scambia.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Scambia.Location = new Point(745, 331);
-            btn_Scambia.Name = "btn_Scambia";
-            btn_Scambia.Size = new Size(104, 32);
-            btn_Scambia.TabIndex = 42;
-            btn_Scambia.Text = "Scambia";
-            btn_Scambia.UseVisualStyleBackColor = true;
-            btn_Scambia.Click += btn_Scambia_Click;
-            // 
             // PVP_PVE
             // 
             PVP_PVE.BackgroundImage = Properties.Resources.Texture_Wood_2;
             PVP_PVE.FlatAppearance.BorderSize = 0;
             PVP_PVE.FlatStyle = FlatStyle.Popup;
             PVP_PVE.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            PVP_PVE.Location = new Point(635, 331);
+            PVP_PVE.Location = new Point(674, 332);
             PVP_PVE.Name = "PVP_PVE";
             PVP_PVE.Size = new Size(104, 32);
             PVP_PVE.TabIndex = 41;
@@ -209,9 +199,9 @@ namespace CriptoGame_Online
             panel2.BackgroundImageLayout = ImageLayout.Stretch;
             panel2.Controls.Add(textBox1);
             panel2.Controls.Add(panel_Log);
-            panel2.Location = new Point(438, 7);
+            panel2.Location = new Point(429, 7);
             panel2.Name = "panel2";
-            panel2.Size = new Size(452, 320);
+            panel2.Size = new Size(461, 320);
             panel2.TabIndex = 40;
             // 
             // textBox1
@@ -220,7 +210,7 @@ namespace CriptoGame_Online
             textBox1.BorderStyle = BorderStyle.None;
             textBox1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox1.ForeColor = Color.Silver;
-            textBox1.Location = new Point(121, 14);
+            textBox1.Location = new Point(121, 1);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(208, 22);
             textBox1.TabIndex = 40;
@@ -230,9 +220,9 @@ namespace CriptoGame_Online
             // panel_Log
             // 
             panel_Log.BackColor = Color.FromArgb(32, 26, 14);
-            panel_Log.Location = new Point(22, 55);
+            panel_Log.Location = new Point(15, 29);
             panel_Log.Name = "panel_Log";
-            panel_Log.Size = new Size(406, 239);
+            panel_Log.Size = new Size(427, 271);
             panel_Log.TabIndex = 39;
             // 
             // btn_Citta
@@ -241,7 +231,7 @@ namespace CriptoGame_Online
             btn_Citta.FlatAppearance.BorderSize = 0;
             btn_Citta.FlatStyle = FlatStyle.Popup;
             btn_Citta.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Citta.Location = new Point(194, 331);
+            btn_Citta.Location = new Point(233, 332);
             btn_Citta.Name = "btn_Citta";
             btn_Citta.Size = new Size(105, 32);
             btn_Citta.TabIndex = 34;
@@ -255,7 +245,7 @@ namespace CriptoGame_Online
             btn_Shop.FlatAppearance.BorderSize = 0;
             btn_Shop.FlatStyle = FlatStyle.Popup;
             btn_Shop.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Shop.Location = new Point(305, 331);
+            btn_Shop.Location = new Point(344, 332);
             btn_Shop.Name = "btn_Shop";
             btn_Shop.Size = new Size(104, 32);
             btn_Shop.TabIndex = 32;
@@ -269,7 +259,7 @@ namespace CriptoGame_Online
             Btn_Costruzione.FlatAppearance.BorderSize = 0;
             Btn_Costruzione.FlatStyle = FlatStyle.Popup;
             Btn_Costruzione.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            Btn_Costruzione.Location = new Point(83, 331);
+            Btn_Costruzione.Location = new Point(122, 332);
             Btn_Costruzione.Name = "Btn_Costruzione";
             Btn_Costruzione.Size = new Size(105, 32);
             Btn_Costruzione.TabIndex = 5;
@@ -283,7 +273,7 @@ namespace CriptoGame_Online
             btn_Ricerca.FlatAppearance.BorderSize = 0;
             btn_Ricerca.FlatStyle = FlatStyle.Popup;
             btn_Ricerca.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Ricerca.Location = new Point(415, 331);
+            btn_Ricerca.Location = new Point(454, 332);
             btn_Ricerca.Name = "btn_Ricerca";
             btn_Ricerca.Size = new Size(104, 32);
             btn_Ricerca.TabIndex = 35;
@@ -297,7 +287,7 @@ namespace CriptoGame_Online
             btn_Quest_Mensile.FlatAppearance.BorderSize = 0;
             btn_Quest_Mensile.FlatStyle = FlatStyle.Popup;
             btn_Quest_Mensile.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Quest_Mensile.Location = new Point(525, 331);
+            btn_Quest_Mensile.Location = new Point(564, 332);
             btn_Quest_Mensile.Name = "btn_Quest_Mensile";
             btn_Quest_Mensile.Size = new Size(104, 32);
             btn_Quest_Mensile.TabIndex = 36;
@@ -307,17 +297,28 @@ namespace CriptoGame_Online
             // 
             // Terreni
             // 
+            Terreni.Controls.Add(panel_Image_3);
             Terreni.Controls.Add(panel3);
+            Terreni.Controls.Add(btn_Scambia);
             Terreni.Controls.Add(panel_Image_2);
             Terreni.Controls.Add(btn_Acquista_Terreni);
             Terreni.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             Terreni.Location = new Point(1, 5);
             Terreni.Name = "Terreni";
             Terreni.RightToLeft = RightToLeft.No;
-            Terreni.Size = new Size(129, 322);
+            Terreni.Size = new Size(116, 322);
             Terreni.TabIndex = 28;
             Terreni.TabStop = false;
             Terreni.Text = "Terreni Virtuali";
+            // 
+            // panel_Image_3
+            // 
+            panel_Image_3.BackgroundImage = Properties.Resources.diamond_2;
+            panel_Image_3.BackgroundImageLayout = ImageLayout.Stretch;
+            panel_Image_3.Location = new Point(73, 294);
+            panel_Image_3.Name = "panel_Image_3";
+            panel_Image_3.Size = new Size(24, 24);
+            panel_Image_3.TabIndex = 43;
             // 
             // panel3
             // 
@@ -335,7 +336,7 @@ namespace CriptoGame_Online
             panel3.Controls.Add(ico_Terreno_2);
             panel3.Location = new Point(3, 18);
             panel3.Name = "panel3";
-            panel3.Size = new Size(122, 238);
+            panel3.Size = new Size(107, 238);
             panel3.TabIndex = 36;
             // 
             // ico_Terreno_1
@@ -352,7 +353,7 @@ namespace CriptoGame_Online
             txt_Terreno_4.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Terreno_4.Location = new Point(47, 155);
             txt_Terreno_4.Name = "txt_Terreno_4";
-            txt_Terreno_4.Size = new Size(73, 25);
+            txt_Terreno_4.Size = new Size(55, 25);
             txt_Terreno_4.TabIndex = 15;
             txt_Terreno_4.Text = "0";
             txt_Terreno_4.TextAlign = HorizontalAlignment.Center;
@@ -364,7 +365,7 @@ namespace CriptoGame_Online
             btn_Info_Terreni_Virtuali.FlatAppearance.BorderSize = 0;
             btn_Info_Terreni_Virtuali.FlatStyle = FlatStyle.Flat;
             btn_Info_Terreni_Virtuali.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Info_Terreni_Virtuali.Location = new Point(99, 1);
+            btn_Info_Terreni_Virtuali.Location = new Point(83, 1);
             btn_Info_Terreni_Virtuali.Name = "btn_Info_Terreni_Virtuali";
             btn_Info_Terreni_Virtuali.Size = new Size(20, 20);
             btn_Info_Terreni_Virtuali.TabIndex = 29;
@@ -385,7 +386,7 @@ namespace CriptoGame_Online
             txt_Terreno_3.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Terreno_3.Location = new Point(47, 111);
             txt_Terreno_3.Name = "txt_Terreno_3";
-            txt_Terreno_3.Size = new Size(73, 25);
+            txt_Terreno_3.Size = new Size(55, 25);
             txt_Terreno_3.TabIndex = 15;
             txt_Terreno_3.Text = "0";
             txt_Terreno_3.TextAlign = HorizontalAlignment.Center;
@@ -395,7 +396,7 @@ namespace CriptoGame_Online
             txt_Terreno_5.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Terreno_5.Location = new Point(47, 199);
             txt_Terreno_5.Name = "txt_Terreno_5";
-            txt_Terreno_5.Size = new Size(73, 25);
+            txt_Terreno_5.Size = new Size(55, 25);
             txt_Terreno_5.TabIndex = 30;
             txt_Terreno_5.Text = "0";
             txt_Terreno_5.TextAlign = HorizontalAlignment.Center;
@@ -414,7 +415,7 @@ namespace CriptoGame_Online
             txt_Terreno_2.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Terreno_2.Location = new Point(47, 67);
             txt_Terreno_2.Name = "txt_Terreno_2";
-            txt_Terreno_2.Size = new Size(73, 25);
+            txt_Terreno_2.Size = new Size(55, 25);
             txt_Terreno_2.TabIndex = 15;
             txt_Terreno_2.Text = "0";
             txt_Terreno_2.TextAlign = HorizontalAlignment.Center;
@@ -433,7 +434,7 @@ namespace CriptoGame_Online
             txt_Terreno_1.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txt_Terreno_1.Location = new Point(47, 23);
             txt_Terreno_1.Name = "txt_Terreno_1";
-            txt_Terreno_1.Size = new Size(73, 25);
+            txt_Terreno_1.Size = new Size(55, 25);
             txt_Terreno_1.TabIndex = 13;
             txt_Terreno_1.Text = "0";
             txt_Terreno_1.TextAlign = HorizontalAlignment.Center;
@@ -447,11 +448,26 @@ namespace CriptoGame_Online
             ico_Terreno_2.Size = new Size(38, 38);
             ico_Terreno_2.TabIndex = 16;
             // 
+            // btn_Scambia
+            // 
+            btn_Scambia.BackgroundImage = Properties.Resources.Texture_Wood_2;
+            btn_Scambia.FlatAppearance.BorderSize = 0;
+            btn_Scambia.FlatStyle = FlatStyle.Popup;
+            btn_Scambia.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_Scambia.Location = new Point(16, 293);
+            btn_Scambia.Name = "btn_Scambia";
+            btn_Scambia.Size = new Size(82, 26);
+            btn_Scambia.TabIndex = 42;
+            btn_Scambia.Text = "Scambia";
+            btn_Scambia.TextAlign = ContentAlignment.MiddleLeft;
+            btn_Scambia.UseVisualStyleBackColor = true;
+            btn_Scambia.Click += btn_Scambia_Click;
+            // 
             // panel_Image_2
             // 
             panel_Image_2.BackgroundImage = Properties.Resources.diamond_2;
             panel_Image_2.BackgroundImageLayout = ImageLayout.Stretch;
-            panel_Image_2.Location = new Point(91, 267);
+            panel_Image_2.Location = new Point(84, 263);
             panel_Image_2.Name = "panel_Image_2";
             panel_Image_2.Size = new Size(24, 24);
             panel_Image_2.TabIndex = 29;
@@ -462,7 +478,7 @@ namespace CriptoGame_Online
             btn_Acquista_Terreni.FlatAppearance.BorderSize = 0;
             btn_Acquista_Terreni.FlatStyle = FlatStyle.Popup;
             btn_Acquista_Terreni.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Acquista_Terreni.Location = new Point(10, 266);
+            btn_Acquista_Terreni.Location = new Point(3, 262);
             btn_Acquista_Terreni.Name = "btn_Acquista_Terreni";
             btn_Acquista_Terreni.Size = new Size(107, 26);
             btn_Acquista_Terreni.TabIndex = 29;
@@ -477,7 +493,7 @@ namespace CriptoGame_Online
             groupBox_Esercito.Controls.Add(panel7);
             groupBox_Esercito.Controls.Add(lbl_Esercito);
             groupBox_Esercito.Controls.Add(panel_Sfondo_Bottoni);
-            groupBox_Esercito.Location = new Point(278, 5);
+            groupBox_Esercito.Location = new Point(267, 5);
             groupBox_Esercito.Name = "groupBox_Esercito";
             groupBox_Esercito.Size = new Size(160, 322);
             groupBox_Esercito.TabIndex = 27;
@@ -500,6 +516,10 @@ namespace CriptoGame_Online
             // panel7
             // 
             panel7.BackgroundImage = Properties.Resources.Texture_Wood_2;
+            panel7.Controls.Add(lbl_Catapulte_Max);
+            panel7.Controls.Add(lbl_Arceri_Max);
+            panel7.Controls.Add(lbl_Lanceri_Max);
+            panel7.Controls.Add(lbl_Guerrieri_Max);
             panel7.Controls.Add(pictureBox_Speed_Reclutamento);
             panel7.Controls.Add(lbl_Coda_Reclutamento);
             panel7.Controls.Add(lbl_Timer_Addestramento);
@@ -517,15 +537,59 @@ namespace CriptoGame_Online
             panel7.Controls.Add(txt_Unit_Coda_3);
             panel7.Location = new Point(3, 59);
             panel7.Name = "panel7";
-            panel7.Size = new Size(155, 214);
+            panel7.Size = new Size(155, 223);
             panel7.TabIndex = 37;
+            // 
+            // lbl_Catapulte_Max
+            // 
+            lbl_Catapulte_Max.AutoSize = true;
+            lbl_Catapulte_Max.BackColor = Color.Transparent;
+            lbl_Catapulte_Max.Font = new Font("Segoe UI", 7F);
+            lbl_Catapulte_Max.Location = new Point(46, 178);
+            lbl_Catapulte_Max.Name = "lbl_Catapulte_Max";
+            lbl_Catapulte_Max.Size = new Size(61, 12);
+            lbl_Catapulte_Max.TabIndex = 128;
+            lbl_Catapulte_Max.Text = "Max: 500.000";
+            // 
+            // lbl_Arceri_Max
+            // 
+            lbl_Arceri_Max.AutoSize = true;
+            lbl_Arceri_Max.BackColor = Color.Transparent;
+            lbl_Arceri_Max.Font = new Font("Segoe UI", 7F);
+            lbl_Arceri_Max.Location = new Point(46, 134);
+            lbl_Arceri_Max.Name = "lbl_Arceri_Max";
+            lbl_Arceri_Max.Size = new Size(61, 12);
+            lbl_Arceri_Max.TabIndex = 127;
+            lbl_Arceri_Max.Text = "Max: 500.000";
+            // 
+            // lbl_Lanceri_Max
+            // 
+            lbl_Lanceri_Max.AutoSize = true;
+            lbl_Lanceri_Max.BackColor = Color.Transparent;
+            lbl_Lanceri_Max.Font = new Font("Segoe UI", 7F);
+            lbl_Lanceri_Max.Location = new Point(45, 90);
+            lbl_Lanceri_Max.Name = "lbl_Lanceri_Max";
+            lbl_Lanceri_Max.Size = new Size(61, 12);
+            lbl_Lanceri_Max.TabIndex = 126;
+            lbl_Lanceri_Max.Text = "Max: 500.000";
+            // 
+            // lbl_Guerrieri_Max
+            // 
+            lbl_Guerrieri_Max.AutoSize = true;
+            lbl_Guerrieri_Max.BackColor = Color.Transparent;
+            lbl_Guerrieri_Max.Font = new Font("Segoe UI", 7F);
+            lbl_Guerrieri_Max.Location = new Point(46, 48);
+            lbl_Guerrieri_Max.Name = "lbl_Guerrieri_Max";
+            lbl_Guerrieri_Max.Size = new Size(61, 12);
+            lbl_Guerrieri_Max.TabIndex = 125;
+            lbl_Guerrieri_Max.Text = "Max: 500.000";
             // 
             // pictureBox_Speed_Reclutamento
             // 
             pictureBox_Speed_Reclutamento.BackColor = Color.Transparent;
             pictureBox_Speed_Reclutamento.BackgroundImage = (Image)resources.GetObject("pictureBox_Speed_Reclutamento.BackgroundImage");
             pictureBox_Speed_Reclutamento.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox_Speed_Reclutamento.Location = new Point(133, 187);
+            pictureBox_Speed_Reclutamento.Location = new Point(133, 198);
             pictureBox_Speed_Reclutamento.Name = "pictureBox_Speed_Reclutamento";
             pictureBox_Speed_Reclutamento.Size = new Size(22, 22);
             pictureBox_Speed_Reclutamento.TabIndex = 124;
@@ -549,7 +613,7 @@ namespace CriptoGame_Online
             lbl_Timer_Addestramento.AutoSize = true;
             lbl_Timer_Addestramento.BackColor = Color.Transparent;
             lbl_Timer_Addestramento.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
-            lbl_Timer_Addestramento.Location = new Point(2, 192);
+            lbl_Timer_Addestramento.Location = new Point(2, 203);
             lbl_Timer_Addestramento.Name = "lbl_Timer_Addestramento";
             lbl_Timer_Addestramento.Size = new Size(129, 13);
             lbl_Timer_Addestramento.TabIndex = 38;
@@ -559,7 +623,7 @@ namespace CriptoGame_Online
             // 
             ico_Unit_1.BackgroundImage = Properties.Resources.Guerriero_V2_removebg_preview;
             ico_Unit_1.BackgroundImageLayout = ImageLayout.Zoom;
-            ico_Unit_1.Location = new Point(3, 20);
+            ico_Unit_1.Location = new Point(3, 24);
             ico_Unit_1.Name = "ico_Unit_1";
             ico_Unit_1.Size = new Size(38, 38);
             ico_Unit_1.TabIndex = 14;
@@ -567,7 +631,7 @@ namespace CriptoGame_Online
             // txt_Unit_4
             // 
             txt_Unit_4.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txt_Unit_4.Location = new Point(45, 159);
+            txt_Unit_4.Location = new Point(45, 156);
             txt_Unit_4.Name = "txt_Unit_4";
             txt_Unit_4.Size = new Size(62, 25);
             txt_Unit_4.TabIndex = 15;
@@ -577,7 +641,7 @@ namespace CriptoGame_Online
             // txt_Unit_3
             // 
             txt_Unit_3.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txt_Unit_3.Location = new Point(45, 115);
+            txt_Unit_3.Location = new Point(45, 112);
             txt_Unit_3.Name = "txt_Unit_3";
             txt_Unit_3.Size = new Size(62, 25);
             txt_Unit_3.TabIndex = 15;
@@ -587,7 +651,7 @@ namespace CriptoGame_Online
             // txt_Unit_1
             // 
             txt_Unit_1.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txt_Unit_1.Location = new Point(45, 29);
+            txt_Unit_1.Location = new Point(45, 26);
             txt_Unit_1.Name = "txt_Unit_1";
             txt_Unit_1.Size = new Size(62, 25);
             txt_Unit_1.TabIndex = 13;
@@ -597,7 +661,7 @@ namespace CriptoGame_Online
             // txt_Unit_Coda_1
             // 
             txt_Unit_Coda_1.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txt_Unit_Coda_1.Location = new Point(113, 29);
+            txt_Unit_Coda_1.Location = new Point(113, 26);
             txt_Unit_Coda_1.Name = "txt_Unit_Coda_1";
             txt_Unit_Coda_1.Size = new Size(30, 25);
             txt_Unit_Coda_1.TabIndex = 20;
@@ -608,7 +672,7 @@ namespace CriptoGame_Online
             // 
             ico_Unit_2.BackgroundImage = Properties.Resources.Lancere_V2_removebg_preview;
             ico_Unit_2.BackgroundImageLayout = ImageLayout.Zoom;
-            ico_Unit_2.Location = new Point(3, 64);
+            ico_Unit_2.Location = new Point(3, 68);
             ico_Unit_2.Name = "ico_Unit_2";
             ico_Unit_2.Size = new Size(38, 38);
             ico_Unit_2.TabIndex = 16;
@@ -617,7 +681,7 @@ namespace CriptoGame_Online
             // 
             ico_Unit_4.BackgroundImage = Properties.Resources.icons8_medieval_48;
             ico_Unit_4.BackgroundImageLayout = ImageLayout.Stretch;
-            ico_Unit_4.Location = new Point(3, 152);
+            ico_Unit_4.Location = new Point(3, 156);
             ico_Unit_4.Name = "ico_Unit_4";
             ico_Unit_4.Size = new Size(38, 38);
             ico_Unit_4.TabIndex = 16;
@@ -625,7 +689,7 @@ namespace CriptoGame_Online
             // txt_Unit_Coda_4
             // 
             txt_Unit_Coda_4.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txt_Unit_Coda_4.Location = new Point(113, 159);
+            txt_Unit_Coda_4.Location = new Point(113, 156);
             txt_Unit_Coda_4.Name = "txt_Unit_Coda_4";
             txt_Unit_Coda_4.Size = new Size(30, 25);
             txt_Unit_Coda_4.TabIndex = 22;
@@ -635,7 +699,7 @@ namespace CriptoGame_Online
             // txt_Unit_Coda_2
             // 
             txt_Unit_Coda_2.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txt_Unit_Coda_2.Location = new Point(113, 71);
+            txt_Unit_Coda_2.Location = new Point(113, 68);
             txt_Unit_Coda_2.Name = "txt_Unit_Coda_2";
             txt_Unit_Coda_2.Size = new Size(30, 25);
             txt_Unit_Coda_2.TabIndex = 24;
@@ -646,7 +710,7 @@ namespace CriptoGame_Online
             // 
             ico_Unit_3.BackgroundImage = Properties.Resources.Arciere_V2_removebg_preview;
             ico_Unit_3.BackgroundImageLayout = ImageLayout.Zoom;
-            ico_Unit_3.Location = new Point(3, 108);
+            ico_Unit_3.Location = new Point(3, 112);
             ico_Unit_3.Name = "ico_Unit_3";
             ico_Unit_3.Size = new Size(38, 38);
             ico_Unit_3.TabIndex = 16;
@@ -654,7 +718,7 @@ namespace CriptoGame_Online
             // txt_Unit_2
             // 
             txt_Unit_2.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txt_Unit_2.Location = new Point(45, 71);
+            txt_Unit_2.Location = new Point(45, 68);
             txt_Unit_2.Name = "txt_Unit_2";
             txt_Unit_2.Size = new Size(62, 25);
             txt_Unit_2.TabIndex = 15;
@@ -664,7 +728,7 @@ namespace CriptoGame_Online
             // txt_Unit_Coda_3
             // 
             txt_Unit_Coda_3.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txt_Unit_Coda_3.Location = new Point(113, 115);
+            txt_Unit_Coda_3.Location = new Point(113, 112);
             txt_Unit_Coda_3.Name = "txt_Unit_Coda_3";
             txt_Unit_Coda_3.Size = new Size(30, 25);
             txt_Unit_Coda_3.TabIndex = 23;
@@ -760,7 +824,7 @@ namespace CriptoGame_Online
             groupBox_Strutture.Controls.Add(panel6);
             groupBox_Strutture.Controls.Add(btn_Civile_Militare);
             groupBox_Strutture.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            groupBox_Strutture.Location = new Point(129, 5);
+            groupBox_Strutture.Location = new Point(118, 5);
             groupBox_Strutture.Name = "groupBox_Strutture";
             groupBox_Strutture.Size = new Size(150, 322);
             groupBox_Strutture.TabIndex = 26;
@@ -1556,5 +1620,10 @@ namespace CriptoGame_Online
         private Button btn_Esercito_Caserme;
         private Button PVP_PVE;
         private Button btn_Scambia;
+        private DoubleBufferedPanel panel_Image_3;
+        private Label lbl_Guerrieri_Max;
+        private Label lbl_Catapulte_Max;
+        private Label lbl_Arceri_Max;
+        private Label lbl_Lanceri_Max;
     }
 }

@@ -10,6 +10,9 @@ namespace CriptoGame_Online.GUI
             InitializeComponent();
             this.Size = new Size(1178, 258);
             groupBox_Raduno.Visible = false;
+
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
         }
         private async void AttaccoCoordinato_Load(object sender, EventArgs e)
         {

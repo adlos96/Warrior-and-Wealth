@@ -37,6 +37,9 @@ namespace CriptoGame_Online.GUI
             txt_Testo.BackColor = Color.FromArgb(235, 221, 192);
             txt_Testo.Font = new Font("Cinzel Decorative", 8, FontStyle.Bold);
 
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+
             barravitaCancello = new StatBar()
             {
                 Location = new Point(20, 140),

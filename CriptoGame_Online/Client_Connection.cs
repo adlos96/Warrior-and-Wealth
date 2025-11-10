@@ -439,10 +439,14 @@ namespace Strategico_V2
                 SetValue<string>("livello", v => Variabili_Client.Utente.Livello = v);
                 SetValue<string>("esperienza", v => Variabili_Client.Utente.Esperienza = v);
                 SetValue<bool>("vip", v => Variabili_Client.Utente.User_Vip = v);
+                SetValue<string>("vip_Tempo", v => Variabili_Client.Utente.User_Vip_Tempo = v);
+                SetValue<bool>("GamePass_Base", v => Variabili_Client.Utente.User_GamePass_Base = v);
+                SetValue<string>("GamePass_Base_Tempo", v => Variabili_Client.Utente.User_GamePass_Base_Tempo = v);
+                SetValue<bool>("GamePass_Avanzato", v => Variabili_Client.Utente.User_GamePass_Avanzato = v);
+                SetValue<string>("GamePass_Avanzato_Tempo", v => Variabili_Client.Utente.User_GamePass_Avanzato_Tempo = v);
+
                 SetValue<string>("punti_quest", v => Variabili_Client.Utente.Montly_Quest_Point = v);
-
                 SetValue<string>("costo_terreni_Virtuali", v => Variabili_Client.Utente.Costo_terreni_Virtuali = v);
-
 
                 // Risorse
                 SetValue<string>("cibo", v => Variabili_Client.Utente_Risorse.Cibo = v);
@@ -593,6 +597,11 @@ namespace Strategico_V2
                 SetValue<string>("catapulte_4_coda", v => Variabili_Client.Reclutamento_Coda.Catapulte_4.Quantità = v);
                 SetValue<string>("catapulte_5_coda", v => Variabili_Client.Reclutamento_Coda.Catapulte_5.Quantità = v);
 
+                SetValue<string>("guerrieri_max", v => Variabili_Client.Reclutamento.Guerrieri_Max.Quantità = v);
+                SetValue<string>("lanceri_max", v => Variabili_Client.Reclutamento.Lanceri_Max.Quantità = v);
+                SetValue<string>("arceri_max", v => Variabili_Client.Reclutamento.Arceri_Max.Quantità = v);
+                SetValue<string>("catapulte_max", v => Variabili_Client.Reclutamento.Catapulte_Max.Quantità = v);
+
                 // Ricerca
                 SetValue<string>("ricerca_produzione", v => Variabili_Client.Utente_Ricerca.Ricerca_Produzione = v);
                 SetValue<string>("ricerca_costruzione", v => Variabili_Client.Utente_Ricerca.Ricerca_Costruzione = v);
@@ -642,7 +651,6 @@ namespace Strategico_V2
                 // Guarnigione Ingresso
                 SetValue<int>("Guarnigione_Ingresso", v => Variabili_Client.Citta.Ingresso.Guarnigione = v);
                 SetValue<int>("Guarnigione_IngressoMax", v => Variabili_Client.Citta.Ingresso.Guarnigione_Max = v);
-
 
                 // Guerrieri Ingresso
                 SetValue<int>("Guerrieri_1_Ingresso", v => Variabili_Client.Citta.Ingresso.Guerrieri_1 = v);
@@ -711,6 +719,10 @@ namespace Strategico_V2
                 //Dati
                 SetValue<string>("Code_Costruzioni", v => Variabili_Client.Utente.Code_Costruzione = v);
                 SetValue<string>("Code_Reclutamenti", v => Variabili_Client.Utente.Code_Reclutamento = v);
+
+                SetValue<string>("Code_Costruzioni_Disponibili", v => Variabili_Client.Utente.Code_Costruzione_Disponibili = v);
+                SetValue<string>("Code_Reclutamenti_Disponibili", v => Variabili_Client.Utente.Code_Reclutamento_Disponibili = v);
+
                 SetValue<string>("Tempo_Costruzione", v => Variabili_Client.Utente.Tempo_Costruzione = v);
                 SetValue<string>("Tempo_Reclutamento", v => Variabili_Client.Utente.Tempo_Reclutamento = v);
                 SetValue<string>("Tempo_Ricerca_Citta", v => Variabili_Client.Utente.Tempo_Ricerca = v);
