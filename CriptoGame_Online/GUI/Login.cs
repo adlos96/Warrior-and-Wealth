@@ -1,4 +1,5 @@
 ﻿
+using CriptoGame_Online.Strumenti;
 using Strategico_V2;
 
 namespace CriptoGame_Online
@@ -15,6 +16,9 @@ namespace CriptoGame_Online
 
         private void Gioco_Load(object sender, EventArgs e)
         {
+            GameAudio.PlayMenuMusic("Login");
+            MusicManager.SetVolume(0.3f);
+
             // Resto
             this.ActiveControl = Btn_Login; // assegna il focus al bottone
             panel1.BackColor = Color.FromArgb(100, 229, 208, 181);
@@ -96,6 +100,7 @@ namespace CriptoGame_Online
 
         private async void Btn_Login_Click(object sender, EventArgs e)
         {
+            this.ActiveControl = lbl_Titolo;
             Btn_Login.Enabled = false;
             Btn_New_Game.Enabled = false;
             txt_Log.Text = "Connessione...";
@@ -180,6 +185,11 @@ namespace CriptoGame_Online
                 Btn_New_Game.Enabled = true;
             }
             if (login_data != "") txt_Log.Text = login_data;
+        }
+
+        private void Login_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            MusicManager.Stop();
         }
     }
 }

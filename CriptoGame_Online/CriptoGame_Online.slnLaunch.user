@@ -3,14 +3,14 @@
     "Name": "Nuovo profilo",
     "Projects": [
       {
-        "Path": "CriptoGame_Online.csproj",
-        "Action": "Start",
-        "DebugTarget": "CriptoGame_Online"
-      },
-      {
         "Path": "..\\Server Strategico\\Server Strategico.csproj",
         "Action": "Start",
         "DebugTarget": "Server Strategico"
+      },
+      {
+        "Path": "CriptoGame_Online.csproj",
+        "Action": "Start",
+        "DebugTarget": "CriptoGame_Online"
       }
     ]
   }

@@ -12,14 +12,14 @@ namespace Strategico_V2
 
         public class QuestUpdatePacket
         {
-            public string Type { get; set; }
-            public List<ClientQuestData> Quests { get; set; }
+            public string? Type { get; set; }
+            public List<ClientQuestData>? Quests { get; set; }
         }
 
         public class ClientQuestData
         {
             public int Id { get; set; }
-            public string Quest_Description { get; set; }
+            public string? Quest_Description { get; set; }
             public int Experience { get; set; }
             public int Require { get; set; }
             public int Max_Complete { get; set; }
@@ -42,17 +42,14 @@ namespace Strategico_V2
             private static bool _DebugMessages = true;
             private static bool _AcceptInvalidCerts = true;
             private static bool _MutualAuth = false;
-            public static WatsonTcpClient _Client = null;
-            private static string _PresharedKey = null;
+            public static WatsonTcpClient? _Client = null;
+            private static string? _PresharedKey = null;
 
 
             public static Task InitializeClient()
             {
                 return Task.Run(async () => //Crea un task e gli assegna un blocco istruzioni da eseguire.
                 {
-                    bool runForever = true;
-                    bool success;
-
                     Console.WriteLine("Client partito");
                     Console.WriteLine($"Use SSL: {_Ssl}");
 
@@ -169,7 +166,7 @@ namespace Strategico_V2
                 Quest(messaggio);
                 AggiornaVillaggiDalServer(messaggio);
 
-                string[] mess = null;
+                string[]? mess = null;
                 if (messaggio.Contains('|'))
                 {
                     mess = messaggio.Split('|');
@@ -438,15 +435,57 @@ namespace Strategico_V2
                 // Utente
                 SetValue<string>("livello", v => Variabili_Client.Utente.Livello = v);
                 SetValue<string>("esperienza", v => Variabili_Client.Utente.Esperienza = v);
+                SetValue<string>("punti_quest", v => Variabili_Client.Utente.Montly_Quest_Point = v);
+                SetValue<string>("costo_terreni_Virtuali", v => Variabili_Client.Utente.Costo_terreni_Virtuali = v);
+
                 SetValue<bool>("vip", v => Variabili_Client.Utente.User_Vip = v);
                 SetValue<string>("vip_Tempo", v => Variabili_Client.Utente.User_Vip_Tempo = v);
                 SetValue<bool>("GamePass_Base", v => Variabili_Client.Utente.User_GamePass_Base = v);
                 SetValue<string>("GamePass_Base_Tempo", v => Variabili_Client.Utente.User_GamePass_Base_Tempo = v);
                 SetValue<bool>("GamePass_Avanzato", v => Variabili_Client.Utente.User_GamePass_Avanzato = v);
                 SetValue<string>("GamePass_Avanzato_Tempo", v => Variabili_Client.Utente.User_GamePass_Avanzato_Tempo = v);
+                SetValue<string>("Scudo_Tempo", v => Variabili_Client.Utente.Scudo_Pace_Tempo = v);
+                SetValue<string>("Costruttori_Tempo", v => Variabili_Client.Utente.Costruttori_Tempo = v);
+                SetValue<string>("Reclutatori_Tempo", v => Variabili_Client.Utente.Reclutatori_Tempo = v);
+                SetValue<string>("QuestMensili_Tempo", v => Variabili_Client.Utente.Montly_Quest_Tempo = v);
+                SetValue<string>("Barbari_Tempo", v => Variabili_Client.Utente.Barbari_Tempo = v);
 
-                SetValue<string>("punti_quest", v => Variabili_Client.Utente.Montly_Quest_Point = v);
-                SetValue<string>("costo_terreni_Virtuali", v => Variabili_Client.Utente.Costo_terreni_Virtuali = v);
+                //Shop
+                SetValue<string>("Pacchetto_Vip_1_Reward", v => Variabili_Client.Shop.Vip_1.Reward = v);
+                SetValue<string>("Pacchetto_Vip_1_Costo", v => Variabili_Client.Shop.Vip_1.Costo = v);
+                SetValue<string>("Pacchetto_Vip_2_Reward", v => Variabili_Client.Shop.Vip_2.Reward = v);
+                SetValue<string>("Pacchetto_Vip_2_Costo", v => Variabili_Client.Shop.Vip_2.Costo = v);
+
+                SetValue<string>("Pacchetto_Diamanti_1_Reward", v => Variabili_Client.Shop.Pacchetto_Diamanti_1.Reward = v);
+                SetValue<string>("Pacchetto_Diamanti_1_Costo", v => Variabili_Client.Shop.Pacchetto_Diamanti_1.Costo = v);
+                SetValue<string>("Pacchetto_Diamanti_2_Reward", v => Variabili_Client.Shop.Pacchetto_Diamanti_2.Reward = v);
+                SetValue<string>("Pacchetto_Diamanti_2_Costo", v => Variabili_Client.Shop.Pacchetto_Diamanti_2.Costo = v);
+                SetValue<string>("Pacchetto_Diamanti_3_Reward", v => Variabili_Client.Shop.Pacchetto_Diamanti_3.Reward = v);
+                SetValue<string>("Pacchetto_Diamanti_3_Costo", v => Variabili_Client.Shop.Pacchetto_Diamanti_3.Costo = v);
+                SetValue<string>("Pacchetto_Diamanti_4_Reward", v => Variabili_Client.Shop.Pacchetto_Diamanti_4.Reward = v);
+                SetValue<string>("Pacchetto_Diamanti_4_Costo", v => Variabili_Client.Shop.Pacchetto_Diamanti_4.Costo = v);
+
+                SetValue<string>("Pacchetto_Scudo_Pace_8h_Reward", v => Variabili_Client.Shop.Scudo_Pace_8h.Reward = v);
+                SetValue<string>("Pacchetto_Scudo_Pace_8h_Costo", v => Variabili_Client.Shop.Scudo_Pace_8h.Costo = v);
+                SetValue<string>("Pacchetto_Scudo_Pace_24h_Reward", v => Variabili_Client.Shop.Scudo_Pace_24h.Reward = v);
+                SetValue<string>("Pacchetto_Scudo_Pace_24h_Costo", v => Variabili_Client.Shop.Scudo_Pace_24h.Costo = v);
+                SetValue<string>("Pacchetto_Scudo_Pace_72h_Reward", v => Variabili_Client.Shop.Scudo_Pace_72h.Reward = v);
+                SetValue<string>("Pacchetto_Scudo_Pace_72h_Costo", v => Variabili_Client.Shop.Scudo_Pace_72h.Costo = v);
+
+                SetValue<string>("Pacchetto_Costruttore_24h_Reward", v => Variabili_Client.Shop.Costruttore_24h.Reward = v);
+                SetValue<string>("Pacchetto_Costruttore_24h_Costo", v => Variabili_Client.Shop.Costruttore_24h.Costo = v);
+                SetValue<string>("Pacchetto_Costruttore_48h_Reward", v => Variabili_Client.Shop.Costruttore_48h.Reward = v);
+                SetValue<string>("Pacchetto_Costruttore_48h_Costo", v => Variabili_Client.Shop.Costruttore_48h.Costo = v);
+
+                SetValue<string>("Pacchetto_Reclutatore_24h_Reward", v => Variabili_Client.Shop.Reclutatore_24h.Reward = v);
+                SetValue<string>("Pacchetto_Reclutatore_24h_Costo", v => Variabili_Client.Shop.Reclutatore_24h.Costo = v);
+                SetValue<string>("Pacchetto_Reclutatore_48h_Reward", v => Variabili_Client.Shop.Reclutatore_48h.Reward = v);
+                SetValue<string>("Pacchetto_Reclutatore_48h_Costo", v => Variabili_Client.Shop.Reclutatore_48h.Costo = v);
+
+                SetValue<string>("Pacchetto_GamePass_Base_Reward", v => Variabili_Client.Shop.GamePass_Base.Reward = v);
+                SetValue<string>("Pacchetto_GamePass_Base_Costo", v => Variabili_Client.Shop.GamePass_Base.Costo = v);
+                SetValue<string>("Pacchetto_GamePass_Avanzato_Reward", v => Variabili_Client.Shop.GamePass_Avanzato.Reward = v);
+                SetValue<string>("Pacchetto_GamePass_Avanzato_Costo", v => Variabili_Client.Shop.GamePass_Avanzato.Costo = v);
 
                 // Risorse
                 SetValue<string>("cibo", v => Variabili_Client.Utente_Risorse.Cibo = v);
@@ -537,15 +576,15 @@ namespace Strategico_V2
                 SetValue<string>("workshop_frecce_coda", v => Variabili_Client.Costruzione_Coda.Workshop_Frecce.Quantità = v);
 
                 // Caserme
-                SetValue<string>("caserme_guerrieri", v => Variabili_Client.Costruzione.Caserme_Guerrieri.Quantità = v);
-                SetValue<string>("caserme_lanceri", v => Variabili_Client.Costruzione.Caserme_Lanceri.Quantità = v);
-                SetValue<string>("caserme_arceri", v => Variabili_Client.Costruzione.Caserme_arceri.Quantità = v);
-                SetValue<string>("caserme_catapulte", v => Variabili_Client.Costruzione.Caserme_Catapulte.Quantità = v);
+                SetValue<string>("caserma_guerrieri", v => Variabili_Client.Costruzione.Caserme_Guerrieri.Quantità = v);
+                SetValue<string>("caserma_lanceri", v => Variabili_Client.Costruzione.Caserme_Lanceri.Quantità = v);
+                SetValue<string>("caserma_arceri", v => Variabili_Client.Costruzione.Caserme_arceri.Quantità = v);
+                SetValue<string>("caserma_catapulte", v => Variabili_Client.Costruzione.Caserme_Catapulte.Quantità = v);
 
-                SetValue<string>("caserme_guerrieri_coda", v => Variabili_Client.Costruzione_Coda.Caserme_Guerrieri.Quantità = v);
-                SetValue<string>("caserme_lanceri_coda", v => Variabili_Client.Costruzione_Coda.Caserme_Lanceri.Quantità = v);
-                SetValue<string>("caserme_arceri_coda", v => Variabili_Client.Costruzione_Coda.Caserme_arceri.Quantità = v);
-                SetValue<string>("caserme_catapulte_coda", v => Variabili_Client.Costruzione_Coda.Caserme_Catapulte.Quantità = v);
+                SetValue<string>("caserma_guerrieri_coda", v => Variabili_Client.Costruzione_Coda.Caserme_Guerrieri.Quantità = v);
+                SetValue<string>("caserma_lanceri_coda", v => Variabili_Client.Costruzione_Coda.Caserme_Lanceri.Quantità = v);
+                SetValue<string>("caserma_arceri_coda", v => Variabili_Client.Costruzione_Coda.Caserme_arceri.Quantità = v);
+                SetValue<string>("caserma_catapulte_coda", v => Variabili_Client.Costruzione_Coda.Caserme_Catapulte.Quantità = v);
 
                 // Addestramento
                 SetValue<string>("guerrieri_1", v => Variabili_Client.Reclutamento.Guerrieri_1.Quantità = v);
@@ -680,6 +719,10 @@ namespace Strategico_V2
                 SetValue<int>("Catapulte_4_Ingresso", v => Variabili_Client.Citta.Ingresso.Catapulte_4 = v);
                 SetValue<int>("Catapulte_5_Ingresso", v => Variabili_Client.Citta.Ingresso.Catapulte_5 = v);
 
+                // Guarnigione Ingresso
+                SetValue<int>("Guarnigione_Citta", v => Variabili_Client.Citta.Città.Guarnigione = v);
+                SetValue<int>("Guarnigione_CittaMax", v => Variabili_Client.Citta.Città.Guarnigione_Max = v);
+
                 // Guarnigione Città
                 SetValue<int>("Guarnigione_Citta", v => Variabili_Client.Citta.Città.Guarnigione = v);
                 SetValue<int>("Guarnigione_CittaMax", v => Variabili_Client.Citta.Città.Guarnigione_Max = v);
@@ -716,6 +759,44 @@ namespace Strategico_V2
                 SetValue<int>("Difesa_Castello", v => Variabili_Client.Citta.Castello.Difesa = v);
                 SetValue<int>("Difesa_CastelloMax", v => Variabili_Client.Citta.Castello.Difesa_Max = v);
 
+                // Statistiche
+                SetValue<string>("Unità_Eliminate", v => Variabili_Client.Statistiche.Unità_Eliminate = v);
+                SetValue<string>("Guerrieri_Eliminate", v => Variabili_Client.Statistiche.Guerrieri_Eliminate = v);
+                SetValue<string>("Lanceri_Eliminate", v => Variabili_Client.Statistiche.Lanceri_Eliminate = v);
+                SetValue<string>("Arceri_Eliminate", v => Variabili_Client.Statistiche.Arceri_Eliminate = v);
+                SetValue<string>("Catapulte_Eliminate", v => Variabili_Client.Statistiche.Catapulte_Eliminate = v);
+
+                SetValue<string>("Unità_Perse", v => Variabili_Client.Statistiche.Unità_Perse = v);
+                SetValue<string>("Guerrieri_Persi", v => Variabili_Client.Statistiche.Guerrieri_Persi = v);
+                SetValue<string>("Lanceri_Persi", v => Variabili_Client.Statistiche.Lanceri_Persi = v);
+                SetValue<string>("Arceri_Persi", v => Variabili_Client.Statistiche.Arceri_Persi = v);
+                SetValue<string>("Catapulte_Persi", v => Variabili_Client.Statistiche.Catapulte_Perse = v);
+                SetValue<string>("Risorse_Razziate", v => Variabili_Client.Statistiche.Risorse_Razziate = v);
+
+                SetValue<string>("Strutture_Civili_Costruite", v => Variabili_Client.Statistiche.Strutture_Civili_Costruite = v);
+                SetValue<string>("Strutture_Militari_Costruite", v => Variabili_Client.Statistiche.Strutture_Militari_Costruite = v);
+                SetValue<string>("Caserme_Costruite", v => Variabili_Client.Statistiche.Caserme_Costruite = v);
+
+                SetValue<string>("Frecce_Utilizzate", v => Variabili_Client.Statistiche.Frecce_Utilizzate = v);
+                SetValue<string>("Battaglie_Vinte", v => Variabili_Client.Statistiche.Battaglie_Vinte = v);
+                SetValue<string>("Battaglie_Perse", v => Variabili_Client.Statistiche.Battaglie_Perse = v);
+                SetValue<string>("Quest_Completate", v => Variabili_Client.Statistiche.Quest_Completate = v);
+                SetValue<string>("Attacchi_Subiti_PVP", v => Variabili_Client.Statistiche.Attacchi_Subiti_PVP = v);
+                SetValue<string>("Attacchi_Effettuati_PVP", v => Variabili_Client.Statistiche.Attacchi_Effettuati_PVP = v);
+
+                SetValue<string>("Barbari_Sconfitti", v => Variabili_Client.Statistiche.Barbari_Sconfitti = v);
+                SetValue<string>("Accampamenti_Barbari_Sconfitti", v => Variabili_Client.Statistiche.Accampamenti_Barbari_Sconfitti = v);
+                SetValue<string>("Città_Barbare_Sconfitte", v => Variabili_Client.Statistiche.Città_Barbare_Sconfitte = v);
+                SetValue<string>("Danno_HP_Barbaro", v => Variabili_Client.Statistiche.Danno_HP_Barbaro = v);
+                SetValue<string>("Danno_DEF_Barbaro", v => Variabili_Client.Statistiche.Danno_DEF_Barbaro = v);
+
+                SetValue<string>("Unità_Addestrate", v => Variabili_Client.Statistiche.Unità_Addestrate = v);
+                SetValue<string>("Risorse_Utilizzate", v => Variabili_Client.Statistiche.Risorse_Utilizzate = v);
+                SetValue<string>("Tempo_Addestramento_Risparmiato", v => Variabili_Client.Statistiche.Tempo_Addestramento_Totale = v);
+                SetValue<string>("Tempo_Costruzione_Risparmiato", v => Variabili_Client.Statistiche.Tempo_Costruzione_Totale = v);
+                SetValue<string>("Tempo_Ricerca_Risparmiato", v => Variabili_Client.Statistiche.Tempo_Ricerca_Totale = v);
+                SetValue<string>("Tempo_Sottratto_Diamanti", v => Variabili_Client.Statistiche.Tempo_Sottratto_Diamanti = v);
+
                 //Dati
                 SetValue<string>("Code_Costruzioni", v => Variabili_Client.Utente.Code_Costruzione = v);
                 SetValue<string>("Code_Reclutamenti", v => Variabili_Client.Utente.Code_Reclutamento = v);
@@ -746,6 +827,57 @@ namespace Strategico_V2
                         break;
                     case "Livello":
                         Variabili_Client.Livello_Desc = desc;
+                        break;
+
+                    case "Giocatore":
+                        Variabili_Client.Giocatore_Desc = desc;
+                        break;
+                    case "Diamanti Blu":
+                        Variabili_Client.Diamanti_Blu_Desc = desc;
+                        break;
+                    case "Diamanti Viola":
+                        Variabili_Client.Diamanti_Viola_Desc = desc;
+                        break;
+                    case "Dollari Virtuali":
+                        Variabili_Client.Dollari_VIrtuali_Desc = desc;
+                        break;
+
+                    case "Cibo":
+                        Variabili_Client.Cibo_Desc = desc;
+                        break;
+                    case "Legno":
+                        Variabili_Client.Legno_Desc = desc;
+                        break;
+                    case "Pietra":
+                        Variabili_Client.Pietra_Desc = desc;
+                        break;
+                    case "Ferro":
+                        Variabili_Client.Ferro_Desc = desc;
+                        break;
+                    case "Oro":
+                        Variabili_Client.Oro_Desc = desc;
+                        break;
+                    case "Popolazione":
+                        Variabili_Client.Popolazione_Desc = desc;
+                        break;
+
+                    case "Spade":
+                        Variabili_Client.Spade_Desc = desc;
+                        break;
+                    case "Lance":
+                        Variabili_Client.Lance_Desc = desc;
+                        break;
+                    case "Archi":
+                        Variabili_Client.Archi_Desc = desc;
+                        break;
+                    case "Scudi":
+                        Variabili_Client.Scudi_Desc = desc;
+                        break;
+                    case "Armature":
+                        Variabili_Client.Armature_Desc = desc;
+                        break;
+                    case "Frecce":
+                        Variabili_Client.Frecce_Desc = desc;
                         break;
 
                     case "Fattoria":
@@ -799,16 +931,16 @@ namespace Strategico_V2
                         Variabili_Client.Reclutamento.Catapulte_1.Descrizione = desc;
                         break;
 
-                    case "Caserme Guerrieri":
+                    case "Caserma Guerrieri":
                         Variabili_Client.Costruzione.Caserme_Guerrieri.Descrizione = desc;
                         break;
-                    case "Caserme Lanceri":
+                    case "Caserma Lanceri":
                         Variabili_Client.Costruzione.Caserme_Lanceri.Descrizione = desc;
                         break;
-                    case "Caserme Arceri":
+                    case "Caserma Arceri":
                         Variabili_Client.Costruzione.Caserme_arceri.Descrizione = desc;
                         break;
-                    case "Caserme Catapulte":
+                    case "Caserma Catapulte":
                         Variabili_Client.Costruzione.Caserme_Catapulte.Descrizione = desc;
                         break;
                 }

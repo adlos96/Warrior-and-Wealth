@@ -1,5 +1,6 @@
 ﻿using Strategico_V2;
 using System.Diagnostics.Eventing.Reader;
+using System.Windows.Forms;
 using static Strategico_V2.ClientConnection;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
@@ -43,13 +44,17 @@ namespace CriptoGame_Online
                 {
                     panel1.BeginInvoke((Action)(() =>
                     {
+                        AggiornaInterfacciaQuest();
                         Update_Reward();
                         Check_Unlock_Reward();
                         Check_Unlock_Reward_GamePass_Base();
                         this.ActiveControl = null;
                         progressBar1.Maximum = Convert.ToInt32(CurrentRewardPoints[19]);
-                        progressBar1.Value = Convert.ToInt32(Variabili_Client.Utente.Montly_Quest_Point);
 
+                        int point = Convert.ToInt32(Variabili_Client.Utente.Montly_Quest_Point);
+                        if (point > progressBar1.Maximum)
+                            point = progressBar1.Maximum;
+                        progressBar1.Value = (int)point;
                     }));
                 }
                 await Task.Delay(750); // meglio di Thread.Sleep

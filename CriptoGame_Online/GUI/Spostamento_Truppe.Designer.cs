@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             groupBox9 = new GroupBox();
+            lbl_Truppe_Massime = new Label();
             panel1 = new Panel();
             label1 = new Label();
             panel2 = new Panel();
@@ -85,6 +86,7 @@
             trackBar_Arciere = new TrackBar();
             trackBar_Catapulta = new TrackBar();
             btn_Spostamento_Truppe = new Button();
+            btn_Scambia = new Button();
             groupBox9.SuspendLayout();
             panel1.SuspendLayout();
             panel3.SuspendLayout();
@@ -105,6 +107,7 @@
             // 
             // groupBox9
             // 
+            groupBox9.Controls.Add(lbl_Truppe_Massime);
             groupBox9.Controls.Add(panel1);
             groupBox9.Controls.Add(lbl_Struttura);
             groupBox9.Controls.Add(panel3);
@@ -113,9 +116,21 @@
             groupBox9.Controls.Add(panel7);
             groupBox9.Location = new Point(431, 12);
             groupBox9.Name = "groupBox9";
-            groupBox9.Size = new Size(155, 222);
+            groupBox9.Size = new Size(155, 242);
             groupBox9.TabIndex = 153;
             groupBox9.TabStop = false;
+            // 
+            // lbl_Truppe_Massime
+            // 
+            lbl_Truppe_Massime.AutoSize = true;
+            lbl_Truppe_Massime.Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lbl_Truppe_Massime.ForeColor = SystemColors.ControlLight;
+            lbl_Truppe_Massime.Location = new Point(14, 222);
+            lbl_Truppe_Massime.Margin = new Padding(4, 0, 4, 0);
+            lbl_Truppe_Massime.Name = "lbl_Truppe_Massime";
+            lbl_Truppe_Massime.Size = new Size(117, 13);
+            lbl_Truppe_Massime.TabIndex = 149;
+            lbl_Truppe_Massime.Text = "Max Truppe: 10000";
             // 
             // panel1
             // 
@@ -743,6 +758,7 @@
             trackBar_Guerriero.Name = "trackBar_Guerriero";
             trackBar_Guerriero.Size = new Size(270, 45);
             trackBar_Guerriero.TabIndex = 144;
+            trackBar_Guerriero.Scroll += trackBar_Guerriero_Scroll;
             // 
             // lbl_Lanciere
             // 
@@ -763,6 +779,7 @@
             trackBar_Lanciere.Name = "trackBar_Lanciere";
             trackBar_Lanciere.Size = new Size(270, 45);
             trackBar_Lanciere.TabIndex = 145;
+            trackBar_Lanciere.Scroll += trackBar_Lanciere_Scroll;
             // 
             // trackBar_Arciere
             // 
@@ -771,6 +788,7 @@
             trackBar_Arciere.Name = "trackBar_Arciere";
             trackBar_Arciere.Size = new Size(270, 45);
             trackBar_Arciere.TabIndex = 146;
+            trackBar_Arciere.Scroll += trackBar_Arciere_Scroll;
             // 
             // trackBar_Catapulta
             // 
@@ -779,12 +797,13 @@
             trackBar_Catapulta.Name = "trackBar_Catapulta";
             trackBar_Catapulta.Size = new Size(270, 45);
             trackBar_Catapulta.TabIndex = 147;
+            trackBar_Catapulta.Scroll += trackBar_Catapulta_Scroll;
             // 
             // btn_Spostamento_Truppe
             // 
             btn_Spostamento_Truppe.BackColor = Color.FromArgb(32, 36, 47);
             btn_Spostamento_Truppe.ForeColor = SystemColors.Control;
-            btn_Spostamento_Truppe.Location = new Point(252, 217);
+            btn_Spostamento_Truppe.Location = new Point(300, 217);
             btn_Spostamento_Truppe.Margin = new Padding(4, 3, 4, 3);
             btn_Spostamento_Truppe.Name = "btn_Spostamento_Truppe";
             btn_Spostamento_Truppe.Size = new Size(91, 37);
@@ -793,12 +812,26 @@
             btn_Spostamento_Truppe.UseVisualStyleBackColor = false;
             btn_Spostamento_Truppe.Click += btn_Spostamento_Truppe_Click;
             // 
+            // btn_Scambia
+            // 
+            btn_Scambia.BackColor = Color.FromArgb(32, 36, 47);
+            btn_Scambia.ForeColor = SystemColors.Control;
+            btn_Scambia.Location = new Point(204, 217);
+            btn_Scambia.Margin = new Padding(4, 3, 4, 3);
+            btn_Scambia.Name = "btn_Scambia";
+            btn_Scambia.Size = new Size(91, 37);
+            btn_Scambia.TabIndex = 155;
+            btn_Scambia.Text = "Scambia";
+            btn_Scambia.UseVisualStyleBackColor = false;
+            btn_Scambia.Click += btn_Scambia_Click;
+            // 
             // Spostamento_Truppe
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(32, 36, 47);
             ClientSize = new Size(597, 259);
+            Controls.Add(btn_Scambia);
             Controls.Add(btn_Spostamento_Truppe);
             Controls.Add(groupBox9);
             Controls.Add(groupBox_Esercito);
@@ -812,6 +845,7 @@
             Controls.Add(trackBar_Catapulta);
             Name = "Spostamento_Truppe";
             Text = "Spostamento Truppe";
+            FormClosing += Spostamento_Truppe_FormClosing;
             Load += Spostamento_Truppe_Load;
             groupBox9.ResumeLayout(false);
             groupBox9.PerformLayout();
@@ -902,5 +936,7 @@
         private TrackBar trackBar_Arciere;
         private TrackBar trackBar_Catapulta;
         private Button btn_Spostamento_Truppe;
+        private Button btn_Scambia;
+        private Label lbl_Truppe_Massime;
     }
 }

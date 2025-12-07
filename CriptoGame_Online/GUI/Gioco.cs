@@ -6,9 +6,9 @@ namespace CriptoGame_Online
 {
     public partial class Gioco : Form
     {
-        public static Gioco Instance { get; private set; }
-        public static GameTextBox logBox;
-        public ToolTip toolTip1;
+        public static Gioco? Instance { get; private set; }
+        public static GameTextBox? logBox;
+        public CustomToolTip toolTip1;
         static string strutture = "Civile";
         static string tipo_Risorse = "Civile";
         static string Caserme = "Esercito";
@@ -23,56 +23,25 @@ namespace CriptoGame_Online
             {
                 Dock = DockStyle.Fill
             };
+            panel_Log.Controls.Add(logBox);// texbox personallizata
 
-            panel_Log.Controls.Add(logBox);
-
-            // Riga semplice
-            logBox.AddLine("Hai trovato una pozione!", Color.LightGreen);
-            // Riga con segmenti colorati
-            logBox.AddLine(new[]
-            {
-                ("[Sistema] ", Color.Cyan),
-                ("Benvenuto nell'arena!", Color.White)
-            });
-
-            // Riga con nickname colorato + messaggio
-            logBox.AddLine(new[]
-            {
-                ("Player1: ", Color.Orange),
-                ("Attacco critico! Hai ricevuto 1", Color.Red)
-            }, Properties.Resources.diamond_1);
-
-            logBox.AddLine(new[]
-            {
-                ("Player1: ", Color.Orange),
-                ("Attacco critico!", Color.Red)
-            }, Properties.Resources.diamond_1);
-
-            logBox.AddLine(new[]
-            {
-            ("[Sistema] ", Color.Cyan),
-            ("Aggironamento in corso... Attendere!", Color.White)
-            });
         }
 
         public static void Log_Update(string messaggio)
         {
             if (logBox != null)
             {
-                logBox.Invoke(new Action(() => logBox.AddLine($"{messaggio}", Color.White)));
+                logBox.Invoke(new Action(() => logBox.AddLineFromServer(messaggio)));
             }
         }
 
         private void Gioco_Load(object sender, EventArgs e)
         {
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
 
-            ToolTip toolTip1 = new ToolTip();
-
-            // Imposta qualche proprietà opzionale
-            toolTip1.AutoPopDelay = 5000;   // tempo massimo di visualizzazione (ms)
-            toolTip1.InitialDelay = 500;    // ritardo prima che appaia
-            toolTip1.ReshowDelay = 200;     // ritardo tra un controllo e l'altro
-            toolTip1.ShowAlways = true;     // mostra anche se la finestra non è attiva
+            GameAudio.PlayMenuMusic("Gioco");
+            MusicManager.SetVolume(0.3f);
 
             // Pannelli e Cose
             panel_1.BackColor = Color.FromArgb(100, 229, 208, 181);
@@ -97,19 +66,26 @@ namespace CriptoGame_Online
             GUI();
             Update();
             Task.Run(() => Gui_Update());
+            Log_Update($"[info]Benvenuto[/info] giocatore: [title]{Variabili_Client.Utente.Username}");
         }
 
         async void Gui_Update()
         {
-            ToolTip toolTip1 = new ToolTip();
+            toolTip1 = new CustomToolTip();
+
+            // Imposta qualche proprietà opzionale
+            toolTip1.InitialDelay = 150;
+            toolTip1.AutoPopDelay = 15000;
+
             while (true)
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(33); // poco piu di 30 fps
                 logBox.Invoke((Action)(async () =>
                 {
-                    toolTip1.SetToolTip(this.ico_11, $"Diamanti Blu, fondamentali per una migliore gestione della città.");
-                    toolTip1.SetToolTip(this.ico_12, $"Diamanti Viola, utilizzato principalmente per l'acquito di terreni virtuali.");
-                    toolTip1.SetToolTip(this.ico_13, $"Dollari Virtuali, risorsa ottenuta tramite i terreni virtuali.");
+                    toolTip1.SetToolTip(this.ico_10, $"{Variabili_Client.Giocatore_Desc}");
+                    toolTip1.SetToolTip(this.ico_11, $"{Variabili_Client.Diamanti_Blu_Desc}");
+                    toolTip1.SetToolTip(this.ico_12, $"{Variabili_Client.Diamanti_Viola_Desc}");
+                    toolTip1.SetToolTip(this.ico_13, $"{Variabili_Client.Dollari_VIrtuali_Desc}");
 
                     toolTip1.SetToolTip(this.ico_8, Variabili_Client.Esperienza_Desc);
                     toolTip1.SetToolTip(this.ico_9, Variabili_Client.Livello_Desc);
@@ -133,7 +109,7 @@ namespace CriptoGame_Online
                     lbl_Arceri_Max.Text = $"Max: {Variabili_Client.Reclutamento.Arceri_Max.Quantità}";
                     lbl_Catapulte_Max.Text = $"Max: {Variabili_Client.Reclutamento.Catapulte_Max.Quantità}";
 
-                    if (strutture == "Militare")
+                    if (strutture == "Militare") //Strutture
                     {
                         toolTip1.SetToolTip(this.ico_Structure_1, Variabili_Client.Costruzione.Workshop_Spade.Descrizione);
                         toolTip1.SetToolTip(this.ico_Structure_2, Variabili_Client.Costruzione.Workshop_Lance.Descrizione);
@@ -180,14 +156,14 @@ namespace CriptoGame_Online
                         txt_Structure_Coda_6.Text = Variabili_Client.Costruzione_Coda.Case.Quantità;
                     }
 
-                    if (tipo_Risorse == "Militare")
+                    if (tipo_Risorse == "Militare") //risorse
                     {
-                        toolTip1.SetToolTip(this.ico_1, $"Spade, utilissimo per l'addestramento delle unità. \r\n Produzione: {Variabili_Client.Utente_Risorse.Spade_s} \r\n Limite: {Variabili_Client.Utente_Risorse.Spade_Limite}");
-                        toolTip1.SetToolTip(this.ico_2, $"Lance, utilissimo per l'addestramento delle unità. \r\n Produzione: {Variabili_Client.Utente_Risorse.Lance_s} \r\n Limite: {Variabili_Client.Utente_Risorse.Lance_Limite}");
-                        toolTip1.SetToolTip(this.ico_3, $"Archi, utilissimo per l'addestramento delle unità. \r\n Produzione: {Variabili_Client.Utente_Risorse.Archi_s} \r\n Limite: {Variabili_Client.Utente_Risorse.Archi_Limite}");
-                        toolTip1.SetToolTip(this.ico_4, $"Scudi, utilissimo per l'addestramento delle unità. \r\n Produzione: {Variabili_Client.Utente_Risorse.Scudi_s} \r\n Limite: {Variabili_Client.Utente_Risorse.Scudi_Limite}");
-                        toolTip1.SetToolTip(this.ico_5, $"Armature, utilissimo per l'addestramento delle unità. \r\n Produzione: {Variabili_Client.Utente_Risorse.Armature_s} \r\n Limite: {Variabili_Client.Utente_Risorse.Armature_Limite}");
-                        toolTip1.SetToolTip(this.ico_6, $"Frecce, utilissimo per l'addestramento delle unità. \r\n Produzione: {Variabili_Client.Utente_Risorse.Frecce_s} \r\n Limite: {Variabili_Client.Utente_Risorse.Frecce_Limite}");
+                        toolTip1.SetToolTip(this.ico_1, $"{Variabili_Client.Spade_Desc}Produzione: [verde]{Variabili_Client.Utente_Risorse.Spade_s}[/verde][black]s\r\n Limite: [ferroScuro]{Variabili_Client.Utente_Risorse.Spade_Limite}\n");
+                        toolTip1.SetToolTip(this.ico_2, $"{Variabili_Client.Lance_Desc}Produzione: [verde]{Variabili_Client.Utente_Risorse.Lance_s}[/verde][black]s\r\n Limite: [ferroScuro]{Variabili_Client.Utente_Risorse.Lance_Limite}\n");
+                        toolTip1.SetToolTip(this.ico_3, $"{Variabili_Client.Archi_Desc}Produzione: [verde]{Variabili_Client.Utente_Risorse.Archi_s}[/verde][black]s\r\n Limite: [ferroScuro]{Variabili_Client.Utente_Risorse.Archi_Limite}\n");
+                        toolTip1.SetToolTip(this.ico_4, $"{Variabili_Client.Scudi_Desc}Produzione: [verde]{Variabili_Client.Utente_Risorse.Scudi_s}[/verde][black]s\r\n Limite: [ferroScuro]{Variabili_Client.Utente_Risorse.Scudi_Limite}\n");
+                        toolTip1.SetToolTip(this.ico_5, $"{Variabili_Client.Armature_Desc}Produzione: [verde]{Variabili_Client.Utente_Risorse.Armature_s}[/verde][black]s\r\n Limite: [ferroScuro]{Variabili_Client.Utente_Risorse.Armature_Limite}\n");
+                        toolTip1.SetToolTip(this.ico_6, $"{Variabili_Client.Frecce_Desc}Produzione: [verde]{Variabili_Client.Utente_Risorse.Frecce_s}[/verde][black]s\r\n Limite: [ferroScuro]{Variabili_Client.Utente_Risorse.Frecce_Limite}");
 
                         txt_Risorsa1.Text = Variabili_Client.Utente_Risorse.Spade;
                         txt_Risorsa2.Text = Variabili_Client.Utente_Risorse.Lance;
@@ -198,12 +174,36 @@ namespace CriptoGame_Online
                     }
                     else
                     {
-                        toolTip1.SetToolTip(this.ico_1, $"Cibo, utilissimo per il funzionamento della città. \r\n Produzione: {Variabili_Client.Utente_Risorse.Cibo_s} \r\n Consumo: {Variabili_Client.Utente_Risorse.Mantenimento_Cibo} \r\n Limite: {Variabili_Client.Utente_Risorse.Cibo_Limite}");
-                        toolTip1.SetToolTip(this.ico_2, $"Legno, utilissimo per il funzionamento della città. \r\n Produzione: {Variabili_Client.Utente_Risorse.Legna_s} \r\n Limite: {Variabili_Client.Utente_Risorse.Legna_Limite}");
-                        toolTip1.SetToolTip(this.ico_3, $"Pietra, utilissimo per il funzionamento della città. \r\n Produzione: {Variabili_Client.Utente_Risorse.Pietra_s} \r\n Limite: {Variabili_Client.Utente_Risorse.Pietra_Limite}");
-                        toolTip1.SetToolTip(this.ico_4, $"Ferro, utilissimo per il funzionamento della città. \r\n Produzione: {Variabili_Client.Utente_Risorse.Ferro_s} \r\n Limite: {Variabili_Client.Utente_Risorse.Ferro_Limite}");
-                        toolTip1.SetToolTip(this.ico_5, $"Oro, utilissimo per il funzionamento della città. \r\n Produzione: {Variabili_Client.Utente_Risorse.Oro_s} \r\n Consumo: {Variabili_Client.Utente_Risorse.Mantenimento_Oro} \r\n Limite: {Variabili_Client.Utente_Risorse.Oro_Limite}");
-                        toolTip1.SetToolTip(this.ico_6, $"Popolazione, utilissimo per il funzionamento della città. \r\n Produzione: {Variabili_Client.Utente_Risorse.Popolazione_s} \r\n Limite: {Variabili_Client.Utente_Risorse.Popolazione_Limite}");
+                        toolTip1.SetToolTip(this.ico_1, $"{Variabili_Client.Cibo_Desc}" +
+                            $"Produzione: [icon:cibo][verde]{Variabili_Client.Utente_Risorse.Cibo_s}[/verde][black]s\r\n" +
+                            $"Edifici: [grigioGrafite]0[/grigioGrafite][black]s\r\n" +
+                            $"Esercito: [icon:cibo][rosso]{Variabili_Client.Utente_Risorse.Mantenimento_Cibo}[/rosso][black]s\r\n" +
+                            $"Limite: [icon:cibo][ferroScuro]{Variabili_Client.Utente_Risorse.Cibo_Limite}\n");
+
+                        toolTip1.SetToolTip(this.ico_2, $"{Variabili_Client.Legno_Desc}" +
+                            $"Produzione: [icon:legno][verde]{Variabili_Client.Utente_Risorse.Legna_s}[/verde][black]s\r\n" +
+                            $"Edifici: [icon:legno][grigioGrafite]0 [/grigioGrafite][black]s\r\n" +
+                            $"Limite: [icon:legno][ferroScuro]{Variabili_Client.Utente_Risorse.Legna_Limite}");
+
+                        toolTip1.SetToolTip(this.ico_3, $"{Variabili_Client.Pietra_Desc}" +
+                            $"Produzione: [icon:pietra][verde]{Variabili_Client.Utente_Risorse.Pietra_s}[/verde][black]s\r\n" +
+                            $"Edifici: [icon:pietra][grigioGrafite]0 [/grigioGrafite][black]s\r\n" +
+                            $"Limite: [icon:pietra][ferroScuro]{Variabili_Client.Utente_Risorse.Pietra_Limite}");
+
+                        toolTip1.SetToolTip(this.ico_4, $"{Variabili_Client.Ferro_Desc}" +
+                            $"Produzione: [icon:ferro][verde]{Variabili_Client.Utente_Risorse.Ferro_s}[/verde][black]s\n" +
+                            $"Edifici: [icon:ferro][grigioGrafite]0[/grigioGrafite][black]s\r\n" +
+                            $"Limite: [icon:ferro][ferroScuro]{Variabili_Client.Utente_Risorse.Ferro_Limite}");
+
+                        toolTip1.SetToolTip(this.ico_5, $"{Variabili_Client.Oro_Desc}" +
+                            $"Produzione: [verde]{Variabili_Client.Utente_Risorse.Oro_s}[/verde][black]s\r\n" +
+                            $"Edifici: [icon:oro][grigioGrafite]0[/grigioGrafite][black]s\r\n" +
+                            $"Esercito: [icon:oro][rosso]{Variabili_Client.Utente_Risorse.Mantenimento_Oro}[/rosso][black]s\r\n" +
+                            $"Limite: [icon:oro][ferroScuro]{Variabili_Client.Utente_Risorse.Oro_Limite}\n");
+
+                        toolTip1.SetToolTip(this.ico_6, $"{Variabili_Client.Popolazione_Desc}" +
+                            $"Produzione: [icon:popolazione][verde]{Variabili_Client.Utente_Risorse.Popolazione_s}[/verde][black]s\r\n" +
+                            $"Limite: [ferroScuro]{Variabili_Client.Utente_Risorse.Popolazione_Limite}[icon:popolazione]");
 
                         txt_Risorsa1.Text = Variabili_Client.Utente_Risorse.Cibo;
                         txt_Risorsa2.Text = Variabili_Client.Utente_Risorse.Legna;
@@ -213,8 +213,12 @@ namespace CriptoGame_Online
                         txt_Risorsa6.Text = Variabili_Client.Utente_Risorse.Popolazione;
                     }
 
-                    //Caserme
-                    if (Caserme == "Caserme")
+                    toolTip1.SetToolTip(this.ico_Unit_1, Variabili_Client.Reclutamento.Guerrieri_1.Descrizione);
+                    toolTip1.SetToolTip(this.ico_Unit_2, Variabili_Client.Reclutamento.Lanceri_1.Descrizione);
+                    toolTip1.SetToolTip(this.ico_Unit_3, Variabili_Client.Reclutamento.Arceri_1.Descrizione);
+                    toolTip1.SetToolTip(this.ico_Unit_4, Variabili_Client.Reclutamento.Catapulte_1.Descrizione);
+
+                    if (Caserme == "Caserme") //Caserme
                     {
                         toolTip1.SetToolTip(this.ico_Unit_1, Variabili_Client.Costruzione.Caserme_Guerrieri.Descrizione);
                         toolTip1.SetToolTip(this.ico_Unit_2, Variabili_Client.Costruzione.Caserme_Lanceri.Descrizione);
@@ -231,12 +235,6 @@ namespace CriptoGame_Online
                         txt_Unit_Coda_3.Text = Variabili_Client.Costruzione_Coda.Caserme_arceri.Quantità;
                         txt_Unit_Coda_4.Text = Variabili_Client.Costruzione_Coda.Caserme_Catapulte.Quantità;
                     }
-
-                    toolTip1.SetToolTip(this.ico_Unit_1, Variabili_Client.Reclutamento.Guerrieri_1.Descrizione);
-                    toolTip1.SetToolTip(this.ico_Unit_2, Variabili_Client.Reclutamento.Lanceri_1.Descrizione);
-                    toolTip1.SetToolTip(this.ico_Unit_3, Variabili_Client.Reclutamento.Arceri_1.Descrizione);
-                    toolTip1.SetToolTip(this.ico_Unit_4, Variabili_Client.Reclutamento.Catapulte_1.Descrizione);
-
                     if (btn_I.Enabled == false && Caserme == "Esercito")
                     {
                         txt_Unit_1.Text = Variabili_Client.Reclutamento.Guerrieri_1.Quantità;
@@ -314,12 +312,13 @@ namespace CriptoGame_Online
                     if (lbl_Timer_Addestramento.Text == "Recruit: 0s" || Caserme == "Caserme")
                     {
                         pictureBox_Speed_Reclutamento.Visible = false;
-                        lbl_Coda_Reclutamento.Text = $"Code disponibili: {Variabili_Client.Utente.Code_Reclutamento_Disponibili}/{Variabili_Client.Utente.Code_Reclutamento}";
+                        lbl_Coda_Reclutamento.Text = $"Code disponibili: {Convert.ToInt32(Variabili_Client.Utente.Code_Reclutamento) - Convert.ToInt32(Variabili_Client.Utente.Code_Reclutamento_Disponibili)}/{Variabili_Client.Utente.Code_Reclutamento}";
                     }
                     else if (Caserme == "Esercito") // Non serve la coda, finisce in building
+                    {
                         pictureBox_Speed_Reclutamento.Visible = true;
-                    else
-                        lbl_Coda_Reclutamento.Text = $"Code disponibili: {0}/{Variabili_Client.Utente.Code_Reclutamento}";
+                        lbl_Coda_Reclutamento.Text = $"Code disponibili: {Convert.ToInt32(Variabili_Client.Utente.Code_Reclutamento) - Convert.ToInt32(Variabili_Client.Utente.Code_Reclutamento_Disponibili)}/{Variabili_Client.Utente.Code_Reclutamento}";
+                    }
                 }));
             }
         }
@@ -348,7 +347,7 @@ namespace CriptoGame_Online
             Risorse_1();
             Esercito_1();
         }
-        private void Update()
+        private new void Update()
         {
             Risorse();
             Edifici();
@@ -405,7 +404,6 @@ namespace CriptoGame_Online
             txt_Unit_Coda_2.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
             txt_Unit_Coda_3.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
             txt_Unit_Coda_4.Font = new Font("Cinzel Decorative", 7.5f, FontStyle.Bold);
-
         }
         private void Banner()
         {
@@ -499,7 +497,6 @@ namespace CriptoGame_Online
             btn_III.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
             btn_IV.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
             btn_V.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
-
         }
 
         private void btn_Cambia_Risorse_Click(object sender, EventArgs e)
@@ -558,6 +555,9 @@ namespace CriptoGame_Online
         }
         private void btn_Citta_Click(object sender, EventArgs e)
         {
+            GameAudio.PlayMenuMusic("Villaggio");
+            MusicManager.SetVolume(0.3f);
+
             Citta_V2 form_Gioco = new Citta_V2();
             form_Gioco.Show();
         }
@@ -581,6 +581,23 @@ namespace CriptoGame_Online
             MontlyQuest form_Gioco = new MontlyQuest();
             form_Gioco.Show();
 
+        }
+        private void PVP_PVE_Click(object sender, EventArgs e)
+        {
+            GameAudio.PlayMenuMusic("PVP");
+            MusicManager.SetVolume(0.3f);
+            AttaccoCoordinato form_Gioco = new AttaccoCoordinato();
+            form_Gioco.ShowDialog();
+        }
+        private void btn_Scambia_Click(object sender, EventArgs e)
+        {
+            Scambia_Diamanti form_Gioco = new Scambia_Diamanti();
+            form_Gioco.ShowDialog();
+        }
+        private void ico_10_MouseClick(object sender, MouseEventArgs e)
+        {
+            Statistiche form_Gioco = new Statistiche();
+            form_Gioco.Show();
         }
 
         private void btn_I_Click(object sender, EventArgs e)
@@ -636,14 +653,14 @@ namespace CriptoGame_Online
 
         private void pictureBox_Speed_Costruzione_Click(object sender, EventArgs e)
         {
-            Velocizza_Diamanti form_Gioco = new Velocizza_Diamanti();
             Velocizza_Diamanti.tipo = "Costruzione";
+            Velocizza_Diamanti form_Gioco = new Velocizza_Diamanti();
             form_Gioco.ShowDialog();
         }
         private void pictureBox_Speed_Reclutamento_Click(object sender, EventArgs e)
         {
-            Velocizza_Diamanti form_Gioco = new Velocizza_Diamanti();
             Velocizza_Diamanti.tipo = "Reclutamento";
+            Velocizza_Diamanti form_Gioco = new Velocizza_Diamanti();
             form_Gioco.ShowDialog();
         }
 
@@ -674,9 +691,9 @@ namespace CriptoGame_Online
                 panel_Sfondo_Bottoni.Visible = true;
                 lbl_Coda_Reclutamento.Visible = true;
                 lbl_Timer_Addestramento.Visible = true;
-                ico_Unit_1.BackgroundImage = Properties.Resources.Un_guerriero_medievale_1_;
-                ico_Unit_2.BackgroundImage = Properties.Resources.picchiere;
-                ico_Unit_3.BackgroundImage = Properties.Resources.Un_arciere_medievale_a_figura_intera__stile_videogame_fantasy__con_arco_teso_e_faretra__abbigliamento_da_cacciatore__sfondo_trasparente__icona_PNG;
+                ico_Unit_1.BackgroundImage = Properties.Resources.Guerriero_V2_removebg_preview;
+                ico_Unit_2.BackgroundImage = Properties.Resources.Lancere_V2_removebg_preview;
+                ico_Unit_3.BackgroundImage = Properties.Resources.Arciere_V2_removebg_preview;
                 ico_Unit_4.BackgroundImage = Properties.Resources.icons8_medieval_48;
 
                 lbl_Guerrieri_Max.Visible = true;
@@ -694,15 +711,9 @@ namespace CriptoGame_Online
             ClientConnection.TestClient.Send($"Costruzione_Terreni|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|");
         }
 
-        private void PVP_PVE_Click(object sender, EventArgs e)
+        private void btn_Mappa_Click(object sender, EventArgs e)
         {
-            AttaccoCoordinato form_Gioco = new AttaccoCoordinato();
-            form_Gioco.ShowDialog();
-        }
-
-        private void btn_Scambia_Click(object sender, EventArgs e)
-        {
-            Scambia_Diamanti form_Gioco = new Scambia_Diamanti();
+            Mappa form_Gioco = new Mappa();
             form_Gioco.ShowDialog();
         }
     }

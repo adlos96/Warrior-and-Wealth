@@ -38,12 +38,15 @@
             trackBar_Arciere = new TrackBar();
             trackBar_Catapulta = new TrackBar();
             panel43 = new Panel();
+            doubleBufferedPanel2 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
             label86 = new Label();
             txt_Guerriero_Esercito = new TextBox();
             panel41 = new Panel();
+            doubleBufferedPanel6 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
             label81 = new Label();
             txt_Lanciere_Esercito = new TextBox();
             panel39 = new Panel();
+            doubleBufferedPanel10 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
             label76 = new Label();
             txt_Arciere_Esercito = new TextBox();
             panel37 = new Panel();
@@ -56,11 +59,14 @@
             txt_Catapulta_Spedizione = new TextBox();
             panel3 = new Panel();
             label2 = new Label();
-            txt_Arciere_Spedizione = new TextBox();
+            ico_Unit_3 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            txt_Arcere_Spedizione = new TextBox();
             panel5 = new Panel();
+            ico_Unit_2 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
             label3 = new Label();
-            txt_Lanciere_Spedizione = new TextBox();
+            txt_Lancere_Spedizione = new TextBox();
             panel7 = new Panel();
+            ico_Unit_1 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
             label4 = new Label();
             txt_Guerriero_Spedizione = new TextBox();
             label5 = new Label();
@@ -72,22 +78,32 @@
             lbl_Lanciere = new Label();
             lbl_Arciere = new Label();
             lbl_Catapulta = new Label();
-            groupBox2 = new GroupBox();
-            panel9 = new Panel();
-            label7 = new Label();
-            panel10 = new Panel();
-            txt_Catapulta_Villaggio = new TextBox();
-            panel11 = new Panel();
-            label8 = new Label();
-            txt_Arcere_Villaggio = new TextBox();
-            panel13 = new Panel();
-            label9 = new Label();
-            txt_Lancere_Villaggio = new TextBox();
-            panel15 = new Panel();
-            label10 = new Label();
-            txt_Guerriero_Villaggio = new TextBox();
             groupBox4 = new GroupBox();
-            btn_Esercito_Caserme = new Button();
+            groupBox1 = new GroupBox();
+            panel4 = new Panel();
+            label19 = new Label();
+            panel6 = new Panel();
+            txt_Catapulta_Villaggio = new TextBox();
+            label21 = new Label();
+            panel8 = new Panel();
+            label22 = new Label();
+            doubleBufferedPanel14 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            txt_Arcere_Villaggio = new TextBox();
+            doubleBufferedPanel15 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            button3 = new Button();
+            button4 = new Button();
+            button5 = new Button();
+            button6 = new Button();
+            button7 = new Button();
+            panel12 = new Panel();
+            doubleBufferedPanel16 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            label23 = new Label();
+            txt_Lancere_Villaggio = new TextBox();
+            panel14 = new Panel();
+            doubleBufferedPanel17 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            label24 = new Label();
+            txt_Guerriero_Villaggio = new TextBox();
+            btn_Villaggi_Citta_Barbare = new Button();
             txt_Villaggio_B_Desc = new TextBox();
             btn_Attacco_PVE_Villaggio_B = new Button();
             btn_Esplora_PVE_Villaggio_B = new Button();
@@ -103,12 +119,15 @@
             panel18 = new Panel();
             txt_Catapulta_Città = new TextBox();
             panel19 = new Panel();
+            doubleBufferedPanel13 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
             label12 = new Label();
             txt_Arcere_Città = new TextBox();
             panel21 = new Panel();
+            doubleBufferedPanel9 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
             label13 = new Label();
             txt_Lancere_Città = new TextBox();
             panel23 = new Panel();
+            doubleBufferedPanel5 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
             label14 = new Label();
             txt_Guerriero_Città = new TextBox();
             groupBox7 = new GroupBox();
@@ -123,15 +142,20 @@
             panel26 = new Panel();
             textBox12 = new TextBox();
             panel27 = new Panel();
+            doubleBufferedPanel12 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
             label16 = new Label();
             textBox13 = new TextBox();
             panel29 = new Panel();
+            doubleBufferedPanel8 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
             label17 = new Label();
             textBox14 = new TextBox();
             panel31 = new Panel();
+            doubleBufferedPanel4 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
             label18 = new Label();
             txt_Guerriero_PVE = new TextBox();
             groupBox_Raduno = new GroupBox();
+            btn_Attacca = new Button();
+            btn_Sposta = new Button();
             groupBox9 = new GroupBox();
             label20 = new Label();
             doubleBufferedPanel1 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
@@ -148,21 +172,6 @@
             btn_III_Esercito = new Button();
             btn_IV_Esercito = new Button();
             btn_II_Esercito = new Button();
-            ico_Unit_1 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
-            ico_Unit_2 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
-            ico_Unit_3 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
-            doubleBufferedPanel2 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
-            doubleBufferedPanel3 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
-            doubleBufferedPanel4 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
-            doubleBufferedPanel5 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
-            doubleBufferedPanel6 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
-            doubleBufferedPanel7 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
-            doubleBufferedPanel8 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
-            doubleBufferedPanel9 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
-            doubleBufferedPanel10 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
-            doubleBufferedPanel11 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
-            doubleBufferedPanel12 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
-            doubleBufferedPanel13 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
             ((System.ComponentModel.ISupportInitialize)trackBar_Guerriero).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trackBar_Lanciere).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trackBar_Arciere).BeginInit();
@@ -175,12 +184,13 @@
             panel3.SuspendLayout();
             panel5.SuspendLayout();
             panel7.SuspendLayout();
-            groupBox2.SuspendLayout();
-            panel9.SuspendLayout();
-            panel11.SuspendLayout();
-            panel13.SuspendLayout();
-            panel15.SuspendLayout();
             groupBox4.SuspendLayout();
+            groupBox1.SuspendLayout();
+            panel4.SuspendLayout();
+            panel8.SuspendLayout();
+            doubleBufferedPanel15.SuspendLayout();
+            panel12.SuspendLayout();
+            panel14.SuspendLayout();
             groupBox5.SuspendLayout();
             groupBox6.SuspendLayout();
             panel17.SuspendLayout();
@@ -208,7 +218,7 @@
             comboBox_Raduni_Creati.ForeColor = Color.FromArgb(32, 36, 47);
             comboBox_Raduni_Creati.FormattingEnabled = true;
             comboBox_Raduni_Creati.Items.AddRange(new object[] { "ciao", "ciao" });
-            comboBox_Raduni_Creati.Location = new Point(90, 245);
+            comboBox_Raduni_Creati.Location = new Point(89, 274);
             comboBox_Raduni_Creati.Margin = new Padding(4, 3, 4, 3);
             comboBox_Raduni_Creati.Name = "comboBox_Raduni_Creati";
             comboBox_Raduni_Creati.Size = new Size(139, 21);
@@ -218,7 +228,7 @@
             // 
             btn_Crea.BackColor = Color.FromArgb(32, 36, 47);
             btn_Crea.ForeColor = SystemColors.Control;
-            btn_Crea.Location = new Point(11, 287);
+            btn_Crea.Location = new Point(78, 311);
             btn_Crea.Margin = new Padding(4, 3, 4, 3);
             btn_Crea.Name = "btn_Crea";
             btn_Crea.Size = new Size(91, 37);
@@ -231,7 +241,7 @@
             // 
             btn_Partecipa.BackColor = Color.FromArgb(32, 36, 47);
             btn_Partecipa.ForeColor = Color.CornflowerBlue;
-            btn_Partecipa.Location = new Point(110, 287);
+            btn_Partecipa.Location = new Point(177, 311);
             btn_Partecipa.Margin = new Padding(4, 3, 4, 3);
             btn_Partecipa.Name = "btn_Partecipa";
             btn_Partecipa.Size = new Size(91, 37);
@@ -244,7 +254,7 @@
             // 
             btn_Abbandona.BackColor = Color.FromArgb(32, 36, 47);
             btn_Abbandona.ForeColor = Color.Red;
-            btn_Abbandona.Location = new Point(485, 242);
+            btn_Abbandona.Location = new Point(490, 271);
             btn_Abbandona.Margin = new Padding(4, 3, 4, 3);
             btn_Abbandona.Name = "btn_Abbandona";
             btn_Abbandona.Size = new Size(91, 37);
@@ -257,7 +267,7 @@
             // 
             btn_Inizia.BackColor = Color.FromArgb(32, 36, 47);
             btn_Inizia.ForeColor = Color.ForestGreen;
-            btn_Inizia.Location = new Point(209, 287);
+            btn_Inizia.Location = new Point(276, 311);
             btn_Inizia.Margin = new Padding(4, 3, 4, 3);
             btn_Inizia.Name = "btn_Inizia";
             btn_Inizia.Size = new Size(92, 37);
@@ -268,7 +278,7 @@
             // 
             // trackBar_Guerriero
             // 
-            trackBar_Guerriero.Location = new Point(159, 35);
+            trackBar_Guerriero.Location = new Point(159, 58);
             trackBar_Guerriero.Margin = new Padding(4, 3, 4, 3);
             trackBar_Guerriero.Name = "trackBar_Guerriero";
             trackBar_Guerriero.Size = new Size(270, 45);
@@ -277,7 +287,7 @@
             // 
             // trackBar_Lanciere
             // 
-            trackBar_Lanciere.Location = new Point(159, 78);
+            trackBar_Lanciere.Location = new Point(159, 101);
             trackBar_Lanciere.Margin = new Padding(4, 3, 4, 3);
             trackBar_Lanciere.Name = "trackBar_Lanciere";
             trackBar_Lanciere.Size = new Size(270, 45);
@@ -286,7 +296,7 @@
             // 
             // trackBar_Arciere
             // 
-            trackBar_Arciere.Location = new Point(159, 121);
+            trackBar_Arciere.Location = new Point(159, 144);
             trackBar_Arciere.Margin = new Padding(4, 3, 4, 3);
             trackBar_Arciere.Name = "trackBar_Arciere";
             trackBar_Arciere.Size = new Size(270, 45);
@@ -295,7 +305,7 @@
             // 
             // trackBar_Catapulta
             // 
-            trackBar_Catapulta.Location = new Point(159, 164);
+            trackBar_Catapulta.Location = new Point(159, 187);
             trackBar_Catapulta.Margin = new Padding(4, 3, 4, 3);
             trackBar_Catapulta.Name = "trackBar_Catapulta";
             trackBar_Catapulta.Size = new Size(270, 45);
@@ -313,6 +323,15 @@
             panel43.Name = "panel43";
             panel43.Size = new Size(133, 42);
             panel43.TabIndex = 2;
+            // 
+            // doubleBufferedPanel2
+            // 
+            doubleBufferedPanel2.BackgroundImage = Properties.Resources.Guerriero_V2_removebg_preview;
+            doubleBufferedPanel2.BackgroundImageLayout = ImageLayout.Zoom;
+            doubleBufferedPanel2.Location = new Point(4, 3);
+            doubleBufferedPanel2.Name = "doubleBufferedPanel2";
+            doubleBufferedPanel2.Size = new Size(37, 35);
+            doubleBufferedPanel2.TabIndex = 145;
             // 
             // label86
             // 
@@ -352,6 +371,15 @@
             panel41.Size = new Size(133, 42);
             panel41.TabIndex = 3;
             // 
+            // doubleBufferedPanel6
+            // 
+            doubleBufferedPanel6.BackgroundImage = Properties.Resources.Lancere_V2_removebg_preview;
+            doubleBufferedPanel6.BackgroundImageLayout = ImageLayout.Zoom;
+            doubleBufferedPanel6.Location = new Point(4, 3);
+            doubleBufferedPanel6.Name = "doubleBufferedPanel6";
+            doubleBufferedPanel6.Size = new Size(37, 35);
+            doubleBufferedPanel6.TabIndex = 146;
+            // 
             // label81
             // 
             label81.AutoSize = true;
@@ -389,6 +417,15 @@
             panel39.Name = "panel39";
             panel39.Size = new Size(133, 42);
             panel39.TabIndex = 30;
+            // 
+            // doubleBufferedPanel10
+            // 
+            doubleBufferedPanel10.BackgroundImage = Properties.Resources.Arciere_V2_removebg_preview;
+            doubleBufferedPanel10.BackgroundImageLayout = ImageLayout.Zoom;
+            doubleBufferedPanel10.Location = new Point(4, 3);
+            doubleBufferedPanel10.Name = "doubleBufferedPanel10";
+            doubleBufferedPanel10.Size = new Size(37, 35);
+            doubleBufferedPanel10.TabIndex = 147;
             // 
             // label76
             // 
@@ -523,7 +560,7 @@
             panel3.BackColor = Color.FromArgb(32, 36, 47);
             panel3.Controls.Add(label2);
             panel3.Controls.Add(ico_Unit_3);
-            panel3.Controls.Add(txt_Arciere_Spedizione);
+            panel3.Controls.Add(txt_Arcere_Spedizione);
             panel3.Location = new Point(10, 133);
             panel3.Margin = new Padding(4, 3, 4, 3);
             panel3.Name = "panel3";
@@ -542,31 +579,49 @@
             label2.TabIndex = 3;
             label2.Text = "Arcere";
             // 
-            // txt_Arciere_Spedizione
+            // ico_Unit_3
             // 
-            txt_Arciere_Spedizione.BackColor = Color.FromArgb(32, 36, 47);
-            txt_Arciere_Spedizione.Font = new Font("Microsoft Sans Serif", 9.25F);
-            txt_Arciere_Spedizione.ForeColor = SystemColors.Control;
-            txt_Arciere_Spedizione.Location = new Point(48, 18);
-            txt_Arciere_Spedizione.Margin = new Padding(4, 3, 4, 3);
-            txt_Arciere_Spedizione.Name = "txt_Arciere_Spedizione";
-            txt_Arciere_Spedizione.ReadOnly = true;
-            txt_Arciere_Spedizione.Size = new Size(78, 21);
-            txt_Arciere_Spedizione.TabIndex = 25;
-            txt_Arciere_Spedizione.Text = "0";
-            txt_Arciere_Spedizione.TextAlign = HorizontalAlignment.Center;
+            ico_Unit_3.BackgroundImage = Properties.Resources.Arciere_V2_removebg_preview;
+            ico_Unit_3.BackgroundImageLayout = ImageLayout.Zoom;
+            ico_Unit_3.Location = new Point(4, 4);
+            ico_Unit_3.Name = "ico_Unit_3";
+            ico_Unit_3.Size = new Size(37, 35);
+            ico_Unit_3.TabIndex = 146;
+            // 
+            // txt_Arcere_Spedizione
+            // 
+            txt_Arcere_Spedizione.BackColor = Color.FromArgb(32, 36, 47);
+            txt_Arcere_Spedizione.Font = new Font("Microsoft Sans Serif", 9.25F);
+            txt_Arcere_Spedizione.ForeColor = SystemColors.Control;
+            txt_Arcere_Spedizione.Location = new Point(48, 18);
+            txt_Arcere_Spedizione.Margin = new Padding(4, 3, 4, 3);
+            txt_Arcere_Spedizione.Name = "txt_Arcere_Spedizione";
+            txt_Arcere_Spedizione.ReadOnly = true;
+            txt_Arcere_Spedizione.Size = new Size(78, 21);
+            txt_Arcere_Spedizione.TabIndex = 25;
+            txt_Arcere_Spedizione.Text = "0";
+            txt_Arcere_Spedizione.TextAlign = HorizontalAlignment.Center;
             // 
             // panel5
             // 
             panel5.BackColor = Color.FromArgb(32, 36, 47);
             panel5.Controls.Add(ico_Unit_2);
             panel5.Controls.Add(label3);
-            panel5.Controls.Add(txt_Lanciere_Spedizione);
+            panel5.Controls.Add(txt_Lancere_Spedizione);
             panel5.Location = new Point(10, 92);
             panel5.Margin = new Padding(4, 3, 4, 3);
             panel5.Name = "panel5";
             panel5.Size = new Size(133, 42);
             panel5.TabIndex = 3;
+            // 
+            // ico_Unit_2
+            // 
+            ico_Unit_2.BackgroundImage = Properties.Resources.Lancere_V2_removebg_preview;
+            ico_Unit_2.BackgroundImageLayout = ImageLayout.Zoom;
+            ico_Unit_2.Location = new Point(4, 4);
+            ico_Unit_2.Name = "ico_Unit_2";
+            ico_Unit_2.Size = new Size(37, 35);
+            ico_Unit_2.TabIndex = 145;
             // 
             // label3
             // 
@@ -580,19 +635,19 @@
             label3.TabIndex = 3;
             label3.Text = "Lancere";
             // 
-            // txt_Lanciere_Spedizione
+            // txt_Lancere_Spedizione
             // 
-            txt_Lanciere_Spedizione.BackColor = Color.FromArgb(32, 36, 47);
-            txt_Lanciere_Spedizione.Font = new Font("Microsoft Sans Serif", 9.25F);
-            txt_Lanciere_Spedizione.ForeColor = SystemColors.Control;
-            txt_Lanciere_Spedizione.Location = new Point(48, 18);
-            txt_Lanciere_Spedizione.Margin = new Padding(4, 3, 4, 3);
-            txt_Lanciere_Spedizione.Name = "txt_Lanciere_Spedizione";
-            txt_Lanciere_Spedizione.ReadOnly = true;
-            txt_Lanciere_Spedizione.Size = new Size(78, 21);
-            txt_Lanciere_Spedizione.TabIndex = 25;
-            txt_Lanciere_Spedizione.Text = "0";
-            txt_Lanciere_Spedizione.TextAlign = HorizontalAlignment.Center;
+            txt_Lancere_Spedizione.BackColor = Color.FromArgb(32, 36, 47);
+            txt_Lancere_Spedizione.Font = new Font("Microsoft Sans Serif", 9.25F);
+            txt_Lancere_Spedizione.ForeColor = SystemColors.Control;
+            txt_Lancere_Spedizione.Location = new Point(48, 18);
+            txt_Lancere_Spedizione.Margin = new Padding(4, 3, 4, 3);
+            txt_Lancere_Spedizione.Name = "txt_Lancere_Spedizione";
+            txt_Lancere_Spedizione.ReadOnly = true;
+            txt_Lancere_Spedizione.Size = new Size(78, 21);
+            txt_Lancere_Spedizione.TabIndex = 25;
+            txt_Lancere_Spedizione.Text = "0";
+            txt_Lancere_Spedizione.TextAlign = HorizontalAlignment.Center;
             // 
             // panel7
             // 
@@ -605,6 +660,15 @@
             panel7.Name = "panel7";
             panel7.Size = new Size(133, 41);
             panel7.TabIndex = 2;
+            // 
+            // ico_Unit_1
+            // 
+            ico_Unit_1.BackgroundImage = Properties.Resources.Guerriero_V2_removebg_preview;
+            ico_Unit_1.BackgroundImageLayout = ImageLayout.Zoom;
+            ico_Unit_1.Location = new Point(4, 3);
+            ico_Unit_1.Name = "ico_Unit_1";
+            ico_Unit_1.Size = new Size(37, 35);
+            ico_Unit_1.TabIndex = 144;
             // 
             // label4
             // 
@@ -636,7 +700,7 @@
             // 
             label5.AutoSize = true;
             label5.ForeColor = SystemColors.ControlLight;
-            label5.Location = new Point(9, 248);
+            label5.Location = new Point(8, 277);
             label5.Margin = new Padding(4, 0, 4, 0);
             label5.Name = "label5";
             label5.Size = new Size(79, 15);
@@ -647,7 +711,7 @@
             // 
             label6.AutoSize = true;
             label6.ForeColor = SystemColors.ControlLight;
-            label6.Location = new Point(237, 247);
+            label6.Location = new Point(236, 276);
             label6.Margin = new Padding(4, 0, 4, 0);
             label6.Name = "label6";
             label6.Size = new Size(83, 15);
@@ -662,7 +726,7 @@
             comboBox_Raduni_InCorso.ForeColor = Color.FromArgb(32, 36, 47);
             comboBox_Raduni_InCorso.FormattingEnabled = true;
             comboBox_Raduni_InCorso.Items.AddRange(new object[] { "ciao", "ciao" });
-            comboBox_Raduni_InCorso.Location = new Point(328, 246);
+            comboBox_Raduni_InCorso.Location = new Point(327, 275);
             comboBox_Raduni_InCorso.Margin = new Padding(4, 3, 4, 3);
             comboBox_Raduni_InCorso.Name = "comboBox_Raduni_InCorso";
             comboBox_Raduni_InCorso.Size = new Size(139, 21);
@@ -673,7 +737,7 @@
             // 
             button1.BackColor = Color.FromArgb(32, 36, 47);
             button1.ForeColor = SystemColors.Control;
-            button1.Location = new Point(485, 291);
+            button1.Location = new Point(490, 320);
             button1.Margin = new Padding(4, 3, 4, 3);
             button1.Name = "button1";
             button1.Size = new Size(91, 37);
@@ -686,7 +750,7 @@
             // 
             button2.BackColor = Color.FromArgb(32, 36, 47);
             button2.ForeColor = Color.DarkOrange;
-            button2.Location = new Point(309, 287);
+            button2.Location = new Point(376, 311);
             button2.Margin = new Padding(4, 3, 4, 3);
             button2.Name = "button2";
             button2.Size = new Size(91, 37);
@@ -700,7 +764,7 @@
             lbl_Guerriero.AutoSize = true;
             lbl_Guerriero.Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Guerriero.ForeColor = SystemColors.ControlLight;
-            lbl_Guerriero.Location = new Point(166, 66);
+            lbl_Guerriero.Location = new Point(166, 89);
             lbl_Guerriero.Margin = new Padding(4, 0, 4, 0);
             lbl_Guerriero.Name = "lbl_Guerriero";
             lbl_Guerriero.Size = new Size(14, 13);
@@ -712,7 +776,7 @@
             lbl_Lanciere.AutoSize = true;
             lbl_Lanciere.Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Lanciere.ForeColor = SystemColors.ControlLight;
-            lbl_Lanciere.Location = new Point(166, 109);
+            lbl_Lanciere.Location = new Point(166, 132);
             lbl_Lanciere.Margin = new Padding(4, 0, 4, 0);
             lbl_Lanciere.Name = "lbl_Lanciere";
             lbl_Lanciere.Size = new Size(14, 13);
@@ -724,7 +788,7 @@
             lbl_Arciere.AutoSize = true;
             lbl_Arciere.Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Arciere.ForeColor = SystemColors.ControlLight;
-            lbl_Arciere.Location = new Point(166, 152);
+            lbl_Arciere.Location = new Point(166, 175);
             lbl_Arciere.Margin = new Padding(4, 0, 4, 0);
             lbl_Arciere.Name = "lbl_Arciere";
             lbl_Arciere.Size = new Size(14, 13);
@@ -736,104 +800,140 @@
             lbl_Catapulta.AutoSize = true;
             lbl_Catapulta.Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Catapulta.ForeColor = SystemColors.ControlLight;
-            lbl_Catapulta.Location = new Point(166, 195);
+            lbl_Catapulta.Location = new Point(166, 218);
             lbl_Catapulta.Margin = new Padding(4, 0, 4, 0);
             lbl_Catapulta.Name = "lbl_Catapulta";
             lbl_Catapulta.Size = new Size(14, 13);
             lbl_Catapulta.TabIndex = 141;
             lbl_Catapulta.Text = "0";
             // 
-            // groupBox2
+            // groupBox4
             // 
-            groupBox2.BackColor = Color.FromArgb(32, 36, 47);
-            groupBox2.Controls.Add(panel9);
-            groupBox2.Controls.Add(panel11);
-            groupBox2.Controls.Add(panel13);
-            groupBox2.Controls.Add(panel15);
-            groupBox2.ForeColor = Color.White;
-            groupBox2.Location = new Point(227, 9);
-            groupBox2.Margin = new Padding(4, 3, 4, 3);
-            groupBox2.Name = "groupBox2";
-            groupBox2.Padding = new Padding(4, 3, 4, 3);
-            groupBox2.Size = new Size(144, 187);
-            groupBox2.TabIndex = 142;
-            groupBox2.TabStop = false;
-            groupBox2.Text = "Spedizione";
+            groupBox4.BackColor = Color.FromArgb(32, 36, 47);
+            groupBox4.Controls.Add(groupBox1);
+            groupBox4.Controls.Add(btn_Villaggi_Citta_Barbare);
+            groupBox4.Controls.Add(txt_Villaggio_B_Desc);
+            groupBox4.Controls.Add(btn_Attacco_PVE_Villaggio_B);
+            groupBox4.Controls.Add(btn_Esplora_PVE_Villaggio_B);
+            groupBox4.Controls.Add(comboBox_Villaggi);
+            groupBox4.ForeColor = Color.White;
+            groupBox4.Location = new Point(5, 4);
+            groupBox4.Margin = new Padding(4, 3, 4, 3);
+            groupBox4.Name = "groupBox4";
+            groupBox4.Padding = new Padding(4, 3, 4, 3);
+            groupBox4.Size = new Size(384, 243);
+            groupBox4.TabIndex = 143;
+            groupBox4.TabStop = false;
+            groupBox4.Text = "Villaggi Barbari";
             // 
-            // panel9
+            // groupBox1
             // 
-            panel9.BackColor = Color.FromArgb(32, 36, 47);
-            panel9.Controls.Add(label7);
-            panel9.Controls.Add(panel10);
-            panel9.Controls.Add(txt_Catapulta_Villaggio);
-            panel9.Location = new Point(4, 137);
-            panel9.Margin = new Padding(4, 3, 4, 3);
-            panel9.Name = "panel9";
-            panel9.Size = new Size(133, 45);
-            panel9.TabIndex = 31;
+            groupBox1.Controls.Add(panel4);
+            groupBox1.Controls.Add(label21);
+            groupBox1.Controls.Add(panel8);
+            groupBox1.Controls.Add(doubleBufferedPanel15);
+            groupBox1.Controls.Add(panel12);
+            groupBox1.Controls.Add(panel14);
+            groupBox1.Location = new Point(224, 9);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(153, 222);
+            groupBox1.TabIndex = 148;
+            groupBox1.TabStop = false;
             // 
-            // label7
+            // panel4
             // 
-            label7.AutoSize = true;
-            label7.ForeColor = SystemColors.Control;
-            label7.ImeMode = ImeMode.NoControl;
-            label7.Location = new Point(48, 3);
-            label7.Margin = new Padding(4, 0, 4, 0);
-            label7.Name = "label7";
-            label7.Size = new Size(58, 15);
-            label7.TabIndex = 3;
-            label7.Text = "Catapulta";
+            panel4.BackColor = Color.FromArgb(32, 36, 47);
+            panel4.Controls.Add(label19);
+            panel4.Controls.Add(panel6);
+            panel4.Controls.Add(txt_Catapulta_Villaggio);
+            panel4.Location = new Point(10, 174);
+            panel4.Margin = new Padding(4, 3, 4, 3);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(133, 43);
+            panel4.TabIndex = 31;
             // 
-            // panel10
+            // label19
             // 
-            panel10.BackColor = Color.FromArgb(32, 36, 47);
-            panel10.BackgroundImage = Properties.Resources.icons8_medieval_48;
-            panel10.BackgroundImageLayout = ImageLayout.Stretch;
-            panel10.BorderStyle = BorderStyle.FixedSingle;
-            panel10.ImeMode = ImeMode.NoControl;
-            panel10.Location = new Point(4, 3);
-            panel10.Margin = new Padding(4, 3, 4, 3);
-            panel10.Name = "panel10";
-            panel10.Size = new Size(37, 35);
-            panel10.TabIndex = 24;
+            label19.AutoSize = true;
+            label19.ForeColor = SystemColors.Control;
+            label19.ImeMode = ImeMode.NoControl;
+            label19.Location = new Point(48, 1);
+            label19.Margin = new Padding(4, 0, 4, 0);
+            label19.Name = "label19";
+            label19.Size = new Size(58, 15);
+            label19.TabIndex = 3;
+            label19.Text = "Catapulta";
+            // 
+            // panel6
+            // 
+            panel6.BackColor = Color.FromArgb(32, 36, 47);
+            panel6.BackgroundImage = Properties.Resources.icons8_medieval_48;
+            panel6.BackgroundImageLayout = ImageLayout.Stretch;
+            panel6.BorderStyle = BorderStyle.FixedSingle;
+            panel6.ImeMode = ImeMode.NoControl;
+            panel6.Location = new Point(4, 3);
+            panel6.Margin = new Padding(4, 3, 4, 3);
+            panel6.Name = "panel6";
+            panel6.Size = new Size(37, 35);
+            panel6.TabIndex = 24;
             // 
             // txt_Catapulta_Villaggio
             // 
             txt_Catapulta_Villaggio.BackColor = Color.FromArgb(32, 36, 47);
             txt_Catapulta_Villaggio.Font = new Font("Microsoft Sans Serif", 9.25F);
             txt_Catapulta_Villaggio.ForeColor = SystemColors.Control;
-            txt_Catapulta_Villaggio.Location = new Point(48, 19);
+            txt_Catapulta_Villaggio.Location = new Point(48, 18);
             txt_Catapulta_Villaggio.Margin = new Padding(4, 3, 4, 3);
             txt_Catapulta_Villaggio.Name = "txt_Catapulta_Villaggio";
             txt_Catapulta_Villaggio.ReadOnly = true;
             txt_Catapulta_Villaggio.Size = new Size(78, 21);
             txt_Catapulta_Villaggio.TabIndex = 25;
-            txt_Catapulta_Villaggio.Text = "????";
+            txt_Catapulta_Villaggio.Text = "0";
             txt_Catapulta_Villaggio.TextAlign = HorizontalAlignment.Center;
             // 
-            // panel11
+            // label21
             // 
-            panel11.BackColor = Color.FromArgb(32, 36, 47);
-            panel11.Controls.Add(doubleBufferedPanel11);
-            panel11.Controls.Add(label8);
-            panel11.Controls.Add(txt_Arcere_Villaggio);
-            panel11.Location = new Point(4, 96);
-            panel11.Margin = new Padding(4, 3, 4, 3);
-            panel11.Name = "panel11";
-            panel11.Size = new Size(133, 42);
-            panel11.TabIndex = 30;
+            label21.AutoSize = true;
+            label21.Font = new Font("Segoe UI", 9F);
+            label21.ForeColor = SystemColors.Control;
+            label21.Location = new Point(7, 0);
+            label21.Name = "label21";
+            label21.Size = new Size(92, 15);
+            label21.TabIndex = 30;
+            label21.Text = "Esercito Barbaro";
             // 
-            // label8
+            // panel8
             // 
-            label8.AutoSize = true;
-            label8.ForeColor = SystemColors.Control;
-            label8.ImeMode = ImeMode.NoControl;
-            label8.Location = new Point(48, 3);
-            label8.Margin = new Padding(4, 0, 4, 0);
-            label8.Name = "label8";
-            label8.Size = new Size(41, 15);
-            label8.TabIndex = 3;
-            label8.Text = "Arcere";
+            panel8.BackColor = Color.FromArgb(32, 36, 47);
+            panel8.Controls.Add(label22);
+            panel8.Controls.Add(doubleBufferedPanel14);
+            panel8.Controls.Add(txt_Arcere_Villaggio);
+            panel8.Location = new Point(10, 133);
+            panel8.Margin = new Padding(4, 3, 4, 3);
+            panel8.Name = "panel8";
+            panel8.Size = new Size(133, 42);
+            panel8.TabIndex = 30;
+            // 
+            // label22
+            // 
+            label22.AutoSize = true;
+            label22.ForeColor = SystemColors.Control;
+            label22.ImeMode = ImeMode.NoControl;
+            label22.Location = new Point(48, 1);
+            label22.Margin = new Padding(4, 0, 4, 0);
+            label22.Name = "label22";
+            label22.Size = new Size(41, 15);
+            label22.TabIndex = 3;
+            label22.Text = "Arcere";
+            // 
+            // doubleBufferedPanel14
+            // 
+            doubleBufferedPanel14.BackgroundImage = Properties.Resources.Arciere_V2_removebg_preview;
+            doubleBufferedPanel14.BackgroundImageLayout = ImageLayout.Zoom;
+            doubleBufferedPanel14.Location = new Point(4, 4);
+            doubleBufferedPanel14.Name = "doubleBufferedPanel14";
+            doubleBufferedPanel14.Size = new Size(37, 35);
+            doubleBufferedPanel14.TabIndex = 146;
             // 
             // txt_Arcere_Villaggio
             // 
@@ -846,32 +946,120 @@
             txt_Arcere_Villaggio.ReadOnly = true;
             txt_Arcere_Villaggio.Size = new Size(78, 21);
             txt_Arcere_Villaggio.TabIndex = 25;
-            txt_Arcere_Villaggio.Text = "????";
+            txt_Arcere_Villaggio.Text = "0";
             txt_Arcere_Villaggio.TextAlign = HorizontalAlignment.Center;
             // 
-            // panel13
+            // doubleBufferedPanel15
             // 
-            panel13.BackColor = Color.FromArgb(32, 36, 47);
-            panel13.Controls.Add(doubleBufferedPanel7);
-            panel13.Controls.Add(label9);
-            panel13.Controls.Add(txt_Lancere_Villaggio);
-            panel13.Location = new Point(4, 55);
-            panel13.Margin = new Padding(4, 3, 4, 3);
-            panel13.Name = "panel13";
-            panel13.Size = new Size(133, 42);
-            panel13.TabIndex = 3;
+            doubleBufferedPanel15.Controls.Add(button3);
+            doubleBufferedPanel15.Controls.Add(button4);
+            doubleBufferedPanel15.Controls.Add(button5);
+            doubleBufferedPanel15.Controls.Add(button6);
+            doubleBufferedPanel15.Controls.Add(button7);
+            doubleBufferedPanel15.Location = new Point(3, 17);
+            doubleBufferedPanel15.Name = "doubleBufferedPanel15";
+            doubleBufferedPanel15.Size = new Size(147, 36);
+            doubleBufferedPanel15.TabIndex = 29;
             // 
-            // label9
+            // button3
             // 
-            label9.AutoSize = true;
-            label9.ForeColor = SystemColors.Control;
-            label9.ImeMode = ImeMode.NoControl;
-            label9.Location = new Point(48, 3);
-            label9.Margin = new Padding(4, 0, 4, 0);
-            label9.Name = "label9";
-            label9.Size = new Size(48, 15);
-            label9.TabIndex = 3;
-            label9.Text = "Lancere";
+            button3.FlatAppearance.BorderSize = 0;
+            button3.FlatStyle = FlatStyle.Popup;
+            button3.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button3.ForeColor = SystemColors.Control;
+            button3.Location = new Point(115, 4);
+            button3.Name = "button3";
+            button3.Size = new Size(28, 28);
+            button3.TabIndex = 33;
+            button3.Text = "V";
+            button3.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            button4.BackColor = Color.DimGray;
+            button4.BackgroundImageLayout = ImageLayout.Stretch;
+            button4.FlatAppearance.BorderSize = 0;
+            button4.FlatStyle = FlatStyle.Popup;
+            button4.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button4.ForeColor = SystemColors.Control;
+            button4.Location = new Point(3, 4);
+            button4.Name = "button4";
+            button4.Size = new Size(28, 28);
+            button4.TabIndex = 29;
+            button4.Text = "I";
+            button4.UseVisualStyleBackColor = false;
+            // 
+            // button5
+            // 
+            button5.FlatAppearance.BorderSize = 0;
+            button5.FlatStyle = FlatStyle.Popup;
+            button5.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button5.ForeColor = SystemColors.Control;
+            button5.Location = new Point(59, 4);
+            button5.Name = "button5";
+            button5.Size = new Size(28, 28);
+            button5.TabIndex = 31;
+            button5.Text = "III";
+            button5.UseVisualStyleBackColor = true;
+            // 
+            // button6
+            // 
+            button6.FlatAppearance.BorderSize = 0;
+            button6.FlatStyle = FlatStyle.Popup;
+            button6.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button6.ForeColor = SystemColors.Control;
+            button6.Location = new Point(87, 4);
+            button6.Name = "button6";
+            button6.Size = new Size(28, 28);
+            button6.TabIndex = 32;
+            button6.Text = "IV";
+            button6.UseVisualStyleBackColor = true;
+            // 
+            // button7
+            // 
+            button7.FlatAppearance.BorderSize = 0;
+            button7.FlatStyle = FlatStyle.Popup;
+            button7.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button7.ForeColor = SystemColors.Control;
+            button7.Location = new Point(31, 4);
+            button7.Name = "button7";
+            button7.Size = new Size(28, 28);
+            button7.TabIndex = 30;
+            button7.Text = "II";
+            button7.UseVisualStyleBackColor = true;
+            // 
+            // panel12
+            // 
+            panel12.BackColor = Color.FromArgb(32, 36, 47);
+            panel12.Controls.Add(doubleBufferedPanel16);
+            panel12.Controls.Add(label23);
+            panel12.Controls.Add(txt_Lancere_Villaggio);
+            panel12.Location = new Point(10, 92);
+            panel12.Margin = new Padding(4, 3, 4, 3);
+            panel12.Name = "panel12";
+            panel12.Size = new Size(133, 42);
+            panel12.TabIndex = 3;
+            // 
+            // doubleBufferedPanel16
+            // 
+            doubleBufferedPanel16.BackgroundImage = Properties.Resources.Lancere_V2_removebg_preview;
+            doubleBufferedPanel16.BackgroundImageLayout = ImageLayout.Zoom;
+            doubleBufferedPanel16.Location = new Point(4, 4);
+            doubleBufferedPanel16.Name = "doubleBufferedPanel16";
+            doubleBufferedPanel16.Size = new Size(37, 35);
+            doubleBufferedPanel16.TabIndex = 145;
+            // 
+            // label23
+            // 
+            label23.AutoSize = true;
+            label23.ForeColor = SystemColors.Control;
+            label23.ImeMode = ImeMode.NoControl;
+            label23.Location = new Point(48, 1);
+            label23.Margin = new Padding(4, 0, 4, 0);
+            label23.Name = "label23";
+            label23.Size = new Size(48, 15);
+            label23.TabIndex = 3;
+            label23.Text = "Lancere";
             // 
             // txt_Lancere_Villaggio
             // 
@@ -884,32 +1072,41 @@
             txt_Lancere_Villaggio.ReadOnly = true;
             txt_Lancere_Villaggio.Size = new Size(78, 21);
             txt_Lancere_Villaggio.TabIndex = 25;
-            txt_Lancere_Villaggio.Text = "????";
+            txt_Lancere_Villaggio.Text = "0";
             txt_Lancere_Villaggio.TextAlign = HorizontalAlignment.Center;
             // 
-            // panel15
+            // panel14
             // 
-            panel15.BackColor = Color.FromArgb(32, 36, 47);
-            panel15.Controls.Add(doubleBufferedPanel3);
-            panel15.Controls.Add(label10);
-            panel15.Controls.Add(txt_Guerriero_Villaggio);
-            panel15.Location = new Point(4, 15);
-            panel15.Margin = new Padding(4, 3, 4, 3);
-            panel15.Name = "panel15";
-            panel15.Size = new Size(133, 41);
-            panel15.TabIndex = 2;
+            panel14.BackColor = Color.FromArgb(32, 36, 47);
+            panel14.Controls.Add(doubleBufferedPanel17);
+            panel14.Controls.Add(label24);
+            panel14.Controls.Add(txt_Guerriero_Villaggio);
+            panel14.Location = new Point(10, 52);
+            panel14.Margin = new Padding(4, 3, 4, 3);
+            panel14.Name = "panel14";
+            panel14.Size = new Size(133, 41);
+            panel14.TabIndex = 2;
             // 
-            // label10
+            // doubleBufferedPanel17
             // 
-            label10.AutoSize = true;
-            label10.ForeColor = SystemColors.Control;
-            label10.ImeMode = ImeMode.NoControl;
-            label10.Location = new Point(48, 3);
-            label10.Margin = new Padding(4, 0, 4, 0);
-            label10.Name = "label10";
-            label10.Size = new Size(56, 15);
-            label10.TabIndex = 3;
-            label10.Text = "Guerriero";
+            doubleBufferedPanel17.BackgroundImage = Properties.Resources.Guerriero_V2_removebg_preview;
+            doubleBufferedPanel17.BackgroundImageLayout = ImageLayout.Zoom;
+            doubleBufferedPanel17.Location = new Point(4, 3);
+            doubleBufferedPanel17.Name = "doubleBufferedPanel17";
+            doubleBufferedPanel17.Size = new Size(37, 35);
+            doubleBufferedPanel17.TabIndex = 144;
+            // 
+            // label24
+            // 
+            label24.AutoSize = true;
+            label24.ForeColor = SystemColors.Control;
+            label24.ImeMode = ImeMode.NoControl;
+            label24.Location = new Point(48, 1);
+            label24.Margin = new Padding(4, 0, 4, 0);
+            label24.Name = "label24";
+            label24.Size = new Size(56, 15);
+            label24.TabIndex = 3;
+            label24.Text = "Guerriero";
             // 
             // txt_Guerriero_Villaggio
             // 
@@ -922,40 +1119,22 @@
             txt_Guerriero_Villaggio.ReadOnly = true;
             txt_Guerriero_Villaggio.Size = new Size(78, 21);
             txt_Guerriero_Villaggio.TabIndex = 25;
-            txt_Guerriero_Villaggio.Text = "????";
+            txt_Guerriero_Villaggio.Text = "0";
             txt_Guerriero_Villaggio.TextAlign = HorizontalAlignment.Center;
             // 
-            // groupBox4
+            // btn_Villaggi_Citta_Barbare
             // 
-            groupBox4.BackColor = Color.FromArgb(32, 36, 47);
-            groupBox4.Controls.Add(btn_Esercito_Caserme);
-            groupBox4.Controls.Add(txt_Villaggio_B_Desc);
-            groupBox4.Controls.Add(btn_Attacco_PVE_Villaggio_B);
-            groupBox4.Controls.Add(btn_Esplora_PVE_Villaggio_B);
-            groupBox4.Controls.Add(comboBox_Villaggi);
-            groupBox4.Controls.Add(groupBox2);
-            groupBox4.ForeColor = Color.White;
-            groupBox4.Location = new Point(5, 4);
-            groupBox4.Margin = new Padding(4, 3, 4, 3);
-            groupBox4.Name = "groupBox4";
-            groupBox4.Padding = new Padding(4, 3, 4, 3);
-            groupBox4.Size = new Size(384, 209);
-            groupBox4.TabIndex = 143;
-            groupBox4.TabStop = false;
-            groupBox4.Text = "Villaggi Barbari";
-            // 
-            // btn_Esercito_Caserme
-            // 
-            btn_Esercito_Caserme.BackgroundImage = Properties.Resources.exchange_Edit_removebg_preview;
-            btn_Esercito_Caserme.BackgroundImageLayout = ImageLayout.Stretch;
-            btn_Esercito_Caserme.FlatAppearance.BorderSize = 0;
-            btn_Esercito_Caserme.FlatStyle = FlatStyle.Flat;
-            btn_Esercito_Caserme.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Esercito_Caserme.Location = new Point(197, 0);
-            btn_Esercito_Caserme.Name = "btn_Esercito_Caserme";
-            btn_Esercito_Caserme.Size = new Size(23, 22);
-            btn_Esercito_Caserme.TabIndex = 38;
-            btn_Esercito_Caserme.UseVisualStyleBackColor = true;
+            btn_Villaggi_Citta_Barbare.BackgroundImage = Properties.Resources.exchange_Edit_removebg_preview;
+            btn_Villaggi_Citta_Barbare.BackgroundImageLayout = ImageLayout.Stretch;
+            btn_Villaggi_Citta_Barbare.FlatAppearance.BorderSize = 0;
+            btn_Villaggi_Citta_Barbare.FlatStyle = FlatStyle.Flat;
+            btn_Villaggi_Citta_Barbare.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_Villaggi_Citta_Barbare.Location = new Point(197, 0);
+            btn_Villaggi_Citta_Barbare.Name = "btn_Villaggi_Citta_Barbare";
+            btn_Villaggi_Citta_Barbare.Size = new Size(23, 22);
+            btn_Villaggi_Citta_Barbare.TabIndex = 38;
+            btn_Villaggi_Citta_Barbare.UseVisualStyleBackColor = true;
+            btn_Villaggi_Citta_Barbare.Click += btn_Villaggi_Citta_Barbare_Click;
             // 
             // txt_Villaggio_B_Desc
             // 
@@ -1023,7 +1202,7 @@
             groupBox5.Controls.Add(comboBox_Città);
             groupBox5.Controls.Add(groupBox6);
             groupBox5.ForeColor = Color.White;
-            groupBox5.Location = new Point(770, 4);
+            groupBox5.Location = new Point(771, 4);
             groupBox5.Margin = new Padding(4, 3, 4, 3);
             groupBox5.Name = "groupBox5";
             groupBox5.Padding = new Padding(4, 3, 4, 3);
@@ -1105,7 +1284,7 @@
             groupBox6.Size = new Size(144, 187);
             groupBox6.TabIndex = 142;
             groupBox6.TabStop = false;
-            groupBox6.Text = "Spedizione";
+            groupBox6.Text = "Esercito Barbaro";
             // 
             // panel17
             // 
@@ -1170,6 +1349,15 @@
             panel19.Size = new Size(133, 42);
             panel19.TabIndex = 30;
             // 
+            // doubleBufferedPanel13
+            // 
+            doubleBufferedPanel13.BackgroundImage = Properties.Resources.Arciere_V2_removebg_preview;
+            doubleBufferedPanel13.BackgroundImageLayout = ImageLayout.Zoom;
+            doubleBufferedPanel13.Location = new Point(4, 3);
+            doubleBufferedPanel13.Name = "doubleBufferedPanel13";
+            doubleBufferedPanel13.Size = new Size(37, 35);
+            doubleBufferedPanel13.TabIndex = 147;
+            // 
             // label12
             // 
             label12.AutoSize = true;
@@ -1208,6 +1396,15 @@
             panel21.Size = new Size(133, 42);
             panel21.TabIndex = 3;
             // 
+            // doubleBufferedPanel9
+            // 
+            doubleBufferedPanel9.BackgroundImage = Properties.Resources.Lancere_V2_removebg_preview;
+            doubleBufferedPanel9.BackgroundImageLayout = ImageLayout.Zoom;
+            doubleBufferedPanel9.Location = new Point(4, 3);
+            doubleBufferedPanel9.Name = "doubleBufferedPanel9";
+            doubleBufferedPanel9.Size = new Size(37, 35);
+            doubleBufferedPanel9.TabIndex = 146;
+            // 
             // label13
             // 
             label13.AutoSize = true;
@@ -1245,6 +1442,15 @@
             panel23.Name = "panel23";
             panel23.Size = new Size(133, 41);
             panel23.TabIndex = 2;
+            // 
+            // doubleBufferedPanel5
+            // 
+            doubleBufferedPanel5.BackgroundImage = Properties.Resources.Guerriero_V2_removebg_preview;
+            doubleBufferedPanel5.BackgroundImageLayout = ImageLayout.Zoom;
+            doubleBufferedPanel5.Location = new Point(4, 3);
+            doubleBufferedPanel5.Name = "doubleBufferedPanel5";
+            doubleBufferedPanel5.Size = new Size(37, 35);
+            doubleBufferedPanel5.TabIndex = 145;
             // 
             // label14
             // 
@@ -1286,7 +1492,7 @@
             groupBox7.Margin = new Padding(4, 3, 4, 3);
             groupBox7.Name = "groupBox7";
             groupBox7.Padding = new Padding(4, 3, 4, 3);
-            groupBox7.Size = new Size(384, 209);
+            groupBox7.Size = new Size(384, 243);
             groupBox7.TabIndex = 145;
             groupBox7.TabStop = false;
             groupBox7.Text = "PVP";
@@ -1343,6 +1549,7 @@
             btn_Esplora_PVP.TabIndex = 145;
             btn_Esplora_PVP.Text = "Esplora";
             btn_Esplora_PVP.UseVisualStyleBackColor = false;
+            btn_Esplora_PVP.Click += btn_Esplora_PVP_Click;
             // 
             // comboBox_PVP
             // 
@@ -1356,6 +1563,7 @@
             comboBox_PVP.Name = "comboBox_PVP";
             comboBox_PVP.Size = new Size(211, 21);
             comboBox_PVP.TabIndex = 144;
+            comboBox_PVP.TextChanged += comboBox_PVP_TextChanged;
             // 
             // groupBox8
             // 
@@ -1372,7 +1580,7 @@
             groupBox8.Size = new Size(144, 187);
             groupBox8.TabIndex = 142;
             groupBox8.TabStop = false;
-            groupBox8.Text = "Spedizione";
+            groupBox8.Text = "Esercito Giocatore";
             // 
             // panel25
             // 
@@ -1437,6 +1645,15 @@
             panel27.Size = new Size(133, 42);
             panel27.TabIndex = 30;
             // 
+            // doubleBufferedPanel12
+            // 
+            doubleBufferedPanel12.BackgroundImage = Properties.Resources.Arciere_V2_removebg_preview;
+            doubleBufferedPanel12.BackgroundImageLayout = ImageLayout.Zoom;
+            doubleBufferedPanel12.Location = new Point(4, 3);
+            doubleBufferedPanel12.Name = "doubleBufferedPanel12";
+            doubleBufferedPanel12.Size = new Size(37, 35);
+            doubleBufferedPanel12.TabIndex = 147;
+            // 
             // label16
             // 
             label16.AutoSize = true;
@@ -1474,6 +1691,15 @@
             panel29.Name = "panel29";
             panel29.Size = new Size(133, 42);
             panel29.TabIndex = 3;
+            // 
+            // doubleBufferedPanel8
+            // 
+            doubleBufferedPanel8.BackgroundImage = Properties.Resources.Lancere_V2_removebg_preview;
+            doubleBufferedPanel8.BackgroundImageLayout = ImageLayout.Zoom;
+            doubleBufferedPanel8.Location = new Point(4, 3);
+            doubleBufferedPanel8.Name = "doubleBufferedPanel8";
+            doubleBufferedPanel8.Size = new Size(37, 35);
+            doubleBufferedPanel8.TabIndex = 146;
             // 
             // label17
             // 
@@ -1513,6 +1739,15 @@
             panel31.Size = new Size(133, 41);
             panel31.TabIndex = 2;
             // 
+            // doubleBufferedPanel4
+            // 
+            doubleBufferedPanel4.BackgroundImage = Properties.Resources.Guerriero_V2_removebg_preview;
+            doubleBufferedPanel4.BackgroundImageLayout = ImageLayout.Zoom;
+            doubleBufferedPanel4.Location = new Point(4, 3);
+            doubleBufferedPanel4.Name = "doubleBufferedPanel4";
+            doubleBufferedPanel4.Size = new Size(37, 35);
+            doubleBufferedPanel4.TabIndex = 145;
+            // 
             // label18
             // 
             label18.AutoSize = true;
@@ -1542,6 +1777,8 @@
             // groupBox_Raduno
             // 
             groupBox_Raduno.BackColor = Color.FromArgb(32, 36, 47);
+            groupBox_Raduno.Controls.Add(btn_Attacca);
+            groupBox_Raduno.Controls.Add(btn_Sposta);
             groupBox_Raduno.Controls.Add(groupBox9);
             groupBox_Raduno.Controls.Add(groupBox_Esercito);
             groupBox_Raduno.Controls.Add(lbl_Guerriero);
@@ -1563,15 +1800,42 @@
             groupBox_Raduno.Controls.Add(label5);
             groupBox_Raduno.Controls.Add(comboBox_Raduni_InCorso);
             groupBox_Raduno.ForeColor = Color.White;
-            groupBox_Raduno.Location = new Point(5, 212);
+            groupBox_Raduno.Location = new Point(54, 246);
             groupBox_Raduno.Margin = new Padding(4, 3, 4, 3);
             groupBox_Raduno.Name = "groupBox_Raduno";
             groupBox_Raduno.Padding = new Padding(4, 3, 4, 3);
             groupBox_Raduno.RightToLeft = RightToLeft.No;
-            groupBox_Raduno.Size = new Size(767, 336);
+            groupBox_Raduno.Size = new Size(589, 363);
             groupBox_Raduno.TabIndex = 146;
             groupBox_Raduno.TabStop = false;
             groupBox_Raduno.Visible = false;
+            // 
+            // btn_Attacca
+            // 
+            btn_Attacca.BackColor = Color.FromArgb(32, 36, 47);
+            btn_Attacca.Enabled = false;
+            btn_Attacca.ForeColor = SystemColors.Control;
+            btn_Attacca.Location = new Point(299, 225);
+            btn_Attacca.Margin = new Padding(4, 3, 4, 3);
+            btn_Attacca.Name = "btn_Attacca";
+            btn_Attacca.Size = new Size(72, 31);
+            btn_Attacca.TabIndex = 145;
+            btn_Attacca.Text = "Attacca";
+            btn_Attacca.UseVisualStyleBackColor = false;
+            btn_Attacca.Click += btn_Attacca_Click;
+            // 
+            // btn_Sposta
+            // 
+            btn_Sposta.BackColor = Color.FromArgb(32, 36, 47);
+            btn_Sposta.ForeColor = SystemColors.Control;
+            btn_Sposta.Location = new Point(219, 225);
+            btn_Sposta.Margin = new Padding(4, 3, 4, 3);
+            btn_Sposta.Name = "btn_Sposta";
+            btn_Sposta.Size = new Size(72, 31);
+            btn_Sposta.TabIndex = 144;
+            btn_Sposta.Text = "Sposta";
+            btn_Sposta.UseVisualStyleBackColor = false;
+            btn_Sposta.Click += btn_Sposta_Click;
             // 
             // groupBox9
             // 
@@ -1726,13 +1990,14 @@
             btn_V_Esercito.TabIndex = 33;
             btn_V_Esercito.Text = "V";
             btn_V_Esercito.UseVisualStyleBackColor = true;
+            btn_V_Esercito.Click += btn_V_Esercito_Click;
             // 
             // btn_I_Esercito
             // 
             btn_I_Esercito.BackColor = Color.DimGray;
             btn_I_Esercito.BackgroundImageLayout = ImageLayout.Stretch;
             btn_I_Esercito.FlatAppearance.BorderSize = 0;
-            btn_I_Esercito.FlatStyle = FlatStyle.Flat;
+            btn_I_Esercito.FlatStyle = FlatStyle.Popup;
             btn_I_Esercito.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_I_Esercito.ForeColor = SystemColors.Control;
             btn_I_Esercito.Location = new Point(3, 4);
@@ -1741,6 +2006,7 @@
             btn_I_Esercito.TabIndex = 29;
             btn_I_Esercito.Text = "I";
             btn_I_Esercito.UseVisualStyleBackColor = false;
+            btn_I_Esercito.Click += btn_I_Esercito_Click;
             // 
             // btn_III_Esercito
             // 
@@ -1754,6 +2020,7 @@
             btn_III_Esercito.TabIndex = 31;
             btn_III_Esercito.Text = "III";
             btn_III_Esercito.UseVisualStyleBackColor = true;
+            btn_III_Esercito.Click += btn_III_Esercito_Click;
             // 
             // btn_IV_Esercito
             // 
@@ -1767,6 +2034,7 @@
             btn_IV_Esercito.TabIndex = 32;
             btn_IV_Esercito.Text = "IV";
             btn_IV_Esercito.UseVisualStyleBackColor = true;
+            btn_IV_Esercito.Click += btn_IV_Esercito_Click;
             // 
             // btn_II_Esercito
             // 
@@ -1780,148 +2048,14 @@
             btn_II_Esercito.TabIndex = 30;
             btn_II_Esercito.Text = "II";
             btn_II_Esercito.UseVisualStyleBackColor = true;
-            // 
-            // ico_Unit_1
-            // 
-            ico_Unit_1.BackgroundImage = Properties.Resources.Guerriero_V2_removebg_preview;
-            ico_Unit_1.BackgroundImageLayout = ImageLayout.Zoom;
-            ico_Unit_1.Location = new Point(4, 3);
-            ico_Unit_1.Name = "ico_Unit_1";
-            ico_Unit_1.Size = new Size(37, 35);
-            ico_Unit_1.TabIndex = 144;
-            // 
-            // ico_Unit_2
-            // 
-            ico_Unit_2.BackgroundImage = Properties.Resources.Lancere_V2_removebg_preview;
-            ico_Unit_2.BackgroundImageLayout = ImageLayout.Zoom;
-            ico_Unit_2.Location = new Point(4, 4);
-            ico_Unit_2.Name = "ico_Unit_2";
-            ico_Unit_2.Size = new Size(37, 35);
-            ico_Unit_2.TabIndex = 145;
-            // 
-            // ico_Unit_3
-            // 
-            ico_Unit_3.BackgroundImage = Properties.Resources.Arciere_V2_removebg_preview;
-            ico_Unit_3.BackgroundImageLayout = ImageLayout.Zoom;
-            ico_Unit_3.Location = new Point(4, 4);
-            ico_Unit_3.Name = "ico_Unit_3";
-            ico_Unit_3.Size = new Size(37, 35);
-            ico_Unit_3.TabIndex = 146;
-            // 
-            // doubleBufferedPanel2
-            // 
-            doubleBufferedPanel2.BackgroundImage = Properties.Resources.Guerriero_V2_removebg_preview;
-            doubleBufferedPanel2.BackgroundImageLayout = ImageLayout.Zoom;
-            doubleBufferedPanel2.Location = new Point(4, 3);
-            doubleBufferedPanel2.Name = "doubleBufferedPanel2";
-            doubleBufferedPanel2.Size = new Size(37, 35);
-            doubleBufferedPanel2.TabIndex = 145;
-            // 
-            // doubleBufferedPanel3
-            // 
-            doubleBufferedPanel3.BackgroundImage = Properties.Resources.Guerriero_V2_removebg_preview;
-            doubleBufferedPanel3.BackgroundImageLayout = ImageLayout.Zoom;
-            doubleBufferedPanel3.Location = new Point(4, 3);
-            doubleBufferedPanel3.Name = "doubleBufferedPanel3";
-            doubleBufferedPanel3.Size = new Size(37, 35);
-            doubleBufferedPanel3.TabIndex = 145;
-            // 
-            // doubleBufferedPanel4
-            // 
-            doubleBufferedPanel4.BackgroundImage = Properties.Resources.Guerriero_V2_removebg_preview;
-            doubleBufferedPanel4.BackgroundImageLayout = ImageLayout.Zoom;
-            doubleBufferedPanel4.Location = new Point(4, 3);
-            doubleBufferedPanel4.Name = "doubleBufferedPanel4";
-            doubleBufferedPanel4.Size = new Size(37, 35);
-            doubleBufferedPanel4.TabIndex = 145;
-            // 
-            // doubleBufferedPanel5
-            // 
-            doubleBufferedPanel5.BackgroundImage = Properties.Resources.Guerriero_V2_removebg_preview;
-            doubleBufferedPanel5.BackgroundImageLayout = ImageLayout.Zoom;
-            doubleBufferedPanel5.Location = new Point(4, 3);
-            doubleBufferedPanel5.Name = "doubleBufferedPanel5";
-            doubleBufferedPanel5.Size = new Size(37, 35);
-            doubleBufferedPanel5.TabIndex = 145;
-            // 
-            // doubleBufferedPanel6
-            // 
-            doubleBufferedPanel6.BackgroundImage = Properties.Resources.Lancere_V2_removebg_preview;
-            doubleBufferedPanel6.BackgroundImageLayout = ImageLayout.Zoom;
-            doubleBufferedPanel6.Location = new Point(4, 3);
-            doubleBufferedPanel6.Name = "doubleBufferedPanel6";
-            doubleBufferedPanel6.Size = new Size(37, 35);
-            doubleBufferedPanel6.TabIndex = 146;
-            // 
-            // doubleBufferedPanel7
-            // 
-            doubleBufferedPanel7.BackgroundImage = Properties.Resources.Lancere_V2_removebg_preview;
-            doubleBufferedPanel7.BackgroundImageLayout = ImageLayout.Zoom;
-            doubleBufferedPanel7.Location = new Point(4, 3);
-            doubleBufferedPanel7.Name = "doubleBufferedPanel7";
-            doubleBufferedPanel7.Size = new Size(37, 35);
-            doubleBufferedPanel7.TabIndex = 146;
-            // 
-            // doubleBufferedPanel8
-            // 
-            doubleBufferedPanel8.BackgroundImage = Properties.Resources.Lancere_V2_removebg_preview;
-            doubleBufferedPanel8.BackgroundImageLayout = ImageLayout.Zoom;
-            doubleBufferedPanel8.Location = new Point(4, 3);
-            doubleBufferedPanel8.Name = "doubleBufferedPanel8";
-            doubleBufferedPanel8.Size = new Size(37, 35);
-            doubleBufferedPanel8.TabIndex = 146;
-            // 
-            // doubleBufferedPanel9
-            // 
-            doubleBufferedPanel9.BackgroundImage = Properties.Resources.Lancere_V2_removebg_preview;
-            doubleBufferedPanel9.BackgroundImageLayout = ImageLayout.Zoom;
-            doubleBufferedPanel9.Location = new Point(4, 3);
-            doubleBufferedPanel9.Name = "doubleBufferedPanel9";
-            doubleBufferedPanel9.Size = new Size(37, 35);
-            doubleBufferedPanel9.TabIndex = 146;
-            // 
-            // doubleBufferedPanel10
-            // 
-            doubleBufferedPanel10.BackgroundImage = Properties.Resources.Arciere_V2_removebg_preview;
-            doubleBufferedPanel10.BackgroundImageLayout = ImageLayout.Zoom;
-            doubleBufferedPanel10.Location = new Point(4, 3);
-            doubleBufferedPanel10.Name = "doubleBufferedPanel10";
-            doubleBufferedPanel10.Size = new Size(37, 35);
-            doubleBufferedPanel10.TabIndex = 147;
-            // 
-            // doubleBufferedPanel11
-            // 
-            doubleBufferedPanel11.BackgroundImage = Properties.Resources.Arciere_V2_removebg_preview;
-            doubleBufferedPanel11.BackgroundImageLayout = ImageLayout.Zoom;
-            doubleBufferedPanel11.Location = new Point(4, 3);
-            doubleBufferedPanel11.Name = "doubleBufferedPanel11";
-            doubleBufferedPanel11.Size = new Size(37, 35);
-            doubleBufferedPanel11.TabIndex = 147;
-            // 
-            // doubleBufferedPanel12
-            // 
-            doubleBufferedPanel12.BackgroundImage = Properties.Resources.Arciere_V2_removebg_preview;
-            doubleBufferedPanel12.BackgroundImageLayout = ImageLayout.Zoom;
-            doubleBufferedPanel12.Location = new Point(4, 3);
-            doubleBufferedPanel12.Name = "doubleBufferedPanel12";
-            doubleBufferedPanel12.Size = new Size(37, 35);
-            doubleBufferedPanel12.TabIndex = 147;
-            // 
-            // doubleBufferedPanel13
-            // 
-            doubleBufferedPanel13.BackgroundImage = Properties.Resources.Arciere_V2_removebg_preview;
-            doubleBufferedPanel13.BackgroundImageLayout = ImageLayout.Zoom;
-            doubleBufferedPanel13.Location = new Point(4, 3);
-            doubleBufferedPanel13.Name = "doubleBufferedPanel13";
-            doubleBufferedPanel13.Size = new Size(37, 35);
-            doubleBufferedPanel13.TabIndex = 147;
+            btn_II_Esercito.Click += btn_II_Esercito_Click;
             // 
             // AttaccoCoordinato
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(32, 36, 47);
-            ClientSize = new Size(1162, 554);
+            ClientSize = new Size(1182, 621);
             Controls.Add(groupBox_Raduno);
             Controls.Add(groupBox7);
             Controls.Add(groupBox5);
@@ -1929,6 +2063,7 @@
             Margin = new Padding(4, 3, 4, 3);
             Name = "AttaccoCoordinato";
             Text = "PVE-PVP";
+            FormClosing += AttaccoCoordinato_FormClosing;
             Load += AttaccoCoordinato_Load;
             ((System.ComponentModel.ISupportInitialize)trackBar_Guerriero).EndInit();
             ((System.ComponentModel.ISupportInitialize)trackBar_Lanciere).EndInit();
@@ -1950,17 +2085,19 @@
             panel5.PerformLayout();
             panel7.ResumeLayout(false);
             panel7.PerformLayout();
-            groupBox2.ResumeLayout(false);
-            panel9.ResumeLayout(false);
-            panel9.PerformLayout();
-            panel11.ResumeLayout(false);
-            panel11.PerformLayout();
-            panel13.ResumeLayout(false);
-            panel13.PerformLayout();
-            panel15.ResumeLayout(false);
-            panel15.PerformLayout();
             groupBox4.ResumeLayout(false);
             groupBox4.PerformLayout();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            panel4.ResumeLayout(false);
+            panel4.PerformLayout();
+            panel8.ResumeLayout(false);
+            panel8.PerformLayout();
+            doubleBufferedPanel15.ResumeLayout(false);
+            panel12.ResumeLayout(false);
+            panel12.PerformLayout();
+            panel14.ResumeLayout(false);
+            panel14.PerformLayout();
             groupBox5.ResumeLayout(false);
             groupBox5.PerformLayout();
             groupBox6.ResumeLayout(false);
@@ -2025,10 +2162,10 @@
         private System.Windows.Forms.TextBox txt_Catapulta_Spedizione;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox txt_Arciere_Spedizione;
+        private System.Windows.Forms.TextBox txt_Arcere_Spedizione;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox txt_Lanciere_Spedizione;
+        private System.Windows.Forms.TextBox txt_Lancere_Spedizione;
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txt_Guerriero_Spedizione;
@@ -2041,20 +2178,6 @@
         private System.Windows.Forms.Label lbl_Lanciere;
         private System.Windows.Forms.Label lbl_Arciere;
         private System.Windows.Forms.Label lbl_Catapulta;
-        private GroupBox groupBox2;
-        private Panel panel9;
-        private Label label7;
-        private Panel panel10;
-        private TextBox txt_Catapulta_Villaggio;
-        private Panel panel11;
-        private Label label8;
-        private TextBox txt_Arcere_Villaggio;
-        private Panel panel13;
-        private Label label9;
-        private TextBox txt_Lancere_Villaggio;
-        private Panel panel15;
-        private Label label10;
-        private TextBox txt_Guerriero_Villaggio;
         private GroupBox groupBox4;
         private TextBox txt_Villaggio_B_Desc;
         private Button btn_Attacco_PVE_Villaggio_B;
@@ -2101,7 +2224,7 @@
         private TextBox txt_Guerriero_PVE;
         private GroupBox groupBox_Raduno;
         private GroupBox groupBox_Esercito;
-        private Button btn_Esercito_Caserme;
+        private Button btn_Villaggi_Citta_Barbare;
         private Label lbl_Esercito;
         private Strumenti.DoubleBufferedPanel panel_Sfondo_Bottoni;
         private Button btn_V_Esercito;
@@ -2123,14 +2246,37 @@
         private Strumenti.DoubleBufferedPanel ico_Unit_3;
         private Strumenti.DoubleBufferedPanel ico_Unit_2;
         private Strumenti.DoubleBufferedPanel ico_Unit_1;
-        private Strumenti.DoubleBufferedPanel doubleBufferedPanel11;
-        private Strumenti.DoubleBufferedPanel doubleBufferedPanel7;
-        private Strumenti.DoubleBufferedPanel doubleBufferedPanel3;
         private Strumenti.DoubleBufferedPanel doubleBufferedPanel13;
         private Strumenti.DoubleBufferedPanel doubleBufferedPanel9;
         private Strumenti.DoubleBufferedPanel doubleBufferedPanel5;
         private Strumenti.DoubleBufferedPanel doubleBufferedPanel12;
         private Strumenti.DoubleBufferedPanel doubleBufferedPanel8;
         private Strumenti.DoubleBufferedPanel doubleBufferedPanel4;
+        private GroupBox groupBox1;
+        private Panel panel4;
+        private Label label19;
+        private Panel panel6;
+        private TextBox txt_Catapulta_Villaggio;
+        private Label label21;
+        private Panel panel8;
+        private Label label22;
+        private Strumenti.DoubleBufferedPanel doubleBufferedPanel14;
+        private TextBox txt_Arcere_Villaggio;
+        private Strumenti.DoubleBufferedPanel doubleBufferedPanel15;
+        private Button button3;
+        private Button button4;
+        private Button button5;
+        private Button button6;
+        private Button button7;
+        private Panel panel12;
+        private Strumenti.DoubleBufferedPanel doubleBufferedPanel16;
+        private Label label23;
+        private TextBox txt_Lancere_Villaggio;
+        private Panel panel14;
+        private Strumenti.DoubleBufferedPanel doubleBufferedPanel17;
+        private Label label24;
+        private TextBox txt_Guerriero_Villaggio;
+        private Button btn_Attacca;
+        private Button btn_Sposta;
     }
 }

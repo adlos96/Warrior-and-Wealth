@@ -22,26 +22,43 @@ namespace CriptoGame_Online.GUI
             this.MaximizeBox = false;
         }
 
-        private void btn_Scambia_Click(object sender, EventArgs e)
+        private  async void btn_Scambia_Click(object sender, EventArgs e)
         {
             ClientConnection.TestClient.Send($"Scambia_Diamanti|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{txt_Diamond_Viola.Text}");
+            btn_Scambia.Enabled = false;
+            await Sleep();
+            btn_Scambia.Enabled = true;
+        }
+
+        async Task Sleep()
+        {
+            await Task.Delay(5000);
         }
 
         private void pictureBox_Più_Click(object sender, EventArgs e)
         {
-            if (Convert.ToInt32(Variabili_Client.Utente_Risorse.Diamond_Viola) > Convert.ToInt32(txt_Diamond_Viola.Text))
-                txt_Diamond_Viola.Text = (Convert.ToInt32(txt_Diamond_Viola.Text) + 1).ToString();
-
+            if (Convert.ToInt32(Variabili_Client.Utente_Risorse.Diamond_Viola.Replace(".", "")) > Convert.ToInt32(txt_Diamond_Viola.Text))
+                if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
+                    txt_Diamond_Viola.Text = (Convert.ToInt32(txt_Diamond_Viola.Text) + 5).ToString();
+                else if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+                    txt_Diamond_Viola.Text = (Convert.ToInt32(txt_Diamond_Viola.Text) + 10).ToString();
+                else
+                    txt_Diamond_Viola.Text = (Convert.ToInt32(txt_Diamond_Viola.Text) + 1).ToString();
+            if (Convert.ToInt32(txt_Diamond_Viola.Text) < 0) txt_Diamond_Viola.Text = "0";
             txt_Diamond_Blu.Text = (Convert.ToInt32(txt_Diamond_Viola.Text) * Convert.ToInt32(Variabili_Client.D_Viola_D_Blu)).ToString();
         }
 
         private void pictureBox_Meno_Click(object sender, EventArgs e)
         {
             if (Convert.ToInt32(txt_Diamond_Viola.Text) > 0)
-            {
-                txt_Diamond_Viola.Text = (Convert.ToInt32(txt_Diamond_Viola.Text) - 1).ToString();
-                txt_Diamond_Blu.Text = (Convert.ToInt32(txt_Diamond_Viola.Text) * Convert.ToInt32(Variabili_Client.D_Viola_D_Blu)).ToString();
-            }
+                if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
+                    txt_Diamond_Viola.Text = (Convert.ToInt32(txt_Diamond_Viola.Text) - 5).ToString();
+                else if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
+                    txt_Diamond_Viola.Text = (Convert.ToInt32(txt_Diamond_Viola.Text) - 10).ToString();
+                else
+                    txt_Diamond_Viola.Text = (Convert.ToInt32(txt_Diamond_Viola.Text) - 1).ToString();
+            if (Convert.ToInt32(txt_Diamond_Viola.Text) < 0) txt_Diamond_Viola.Text = "0";
+            txt_Diamond_Blu.Text = (Convert.ToInt32(txt_Diamond_Viola.Text) * Convert.ToInt32(Variabili_Client.D_Viola_D_Blu)).ToString();
         }
 
         private void Scambia_Diamanti_Load(object sender, EventArgs e)

@@ -200,6 +200,7 @@
             MinimumSize = new Size(250, 291);
             Name = "Login";
             Text = "Adlos Wars";
+            FormClosing += Login_FormClosing;
             Load += Gioco_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

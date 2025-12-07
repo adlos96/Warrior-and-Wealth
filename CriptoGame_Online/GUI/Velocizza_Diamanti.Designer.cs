@@ -73,7 +73,7 @@
             txt_Testo.ReadOnly = true;
             txt_Testo.Size = new Size(230, 37);
             txt_Testo.TabIndex = 47;
-            txt_Testo.Text = "Selezion ail numero di diamanti da utilizzare";
+            txt_Testo.Text = "Seleziona il numero di diamanti da utilizzare";
             txt_Testo.TextAlign = HorizontalAlignment.Center;
             // 
             // btn_Velocizza

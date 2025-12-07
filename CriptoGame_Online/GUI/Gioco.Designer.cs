@@ -147,6 +147,7 @@ namespace CriptoGame_Online
             txt_Virtual_Dolla = new TextBox();
             ico_13 = new DoubleBufferedPanel();
             panel1 = new DoubleBufferedPanel();
+            btn_Mappa = new Button();
             panel_2.SuspendLayout();
             panel2.SuspendLayout();
             Terreni.SuspendLayout();
@@ -164,6 +165,7 @@ namespace CriptoGame_Online
             // 
             // panel_2
             // 
+            panel_2.Controls.Add(btn_Mappa);
             panel_2.Controls.Add(PVP_PVE);
             panel_2.Controls.Add(panel2);
             panel_2.Controls.Add(btn_Citta);
@@ -1431,6 +1433,7 @@ namespace CriptoGame_Online
             ico_10.Name = "ico_10";
             ico_10.Size = new Size(30, 30);
             ico_10.TabIndex = 8;
+            ico_10.MouseClick += ico_10_MouseClick;
             // 
             // txt_Virtual_Dolla
             // 
@@ -1459,6 +1462,20 @@ namespace CriptoGame_Online
             panel1.Name = "panel1";
             panel1.Size = new Size(954, 10);
             panel1.TabIndex = 6;
+            // 
+            // btn_Mappa
+            // 
+            btn_Mappa.BackgroundImage = Properties.Resources.Texture_Wood_2;
+            btn_Mappa.FlatAppearance.BorderSize = 0;
+            btn_Mappa.FlatStyle = FlatStyle.Popup;
+            btn_Mappa.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_Mappa.Location = new Point(7, 334);
+            btn_Mappa.Name = "btn_Mappa";
+            btn_Mappa.Size = new Size(67, 32);
+            btn_Mappa.TabIndex = 42;
+            btn_Mappa.Text = "Mappa";
+            btn_Mappa.UseVisualStyleBackColor = true;
+            btn_Mappa.Click += btn_Mappa_Click;
             // 
             // Gioco
             // 
@@ -1625,5 +1642,6 @@ namespace CriptoGame_Online
         private Label lbl_Catapulte_Max;
         private Label lbl_Arceri_Max;
         private Label lbl_Lanceri_Max;
+        private Button btn_Mappa;
     }
 }

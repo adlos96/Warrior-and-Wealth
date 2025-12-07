@@ -1,13 +1,4 @@
 ﻿using Strategico_V2;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace CriptoGame_Online
 {
@@ -23,7 +14,8 @@ namespace CriptoGame_Online
 
         private void Costruzione_Load(object sender, EventArgs e)
         {
-
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
         }
         private void Esercito_GUI()
         {
@@ -159,22 +151,18 @@ namespace CriptoGame_Online
         }
 
         #region Costruzioni Civili
-
         private void Set_0_Fattoria_Click(object sender, EventArgs e)
         {
             txt_Fattoria_Costruzione.Text = "0";
         }
         private void add_1_Fattoria_Click(object sender, EventArgs e)
         {
-            txt_Fattoria_Costruzione.Text = (Convert.ToInt32(txt_Fattoria_Costruzione.Text) + 1).ToString();
-        }
-        private void add_5_Fattoria_Click(object sender, EventArgs e)
-        {
-            txt_Fattoria_Costruzione.Text = (Convert.ToInt32(txt_Fattoria_Costruzione.Text) + 5).ToString();
-        }
-        private void add_10_Fattoria_Click(object sender, EventArgs e)
-        {
-            txt_Fattoria_Costruzione.Text = (Convert.ToInt32(txt_Fattoria_Costruzione.Text) + 10).ToString();
+            if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+                txt_Fattoria_Costruzione.Text = (Convert.ToInt32(txt_Fattoria_Costruzione.Text) + 10).ToString();
+            else if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
+                txt_Fattoria_Costruzione.Text = (Convert.ToInt32(txt_Fattoria_Costruzione.Text) + 5).ToString();
+            else
+                txt_Fattoria_Costruzione.Text = (Convert.ToInt32(txt_Fattoria_Costruzione.Text) + 1).ToString();
         }
 
         private void Set_0_Segheria_Click(object sender, EventArgs e)
@@ -183,15 +171,12 @@ namespace CriptoGame_Online
         }
         private void add_1_Segheria_Click(object sender, EventArgs e)
         {
-            txt_Segheria_Costruzione.Text = (Convert.ToInt32(txt_Segheria_Costruzione.Text) + 1).ToString();
-        }
-        private void add_5_Segheria_Click(object sender, EventArgs e)
-        {
-            txt_Segheria_Costruzione.Text = (Convert.ToInt32(txt_Segheria_Costruzione.Text) + 5).ToString();
-        }
-        private void add_10_Segheria_Click(object sender, EventArgs e)
-        {
-            txt_Segheria_Costruzione.Text = (Convert.ToInt32(txt_Segheria_Costruzione.Text) + 10).ToString();
+            if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+                txt_Segheria_Costruzione.Text = (Convert.ToInt32(txt_Segheria_Costruzione.Text) + 10).ToString();
+            else if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
+                txt_Segheria_Costruzione.Text = (Convert.ToInt32(txt_Segheria_Costruzione.Text) + 5).ToString();
+            else
+                txt_Segheria_Costruzione.Text = (Convert.ToInt32(txt_Segheria_Costruzione.Text) + 1).ToString();
         }
 
         private void Set_0_Cava_Click(object sender, EventArgs e)
@@ -200,15 +185,12 @@ namespace CriptoGame_Online
         }
         private void add_1_Cava_Click(object sender, EventArgs e)
         {
-            txt_Cava_Costruzione.Text = (Convert.ToInt32(txt_Cava_Costruzione.Text) + 1).ToString();
-        }
-        private void add_5_Cava_Click(object sender, EventArgs e)
-        {
-            txt_Cava_Costruzione.Text = (Convert.ToInt32(txt_Cava_Costruzione.Text) + 5).ToString();
-        }
-        private void add_10_Cava_Click(object sender, EventArgs e)
-        {
-            txt_Cava_Costruzione.Text = (Convert.ToInt32(txt_Cava_Costruzione.Text) + 10).ToString();
+            if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+                txt_Cava_Costruzione.Text = (Convert.ToInt32(txt_Cava_Costruzione.Text) + 10).ToString();
+            else if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
+                txt_Cava_Costruzione.Text = (Convert.ToInt32(txt_Cava_Costruzione.Text) + 5).ToString();
+            else
+                txt_Cava_Costruzione.Text = (Convert.ToInt32(txt_Cava_Costruzione.Text) + 1).ToString();
         }
 
         private void Set_0_MinieraFerro_Click(object sender, EventArgs e)
@@ -217,15 +199,12 @@ namespace CriptoGame_Online
         }
         private void add_1_MinieraFerro_Click(object sender, EventArgs e)
         {
-            txt_MinieraFerro_Costruzione.Text = (Convert.ToInt32(txt_MinieraFerro_Costruzione.Text) + 1).ToString();
-        }
-        private void add_5_MinieraFerro_Click(object sender, EventArgs e)
-        {
-            txt_MinieraFerro_Costruzione.Text = (Convert.ToInt32(txt_MinieraFerro_Costruzione.Text) + 5).ToString();
-        }
-        private void add_10_MinieraFerro_Click(object sender, EventArgs e)
-        {
-            txt_MinieraFerro_Costruzione.Text = (Convert.ToInt32(txt_MinieraFerro_Costruzione.Text) + 10).ToString();
+            if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+                txt_MinieraFerro_Costruzione.Text = (Convert.ToInt32(txt_MinieraFerro_Costruzione.Text) + 10).ToString();
+            else if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
+                txt_MinieraFerro_Costruzione.Text = (Convert.ToInt32(txt_MinieraFerro_Costruzione.Text) + 5).ToString();
+            else
+                txt_MinieraFerro_Costruzione.Text = (Convert.ToInt32(txt_MinieraFerro_Costruzione.Text) + 1).ToString();
         }
 
         private void Set_0_MinieraOro_Click(object sender, EventArgs e)
@@ -234,15 +213,12 @@ namespace CriptoGame_Online
         }
         private void add_1_MinieraOro_Click(object sender, EventArgs e)
         {
-            txt_MinieraOro_Costruzione.Text = (Convert.ToInt32(txt_MinieraOro_Costruzione.Text) + 1).ToString();
-        }
-        private void add_5_MinieraOro_Click(object sender, EventArgs e)
-        {
-            txt_MinieraOro_Costruzione.Text = (Convert.ToInt32(txt_MinieraOro_Costruzione.Text) + 5).ToString();
-        }
-        private void add_10_MinieraOro_Click(object sender, EventArgs e)
-        {
-            txt_MinieraOro_Costruzione.Text = (Convert.ToInt32(txt_MinieraOro_Costruzione.Text) + 10).ToString();
+            if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+                txt_MinieraOro_Costruzione.Text = (Convert.ToInt32(txt_MinieraOro_Costruzione.Text) + 10).ToString();
+            else if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
+                txt_MinieraOro_Costruzione.Text = (Convert.ToInt32(txt_MinieraOro_Costruzione.Text) + 5).ToString();
+            else
+                txt_MinieraOro_Costruzione.Text = (Convert.ToInt32(txt_MinieraOro_Costruzione.Text) + 1).ToString();
         }
 
         private void Set_0_Case_Click(object sender, EventArgs e)
@@ -251,18 +227,14 @@ namespace CriptoGame_Online
         }
         private void add_1_Case_Click(object sender, EventArgs e)
         {
-            txt_Case_Costruzione.Text = (Convert.ToInt32(txt_Case_Costruzione.Text) + 1).ToString();
-        }
-        private void add_5_Case_Click(object sender, EventArgs e)
-        {
-            txt_Case_Costruzione.Text = (Convert.ToInt32(txt_Case_Costruzione.Text) + 5).ToString();
-        }
-        private void add_10_Case_Click(object sender, EventArgs e)
-        {
-            txt_Case_Costruzione.Text = (Convert.ToInt32(txt_Case_Costruzione.Text) + 10).ToString();
+            if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+                txt_Case_Costruzione.Text = (Convert.ToInt32(txt_Case_Costruzione.Text) + 10).ToString();
+            else if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
+                txt_Case_Costruzione.Text = (Convert.ToInt32(txt_Case_Costruzione.Text) + 5).ToString();
+            else
+                txt_Case_Costruzione.Text = (Convert.ToInt32(txt_Case_Costruzione.Text) + 1).ToString();
         }
         #endregion
-
         #region Costruzioni Militari
         private void Set_0_Workshop_Spade_Click(object sender, EventArgs e)
         {
@@ -270,15 +242,12 @@ namespace CriptoGame_Online
         }
         private void Add_1_Workshop_Spade_Click(object sender, EventArgs e)
         {
-            txt_Workshop_Spade_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Spade_Costruzione.Text) + 1).ToString();
-        }
-        private void Add_5_Workshop_Spade_Click(object sender, EventArgs e)
-        {
-            txt_Workshop_Spade_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Spade_Costruzione.Text) + 5).ToString();
-        }
-        private void Add_10_Workshop_Spade_Click(object sender, EventArgs e)
-        {
-            txt_Workshop_Spade_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Spade_Costruzione.Text) + 10).ToString();
+            if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+                txt_Workshop_Spade_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Spade_Costruzione.Text) + 10).ToString();
+            else if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
+                txt_Workshop_Spade_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Spade_Costruzione.Text) + 5).ToString();
+            else
+                txt_Workshop_Spade_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Spade_Costruzione.Text) + 1).ToString();
         }
 
         private void Set_0_Workshop_Lance_Click(object sender, EventArgs e)
@@ -287,15 +256,12 @@ namespace CriptoGame_Online
         }
         private void Add_1_Workshop_Lance_Click(object sender, EventArgs e)
         {
-            txt_Workshop_Lance_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Lance_Costruzione.Text) + 1).ToString();
-        }
-        private void Add_5_Workshop_Lance_Click(object sender, EventArgs e)
-        {
-            txt_Workshop_Lance_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Lance_Costruzione.Text) + 5).ToString();
-        }
-        private void Add_10_Workshop_Lance_Click(object sender, EventArgs e)
-        {
-            txt_Workshop_Lance_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Lance_Costruzione.Text) + 10).ToString();
+            if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+                txt_Workshop_Lance_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Lance_Costruzione.Text) + 10).ToString();
+            else if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
+                txt_Workshop_Lance_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Lance_Costruzione.Text) + 5).ToString();
+            else
+                txt_Workshop_Lance_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Lance_Costruzione.Text) + 1).ToString();
         }
 
         private void Set_0_Workshop_Archi_Click(object sender, EventArgs e)
@@ -304,15 +270,12 @@ namespace CriptoGame_Online
         }
         private void Add_1_Workshop_Archi_Click(object sender, EventArgs e)
         {
-            txt_Workshop_Archi_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Archi_Costruzione.Text) + 1).ToString();
-        }
-        private void Add_5_Workshop_Archi_Click(object sender, EventArgs e)
-        {
-            txt_Workshop_Archi_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Archi_Costruzione.Text) + 5).ToString();
-        }
-        private void Add_10_Workshop_Archi_Click(object sender, EventArgs e)
-        {
-            txt_Workshop_Archi_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Archi_Costruzione.Text) + 10).ToString();
+            if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+                txt_Workshop_Archi_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Archi_Costruzione.Text) + 10).ToString();
+            else if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
+                txt_Workshop_Archi_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Archi_Costruzione.Text) + 5).ToString();
+            else
+                txt_Workshop_Archi_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Archi_Costruzione.Text) + 1).ToString();
         }
 
         private void Set_0_Workshop_Scudi_Click(object sender, EventArgs e)
@@ -321,15 +284,12 @@ namespace CriptoGame_Online
         }
         private void Add_1_Workshop_Scudi_Click(object sender, EventArgs e)
         {
-            txt_Workshop_Scudi_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Scudi_Costruzione.Text) + 1).ToString();
-        }
-        private void Add_5_Workshop_Scudi_Click(object sender, EventArgs e)
-        {
-            txt_Workshop_Scudi_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Scudi_Costruzione.Text) + 5).ToString();
-        }
-        private void Add_10_Workshop_Scudi_Click(object sender, EventArgs e)
-        {
-            txt_Workshop_Scudi_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Scudi_Costruzione.Text) + 10).ToString();
+            if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+                txt_Workshop_Scudi_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Scudi_Costruzione.Text) + 10).ToString();
+            else if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
+                txt_Workshop_Scudi_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Scudi_Costruzione.Text) + 5).ToString();
+            else
+                txt_Workshop_Scudi_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Scudi_Costruzione.Text) + 1).ToString();
         }
 
         private void Set_0_Workshop_Armature_Click(object sender, EventArgs e)
@@ -338,15 +298,12 @@ namespace CriptoGame_Online
         }
         private void Add_1_Workshop_Armature_Click(object sender, EventArgs e)
         {
-            txt_Workshop_Armature_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Armature_Costruzione.Text) + 1).ToString();
-        }
-        private void Add_5_Workshop_Armature_Click(object sender, EventArgs e)
-        {
-            txt_Workshop_Armature_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Armature_Costruzione.Text) + 5).ToString();
-        }
-        private void Add_10_Workshop_Armature_Click(object sender, EventArgs e)
-        {
-            txt_Workshop_Armature_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Armature_Costruzione.Text) + 10).ToString();
+            if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+                txt_Workshop_Armature_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Armature_Costruzione.Text) + 10).ToString();
+            else if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
+                txt_Workshop_Armature_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Armature_Costruzione.Text) + 5).ToString();
+            else
+                txt_Workshop_Armature_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Armature_Costruzione.Text) + 1).ToString();
         }
 
         private void Set_0_Workshop_Frecce_Click(object sender, EventArgs e)
@@ -355,27 +312,27 @@ namespace CriptoGame_Online
         }
         private void Add_1_Workshop_Frecce_Click(object sender, EventArgs e)
         {
-            txt_Workshop_Frecce_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Frecce_Costruzione.Text) + 1).ToString();
-        }
-        private void Add_5_Workshop_Frecce_Click(object sender, EventArgs e)
-        {
-            txt_Workshop_Frecce_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Frecce_Costruzione.Text) + 5).ToString();
-        }
-        private void Add_10_Workshop_Frecce_Click(object sender, EventArgs e)
-        {
-            txt_Workshop_Frecce_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Frecce_Costruzione.Text) + 10).ToString();
+            if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+                txt_Workshop_Frecce_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Frecce_Costruzione.Text) + 1).ToString();
+            else if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
+                txt_Workshop_Frecce_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Frecce_Costruzione.Text) + 5).ToString();
+            else
+                txt_Workshop_Frecce_Costruzione.Text = (Convert.ToInt32(txt_Workshop_Frecce_Costruzione.Text) + 1).ToString();
         }
         #endregion
-
         #region Esercito
-
         private void Set_0_Guerriero_Click(object sender, EventArgs e)
         {
             txt_Guerriero_Reclutamento.Text = "0";
         }
         private void Add_1_Guerriero_Click(object sender, EventArgs e)
         {
-            txt_Guerriero_Reclutamento.Text = (Convert.ToInt32(txt_Guerriero_Reclutamento.Text) + 1).ToString();
+            if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+                txt_Guerriero_Reclutamento.Text = (Convert.ToInt32(txt_Guerriero_Reclutamento.Text) + 10).ToString();
+            else if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
+                txt_Guerriero_Reclutamento.Text = (Convert.ToInt32(txt_Guerriero_Reclutamento.Text) + 5).ToString();
+            else
+                txt_Guerriero_Reclutamento.Text = (Convert.ToInt32(txt_Guerriero_Reclutamento.Text) + 1).ToString();
         }
         private void Add_5_Guerriero_Click(object sender, EventArgs e)
         {
@@ -389,11 +346,17 @@ namespace CriptoGame_Online
 
         private void Set_0_Lancere_Click(object sender, EventArgs e)
         {
+
             txt_Lancere_Reclutamento.Text = "0";
         }
         private void Add_1_Lancere_Click(object sender, EventArgs e)
         {
-            txt_Lancere_Reclutamento.Text = (Convert.ToInt32(txt_Lancere_Reclutamento.Text) + 1).ToString();
+            if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+                txt_Lancere_Reclutamento.Text = (Convert.ToInt32(txt_Lancere_Reclutamento.Text) + 10).ToString();
+            else if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
+                txt_Lancere_Reclutamento.Text = (Convert.ToInt32(txt_Lancere_Reclutamento.Text) + 5).ToString();
+            else
+                txt_Lancere_Reclutamento.Text = (Convert.ToInt32(txt_Lancere_Reclutamento.Text) + 1).ToString();
         }
         private void Add_5_Lancere_Click(object sender, EventArgs e)
         {
@@ -411,7 +374,12 @@ namespace CriptoGame_Online
         }
         private void Add_1_Arcere_Click(object sender, EventArgs e)
         {
-            txt_Arcere_Reclutamento.Text = (Convert.ToInt32(txt_Arcere_Reclutamento.Text) + 1).ToString();
+            if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+                txt_Arcere_Reclutamento.Text = (Convert.ToInt32(txt_Arcere_Reclutamento.Text) + 10).ToString();
+            else if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
+                txt_Arcere_Reclutamento.Text = (Convert.ToInt32(txt_Arcere_Reclutamento.Text) + 5).ToString();
+            else
+                txt_Arcere_Reclutamento.Text = (Convert.ToInt32(txt_Arcere_Reclutamento.Text) + 1).ToString();
         }
         private void Add_5_Arcere_Click(object sender, EventArgs e)
         {
@@ -429,7 +397,12 @@ namespace CriptoGame_Online
         }
         private void Add_1_Catapulta_Click(object sender, EventArgs e)
         {
-            txt_Catapulta_Reclutamento.Text = (Convert.ToInt32(txt_Catapulta_Reclutamento.Text) + 1).ToString();
+            if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+                txt_Catapulta_Reclutamento.Text = (Convert.ToInt32(txt_Catapulta_Reclutamento.Text) + 10).ToString();
+            else if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
+                txt_Catapulta_Reclutamento.Text = (Convert.ToInt32(txt_Catapulta_Reclutamento.Text) + 5).ToString();
+            else
+                txt_Catapulta_Reclutamento.Text = (Convert.ToInt32(txt_Catapulta_Reclutamento.Text) + 1).ToString();
         }
         private void Add_5_Catapulta_Click(object sender, EventArgs e)
         {
@@ -440,7 +413,6 @@ namespace CriptoGame_Online
             txt_Catapulta_Reclutamento.Text = (Convert.ToInt32(txt_Catapulta_Reclutamento.Text) + 10).ToString();
         }
         #endregion
-
         #region Caserme
         private void Set_0_Caserme_Guerrieri_Click(object sender, EventArgs e)
         {
@@ -448,15 +420,12 @@ namespace CriptoGame_Online
         }
         private void Add_1_Caserme_Guerrieri_Click(object sender, EventArgs e)
         {
-            txt_Caserme_Guerrieri_Costruzione.Text = (Convert.ToInt32(txt_Caserme_Guerrieri_Costruzione.Text) + 1).ToString();
-        }
-        private void Add_5_Caserme_Guerrieri_Click(object sender, EventArgs e)
-        {
-            txt_Caserme_Guerrieri_Costruzione.Text = (Convert.ToInt32(txt_Caserme_Guerrieri_Costruzione.Text) + 5).ToString();
-        }
-        private void Add_10_Caserme_Guerrieri_Click(object sender, EventArgs e)
-        {
-            txt_Caserme_Guerrieri_Costruzione.Text = (Convert.ToInt32(txt_Caserme_Guerrieri_Costruzione.Text) + 10).ToString();
+            if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+                txt_Caserme_Guerrieri_Costruzione.Text = (Convert.ToInt32(txt_Caserme_Guerrieri_Costruzione.Text) + 10).ToString();
+            else if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
+                txt_Caserme_Guerrieri_Costruzione.Text = (Convert.ToInt32(txt_Caserme_Guerrieri_Costruzione.Text) + 5).ToString();
+            else
+                txt_Caserme_Guerrieri_Costruzione.Text = (Convert.ToInt32(txt_Caserme_Guerrieri_Costruzione.Text) + 1).ToString();
         }
 
         private void Set_0_Caserme_Lanceri_Click(object sender, EventArgs e)
@@ -465,15 +434,12 @@ namespace CriptoGame_Online
         }
         private void Add_1_Caserme_Lanceri_Click(object sender, EventArgs e)
         {
-            txt_Caserme_Arceri_Costruzione.Text = (Convert.ToInt32(txt_Caserme_Arceri_Costruzione.Text) + 1).ToString();
-        }
-        private void Add_5_Caserme_Lanceri_Click(object sender, EventArgs e)
-        {
-            txt_Caserme_Arceri_Costruzione.Text = (Convert.ToInt32(txt_Caserme_Arceri_Costruzione.Text) + 5).ToString();
-        }
-        private void Add_10_Caserme_Lanceri_Click(object sender, EventArgs e)
-        {
-            txt_Caserme_Arceri_Costruzione.Text = (Convert.ToInt32(txt_Caserme_Arceri_Costruzione.Text) + 10).ToString();
+            if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+                txt_Caserme_Arceri_Costruzione.Text = (Convert.ToInt32(txt_Caserme_Arceri_Costruzione.Text) + 10).ToString();
+            else if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
+                txt_Caserme_Arceri_Costruzione.Text = (Convert.ToInt32(txt_Caserme_Arceri_Costruzione.Text) + 5).ToString();
+            else
+                txt_Caserme_Arceri_Costruzione.Text = (Convert.ToInt32(txt_Caserme_Arceri_Costruzione.Text) + 1).ToString();
         }
 
         private void Set_0_Caserme_Arceri_Click(object sender, EventArgs e)
@@ -482,15 +448,12 @@ namespace CriptoGame_Online
         }
         private void Add_1_Caserme_Arceri_Click(object sender, EventArgs e)
         {
-            txt_Caserme_Lanceri_Costruzione.Text = (Convert.ToInt32(txt_Caserme_Lanceri_Costruzione.Text) + 1).ToString();
-        }
-        private void Add_5_Caserme_Arceri_Click(object sender, EventArgs e)
-        {
-            txt_Caserme_Lanceri_Costruzione.Text = (Convert.ToInt32(txt_Caserme_Lanceri_Costruzione.Text) + 5).ToString();
-        }
-        private void Add_10_Caserme_Arceri_Click(object sender, EventArgs e)
-        {
-            txt_Caserme_Lanceri_Costruzione.Text = (Convert.ToInt32(txt_Caserme_Lanceri_Costruzione.Text) + 10).ToString();
+            if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+                txt_Caserme_Lanceri_Costruzione.Text = (Convert.ToInt32(txt_Caserme_Lanceri_Costruzione.Text) + 10).ToString();
+            else if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
+                txt_Caserme_Lanceri_Costruzione.Text = (Convert.ToInt32(txt_Caserme_Lanceri_Costruzione.Text) + 5).ToString();
+            else
+                txt_Caserme_Lanceri_Costruzione.Text = (Convert.ToInt32(txt_Caserme_Lanceri_Costruzione.Text) + 1).ToString();
         }
 
 
@@ -500,17 +463,13 @@ namespace CriptoGame_Online
         }
         private void Add_1_Caserme_Catapulte_Click(object sender, EventArgs e)
         {
-            txt_Caserme_Catapulte_Costruzione.Text = (Convert.ToInt32(txt_Caserme_Catapulte_Costruzione.Text) + 1).ToString();
+            if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
+                txt_Caserme_Catapulte_Costruzione.Text = (Convert.ToInt32(txt_Caserme_Catapulte_Costruzione.Text) + 10).ToString();
+            else if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
+                txt_Caserme_Catapulte_Costruzione.Text = (Convert.ToInt32(txt_Caserme_Catapulte_Costruzione.Text) + 5).ToString();
+            else
+                txt_Caserme_Catapulte_Costruzione.Text = (Convert.ToInt32(txt_Caserme_Catapulte_Costruzione.Text) + 1).ToString();
         }
-        private void Add_5_Caserme_Catapulte_Click(object sender, EventArgs e)
-        {
-            txt_Caserme_Catapulte_Costruzione.Text = (Convert.ToInt32(txt_Caserme_Catapulte_Costruzione.Text) + 5).ToString();
-        }
-        private void Add_10_Caserme_Catapulte_Click(object sender, EventArgs e)
-        {
-            txt_Caserme_Catapulte_Costruzione.Text = (Convert.ToInt32(txt_Caserme_Catapulte_Costruzione.Text) + 10).ToString();
-        }
-
         #endregion
     }
 }

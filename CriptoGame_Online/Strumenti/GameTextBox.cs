@@ -7,60 +7,116 @@
 
     public class GameTextBox : Panel
     {
-        private class Segment
+        public class Segment
         {
             public string Text { get; set; }
             public Color Color { get; set; }
+            public Image? Icon { get; set; }
+            public bool IsIcon { get; set; }
         }
 
         private class Line
         {
             public List<Segment> Segments { get; set; } = new();
-            public Image Img { get; set; }
+            public int RenderedHeight { get; set; }
         }
 
         private readonly List<Line> lines = new();
         private int lineHeight;
+        private int totalContentHeight = 0;
+        private const int iconSize = 17;
 
         public GameTextBox()
         {
-            DoubleBuffered = true; // evita flicker
+            DoubleBuffered = true;
             AutoScroll = true;
             BackColor = Color.FromArgb(32, 26, 14);
             ForeColor = Color.White;
-            Font = new Font("Consolas", 8, FontStyle.Bold);
-            lineHeight = (int)Font.GetHeight() + 5; //Distanza tra le linee, Asse Y
+            Font = new Font("Consolas", 8.5f, FontStyle.Bold);
+            lineHeight = (int)Font.GetHeight() + 5;
         }
 
-        /// <summary>
-        /// Aggiunge una riga con segmenti di testo multicolore
-        /// </summary>
-        public void AddLine(IEnumerable<(string text, Color color)> segments, Image img = null)
+        // NUOVO metodo principale
+        public void AddLine(List<Segment> segments)
         {
             var line = new Line();
-            foreach (var seg in segments)
-            {
-                line.Segments.Add(new Segment { Text = seg.text, Color = seg.color });
-            }
-            line.Img = img;
-
+            line.Segments.AddRange(segments);
             lines.Add(line);
 
-            // aggiorna lo scroll massimo
-            AutoScrollMinSize = new Size(0, lines.Count * lineHeight);
+            CalculateLineHeight(line);
+            totalContentHeight += line.RenderedHeight;
+            AutoScrollMinSize = new Size(0, totalContentHeight);
 
-            // scorre verso il basso
-            VerticalScroll.Value = VerticalScroll.Maximum;
+            this.BeginInvoke(new Action(() =>
+            {
+                if (VerticalScroll.Visible)
+                {
+                    VerticalScroll.Value = VerticalScroll.Maximum;
+                }
+            }));
 
             Invalidate();
         }
 
-        /// <summary>
-        /// Comodità: aggiunge una riga con un solo colore
-        /// </summary>
-        public void AddLine(string text, Color color, Image img = null)
+        // Metodo per server (usa il parser)
+        public void AddLineFromServer(string serverMessage)
         {
-            AddLine(new[] { (text, color) }, img);
+            var segments = LogSupport.Parse(serverMessage);
+            AddLine(segments);
+        }
+
+        // Vecchio metodo per compatibilità
+        public void AddLine(string text, Color color)
+        {
+            var segments = new List<Segment>
+            {
+                new Segment { Text = text, Color = color, IsIcon = false }
+            };
+            AddLine(segments);
+        }
+
+        private void CalculateLineHeight(Line line)
+        {
+            int maxWidth = ClientSize.Width - 25;
+            float x = 5f;
+            int wrappedLines = 1;
+
+            using (var g = CreateGraphics())
+            {
+                foreach (var seg in line.Segments)
+                {
+                    if (seg.IsIcon && seg.Icon != null)
+                    {
+                        float iconWidth = iconSize + 4;
+                        if (x + iconWidth > maxWidth)
+                        {
+                            wrappedLines++;
+                            x = 5f;
+                        }
+                        x += iconWidth;
+                    }
+                    else if (!string.IsNullOrEmpty(seg.Text))
+                    {
+                        string[] words = seg.Text.Split(' ');
+                        foreach (var word in words)
+                        {
+                            if (string.IsNullOrWhiteSpace(word)) continue;
+
+                            string drawWord = word + " ";
+                            float wordWidth = g.MeasureString(drawWord, Font).Width;
+
+                            if (x + wordWidth > maxWidth)
+                            {
+                                wrappedLines++;
+                                x = 5f;
+                            }
+                            x += wordWidth;
+                        }
+                    }
+                }
+            }
+
+            line.RenderedHeight = wrappedLines * lineHeight;
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -69,51 +125,77 @@
             e.Graphics.TranslateTransform(AutoScrollPosition.X, AutoScrollPosition.Y);
 
             int y = 0;
+            int maxWidth = ClientSize.Width - 25;
+
             foreach (var line in lines)
             {
-                // trovo il numero massimo di sottorighe tra i segmenti
-                int maxParts = 1;
-                var partsList = new List<string[]>();
+                float x = 5f;
+
                 foreach (var seg in line.Segments)
                 {
-                    var parts = seg.Text.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
-                    partsList.Add(parts);
-                    if (parts.Length > maxParts) maxParts = parts.Length;
-                }
-
-                // disegno tutte le sottorighe
-                for (int sub = 0; sub < maxParts; sub++)
-                {
-                    float x = 5f;
-                    for (int s = 0; s < line.Segments.Count; s++)
+                    if (seg.IsIcon && seg.Icon != null)
                     {
-                        var seg = line.Segments[s];
-                        string part = partsList[s].Length > sub ? partsList[s][sub] : "";
-                        if (!string.IsNullOrEmpty(part))
+                        float iconWidth = iconSize + 0;
+
+                        if (x + iconWidth > maxWidth)
                         {
-                            using var brush = new SolidBrush(seg.Color);
-                            e.Graphics.DrawString(part, Font, brush, new PointF(x, y));
-                            x += e.Graphics.MeasureString(part, Font).Width;
+                            y += lineHeight;
+                            x = 5f;
+                        }
+
+                        int iconY = y + (lineHeight - iconSize) / 2 - 2;
+                        e.Graphics.DrawImage(seg.Icon, new Rectangle((int)x, iconY, iconSize, iconSize));
+                        x += iconWidth;
+                    }
+                    else if (!string.IsNullOrEmpty(seg.Text))
+                    {
+                        string[] words = seg.Text.Split(' ');
+                        using var brush = new SolidBrush(seg.Color);
+
+                        foreach (var word in words)
+                        {
+                            if (string.IsNullOrWhiteSpace(word)) continue;
+
+                            string drawWord = word + " ";
+                            float wordWidth = e.Graphics.MeasureString(drawWord, Font).Width;
+
+                            if (x + wordWidth > maxWidth)
+                            {
+                                y += lineHeight;
+                                x = 5f;
+                            }
+
+                            e.Graphics.DrawString(drawWord, Font, brush, new PointF(x, y));
+                            x += wordWidth;
                         }
                     }
-                    y += lineHeight; // vai a capo per ogni sottoriga
                 }
 
-                // disegno immagine accanto all’ultima sottoriga
-                if (line.Img != null)
-                {
-                    int iconSize = 18;
-                    int iconY = y - lineHeight + (lineHeight - iconSize) / 2 - 3;
-                    float blockWidth = 5f;
-                    foreach (var seg in line.Segments)
-                    {
-                        var textWidth = e.Graphics.MeasureString(seg.Text, Font).Width;
-                        blockWidth += textWidth;
-                    }
-                    e.Graphics.DrawImage(line.Img, new Rectangle((int)blockWidth + 2, iconY, iconSize, iconSize));
-                }
+                y += lineHeight;
             }
         }
-    }
 
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+
+            totalContentHeight = 0;
+            foreach (var line in lines)
+            {
+                CalculateLineHeight(line);
+                totalContentHeight += line.RenderedHeight;
+            }
+
+            AutoScrollMinSize = new Size(0, totalContentHeight);
+            Invalidate();
+        }
+
+        public void Clear()
+        {
+            lines.Clear();
+            totalContentHeight = 0;
+            AutoScrollMinSize = new Size(0, 0);
+            Invalidate();
+        }
+    }
 }

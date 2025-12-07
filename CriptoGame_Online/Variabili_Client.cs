@@ -16,11 +16,11 @@ namespace Strategico_V2
             public int Diamanti_Viola { get; set; }
             public int Diamanti_Blu { get; set; }
 
-            public double Cibo { get; set; }
-            public double Legno { get; set; }
-            public double Pietra { get; set; }
-            public double Ferro { get; set; }
-            public double Oro { get; set; }
+            public int Cibo { get; set; }
+            public int Legno { get; set; }
+            public int Pietra { get; set; }
+            public int Ferro { get; set; }
+            public int Oro { get; set; }
 
             public int Guerrieri { get; set; }
             public int Lancieri { get; set; }
@@ -44,6 +44,24 @@ namespace Strategico_V2
         public static string D_Viola_D_Blu = "0";
         public static string Tempo_D_Blu = "0";
 
+        public static string Giocatore_Desc = "0";
+        public static string Diamanti_Blu_Desc = "0";
+        public static string Diamanti_Viola_Desc = "0";
+        public static string Dollari_VIrtuali_Desc = "0";
+
+        public static string Cibo_Desc = "0";
+        public static string Legno_Desc = "0";
+        public static string Pietra_Desc = "0";
+        public static string Ferro_Desc = "0";
+        public static string Oro_Desc = "0";
+        public static string Popolazione_Desc = "0";
+
+        public static string Spade_Desc = "0";
+        public static string Lance_Desc = "0";
+        public static string Archi_Desc = "0";
+        public static string Scudi_Desc = "0";
+        public static string Armature_Desc = "0";
+        public static string Frecce_Desc = "0";
 
         public static List<string> Giocatori_PVP = new List<string>();
         public static List<string> Raduni_Creati = new List<string>(); //Raduni pubblici
@@ -59,6 +77,8 @@ namespace Strategico_V2
             public string Username { get; set; }
             public string Password { get; set; }
             public string Montly_Quest_Point { get; set; }
+            public string Montly_Quest_Tempo { get; set; }
+            public string Barbari_Tempo { get; set; }
             public bool User_Vip { get; set; }
             public string User_Vip_Tempo { get; set; }
             public bool User_GamePass_Base { get; set; }
@@ -69,6 +89,9 @@ namespace Strategico_V2
             public bool User_Login { get; set; }
 
             public bool Scudo_Pace { get; set; }
+            public string Scudo_Pace_Tempo { get; set; }
+            public string Costruttori_Tempo { get; set; }
+            public string Reclutatori_Tempo { get; set; }
             public string Code_Costruzione { get; set; }
             public string Code_Reclutamento { get; set; }
             public string Code_Costruzione_Disponibili { get; set; }
@@ -182,6 +205,52 @@ namespace Strategico_V2
             public int Arceri_Max { get; set; }
             public int Catapulte_Max { get; set; }
 
+            // Statistiche
+            #region Stats
+            public string Unità_Eliminate { get; set; }
+            public string Guerrieri_Eliminate { get; set; }
+            public string Lanceri_Eliminate { get; set; }
+            public string Arceri_Eliminate { get; set; }
+            public string Catapulte_Eliminate { get; set; }
+
+            public string Unità_Perse { get; set; }
+            public string Guerrieri_Persi { get; set; }
+            public string Lanceri_Persi { get; set; }
+            public string Arceri_Persi { get; set; }
+            public string Catapulte_Perse { get; set; }
+            public string Risorse_Razziate { get; set; }
+
+            public string Strutture_Civili_Costruite { get; set; }
+            public string Strutture_Militari_Costruite { get; set; }
+            public string Caserme_Costruite { get; set; }
+
+            public string Frecce_Utilizzate { get; set; }
+            public string Battaglie_Vinte { get; set; }
+            public string Battaglie_Perse { get; set; }
+            public string Quest_Completate { get; set; }
+            public string Attacchi_Subiti_PVP { get; set; }
+            public string Attacchi_Effettuati_PVP { get; set; }
+
+            public string Barbari_Sconfitti { get; set; } //Totale uomini barbari sconfitti (villaggi e città)
+            public string Accampamenti_Barbari_Sconfitti { get; set; } //Villaggi barbari sconfitti
+            public string Città_Barbare_Sconfitte { get; set; }
+            public string Danno_HP_Barbaro { get; set; }
+            public string Danno_DEF_Barbaro { get; set; }
+
+            public string Unità_Addestrate { get; set; }
+            public string Risorse_Utilizzate { get; set; }
+            public string Tempo_Addestramento_Totale { get; set; }
+            public string Tempo_Costruzione_Totale { get; set; }
+            public string Tempo_Ricerca_Totale { get; set; }
+            public string Tempo_Sottratto_Diamanti { get; set; } //Tempo risparmiato usando diamanti
+
+            public string Consumo_Cibo_Esercito { get; set; }
+            public string Consumo_Oro_Esercito { get; set; }
+                   
+            public string Diamanti_Viola_Utilizzati { get; set; }
+            public string Diamanti_Blu_Utilizzati { get; set; }
+            #endregion
+
         }
         public class Bonus_Ricerca
         {
@@ -256,6 +325,8 @@ namespace Strategico_V2
             User_GamePass_Base_Tempo = "0",
             User_GamePass_Avanzato = false,
             User_GamePass_Avanzato_Tempo = "0",
+            Montly_Quest_Tempo = "0",
+            Barbari_Tempo = "0",
             User_Login = false,
             Code_Costruzione = "0",
             Code_Reclutamento = "0",
@@ -387,6 +458,42 @@ namespace Strategico_V2
             Salute_Catapulte = "0",
             Difesa_Catapulte = "0",
             Attacco_Catapulte = "0"
+        };
+        public static Dati Statistiche = new Dati
+        {
+            Tempo_Sottratto_Diamanti = "0",
+            Diamanti_Viola_Utilizzati = "0",
+            Diamanti_Blu_Utilizzati = "0",
+            Unità_Eliminate = "0",
+            Guerrieri_Eliminate = "0",
+            Lanceri_Eliminate = "0",
+            Arceri_Eliminate = "0",
+            Catapulte_Eliminate = "0",
+            Unità_Perse = "0",
+            Guerrieri_Persi = "0",
+            Lanceri_Persi = "0",
+            Arceri_Persi = "0",
+            Catapulte_Perse = "0",
+            Risorse_Razziate = "0",
+            Strutture_Civili_Costruite = "0",
+            Strutture_Militari_Costruite = "0",
+            Caserme_Costruite = "0",
+            Frecce_Utilizzate = "0",
+            Battaglie_Vinte = "0",
+            Battaglie_Perse = "0",
+            Quest_Completate = "0",
+            Attacchi_Subiti_PVP = "0",
+            Attacchi_Effettuati_PVP = "0",
+            Barbari_Sconfitti = "0",
+            Accampamenti_Barbari_Sconfitti = "0",
+            Città_Barbare_Sconfitte = "0",
+            Danno_HP_Barbaro = "0",
+            Danno_DEF_Barbaro = "0",
+            Unità_Addestrate = "0",
+            Risorse_Utilizzate = "0",
+            Tempo_Addestramento_Totale = "0",
+            Tempo_Costruzione_Totale = "0",
+            Tempo_Ricerca_Totale = "0"
         };
 
         public class Shop

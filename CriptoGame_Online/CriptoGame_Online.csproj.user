@@ -5,6 +5,10 @@
   </PropertyGroup>
   <PropertyGroup>
     <ActiveDebugProfile>CriptoGame_Online</ActiveDebugProfile>
+    <_LastSelectedProfileId>C:\Users\TheCh\Desktop\Nuova cartella\CriptoGame_Online\Properties\PublishProfiles\ClickOnceProfile.pubxml</_LastSelectedProfileId>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
   <ItemGroup>
     <Compile Update="GUI\AttaccoCoordinato.cs">
@@ -14,6 +18,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="GUI\Citta_V2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Mappa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Statistiche.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="GUI\Ricerca.cs">

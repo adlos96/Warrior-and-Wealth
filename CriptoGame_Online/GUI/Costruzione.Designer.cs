@@ -33,47 +33,35 @@ namespace CriptoGame_Online
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Costruzione));
             groupBox_Strutture_Civili = new GroupBox();
             panel16 = new DoubleBufferedPanel();
-            add_10_Case = new PictureBox();
-            add_5_Case = new PictureBox();
             Set_0_Case = new PictureBox();
             add_1_Case = new PictureBox();
             label2 = new Label();
             txt_Case_Costruzione = new TextBox();
             panel17 = new DoubleBufferedPanel();
-            add_10_MinieraOro = new PictureBox();
-            add_5_MinieraOro = new PictureBox();
             Set_0_MinieraOro = new PictureBox();
             add_1_MinieraOro = new PictureBox();
             label8 = new Label();
             txt_MinieraOro_Costruzione = new TextBox();
             ico_Structure_1 = new DoubleBufferedPanel();
             panel18 = new DoubleBufferedPanel();
-            add_10_MinieraFerro = new PictureBox();
-            add_5_MinieraFerro = new PictureBox();
             Set_0_MinieraFerro = new PictureBox();
             add_1_MinieraFerro = new PictureBox();
             label9 = new Label();
             txt_MinieraFerro_Costruzione = new TextBox();
             ico_Structure_4 = new DoubleBufferedPanel();
             panel19 = new DoubleBufferedPanel();
-            add_10_Cava = new PictureBox();
-            add_5_Cava = new PictureBox();
             Set_0_Cava = new PictureBox();
             add_1_Cava = new PictureBox();
             label10 = new Label();
             txt_Cava_Costruzione = new TextBox();
             ico_Structure_3 = new DoubleBufferedPanel();
             panel20 = new DoubleBufferedPanel();
-            add_10_Segheria = new PictureBox();
-            add_5_Segheria = new PictureBox();
             Set_0_Segheria = new PictureBox();
             add_1_Segheria = new PictureBox();
             label11 = new Label();
             txt_Segheria_Costruzione = new TextBox();
             ico_Structure_5 = new DoubleBufferedPanel();
             panel21 = new DoubleBufferedPanel();
-            add_10_Fattoria = new PictureBox();
-            add_5_Fattoria = new PictureBox();
             Set_0_Fattoria = new PictureBox();
             add_1_Fattoria = new PictureBox();
             label12 = new Label();
@@ -136,47 +124,35 @@ namespace CriptoGame_Online
             panel10 = new DoubleBufferedPanel();
             panel11 = new DoubleBufferedPanel();
             panel8 = new DoubleBufferedPanel();
-            Add_10_Workshop_Spade = new PictureBox();
-            Add_5_Workshop_Spade = new PictureBox();
             Set_0_Workshop_Spade = new PictureBox();
             Add_1_Workshop_Spade = new PictureBox();
             label7 = new Label();
             txt_Workshop_Spade_Costruzione = new TextBox();
             panel12 = new DoubleBufferedPanel();
             panel7 = new DoubleBufferedPanel();
-            Add_10_Workshop_Lance = new PictureBox();
-            Add_5_Workshop_Lance = new PictureBox();
             Set_0_Workshop_Lance = new PictureBox();
             Add_1_Workshop_Lance = new PictureBox();
             label6 = new Label();
             txt_Workshop_Lance_Costruzione = new TextBox();
             panel13 = new DoubleBufferedPanel();
             panel5 = new DoubleBufferedPanel();
-            Add_10_Workshop_Archi = new PictureBox();
-            Add_5_Workshop_Archi = new PictureBox();
             Set_0_Workshop_Archi = new PictureBox();
             Add_1_Workshop_Archi = new PictureBox();
             label5 = new Label();
             txt_Workshop_Archi_Costruzione = new TextBox();
             panel14 = new DoubleBufferedPanel();
             panel4 = new DoubleBufferedPanel();
-            Add_10_Workshop_Scudi = new PictureBox();
-            Add_5_Workshop_Scudi = new PictureBox();
             Set_0_Workshop_Scudi = new PictureBox();
             Add_1_Workshop_Scudi = new PictureBox();
             label4 = new Label();
             txt_Workshop_Scudi_Costruzione = new TextBox();
             panel9 = new DoubleBufferedPanel();
             panel3 = new DoubleBufferedPanel();
-            Add_10_Workshop_Armature = new PictureBox();
-            Add_5_Workshop_Armature = new PictureBox();
             Set_0_Workshop_Armature = new PictureBox();
             Add_1_Workshop_Armature = new PictureBox();
             label3 = new Label();
             txt_Workshop_Armature_Costruzione = new TextBox();
             panel2 = new DoubleBufferedPanel();
-            Add_10_Workshop_Frecce = new PictureBox();
-            Add_5_Workshop_Frecce = new PictureBox();
             Set_0_Workshop_Frecce = new PictureBox();
             Add_1_Workshop_Frecce = new PictureBox();
             label1 = new Label();
@@ -185,31 +161,23 @@ namespace CriptoGame_Online
             groupBox_Caserme = new GroupBox();
             doubleBufferedPanel3 = new DoubleBufferedPanel();
             doubleBufferedPanel4 = new DoubleBufferedPanel();
-            Add_10_Caserme_Catapulte = new PictureBox();
-            Add_5_Caserme_Catapulte = new PictureBox();
             Set_0_Caserme_Catapulte = new PictureBox();
             Add_1_Caserme_Catapulte = new PictureBox();
             label20 = new Label();
             txt_Caserme_Catapulte_Costruzione = new TextBox();
             doubleBufferedPanel5 = new DoubleBufferedPanel();
             doubleBufferedPanel6 = new DoubleBufferedPanel();
-            Add_10_Caserme_Arceri = new PictureBox();
-            Add_5_Caserme_Arceri = new PictureBox();
             Set_0_Caserme_Arceri = new PictureBox();
             Add_1_Caserme_Lanceri = new PictureBox();
             label21 = new Label();
             txt_Caserme_Arceri_Costruzione = new TextBox();
             doubleBufferedPanel7 = new DoubleBufferedPanel();
             doubleBufferedPanel8 = new DoubleBufferedPanel();
-            Add_10_Caserme_Lanceri = new PictureBox();
-            Add_5_Caserme_Lanceri = new PictureBox();
             Set_0_Caserme_Lanceri = new PictureBox();
             Add_1_Caserme_Arceri = new PictureBox();
             label22 = new Label();
             txt_Caserme_Lanceri_Costruzione = new TextBox();
             doubleBufferedPanel10 = new DoubleBufferedPanel();
-            Add_10_Caserme_Guerrieri = new PictureBox();
-            Add_5_Caserme_Guerrieri = new PictureBox();
             Set_0_Caserme_Guerrieri = new PictureBox();
             Add_1_Caserme_Guerrieri = new PictureBox();
             label23 = new Label();
@@ -217,33 +185,21 @@ namespace CriptoGame_Online
             doubleBufferedPanel11 = new DoubleBufferedPanel();
             groupBox_Strutture_Civili.SuspendLayout();
             panel16.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)add_10_Case).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)add_5_Case).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Set_0_Case).BeginInit();
             ((System.ComponentModel.ISupportInitialize)add_1_Case).BeginInit();
             panel17.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)add_10_MinieraOro).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)add_5_MinieraOro).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Set_0_MinieraOro).BeginInit();
             ((System.ComponentModel.ISupportInitialize)add_1_MinieraOro).BeginInit();
             panel18.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)add_10_MinieraFerro).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)add_5_MinieraFerro).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Set_0_MinieraFerro).BeginInit();
             ((System.ComponentModel.ISupportInitialize)add_1_MinieraFerro).BeginInit();
             panel19.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)add_10_Cava).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)add_5_Cava).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Set_0_Cava).BeginInit();
             ((System.ComponentModel.ISupportInitialize)add_1_Cava).BeginInit();
             panel20.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)add_10_Segheria).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)add_5_Segheria).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Set_0_Segheria).BeginInit();
             ((System.ComponentModel.ISupportInitialize)add_1_Segheria).BeginInit();
             panel21.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)add_10_Fattoria).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)add_5_Fattoria).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Set_0_Fattoria).BeginInit();
             ((System.ComponentModel.ISupportInitialize)add_1_Fattoria).BeginInit();
             groupBox2.SuspendLayout();
@@ -278,55 +234,35 @@ namespace CriptoGame_Online
             groupBox4.SuspendLayout();
             panel23.SuspendLayout();
             panel8.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)Add_10_Workshop_Spade).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)Add_5_Workshop_Spade).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Set_0_Workshop_Spade).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Add_1_Workshop_Spade).BeginInit();
             panel7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)Add_10_Workshop_Lance).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)Add_5_Workshop_Lance).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Set_0_Workshop_Lance).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Add_1_Workshop_Lance).BeginInit();
             panel5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)Add_10_Workshop_Archi).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)Add_5_Workshop_Archi).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Set_0_Workshop_Archi).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Add_1_Workshop_Archi).BeginInit();
             panel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)Add_10_Workshop_Scudi).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)Add_5_Workshop_Scudi).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Set_0_Workshop_Scudi).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Add_1_Workshop_Scudi).BeginInit();
             panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)Add_10_Workshop_Armature).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)Add_5_Workshop_Armature).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Set_0_Workshop_Armature).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Add_1_Workshop_Armature).BeginInit();
             panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)Add_10_Workshop_Frecce).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)Add_5_Workshop_Frecce).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Set_0_Workshop_Frecce).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Add_1_Workshop_Frecce).BeginInit();
             groupBox_Strutture_Militari.SuspendLayout();
             groupBox_Caserme.SuspendLayout();
             doubleBufferedPanel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)Add_10_Caserme_Catapulte).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)Add_5_Caserme_Catapulte).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Set_0_Caserme_Catapulte).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Add_1_Caserme_Catapulte).BeginInit();
             doubleBufferedPanel6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)Add_10_Caserme_Arceri).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)Add_5_Caserme_Arceri).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Set_0_Caserme_Arceri).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Add_1_Caserme_Lanceri).BeginInit();
             doubleBufferedPanel8.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)Add_10_Caserme_Lanceri).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)Add_5_Caserme_Lanceri).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Set_0_Caserme_Lanceri).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Add_1_Caserme_Arceri).BeginInit();
             doubleBufferedPanel10.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)Add_10_Caserme_Guerrieri).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)Add_5_Caserme_Guerrieri).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Set_0_Caserme_Guerrieri).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Add_1_Caserme_Guerrieri).BeginInit();
             SuspendLayout();
@@ -349,7 +285,7 @@ namespace CriptoGame_Online
             groupBox_Strutture_Civili.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             groupBox_Strutture_Civili.Location = new Point(8, 1);
             groupBox_Strutture_Civili.Name = "groupBox_Strutture_Civili";
-            groupBox_Strutture_Civili.Size = new Size(211, 291);
+            groupBox_Strutture_Civili.Size = new Size(165, 291);
             groupBox_Strutture_Civili.TabIndex = 27;
             groupBox_Strutture_Civili.TabStop = false;
             groupBox_Strutture_Civili.Text = "Strutture Civili";
@@ -359,40 +295,14 @@ namespace CriptoGame_Online
             panel16.BackColor = Color.Transparent;
             panel16.BackgroundImage = Properties.Resources.Sfondo_3;
             panel16.BackgroundImageLayout = ImageLayout.Stretch;
-            panel16.Controls.Add(add_10_Case);
-            panel16.Controls.Add(add_5_Case);
             panel16.Controls.Add(Set_0_Case);
             panel16.Controls.Add(add_1_Case);
             panel16.Controls.Add(label2);
             panel16.Controls.Add(txt_Case_Costruzione);
             panel16.Location = new Point(50, 246);
             panel16.Name = "panel16";
-            panel16.Size = new Size(144, 27);
+            panel16.Size = new Size(103, 27);
             panel16.TabIndex = 80;
-            // 
-            // add_10_Case
-            // 
-            add_10_Case.BackColor = Color.Transparent;
-            add_10_Case.BackgroundImage = (Image)resources.GetObject("add_10_Case.BackgroundImage");
-            add_10_Case.BackgroundImageLayout = ImageLayout.Stretch;
-            add_10_Case.Location = new Point(122, 4);
-            add_10_Case.Name = "add_10_Case";
-            add_10_Case.Size = new Size(18, 18);
-            add_10_Case.TabIndex = 54;
-            add_10_Case.TabStop = false;
-            add_10_Case.Click += add_10_Case_Click;
-            // 
-            // add_5_Case
-            // 
-            add_5_Case.BackColor = Color.Transparent;
-            add_5_Case.BackgroundImage = (Image)resources.GetObject("add_5_Case.BackgroundImage");
-            add_5_Case.BackgroundImageLayout = ImageLayout.Stretch;
-            add_5_Case.Location = new Point(100, 4);
-            add_5_Case.Name = "add_5_Case";
-            add_5_Case.Size = new Size(18, 18);
-            add_5_Case.TabIndex = 53;
-            add_5_Case.TabStop = false;
-            add_5_Case.Click += add_5_Case_Click;
             // 
             // Set_0_Case
             // 
@@ -446,40 +356,14 @@ namespace CriptoGame_Online
             panel17.BackColor = Color.Transparent;
             panel17.BackgroundImage = Properties.Resources.Sfondo_3;
             panel17.BackgroundImageLayout = ImageLayout.Stretch;
-            panel17.Controls.Add(add_10_MinieraOro);
-            panel17.Controls.Add(add_5_MinieraOro);
             panel17.Controls.Add(Set_0_MinieraOro);
             panel17.Controls.Add(add_1_MinieraOro);
             panel17.Controls.Add(label8);
             panel17.Controls.Add(txt_MinieraOro_Costruzione);
             panel17.Location = new Point(50, 202);
             panel17.Name = "panel17";
-            panel17.Size = new Size(144, 27);
+            panel17.Size = new Size(103, 27);
             panel17.TabIndex = 79;
-            // 
-            // add_10_MinieraOro
-            // 
-            add_10_MinieraOro.BackColor = Color.Transparent;
-            add_10_MinieraOro.BackgroundImage = (Image)resources.GetObject("add_10_MinieraOro.BackgroundImage");
-            add_10_MinieraOro.BackgroundImageLayout = ImageLayout.Stretch;
-            add_10_MinieraOro.Location = new Point(122, 4);
-            add_10_MinieraOro.Name = "add_10_MinieraOro";
-            add_10_MinieraOro.Size = new Size(18, 18);
-            add_10_MinieraOro.TabIndex = 54;
-            add_10_MinieraOro.TabStop = false;
-            add_10_MinieraOro.Click += add_10_MinieraOro_Click;
-            // 
-            // add_5_MinieraOro
-            // 
-            add_5_MinieraOro.BackColor = Color.Transparent;
-            add_5_MinieraOro.BackgroundImage = (Image)resources.GetObject("add_5_MinieraOro.BackgroundImage");
-            add_5_MinieraOro.BackgroundImageLayout = ImageLayout.Stretch;
-            add_5_MinieraOro.Location = new Point(100, 4);
-            add_5_MinieraOro.Name = "add_5_MinieraOro";
-            add_5_MinieraOro.Size = new Size(18, 18);
-            add_5_MinieraOro.TabIndex = 53;
-            add_5_MinieraOro.TabStop = false;
-            add_5_MinieraOro.Click += add_5_MinieraOro_Click;
             // 
             // Set_0_MinieraOro
             // 
@@ -542,40 +426,14 @@ namespace CriptoGame_Online
             panel18.BackColor = Color.Transparent;
             panel18.BackgroundImage = Properties.Resources.Sfondo_3;
             panel18.BackgroundImageLayout = ImageLayout.Stretch;
-            panel18.Controls.Add(add_10_MinieraFerro);
-            panel18.Controls.Add(add_5_MinieraFerro);
             panel18.Controls.Add(Set_0_MinieraFerro);
             panel18.Controls.Add(add_1_MinieraFerro);
             panel18.Controls.Add(label9);
             panel18.Controls.Add(txt_MinieraFerro_Costruzione);
             panel18.Location = new Point(50, 158);
             panel18.Name = "panel18";
-            panel18.Size = new Size(144, 27);
+            panel18.Size = new Size(103, 27);
             panel18.TabIndex = 78;
-            // 
-            // add_10_MinieraFerro
-            // 
-            add_10_MinieraFerro.BackColor = Color.Transparent;
-            add_10_MinieraFerro.BackgroundImage = (Image)resources.GetObject("add_10_MinieraFerro.BackgroundImage");
-            add_10_MinieraFerro.BackgroundImageLayout = ImageLayout.Stretch;
-            add_10_MinieraFerro.Location = new Point(122, 4);
-            add_10_MinieraFerro.Name = "add_10_MinieraFerro";
-            add_10_MinieraFerro.Size = new Size(18, 18);
-            add_10_MinieraFerro.TabIndex = 54;
-            add_10_MinieraFerro.TabStop = false;
-            add_10_MinieraFerro.Click += add_10_MinieraFerro_Click;
-            // 
-            // add_5_MinieraFerro
-            // 
-            add_5_MinieraFerro.BackColor = Color.Transparent;
-            add_5_MinieraFerro.BackgroundImage = (Image)resources.GetObject("add_5_MinieraFerro.BackgroundImage");
-            add_5_MinieraFerro.BackgroundImageLayout = ImageLayout.Stretch;
-            add_5_MinieraFerro.Location = new Point(100, 4);
-            add_5_MinieraFerro.Name = "add_5_MinieraFerro";
-            add_5_MinieraFerro.Size = new Size(18, 18);
-            add_5_MinieraFerro.TabIndex = 53;
-            add_5_MinieraFerro.TabStop = false;
-            add_5_MinieraFerro.Click += add_5_MinieraFerro_Click;
             // 
             // Set_0_MinieraFerro
             // 
@@ -638,40 +496,14 @@ namespace CriptoGame_Online
             panel19.BackColor = Color.Transparent;
             panel19.BackgroundImage = Properties.Resources.Sfondo_3;
             panel19.BackgroundImageLayout = ImageLayout.Stretch;
-            panel19.Controls.Add(add_10_Cava);
-            panel19.Controls.Add(add_5_Cava);
             panel19.Controls.Add(Set_0_Cava);
             panel19.Controls.Add(add_1_Cava);
             panel19.Controls.Add(label10);
             panel19.Controls.Add(txt_Cava_Costruzione);
             panel19.Location = new Point(50, 114);
             panel19.Name = "panel19";
-            panel19.Size = new Size(144, 27);
+            panel19.Size = new Size(103, 27);
             panel19.TabIndex = 76;
-            // 
-            // add_10_Cava
-            // 
-            add_10_Cava.BackColor = Color.Transparent;
-            add_10_Cava.BackgroundImage = (Image)resources.GetObject("add_10_Cava.BackgroundImage");
-            add_10_Cava.BackgroundImageLayout = ImageLayout.Stretch;
-            add_10_Cava.Location = new Point(122, 4);
-            add_10_Cava.Name = "add_10_Cava";
-            add_10_Cava.Size = new Size(18, 18);
-            add_10_Cava.TabIndex = 54;
-            add_10_Cava.TabStop = false;
-            add_10_Cava.Click += add_10_Cava_Click;
-            // 
-            // add_5_Cava
-            // 
-            add_5_Cava.BackColor = Color.Transparent;
-            add_5_Cava.BackgroundImage = (Image)resources.GetObject("add_5_Cava.BackgroundImage");
-            add_5_Cava.BackgroundImageLayout = ImageLayout.Stretch;
-            add_5_Cava.Location = new Point(100, 4);
-            add_5_Cava.Name = "add_5_Cava";
-            add_5_Cava.Size = new Size(18, 18);
-            add_5_Cava.TabIndex = 53;
-            add_5_Cava.TabStop = false;
-            add_5_Cava.Click += add_5_Cava_Click;
             // 
             // Set_0_Cava
             // 
@@ -734,40 +566,14 @@ namespace CriptoGame_Online
             panel20.BackColor = Color.Transparent;
             panel20.BackgroundImage = Properties.Resources.Sfondo_3;
             panel20.BackgroundImageLayout = ImageLayout.Stretch;
-            panel20.Controls.Add(add_10_Segheria);
-            panel20.Controls.Add(add_5_Segheria);
             panel20.Controls.Add(Set_0_Segheria);
             panel20.Controls.Add(add_1_Segheria);
             panel20.Controls.Add(label11);
             panel20.Controls.Add(txt_Segheria_Costruzione);
             panel20.Location = new Point(50, 70);
             panel20.Name = "panel20";
-            panel20.Size = new Size(144, 27);
+            panel20.Size = new Size(103, 27);
             panel20.TabIndex = 77;
-            // 
-            // add_10_Segheria
-            // 
-            add_10_Segheria.BackColor = Color.Transparent;
-            add_10_Segheria.BackgroundImage = (Image)resources.GetObject("add_10_Segheria.BackgroundImage");
-            add_10_Segheria.BackgroundImageLayout = ImageLayout.Stretch;
-            add_10_Segheria.Location = new Point(122, 4);
-            add_10_Segheria.Name = "add_10_Segheria";
-            add_10_Segheria.Size = new Size(18, 18);
-            add_10_Segheria.TabIndex = 54;
-            add_10_Segheria.TabStop = false;
-            add_10_Segheria.Click += add_10_Segheria_Click;
-            // 
-            // add_5_Segheria
-            // 
-            add_5_Segheria.BackColor = Color.Transparent;
-            add_5_Segheria.BackgroundImage = (Image)resources.GetObject("add_5_Segheria.BackgroundImage");
-            add_5_Segheria.BackgroundImageLayout = ImageLayout.Stretch;
-            add_5_Segheria.Location = new Point(100, 4);
-            add_5_Segheria.Name = "add_5_Segheria";
-            add_5_Segheria.Size = new Size(18, 18);
-            add_5_Segheria.TabIndex = 53;
-            add_5_Segheria.TabStop = false;
-            add_5_Segheria.Click += add_5_Segheria_Click;
             // 
             // Set_0_Segheria
             // 
@@ -830,40 +636,14 @@ namespace CriptoGame_Online
             panel21.BackColor = Color.Transparent;
             panel21.BackgroundImage = Properties.Resources.Sfondo_3;
             panel21.BackgroundImageLayout = ImageLayout.Stretch;
-            panel21.Controls.Add(add_10_Fattoria);
-            panel21.Controls.Add(add_5_Fattoria);
             panel21.Controls.Add(Set_0_Fattoria);
             panel21.Controls.Add(add_1_Fattoria);
             panel21.Controls.Add(label12);
             panel21.Controls.Add(txt_Fattoria_Costruzione);
             panel21.Location = new Point(50, 26);
             panel21.Name = "panel21";
-            panel21.Size = new Size(144, 27);
+            panel21.Size = new Size(103, 27);
             panel21.TabIndex = 75;
-            // 
-            // add_10_Fattoria
-            // 
-            add_10_Fattoria.BackColor = Color.Transparent;
-            add_10_Fattoria.BackgroundImage = (Image)resources.GetObject("add_10_Fattoria.BackgroundImage");
-            add_10_Fattoria.BackgroundImageLayout = ImageLayout.Stretch;
-            add_10_Fattoria.Location = new Point(122, 4);
-            add_10_Fattoria.Name = "add_10_Fattoria";
-            add_10_Fattoria.Size = new Size(18, 18);
-            add_10_Fattoria.TabIndex = 54;
-            add_10_Fattoria.TabStop = false;
-            add_10_Fattoria.Click += add_10_Fattoria_Click;
-            // 
-            // add_5_Fattoria
-            // 
-            add_5_Fattoria.BackColor = Color.Transparent;
-            add_5_Fattoria.BackgroundImage = (Image)resources.GetObject("add_5_Fattoria.BackgroundImage");
-            add_5_Fattoria.BackgroundImageLayout = ImageLayout.Stretch;
-            add_5_Fattoria.Location = new Point(100, 4);
-            add_5_Fattoria.Name = "add_5_Fattoria";
-            add_5_Fattoria.Size = new Size(18, 18);
-            add_5_Fattoria.TabIndex = 53;
-            add_5_Fattoria.TabStop = false;
-            add_5_Fattoria.Click += add_5_Fattoria_Click;
             // 
             // Set_0_Fattoria
             // 
@@ -936,7 +716,7 @@ namespace CriptoGame_Online
             groupBox2.Controls.Add(panel15);
             groupBox2.Location = new Point(8, 402);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(427, 67);
+            groupBox2.Size = new Size(326, 67);
             groupBox2.TabIndex = 29;
             groupBox2.TabStop = false;
             // 
@@ -946,7 +726,7 @@ namespace CriptoGame_Online
             panel15.Controls.Add(Btn_Costruzione);
             panel15.Location = new Point(4, 15);
             panel15.Name = "panel15";
-            panel15.Size = new Size(421, 44);
+            panel15.Size = new Size(312, 44);
             panel15.TabIndex = 37;
             // 
             // Btn_Costruzione
@@ -955,7 +735,7 @@ namespace CriptoGame_Online
             Btn_Costruzione.FlatAppearance.BorderSize = 0;
             Btn_Costruzione.FlatStyle = FlatStyle.Popup;
             Btn_Costruzione.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            Btn_Costruzione.Location = new Point(147, 6);
+            Btn_Costruzione.Location = new Point(93, 6);
             Btn_Costruzione.Name = "Btn_Costruzione";
             Btn_Costruzione.Size = new Size(118, 32);
             Btn_Costruzione.TabIndex = 30;
@@ -978,7 +758,7 @@ namespace CriptoGame_Online
             groupBox_Reclutamento.Controls.Add(panel32);
             groupBox_Reclutamento.Controls.Add(panel31);
             groupBox_Reclutamento.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            groupBox_Reclutamento.Location = new Point(441, 1);
+            groupBox_Reclutamento.Location = new Point(333, 1);
             groupBox_Reclutamento.Name = "groupBox_Reclutamento";
             groupBox_Reclutamento.Size = new Size(208, 291);
             groupBox_Reclutamento.TabIndex = 30;
@@ -1538,7 +1318,7 @@ namespace CriptoGame_Online
             // 
             groupBox4.BackColor = Color.Transparent;
             groupBox4.Controls.Add(panel23);
-            groupBox4.Location = new Point(441, 402);
+            groupBox4.Location = new Point(333, 402);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new Size(208, 67);
             groupBox4.TabIndex = 31;
@@ -1590,40 +1370,14 @@ namespace CriptoGame_Online
             panel8.BackColor = Color.Transparent;
             panel8.BackgroundImage = Properties.Resources.Sfondo_3;
             panel8.BackgroundImageLayout = ImageLayout.Stretch;
-            panel8.Controls.Add(Add_10_Workshop_Spade);
-            panel8.Controls.Add(Add_5_Workshop_Spade);
             panel8.Controls.Add(Set_0_Workshop_Spade);
             panel8.Controls.Add(Add_1_Workshop_Spade);
             panel8.Controls.Add(label7);
             panel8.Controls.Add(txt_Workshop_Spade_Costruzione);
             panel8.Location = new Point(50, 26);
             panel8.Name = "panel8";
-            panel8.Size = new Size(144, 27);
+            panel8.Size = new Size(102, 27);
             panel8.TabIndex = 75;
-            // 
-            // Add_10_Workshop_Spade
-            // 
-            Add_10_Workshop_Spade.BackColor = Color.Transparent;
-            Add_10_Workshop_Spade.BackgroundImage = (Image)resources.GetObject("Add_10_Workshop_Spade.BackgroundImage");
-            Add_10_Workshop_Spade.BackgroundImageLayout = ImageLayout.Stretch;
-            Add_10_Workshop_Spade.Location = new Point(122, 4);
-            Add_10_Workshop_Spade.Name = "Add_10_Workshop_Spade";
-            Add_10_Workshop_Spade.Size = new Size(18, 18);
-            Add_10_Workshop_Spade.TabIndex = 54;
-            Add_10_Workshop_Spade.TabStop = false;
-            Add_10_Workshop_Spade.Click += Add_10_Workshop_Spade_Click;
-            // 
-            // Add_5_Workshop_Spade
-            // 
-            Add_5_Workshop_Spade.BackColor = Color.Transparent;
-            Add_5_Workshop_Spade.BackgroundImage = (Image)resources.GetObject("Add_5_Workshop_Spade.BackgroundImage");
-            Add_5_Workshop_Spade.BackgroundImageLayout = ImageLayout.Stretch;
-            Add_5_Workshop_Spade.Location = new Point(100, 4);
-            Add_5_Workshop_Spade.Name = "Add_5_Workshop_Spade";
-            Add_5_Workshop_Spade.Size = new Size(18, 18);
-            Add_5_Workshop_Spade.TabIndex = 53;
-            Add_5_Workshop_Spade.TabStop = false;
-            Add_5_Workshop_Spade.Click += Add_5_Workshop_Spade_Click;
             // 
             // Set_0_Workshop_Spade
             // 
@@ -1686,40 +1440,14 @@ namespace CriptoGame_Online
             panel7.BackColor = Color.Transparent;
             panel7.BackgroundImage = Properties.Resources.Sfondo_3;
             panel7.BackgroundImageLayout = ImageLayout.Stretch;
-            panel7.Controls.Add(Add_10_Workshop_Lance);
-            panel7.Controls.Add(Add_5_Workshop_Lance);
             panel7.Controls.Add(Set_0_Workshop_Lance);
             panel7.Controls.Add(Add_1_Workshop_Lance);
             panel7.Controls.Add(label6);
             panel7.Controls.Add(txt_Workshop_Lance_Costruzione);
             panel7.Location = new Point(50, 70);
             panel7.Name = "panel7";
-            panel7.Size = new Size(144, 27);
+            panel7.Size = new Size(102, 27);
             panel7.TabIndex = 77;
-            // 
-            // Add_10_Workshop_Lance
-            // 
-            Add_10_Workshop_Lance.BackColor = Color.Transparent;
-            Add_10_Workshop_Lance.BackgroundImage = (Image)resources.GetObject("Add_10_Workshop_Lance.BackgroundImage");
-            Add_10_Workshop_Lance.BackgroundImageLayout = ImageLayout.Stretch;
-            Add_10_Workshop_Lance.Location = new Point(122, 4);
-            Add_10_Workshop_Lance.Name = "Add_10_Workshop_Lance";
-            Add_10_Workshop_Lance.Size = new Size(18, 18);
-            Add_10_Workshop_Lance.TabIndex = 54;
-            Add_10_Workshop_Lance.TabStop = false;
-            Add_10_Workshop_Lance.Click += Add_10_Workshop_Lance_Click;
-            // 
-            // Add_5_Workshop_Lance
-            // 
-            Add_5_Workshop_Lance.BackColor = Color.Transparent;
-            Add_5_Workshop_Lance.BackgroundImage = (Image)resources.GetObject("Add_5_Workshop_Lance.BackgroundImage");
-            Add_5_Workshop_Lance.BackgroundImageLayout = ImageLayout.Stretch;
-            Add_5_Workshop_Lance.Location = new Point(100, 4);
-            Add_5_Workshop_Lance.Name = "Add_5_Workshop_Lance";
-            Add_5_Workshop_Lance.Size = new Size(18, 18);
-            Add_5_Workshop_Lance.TabIndex = 53;
-            Add_5_Workshop_Lance.TabStop = false;
-            Add_5_Workshop_Lance.Click += Add_5_Workshop_Lance_Click;
             // 
             // Set_0_Workshop_Lance
             // 
@@ -1782,40 +1510,14 @@ namespace CriptoGame_Online
             panel5.BackColor = Color.Transparent;
             panel5.BackgroundImage = Properties.Resources.Sfondo_3;
             panel5.BackgroundImageLayout = ImageLayout.Stretch;
-            panel5.Controls.Add(Add_10_Workshop_Archi);
-            panel5.Controls.Add(Add_5_Workshop_Archi);
             panel5.Controls.Add(Set_0_Workshop_Archi);
             panel5.Controls.Add(Add_1_Workshop_Archi);
             panel5.Controls.Add(label5);
             panel5.Controls.Add(txt_Workshop_Archi_Costruzione);
             panel5.Location = new Point(50, 114);
             panel5.Name = "panel5";
-            panel5.Size = new Size(144, 27);
+            panel5.Size = new Size(102, 27);
             panel5.TabIndex = 76;
-            // 
-            // Add_10_Workshop_Archi
-            // 
-            Add_10_Workshop_Archi.BackColor = Color.Transparent;
-            Add_10_Workshop_Archi.BackgroundImage = (Image)resources.GetObject("Add_10_Workshop_Archi.BackgroundImage");
-            Add_10_Workshop_Archi.BackgroundImageLayout = ImageLayout.Stretch;
-            Add_10_Workshop_Archi.Location = new Point(122, 4);
-            Add_10_Workshop_Archi.Name = "Add_10_Workshop_Archi";
-            Add_10_Workshop_Archi.Size = new Size(18, 18);
-            Add_10_Workshop_Archi.TabIndex = 54;
-            Add_10_Workshop_Archi.TabStop = false;
-            Add_10_Workshop_Archi.Click += Add_10_Workshop_Archi_Click;
-            // 
-            // Add_5_Workshop_Archi
-            // 
-            Add_5_Workshop_Archi.BackColor = Color.Transparent;
-            Add_5_Workshop_Archi.BackgroundImage = (Image)resources.GetObject("Add_5_Workshop_Archi.BackgroundImage");
-            Add_5_Workshop_Archi.BackgroundImageLayout = ImageLayout.Stretch;
-            Add_5_Workshop_Archi.Location = new Point(100, 4);
-            Add_5_Workshop_Archi.Name = "Add_5_Workshop_Archi";
-            Add_5_Workshop_Archi.Size = new Size(18, 18);
-            Add_5_Workshop_Archi.TabIndex = 53;
-            Add_5_Workshop_Archi.TabStop = false;
-            Add_5_Workshop_Archi.Click += Add_5_Workshop_Archi_Click;
             // 
             // Set_0_Workshop_Archi
             // 
@@ -1878,40 +1580,14 @@ namespace CriptoGame_Online
             panel4.BackColor = Color.Transparent;
             panel4.BackgroundImage = Properties.Resources.Sfondo_3;
             panel4.BackgroundImageLayout = ImageLayout.Stretch;
-            panel4.Controls.Add(Add_10_Workshop_Scudi);
-            panel4.Controls.Add(Add_5_Workshop_Scudi);
             panel4.Controls.Add(Set_0_Workshop_Scudi);
             panel4.Controls.Add(Add_1_Workshop_Scudi);
             panel4.Controls.Add(label4);
             panel4.Controls.Add(txt_Workshop_Scudi_Costruzione);
             panel4.Location = new Point(50, 158);
             panel4.Name = "panel4";
-            panel4.Size = new Size(144, 27);
+            panel4.Size = new Size(102, 27);
             panel4.TabIndex = 78;
-            // 
-            // Add_10_Workshop_Scudi
-            // 
-            Add_10_Workshop_Scudi.BackColor = Color.Transparent;
-            Add_10_Workshop_Scudi.BackgroundImage = (Image)resources.GetObject("Add_10_Workshop_Scudi.BackgroundImage");
-            Add_10_Workshop_Scudi.BackgroundImageLayout = ImageLayout.Stretch;
-            Add_10_Workshop_Scudi.Location = new Point(122, 4);
-            Add_10_Workshop_Scudi.Name = "Add_10_Workshop_Scudi";
-            Add_10_Workshop_Scudi.Size = new Size(18, 18);
-            Add_10_Workshop_Scudi.TabIndex = 54;
-            Add_10_Workshop_Scudi.TabStop = false;
-            Add_10_Workshop_Scudi.Click += Add_10_Workshop_Scudi_Click;
-            // 
-            // Add_5_Workshop_Scudi
-            // 
-            Add_5_Workshop_Scudi.BackColor = Color.Transparent;
-            Add_5_Workshop_Scudi.BackgroundImage = (Image)resources.GetObject("Add_5_Workshop_Scudi.BackgroundImage");
-            Add_5_Workshop_Scudi.BackgroundImageLayout = ImageLayout.Stretch;
-            Add_5_Workshop_Scudi.Location = new Point(100, 4);
-            Add_5_Workshop_Scudi.Name = "Add_5_Workshop_Scudi";
-            Add_5_Workshop_Scudi.Size = new Size(18, 18);
-            Add_5_Workshop_Scudi.TabIndex = 53;
-            Add_5_Workshop_Scudi.TabStop = false;
-            Add_5_Workshop_Scudi.Click += Add_5_Workshop_Scudi_Click;
             // 
             // Set_0_Workshop_Scudi
             // 
@@ -1974,40 +1650,14 @@ namespace CriptoGame_Online
             panel3.BackColor = Color.Transparent;
             panel3.BackgroundImage = Properties.Resources.Sfondo_3;
             panel3.BackgroundImageLayout = ImageLayout.Stretch;
-            panel3.Controls.Add(Add_10_Workshop_Armature);
-            panel3.Controls.Add(Add_5_Workshop_Armature);
             panel3.Controls.Add(Set_0_Workshop_Armature);
             panel3.Controls.Add(Add_1_Workshop_Armature);
             panel3.Controls.Add(label3);
             panel3.Controls.Add(txt_Workshop_Armature_Costruzione);
             panel3.Location = new Point(50, 202);
             panel3.Name = "panel3";
-            panel3.Size = new Size(144, 27);
+            panel3.Size = new Size(102, 27);
             panel3.TabIndex = 79;
-            // 
-            // Add_10_Workshop_Armature
-            // 
-            Add_10_Workshop_Armature.BackColor = Color.Transparent;
-            Add_10_Workshop_Armature.BackgroundImage = (Image)resources.GetObject("Add_10_Workshop_Armature.BackgroundImage");
-            Add_10_Workshop_Armature.BackgroundImageLayout = ImageLayout.Stretch;
-            Add_10_Workshop_Armature.Location = new Point(122, 4);
-            Add_10_Workshop_Armature.Name = "Add_10_Workshop_Armature";
-            Add_10_Workshop_Armature.Size = new Size(18, 18);
-            Add_10_Workshop_Armature.TabIndex = 54;
-            Add_10_Workshop_Armature.TabStop = false;
-            Add_10_Workshop_Armature.Click += Add_10_Workshop_Armature_Click;
-            // 
-            // Add_5_Workshop_Armature
-            // 
-            Add_5_Workshop_Armature.BackColor = Color.Transparent;
-            Add_5_Workshop_Armature.BackgroundImage = (Image)resources.GetObject("Add_5_Workshop_Armature.BackgroundImage");
-            Add_5_Workshop_Armature.BackgroundImageLayout = ImageLayout.Stretch;
-            Add_5_Workshop_Armature.Location = new Point(100, 4);
-            Add_5_Workshop_Armature.Name = "Add_5_Workshop_Armature";
-            Add_5_Workshop_Armature.Size = new Size(18, 18);
-            Add_5_Workshop_Armature.TabIndex = 53;
-            Add_5_Workshop_Armature.TabStop = false;
-            Add_5_Workshop_Armature.Click += Add_5_Workshop_Armature_Click;
             // 
             // Set_0_Workshop_Armature
             // 
@@ -2061,40 +1711,14 @@ namespace CriptoGame_Online
             panel2.BackColor = Color.Transparent;
             panel2.BackgroundImage = Properties.Resources.Sfondo_3;
             panel2.BackgroundImageLayout = ImageLayout.Stretch;
-            panel2.Controls.Add(Add_10_Workshop_Frecce);
-            panel2.Controls.Add(Add_5_Workshop_Frecce);
             panel2.Controls.Add(Set_0_Workshop_Frecce);
             panel2.Controls.Add(Add_1_Workshop_Frecce);
             panel2.Controls.Add(label1);
             panel2.Controls.Add(txt_Workshop_Frecce_Costruzione);
             panel2.Location = new Point(50, 246);
             panel2.Name = "panel2";
-            panel2.Size = new Size(144, 27);
+            panel2.Size = new Size(102, 27);
             panel2.TabIndex = 80;
-            // 
-            // Add_10_Workshop_Frecce
-            // 
-            Add_10_Workshop_Frecce.BackColor = Color.Transparent;
-            Add_10_Workshop_Frecce.BackgroundImage = (Image)resources.GetObject("Add_10_Workshop_Frecce.BackgroundImage");
-            Add_10_Workshop_Frecce.BackgroundImageLayout = ImageLayout.Stretch;
-            Add_10_Workshop_Frecce.Location = new Point(122, 4);
-            Add_10_Workshop_Frecce.Name = "Add_10_Workshop_Frecce";
-            Add_10_Workshop_Frecce.Size = new Size(18, 18);
-            Add_10_Workshop_Frecce.TabIndex = 54;
-            Add_10_Workshop_Frecce.TabStop = false;
-            Add_10_Workshop_Frecce.Click += Add_10_Workshop_Frecce_Click;
-            // 
-            // Add_5_Workshop_Frecce
-            // 
-            Add_5_Workshop_Frecce.BackColor = Color.Transparent;
-            Add_5_Workshop_Frecce.BackgroundImage = (Image)resources.GetObject("Add_5_Workshop_Frecce.BackgroundImage");
-            Add_5_Workshop_Frecce.BackgroundImageLayout = ImageLayout.Stretch;
-            Add_5_Workshop_Frecce.Location = new Point(100, 4);
-            Add_5_Workshop_Frecce.Name = "Add_5_Workshop_Frecce";
-            Add_5_Workshop_Frecce.Size = new Size(18, 18);
-            Add_5_Workshop_Frecce.TabIndex = 53;
-            Add_5_Workshop_Frecce.TabStop = false;
-            Add_5_Workshop_Frecce.Click += Add_5_Workshop_Frecce_Click;
             // 
             // Set_0_Workshop_Frecce
             // 
@@ -2159,9 +1783,9 @@ namespace CriptoGame_Online
             groupBox_Strutture_Militari.Controls.Add(panel11);
             groupBox_Strutture_Militari.Controls.Add(panel10);
             groupBox_Strutture_Militari.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            groupBox_Strutture_Militari.Location = new Point(225, 1);
+            groupBox_Strutture_Militari.Location = new Point(172, 1);
             groupBox_Strutture_Militari.Name = "groupBox_Strutture_Militari";
-            groupBox_Strutture_Militari.Size = new Size(210, 291);
+            groupBox_Strutture_Militari.Size = new Size(162, 291);
             groupBox_Strutture_Militari.TabIndex = 28;
             groupBox_Strutture_Militari.TabStop = false;
             groupBox_Strutture_Militari.Text = "Strutture Militari";
@@ -2180,7 +1804,7 @@ namespace CriptoGame_Online
             groupBox_Caserme.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             groupBox_Caserme.Location = new Point(9, 291);
             groupBox_Caserme.Name = "groupBox_Caserme";
-            groupBox_Caserme.Size = new Size(426, 113);
+            groupBox_Caserme.Size = new Size(325, 113);
             groupBox_Caserme.TabIndex = 32;
             groupBox_Caserme.TabStop = false;
             groupBox_Caserme.Text = "Caserme";
@@ -2199,40 +1823,14 @@ namespace CriptoGame_Online
             doubleBufferedPanel4.BackColor = Color.Transparent;
             doubleBufferedPanel4.BackgroundImage = Properties.Resources.Sfondo_3;
             doubleBufferedPanel4.BackgroundImageLayout = ImageLayout.Stretch;
-            doubleBufferedPanel4.Controls.Add(Add_10_Caserme_Catapulte);
-            doubleBufferedPanel4.Controls.Add(Add_5_Caserme_Catapulte);
             doubleBufferedPanel4.Controls.Add(Set_0_Caserme_Catapulte);
             doubleBufferedPanel4.Controls.Add(Add_1_Caserme_Catapulte);
             doubleBufferedPanel4.Controls.Add(label20);
             doubleBufferedPanel4.Controls.Add(txt_Caserme_Catapulte_Costruzione);
-            doubleBufferedPanel4.Location = new Point(266, 70);
+            doubleBufferedPanel4.Location = new Point(213, 70);
             doubleBufferedPanel4.Name = "doubleBufferedPanel4";
-            doubleBufferedPanel4.Size = new Size(144, 27);
+            doubleBufferedPanel4.Size = new Size(102, 27);
             doubleBufferedPanel4.TabIndex = 78;
-            // 
-            // Add_10_Caserme_Catapulte
-            // 
-            Add_10_Caserme_Catapulte.BackColor = Color.Transparent;
-            Add_10_Caserme_Catapulte.BackgroundImage = (Image)resources.GetObject("Add_10_Caserme_Catapulte.BackgroundImage");
-            Add_10_Caserme_Catapulte.BackgroundImageLayout = ImageLayout.Stretch;
-            Add_10_Caserme_Catapulte.Location = new Point(122, 4);
-            Add_10_Caserme_Catapulte.Name = "Add_10_Caserme_Catapulte";
-            Add_10_Caserme_Catapulte.Size = new Size(18, 18);
-            Add_10_Caserme_Catapulte.TabIndex = 54;
-            Add_10_Caserme_Catapulte.TabStop = false;
-            Add_10_Caserme_Catapulte.Click += Add_10_Caserme_Catapulte_Click;
-            // 
-            // Add_5_Caserme_Catapulte
-            // 
-            Add_5_Caserme_Catapulte.BackColor = Color.Transparent;
-            Add_5_Caserme_Catapulte.BackgroundImage = (Image)resources.GetObject("Add_5_Caserme_Catapulte.BackgroundImage");
-            Add_5_Caserme_Catapulte.BackgroundImageLayout = ImageLayout.Stretch;
-            Add_5_Caserme_Catapulte.Location = new Point(100, 4);
-            Add_5_Caserme_Catapulte.Name = "Add_5_Caserme_Catapulte";
-            Add_5_Caserme_Catapulte.Size = new Size(18, 18);
-            Add_5_Caserme_Catapulte.TabIndex = 53;
-            Add_5_Caserme_Catapulte.TabStop = false;
-            Add_5_Caserme_Catapulte.Click += Add_5_Caserme_Catapulte_Click;
             // 
             // Set_0_Caserme_Catapulte
             // 
@@ -2285,7 +1883,7 @@ namespace CriptoGame_Online
             // 
             doubleBufferedPanel5.BackgroundImage = Properties.Resources.Workshop_Scudi;
             doubleBufferedPanel5.BackgroundImageLayout = ImageLayout.Stretch;
-            doubleBufferedPanel5.Location = new Point(222, 65);
+            doubleBufferedPanel5.Location = new Point(169, 65);
             doubleBufferedPanel5.Name = "doubleBufferedPanel5";
             doubleBufferedPanel5.Size = new Size(38, 38);
             doubleBufferedPanel5.TabIndex = 16;
@@ -2295,40 +1893,14 @@ namespace CriptoGame_Online
             doubleBufferedPanel6.BackColor = Color.Transparent;
             doubleBufferedPanel6.BackgroundImage = Properties.Resources.Sfondo_3;
             doubleBufferedPanel6.BackgroundImageLayout = ImageLayout.Stretch;
-            doubleBufferedPanel6.Controls.Add(Add_10_Caserme_Arceri);
-            doubleBufferedPanel6.Controls.Add(Add_5_Caserme_Arceri);
             doubleBufferedPanel6.Controls.Add(Set_0_Caserme_Arceri);
             doubleBufferedPanel6.Controls.Add(Add_1_Caserme_Lanceri);
             doubleBufferedPanel6.Controls.Add(label21);
             doubleBufferedPanel6.Controls.Add(txt_Caserme_Arceri_Costruzione);
-            doubleBufferedPanel6.Location = new Point(266, 26);
+            doubleBufferedPanel6.Location = new Point(213, 26);
             doubleBufferedPanel6.Name = "doubleBufferedPanel6";
-            doubleBufferedPanel6.Size = new Size(144, 27);
+            doubleBufferedPanel6.Size = new Size(102, 27);
             doubleBufferedPanel6.TabIndex = 76;
-            // 
-            // Add_10_Caserme_Arceri
-            // 
-            Add_10_Caserme_Arceri.BackColor = Color.Transparent;
-            Add_10_Caserme_Arceri.BackgroundImage = (Image)resources.GetObject("Add_10_Caserme_Arceri.BackgroundImage");
-            Add_10_Caserme_Arceri.BackgroundImageLayout = ImageLayout.Stretch;
-            Add_10_Caserme_Arceri.Location = new Point(122, 4);
-            Add_10_Caserme_Arceri.Name = "Add_10_Caserme_Arceri";
-            Add_10_Caserme_Arceri.Size = new Size(18, 18);
-            Add_10_Caserme_Arceri.TabIndex = 54;
-            Add_10_Caserme_Arceri.TabStop = false;
-            Add_10_Caserme_Arceri.Click += Add_10_Caserme_Arceri_Click;
-            // 
-            // Add_5_Caserme_Arceri
-            // 
-            Add_5_Caserme_Arceri.BackColor = Color.Transparent;
-            Add_5_Caserme_Arceri.BackgroundImage = (Image)resources.GetObject("Add_5_Caserme_Arceri.BackgroundImage");
-            Add_5_Caserme_Arceri.BackgroundImageLayout = ImageLayout.Stretch;
-            Add_5_Caserme_Arceri.Location = new Point(100, 4);
-            Add_5_Caserme_Arceri.Name = "Add_5_Caserme_Arceri";
-            Add_5_Caserme_Arceri.Size = new Size(18, 18);
-            Add_5_Caserme_Arceri.TabIndex = 53;
-            Add_5_Caserme_Arceri.TabStop = false;
-            Add_5_Caserme_Arceri.Click += Add_5_Caserme_Arceri_Click;
             // 
             // Set_0_Caserme_Arceri
             // 
@@ -2381,7 +1953,7 @@ namespace CriptoGame_Online
             // 
             doubleBufferedPanel7.BackgroundImage = Properties.Resources.Workshop_Archi;
             doubleBufferedPanel7.BackgroundImageLayout = ImageLayout.Stretch;
-            doubleBufferedPanel7.Location = new Point(222, 21);
+            doubleBufferedPanel7.Location = new Point(169, 21);
             doubleBufferedPanel7.Name = "doubleBufferedPanel7";
             doubleBufferedPanel7.Size = new Size(38, 38);
             doubleBufferedPanel7.TabIndex = 16;
@@ -2391,40 +1963,14 @@ namespace CriptoGame_Online
             doubleBufferedPanel8.BackColor = Color.Transparent;
             doubleBufferedPanel8.BackgroundImage = Properties.Resources.Sfondo_3;
             doubleBufferedPanel8.BackgroundImageLayout = ImageLayout.Stretch;
-            doubleBufferedPanel8.Controls.Add(Add_10_Caserme_Lanceri);
-            doubleBufferedPanel8.Controls.Add(Add_5_Caserme_Lanceri);
             doubleBufferedPanel8.Controls.Add(Set_0_Caserme_Lanceri);
             doubleBufferedPanel8.Controls.Add(Add_1_Caserme_Arceri);
             doubleBufferedPanel8.Controls.Add(label22);
             doubleBufferedPanel8.Controls.Add(txt_Caserme_Lanceri_Costruzione);
             doubleBufferedPanel8.Location = new Point(50, 70);
             doubleBufferedPanel8.Name = "doubleBufferedPanel8";
-            doubleBufferedPanel8.Size = new Size(144, 27);
+            doubleBufferedPanel8.Size = new Size(102, 27);
             doubleBufferedPanel8.TabIndex = 77;
-            // 
-            // Add_10_Caserme_Lanceri
-            // 
-            Add_10_Caserme_Lanceri.BackColor = Color.Transparent;
-            Add_10_Caserme_Lanceri.BackgroundImage = (Image)resources.GetObject("Add_10_Caserme_Lanceri.BackgroundImage");
-            Add_10_Caserme_Lanceri.BackgroundImageLayout = ImageLayout.Stretch;
-            Add_10_Caserme_Lanceri.Location = new Point(122, 4);
-            Add_10_Caserme_Lanceri.Name = "Add_10_Caserme_Lanceri";
-            Add_10_Caserme_Lanceri.Size = new Size(18, 18);
-            Add_10_Caserme_Lanceri.TabIndex = 54;
-            Add_10_Caserme_Lanceri.TabStop = false;
-            Add_10_Caserme_Lanceri.Click += Add_10_Caserme_Lanceri_Click;
-            // 
-            // Add_5_Caserme_Lanceri
-            // 
-            Add_5_Caserme_Lanceri.BackColor = Color.Transparent;
-            Add_5_Caserme_Lanceri.BackgroundImage = (Image)resources.GetObject("Add_5_Caserme_Lanceri.BackgroundImage");
-            Add_5_Caserme_Lanceri.BackgroundImageLayout = ImageLayout.Stretch;
-            Add_5_Caserme_Lanceri.Location = new Point(100, 4);
-            Add_5_Caserme_Lanceri.Name = "Add_5_Caserme_Lanceri";
-            Add_5_Caserme_Lanceri.Size = new Size(18, 18);
-            Add_5_Caserme_Lanceri.TabIndex = 53;
-            Add_5_Caserme_Lanceri.TabStop = false;
-            Add_5_Caserme_Lanceri.Click += Add_5_Caserme_Lanceri_Click;
             // 
             // Set_0_Caserme_Lanceri
             // 
@@ -2478,40 +2024,14 @@ namespace CriptoGame_Online
             doubleBufferedPanel10.BackColor = Color.Transparent;
             doubleBufferedPanel10.BackgroundImage = Properties.Resources.Sfondo_3;
             doubleBufferedPanel10.BackgroundImageLayout = ImageLayout.Stretch;
-            doubleBufferedPanel10.Controls.Add(Add_10_Caserme_Guerrieri);
-            doubleBufferedPanel10.Controls.Add(Add_5_Caserme_Guerrieri);
             doubleBufferedPanel10.Controls.Add(Set_0_Caserme_Guerrieri);
             doubleBufferedPanel10.Controls.Add(Add_1_Caserme_Guerrieri);
             doubleBufferedPanel10.Controls.Add(label23);
             doubleBufferedPanel10.Controls.Add(txt_Caserme_Guerrieri_Costruzione);
             doubleBufferedPanel10.Location = new Point(50, 26);
             doubleBufferedPanel10.Name = "doubleBufferedPanel10";
-            doubleBufferedPanel10.Size = new Size(144, 27);
+            doubleBufferedPanel10.Size = new Size(102, 27);
             doubleBufferedPanel10.TabIndex = 75;
-            // 
-            // Add_10_Caserme_Guerrieri
-            // 
-            Add_10_Caserme_Guerrieri.BackColor = Color.Transparent;
-            Add_10_Caserme_Guerrieri.BackgroundImage = (Image)resources.GetObject("Add_10_Caserme_Guerrieri.BackgroundImage");
-            Add_10_Caserme_Guerrieri.BackgroundImageLayout = ImageLayout.Stretch;
-            Add_10_Caserme_Guerrieri.Location = new Point(122, 4);
-            Add_10_Caserme_Guerrieri.Name = "Add_10_Caserme_Guerrieri";
-            Add_10_Caserme_Guerrieri.Size = new Size(18, 18);
-            Add_10_Caserme_Guerrieri.TabIndex = 54;
-            Add_10_Caserme_Guerrieri.TabStop = false;
-            Add_10_Caserme_Guerrieri.Click += Add_10_Caserme_Guerrieri_Click;
-            // 
-            // Add_5_Caserme_Guerrieri
-            // 
-            Add_5_Caserme_Guerrieri.BackColor = Color.Transparent;
-            Add_5_Caserme_Guerrieri.BackgroundImage = (Image)resources.GetObject("Add_5_Caserme_Guerrieri.BackgroundImage");
-            Add_5_Caserme_Guerrieri.BackgroundImageLayout = ImageLayout.Stretch;
-            Add_5_Caserme_Guerrieri.Location = new Point(100, 4);
-            Add_5_Caserme_Guerrieri.Name = "Add_5_Caserme_Guerrieri";
-            Add_5_Caserme_Guerrieri.Size = new Size(18, 18);
-            Add_5_Caserme_Guerrieri.TabIndex = 53;
-            Add_5_Caserme_Guerrieri.TabStop = false;
-            Add_5_Caserme_Guerrieri.Click += Add_5_Caserme_Guerrieri_Click;
             // 
             // Set_0_Caserme_Guerrieri
             // 
@@ -2574,7 +2094,7 @@ namespace CriptoGame_Online
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.Texture_Wood_2;
-            ClientSize = new Size(656, 476);
+            ClientSize = new Size(547, 476);
             Controls.Add(groupBox_Caserme);
             Controls.Add(groupBox4);
             Controls.Add(groupBox_Reclutamento);
@@ -2587,38 +2107,26 @@ namespace CriptoGame_Online
             groupBox_Strutture_Civili.ResumeLayout(false);
             panel16.ResumeLayout(false);
             panel16.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)add_10_Case).EndInit();
-            ((System.ComponentModel.ISupportInitialize)add_5_Case).EndInit();
             ((System.ComponentModel.ISupportInitialize)Set_0_Case).EndInit();
             ((System.ComponentModel.ISupportInitialize)add_1_Case).EndInit();
             panel17.ResumeLayout(false);
             panel17.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)add_10_MinieraOro).EndInit();
-            ((System.ComponentModel.ISupportInitialize)add_5_MinieraOro).EndInit();
             ((System.ComponentModel.ISupportInitialize)Set_0_MinieraOro).EndInit();
             ((System.ComponentModel.ISupportInitialize)add_1_MinieraOro).EndInit();
             panel18.ResumeLayout(false);
             panel18.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)add_10_MinieraFerro).EndInit();
-            ((System.ComponentModel.ISupportInitialize)add_5_MinieraFerro).EndInit();
             ((System.ComponentModel.ISupportInitialize)Set_0_MinieraFerro).EndInit();
             ((System.ComponentModel.ISupportInitialize)add_1_MinieraFerro).EndInit();
             panel19.ResumeLayout(false);
             panel19.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)add_10_Cava).EndInit();
-            ((System.ComponentModel.ISupportInitialize)add_5_Cava).EndInit();
             ((System.ComponentModel.ISupportInitialize)Set_0_Cava).EndInit();
             ((System.ComponentModel.ISupportInitialize)add_1_Cava).EndInit();
             panel20.ResumeLayout(false);
             panel20.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)add_10_Segheria).EndInit();
-            ((System.ComponentModel.ISupportInitialize)add_5_Segheria).EndInit();
             ((System.ComponentModel.ISupportInitialize)Set_0_Segheria).EndInit();
             ((System.ComponentModel.ISupportInitialize)add_1_Segheria).EndInit();
             panel21.ResumeLayout(false);
             panel21.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)add_10_Fattoria).EndInit();
-            ((System.ComponentModel.ISupportInitialize)add_5_Fattoria).EndInit();
             ((System.ComponentModel.ISupportInitialize)Set_0_Fattoria).EndInit();
             ((System.ComponentModel.ISupportInitialize)add_1_Fattoria).EndInit();
             groupBox2.ResumeLayout(false);
@@ -2659,64 +2167,44 @@ namespace CriptoGame_Online
             panel23.ResumeLayout(false);
             panel8.ResumeLayout(false);
             panel8.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)Add_10_Workshop_Spade).EndInit();
-            ((System.ComponentModel.ISupportInitialize)Add_5_Workshop_Spade).EndInit();
             ((System.ComponentModel.ISupportInitialize)Set_0_Workshop_Spade).EndInit();
             ((System.ComponentModel.ISupportInitialize)Add_1_Workshop_Spade).EndInit();
             panel7.ResumeLayout(false);
             panel7.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)Add_10_Workshop_Lance).EndInit();
-            ((System.ComponentModel.ISupportInitialize)Add_5_Workshop_Lance).EndInit();
             ((System.ComponentModel.ISupportInitialize)Set_0_Workshop_Lance).EndInit();
             ((System.ComponentModel.ISupportInitialize)Add_1_Workshop_Lance).EndInit();
             panel5.ResumeLayout(false);
             panel5.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)Add_10_Workshop_Archi).EndInit();
-            ((System.ComponentModel.ISupportInitialize)Add_5_Workshop_Archi).EndInit();
             ((System.ComponentModel.ISupportInitialize)Set_0_Workshop_Archi).EndInit();
             ((System.ComponentModel.ISupportInitialize)Add_1_Workshop_Archi).EndInit();
             panel4.ResumeLayout(false);
             panel4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)Add_10_Workshop_Scudi).EndInit();
-            ((System.ComponentModel.ISupportInitialize)Add_5_Workshop_Scudi).EndInit();
             ((System.ComponentModel.ISupportInitialize)Set_0_Workshop_Scudi).EndInit();
             ((System.ComponentModel.ISupportInitialize)Add_1_Workshop_Scudi).EndInit();
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)Add_10_Workshop_Armature).EndInit();
-            ((System.ComponentModel.ISupportInitialize)Add_5_Workshop_Armature).EndInit();
             ((System.ComponentModel.ISupportInitialize)Set_0_Workshop_Armature).EndInit();
             ((System.ComponentModel.ISupportInitialize)Add_1_Workshop_Armature).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)Add_10_Workshop_Frecce).EndInit();
-            ((System.ComponentModel.ISupportInitialize)Add_5_Workshop_Frecce).EndInit();
             ((System.ComponentModel.ISupportInitialize)Set_0_Workshop_Frecce).EndInit();
             ((System.ComponentModel.ISupportInitialize)Add_1_Workshop_Frecce).EndInit();
             groupBox_Strutture_Militari.ResumeLayout(false);
             groupBox_Caserme.ResumeLayout(false);
             doubleBufferedPanel4.ResumeLayout(false);
             doubleBufferedPanel4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)Add_10_Caserme_Catapulte).EndInit();
-            ((System.ComponentModel.ISupportInitialize)Add_5_Caserme_Catapulte).EndInit();
             ((System.ComponentModel.ISupportInitialize)Set_0_Caserme_Catapulte).EndInit();
             ((System.ComponentModel.ISupportInitialize)Add_1_Caserme_Catapulte).EndInit();
             doubleBufferedPanel6.ResumeLayout(false);
             doubleBufferedPanel6.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)Add_10_Caserme_Arceri).EndInit();
-            ((System.ComponentModel.ISupportInitialize)Add_5_Caserme_Arceri).EndInit();
             ((System.ComponentModel.ISupportInitialize)Set_0_Caserme_Arceri).EndInit();
             ((System.ComponentModel.ISupportInitialize)Add_1_Caserme_Lanceri).EndInit();
             doubleBufferedPanel8.ResumeLayout(false);
             doubleBufferedPanel8.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)Add_10_Caserme_Lanceri).EndInit();
-            ((System.ComponentModel.ISupportInitialize)Add_5_Caserme_Lanceri).EndInit();
             ((System.ComponentModel.ISupportInitialize)Set_0_Caserme_Lanceri).EndInit();
             ((System.ComponentModel.ISupportInitialize)Add_1_Caserme_Arceri).EndInit();
             doubleBufferedPanel10.ResumeLayout(false);
             doubleBufferedPanel10.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)Add_10_Caserme_Guerrieri).EndInit();
-            ((System.ComponentModel.ISupportInitialize)Add_5_Caserme_Guerrieri).EndInit();
             ((System.ComponentModel.ISupportInitialize)Set_0_Caserme_Guerrieri).EndInit();
             ((System.ComponentModel.ISupportInitialize)Add_1_Caserme_Guerrieri).EndInit();
             ResumeLayout(false);
@@ -2732,43 +2220,31 @@ namespace CriptoGame_Online
         private DoubleBufferedPanel ico_Structure_3;
         private DoubleBufferedPanel ico_Structure_4;
         private DoubleBufferedPanel panel16;
-        private PictureBox add_10_Case;
-        private PictureBox add_5_Case;
         private PictureBox Set_0_Case;
         private PictureBox add_1_Case;
         private Label label2;
         private TextBox txt_Case_Costruzione;
         private DoubleBufferedPanel panel17;
-        private PictureBox add_10_MinieraOro;
-        private PictureBox add_5_MinieraOro;
         private PictureBox Set_0_MinieraOro;
         private PictureBox add_1_MinieraOro;
         private Label label8;
         private TextBox txt_MinieraOro_Costruzione;
         private DoubleBufferedPanel panel18;
-        private PictureBox add_10_MinieraFerro;
-        private PictureBox add_5_MinieraFerro;
         private PictureBox Set_0_MinieraFerro;
         private PictureBox add_1_MinieraFerro;
         private Label label9;
         private TextBox txt_MinieraFerro_Costruzione;
         private DoubleBufferedPanel panel19;
-        private PictureBox add_10_Cava;
-        private PictureBox add_5_Cava;
         private PictureBox Set_0_Cava;
         private PictureBox add_1_Cava;
         private Label label10;
         private TextBox txt_Cava_Costruzione;
         private DoubleBufferedPanel panel20;
-        private PictureBox add_10_Segheria;
-        private PictureBox add_5_Segheria;
         private PictureBox Set_0_Segheria;
         private PictureBox add_1_Segheria;
         private Label label11;
         private TextBox txt_Segheria_Costruzione;
         private DoubleBufferedPanel panel21;
-        private PictureBox add_10_Fattoria;
-        private PictureBox add_5_Fattoria;
         private PictureBox Set_0_Fattoria;
         private PictureBox add_1_Fattoria;
         private Label label12;
@@ -2829,47 +2305,35 @@ namespace CriptoGame_Online
         private DoubleBufferedPanel panel10;
         private DoubleBufferedPanel panel11;
         private DoubleBufferedPanel panel8;
-        private PictureBox Add_10_Workshop_Spade;
-        private PictureBox Add_5_Workshop_Spade;
         private PictureBox Set_0_Workshop_Spade;
         private PictureBox Add_1_Workshop_Spade;
         private Label label7;
         private TextBox txt_Workshop_Spade_Costruzione;
         private DoubleBufferedPanel panel12;
         private DoubleBufferedPanel panel7;
-        private PictureBox Add_10_Workshop_Lance;
-        private PictureBox Add_5_Workshop_Lance;
         private PictureBox Set_0_Workshop_Lance;
         private PictureBox Add_1_Workshop_Lance;
         private Label label6;
         private TextBox txt_Workshop_Lance_Costruzione;
         private DoubleBufferedPanel panel13;
         private DoubleBufferedPanel panel5;
-        private PictureBox Add_10_Workshop_Archi;
-        private PictureBox Add_5_Workshop_Archi;
         private PictureBox Set_0_Workshop_Archi;
         private PictureBox Add_1_Workshop_Archi;
         private Label label5;
         private TextBox txt_Workshop_Archi_Costruzione;
         private DoubleBufferedPanel panel14;
         private DoubleBufferedPanel panel4;
-        private PictureBox Add_10_Workshop_Scudi;
-        private PictureBox Add_5_Workshop_Scudi;
         private PictureBox Set_0_Workshop_Scudi;
         private PictureBox Add_1_Workshop_Scudi;
         private Label label4;
         private TextBox txt_Workshop_Scudi_Costruzione;
         private DoubleBufferedPanel panel9;
         private DoubleBufferedPanel panel3;
-        private PictureBox Add_10_Workshop_Armature;
-        private PictureBox Add_5_Workshop_Armature;
         private PictureBox Set_0_Workshop_Armature;
         private PictureBox Add_1_Workshop_Armature;
         private Label label3;
         private TextBox txt_Workshop_Armature_Costruzione;
         private DoubleBufferedPanel panel2;
-        private PictureBox Add_10_Workshop_Frecce;
-        private PictureBox Add_5_Workshop_Frecce;
         private PictureBox Set_0_Workshop_Frecce;
         private PictureBox Add_1_Workshop_Frecce;
         private Label label1;
@@ -2878,31 +2342,23 @@ namespace CriptoGame_Online
         private GroupBox groupBox_Caserme;
         private DoubleBufferedPanel doubleBufferedPanel3;
         private DoubleBufferedPanel doubleBufferedPanel4;
-        private PictureBox Add_10_Caserme_Catapulte;
-        private PictureBox Add_5_Caserme_Catapulte;
         private PictureBox Set_0_Caserme_Catapulte;
         private PictureBox Add_1_Caserme_Catapulte;
         private Label label20;
         private TextBox txt_Caserme_Catapulte_Costruzione;
         private DoubleBufferedPanel doubleBufferedPanel5;
         private DoubleBufferedPanel doubleBufferedPanel6;
-        private PictureBox Add_10_Caserme_Arceri;
-        private PictureBox Add_5_Caserme_Arceri;
         private PictureBox Set_0_Caserme_Arceri;
         private PictureBox Add_1_Caserme_Lanceri;
         private Label label21;
         private TextBox txt_Caserme_Arceri_Costruzione;
         private DoubleBufferedPanel doubleBufferedPanel7;
         private DoubleBufferedPanel doubleBufferedPanel8;
-        private PictureBox Add_10_Caserme_Lanceri;
-        private PictureBox Add_5_Caserme_Lanceri;
         private PictureBox Set_0_Caserme_Lanceri;
         private PictureBox Add_1_Caserme_Arceri;
         private Label label22;
         private TextBox txt_Caserme_Lanceri_Costruzione;
         private DoubleBufferedPanel doubleBufferedPanel10;
-        private PictureBox Add_10_Caserme_Guerrieri;
-        private PictureBox Add_5_Caserme_Guerrieri;
         private PictureBox Set_0_Caserme_Guerrieri;
         private PictureBox Add_1_Caserme_Guerrieri;
         private Label label23;

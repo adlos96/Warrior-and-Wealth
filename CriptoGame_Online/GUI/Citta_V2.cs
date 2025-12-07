@@ -292,6 +292,9 @@ namespace CriptoGame_Online.GUI
 
         private void Citta_Load(object sender, EventArgs e)
         {
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+
             GUI();
             //Update();
             Task.Run(() => Gui_Update(cts.Token), cts.Token);
@@ -394,7 +397,6 @@ namespace CriptoGame_Online.GUI
                 }
                 await Task.Delay(1000); // meglio di Thread.Sleep
             }
-
         }
 
         private void panel_Soldier_Cancello_Paint(object sender, PaintEventArgs e)
@@ -469,6 +471,9 @@ namespace CriptoGame_Online.GUI
 
         private void Citta_V2_FormClosing(object sender, FormClosingEventArgs e)
         {
+            GameAudio.StopMusic();
+            GameAudio.PlayMenuMusic("Gioco");
+            MusicManager.SetVolume(0.2f);
             cts.Cancel();
         }
 
@@ -502,7 +507,7 @@ namespace CriptoGame_Online.GUI
 
         private void btn_Citta_Click(object sender, EventArgs e)
         {
-            Spostamento_Truppe.struttura = "Città";
+            Spostamento_Truppe.struttura = "Citta";
             Spostamento_Truppe form_Gioco = new Spostamento_Truppe();
             form_Gioco.ShowDialog();
         }

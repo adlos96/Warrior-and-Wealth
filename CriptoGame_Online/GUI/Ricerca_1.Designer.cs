@@ -72,7 +72,7 @@ namespace CriptoGame_Online
             panel_Attacco_Lanceri = new DoubleBufferedPanel();
             btn_Attacco_Lanceri = new Button();
             button5 = new Button();
-            doubleBufferedPanel1 = new DoubleBufferedPanel();
+            panel_Guarnigione_Città = new DoubleBufferedPanel();
             btn_Guarnigione_Citta = new Button();
             button1 = new Button();
             label15 = new Label();
@@ -148,7 +148,7 @@ namespace CriptoGame_Online
             panel_Livello_Lanceri.SuspendLayout();
             panel_Difesa_Lanceri.SuspendLayout();
             panel_Attacco_Lanceri.SuspendLayout();
-            doubleBufferedPanel1.SuspendLayout();
+            panel_Guarnigione_Città.SuspendLayout();
             panel_Guarnigione_Ingresso.SuspendLayout();
             panel_Difesa_Cancello.SuspendLayout();
             panel_Guarnigione_Cancello.SuspendLayout();
@@ -193,7 +193,7 @@ namespace CriptoGame_Online
             panel_Sfondo.Controls.Add(panel_Livello_Lanceri);
             panel_Sfondo.Controls.Add(panel_Difesa_Lanceri);
             panel_Sfondo.Controls.Add(panel_Attacco_Lanceri);
-            panel_Sfondo.Controls.Add(doubleBufferedPanel1);
+            panel_Sfondo.Controls.Add(panel_Guarnigione_Città);
             panel_Sfondo.Controls.Add(label15);
             panel_Sfondo.Controls.Add(label14);
             panel_Sfondo.Controls.Add(label13);
@@ -815,17 +815,17 @@ namespace CriptoGame_Online
             button5.Text = "Attacco I";
             button5.UseVisualStyleBackColor = false;
             // 
-            // doubleBufferedPanel1
+            // panel_Guarnigione_Città
             // 
-            doubleBufferedPanel1.BackColor = Color.Transparent;
-            doubleBufferedPanel1.BackgroundImage = (Image)resources.GetObject("doubleBufferedPanel1.BackgroundImage");
-            doubleBufferedPanel1.BackgroundImageLayout = ImageLayout.Stretch;
-            doubleBufferedPanel1.Controls.Add(btn_Guarnigione_Citta);
-            doubleBufferedPanel1.Controls.Add(button1);
-            doubleBufferedPanel1.Location = new Point(409, 785);
-            doubleBufferedPanel1.Name = "doubleBufferedPanel1";
-            doubleBufferedPanel1.Size = new Size(158, 50);
-            doubleBufferedPanel1.TabIndex = 106;
+            panel_Guarnigione_Città.BackColor = Color.Transparent;
+            panel_Guarnigione_Città.BackgroundImage = (Image)resources.GetObject("panel_Guarnigione_Città.BackgroundImage");
+            panel_Guarnigione_Città.BackgroundImageLayout = ImageLayout.Stretch;
+            panel_Guarnigione_Città.Controls.Add(btn_Guarnigione_Citta);
+            panel_Guarnigione_Città.Controls.Add(button1);
+            panel_Guarnigione_Città.Location = new Point(409, 785);
+            panel_Guarnigione_Città.Name = "panel_Guarnigione_Città";
+            panel_Guarnigione_Città.Size = new Size(158, 50);
+            panel_Guarnigione_Città.TabIndex = 106;
             // 
             // btn_Guarnigione_Citta
             // 
@@ -1655,7 +1655,7 @@ namespace CriptoGame_Online
             panel_Livello_Lanceri.ResumeLayout(false);
             panel_Difesa_Lanceri.ResumeLayout(false);
             panel_Attacco_Lanceri.ResumeLayout(false);
-            doubleBufferedPanel1.ResumeLayout(false);
+            panel_Guarnigione_Città.ResumeLayout(false);
             panel_Guarnigione_Ingresso.ResumeLayout(false);
             panel_Difesa_Cancello.ResumeLayout(false);
             panel_Guarnigione_Cancello.ResumeLayout(false);
@@ -1742,7 +1742,7 @@ namespace CriptoGame_Online
         private Label label6;
         private Label label4;
         private Label label5;
-        private DoubleBufferedPanel doubleBufferedPanel1;
+        private DoubleBufferedPanel panel_Guarnigione_Città;
         private Button btn_Guarnigione_Citta;
         private Button button1;
         private Label label15;

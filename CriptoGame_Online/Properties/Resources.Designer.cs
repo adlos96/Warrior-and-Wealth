@@ -203,6 +203,16 @@ namespace CriptoGame_Online.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Clessidra_removebg_preview {
+            get {
+                object obj = ResourceManager.GetObject("Clessidra-removebg-preview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Comune {
             get {
                 object obj = ResourceManager.GetObject("Comune", resourceCulture);
@@ -296,16 +306,6 @@ namespace CriptoGame_Online.Properties {
         internal static System.Drawing.Bitmap dollars_1_ {
             get {
                 object obj = ResourceManager.GetObject("dollars(1)", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap dollars_Edit {
-            get {
-                object obj = ResourceManager.GetObject("dollars_Edit", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -867,26 +867,6 @@ namespace CriptoGame_Online.Properties {
         internal static System.Drawing.Bitmap wheat_sack {
             get {
                 object obj = ResourceManager.GetObject("wheat-sack", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap wood_4 {
-            get {
-                object obj = ResourceManager.GetObject("wood_4", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap wood_5 {
-            get {
-                object obj = ResourceManager.GetObject("wood_5", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
