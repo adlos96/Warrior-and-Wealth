@@ -117,8 +117,7 @@ namespace Server_Strategico.Server
                     Guerrieri_Ingresso = player.Guerrieri_Ingresso,
                     Lanceri_Ingresso = player.Lanceri_Ingresso,
                     Arceri_Ingresso = player.Arceri_Ingresso,
-                    Catapulte_Ingresso = player.Catapulte_Ingresso,
-                
+                    Catapulte_Ingresso = player.Catapulte_Ingresso,                
 
                     Guarnigione_Cancello = player.Guarnigione_Cancello,
                     Guarnigione_CancelloMax = player.Guarnigione_CancelloMax,
@@ -187,6 +186,25 @@ namespace Server_Strategico.Server
                     Ricerca_Riparazione = player.Ricerca_Riparazione,
                     Ricerca_Addestramento = player.Ricerca_Addestramento,
                     Ricerca_Popolazione = player.Ricerca_Popolazione,
+
+                    Ricerca_Ingresso_Guarnigione = player.Ricerca_Ingresso_Guarnigione,
+                    Ricerca_Citta_Guarnigione = player.Ricerca_Citta_Guarnigione,
+
+                    Ricerca_Cancello_Guarnigione = player.Ricerca_Cancello_Guarnigione,
+                    Ricerca_Cancello_Salute = player.Ricerca_Cancello_Salute,
+                    Ricerca_Cancello_Difesa = player.Ricerca_Cancello_Difesa,
+
+                    Ricerca_Mura_Guarnigione = player.Ricerca_Mura_Guarnigione,
+                    Ricerca_Mura_Salute = player.Ricerca_Mura_Salute,
+                    Ricerca_Mura_Difesa = player.Ricerca_Mura_Difesa,
+
+                    Ricerca_Torri_Guarnigione = player.Ricerca_Torri_Guarnigione,
+                    Ricerca_Torri_Salute = player.Ricerca_Torri_Salute,
+                    Ricerca_Torri_Difesa = player.Ricerca_Torri_Difesa,
+
+                    Ricerca_Castello_Guarnigione = player.Ricerca_Castello_Guarnigione,
+                    Ricerca_Castello_Salute = player.Ricerca_Castello_Salute,
+                    Ricerca_Castello_Difesa = player.Ricerca_Castello_Difesa,
 
                     //Livelli unità
                     Guerriero_Livello = player.Guerriero_Livello,
@@ -329,37 +347,6 @@ namespace Server_Strategico.Server
                         IsInProgress = false
                     })
                     .ToList(),
-
-                    //// ---  Villaggi ---
-                    //VillaggiPersonali = player.VillaggiPersonali
-                    //?.Select(v => new VillaggioSaveData
-                    //{
-                    //    Id = v.Id,
-                    //    Nome = v.Nome,
-                    //    Livello = v.Livello,
-                    //    Sconfitto = v.Sconfitto,
-                    //    Esplorato = v.Esplorato,
-                    //    Guerrieri = v.Guerrieri,
-                    //    Lancieri = v.Lancieri,
-                    //    Arcieri = v.Arcieri,
-                    //    Catapulte = v.Catapulte
-                    //})
-                    //.ToList(),
-
-                    //CittaGlobali = Gioco.Barbari.CittaGlobali
-                    //?.Select(c => new VillaggioSaveData
-                    //{
-                    //    Id = c.Id,
-                    //    Nome = c.Nome,
-                    //    Livello = c.Livello,
-                    //    Sconfitto = c.Sconfitto,
-                    //    Esplorato = c.Esplorato,
-                    //    Guerrieri = c.Guerrieri,
-                    //    Lancieri = c.Lancieri,
-                    //    Arcieri = c.Arcieri,
-                    //    Catapulte = c.Catapulte
-                    //})
-                    //.ToList(),
                 };
 
                 if (player.VillaggiPersonali != null) // Salvataggio Villaggi Personali
@@ -396,7 +383,7 @@ namespace Server_Strategico.Server
                 string fileName = Path.Combine(SavePath, $"{username}.json");
                 if (!File.Exists(fileName))
                 {
-                    Console.WriteLine($"[GameSave] Nessun salvataggio trovato per {username}");
+                    Console.WriteLine($"[GameLoad] Nessun salvataggio trovato per {username}");
                     return false;
                 }
 
@@ -405,16 +392,13 @@ namespace Server_Strategico.Server
 
                 if (playerData.Password != password && password != "Auto")
                 {
-                    Console.WriteLine($"[GameSave] Password non valida per {username}");
+                    Console.WriteLine($"[GameLoad] Password non valida per {username}");
                     return false;
                 }
 
-                // Aggiorna il giocatore esistente con i dati salvati
                 var player = Server.servers_.GetPlayer(username, password);
-                if (player != null)
+                if (player != null) // Aggiorna il giocatore esistente con i dati salvati
                 {
-
-                    //Giocatori
                     player.Username = playerData.Username;
                     player.Password = playerData.Password;
                     player.Livello = playerData.Livello;
@@ -501,6 +485,7 @@ namespace Server_Strategico.Server
                     player.Ricerca_Costruzione = playerData.Ricerca_Costruzione;
                     player.Ricerca_Riparazione = playerData.Ricerca_Riparazione;
                     player.Ricerca_Addestramento = playerData.Ricerca_Addestramento;
+                    player.Ricerca_Popolazione = playerData.Ricerca_Popolazione;
 
                     player.Guerriero_Livello = playerData.Guerriero_Livello;
                     player.Guerriero_Salute = playerData.Guerriero_Salute;
@@ -522,19 +507,136 @@ namespace Server_Strategico.Server
                     player.Catapulta_Difesa = playerData.Catapulta_Difesa;
                     player.Catapulta_Attacco = playerData.Catapulta_Attacco;
 
-                    //Castello
+                    player.Ricerca_Ingresso_Guarnigione = playerData.Ricerca_Ingresso_Guarnigione;
+                    player.Ricerca_Citta_Guarnigione = playerData.Ricerca_Citta_Guarnigione;
+
+                    player.Ricerca_Cancello_Guarnigione = playerData.Ricerca_Cancello_Guarnigione;
+                    player.Ricerca_Cancello_Salute = playerData.Ricerca_Cancello_Salute;
+                    player.Ricerca_Cancello_Difesa = playerData.Ricerca_Cancello_Difesa;
+
+                    player.Ricerca_Mura_Guarnigione = playerData.Ricerca_Mura_Guarnigione;
+                    player.Ricerca_Mura_Salute = playerData.Ricerca_Mura_Salute;
+                    player.Ricerca_Mura_Difesa = playerData.Ricerca_Mura_Difesa;
+
+                    player.Ricerca_Torri_Guarnigione = playerData.Ricerca_Torri_Guarnigione;
+                    player.Ricerca_Torri_Salute = playerData.Ricerca_Torri_Salute;
+                    player.Ricerca_Torri_Difesa = playerData.Ricerca_Torri_Difesa;
+
+                    player.Ricerca_Castello_Guarnigione = playerData.Ricerca_Castello_Guarnigione;
+                    player.Ricerca_Castello_Salute = playerData.Ricerca_Castello_Salute;
+                    player.Ricerca_Castello_Difesa = playerData.Ricerca_Castello_Difesa;
+
+                    //Citta
+                    player.Guarnigione_Ingresso = playerData.Guarnigione_Ingresso;
+                    player.Guarnigione_IngressoMax = playerData.Guarnigione_IngressoMax;
+
+                    player.Guerrieri_Ingresso = playerData.Guerrieri_Ingresso;
+                    player.Lanceri_Ingresso = playerData.Lanceri_Ingresso;
+                    player.Arceri_Ingresso = playerData.Arceri_Ingresso;
+                    player.Catapulte_Ingresso = playerData.Catapulte_Ingresso;
+
+                    player.Guarnigione_Citta = playerData.Guarnigione_Citta;
+                    player.Guarnigione_CittaMax = playerData.Guarnigione_CittaMax;
+
+                    player.Guerrieri_Citta = playerData.Guerrieri_Citta;
+                    player.Lanceri_Citta = playerData.Lanceri_Citta;
+                    player.Arceri_Citta = playerData.Arceri_Citta;
+                    player.Catapulte_Citta = playerData.Catapulte_Citta;
+
                     player.Salute_Cancello = playerData.Salute_Cancello;
                     player.Salute_CancelloMax = playerData.Salute_CancelloMax;
+                    player.Difesa_Cancello = playerData.Difesa_Cancello;
+                    player.Difesa_CancelloMax = playerData.Difesa_CancelloMax;
+                    player.Guarnigione_Cancello = playerData.Guarnigione_Cancello;
+                    player.Guarnigione_CancelloMax = playerData.Guarnigione_CancelloMax;
+
+                    player.Guerrieri_Cancello = playerData.Guerrieri_Cancello;
+                    player.Lanceri_Cancello = playerData.Lanceri_Cancello;
+                    player.Arceri_Cancello = playerData.Arceri_Cancello;
+                    player.Catapulte_Cancello = playerData.Catapulte_Cancello;
+
                     player.Salute_Mura = playerData.Salute_Mura;
                     player.Salute_MuraMax = playerData.Salute_MuraMax;
+                    player.Difesa_Mura = playerData.Difesa_Mura;
+                    player.Difesa_MuraMax = playerData.Difesa_MuraMax;
+                    player.Guarnigione_Mura = playerData.Guarnigione_Mura;
+                    player.Guarnigione_MuraMax = playerData.Guarnigione_MuraMax;
+
+                    player.Guerrieri_Mura = playerData.Guerrieri_Mura;
+                    player.Lanceri_Mura = playerData.Lanceri_Mura;
+                    player.Arceri_Mura = playerData.Arceri_Mura;
+                    player.Catapulte_Mura = playerData.Catapulte_Mura;
+
                     player.Salute_Torri = playerData.Salute_Torri;
                     player.Salute_TorriMax = playerData.Salute_TorriMax;
+                    player.Difesa_Torri = playerData.Difesa_Torri;
+                    player.Difesa_TorriMax = playerData.Difesa_TorriMax;
+                    player.Guarnigione_Torri = playerData.Guarnigione_Torri;
+                    player.Guarnigione_TorriMax = playerData.Guarnigione_TorriMax;
+
+                    player.Guerrieri_Torri = playerData.Guerrieri_Torri;
+                    player.Lanceri_Torri = playerData.Lanceri_Torri;
+                    player.Arceri_Torri = playerData.Arceri_Torri;
+                    player.Catapulte_Torri = playerData.Catapulte_Torri;
+
                     player.Salute_Castello = playerData.Salute_Castello;
                     player.Salute_CastelloMax = playerData.Salute_CastelloMax;
+                    player.Difesa_Castello = playerData.Difesa_Castello;
+                    player.Difesa_CastelloMax = playerData.Difesa_CastelloMax;
+                    player.Guarnigione_Castello = playerData.Guarnigione_Castello;
+                    player.Guarnigione_CastelloMax = playerData.Guarnigione_CastelloMax;
+
+                    player.Guerrieri_Castello = playerData.Guerrieri_Castello;
+                    player.Lanceri_Castello = playerData.Lanceri_Castello;
+                    player.Arceri_Castello = playerData.Arceri_Castello;
+                    player.Catapulte_Castello = playerData.Catapulte_Castello;
 
                     //Quest Mensile
                     player.PremiNormali = playerData.PremiNormali;
                     player.PremiVIP = playerData.PremiVIP;
+
+                    // Statistiche
+                    player.Unità_Eliminate = playerData.Unità_Eliminate;
+                    player.Guerrieri_Eliminate = playerData.Guerrieri_Eliminate;
+                    player.Lanceri_Eliminate = playerData.Lanceri_Eliminate;
+                    player.Arceri_Eliminate = playerData.Arceri_Eliminate;
+                    player.Catapulte_Eliminate = playerData.Catapulte_Eliminate;
+                    player.Unità_Addestrate = playerData.Unità_Addestrate;
+
+                    player.Unità_Perse = playerData.Unità_Perse;
+                    player.Guerrieri_Persi = playerData.Guerrieri_Persi;
+                    player.Lanceri_Persi = playerData.Lanceri_Persi;
+                    player.Arceri_Persi = playerData.Arceri_Persi;
+                    player.Catapulte_Perse = playerData.Catapulte_Perse;
+                    player.Risorse_Razziate = playerData.Risorse_Razziate;
+
+                    player.Strutture_Civili_Costruite = playerData.Strutture_Civili_Costruite;
+                    player.Strutture_Militari_Costruite = playerData.Strutture_Militari_Costruite;
+                    player.Caserme_Costruite = playerData.Caserme_Costruite;
+
+                    player.Frecce_Utilizzate = playerData.Frecce_Utilizzate;
+                    player.Battaglie_Vinte = playerData.Battaglie_Vinte;
+                    player.Battaglie_Perse = playerData.Battaglie_Perse;
+                    player.Quest_Completate = playerData.Quest_Completate;
+                    player.Attacchi_Subiti_PVP = playerData.Attacchi_Subiti_PVP;
+                    player.Attacchi_Effettuati_PVP = playerData.Attacchi_Effettuati_PVP;
+
+                    player.Barbari_Sconfitti = playerData.Barbari_Sconfitti;
+                    player.Accampamenti_Barbari_Sconfitti = playerData.Accampamenti_Barbari_Sconfitti;
+                    player.Città_Barbare_Sconfitte = playerData.Città_Barbare_Sconfitte;
+                    player.Danno_HP_Barbaro = playerData.Danno_HP_Barbaro;
+                    player.Danno_DEF_Barbaro = playerData.Danno_DEF_Barbaro;
+
+                    player.Risorse_Utilizzate = playerData.Risorse_Utilizzate;
+                    player.Tempo_Addestramento = playerData.Tempo_Addestramento;
+                    player.Tempo_Costruzione = playerData.Tempo_Costruzione;
+                    player.Tempo_Ricerca = playerData.Tempo_Ricerca;
+                    player.Tempo_Sottratto_Diamanti = playerData.Tempo_Sottratto_Diamanti;
+
+                    player.Consumo_Cibo_Esercito = playerData.Consumo_Cibo_Esercito;
+                    player.Consumo_Oro_Esercito = playerData.Consumo_Oro_Esercito;
+                    player.Diamanti_Viola_Utilizzati = playerData.Diamanti_Viola_Utilizzati;
+                    player.Diamanti_Blu_Utilizzati = playerData.Diamanti_Blu_Utilizzati;
 
                     // --- Costruzioni attive ---
                     player.currentTasks_Building = playerData.CurrentBuildingTasks
@@ -568,9 +670,21 @@ namespace Server_Strategico.Server
                     player.currentTasks_Recruit = playerData.CurrentRecruitTasks
                         .Select(t => {
                             var task = new UnitManager.RecruitTask(t.Type, t.DurationInSeconds);
+                            task.RestoreProgress(t.RemainingSeconds);
                             if (t.IsInProgress) task.Start();
                             return task;
                         }).ToList();
+
+                    player.pausedTasks_Recruit = new Queue<UnitManager.RecruitTask>(
+                        playerData.PausedRecruitTasks.Select(t =>
+                        {
+                            var task = new UnitManager.RecruitTask(t.Type, t.DurationInSeconds);
+                            task.RestoreProgress(t.RemainingSeconds); // 👈 usa int, non double
+                            task.Pause(); // 🆕 rimetti in pausa
+                            if (t.IsInProgress) task.Start();
+                            return task;
+                        })
+                    );
 
                     player.recruit_Queue = new Queue<UnitManager.RecruitTask>(
                         playerData.QueuedRecruitTasks.Select(t => new UnitManager.RecruitTask(t.Type, t.DurationInSeconds))
@@ -581,7 +695,6 @@ namespace Server_Strategico.Server
                         .Select(t =>
                         {
                             var task = new ResearchManager.ResearchTask(t.Type, t.DurationInSeconds);
-
                             if (t.IsInProgress)
                             {
                                 task.Start();
@@ -591,9 +704,7 @@ namespace Server_Strategico.Server
                                 task.RiduciTempo((int)elapsed);
                             }
                             else if (t.RemainingSeconds <= 0)
-                            {
                                 task.ForzaCompletamento();
-                            }
 
                             return task;
                         }).ToList();
@@ -606,11 +717,8 @@ namespace Server_Strategico.Server
                     // --- Stato Ricerca ---
                     player.Ricerca_Attiva = player.currentTasks_Research.Count > 0 || player.research_Queue.Count > 0;
 
-
                     string fileName_Villaggio = Path.Combine(SavePath, $"{username}");
-
-                    // Caricamento Villaggi Personali
-                    if (File.Exists(fileName_Villaggio + "_Villaggi.json"))
+                    if (File.Exists(fileName_Villaggio + "_Villaggi.json")) // Caricamento Villaggi Personali
                     {
                         var villaggiJson = File.ReadAllText(fileName_Villaggio + "_Villaggi.json");
                         var savedVillaggi = JsonSerializer.Deserialize<List<VillaggioSaveData>>(villaggiJson);
@@ -641,8 +749,7 @@ namespace Server_Strategico.Server
                     else
                         Console.WriteLine($"[GameSave] Nessun salvataggio trovato per {username}");
 
-                    // Caricamento Città Globali
-                    if (File.Exists(fileName_Villaggio + "_Citta.json") && Saved == false)
+                    if (File.Exists(fileName_Villaggio + "_Citta.json") && Saved == false) // Caricamento Città Globali
                     {
                         var cittaJson = File.ReadAllText(fileName_Villaggio + "_Citta.json");
                         var savedCitta = JsonSerializer.Deserialize<List<VillaggioSaveData>>(cittaJson);
@@ -672,18 +779,70 @@ namespace Server_Strategico.Server
                         Saved = true; // carica 1 volta sola e non per ogni giocatore
                     }
                     else
-                        Console.WriteLine($"[GameSave] Nessun salvataggio trovato per {username}");
+                        Console.WriteLine($"[GameLoad] Nessun salvataggio trovato per {username}");
 
-
-                    Console.WriteLine($"[GameSave] Caricati i dati del giocatore {username}");
+                    Console.WriteLine($"[GameLoad] Caricati i dati del giocatore {username}");
                     return true;
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[GameSave] Errore durante il caricamento: {ex.Message}");
+                Console.WriteLine($"[GameLoad] Errore durante il caricamento: {ex.Message}");
             }
             return false;
+        }
+        public static async Task SaveServerData()
+        {
+            try
+            {
+                var ServerData = new ServerSaveData
+                {
+                    numero_Code_Base = Variabili_Server.numero_Code_Base,
+                    numero_Code_Base_Vip = Variabili_Server.numero_Code_Base_Vip,
+                    moltiplicatore_Esperienza = Variabili_Server.moltiplicatore_Esperienza,
+                    Velocizzazione_Tempo = Variabili_Server.Velocizzazione_Tempo,
+                    D_Viola_To_Blu = Variabili_Server.D_Viola_To_Blu,
+                    timer_Reset_Quest = Variabili_Server.timer_Reset_Quest,
+                    timer_Reset_Barbari = Variabili_Server.timer_Reset_Barbari
+                };
+                string fileName = Path.Combine(SavePath, $"ServerData.json");
+                string jsonString = JsonSerializer.Serialize(ServerData, new JsonSerializerOptions { WriteIndented = true });
+                await File.WriteAllTextAsync(fileName, jsonString);
+
+                Console.WriteLine($"[GameSave] Salvati i dati del server");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[GameSave] Errore durante il salvataggio: {ex.Message}");
+            }
+
+            Console.WriteLine("[GameSave] Dati dei GameServer salvati.");
+        }
+        public static async Task LoadServerData()
+        {
+            try
+            {
+                string fileName = Path.Combine(SavePath, $"ServerData.json");
+                if (!File.Exists(fileName))
+                    Console.WriteLine($"[LoadData] Nessun salvataggio trovato per ServerData.json");
+
+                string jsonString = await File.ReadAllTextAsync(fileName);
+                var serverData = JsonSerializer.Deserialize<ServerSaveData>(jsonString);
+
+                Variabili_Server.numero_Code_Base = serverData.numero_Code_Base;
+                Variabili_Server.numero_Code_Base_Vip = serverData.numero_Code_Base_Vip;
+                Variabili_Server.numero_Code_Base_Vip = serverData.numero_Code_Base_Vip;
+                Variabili_Server.Velocizzazione_Tempo = serverData.Velocizzazione_Tempo;
+                Variabili_Server.D_Viola_To_Blu = serverData.D_Viola_To_Blu;
+                Variabili_Server.timer_Reset_Quest = serverData.timer_Reset_Quest;
+                Variabili_Server.timer_Reset_Barbari = serverData.timer_Reset_Barbari;
+
+                Console.WriteLine($"[LoadData] Caricati i dati del server");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[LoadData] Errore durante il caricamento: {ex.Message}");
+            }
         }
 
         public static async Task Load_Player_Data_Auto()
@@ -692,19 +851,18 @@ namespace Server_Strategico.Server
             {
                 if (!Directory.Exists(SavePath))
                 {
-                    Console.WriteLine("[GameSave] Directory dei salvataggi non trovata");
+                    Console.WriteLine("[autoGameLoad] Directory dei salvataggi non trovata");
                     return;
                 }
 
                 string[] saveFiles = Directory.GetFiles(SavePath, "*.json");
-
                 foreach (string file in saveFiles)
                 {
-                    if (Path.GetFileName(file) == "BarbariPVP.json" || Path.GetFileName(file).Contains("_Citta.json") || Path.GetFileName(file).Contains("_Villaggi.json")) // Salta il file dei barbari PVP
+                    if (Path.GetFileName(file) == "ServerData.json" || Path.GetFileName(file).Contains("_Citta.json") || Path.GetFileName(file).Contains("_Villaggi.json")) // Salta il file dei barbari PVP
                         continue;
 
                     string username = Path.GetFileNameWithoutExtension(file);
-                    Console.WriteLine($"[GameSave] Caricamento automatico per {username}");
+                    Console.WriteLine($"[autoGameLoad] Caricamento automatico per {username}");
 
                     try
                     {
@@ -713,70 +871,27 @@ namespace Server_Strategico.Server
                         var playerData = JsonSerializer.Deserialize<PlayerSaveData>(jsonString);
 
                         string password = playerData.Password; // Estrai la password e carica i dati del giocatore
-                        Console.WriteLine($"[GameSave] Password estratta per {username}");
+                        Console.WriteLine($"[autoGameLoad] Password estratta per {username}");
 
                         // Carica i dati del giocatore con la password estratta dal file
                         bool success = await ServerConnection.Load_User_Auto(username, password);
-                        if (success) Console.WriteLine($"[GameSave] Caricamento automatico completato per {username}");
-                        else Console.WriteLine($"[GameSave] Caricamento automatico fallito per {username}");
+                        if (success) Console.WriteLine($"[autoGameLoad] Caricamento automatico completato per {username}");
+                        else Console.WriteLine($"[autoGameLoad] Caricamento automatico fallito per {username}");
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"[GameSave] Errore durante l'estrazione della password per {username}: {ex.Message}");
+                        Console.WriteLine($"[autoGameLoad] Errore durante l'estrazione della password per {username}: {ex.Message}");
                     }
                 }
 
-                Console.WriteLine("[GameSave] Caricamento automatico completato per tutti i giocatori");
+                Console.WriteLine("[autoGameLoad] Caricamento automatico completato per tutti i giocatori");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[GameSave] Errore durante il caricamento automatico: {ex.Message}");
+                Console.WriteLine($"[autoGameLoad] Errore durante il caricamento automatico: {ex.Message}");
             }
         }
-        public static async Task SaveGameServer()
-        {
-            var serverData = new
-            {
-                QuestManager.timerResetQuest,
-                Gioco.Barbari.timerResetBarbari
-            };
 
-            string fileName = Path.Combine(SavePath, "GameServer.json");
-            string jsonString = JsonSerializer.Serialize(serverData, new JsonSerializerOptions { WriteIndented = true });
-            await File.WriteAllTextAsync(fileName, jsonString);
-
-            Console.WriteLine("[GameSave] Dati dei GameServer salvati.");
-        }
-        public static async Task<bool> LoadBarbariPVP()
-        {
-            try
-            {
-                string fileName = Path.Combine(SavePath, "GameServer.json");
-                if (!File.Exists(fileName))
-                {
-                    Console.WriteLine("[GameSave] Nessun salvataggio trovato per il GameServer");
-                    return false;
-                }
-
-                string jsonString = await File.ReadAllTextAsync(fileName);
-                var barbariData = JsonSerializer.Deserialize<BarbariPVPData>(jsonString);
-
-                // Aggiorna i dati dei barbari con i dati caricati
-                Giocatori.Barbari.PVP.Guerrieri = barbariData.Guerrieri;
-                Giocatori.Barbari.PVP.Lancieri = barbariData.Lancieri;
-                Giocatori.Barbari.PVP.Arceri = barbariData.Arceri;
-                Giocatori.Barbari.PVP.Catapulte = barbariData.Catapulte;
-                Giocatori.Barbari.PVP.Livello = barbariData.Livello;
-
-                Console.WriteLine("[GameSave] Dati dei GameServer caricati.");
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"[GameSave] Errore durante il caricamento dei dati del GameServer: {ex.Message}");
-            }
-            return false;
-        }
         public class SavedTask
         {
             public string Type { get; set; }
@@ -784,14 +899,6 @@ namespace Server_Strategico.Server
             public double RemainingSeconds { get; set; }
             public bool IsInProgress { get; set; }
             public bool IsPaused { get; set; }
-        }
-        private class BarbariPVPData
-        {
-            public int Guerrieri { get; set; }
-            public int Lancieri { get; set; }
-            public int Arceri { get; set; }
-            public int Catapulte { get; set; }
-            public int Livello { get; set; }
         }
 
         public class VillaggioSaveData
@@ -804,15 +911,25 @@ namespace Server_Strategico.Server
             public int Esperienza { get; set; }
             public int Diamanti_Viola { get; set; }
             public int Diamanti_Blu { get; set; }
-            public double Cibo { get; set; }
-            public double Legno { get; set; }
-            public double Pietra { get; set; }
-            public double Ferro { get; set; }
-            public double Oro { get; set; }
+            public int Cibo { get; set; }
+            public int Legno { get; set; }
+            public int Pietra { get; set; }
+            public int Ferro { get; set; }
+            public int Oro { get; set; }
             public int Guerrieri { get; set; }
             public int Lancieri { get; set; }
             public int Arcieri { get; set; }
             public int Catapulte { get; set; }
+        }
+        private class ServerSaveData
+        {
+            public int moltiplicatore_Esperienza { get; set; } // Moltiplicatore esperienza quest
+            public int D_Viola_To_Blu { get; set; } // Numero di diamanti blu ottenuti per ogni diamante viola
+            public int Velocizzazione_Tempo { get; set; } // per ogni diamante blu speso quanti secondi vengono velocizzati
+            public int numero_Code_Base { get; set; } // Ogni giocatore parte con questo numero di esecuzioni parallele massime (costruttori, Riclutatori, Ricerca)
+            public int numero_Code_Base_Vip { get; set; } // quante code aggiunge il vip
+            public int timer_Reset_Barbari { get; set; } //Timer per il reset degli accampamenti barbari
+            public int timer_Reset_Quest { get; set; } //Timer per il reset delle quest
         }
         private class PlayerSaveData
         {
@@ -822,6 +939,7 @@ namespace Server_Strategico.Server
             public List<SavedTask> QueuedBuildingTasks { get; set; } = new();
 
             public List<SavedTask> CurrentRecruitTasks { get; set; } = new();
+            public List<SavedTask> PausedRecruitTasks { get; set; } = new();
             public List<SavedTask> QueuedRecruitTasks { get; set; } = new();
 
             public List<SavedTask> CurrentResearchTasks { get; set; } = new();

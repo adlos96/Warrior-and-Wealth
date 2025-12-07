@@ -13,9 +13,11 @@
 
             public int Diamanti_Viola { get; set; }
             public double Produzione { get; set; }
+            public double Consumo_Cibo { get; set; }
             public double Consumo_Legno { get; set; }
             public double Consumo_Pietra { get; set; }
             public double Consumo_Ferro { get; set; }
+            public double Consumo_Oro { get; set; }
 
             public int Salute { get; set; }
             public int Difesa { get; set; }
@@ -43,7 +45,7 @@
                 Popolazione = 5,
                 Produzione = 1.12,
                 TempoCostruzione = 101,
-                Limite = 2000
+                Limite = 1600
             };
             public static Edifici Segheria = new Edifici
             {
@@ -55,7 +57,7 @@
                 Popolazione = 7,
                 Produzione = 0.96,
                 TempoCostruzione = 117,
-                Limite = 2000
+                Limite = 1500
             };
             public static Edifici CavaPietra = new Edifici
             {
@@ -67,7 +69,7 @@
                 Popolazione = 10,
                 Produzione = 0.83,
                 TempoCostruzione = 136,
-                Limite = 2000
+                Limite = 1500
             };
             public static Edifici MinieraFerro = new Edifici
             {
@@ -79,7 +81,7 @@
                 Popolazione = 10,
                 Produzione = 0.70,
                 TempoCostruzione = 148,
-                Limite = 2000
+                Limite = 1400
             };
             public static Edifici MinieraOro = new Edifici
             {
@@ -91,7 +93,7 @@
                 Popolazione = 10,
                 Produzione = 0.57,
                 TempoCostruzione = 172,
-                Limite = 2000
+                Limite = 1300
             };
             public static Edifici Case = new Edifici
             {
@@ -102,7 +104,7 @@
                 Oro = 2500,
                 Produzione = 0.001,
                 TempoCostruzione = 221,
-                Limite = 100
+                Limite = 10
             };
             // Produzione Militari
             public static Edifici ProduzioneSpade = new Edifici
@@ -112,12 +114,13 @@
                 Pietra = 1750,
                 Ferro = 1750,
                 Oro = 1750,
-                Popolazione = 10,
+                Popolazione = 15,
                 Produzione = 0.008,
                 Consumo_Legno = 0.15,
                 Consumo_Ferro = 0.25,
+                Consumo_Oro = 0.20,
                 TempoCostruzione = 152,
-                Limite = 2000
+                Limite = 50
             };
             public static Edifici ProduzioneLance = new Edifici
             {
@@ -126,12 +129,13 @@
                 Pietra = 2000,
                 Ferro = 2000,
                 Oro = 2000,
-                Popolazione = 10,
+                Popolazione = 15,
                 Produzione = 0.007,
                 Consumo_Legno = 0.35,
                 Consumo_Ferro = 0.18,
+                Consumo_Oro = 0.20,
                 TempoCostruzione = 181,
-                Limite = 2000
+                Limite = 45
             };
             public static Edifici ProduzioneArchi = new Edifici
             {
@@ -140,11 +144,12 @@
                 Pietra = 2250,
                 Ferro = 2250,
                 Oro = 2250,
-                Popolazione = 10,
+                Popolazione = 15,
                 Consumo_Legno = 0.45,
+                Consumo_Oro = 0.20,
                 Produzione = 0.0075,
                 TempoCostruzione = 214,
-                Limite = 2000
+                Limite = 40
             };
             public static Edifici ProduzioneScudi = new Edifici
             {
@@ -153,12 +158,13 @@
                 Pietra = 2500,
                 Ferro = 2500,
                 Oro = 2500,
-                Popolazione = 10,
+                Popolazione = 15,
                 Produzione = 0.008,
                 Consumo_Legno = 0.22,
                 Consumo_Ferro = 0.35,
+                Consumo_Oro = 0.25,
                 TempoCostruzione = 229,
-                Limite = 2000
+                Limite = 40
             };
             public static Edifici ProduzioneArmature = new Edifici
             {
@@ -167,11 +173,12 @@
                 Pietra = 2750,
                 Ferro = 2750,
                 Oro = 2750,
-                Popolazione = 10,
+                Popolazione = 15,
                 Produzione = 0.0065,
                 Consumo_Ferro = 0.50,
+                Consumo_Oro = 0.35,
                 TempoCostruzione = 253,
-                Limite = 2000
+                Limite = 40
             };
             public static Edifici ProduzioneFrecce = new Edifici
             {
@@ -180,13 +187,14 @@
                 Pietra = 3750,
                 Ferro = 3750,
                 Oro = 3750,
-                Popolazione = 10,
+                Popolazione = 20,
                 Produzione = 0.005,
                 Consumo_Legno = 0.25,
-                Consumo_Ferro = 0.18,
                 Consumo_Pietra = 0.40,
+                Consumo_Ferro = 0.18,
+                Consumo_Oro = 0.20,
                 TempoCostruzione = 294,
-                Limite = 2000
+                Limite = 500
             };
 
             public static Edifici CasermaGuerrieri = new Edifici
@@ -196,8 +204,10 @@
                 Pietra = 2450,
                 Ferro = 2450,
                 Oro = 2450,
-                Popolazione = 25,
+                Popolazione = 30,
                 TempoCostruzione = 274,
+                Consumo_Oro = 0.20,
+                Consumo_Cibo = 0.40,
                 Limite = 15
             };
             public static Edifici CasermaLanceri = new Edifici
@@ -207,8 +217,10 @@
                 Pietra = 2650,
                 Ferro = 2650,
                 Oro = 2650,
-                Popolazione = 30,
+                Popolazione = 35,
                 TempoCostruzione = 295,
+                Consumo_Oro = 0.25,
+                Consumo_Cibo = 0.50,
                 Limite = 10
             };
             public static Edifici CasermaArceri = new Edifici
@@ -218,8 +230,10 @@
                 Pietra = 3850,
                 Ferro = 3850,
                 Oro = 3850,
-                Popolazione = 35,
+                Popolazione = 40,
                 TempoCostruzione = 316,
+                Consumo_Oro = 0.30,
+                Consumo_Cibo = 0.60,
                 Limite = 5
             };
             public static Edifici CasermaCatapulte = new Edifici
@@ -229,18 +243,20 @@
                 Pietra = 4550,
                 Ferro = 4550,
                 Oro = 4550,
-                Popolazione = 50,
+                Popolazione = 55,
                 TempoCostruzione = 337,
+                Consumo_Oro = 0.45,
+                Consumo_Cibo = 0.90,
                 Limite = 3
             };
 
             public static Edifici Ingresso = new Edifici
             {
-                Guarnigione = 100
+                Guarnigione = 75
             };
             public static Edifici Citta = new Edifici
             {
-                Guarnigione = 200
+                Guarnigione = 125
             };
             public static Edifici Cancello = new Edifici
             {
@@ -264,7 +280,7 @@
             {
                 Salute = 75,
                 Difesa = 75,
-                Guarnigione = 75
+                Guarnigione = 100
             };
         }
     }

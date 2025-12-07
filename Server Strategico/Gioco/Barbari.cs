@@ -5,8 +5,6 @@ namespace Server_Strategico.Gioco
     public class Barbari
     {
         public static bool start = false;
-
-        public static System.Timers.Timer timerResetBarbari;
         public static List<CittaBarbara> CittaGlobali = new(); // 🌍 Lista globale delle città barbariche (visibili da tutti)
         private static Random rnd = new(); // 🔒 Random condiviso 
 
@@ -23,11 +21,11 @@ namespace Server_Strategico.Gioco
             public int Diamanti_Viola { get; set; }
             public int Diamanti_Blu { get; set; }
 
-            public double Cibo { get; set; }
-            public double Legno { get; set; }
-            public double Pietra { get; set; }
-            public double Ferro { get; set; }
-            public double Oro { get; set; }
+            public int Cibo { get; set; }
+            public int Legno { get; set; }
+            public int Pietra { get; set; }
+            public int Ferro { get; set; }
+            public int Oro { get; set; }
 
             public int Guerrieri { get; set; }
             public int Lancieri { get; set; }
@@ -97,32 +95,49 @@ namespace Server_Strategico.Gioco
         {
             if (player.VillaggiPersonali == null)
                 player.VillaggiPersonali = new List<VillaggioBarbaro>();
-
-            player.VillaggiPersonali.Clear();
+            else
+                player.VillaggiPersonali.Clear();
 
             for (int lv = 1; lv <= 20; lv++)
                 player.VillaggiPersonali.Add(GeneraVillaggio(lv));
 
             Console.WriteLine($"[Barbari] Generati {player.VillaggiPersonali.Count} villaggi per {player.Username}");
+            int diamanti_Viola = 0, diamanti_Blu = 0;
+            int guerrieri = 0;
+            int lancieri = 0;
+            int arcieri = 0;
+            int catapulte = 0;
+
+            foreach (var data in player.VillaggiPersonali)
+            {
+                diamanti_Viola += data.Diamanti_Viola;
+                diamanti_Blu += data.Diamanti_Blu;
+                guerrieri += data.Guerrieri;
+                lancieri += data.Lancieri;
+                arcieri += data.Arcieri;
+                catapulte += data.Catapulte;
+            }
+            Console.WriteLine($"[Barbari] Stats Villaggi Barbare: {diamanti_Viola} D_V, {diamanti_Blu} D_B, {guerrieri} G, {lancieri} L, {arcieri} A, {catapulte} C");
         }
 
-        public static void Inizializza() // Inizializzazione globale (da chiamare all’avvio del server)
+        public static async Task Inizializza() // Inizializzazione globale (da chiamare all’avvio del server)
         {
             if (start) return;
             start = true;
 
+            if (Variabili_Server.timer_Reset_Barbari == 0)
+                Variabili_Server.timer_Reset_Barbari = 30 * 24 * 60 * 60;
+
             if (Gioco.Barbari.CittaGlobali.Count() == 0)
-            {
                 for (int i = 1; i <= 20; i++) // Genera 20 città barbariche globali
                     CittaGlobali.Add(GeneraCitta(i));
-            }
+           
             foreach (var player in Server.Server.servers_.players.Values) // Genera villaggi per tutti i giocatori esistenti
                 if (player.VillaggiPersonali.Count() == 0)
                     GeneraVillaggiPerGiocatore(player);
 
             Console.WriteLine($"[Barbari] Generate {CittaGlobali.Count} città iniziali.");
-
-            int diamanti_Viola = 0;
+            int diamanti_Viola = 0, diamanti_Blu = 0;
             int guerrieri = 0;
             int lancieri = 0;
             int arcieri = 0;
@@ -131,48 +146,25 @@ namespace Server_Strategico.Gioco
             foreach (var data in CittaGlobali)
             {
                 diamanti_Viola += data.Diamanti_Viola;
+                diamanti_Blu += data.Diamanti_Blu;
                 guerrieri += data.Guerrieri;
                 lancieri += data.Lancieri;
                 arcieri += data.Arcieri;
                 catapulte += data.Catapulte;
             }
-
-            Console.WriteLine($"[Barbari] Stats Città Barbare: {diamanti_Viola} D, {guerrieri} G, {lancieri} L, {arcieri} A, {catapulte} C");
-            AvviaTimerReset(); // Avvia il timer giornaliero
-        }
-
-        private static void AvviaTimerReset() // Avvia timer per rigenerare barbari ogni giorno
-        {
-            // Calcola il tempo mancante alla mezzanotte
-            DateTime ora = DateTime.Now;
-            DateTime prossimaMezzanotte = ora.Date.AddDays(1);
-            double tempoIniziale = (prossimaMezzanotte - ora).TotalMilliseconds;
-
-            // Primo timer fino alla mezzanotte
-            timerResetBarbari = new System.Timers.Timer(tempoIniziale);
-            timerResetBarbari.Elapsed += (s, e) =>
-            {
-                RigeneraBarbari();
-                timerResetBarbari.Interval = TimeSpan.FromDays(1).TotalMilliseconds; // dopo la prima volta, ripete ogni 24 ore
-            };
-            timerResetBarbari.AutoReset = true;
-            timerResetBarbari.Start();
-
-            Console.WriteLine($"[Barbari] Timer di rigenerazione impostato: primo reset tra {(int)(tempoIniziale / 1000 / 60 / 60)} ore.");
+            Console.WriteLine($"[Barbari] Stats Città Barbare: {diamanti_Viola} D_V, {diamanti_Blu} D_B, {guerrieri} G, {lancieri} L, {arcieri} A, {catapulte} C");
         }
 
         public static void RigeneraBarbari() // 🔁 Rigenera città globali e villaggi personali
         {
             Console.WriteLine($"[Barbari] Rigenerazione giornaliera iniziata ({DateTime.Now:HH:mm:ss})");
 
-            // ✅ Rigenera città globali
             int città = CittaGlobali.Count;
             CittaGlobali.Clear();
-            for (int i = 1; i <= città; i++)
+            for (int i = 1; i <= città; i++) // ✅ Rigenera città globali
                 CittaGlobali.Add(GeneraCitta(i));
 
-            // ✅ Rigenera villaggi per ogni giocatore
-            foreach (var player in Server.Server.servers_.players.Values)
+            foreach (var player in Server.Server.servers_.players.Values) // ✅ Rigenera villaggi per ogni giocatore
             {
                 if (player.VillaggiPersonali == null)
                     player.VillaggiPersonali = new List<VillaggioBarbaro>();
@@ -184,7 +176,7 @@ namespace Server_Strategico.Gioco
             }
             Console.WriteLine($"[Barbari] Rigenerazione completata: {CittaGlobali.Count} città e villaggi per {Server.Server.servers_.players.Count} giocatori.");
         }
-
+         
         public static (int, int, int, int) StimaTruppe(BarbarianBase target) // 🔍 Esplorazione — stima truppe (±20%)
         {
             int Deviazione(int val) => (int)(val * (1 + rnd.Next(-20, 21) / 100.0));
@@ -194,7 +186,7 @@ namespace Server_Strategico.Gioco
 
         public static (int G, int L, int A, int C) EsploraTruppe(Player g, BarbarianBase target)  // 💰 Esplorazione con costo in oro
         {
-            int costo = target.IsGlobal ? 2 : 1; // 500 : 100
+            int costo = target.IsGlobal ? 2 : 1; // 500 : 100 -- Costo in oro per esplorare
             if (g.Oro < costo)
                 return (-1, -1, -1, -1); // indicatore di errore
 

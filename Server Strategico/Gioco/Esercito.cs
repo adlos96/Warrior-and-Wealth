@@ -31,7 +31,7 @@
                 Pietra = 64,
                 Ferro = 118,
                 Oro = 110,
-                TempoReclutamento = 5, //55
+                TempoReclutamento = 55, //55
                 Popolazione = 1
             };
             public static CostoReclutamento Lancere_1 = new CostoReclutamento
@@ -90,11 +90,11 @@
                 Scudi = 0,
                 Armature = 1,
 
-                Cibo = 135,
-                Legno = 87,
-                Pietra = 64,
-                Ferro = 118,
-                Oro = 110,
+                Cibo = 235,
+                Legno = 187,
+                Pietra = 164,
+                Ferro = 218,
+                Oro = 210,
                 TempoReclutamento = 5, //55
                 Popolazione = 1
             };
@@ -106,11 +106,11 @@
                 Scudi = 1,
                 Armature = 1,
 
-                Cibo = 186,
-                Legno = 135,
-                Pietra = 107,
-                Ferro = 164,
-                Oro = 143,
+                Cibo = 286,
+                Legno = 235,
+                Pietra = 207,
+                Ferro = 264,
+                Oro = 243,
                 TempoReclutamento = 109,
                 Popolazione = 1
             };
@@ -122,11 +122,11 @@
                 Scudi = 0,
                 Armature = 1,
 
-                Cibo = 259,
-                Legno = 234,
-                Pietra = 193,
-                Ferro = 213,
-                Oro = 202,
+                Cibo = 359,
+                Legno = 334,
+                Pietra = 293,
+                Ferro = 313,
+                Oro = 302,
                 TempoReclutamento = 127,
                 Popolazione = 1
             };
@@ -138,11 +138,11 @@
                 Scudi = 6,
                 Armature = 6,
 
-                Cibo = 344,
-                Legno = 357,
-                Pietra = 389,
-                Ferro = 276,
-                Oro = 313,
+                Cibo = 444,
+                Legno = 457,
+                Pietra = 489,
+                Ferro = 376,
+                Oro = 413,
                 TempoReclutamento = 159,
                 Popolazione = 6
             };
@@ -154,11 +154,11 @@
                 Scudi = 0,
                 Armature = 1,
 
-                Cibo = 135,
-                Legno = 87,
-                Pietra = 64,
-                Ferro = 118,
-                Oro = 110,
+                Cibo = 335,
+                Legno = 287,
+                Pietra = 264,
+                Ferro = 318,
+                Oro = 310,
                 TempoReclutamento = 5, //55
                 Popolazione = 1
             };
@@ -170,11 +170,11 @@
                 Scudi = 1,
                 Armature = 1,
 
-                Cibo = 186,
-                Legno = 135,
-                Pietra = 107,
-                Ferro = 164,
-                Oro = 143,
+                Cibo = 386,
+                Legno = 335,
+                Pietra = 307,
+                Ferro = 364,
+                Oro = 343,
                 TempoReclutamento = 109,
                 Popolazione = 1
             };
@@ -186,11 +186,11 @@
                 Scudi = 0,
                 Armature = 1,
 
-                Cibo = 259,
-                Legno = 234,
-                Pietra = 193,
-                Ferro = 213,
-                Oro = 202,
+                Cibo = 459,
+                Legno = 434,
+                Pietra = 393,
+                Ferro = 413,
+                Oro = 402,
                 TempoReclutamento = 127,
                 Popolazione = 1
             };
@@ -202,11 +202,11 @@
                 Scudi = 6,
                 Armature = 6,
 
-                Cibo = 344,
-                Legno = 357,
-                Pietra = 389,
-                Ferro = 276,
-                Oro = 313,
+                Cibo = 544,
+                Legno = 557,
+                Pietra = 589,
+                Ferro = 476,
+                Oro = 513,
                 TempoReclutamento = 159,
                 Popolazione = 6
             };
@@ -218,11 +218,11 @@
                 Scudi = 0,
                 Armature = 1,
 
-                Cibo = 135,
-                Legno = 87,
-                Pietra = 64,
-                Ferro = 118,
-                Oro = 110,
+                Cibo = 435,
+                Legno = 387,
+                Pietra = 364,
+                Ferro = 418,
+                Oro = 410,
                 TempoReclutamento = 5, //55
                 Popolazione = 1
             };
@@ -234,11 +234,11 @@
                 Scudi = 1,
                 Armature = 1,
 
-                Cibo = 186,
-                Legno = 135,
-                Pietra = 107,
-                Ferro = 164,
-                Oro = 143,
+                Cibo = 486,
+                Legno = 435,
+                Pietra = 407,
+                Ferro = 464,
+                Oro = 443,
                 TempoReclutamento = 109,
                 Popolazione = 1
             };
@@ -250,11 +250,11 @@
                 Scudi = 0,
                 Armature = 1,
 
-                Cibo = 259,
-                Legno = 234,
-                Pietra = 193,
-                Ferro = 213,
-                Oro = 202,
+                Cibo = 559,
+                Legno = 534,
+                Pietra = 493,
+                Ferro = 513,
+                Oro = 502,
                 TempoReclutamento = 127,
                 Popolazione = 1
             };
@@ -266,11 +266,11 @@
                 Scudi = 6,
                 Armature = 6,
 
-                Cibo = 344,
-                Legno = 357,
-                Pietra = 389,
-                Ferro = 276,
-                Oro = 313,
+                Cibo = 644,
+                Legno = 657,
+                Pietra = 689,
+                Ferro = 576,
+                Oro = 613,
                 TempoReclutamento = 159,
                 Popolazione = 6
             };
@@ -282,11 +282,11 @@
                 Scudi = 0,
                 Armature = 1,
 
-                Cibo = 135,
-                Legno = 87,
-                Pietra = 64,
-                Ferro = 118,
-                Oro = 110,
+                Cibo = 635,
+                Legno = 587,
+                Pietra = 564,
+                Ferro = 618,
+                Oro = 610,
                 TempoReclutamento = 5, //55
                 Popolazione = 1
             };
@@ -298,11 +298,11 @@
                 Scudi = 1,
                 Armature = 1,
 
-                Cibo = 186,
-                Legno = 135,
-                Pietra = 107,
-                Ferro = 164,
-                Oro = 143,
+                Cibo = 686,
+                Legno = 635,
+                Pietra = 607,
+                Ferro = 664,
+                Oro = 643,
                 TempoReclutamento = 109,
                 Popolazione = 1
             };
@@ -314,11 +314,11 @@
                 Scudi = 0,
                 Armature = 1,
 
-                Cibo = 259,
-                Legno = 234,
-                Pietra = 193,
-                Ferro = 213,
-                Oro = 202,
+                Cibo = 759,
+                Legno = 734,
+                Pietra = 693,
+                Ferro = 713,
+                Oro = 702,
                 TempoReclutamento = 127,
                 Popolazione = 1
             };
@@ -330,11 +330,11 @@
                 Scudi = 6,
                 Armature = 6,
 
-                Cibo = 344,
-                Legno = 357,
-                Pietra = 389,
-                Ferro = 276,
-                Oro = 313,
+                Cibo = 844,
+                Legno = 857,
+                Pietra = 889,
+                Ferro = 776,
+                Oro = 813,
                 TempoReclutamento = 159,
                 Popolazione = 6
             };
@@ -672,7 +672,7 @@
                 Salario = 0.15,
                 Cibo = 0.31,
                 Quantità = 0,
-                Esperienza = 1,
+                Esperienza = 2,
                 Trasporto = 100
             };
             public static Unità Lancere_3 = new Unità
@@ -684,7 +684,7 @@
                 Salario = 0.19,
                 Cibo = 0.36,
                 Quantità = 0,
-                Esperienza = 1,
+                Esperienza = 2,
                 Trasporto = 150
             };
             public static Unità Arcere_3 = new Unità
@@ -696,7 +696,7 @@
                 Salario = 0.24,
                 Cibo = 0.43,
                 Quantità = 0,
-                Esperienza = 2,
+                Esperienza = 3,
                 Componente_Lancio = 4,
                 Trasporto = 200
             };
@@ -709,7 +709,7 @@
                 Salario = CostoReclutamento.Catapulta_3.Popolazione * Guerriero_3.Salario * 0.629,
                 Cibo = CostoReclutamento.Catapulta_3.Popolazione * Guerriero_3.Cibo * 0.779,
                 Quantità = 0,
-                Esperienza = 3,
+                Esperienza = 4,
                 Componente_Lancio = 8,
                 Trasporto = 300
             };
@@ -723,7 +723,7 @@
                 Salario = 0.15,
                 Cibo = 0.31,
                 Quantità = 0,
-                Esperienza = 1,
+                Esperienza = 2,
                 Trasporto = 100
             };
             public static Unità Lancere_4 = new Unità
@@ -735,7 +735,7 @@
                 Salario = 0.19,
                 Cibo = 0.36,
                 Quantità = 0,
-                Esperienza = 1,
+                Esperienza = 2,
                 Trasporto = 150
             };
             public static Unità Arcere_4 = new Unità
@@ -747,7 +747,7 @@
                 Salario = 0.24,
                 Cibo = 0.43,
                 Quantità = 0,
-                Esperienza = 2,
+                Esperienza = 3,
                 Componente_Lancio = 4,
                 Trasporto = 200
             };
@@ -760,7 +760,7 @@
                 Salario = CostoReclutamento.Catapulta_4.Popolazione * Guerriero_4.Salario * 0.629,
                 Cibo = CostoReclutamento.Catapulta_4.Popolazione * Guerriero_4.Cibo * 0.779,
                 Quantità = 0,
-                Esperienza = 3,
+                Esperienza = 4,
                 Componente_Lancio = 8,
                 Trasporto = 300
             };
@@ -774,7 +774,7 @@
                 Salario = 0.15,
                 Cibo = 0.31,
                 Quantità = 0,
-                Esperienza = 1,
+                Esperienza = 3,
                 Trasporto = 100
             };
             public static Unità Lancere_5 = new Unità
@@ -786,7 +786,7 @@
                 Salario = 0.19,
                 Cibo = 0.36,
                 Quantità = 0,
-                Esperienza = 1,
+                Esperienza = 3,
                 Trasporto = 150
             };
             public static Unità Arcere_5 = new Unità
@@ -798,7 +798,7 @@
                 Salario = 0.24,
                 Cibo = 0.43,
                 Quantità = 0,
-                Esperienza = 2,
+                Esperienza = 4,
                 Componente_Lancio = 4,
                 Trasporto = 200
             };
@@ -811,10 +811,11 @@
                 Salario = CostoReclutamento.Catapulta_5.Popolazione * Guerriero_5.Salario * 0.629,
                 Cibo = CostoReclutamento.Catapulta_5.Popolazione * Guerriero_5.Cibo * 0.779,
                 Quantità = 0,
-                Esperienza = 3,
+                Esperienza = 5,
                 Componente_Lancio = 8,
                 Trasporto = 300
             };
+
             public static Unità Saccheggiatore = new Unità
             {
                 Salute = 2,

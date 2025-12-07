@@ -467,10 +467,11 @@ namespace Server_Strategico.Gioco
             double dannoInflittoDalNemico = Battaglie.CalcolareDanno_Invasore(arcieri_Enemy, catapulte_Enemy, guerrieri_Enemy, picchieri_Enemy, playerVirtuale) / tipi_Di_Unità;
             double dannoInflitto = 0;
 
-            dannoInflitto += Battaglie.CalcolareDanno_Giocatore(arcieri[0], catapulte[0], guerrieri[0], picchieri[0], playerVirtuale, clientGuid) / tipi_Di_Unità_Att;
-            dannoInflitto += Battaglie.CalcolareDanno_Giocatore(arcieri[1], catapulte[1], guerrieri[1], picchieri[1], playerVirtuale, clientGuid) / tipi_Di_Unità_Att;
-            dannoInflitto += Battaglie.CalcolareDanno_Giocatore(arcieri[2], catapulte[2], guerrieri[2], picchieri[2], playerVirtuale, clientGuid) / tipi_Di_Unità_Att;
-            dannoInflitto += Battaglie.CalcolareDanno_Giocatore(arcieri[3], catapulte[3], guerrieri[3], picchieri[3], playerVirtuale, clientGuid) / tipi_Di_Unità_Att;
+            dannoInflitto += Battaglie.CalcolareDanno_Giocatore(arcieri[0], catapulte[0], guerrieri[0], picchieri[0], playerVirtuale, clientGuid, 1) / tipi_Di_Unità_Att;
+            dannoInflitto += Battaglie.CalcolareDanno_Giocatore(arcieri[1], catapulte[1], guerrieri[1], picchieri[1], playerVirtuale, clientGuid, 2) / tipi_Di_Unità_Att;
+            dannoInflitto += Battaglie.CalcolareDanno_Giocatore(arcieri[2], catapulte[2], guerrieri[2], picchieri[2], playerVirtuale, clientGuid, 3) / tipi_Di_Unità_Att;
+            dannoInflitto += Battaglie.CalcolareDanno_Giocatore(arcieri[3], catapulte[3], guerrieri[3], picchieri[3], playerVirtuale, clientGuid, 4) / tipi_Di_Unità_Att;
+            dannoInflitto += Battaglie.CalcolareDanno_Giocatore(arcieri[4], catapulte[4], guerrieri[4], picchieri[4], playerVirtuale, clientGuid, 5) / tipi_Di_Unità_Att;
 
             // Applicare il danno alle unità del giocatore
             guerrieri_Temp[0] = Battaglie.RidurreNumeroSoldati(guerrieri[0], dannoInflittoDalNemico, (Esercito.Unità.Guerriero_1.Difesa + Ricerca.Soldati.Incremento.Difesa * playerVirtuale.Guerriero_Difesa) * guerrieri[0], Esercito.Unità.Guerriero_1.Salute + Ricerca.Soldati.Incremento.Salute * playerVirtuale.Guerriero_Salute);
@@ -501,19 +502,19 @@ namespace Server_Strategico.Gioco
 
             // Applicare il danno alle unità nemiche
             guerrieri_Temp_Enemy[0] = Battaglie.RidurreNumeroSoldati(guerrieri_Enemy[0], dannoInflitto, Esercito.EsercitoNemico.Guerrieri_1.Difesa * guerrieri_Enemy[0], Esercito.EsercitoNemico.Guerrieri_1.Salute);
-            picchieri_Temp_Enemy[0] = Battaglie.RidurreNumeroSoldati(picchieri_Enemy[0], dannoInflitto, Esercito.EsercitoNemico.Lanceri_1.Difesa * picchieri_Enemy[0], Esercito.EsercitoNemico.Lanceri_1.Salute);
-            arcieri_Temp_Enemy[0] = Battaglie.RidurreNumeroSoldati(arcieri_Enemy[0], dannoInflitto, Esercito.EsercitoNemico.Arceri_1.Difesa * arcieri_Enemy[0], Esercito.EsercitoNemico.Arceri_1.Salute);
-            catapulte_Temp_Enemy[0] = Battaglie.RidurreNumeroSoldati(catapulte_Enemy[0], dannoInflitto, Esercito.EsercitoNemico.Catapulte_1.Difesa * catapulte_Enemy[0], Esercito.EsercitoNemico.Catapulte_1.Salute);
+            picchieri_Temp_Enemy[0] = Battaglie.RidurreNumeroSoldati(picchieri_Enemy[1], dannoInflitto, Esercito.EsercitoNemico.Lanceri_2.Difesa * picchieri_Enemy[1], Esercito.EsercitoNemico.Lanceri_2.Salute);
+            arcieri_Temp_Enemy[0] = Battaglie.RidurreNumeroSoldati(arcieri_Enemy[2], dannoInflitto, Esercito.EsercitoNemico.Arceri_3.Difesa * arcieri_Enemy[2], Esercito.EsercitoNemico.Arceri_3.Salute);
+            catapulte_Temp_Enemy[0] = Battaglie.RidurreNumeroSoldati(catapulte_Enemy[3], dannoInflitto, Esercito.EsercitoNemico.Catapulte_4.Difesa * catapulte_Enemy[3], Esercito.EsercitoNemico.Catapulte_4.Salute);
+            catapulte_Temp_Enemy[0] = Battaglie.RidurreNumeroSoldati(catapulte_Enemy[4], dannoInflitto, Esercito.EsercitoNemico.Catapulte_5.Difesa * catapulte_Enemy[4], Esercito.EsercitoNemico.Catapulte_5.Salute);
 
-            // Calcola le perdite totali
-
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 5; i++)// Calcola le perdite totali
             {
                 //Giocatore
                 if (guerrieri[i] > 0) guerrieri_Temp_Morti[i] = guerrieri[i] - guerrieri_Temp[i];
                 if (guerrieri[i] > 0) picchieri_Temp_Morti[i] = picchieri[i] - picchieri_Temp[i];
                 if (arcieri[i] > 0) arcieri_Temp_Morti[i] = arcieri[i] - arcieri_Temp[i];
                 if (catapulte[i] > 0) catapulte_Temp_Morti[i] = catapulte[i] - catapulte_Temp[i];
+
                 //Barbaro (Villaggio/Città)
                 if (guerrieri_Enemy[i] > 0) guerrieri_Temp_Enemy_Morti[i] = guerrieri_Enemy[i] - guerrieri_Temp_Enemy[i];
                 if (guerrieri_Enemy[i] > 0) picchieri_Temp_Enemy_Morti[i] = picchieri_Enemy[i] - picchieri_Temp_Enemy[i];

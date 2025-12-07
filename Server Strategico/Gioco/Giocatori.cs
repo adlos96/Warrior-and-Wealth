@@ -19,21 +19,6 @@ namespace Server_Strategico.Gioco
 
     public class Giocatori
     {
-        public class Barbari
-        {
-            public int Guerrieri { get; set; }
-            public int Lancieri { get; set; }
-            public int Arceri { get; set; }
-            public int Catapulte { get; set; }
-            public int Livello { get; set; }
-            public static Barbari PVP = new Barbari
-            {
-                Guerrieri = 0,
-                Lancieri = 0,
-                Arceri = 0,
-                Catapulte = 0
-            };
-        }
         public class Player
         {
             #region Variabili giocatore
@@ -299,7 +284,7 @@ namespace Server_Strategico.Gioco
             public Queue<BuildingManager.ConstructionTask> building_Queue = new(); // Coda globale di attesa (quando tutti gli slot sono occupati)
 
             public List<UnitManager.RecruitTask> currentTasks_Recruit = new(); // Lista dei task attualmente in costruzione (slot globali, max = Code_Reclutamento)
-            public Queue<BuildingManager.ConstructionTask> pausedTasks_Recruit = new();
+            public Queue<UnitManager.RecruitTask> pausedTasks_Recruit = new();
             public Queue<UnitManager.RecruitTask> recruit_Queue = new(); // Coda globale di attesa (quando tutti gli slot sono occupati)
 
             public List<ResearchManager.ResearchTask> currentTasks_Research = new(); // Lista dei task attualmente in costruzione (slot globali, max = 1)
@@ -579,35 +564,57 @@ namespace Server_Strategico.Gioco
             {
                 if (Cibo < Fattoria * Strutture.Edifici.Fattoria.Limite)
                     Cibo += Fattoria * (Strutture.Edifici.Fattoria.Produzione + Ricerca_Produzione * Ricerca.Tipi.Incremento.Cibo);
+                else Cibo = Fattoria * Strutture.Edifici.Fattoria.Limite;
+
                 if (Legno < Segheria * Strutture.Edifici.Segheria.Limite)
                     Legno += Segheria * (Strutture.Edifici.Segheria.Produzione + Ricerca_Produzione * Ricerca.Tipi.Incremento.Legno);
+                else Legno = Segheria * Strutture.Edifici.Segheria.Limite;
+
                 if (Pietra < CavaPietra * Strutture.Edifici.CavaPietra.Limite)
                     Pietra += CavaPietra * (Strutture.Edifici.CavaPietra.Produzione + Ricerca_Produzione * Ricerca.Tipi.Incremento.Pietra);
+                else Pietra = CavaPietra * Strutture.Edifici.CavaPietra.Limite;
+
                 if (Ferro < MinieraFerro * Strutture.Edifici.MinieraFerro.Limite)
                     Ferro += MinieraFerro * (Strutture.Edifici.MinieraFerro.Produzione + Ricerca_Produzione * Ricerca.Tipi.Incremento.Ferro);
+                else Ferro = MinieraFerro * Strutture.Edifici.MinieraFerro.Limite;
+
                 if (Oro < MinieraOro * Strutture.Edifici.MinieraOro.Limite)
                     Oro += MinieraOro * (Strutture.Edifici.MinieraOro.Produzione + Ricerca_Produzione * Ricerca.Tipi.Incremento.Oro);
-                if (Popolazione < Abitazioni * Strutture.Edifici.Case.Limite)
-                    Popolazione += Abitazioni * (Strutture.Edifici.Case.Produzione + Ricerca_Produzione * Ricerca.Tipi.Incremento.Popolazione);
+                else Oro = MinieraOro * Strutture.Edifici.MinieraOro.Limite;
 
-                Dollari_Virtuali += (decimal)(Terreno_Comune * Variabili_Server.Terreni_Virtuali.Comune.Produzione) +
-                    (decimal)(Terreno_NonComune * Variabili_Server.Terreni_Virtuali.NonComune.Produzione) +
-                    (decimal)(Terreno_Raro * Variabili_Server.Terreni_Virtuali.Raro.Produzione) +
-                    (decimal)(Terreno_Epico * Variabili_Server.Terreni_Virtuali.Epico.Produzione) +
-                    (decimal)(Terreno_Leggendario * Variabili_Server.Terreni_Virtuali.Leggendario.Produzione);
+                if (Popolazione < Abitazioni * Strutture.Edifici.Case.Limite)
+                    Popolazione += Abitazioni * (Strutture.Edifici.Case.Produzione + Ricerca_Popolazione * Ricerca.Tipi.Incremento.Popolazione);
+                else Popolazione = Abitazioni * Strutture.Edifici.Case.Limite;
+
+                Dollari_Virtuali += ((decimal)Terreno_Comune * Variabili_Server.Terreni_Virtuali.Comune.Produzione) +
+                    ((decimal)Terreno_NonComune * Variabili_Server.Terreni_Virtuali.NonComune.Produzione) +
+                    ((decimal)Terreno_Raro * Variabili_Server.Terreni_Virtuali.Raro.Produzione) +
+                    ((decimal)Terreno_Epico * Variabili_Server.Terreni_Virtuali.Epico.Produzione) +
+                    ((decimal)Terreno_Leggendario * Variabili_Server.Terreni_Virtuali.Leggendario.Produzione);
 
                 if (Spade < Workshop_Spade * Strutture.Edifici.ProduzioneSpade.Limite)
                     Spade += Workshop_Spade * Strutture.Edifici.ProduzioneSpade.Produzione;
+                else Spade = Workshop_Spade * Strutture.Edifici.ProduzioneSpade.Limite;
+
                 if (Lance < Workshop_Lance * Strutture.Edifici.ProduzioneLance.Limite)
                     Lance += Workshop_Lance * Strutture.Edifici.ProduzioneLance.Produzione;
+                else Lance = Workshop_Lance * Strutture.Edifici.ProduzioneLance.Limite;
+
                 if (Archi < Workshop_Archi * Strutture.Edifici.ProduzioneArchi.Limite)
                     Archi += Workshop_Archi * Strutture.Edifici.ProduzioneArchi.Produzione;
+                else Archi = Workshop_Archi * Strutture.Edifici.ProduzioneArchi.Limite;
+
                 if (Scudi < Workshop_Scudi * Strutture.Edifici.ProduzioneScudi.Limite)
                     Scudi += Workshop_Scudi * Strutture.Edifici.ProduzioneScudi.Produzione;
+                else Scudi = Workshop_Scudi * Strutture.Edifici.ProduzioneScudi.Limite;
+
                 if (Armature < Workshop_Armature * Strutture.Edifici.ProduzioneArmature.Limite)
                     Armature += Workshop_Armature * Strutture.Edifici.ProduzioneArmature.Produzione;
+                else Armature = Workshop_Armature * Strutture.Edifici.ProduzioneArmature.Limite;
+
                 if (Frecce < Workshop_Frecce * Strutture.Edifici.ProduzioneFrecce.Limite)
                     Frecce += Workshop_Frecce * Strutture.Edifici.ProduzioneFrecce.Produzione;
+                else Frecce = Workshop_Frecce * Strutture.Edifici.ProduzioneFrecce.Limite;
             }
             public void SetupVillaggioGiocatore() // Gestisce il valore massimo delle barre di stato del villaggio.
             {
@@ -637,30 +644,133 @@ namespace Server_Strategico.Gioco
             }
             public void ManutenzioneEsercito() //produzione risorse
             {
-                double cibo = 0;
-                double oro = 0;
+                double cibo = 0, legno = 0, pietra = 0, ferro = 0, oro = 0;
 
-                cibo += Guerrieri[0] * Esercito.Unità.Guerriero_1.Cibo + Lanceri[0] * Esercito.Unità.Lancere_1.Cibo + Arceri[0] * Esercito.Unità.Arcere_1.Cibo + Catapulte[0] * Esercito.Unità.Catapulta_1.Cibo;
-                cibo += Guerrieri[1] * Esercito.Unità.Guerriero_2.Cibo + Lanceri[1] * Esercito.Unità.Lancere_2.Cibo + Arceri[1] * Esercito.Unità.Arcere_2.Cibo + Catapulte[1] * Esercito.Unità.Catapulta_2.Cibo;
-                cibo += Guerrieri[2] * Esercito.Unità.Guerriero_3.Cibo + Lanceri[2] * Esercito.Unità.Lancere_3.Cibo + Arceri[2] * Esercito.Unità.Arcere_3.Cibo + Catapulte[2] * Esercito.Unità.Catapulta_3.Cibo;
-                cibo += Guerrieri[3] * Esercito.Unità.Guerriero_4.Cibo + Lanceri[3] * Esercito.Unità.Lancere_4.Cibo + Arceri[3] * Esercito.Unità.Arcere_4.Cibo + Catapulte[3] * Esercito.Unità.Catapulta_4.Cibo;
-                cibo += Guerrieri[4] * Esercito.Unità.Guerriero_5.Cibo + Lanceri[4] * Esercito.Unità.Lancere_5.Cibo + Arceri[4] * Esercito.Unità.Arcere_5.Cibo + Catapulte[4] * Esercito.Unità.Catapulta_5.Cibo;
+                double[] guerriero_Cibo = new double[5];
+                double[] lancere_cibo = new double[5];
+                double[] arcere_cibo = new double[5];
+                double[] catapulta_cibo = new double[5];
 
-                oro += Guerrieri[0] * Esercito.Unità.Guerriero_1.Salario + Lanceri[0] * Esercito.Unità.Lancere_1.Salario + Arceri[0] * Esercito.Unità.Arcere_1.Salario + Catapulte[0] * Esercito.Unità.Catapulta_1.Salario;
-                oro += Guerrieri[1] * Esercito.Unità.Guerriero_2.Salario + Lanceri[1] * Esercito.Unità.Lancere_2.Salario + Arceri[1] * Esercito.Unità.Arcere_2.Salario + Catapulte[1] * Esercito.Unità.Catapulta_2.Salario;
-                oro += Guerrieri[2] * Esercito.Unità.Guerriero_3.Salario + Lanceri[2] * Esercito.Unità.Lancere_3.Salario + Arceri[2] * Esercito.Unità.Arcere_3.Salario + Catapulte[2] * Esercito.Unità.Catapulta_3.Salario;
-                oro += Guerrieri[3] * Esercito.Unità.Guerriero_4.Salario + Lanceri[3] * Esercito.Unità.Lancere_4.Salario + Arceri[3] * Esercito.Unità.Arcere_4.Salario + Catapulte[3] * Esercito.Unità.Catapulta_4.Salario;
-                oro += Guerrieri[4] * Esercito.Unità.Guerriero_5.Salario + Lanceri[4] * Esercito.Unità.Lancere_5.Salario + Arceri[4] * Esercito.Unità.Arcere_5.Salario + Catapulte[4] * Esercito.Unità.Catapulta_5.Salario;
+                double[] guerriero_oro = new double[5];
+                double[] lancere_oro = new double[5];
+                double[] arcere_oro = new double[5];
+                double[] catapulta_oro = new double[5];
 
-                Cibo -= cibo;
-                Oro -= oro;
+                guerriero_Cibo[0] = Esercito.Unità.Guerriero_1.Cibo;
+                guerriero_Cibo[1] = Esercito.Unità.Guerriero_2.Cibo;
+                guerriero_Cibo[2] = Esercito.Unità.Guerriero_3.Cibo;
+                guerriero_Cibo[3] = Esercito.Unità.Guerriero_4.Cibo;
+                guerriero_Cibo[4] = Esercito.Unità.Guerriero_5.Cibo;
+
+                lancere_cibo[0] = Esercito.Unità.Lancere_1.Cibo;
+                lancere_cibo[1] = Esercito.Unità.Lancere_2.Cibo;
+                lancere_cibo[2] = Esercito.Unità.Lancere_3.Cibo;
+                lancere_cibo[3] = Esercito.Unità.Lancere_4.Cibo;
+                lancere_cibo[4] = Esercito.Unità.Lancere_5.Cibo;
+
+                arcere_cibo[0] = Esercito.Unità.Arcere_1.Cibo;
+                arcere_cibo[1] = Esercito.Unità.Arcere_2.Cibo;
+                arcere_cibo[2] = Esercito.Unità.Arcere_3.Cibo;
+                arcere_cibo[3] = Esercito.Unità.Arcere_4.Cibo;
+                arcere_cibo[4] = Esercito.Unità.Arcere_5.Cibo;
+
+                catapulta_cibo[0] = Esercito.Unità.Catapulta_1.Cibo;
+                catapulta_cibo[1] = Esercito.Unità.Catapulta_2.Cibo;
+                catapulta_cibo[2] = Esercito.Unità.Catapulta_3.Cibo;
+                catapulta_cibo[3] = Esercito.Unità.Catapulta_4.Cibo;
+                catapulta_cibo[4] = Esercito.Unità.Catapulta_5.Cibo;
+
+                guerriero_oro[0] = Esercito.Unità.Guerriero_1.Salario;
+                guerriero_oro[1] = Esercito.Unità.Guerriero_2.Salario;
+                guerriero_oro[2] = Esercito.Unità.Guerriero_3.Salario;
+                guerriero_oro[3] = Esercito.Unità.Guerriero_4.Salario;
+                guerriero_oro[4] = Esercito.Unità.Guerriero_5.Salario;
+
+                lancere_oro[0] = Esercito.Unità.Lancere_1.Salario;
+                lancere_oro[1] = Esercito.Unità.Lancere_2.Salario;
+                lancere_oro[2] = Esercito.Unità.Lancere_3.Salario;
+                lancere_oro[3] = Esercito.Unità.Lancere_4.Salario;
+                lancere_oro[4] = Esercito.Unità.Lancere_5.Salario;
+
+                arcere_oro[0] = Esercito.Unità.Arcere_1.Salario;
+                arcere_oro[1] = Esercito.Unità.Arcere_2.Salario;
+                arcere_oro[2] = Esercito.Unità.Arcere_3.Salario;
+                arcere_oro[3] = Esercito.Unità.Arcere_4.Salario;
+                arcere_oro[4] = Esercito.Unità.Arcere_5.Salario;
+
+                catapulta_oro[0] = Esercito.Unità.Catapulta_1.Salario;
+                catapulta_oro[1] = Esercito.Unità.Catapulta_2.Salario;
+                catapulta_oro[2] = Esercito.Unità.Catapulta_3.Salario;
+                catapulta_oro[3] = Esercito.Unità.Catapulta_4.Salario;
+                catapulta_oro[4] = Esercito.Unità.Catapulta_5.Salario;
+
+                for (int i = 0; i < 5; i++) //Manutenzione esercito
+                {
+                    cibo += Guerrieri[i] * guerriero_Cibo[i] + Lanceri[i] * lancere_cibo[i] + Arceri[i] * arcere_cibo[i] + Catapulte[i] * catapulta_cibo[i];
+
+                    cibo += Guerrieri_Ingresso[i] * guerriero_Cibo[i] + Lanceri_Ingresso[i] * lancere_cibo[i] + Arceri_Ingresso[i] * arcere_cibo[i] + Catapulte_Ingresso[i] * catapulta_cibo[i];
+                    cibo += Guerrieri_Cancello[i] * guerriero_Cibo[i] + Lanceri_Cancello[i] * lancere_cibo[i] + Arceri_Cancello[i] * arcere_cibo[i] + Catapulte_Cancello[i] * catapulta_cibo[i];
+                    cibo += Guerrieri_Mura[i] * guerriero_Cibo[i] + Lanceri_Mura[i] * lancere_cibo[i] + Arceri_Mura[i] * arcere_cibo[i] + Catapulte_Mura[i] * catapulta_cibo[i];
+                    cibo += Guerrieri_Torri[i] * guerriero_Cibo[i] + Lanceri_Torri[i] * lancere_cibo[i] + Arceri_Torri[i] * arcere_cibo[i] + Catapulte_Torri[i] * catapulta_cibo[i];
+                    cibo += Guerrieri_Castello[i] * guerriero_Cibo[i] + Lanceri_Castello[i] * lancere_cibo[i] + Arceri_Castello[i] * arcere_cibo[i] + Catapulte_Castello[i] * catapulta_cibo[i];
+                    cibo += Guerrieri_Citta[i] * guerriero_Cibo[i] + Lanceri_Citta[i] * lancere_cibo[i] + Arceri_Citta[i] * arcere_cibo[i] + Catapulte_Citta[i] * catapulta_cibo[i];
+                }
+                for (int i = 0; i < 5; i++)
+                {
+                    oro += Guerrieri[i] * guerriero_oro[i] + Lanceri[i] * lancere_oro[i] + Arceri[i] * arcere_oro[i] + Catapulte[i] * catapulta_oro[i];
+                    oro += Guerrieri_Ingresso[i] * guerriero_oro[i] + Lanceri_Ingresso[i] * lancere_oro[i] + Arceri_Ingresso[i] * arcere_oro[i] + Catapulte_Ingresso[i] * catapulta_oro[i];
+                    oro += Guerrieri_Cancello[i] * guerriero_oro[i] + Lanceri_Cancello[i] * lancere_oro[i] + Arceri_Cancello[i] * arcere_oro[i] + Catapulte_Cancello[i] * catapulta_oro[i];
+                    oro += Guerrieri_Mura[i] * guerriero_oro[i] + Lanceri_Mura[i] * lancere_oro[i] + Arceri_Mura[i] * arcere_oro[i] + Catapulte_Mura[i] * catapulta_oro[i];
+                    oro += Guerrieri_Torri[i] * guerriero_oro[i] + Lanceri_Torri[i] * lancere_oro[i] + Arceri_Torri[i] * arcere_oro[i] + Catapulte_Torri[i] * catapulta_oro[i];
+                    oro += Guerrieri_Castello[i] * guerriero_oro[i] + Lanceri_Castello[i] * lancere_oro[i] + Arceri_Castello[i] * arcere_oro[i] + Catapulte_Castello[i] * catapulta_oro[i];
+                    oro += Guerrieri_Citta[i] * guerriero_oro[i] + Lanceri_Citta[i] * lancere_oro[i] + Arceri_Citta[i] * arcere_oro[i] + Catapulte_Citta[i] * catapulta_oro[i];
+                }
+                // Aggiorna statistiche consumo esercito -- per non creare altre variabili...
                 Consumo_Cibo_Esercito += (int)cibo;
                 Consumo_Oro_Esercito += (int)oro;
 
+                //Manutenzione edifici militari
+                cibo += Caserma_Guerrieri * Strutture.Edifici.CasermaGuerrieri.Consumo_Cibo;
+                cibo += Caserma_Lancieri * Strutture.Edifici.CasermaLanceri.Consumo_Cibo;
+                cibo += Caserma_Arceri * Strutture.Edifici.CasermaArceri.Consumo_Cibo;
+                cibo += Caserma_Catapulte * Strutture.Edifici.CasermaCatapulte.Consumo_Cibo;
+
+                legno += Workshop_Spade * Strutture.Edifici.ProduzioneSpade.Consumo_Legno;
+                ferro += Workshop_Spade * Strutture.Edifici.ProduzioneSpade.Consumo_Ferro;
+                oro += Workshop_Spade * Strutture.Edifici.ProduzioneSpade.Consumo_Oro;
+
+                legno += Workshop_Lance * Strutture.Edifici.ProduzioneLance.Consumo_Legno;
+                ferro += Workshop_Lance * Strutture.Edifici.ProduzioneLance.Consumo_Ferro;
+                oro += Workshop_Lance * Strutture.Edifici.ProduzioneLance.Consumo_Oro;
+
+                legno += Workshop_Archi * Strutture.Edifici.ProduzioneArchi.Consumo_Legno;
+                oro += Workshop_Archi * Strutture.Edifici.ProduzioneArchi.Consumo_Oro;
+
+                legno += Workshop_Scudi * Strutture.Edifici.ProduzioneScudi.Consumo_Legno;
+                ferro += Workshop_Scudi * Strutture.Edifici.ProduzioneScudi.Consumo_Ferro;
+                oro += Workshop_Scudi * Strutture.Edifici.ProduzioneScudi.Consumo_Oro;
+
+                ferro += Workshop_Armature * Strutture.Edifici.ProduzioneArmature.Consumo_Ferro;
+                oro += Workshop_Armature * Strutture.Edifici.ProduzioneArmature.Consumo_Oro;
+
+                legno += Workshop_Frecce * Strutture.Edifici.ProduzioneFrecce.Consumo_Legno;
+                pietra += Workshop_Frecce * Strutture.Edifici.ProduzioneFrecce.Consumo_Pietra;
+                ferro += Workshop_Frecce * Strutture.Edifici.ProduzioneFrecce.Consumo_Ferro;
+                oro += Workshop_Frecce * Strutture.Edifici.ProduzioneFrecce.Consumo_Oro;
+
+                Cibo -= cibo;
+                Legno -= legno;
+                Pietra -= pietra;
+                Ferro -= ferro;
+                Oro -= oro;
+
                 if (Cibo <= 0) Cibo = 0;
+                if (Legno <= 0) Legno = 0;
+                if (Pietra <= 0) Pietra = 0;
+                if (Ferro <= 0) Ferro = 0;
                 if (Oro <= 0) Oro = 0;
             }
-            public void VIP() //produzione risorse
+            public async Task ServerTimer() //Timers del server
             {
                 if (Vip_Tempo > 0) Vip_Tempo--;
                 if (Vip_Tempo == 0) Vip = false;
@@ -668,24 +778,23 @@ namespace Server_Strategico.Gioco
                 if (GamePass_Base_Tempo == 0) GamePass_Base = false;
                 if (GamePass_Avanzato_Tempo > 0) GamePass_Avanzato_Tempo--;
                 if (GamePass_Avanzato_Tempo == 0) GamePass_Avanzato = false;
+                
+                if (ScudoDellaPace > 0) ScudoDellaPace--;
+                if (ScudoDellaPace == 0) servers_.AggiornaListaPVP(); // Scudo della pace scaduto
 
                 if (Costruttori > 0) Costruttori--;
-                if (Vip == false && Costruttori == 0)
-                    Code_Costruzione = 1;
-                if (Vip == true && Costruttori == 0)
-                    Code_Costruzione = 2;
+                if (Vip == false && Costruttori == 0) Code_Costruzione = 1;
+                if (Vip == true && Costruttori == 0) Code_Costruzione = 2;
+                if (Vip == true && Costruttori > 0) Code_Costruzione = 3;
 
                 if (Reclutatori > 0) Reclutatori--;
-                if (Vip == false && Reclutatori == 0)
-                    Code_Reclutamento = 1;
-                if (Vip == true && Reclutatori == 0)
-                    Code_Reclutamento = 2;
+                if (Vip == false && Reclutatori == 0) Code_Reclutamento = 1;
+                if (Vip == true && Reclutatori == 0) Code_Reclutamento = 2;
+                if (Vip == true && Reclutatori > 0) Code_Reclutamento = 3;
             }
-
             public string FormatTime(double seconds)
             {
                 var ts = TimeSpan.FromSeconds(seconds);
-
                 int days = ts.Days;
                 int hours = ts.Hours;
                 int minutes = ts.Minutes;
@@ -699,8 +808,6 @@ namespace Server_Strategico.Gioco
 
                 return result.Trim();
             }
-
-            
         }
         
     }

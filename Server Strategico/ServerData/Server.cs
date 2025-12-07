@@ -13,7 +13,7 @@ namespace Server_Strategico.Server
         private string? serverIp = null; // "null" will open the tcp server on addr 0.0.0.0 on windows (127.0.0.1 on linux)
         private const int serverPort = 8443;
         private static Guid lastGuid = Guid.Empty;
-        public static WatsonTcpServer server = null;
+        public static WatsonTcpServer? server = null;
 
         private static string _CertFile = "";
         private static string _CertPass = "";
@@ -58,7 +58,7 @@ namespace Server_Strategico.Server
 
             Console.WriteLine("[SERVER|LOG] (Info) > [WatsonTcpServer] Server Inizializzato");
             Console.WriteLine("");
-            StartGame();
+            Task task = StartGame();
 
             while (true)
             {
@@ -95,21 +95,6 @@ namespace Server_Strategico.Server
         }
         private async Task StartGame()
         {
-            //servers_.AddPlayer("Player1", "Password1");
-            //servers_.AddPlayer("Player2", "Password2");
-            //var player1 = servers_.GetPlayer("Player1", "Password1");
-            //var player2 = servers_.GetPlayer("Player2", "Password2");
-            //
-            //player1.QueueBuildConstruction("Fattoria", 1); // Costruisci 10 fattorie
-            //player1.QueueTrainUnits("Arciere", 1); // Avvia l'addestramento di 5 arcieri
-            //
-            //player2.QueueBuildConstruction("Fattoria", 1); // Costruisci 10 fattorie,
-            //player2.QueueTrainUnits("Arciere", 1); // Avvia l'addestramento di 5 arcieri
-
-            // Simula il passare del tempo sul server
-
-
-
             cts = new CancellationTokenSource();
             gameLoopTask = servers_.RunGameLoopAsync(cts.Token);
         }
@@ -121,15 +106,12 @@ namespace Server_Strategico.Server
                 await gameLoopTask; // Attende che il loop si fermi completamente
                 Console.WriteLine("Il gioco è terminato.");
             }
-            else
-                Console.WriteLine("Il gioco non è attualmente in esecuzione.");
-            
+            else Console.WriteLine("Il gioco non è attualmente in esecuzione.");
         }
         public static void Send(Guid guid, string msg)
         {
-
-            if (guid != Guid.Empty)
-                server.SendAsync(guid, msg);            
+            if (Client_Connessi.Contains(guid) && guid != Guid.Empty)
+                server.SendAsync(guid, msg);
         }
 
         public static async Task NewPlayer(string player, string password)
@@ -151,7 +133,7 @@ namespace Server_Strategico.Server
 
             player1.Diamanti_Blu = 1500;
             player1.Diamanti_Viola = 1500000;
-
+            Gioco.Barbari.GeneraVillaggiPerGiocatore(player1);
         }
         // ----------------------- Client Connessione --------------------------
         static void ClientConnected(object? sender, ConnectionEventArgs args)
@@ -161,20 +143,11 @@ namespace Server_Strategico.Server
             Console.WriteLine("[SERVER|LOG] > Client connesso: " + args.Client.ToString());
             if (!Client_Connessi.Contains(lastGuid))
                 Client_Connessi.Add(lastGuid);
-
-            var ciao = lasIpPort.Split(":");
         }
         static void ClientDisconnected(object? sender, DisconnectionEventArgs args)
         {
             lastGuid = args.Client.Guid;
             Console.WriteLine("[SERVER|LOG] > Client disconnesso: " + args.Client.ToString() + ": " + args.Reason.ToString());
-            
-            // Trova il giocatore associato a questo GUID e salva i suoi dati
-            foreach (var player in servers_.GetAllPlayers())
-            {
-                GameSave.SavePlayer(player);
-            }
-            
             Client_Connessi.Remove(lastGuid);
         }
         private static void ExceptionEncountered(object sender, ExceptionEventArgs e)
@@ -248,7 +221,6 @@ namespace Server_Strategico.Server
                     return null;
                     throw new KeyNotFoundException("Player not found.");
                 }
-
             }
             public Player GetPlayer_Data(string username)
             {
@@ -259,25 +231,22 @@ namespace Server_Strategico.Server
                     return null;
                     throw new KeyNotFoundException("Player not found.");
                 }
-
             }
             public void Player_Creati()
             {
                 Console.WriteLine($"Numero Giocatori: {players.Count()}");
                 foreach (var item in players)
-                    Console.WriteLine($"Giocatore: {item.Value.Username} Guid: {item.Value.guid_Player}, Livello: {item.Value.Livello}, Esperienza: {item.Value.Esperienza}");
+                    Console.WriteLine($"Giocatore: {item.Value.Username} Guid: {item.Value.guid_Player}, Livello: {item.Value.Livello}");
             }
-            public void Lista_Player_Auto()
+            public void AggiornaListaPVP()
             {
-                // Crea una lista temporanea di utenti da aggiungere
-                var utentiDaAggiungere = new List<string>();
-
+                var utentiDaAggiungere = new List<string>(); // Crea una lista temporanea di utenti da aggiungere
                 foreach (var item in players)
                 {
                     bool utentePresente = false;
-                    if (Utenti_PVP.Count == 0 && item.Value.Vip) // Se la lista è vuota, aggiungi direttamente l'utente
+                    if (Utenti_PVP.Count == 0 && item.Value.ScudoDellaPace == 0) // Se la lista è vuota, aggiungi direttamente l'utente
                     {
-                        utentiDaAggiungere.Add($"{item.Value.Username}, Livello: {item.Value.Livello}, Esperienza: {item.Value.Esperienza}");
+                        utentiDaAggiungere.Add($"{item.Value.Username}, Livello: {item.Value.Livello}");
                         continue;
                     }
                     foreach (var utentePVP in Utenti_PVP) // Controlla se l'utente è già presente nella lista
@@ -289,8 +258,8 @@ namespace Server_Strategico.Server
                             break;
                         }
                     }
-                    if (!utentePresente && item.Value.Vip)  // Se l'utente non è presente, aggiungilo alla lista temporanea
-                        utentiDaAggiungere.Add($"{item.Value.Username}, Livello: {item.Value.Livello}, Esperienza: {item.Value.Esperienza}");
+                    if (!utentePresente && item.Value.ScudoDellaPace > 0)  // Se l'utente non è presente, aggiungilo alla lista temporanea
+                        utentiDaAggiungere.Add($"{item.Value.Username}, Livello: {item.Value.Livello}");
                 }
                 foreach (var utente in utentiDaAggiungere) // Dopo aver terminato l'enumerazione, aggiungi tutti gli utenti dalla lista temporanea
                     Utenti_PVP.Add(utente);
@@ -304,6 +273,10 @@ namespace Server_Strategico.Server
             }
             public async Task<bool> Auto_Update_Clients()
             {
+                if (Client_Connessi.Count == 0)
+                    foreach (var item in players)
+                        item.Value.guid_Player = Guid.Empty;
+
                 foreach (var client in Client_Connessi)
                     foreach (var item in players)
                     {
@@ -316,12 +289,11 @@ namespace Server_Strategico.Server
             {
                 int saveCounter = 0;  // Contatore per il salvataggio
 
-                await GameSave.LoadBarbariPVP();
                 await GameSave.Load_Player_Data_Auto();
-                QuestManager.AvviaTimerReset();
-                servers_.Lista_Player_Auto();
+                servers_.AggiornaListaPVP();
+                await GameSave.LoadServerData();
+                await Gioco.Barbari.Inizializza();
 
-                Gioco.Barbari.Inizializza();   // <--- aggiungi qui
                 while (!cancellationToken.IsCancellationRequested)
                 {
                     saveCounter++;
@@ -330,31 +302,90 @@ namespace Server_Strategico.Server
                         BuildingManager.CompleteBuilds(player.guid_Player, player);
                         UnitManager.CompleteRecruitment(player.guid_Player, player);
                         ResearchManager.CompleteResearch(player.guid_Player, player);
+                        await Esperienza.LevelUp(player);
+                        Citta(player);
 
                         player.SetupVillaggioGiocatore(); // Aggiusta il valore Max per rimanere coerente con i client...
                         player.ProduceResources();
                         player.ManutenzioneEsercito();
-                        player.VIP();
+                        await player.ServerTimer();
 
                         if (saveCounter >= 120) await GameSave.SavePlayer(player); // Salva i dati ogni 60 secondi
 
-                        await Auto_Update_Clients();
-                        await Esperienza.LevelUp(player);
-
                         //Stats
-                        if (player.currentTasks_Building.Count > 0)  player.Tempo_Addestramento++;
+                        if (player.currentTasks_Building.Count > 0)  player.Tempo_Costruzione++;
                         if (player.currentTasks_Recruit.Count > 0) player.Tempo_Addestramento++;
                         if (player.currentTasks_Research.Count > 0) player.Tempo_Ricerca++;
                     }
                     if (saveCounter >= 120)
                     {
                         saveCounter = 0;
-                        await GameSave.SaveGameServer();
-                        servers_.Lista_Player_Auto();
+                        await GameSave.SaveServerData();
+                        servers_.AggiornaListaPVP();
                     }
-                    await Task.Delay(1000); // Ciclo ogni secondo, o regola il ritardo come necessario
+
                     AttacchiCooperativi.AggiornaAttacchi();
+                    await Auto_Update_Clients();
+
+                    if (Variabili_Server.timer_Reset_Quest > 0) Variabili_Server.timer_Reset_Quest--;
+                    if (Variabili_Server.timer_Reset_Quest == 0) QuestManager.RigeneraQuest();
+                    if (Variabili_Server.timer_Reset_Barbari > 0) Variabili_Server.timer_Reset_Barbari--;
+                    if (Variabili_Server.timer_Reset_Barbari == 0) Barbari.RigeneraBarbari();
+
+                    await Task.Delay(1000); // Ciclo ogni secondo, o regola il ritardo come necessario
                 }
+            }
+            public void Citta(Player player)
+            {
+                player.Guarnigione_Ingresso = player.Guerrieri_Ingresso.Sum();
+                player.Guarnigione_Ingresso += player.Lanceri_Ingresso.Sum();
+                player.Guarnigione_Ingresso += player.Arceri_Ingresso.Sum();
+                player.Guarnigione_Ingresso += player.Catapulte_Ingresso.Sum();
+
+                player.Guarnigione_IngressoMax = (player.Ricerca_Ingresso_Guarnigione + 1) * player.Guarnigione_IngressoMax;
+
+                player.Guarnigione_Citta = player.Guerrieri_Citta.Sum();
+                player.Guarnigione_Citta += player.Lanceri_Citta.Sum();
+                player.Guarnigione_Citta += player.Arceri_Citta.Sum();
+                player.Guarnigione_Citta += player.Catapulte_Citta.Sum();
+
+                player.Guarnigione_CittaMax = (player.Ricerca_Citta_Guarnigione + 1) * player.Guarnigione_CittaMax;
+
+                player.Guarnigione_Cancello = player.Guerrieri_Cancello.Sum();
+                player.Guarnigione_Cancello += player.Lanceri_Cancello.Sum();
+                player.Guarnigione_Cancello += player.Arceri_Cancello.Sum();
+                player.Guarnigione_Cancello += player.Catapulte_Cancello.Sum();
+
+                player.Guarnigione_CancelloMax = (player.Ricerca_Cancello_Guarnigione + 1) * player.Guarnigione_CancelloMax;
+                player.Salute_CancelloMax = (player.Ricerca_Cancello_Salute + 1) * player.Salute_CancelloMax;
+                player.Difesa_CancelloMax = (player.Ricerca_Cancello_Difesa + 1) * player.Difesa_CancelloMax;
+
+                player.Guarnigione_Mura = player.Guerrieri_Mura.Sum();
+                player.Guarnigione_Mura += player.Lanceri_Mura.Sum();
+                player.Guarnigione_Mura += player.Arceri_Mura.Sum();
+                player.Guarnigione_Mura += player.Catapulte_Mura.Sum();
+
+                player.Guarnigione_MuraMax = (player.Ricerca_Mura_Guarnigione + 1) * player.Guarnigione_MuraMax;
+                player.Salute_MuraMax = (player.Ricerca_Mura_Salute + 1) * player.Salute_MuraMax;
+                player.Difesa_MuraMax = (player.Ricerca_Mura_Difesa + 1) * player.Difesa_MuraMax;
+
+                player.Guarnigione_Torri = player.Guerrieri_Torri.Sum();
+                player.Guarnigione_Torri += player.Lanceri_Torri.Sum();
+                player.Guarnigione_Torri += player.Arceri_Torri.Sum();
+                player.Guarnigione_Torri += player.Catapulte_Torri.Sum();
+
+                player.Guarnigione_TorriMax = (player.Ricerca_Torri_Guarnigione + 1) * player.Guarnigione_TorriMax;
+                player.Salute_TorriMax = (player.Ricerca_Torri_Salute + 1) * player.Salute_TorriMax;
+                player.Difesa_TorriMax = (player.Ricerca_Torri_Difesa + 1) * player.Difesa_TorriMax;
+
+                player.Guarnigione_Castello = player.Guerrieri_Castello.Sum();
+                player.Guarnigione_Castello += player.Lanceri_Cancello.Sum();
+                player.Guarnigione_Castello += player.Arceri_Cancello.Sum();
+                player.Guarnigione_Castello += player.Catapulte_Cancello.Sum();
+
+                player.Guarnigione_CastelloMax = (player.Ricerca_Castello_Guarnigione + 1) * player.Guarnigione_CastelloMax;
+                player.Salute_CastelloMax = (player.Ricerca_Castello_Salute + 1) * player.Salute_CastelloMax;
+                player.Difesa_CastelloMax = (player.Ricerca_Castello_Difesa + 1) * player.Difesa_CastelloMax;
             }
             public IEnumerable<Player> GetAllPlayers()
             {

@@ -28,49 +28,49 @@ namespace Server_Strategico.Gioco
         {
             public static dati Costruzione = new dati
             {
-                Cibo = 3500,
-                Legno = 3250,
-                Pietra = 3000,
-                Ferro = 2750,
-                Oro = 2550,
+                Cibo = 5500,
+                Legno = 5250,
+                Pietra = 5000,
+                Ferro = 4750,
+                Oro = 4550,
                 TempoCostruzione = 180
             };
             public static dati Produzione = new dati
             {
-                Cibo = 4500,
-                Legno = 4250,
-                Pietra = 4000,
-                Ferro = 3750,
-                Oro = 3500,
+                Cibo = 6500,
+                Legno = 6250,
+                Pietra = 6000,
+                Ferro = 5750,
+                Oro = 5500,
                 TempoCostruzione = 180
             };
             public static dati Addestramento = new dati
             {
-                Cibo = 5500,
-                Legno = 5000,
-                Pietra = 4500,
-                Ferro = 4250,
-                Oro = 4000,
+                Cibo = 7500,
+                Legno = 7000,
+                Pietra = 6500,
+                Ferro = 6250,
+                Oro = 6000,
                 TempoCostruzione = 180
             };
             public static dati Popolazione = new dati
             {
-                Cibo = 6500,
-                Legno = 6000,
-                Pietra = 5500,
-                Ferro = 5250,
-                Oro = 5000,
+                Cibo = 8500,
+                Legno = 8000,
+                Pietra = 7500,
+                Ferro = 7250,
+                Oro = 7000,
                 TempoCostruzione = 180
             };
 
             public static CostoReclutamento Incremento = new CostoReclutamento
             {
-                Cibo = 0.12,
-                Legno = 0.10,
-                Pietra = 0.08,
-                Ferro = 0.06,
-                Oro = 0.04,
-                Popolazione = 0.001,
+                Cibo = 0.06,
+                Legno = 0.05,
+                Pietra = 0.04,
+                Ferro = 0.03,
+                Oro = 0.02,
+                Popolazione = 0.0005,
                 Spade = 0.01,
                 Lance = 0.01,
                 Archi = 0.01,

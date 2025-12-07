@@ -1,7 +1,9 @@
-﻿using Server_Strategico.Server;
+﻿using Newtonsoft.Json;
+using Server_Strategico.Server;
 using static Server_Strategico.Gioco.Giocatori;
 using static Server_Strategico.Gioco.Giocatori.Player;
 using static Server_Strategico.Gioco.QuestManager;
+using static Server_Strategico.Server.ServerConnection;
 
 namespace Server_Strategico.Gioco
 {
@@ -24,7 +26,7 @@ namespace Server_Strategico.Gioco
             var buildingCost = GetBuildingCost(buildingType);
             if (buildingCost == null)
             {
-                Server.Server.Send(clientGuid, $"Log_Server|Tipo edificio {buildingType} non valido!");
+                Server.Server.Send(clientGuid, $"Log_Server|[error]Tipo edificio[/error] [title]{buildingType}[/title][icon:{buildingType}] [error]non valido![/error]");
                 return;
             }
 
@@ -53,10 +55,16 @@ namespace Server_Strategico.Gioco
                 OnEvent(player, QuestEventType.Risorse, "Oro", buildingCost.Oro * count);
                 OnEvent(player, QuestEventType.Risorse, "Popolazione", buildingCost.Popolazione * count);
 
-                Server.Server.Send(clientGuid, $"Log_Server|Risorse utilizzate per {count} costruzione/i di {buildingType}...\r\n" +
-                    $"Cibo= {buildingCost.Cibo}, Legno= {buildingCost.Legno}, Pietra= {buildingCost.Pietra}, Ferro= {buildingCost.Ferro},\r\n Oro= {buildingCost.Oro}, Popolazione= {buildingCost.Popolazione}");
-                int tempoCostruzioneInSecondi = Math.Max(1, Convert.ToInt32(buildingCost.TempoCostruzione - player.Ricerca_Costruzione));
+                Server.Server.Send(clientGuid,
+                $"Log_Server|[info]Risorse utilizzate per la costruzione di {count} [/info] [title]{buildingType}[/title]:\r\n " +
+                $"[cibo][icon:cibo]-{(buildingCost.Cibo * count):N0}[/cibo]  " +
+                $"[legno][icon:legno]-{(buildingCost.Legno * count):N0}[/legno]  " +
+                $"[pietra][icon:pietra]-{(buildingCost.Pietra * count):N0}[/pietra]   " +
+                $"[ferro][icon:ferro]-{(buildingCost.Ferro * count):N0}[/ferro] " +
+                $"[oro][icon:oro]-{(buildingCost.Oro * count):N0}[/oro]  " +
+                $"[popolazione][icon:popolazione]-{(buildingCost.Popolazione * count):N0}[/oro]");
 
+                int tempoCostruzioneInSecondi = Math.Max(1, Convert.ToInt32(buildingCost.TempoCostruzione - player.Ricerca_Costruzione));
                 for (int i = 0; i < count; i++)
                     player.building_Queue.Enqueue(new ConstructionTask(buildingType, tempoCostruzioneInSecondi));
 
@@ -64,7 +72,7 @@ namespace Server_Strategico.Gioco
             }
             else
             {
-                Server.Server.Send(clientGuid, $"Log_Server|Risorse insufficienti per costruire {count} {buildingType}.");
+                Server.Server.Send(clientGuid, $"Log_Server|[error]Risorse insufficienti per costruire[/error] [title]{count} {buildingType}[/title].");
             }
         }
         private static void StartNextConstructions(Player player, Guid clientGuid)
@@ -85,7 +93,7 @@ namespace Server_Strategico.Gioco
                     player.pausedTasks_Building.Enqueue(t);
 
                     Console.WriteLine($"Costruzione di {t.Type} messa in pausa (slot ridotto)");
-                    Server.Server.Send(clientGuid, $"Log_Server|Costruzione di {t.Type} messa in pausa per riduzione slot.");
+                    Server.Server.Send(clientGuid, $"Log_Server|[warning]Costruzione di[/warning] [title]{t.Type}[/title] [warning]messa in pausa per riduzione slot[/warning].");
                 }
                 return; // usciamo: prima delle pause non facciamo altro
             }
@@ -99,7 +107,7 @@ namespace Server_Strategico.Gioco
                     player.currentTasks_Building.Add(resumed);
 
                     Console.WriteLine($"Costruzione di {resumed.Type} ripresa.");
-                    Server.Server.Send(clientGuid, $"Log_Server|Costruzione di {resumed.Type} ripresa.");
+                    Server.Server.Send(clientGuid, $"Log_Server|[info]Ripresa la costruzione di[/info] [title]{resumed.Type}[/title][icon:{resumed.Type}]");
                     continue;
                 }
                 if (player.building_Queue.Count > 0)  // 3) Se non ci sono sospese, avvia dalla coda normale
@@ -109,7 +117,7 @@ namespace Server_Strategico.Gioco
                     player.currentTasks_Building.Add(nextTask);
 
                     Console.WriteLine($"Costruzione di {nextTask.Type} iniziata, durata {nextTask.DurationInSeconds}s");
-                    Server.Server.Send(clientGuid, $"Log_Server|Costruzione di {nextTask.Type} iniziata.");
+                    Server.Server.Send(clientGuid, $"Log_Server|[title]Costruzione di[/title] {nextTask.Type} [title]iniziata, durata [/title]{nextTask.DurationInSeconds}[icon:tempo]");
                 }
                 else break;
             }
@@ -193,13 +201,13 @@ namespace Server_Strategico.Gioco
                             player.Caserme_Costruite++;
                             OnEvent(player, QuestEventType.Costruzione, "CasermaGuerrieri", 1);
                             break;
-                        case "CasermaLancieri":
+                        case "CasermaLanceri":
                             player.Caserma_Lancieri++;
                             player.Strutture_Militari_Costruite++;
                             player.Caserme_Costruite++;
                             OnEvent(player, QuestEventType.Costruzione, "CasermaLancieri", 1);
                             break;
-                        case "CasermaArcieri":
+                        case "CasermaArceri":
                             player.Caserma_Arceri++;
                             player.Strutture_Militari_Costruite++;
                             player.Caserme_Costruite++;
@@ -216,7 +224,7 @@ namespace Server_Strategico.Gioco
                     }
 
                     Console.WriteLine($"Costruzione completata: {task.Type}");
-                    Server.Server.Send(clientGuid, $"Log_Server|Costruzione completata: {task.Type}");
+                    Server.Server.Send(clientGuid, $"Log_Server|[success]Costruzione completata:[/success] [title]{task.Type}[/title][icon:{task.Type}]");
                     player.currentTasks_Building.RemoveAt(i);
                 }
             }
@@ -226,13 +234,13 @@ namespace Server_Strategico.Gioco
         {
             if (diamantiBluDaUsare <= 0)
             {
-                Server.Server.Send(clientGuid, "Log_Server|Numero diamanti non valido.");
+                Server.Server.Send(clientGuid, "Log_Server|[title]Numero diamanti[icon:diamantiBlu] non valido.[/title]");
                 return;
             }
 
             if (player.Diamanti_Blu < diamantiBluDaUsare)
             {
-                Server.Server.Send(clientGuid, "Log_Server|Non hai abbastanza Diamanti Blu!");
+                Server.Server.Send(clientGuid, "Log_Server|[error]Non hai abbastanza[/error] [blu]Diamanti Blu![/blu][icon:diamanteBlu]");
                 return;
             }
 
@@ -248,7 +256,7 @@ namespace Server_Strategico.Gioco
 
             if (tempoTotale <= 0)
             {
-                Server.Server.Send(clientGuid, "Log_Server|Non ci sono costruzioni da velocizzare.");
+                Server.Server.Send(clientGuid, "Log_Server|[title]Non ci sono costruzioni da velocizzare.[/title]");
                 return;
             }
             int riduzioneTotale = diamantiBluDaUsare * Variabili_Server.Velocizzazione_Tempo;             // Ogni diamante riduce X secondi
@@ -259,11 +267,8 @@ namespace Server_Strategico.Gioco
                 diamantiBluDaUsare = maxDiamantiUtili;
                 riduzioneTotale = diamantiBluDaUsare * Variabili_Server.Velocizzazione_Tempo;
             }
-            player.Diamanti_Blu -= diamantiBluDaUsare;
-            player.Diamanti_Blu_Utilizzati += diamantiBluDaUsare;
 
-            // Applica prima alla coda (come facevi)
-            foreach (var task in player.building_Queue)
+            foreach (var task in player.currentTasks_Building) // Poi alle costruzioni in corso
             {
                 double rimanente = task.GetRemainingTime();
                 if (rimanente <= 0) continue;
@@ -271,6 +276,8 @@ namespace Server_Strategico.Gioco
                 if (riduzioneTotale >= rimanente)
                 {
                     task.ForzaCompletamento();
+                    player.Tempo_Sottratto_Diamanti += (int)rimanente;
+                    player.Tempo_Costruzione += (int)rimanente;
                     riduzioneTotale -= (int)rimanente;
                 }
                 else
@@ -278,14 +285,15 @@ namespace Server_Strategico.Gioco
                     if (rimanente - riduzioneTotale < 1)
                         riduzioneTotale -= 1;
                     task.RiduciTempo(riduzioneTotale);
+                    player.Tempo_Sottratto_Diamanti += (int)riduzioneTotale;
+                    player.Tempo_Costruzione += (int)riduzioneTotale;
                     riduzioneTotale = 0;
                 }
                 if (riduzioneTotale <= 0)
                     break;
             }
 
-            // Poi alle costruzioni in corso
-            foreach (var task in player.currentTasks_Building)
+            foreach (var task in player.building_Queue) // Applica prima alla coda
             {
                 double rimanente = task.GetRemainingTime();
                 if (rimanente <= 0) continue;
@@ -293,6 +301,8 @@ namespace Server_Strategico.Gioco
                 if (riduzioneTotale >= rimanente)
                 {
                     task.ForzaCompletamento();
+                    player.Tempo_Sottratto_Diamanti += (int)rimanente;
+                    player.Tempo_Costruzione += (int)rimanente;
                     riduzioneTotale -= (int)rimanente;
                 }
                 else
@@ -300,14 +310,15 @@ namespace Server_Strategico.Gioco
                     if (rimanente - riduzioneTotale < 1)
                         riduzioneTotale -= 1;
                     task.RiduciTempo(riduzioneTotale);
+                    player.Tempo_Sottratto_Diamanti += (int)riduzioneTotale;
+                    player.Tempo_Costruzione += (int)riduzioneTotale;
                     riduzioneTotale = 0;
                 }
                 if (riduzioneTotale <= 0)
                     break;
             }
 
-            // Infine anche le costruzioni in pausa (riduce il RemainingSeconds memorizzato)
-            if (player.pausedTasks_Building != null)
+            if (player.pausedTasks_Building != null) // Infine anche le costruzioni in pausa (riduce il RemainingSeconds memorizzato)
             {
                 var pausedArray = player.pausedTasks_Building.ToArray();
                 for (int i = 0; i < pausedArray.Length; i++)
@@ -319,6 +330,8 @@ namespace Server_Strategico.Gioco
                     if (riduzioneTotale >= rimanente)
                     {
                         task.ForzaCompletamento();
+                        player.Tempo_Sottratto_Diamanti += (int)rimanente;
+                        player.Tempo_Costruzione += (int)rimanente;
                         riduzioneTotale -= (int)rimanente;
                     }
                     else
@@ -326,6 +339,8 @@ namespace Server_Strategico.Gioco
                         if (rimanente - riduzioneTotale < 1)
                             riduzioneTotale -= 1;
                         task.RiduciTempo(riduzioneTotale);
+                        player.Tempo_Sottratto_Diamanti += (int)riduzioneTotale;
+                        player.Tempo_Costruzione += (int)riduzioneTotale;
                         riduzioneTotale = 0;
                     }
                     if (riduzioneTotale <= 0)
@@ -333,9 +348,15 @@ namespace Server_Strategico.Gioco
                 }
             }
 
+            player.Diamanti_Blu -= diamantiBluDaUsare;
+            player.Diamanti_Blu_Utilizzati += diamantiBluDaUsare;
+            OnEvent(player, QuestEventType.Risorse, "Diamanti Blu", diamantiBluDaUsare);
+            OnEvent(player, QuestEventType.Velocizzazione, "Costruzione", (int)riduzioneTotale);
+            OnEvent(player, QuestEventType.Velocizzazione, "Qualsiasi", (int)riduzioneTotale);
+
             // Dopo la modifica dei tempi, prova a completare (completa quelle forzate)
             CompleteBuilds(clientGuid, player);
-            Server.Server.Send(clientGuid, $"Log_Server|Hai usato {diamantiBluDaUsare} 💎 Diamanti Blu per velocizzare le costruzioni!");
+            Server.Server.Send(clientGuid, $"Log_Server|[warning]Hai usato[/warning] [blu]{diamantiBluDaUsare} Diamanti Blu [icon:diamanteBlu][/blu] [warning]per velocizzare le costruzioni!");
         }
         public static Dictionary<string, int> GetQueuedBuildings(Player player) 
         { 
@@ -372,6 +393,9 @@ namespace Server_Strategico.Gioco
             foreach (var task in player.currentTasks_Building)
                 total += task.GetRemainingTime();
 
+            foreach (var task in player.pausedTasks_Building)
+                total += task.GetRemainingTime();
+
             foreach (var task in player.building_Queue)
                 total += task.DurationInSeconds;
 
@@ -394,8 +418,8 @@ namespace Server_Strategico.Gioco
                 "ProduzioneArmature" => Strutture.Edifici.ProduzioneArmature,
                 "ProduzioneFrecce" => Strutture.Edifici.ProduzioneFrecce,
                 "CasermaGuerrieri" => Strutture.Edifici.CasermaGuerrieri,
-                "CasermaLancieri" => Strutture.Edifici.CasermaLanceri,
-                "CasermaArcieri" => Strutture.Edifici.CasermaArceri,
+                "CasermaLanceri" => Strutture.Edifici.CasermaLanceri,
+                "CasermaArceri" => Strutture.Edifici.CasermaArceri,
                 "CasermaCatapulte" => Strutture.Edifici.CasermaCatapulte,
                 _ => null,
             };
@@ -407,11 +431,13 @@ namespace Server_Strategico.Gioco
                 player.Diamanti_Viola -= Strutture.Edifici.Terreni_Virtuali.Diamanti_Viola;
                 player.Diamanti_Viola_Utilizzati += Strutture.Edifici.Terreni_Virtuali.Diamanti_Viola; //Aggiunge la spesa al totale dei diamanti viola spesi
                 OnEvent(player, QuestEventType.Costruzione, "Terreno", 1); //Aggiungi terreno quest
-                Console.WriteLine($"Log_Server|Diamanti Viola utilizzati per un terreno virtuale...");
+                Console.WriteLine($"Diamanti Viola utilizzati per un terreno virtuale...");
+                Server.Server.Send(clientGuid, $"Log_Server|[viola]{Strutture.Edifici.Terreni_Virtuali.Diamanti_Viola} Diamanti Viola[/viola][icon:diamanteViola] [title]utilizzati per un terreno virtuale...[/title]");
             }
             else
             {
-                Console.WriteLine($"Log_Server|Non hai abbastanza Diamanti Viola per un terreno virtuale.");
+                Console.WriteLine($"Non hai abbastanza Diamanti Viola per un terreno virtuale.");
+                Server.Server.Send(clientGuid, $"Log_Server|[title]Non hai abbastanza[/title] [viola]Diamanti Viola[/viola][icon:diamanteViola] [title]per un terreno virtuale.[/title]");
                 return;
             }
             
@@ -458,7 +484,7 @@ namespace Server_Strategico.Gioco
                     break;
             }
             Console.WriteLine($"Terreno generato: {terrenoOttenuto}");
-            Server.Server.Send(clientGuid, $"Log_Server|Terreno ottenuto: {terrenoOttenuto}");
+            Server.Server.Send(clientGuid, $"Log_Server|[title]Terreno ottenuto:[/title] [{terrenoOttenuto.Replace(" ", "")}]{terrenoOttenuto}[/{terrenoOttenuto.Replace(" ", "")}][icon:{terrenoOttenuto.Replace(" ", "")}]");
         }
 
         public class ConstructionTask
@@ -549,7 +575,6 @@ namespace Server_Strategico.Gioco
             public void RiduciTempo(int secondi)
             {
                 if (secondi <= 0) return;
-
                 if (IsPaused)
                 {
                     pausedRemainingSeconds = Math.Max(0, pausedRemainingSeconds - secondi);
@@ -557,23 +582,15 @@ namespace Server_Strategico.Gioco
                     return;
                 }
 
-                // se in corso
-                double rem = GetRemainingTime();
+                double rem = GetRemainingTime();  // se in corso
                 if (rem <= 0) return;
 
                 // riduci il tempo rimanente aggiornando DurationInSeconds rispetto al tempo già trascorso
                 double elapsed = (startTime == default) ? 0 : (DateTime.Now - startTime).TotalSeconds;
                 double newRem = Math.Max(0, rem - secondi);
 
-                if (newRem <= 0)
-                {
-                    ForzaCompletamento();
-                }
-                else
-                {
-                    // impostiamo DurationInSeconds in modo che Duration - elapsed = newRem
-                    DurationInSeconds = (int)Math.Ceiling(elapsed + newRem);
-                }
+                if (newRem <= 0) ForzaCompletamento();
+                else DurationInSeconds = (int)Math.Ceiling(elapsed + newRem); // impostiamo DurationInSeconds in modo che Duration - elapsed = newRem
             }
         }
     }
