@@ -450,6 +450,12 @@ namespace Strategico_V2
                 SetValue<string>("QuestMensili_Tempo", v => Variabili_Client.Utente.Montly_Quest_Tempo = v);
                 SetValue<string>("Barbari_Tempo", v => Variabili_Client.Utente.Barbari_Tempo = v);
 
+                //Svlocco truppe
+                SetValue<string>("Unlock_Truppe_II", v => Variabili_Client.truppe_II = v);
+                SetValue<string>("Unlock_Truppe_III", v => Variabili_Client.truppe_III = v);
+                SetValue<string>("Unlock_Truppe_IV", v => Variabili_Client.truppe_IV = v);
+                SetValue<string>("Unlock_Truppe_V", v => Variabili_Client.truppe_V = v);
+
                 //Shop
                 SetValue<string>("Pacchetto_Vip_1_Reward", v => Variabili_Client.Shop.Vip_1.Reward = v);
                 SetValue<string>("Pacchetto_Vip_1_Costo", v => Variabili_Client.Shop.Vip_1.Costo = v);
@@ -523,6 +529,12 @@ namespace Strategico_V2
 
                 SetValue<string>("consumo_cibo_s", v => Variabili_Client.Utente_Risorse.Mantenimento_Cibo = v);
                 SetValue<string>("consumo_oro_s", v => Variabili_Client.Utente_Risorse.Mantenimento_Oro = v);
+
+                SetValue<string>("consumo_cibo_strutture", v => Variabili_Client.Utente_Risorse.Strutture_Cibo = v);
+                SetValue<string>("consumo_legno_strutture", v => Variabili_Client.Utente_Risorse.Strutture_Legna = v);
+                SetValue<string>("consumo_pietra_strutture", v => Variabili_Client.Utente_Risorse.Strutture_Pietra = v);
+                SetValue<string>("consumo_ferro_strutture", v => Variabili_Client.Utente_Risorse.Strutture_Ferro = v);
+                SetValue<string>("consumo_oro_strutture", v => Variabili_Client.Utente_Risorse.Strutture_Oro = v);
 
                 // Limite Risorse
                 SetValue<string>("cibo_limite", v => Variabili_Client.Utente_Risorse.Cibo_Limite = v);
@@ -691,41 +703,58 @@ namespace Strategico_V2
                 SetValue<int>("Guarnigione_Ingresso", v => Variabili_Client.Citta.Ingresso.Guarnigione = v);
                 SetValue<int>("Guarnigione_IngressoMax", v => Variabili_Client.Citta.Ingresso.Guarnigione_Max = v);
 
-                // Guerrieri Ingresso
                 SetValue<int>("Guerrieri_1_Ingresso", v => Variabili_Client.Citta.Ingresso.Guerrieri_1 = v);
                 SetValue<int>("Guerrieri_2_Ingresso", v => Variabili_Client.Citta.Ingresso.Guerrieri_2 = v);
                 SetValue<int>("Guerrieri_3_Ingresso", v => Variabili_Client.Citta.Ingresso.Guerrieri_3 = v);
                 SetValue<int>("Guerrieri_4_Ingresso", v => Variabili_Client.Citta.Ingresso.Guerrieri_4 = v);
                 SetValue<int>("Guerrieri_5_Ingresso", v => Variabili_Client.Citta.Ingresso.Guerrieri_5 = v);
 
-                // Lanceri Ingresso
                 SetValue<int>("Lanceri_1_Ingresso", v => Variabili_Client.Citta.Ingresso.Lanceri_1 = v);
                 SetValue<int>("Lanceri_2_Ingresso", v => Variabili_Client.Citta.Ingresso.Lanceri_2 = v);
                 SetValue<int>("Lanceri_3_Ingresso", v => Variabili_Client.Citta.Ingresso.Lanceri_3 = v);
                 SetValue<int>("Lanceri_4_Ingresso", v => Variabili_Client.Citta.Ingresso.Lanceri_4 = v);
                 SetValue<int>("Lanceri_5_Ingresso", v => Variabili_Client.Citta.Ingresso.Lanceri_5 = v);
 
-                // Arceri Ingresso
                 SetValue<int>("Arceri_1_Ingresso", v => Variabili_Client.Citta.Ingresso.Arceri_1 = v);
                 SetValue<int>("Arceri_2_Ingresso", v => Variabili_Client.Citta.Ingresso.Arceri_2 = v);
                 SetValue<int>("Arceri_3_Ingresso", v => Variabili_Client.Citta.Ingresso.Arceri_3 = v);
                 SetValue<int>("Arceri_4_Ingresso", v => Variabili_Client.Citta.Ingresso.Arceri_4 = v);
                 SetValue<int>("Arceri_5_Ingresso", v => Variabili_Client.Citta.Ingresso.Arceri_5 = v);
 
-                // Catapulte Ingresso
                 SetValue<int>("Catapulte_1_Ingresso", v => Variabili_Client.Citta.Ingresso.Catapulte_1 = v);
                 SetValue<int>("Catapulte_2_Ingresso", v => Variabili_Client.Citta.Ingresso.Catapulte_2 = v);
                 SetValue<int>("Catapulte_3_Ingresso", v => Variabili_Client.Citta.Ingresso.Catapulte_3 = v);
                 SetValue<int>("Catapulte_4_Ingresso", v => Variabili_Client.Citta.Ingresso.Catapulte_4 = v);
                 SetValue<int>("Catapulte_5_Ingresso", v => Variabili_Client.Citta.Ingresso.Catapulte_5 = v);
 
-                // Guarnigione Ingresso
-                SetValue<int>("Guarnigione_Citta", v => Variabili_Client.Citta.Città.Guarnigione = v);
-                SetValue<int>("Guarnigione_CittaMax", v => Variabili_Client.Citta.Città.Guarnigione_Max = v);
 
                 // Guarnigione Città
                 SetValue<int>("Guarnigione_Citta", v => Variabili_Client.Citta.Città.Guarnigione = v);
                 SetValue<int>("Guarnigione_CittaMax", v => Variabili_Client.Citta.Città.Guarnigione_Max = v);
+
+                SetValue<int>("Guerrieri_1_Citta", v => Variabili_Client.Citta.Città.Guerrieri_1 = v);
+                SetValue<int>("Guerrieri_2_Citta", v => Variabili_Client.Citta.Città.Guerrieri_2 = v);
+                SetValue<int>("Guerrieri_3_Citta", v => Variabili_Client.Citta.Città.Guerrieri_3 = v);
+                SetValue<int>("Guerrieri_4_Citta", v => Variabili_Client.Citta.Città.Guerrieri_4 = v);
+                SetValue<int>("Guerrieri_5_Citta", v => Variabili_Client.Citta.Città.Guerrieri_5 = v);
+
+                SetValue<int>("Lanceri_1_Citta", v => Variabili_Client.Citta.Città.Lanceri_1 = v);
+                SetValue<int>("Lanceri_2_Citta", v => Variabili_Client.Citta.Città.Lanceri_2 = v);
+                SetValue<int>("Lanceri_3_Citta", v => Variabili_Client.Citta.Città.Lanceri_3 = v);
+                SetValue<int>("Lanceri_4_Citta", v => Variabili_Client.Citta.Città.Lanceri_4 = v);
+                SetValue<int>("Lanceri_5_Citta", v => Variabili_Client.Citta.Città.Lanceri_5 = v);
+
+                SetValue<int>("Arceri_1_Citta", v => Variabili_Client.Citta.Città.Arceri_1 = v);
+                SetValue<int>("Arceri_2_Citta", v => Variabili_Client.Citta.Città.Arceri_2 = v);
+                SetValue<int>("Arceri_3_Citta", v => Variabili_Client.Citta.Città.Arceri_3 = v);
+                SetValue<int>("Arceri_4_Citta", v => Variabili_Client.Citta.Città.Arceri_4 = v);
+                SetValue<int>("Arceri_5_Citta", v => Variabili_Client.Citta.Città.Arceri_5 = v);
+
+                SetValue<int>("Catapulte_1_Citta", v => Variabili_Client.Citta.Città.Catapulte_1 = v);
+                SetValue<int>("Catapulte_2_Citta", v => Variabili_Client.Citta.Città.Catapulte_2 = v);
+                SetValue<int>("Catapulte_3_Citta", v => Variabili_Client.Citta.Città.Catapulte_3 = v);
+                SetValue<int>("Catapulte_4_Citta", v => Variabili_Client.Citta.Città.Catapulte_4 = v);
+                SetValue<int>("Catapulte_5_Citta", v => Variabili_Client.Citta.Città.Catapulte_5 = v);
 
                 // Cancello
                 SetValue<int>("Guarnigione_Cancello", v => Variabili_Client.Citta.Cancello.Guarnigione = v);
@@ -735,6 +764,30 @@ namespace Strategico_V2
                 SetValue<int>("Difesa_Cancello", v => Variabili_Client.Citta.Cancello.Difesa = v);
                 SetValue<int>("Difesa_CancelloMax", v => Variabili_Client.Citta.Cancello.Difesa_Max = v);
 
+                SetValue<int>("Guerrieri_1_Cancello", v => Variabili_Client.Citta.Cancello.Guerrieri_1 = v);
+                SetValue<int>("Guerrieri_2_Cancello", v => Variabili_Client.Citta.Cancello.Guerrieri_2 = v);
+                SetValue<int>("Guerrieri_3_Cancello", v => Variabili_Client.Citta.Cancello.Guerrieri_3 = v);
+                SetValue<int>("Guerrieri_4_Cancello", v => Variabili_Client.Citta.Cancello.Guerrieri_4 = v);
+                SetValue<int>("Guerrieri_5_Cancello", v => Variabili_Client.Citta.Cancello.Guerrieri_5 = v);
+
+                SetValue<int>("Lanceri_1_Cancello", v => Variabili_Client.Citta.Cancello.Lanceri_1 = v);
+                SetValue<int>("Lanceri_2_Cancello", v => Variabili_Client.Citta.Cancello.Lanceri_2 = v);
+                SetValue<int>("Lanceri_3_Cancello", v => Variabili_Client.Citta.Cancello.Lanceri_3 = v);
+                SetValue<int>("Lanceri_4_Cancello", v => Variabili_Client.Citta.Cancello.Lanceri_4 = v);
+                SetValue<int>("Lanceri_5_Cancello", v => Variabili_Client.Citta.Cancello.Lanceri_5 = v);
+
+                SetValue<int>("Arceri_1_Cancello", v => Variabili_Client.Citta.Cancello.Arceri_1 = v);
+                SetValue<int>("Arceri_2_Cancello", v => Variabili_Client.Citta.Cancello.Arceri_2 = v);
+                SetValue<int>("Arceri_3_Cancello", v => Variabili_Client.Citta.Cancello.Arceri_3 = v);
+                SetValue<int>("Arceri_4_Cancello", v => Variabili_Client.Citta.Cancello.Arceri_4 = v);
+                SetValue<int>("Arceri_5_Cancello", v => Variabili_Client.Citta.Cancello.Arceri_5 = v);
+
+                SetValue<int>("Catapulte_1_Cancello", v => Variabili_Client.Citta.Cancello.Catapulte_1 = v);
+                SetValue<int>("Catapulte_2_Cancello", v => Variabili_Client.Citta.Cancello.Catapulte_2 = v);
+                SetValue<int>("Catapulte_3_Cancello", v => Variabili_Client.Citta.Cancello.Catapulte_3 = v);
+                SetValue<int>("Catapulte_4_Cancello", v => Variabili_Client.Citta.Cancello.Catapulte_4 = v);
+                SetValue<int>("Catapulte_5_Cancello", v => Variabili_Client.Citta.Cancello.Catapulte_5 = v);
+
                 // Mura
                 SetValue<int>("Guarnigione_Mura", v => Variabili_Client.Citta.Mura.Guarnigione = v);
                 SetValue<int>("Guarnigione_MuraMax", v => Variabili_Client.Citta.Mura.Guarnigione_Max = v);
@@ -742,6 +795,30 @@ namespace Strategico_V2
                 SetValue<int>("Salute_MuraMax", v => Variabili_Client.Citta.Mura.Salute_Max = v);
                 SetValue<int>("Difesa_Mura", v => Variabili_Client.Citta.Mura.Difesa = v);
                 SetValue<int>("Difesa_MuraMax", v => Variabili_Client.Citta.Mura.Difesa_Max = v);
+
+                SetValue<int>("Guerrieri_1_Mura", v => Variabili_Client.Citta.Mura.Guerrieri_1 = v);
+                SetValue<int>("Guerrieri_2_Mura", v => Variabili_Client.Citta.Mura.Guerrieri_2 = v);
+                SetValue<int>("Guerrieri_3_Mura", v => Variabili_Client.Citta.Mura.Guerrieri_3 = v);
+                SetValue<int>("Guerrieri_4_Mura", v => Variabili_Client.Citta.Mura.Guerrieri_4 = v);
+                SetValue<int>("Guerrieri_5_Mura", v => Variabili_Client.Citta.Mura.Guerrieri_5 = v);
+
+                SetValue<int>("Lanceri_1_Mura", v => Variabili_Client.Citta.Mura.Lanceri_1 = v);
+                SetValue<int>("Lanceri_2_Mura", v => Variabili_Client.Citta.Mura.Lanceri_2 = v);
+                SetValue<int>("Lanceri_3_Mura", v => Variabili_Client.Citta.Mura.Lanceri_3 = v);
+                SetValue<int>("Lanceri_4_Mura", v => Variabili_Client.Citta.Mura.Lanceri_4 = v);
+                SetValue<int>("Lanceri_5_Mura", v => Variabili_Client.Citta.Mura.Lanceri_5 = v);
+
+                SetValue<int>("Arceri_1_Mura", v => Variabili_Client.Citta.Mura.Arceri_1 = v);
+                SetValue<int>("Arceri_2_Mura", v => Variabili_Client.Citta.Mura.Arceri_2 = v);
+                SetValue<int>("Arceri_3_Mura", v => Variabili_Client.Citta.Mura.Arceri_3 = v);
+                SetValue<int>("Arceri_4_Mura", v => Variabili_Client.Citta.Mura.Arceri_4 = v);
+                SetValue<int>("Arceri_5_Mura", v => Variabili_Client.Citta.Mura.Arceri_5 = v);
+
+                SetValue<int>("Catapulte_1_Mura", v => Variabili_Client.Citta.Mura.Catapulte_1 = v);
+                SetValue<int>("Catapulte_2_Mura", v => Variabili_Client.Citta.Mura.Catapulte_2 = v);
+                SetValue<int>("Catapulte_3_Mura", v => Variabili_Client.Citta.Mura.Catapulte_3 = v);
+                SetValue<int>("Catapulte_4_Mura", v => Variabili_Client.Citta.Mura.Catapulte_4 = v);
+                SetValue<int>("Catapulte_5_Mura", v => Variabili_Client.Citta.Mura.Catapulte_5 = v);
 
                 // Torri
                 SetValue<int>("Guarnigione_Torri", v => Variabili_Client.Citta.Torri.Guarnigione = v);
@@ -751,6 +828,30 @@ namespace Strategico_V2
                 SetValue<int>("Difesa_Torri", v => Variabili_Client.Citta.Torri.Difesa = v);
                 SetValue<int>("Difesa_TorriMax", v => Variabili_Client.Citta.Torri.Difesa_Max = v);
 
+                SetValue<int>("Guerrieri_1_Torri", v => Variabili_Client.Citta.Torri.Guerrieri_1 = v);
+                SetValue<int>("Guerrieri_2_Torri", v => Variabili_Client.Citta.Torri.Guerrieri_2 = v);
+                SetValue<int>("Guerrieri_3_Torri", v => Variabili_Client.Citta.Torri.Guerrieri_3 = v);
+                SetValue<int>("Guerrieri_4_Torri", v => Variabili_Client.Citta.Torri.Guerrieri_4 = v);
+                SetValue<int>("Guerrieri_5_Torri", v => Variabili_Client.Citta.Torri.Guerrieri_5 = v);
+
+                SetValue<int>("Lanceri_1_Torri", v => Variabili_Client.Citta.Torri.Lanceri_1 = v);
+                SetValue<int>("Lanceri_2_Torri", v => Variabili_Client.Citta.Torri.Lanceri_2 = v);
+                SetValue<int>("Lanceri_3_Torri", v => Variabili_Client.Citta.Torri.Lanceri_3 = v);
+                SetValue<int>("Lanceri_4_Torri", v => Variabili_Client.Citta.Torri.Lanceri_4 = v);
+                SetValue<int>("Lanceri_5_Torri", v => Variabili_Client.Citta.Torri.Lanceri_5 = v);
+
+                SetValue<int>("Arceri_1_Torri", v => Variabili_Client.Citta.Torri.Arceri_1 = v);
+                SetValue<int>("Arceri_2_Torri", v => Variabili_Client.Citta.Torri.Arceri_2 = v);
+                SetValue<int>("Arceri_3_Torri", v => Variabili_Client.Citta.Torri.Arceri_3 = v);
+                SetValue<int>("Arceri_4_Torri", v => Variabili_Client.Citta.Torri.Arceri_4 = v);
+                SetValue<int>("Arceri_5_Torri", v => Variabili_Client.Citta.Torri.Arceri_5 = v);
+
+                SetValue<int>("Catapulte_1_Torri", v => Variabili_Client.Citta.Torri.Catapulte_1 = v);
+                SetValue<int>("Catapulte_2_Torri", v => Variabili_Client.Citta.Torri.Catapulte_2 = v);
+                SetValue<int>("Catapulte_3_Torri", v => Variabili_Client.Citta.Torri.Catapulte_3 = v);
+                SetValue<int>("Catapulte_4_Torri", v => Variabili_Client.Citta.Torri.Catapulte_4 = v);
+                SetValue<int>("Catapulte_5_Torri", v => Variabili_Client.Citta.Torri.Catapulte_5 = v);
+
                 // Castello
                 SetValue<int>("Guarnigione_Castello", v => Variabili_Client.Citta.Castello.Guarnigione = v);
                 SetValue<int>("Guarnigione_CastelloMax", v => Variabili_Client.Citta.Castello.Guarnigione_Max = v);
@@ -759,7 +860,36 @@ namespace Strategico_V2
                 SetValue<int>("Difesa_Castello", v => Variabili_Client.Citta.Castello.Difesa = v);
                 SetValue<int>("Difesa_CastelloMax", v => Variabili_Client.Citta.Castello.Difesa_Max = v);
 
+                SetValue<int>("Guerrieri_1_Castello", v => Variabili_Client.Citta.Castello.Guerrieri_1 = v);
+                SetValue<int>("Guerrieri_2_Castello", v => Variabili_Client.Citta.Castello.Guerrieri_2 = v);
+                SetValue<int>("Guerrieri_3_Castello", v => Variabili_Client.Citta.Castello.Guerrieri_3 = v);
+                SetValue<int>("Guerrieri_4_Castello", v => Variabili_Client.Citta.Castello.Guerrieri_4 = v);
+                SetValue<int>("Guerrieri_5_Castello", v => Variabili_Client.Citta.Castello.Guerrieri_5 = v);
+
+                SetValue<int>("Lanceri_1_Castello", v => Variabili_Client.Citta.Castello.Lanceri_1 = v);
+                SetValue<int>("Lanceri_2_Castello", v => Variabili_Client.Citta.Castello.Lanceri_2 = v);
+                SetValue<int>("Lanceri_3_Castello", v => Variabili_Client.Citta.Castello.Lanceri_3 = v);
+                SetValue<int>("Lanceri_4_Castello", v => Variabili_Client.Citta.Castello.Lanceri_4 = v);
+                SetValue<int>("Lanceri_5_Castello", v => Variabili_Client.Citta.Castello.Lanceri_5 = v);
+
+                SetValue<int>("Arceri_1_Castello", v => Variabili_Client.Citta.Castello.Arceri_1 = v);
+                SetValue<int>("Arceri_2_Castello", v => Variabili_Client.Citta.Castello.Arceri_2 = v);
+                SetValue<int>("Arceri_3_Castello", v => Variabili_Client.Citta.Castello.Arceri_3 = v);
+                SetValue<int>("Arceri_4_Castello", v => Variabili_Client.Citta.Castello.Arceri_4 = v);
+                SetValue<int>("Arceri_5_Castello", v => Variabili_Client.Citta.Castello.Arceri_5 = v);
+
+                SetValue<int>("Catapulte_1_Castello", v => Variabili_Client.Citta.Castello.Catapulte_1 = v);
+                SetValue<int>("Catapulte_2_Castello", v => Variabili_Client.Citta.Castello.Catapulte_2 = v);
+                SetValue<int>("Catapulte_3_Castello", v => Variabili_Client.Citta.Castello.Catapulte_3 = v);
+                SetValue<int>("Catapulte_4_Castello", v => Variabili_Client.Citta.Castello.Catapulte_4 = v);
+                SetValue<int>("Catapulte_5_Castello", v => Variabili_Client.Citta.Castello.Catapulte_5 = v);
+
                 // Statistiche
+                SetValue<string>("Potenza_Totale", v => Variabili_Client.Statistiche.Potenza_Totale = v);
+                SetValue<string>("Potenza_Strutture", v => Variabili_Client.Statistiche.Potenza_Edifici = v);
+                SetValue<string>("Potenza_Ricerca", v => Variabili_Client.Statistiche.Potenza_Ricerca = v);
+                SetValue<string>("Potenza_Esercito", v => Variabili_Client.Statistiche.Potenza_Esercito = v);
+
                 SetValue<string>("Unità_Eliminate", v => Variabili_Client.Statistiche.Unità_Eliminate = v);
                 SetValue<string>("Guerrieri_Eliminate", v => Variabili_Client.Statistiche.Guerrieri_Eliminate = v);
                 SetValue<string>("Lanceri_Eliminate", v => Variabili_Client.Statistiche.Lanceri_Eliminate = v);
@@ -796,6 +926,31 @@ namespace Strategico_V2
                 SetValue<string>("Tempo_Costruzione_Risparmiato", v => Variabili_Client.Statistiche.Tempo_Costruzione_Totale = v);
                 SetValue<string>("Tempo_Ricerca_Risparmiato", v => Variabili_Client.Statistiche.Tempo_Ricerca_Totale = v);
                 SetValue<string>("Tempo_Sottratto_Diamanti", v => Variabili_Client.Statistiche.Tempo_Sottratto_Diamanti = v);
+
+                //Bonus 
+                SetValue<string>("Bonus_Costruzione", v => Variabili_Client.Bonus.Bonus_Costruzione = v);
+                SetValue<string>("Bonus_Addestramento", v => Variabili_Client.Bonus.Bonus_Addestramento = v);
+                SetValue<string>("Bonus_Ricerca", v => Variabili_Client.Bonus.Bonus_Ricerca = v);
+                SetValue<string>("Bonus_Riparazione", v => Variabili_Client.Bonus.Bonus_Riparazione = v);
+                SetValue<string>("Bonus_Produzione_Risorse", v => Variabili_Client.Bonus.Bonus_Produzione_Risorse = v);
+                SetValue<string>("Bonus_Capacità_Trasporto", v => Variabili_Client.Bonus.Bonus_Capacità_Trasporto = v);
+
+                SetValue<string>("Bonus_Salute_Strutture", v => Variabili_Client.Bonus.Bonus_Salute_Strutture = v);
+                SetValue<string>("Bonus_Difesa_Strutture", v => Variabili_Client.Bonus.Bonus_Difesa_Strutture = v);
+                SetValue<string>("Bonus_Guarnigione_Strutture", v => Variabili_Client.Bonus.Bonus_Guarnigione_Strutture = v);
+
+                SetValue<string>("Bonus_Attacco_Guerrieri", v => Variabili_Client.Bonus.Bonus_Attacco_Guerrieri = v);
+                SetValue<string>("Bonus_Salute_Guerrieri", v => Variabili_Client.Bonus.Bonus_Salute_Guerrieri = v);
+                SetValue<string>("Bonus_Difesa_Guerrieri", v => Variabili_Client.Bonus.Bonus_Difesa_Guerrieri = v);
+                SetValue<string>("Bonus_Attacco_Lanceri", v => Variabili_Client.Bonus.Bonus_Attacco_Lanceri = v);
+                SetValue<string>("Bonus_Salute_Lanceri", v => Variabili_Client.Bonus.Bonus_Salute_Lanceri = v);
+                SetValue<string>("Bonus_Difesa_Lanceri", v => Variabili_Client.Bonus.Bonus_Difesa_Lanceri = v);
+                SetValue<string>("Bonus_Attacco_Arceri", v => Variabili_Client.Bonus.Bonus_Attacco_Arceri = v);
+                SetValue<string>("Bonus_Salute_Arceri", v => Variabili_Client.Bonus.Bonus_Salute_Arceri = v);
+                SetValue<string>("Bonus_Difesa_Arceri", v => Variabili_Client.Bonus.Bonus_Difesa_Arceri = v);
+                SetValue<string>("Bonus_Attacco_Catapulte", v => Variabili_Client.Bonus.Bonus_Attacco_Catapulte = v);
+                SetValue<string>("Bonus_Salute_Catapulte", v => Variabili_Client.Bonus.Bonus_Salute_Catapulte = v);
+                SetValue<string>("Bonus_Difesa_Catapulte", v => Variabili_Client.Bonus.Bonus_Difesa_Catapulte = v);
 
                 //Dati
                 SetValue<string>("Code_Costruzioni", v => Variabili_Client.Utente.Code_Costruzione = v);
@@ -918,17 +1073,68 @@ namespace Strategico_V2
                         Variabili_Client.Costruzione.Workshop_Frecce.Descrizione = desc;
                         break;
 
-                    case "Guerrieri":
+                    case "Guerrieri 1":
                         Variabili_Client.Reclutamento.Guerrieri_1.Descrizione = desc;
                         break;
-                    case "Lanceri":
+                    case "Guerrieri 2":
+                        Variabili_Client.Reclutamento.Guerrieri_2.Descrizione = desc;
+                        break;
+                    case "Guerrieri 3":
+                        Variabili_Client.Reclutamento.Guerrieri_3.Descrizione = desc;
+                        break;
+                    case "Guerrieri 4":
+                        Variabili_Client.Reclutamento.Guerrieri_4.Descrizione = desc;
+                        break;
+                    case "Guerrieri 5":
+                        Variabili_Client.Reclutamento.Guerrieri_5.Descrizione = desc;
+                        break;
+
+                    case "Lanceri 1":
                         Variabili_Client.Reclutamento.Lanceri_1.Descrizione = desc;
                         break;
-                    case "Arceri":
+                    case "Lanceri 2":
+                        Variabili_Client.Reclutamento.Lanceri_2.Descrizione = desc;
+                        break;
+                    case "Lanceri 3":
+                        Variabili_Client.Reclutamento.Lanceri_3.Descrizione = desc;
+                        break;
+                    case "Lanceri 4":
+                        Variabili_Client.Reclutamento.Lanceri_4.Descrizione = desc;
+                        break;
+                    case "Lanceri 5":
+                        Variabili_Client.Reclutamento.Lanceri_5.Descrizione = desc;
+                        break;
+
+                    case "Arceri 1":
                         Variabili_Client.Reclutamento.Arceri_1.Descrizione = desc;
                         break;
-                    case "Catapulte":
+                    case "Arceri 2":
+                        Variabili_Client.Reclutamento.Arceri_2.Descrizione = desc;
+                        break;
+                    case "Arceri 3":
+                        Variabili_Client.Reclutamento.Arceri_3.Descrizione = desc;
+                        break;
+                    case "Arceri 4":
+                        Variabili_Client.Reclutamento.Arceri_4.Descrizione = desc;
+                        break;
+                    case "Arceri 5":
+                        Variabili_Client.Reclutamento.Arceri_5.Descrizione = desc;
+                        break;
+
+                    case "Catapulte 1":
                         Variabili_Client.Reclutamento.Catapulte_1.Descrizione = desc;
+                        break;
+                    case "Catapulte 2":
+                        Variabili_Client.Reclutamento.Catapulte_2.Descrizione = desc;
+                        break;
+                    case "Catapulte 3":
+                        Variabili_Client.Reclutamento.Catapulte_3.Descrizione = desc;
+                        break;
+                    case "Catapulte 4":
+                        Variabili_Client.Reclutamento.Catapulte_4.Descrizione = desc;
+                        break;
+                    case "Catapulte 5":
+                        Variabili_Client.Reclutamento.Catapulte_5.Descrizione = desc;
                         break;
 
                     case "Caserma Guerrieri":
@@ -943,16 +1149,181 @@ namespace Strategico_V2
                     case "Caserma Catapulte":
                         Variabili_Client.Costruzione.Caserme_Catapulte.Descrizione = desc;
                         break;
+
+                    case "Mura Salute":
+                        Variabili_Client.Citta.Mura.Descrizione = desc;
+                        break;
+                    case "Mura Difesa":
+                        Variabili_Client.Citta.Mura.DescrizioneB = desc;
+                        break;
+
+                    case "Cancello Salute":
+                        Variabili_Client.Citta.Cancello.Descrizione = desc;
+                        break;
+                    case "Cancello Difesa":
+                        Variabili_Client.Citta.Cancello.DescrizioneB = desc;
+                        break;
+
+                    case "Torri Salute":
+                        Variabili_Client.Citta.Torri.Descrizione = desc;
+                        break;
+                    case "Torri Difesa":
+                        Variabili_Client.Citta.Torri.DescrizioneB = desc;
+                        break;
+
+                    case "Castello Salute":
+                        Variabili_Client.Citta.Castello.Descrizione = desc;
+                        break;
+                    case "Castello Difesa":
+                        Variabili_Client.Citta.Castello.DescrizioneB = desc;
+                        break;
+
+                    case "Ricerca Addestramento":
+                        Variabili_Client.Ricerca_Addestramento_Desc = desc;
+                        break;
+                    case "Ricerca Costruzione":
+                        Variabili_Client.Ricerca_Costruzione_Desc = desc;
+                        break;
+                    case "Ricerca Produzione":
+                        Variabili_Client.Ricerca_Produzione_Desc = desc;
+                        break;
+                    case "Ricerca Popolazione":
+                        Variabili_Client.Ricerca_Popolazione_Desc = desc;
+                        break;
+                    case "Ricerca Trasporto":
+                        Variabili_Client.Ricerca_Trasporto_Desc = desc;
+                        break;
+                    case "Ricerca Riparazione":
+                        Variabili_Client.Ricerca_Riparazione_Desc = desc;
+                        break;
+
+                    case "Ricerca Guerriero Livello":
+                        Variabili_Client.Ricerca_Guerrieri_Livello_Desc = desc;
+                        break;
+                    case "Ricerca Guerriero Salute":
+                        Variabili_Client.Ricerca_Guerrieri_Salute_Desc = desc;
+                        break;
+                    case "Ricerca Guerriero Attacco":
+                        Variabili_Client.Ricerca_Guerrieri_Attacco_Desc = desc;
+                        break;
+                    case "Ricerca Guerriero Difesa":
+                        Variabili_Client.Ricerca_Guerrieri_Difesa_Desc = desc;
+                        break;
+
+                    case "Ricerca Lancere Livello":
+                        Variabili_Client.Ricerca_Lanceri_Livello_Desc = desc;
+                        break;
+                    case "Ricerca Lancere Salute":
+                        Variabili_Client.Ricerca_Lanceri_Salute_Desc = desc;
+                        break;
+                    case "Ricerca Lancere Attacco":
+                        Variabili_Client.Ricerca_Lanceri_Attacco_Desc = desc;
+                        break;
+                    case "Ricerca Lancere Difesa":
+                        Variabili_Client.Ricerca_Lanceri_Difesa_Desc = desc;
+                        break;
+
+                    case "Ricerca Arcere Livello":
+                        Variabili_Client.Ricerca_Arceri_Livello_Desc = desc;
+                        break;
+                    case "Ricerca Arcere Salute":
+                        Variabili_Client.Ricerca_Arceri_Salute_Desc = desc;
+                        break;
+                    case "Ricerca Arcere Attacco":
+                        Variabili_Client.Ricerca_Arceri_Attacco_Desc = desc;
+                        break;
+                    case "Ricerca Arcere Difesa":
+                        Variabili_Client.Ricerca_Arceri_Difesa_Desc = desc;
+                        break;
+
+                    case "Ricerca Catapulta Livello":
+                        Variabili_Client.Ricerca_Catapulte_Livello_Desc = desc;
+                        break;
+                    case "Ricerca Catapulta Salute":
+                        Variabili_Client.Ricerca_Catapulte_Salute_Desc = desc;
+                        break;
+                    case "Ricerca Catapulta Attacco":
+                        Variabili_Client.Ricerca_Catapulte_Attacco_Desc = desc;
+                        break;
+                    case "Ricerca Catapulta Difesa":
+                        Variabili_Client.Ricerca_Catapulte_Difesa_Desc = desc;
+                        break;
+
+                    case "Ricerca Ingresso Guarnigione":
+                        Variabili_Client.Ricerca_Ingresso_Guarnigione_Desc = desc;
+                        break;
+                    case "Ricerca Citta Guarnigione":
+                        Variabili_Client.Ricerca_Citta_Guarnigione_Desc = desc;
+                        break;
+
+                    case "Ricerca Cancello Salute":
+                        Variabili_Client.Ricerca_Cancello_Salute_Desc = desc;
+                        break;
+                    case "Ricerca Cancello Difesa":
+                        Variabili_Client.Ricerca_Cancello_Difesa_Desc = desc;
+                        break;
+                    case "Ricerca Cancello Guarnigione":
+                        Variabili_Client.Ricerca_Cancello_Guarnigione_Desc = desc;
+                        break;
+
+                    case "Ricerca Mura Salute":
+                        Variabili_Client.Ricerca_Mura_Salute_Desc = desc;
+                        break;
+                    case "Ricerca Mura Difesa":
+                        Variabili_Client.Ricerca_Mura_Difesa_Desc = desc;
+                        break;
+                    case "Ricerca Mura Guarnigione":
+                        Variabili_Client.Ricerca_Mura_Guarnigione_Desc = desc;
+                        break;
+
+                    case "Ricerca Torri Salute":
+                        Variabili_Client.Ricerca_Torri_Salute_Desc = desc;
+                        break;
+                    case "Ricerca Torri Difesa":
+                        Variabili_Client.Ricerca_Torri_Difesa_Desc = desc;
+                        break;
+                    case "Ricerca Torri Guarnigione":
+                        Variabili_Client.Ricerca_Torri_Guarnigione_Desc = desc;
+                        break;
+
+                    case "Ricerca Castello Salute":
+                        Variabili_Client.Ricerca_Castello_Salute_Desc = desc;
+                        break;
+                    case "Ricerca Castello Difesa":
+                        Variabili_Client.Ricerca_Castello_Difesa_Desc = desc;
+                        break;
+                    case "Ricerca Castello Guarnigione":
+                        Variabili_Client.Ricerca_Castello_Guarnigione_Desc = desc;
+                        break;
                 }
             }
             static void Update_PVP_List(string[] mess)
             {
-                if (mess[1] != "")
-                    for (int i = 2; i <= mess.Count() - 1; i++)
-                    {
-                        if (!Variabili_Client.Giocatori_PVP.Contains(mess[i]) && !Variabili_Client.Utente.Username.Contains(mess[i]))
-                            Variabili_Client.Giocatori_PVP.Add(mess[i]);
-                    }
+                var listaTemp = new List<string>();
+                if (mess.Length > 2) 
+                    for (int i = 2; i < mess.Length; i++) // Saltiamo i primi due elementi (mess[0] e mess[1]) e prendiamo il resto
+                        listaTemp.Add(mess[i]);
+
+                if (listaTemp.Count != 0)
+                    Variabili_Client.Giocatori_PVP = listaTemp.OrderByDescending(player => GetPotenzaValue(player)).ToList(); // Ordiniamo la lista prima di assegnarla
+            }
+
+            // Funzione di supporto per estrarre la potenza dalla stringa
+            static int GetPotenzaValue(string playerString)
+            {
+                try
+                {
+                    // Cerchiamo la parte dopo "Potenza: "
+                    string searchTag = "Potenza: ";
+                    int startIndex = playerString.IndexOf(searchTag) + searchTag.Length;
+                    string potenzaStr = playerString.Substring(startIndex);
+
+                    return int.Parse(potenzaStr);
+                }
+                catch
+                {
+                    return 0; // In caso di errore nel formato, lo mette in fondo
+                }
             }
             static void Update_Lista_Raduni(string[] mess)
             {
@@ -981,7 +1352,6 @@ namespace Strategico_V2
                     }
                 }
             }
-
             static void Update_Lista_Raduni_Player(string[] mess)
             {
                 // Ignora il primo elemento (che è "Lista_Raduni")
@@ -1010,7 +1380,6 @@ namespace Strategico_V2
                     }
                 }
             }
-
             static async void Update_Raduni_Partecipazione(string[] mess)
             {
                 // Formato: CreatoreUsername|ID|NumPartecipanti|MieiGuerrieri|MieiLancieri|MieiArcieri|MieiCatapulte|TempoRimanente
