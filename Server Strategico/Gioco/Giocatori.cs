@@ -5,18 +5,10 @@ using static Server_Strategico.Gioco.Giocatori;
 using static Server_Strategico.Gioco.Variabili_Server;
 using static Server_Strategico.Gioco.QuestManager;
 using static Server_Strategico.Server.Server;
+using System.Runtime.CompilerServices;
 
 namespace Server_Strategico.Gioco
 {
-    public class Dati
-    {
-        public static string Difficoltà = "1";
-        public static string Versione = "0.1.3";
-        public static string Server = "Italy";
-
-        public static double forza_Esercito_Att_PVP = 0;
-    }
-
     public class Giocatori
     {
         public class Player
@@ -26,6 +18,7 @@ namespace Server_Strategico.Gioco
             public string Username { get; set; }
             public string Password { get; set; }
             public Guid guid_Player { get; set; }
+            public bool Tutorial { get; set; }
 
             // Esperienza e VIP
             public int Esperienza { get; set; }
@@ -45,10 +38,10 @@ namespace Server_Strategico.Gioco
             public int Costruttori { get; set; }
             public int Reclutatori { get; set; }
             public int ScudoDellaPace { get; set; }
-
+            public int limite_Strutture { get; set; }
             // Forza esercito
             public double forza_Esercito { get; set; }
-
+            #region Edifici e Terreni
             // Terreni virtuali
             public int Terreno_Comune { get; set; }
             public int Terreno_NonComune { get; set; }
@@ -71,7 +64,7 @@ namespace Server_Strategico.Gioco
             public int Workshop_Scudi { get; set; }
             public int Workshop_Armature { get; set; }
             public int Workshop_Frecce { get; set; }
-
+            #endregion
             // Risorse civili
             public double Cibo { get; set; }
             public double Legno { get; set; }
@@ -96,9 +89,9 @@ namespace Server_Strategico.Gioco
             // Statistiche
             #region Stats
             public int Unità_Eliminate { get; set; }
-            public int Guerrieri_Eliminate { get; set; }
-            public int Lanceri_Eliminate { get; set; }
-            public int Arceri_Eliminate { get; set; }
+            public int Guerrieri_Eliminati { get; set; }
+            public int Lanceri_Eliminati { get; set; }
+            public int Arceri_Eliminati { get; set; }
             public int Catapulte_Eliminate { get; set; }
 
             public int Unità_Perse { get; set; }
@@ -160,10 +153,12 @@ namespace Server_Strategico.Gioco
             public int Ricerca_Costruzione { get; set; }
             public int Ricerca_Addestramento { get; set; }
             public int Ricerca_Popolazione { get; set; }
+            public int Ricerca_Trasporto { get; set; }
             public int Ricerca_Riparazione { get; set; }
 
 
             //Ricerca Città
+            #region Ricerca
             public int Ricerca_Ingresso_Guarnigione { get; set; }
             public int Ricerca_Citta_Guarnigione { get; set; }
 
@@ -182,6 +177,7 @@ namespace Server_Strategico.Gioco
             public int Ricerca_Castello_Salute { get; set; }
             public int Ricerca_Castello_Difesa { get; set; }
             public int Ricerca_Castello_Guarnigione { get; set; }
+            #endregion
 
             // Livelli unità
             public int Guerriero_Livello { get; set; }
@@ -203,6 +199,8 @@ namespace Server_Strategico.Gioco
             public int Catapulta_Salute { get; set; }
             public int Catapulta_Difesa { get; set; }
             public int Catapulta_Attacco { get; set; }
+
+            public bool[] Riparazioni { get; set; } = new bool[8];
 
             // Premi
             public bool[] PremiNormali { get; set; } = new bool[20];
@@ -273,6 +271,45 @@ namespace Server_Strategico.Gioco
             public int[] Arceri_Citta { get; set; } = new int[5];
             public int[] Catapulte_Citta { get; set; } = new int[5];
             #endregion
+
+            //Bonus
+            public double Bonus_Salute_Guerrieri { get; set; }
+            public double Bonus_Salute_Lanceri { get; set; }
+            public double Bonus_Salute_Arceri { get; set; }
+            public double Bonus_Salute_Catapulte { get; set; }
+            public double Bonus_Difesa_Guerrieri { get; set; }
+            public double Bonus_Difesa_Lanceri { get; set; }
+            public double Bonus_Difesa_Arceri { get; set; }
+            public double Bonus_Difesa_Catapulte { get; set; }
+            public double Bonus_Attacco_Guerrieri { get; set; }
+            public double Bonus_Attacco_Lanceri { get; set; }
+            public double Bonus_Attacco_Arceri { get; set; }
+            public double Bonus_Attacco_Catapulte { get; set; }
+
+            public double Bonus_Salute_Strutture { get; set; }
+            public double Bonus_Difesa_Strutture { get; set; }
+            public double Bonus_Guarnigione_Strutture { get; set; }
+
+            public double Bonus_Produzione_Risorse { get; set; }
+            public double Bonus_Capacità_Trasporto { get; set; }
+            public double Bonus_Costruzione { get; set; }
+            public double Bonus_Addestramento { get; set; }
+            public double Bonus_Ricerca { get; set; }
+            public double Bonus_Riparazione { get; set; }
+
+            //Potenza
+            public double Potenza_Totale { get; set; }
+            public double Potenza_Esercito { get; set; }
+            public double Potenza_Strutture { get; set; }
+            public double Potenza_Ricerca { get; set; }
+
+            //Limiti giocatore [DD - MM - AA]
+            public int Diamanti_Viola_PVP_Ottenuti { get; set; }
+            public int Diamanti_Blu_PVP_Ottenuti { get; set; }
+            public int Diamanti_Viola_PVP_Persi { get; set; }
+            public int Diamanti_Blu_PVP_Persi { get; set; }
+
+
             #endregion
 
             //Quest
@@ -295,8 +332,16 @@ namespace Server_Strategico.Gioco
                 // Inizializza lista villaggi barbarici
                 VillaggiPersonali = new List<Gioco.Barbari.VillaggioBarbaro>();
 
+                Riparazioni = new bool[8];
                 PremiNormali = new bool[20];
                 PremiVIP = new bool[20];
+                Tutorial = true;
+
+                //Limiti giocatore [DD - MM - AA]
+                Diamanti_Viola_PVP_Ottenuti = 0;
+                Diamanti_Blu_PVP_Ottenuti = 0;
+                Diamanti_Viola_PVP_Persi = 0;
+                Diamanti_Blu_PVP_Persi = 0;
 
                 //Dati Giocatore
                 Username = username;
@@ -308,6 +353,7 @@ namespace Server_Strategico.Gioco
                 Code_Costruzione = 1;
                 Code_Reclutamento = 1;
                 Code_Ricerca = 1;
+                limite_Strutture = 75;
 
                 Livello = 1;
                 Esperienza = 0;
@@ -466,9 +512,10 @@ namespace Server_Strategico.Gioco
                 //Ricerche
                 Ricerca_Produzione = 0;
                 Ricerca_Costruzione = 0;
-                Ricerca_Riparazione = 0;
                 Ricerca_Addestramento = 0;
                 Ricerca_Popolazione = 0;
+                Ricerca_Trasporto = 0;
+                Ricerca_Riparazione = 0;
 
                 //Ricerca CIttà
                 Ricerca_Ingresso_Guarnigione = 0;
@@ -512,28 +559,28 @@ namespace Server_Strategico.Gioco
                 Catapulta_Attacco = 0;
 
                 // Statistiche
-                Unità_Eliminate = 0;
-                Guerrieri_Eliminate = 0;
-                Lanceri_Eliminate = 0;
-                Arceri_Eliminate = 0;
-                Catapulte_Eliminate = 0;
-                Unità_Addestrate = 0;           // Fatto
+                Unità_Eliminate = 0;        //Fatto
+                Guerrieri_Eliminati = 0;    //Fatto
+                Lanceri_Eliminati = 0;      //Fatto
+                Arceri_Eliminati = 0;       //Fatto
+                Catapulte_Eliminate = 0;    //Fatto
+                Unità_Addestrate = 0;       //Fatto
 
-                Unità_Perse = 0;
-                Guerrieri_Persi = 0;
-                Lanceri_Persi = 0;
-                Arceri_Persi = 0;
-                Catapulte_Perse = 0;
-                Risorse_Razziate = 0;
+                Unità_Perse = 0;            //Fatto
+                Guerrieri_Persi = 0;        //Fatto
+                Lanceri_Persi = 0;          //Fatto
+                Arceri_Persi = 0;           //Fatto
+                Catapulte_Perse = 0;        //Fatto
+                Risorse_Razziate = 0;       //Fatto
 
                 Strutture_Civili_Costruite = 0;     //Fatto
                 Strutture_Militari_Costruite = 0;   //Fatto
                 Caserme_Costruite = 0;              //Fatto
 
-                Frecce_Utilizzate = 0;
-                Battaglie_Vinte = 0;
-                Battaglie_Perse = 0;
-                Quest_Completate = 0;           //Fatto
+                Frecce_Utilizzate = 0;      //Fatto
+                Battaglie_Vinte = 0;        //Fatto
+                Battaglie_Perse = 0;        //Fatto         
+                Quest_Completate = 0;       //Fatto
                 Attacchi_Subiti_PVP = 0;
                 Attacchi_Effettuati_PVP = 0;
 
@@ -552,39 +599,73 @@ namespace Server_Strategico.Gioco
                 Consumo_Cibo_Esercito = 0;      //Fatto
                 Consumo_Oro_Esercito = 0;       //Fatto
                 Diamanti_Viola_Utilizzati = 0;  //Fatto
-                Diamanti_Blu_Utilizzati = 0;
-            }
+                Diamanti_Blu_Utilizzati = 0;    //Fatto
+
+                //Bonus
+                Bonus_Salute_Guerrieri = 0;
+                Bonus_Salute_Lanceri = 0;
+                Bonus_Salute_Arceri = 0;
+                Bonus_Salute_Catapulte = 0;
+                Bonus_Difesa_Guerrieri = 0;
+                Bonus_Difesa_Lanceri = 0;
+                Bonus_Difesa_Arceri = 0;
+                Bonus_Difesa_Catapulte = 0;
+                Bonus_Attacco_Guerrieri = 0;
+                Bonus_Attacco_Lanceri = 0;
+                Bonus_Attacco_Arceri = 0;
+                Bonus_Attacco_Catapulte = 0;
+
+                Bonus_Salute_Strutture = 0;
+                Bonus_Difesa_Strutture = 0;
+                Bonus_Guarnigione_Strutture = 0;
+
+                Bonus_Produzione_Risorse = 0;
+                Bonus_Capacità_Trasporto = 0;
+                Bonus_Costruzione = 0;
+                Bonus_Addestramento = 0;
+                Bonus_Ricerca = 0;
+                Bonus_Riparazione = 0;
+        }
 
             public bool ValidatePassword(string password)
             {
                 return Password == password;
             }
+            public void ResetGiornaliero()
+            {
+                if (Variabili_Server.Reset_Gironaliero)
+                {
+                    Diamanti_Viola_PVP_Ottenuti = 0;
+                    Diamanti_Blu_PVP_Ottenuti = 0;
+                    Diamanti_Viola_PVP_Persi = 0;
+                    Diamanti_Blu_PVP_Persi = 0;
+                    for (int i = 0; i == VillaggiPersonali.Count(); i++)
+                        VillaggiPersonali[0].Esplorato = false;
+                    for (int i = 0; i == Barbari.CittaGlobali.Count(); i++)
+                        Barbari.CittaGlobali[0].Esplorato = false;
+                    Variabili_Server.Reset_Gironaliero = false;
+                }
+            }
 
             public void ProduceResources() //produzione risorse
             {
                 if (Cibo < Fattoria * Strutture.Edifici.Fattoria.Limite)
-                    Cibo += Fattoria * (Strutture.Edifici.Fattoria.Produzione + Ricerca_Produzione * Ricerca.Tipi.Incremento.Cibo);
-                else Cibo = Fattoria * Strutture.Edifici.Fattoria.Limite;
+                    Cibo += Fattoria * (Strutture.Edifici.Fattoria.Produzione + Ricerca_Produzione * Ricerca.Tipi.Incremento.Cibo) * (1 + Bonus_Produzione_Risorse);
 
                 if (Legno < Segheria * Strutture.Edifici.Segheria.Limite)
-                    Legno += Segheria * (Strutture.Edifici.Segheria.Produzione + Ricerca_Produzione * Ricerca.Tipi.Incremento.Legno);
-                else Legno = Segheria * Strutture.Edifici.Segheria.Limite;
+                    Legno += Segheria * (Strutture.Edifici.Segheria.Produzione + Ricerca_Produzione * Ricerca.Tipi.Incremento.Legno) * (1 + Bonus_Produzione_Risorse);
 
                 if (Pietra < CavaPietra * Strutture.Edifici.CavaPietra.Limite)
-                    Pietra += CavaPietra * (Strutture.Edifici.CavaPietra.Produzione + Ricerca_Produzione * Ricerca.Tipi.Incremento.Pietra);
-                else Pietra = CavaPietra * Strutture.Edifici.CavaPietra.Limite;
+                    Pietra += CavaPietra * (Strutture.Edifici.CavaPietra.Produzione + Ricerca_Produzione * Ricerca.Tipi.Incremento.Pietra) * (1 + Bonus_Produzione_Risorse);
 
                 if (Ferro < MinieraFerro * Strutture.Edifici.MinieraFerro.Limite)
-                    Ferro += MinieraFerro * (Strutture.Edifici.MinieraFerro.Produzione + Ricerca_Produzione * Ricerca.Tipi.Incremento.Ferro);
-                else Ferro = MinieraFerro * Strutture.Edifici.MinieraFerro.Limite;
+                    Ferro += MinieraFerro * (Strutture.Edifici.MinieraFerro.Produzione + Ricerca_Produzione * Ricerca.Tipi.Incremento.Ferro) * (1 + Bonus_Produzione_Risorse);
 
                 if (Oro < MinieraOro * Strutture.Edifici.MinieraOro.Limite)
-                    Oro += MinieraOro * (Strutture.Edifici.MinieraOro.Produzione + Ricerca_Produzione * Ricerca.Tipi.Incremento.Oro);
-                else Oro = MinieraOro * Strutture.Edifici.MinieraOro.Limite;
+                    Oro += MinieraOro * (Strutture.Edifici.MinieraOro.Produzione + Ricerca_Produzione * Ricerca.Tipi.Incremento.Oro) * (1 + Bonus_Produzione_Risorse);
 
                 if (Popolazione < Abitazioni * Strutture.Edifici.Case.Limite)
                     Popolazione += Abitazioni * (Strutture.Edifici.Case.Produzione + Ricerca_Popolazione * Ricerca.Tipi.Incremento.Popolazione);
-                else Popolazione = Abitazioni * Strutture.Edifici.Case.Limite;
 
                 Dollari_Virtuali += ((decimal)Terreno_Comune * Variabili_Server.Terreni_Virtuali.Comune.Produzione) +
                     ((decimal)Terreno_NonComune * Variabili_Server.Terreni_Virtuali.NonComune.Produzione) +
@@ -593,50 +674,75 @@ namespace Server_Strategico.Gioco
                     ((decimal)Terreno_Leggendario * Variabili_Server.Terreni_Virtuali.Leggendario.Produzione);
 
                 if (Spade < Workshop_Spade * Strutture.Edifici.ProduzioneSpade.Limite)
-                    Spade += Workshop_Spade * Strutture.Edifici.ProduzioneSpade.Produzione;
-                else Spade = Workshop_Spade * Strutture.Edifici.ProduzioneSpade.Limite;
+                    Spade += Workshop_Spade * Strutture.Edifici.ProduzioneSpade.Produzione * (1 + Bonus_Produzione_Risorse);
 
                 if (Lance < Workshop_Lance * Strutture.Edifici.ProduzioneLance.Limite)
-                    Lance += Workshop_Lance * Strutture.Edifici.ProduzioneLance.Produzione;
-                else Lance = Workshop_Lance * Strutture.Edifici.ProduzioneLance.Limite;
+                    Lance += Workshop_Lance * Strutture.Edifici.ProduzioneLance.Produzione * (1 + Bonus_Produzione_Risorse);
 
                 if (Archi < Workshop_Archi * Strutture.Edifici.ProduzioneArchi.Limite)
-                    Archi += Workshop_Archi * Strutture.Edifici.ProduzioneArchi.Produzione;
-                else Archi = Workshop_Archi * Strutture.Edifici.ProduzioneArchi.Limite;
+                    Archi += Workshop_Archi * Strutture.Edifici.ProduzioneArchi.Produzione * (1 + Bonus_Produzione_Risorse);
 
                 if (Scudi < Workshop_Scudi * Strutture.Edifici.ProduzioneScudi.Limite)
-                    Scudi += Workshop_Scudi * Strutture.Edifici.ProduzioneScudi.Produzione;
-                else Scudi = Workshop_Scudi * Strutture.Edifici.ProduzioneScudi.Limite;
+                    Scudi += Workshop_Scudi * Strutture.Edifici.ProduzioneScudi.Produzione * (1 + Bonus_Produzione_Risorse);
 
                 if (Armature < Workshop_Armature * Strutture.Edifici.ProduzioneArmature.Limite)
-                    Armature += Workshop_Armature * Strutture.Edifici.ProduzioneArmature.Produzione;
-                else Armature = Workshop_Armature * Strutture.Edifici.ProduzioneArmature.Limite;
+                    Armature += Workshop_Armature * Strutture.Edifici.ProduzioneArmature.Produzione * (1 + Bonus_Produzione_Risorse);
 
                 if (Frecce < Workshop_Frecce * Strutture.Edifici.ProduzioneFrecce.Limite)
-                    Frecce += Workshop_Frecce * Strutture.Edifici.ProduzioneFrecce.Produzione;
-                else Frecce = Workshop_Frecce * Strutture.Edifici.ProduzioneFrecce.Limite;
+                    Frecce += Workshop_Frecce * Strutture.Edifici.ProduzioneFrecce.Produzione * (1 + Bonus_Produzione_Risorse);
             }
-            public void SetupVillaggioGiocatore() // Gestisce il valore massimo delle barre di stato del villaggio.
+            public void SetupVillaggioGiocatore()
             {
-                Guarnigione_IngressoMax = Ricerca_Ingresso_Guarnigione * Strutture.Edifici.Ingresso.Guarnigione + Strutture.Edifici.Ingresso.Guarnigione;
-                Guarnigione_CittaMax = Ricerca_Citta_Guarnigione * Strutture.Edifici.Citta.Guarnigione + Strutture.Edifici.Citta.Guarnigione;
+                // Salva i valori MAX precedenti PRIMA di ricalcolarli
+                int oldSalute_CancelloMax = Salute_CancelloMax;
+                int oldDifesa_CancelloMax = Difesa_CancelloMax;
+                int oldSalute_MuraMax = Salute_MuraMax;
+                int oldDifesa_MuraMax = Difesa_MuraMax;
+                int oldSalute_TorriMax = Salute_TorriMax;
+                int oldDifesa_TorriMax = Difesa_TorriMax;
+                int oldSalute_CastelloMax = Salute_CastelloMax;
+                int oldDifesa_CastelloMax = Difesa_CastelloMax;
 
-                Guarnigione_CancelloMax = Ricerca_Cancello_Guarnigione * Strutture.Edifici.Cancello.Guarnigione + Strutture.Edifici.Cancello.Guarnigione;
-                Salute_CancelloMax = Ricerca_Cancello_Salute * Strutture.Edifici.Cancello.Salute + Strutture.Edifici.Cancello.Salute;
-                Difesa_CancelloMax = Ricerca_Cancello_Difesa * Strutture.Edifici.Cancello.Difesa + Strutture.Edifici.Cancello.Difesa;
+                // Calcola i nuovi valori MAX
+                Guarnigione_IngressoMax = (int)((Strutture.Edifici.Ingresso.Guarnigione + (Ricerca_Ingresso_Guarnigione * Strutture.Edifici.Ingresso.Guarnigione)) * (1 + Bonus_Guarnigione_Strutture));
+                Guarnigione_CittaMax = (int)((Strutture.Edifici.Citta.Guarnigione + (Ricerca_Citta_Guarnigione * Strutture.Edifici.Citta.Guarnigione)) * (1 + Bonus_Guarnigione_Strutture));
+                Guarnigione_CancelloMax = (int)((Strutture.Edifici.Cancello.Guarnigione + (Ricerca_Cancello_Guarnigione * Strutture.Edifici.Cancello.Guarnigione)) * (1 + Bonus_Guarnigione_Strutture));
+                Salute_CancelloMax = (int)((Strutture.Edifici.Cancello.Salute + (Ricerca_Cancello_Salute * Strutture.Edifici.Cancello.Salute)) * (1 + Bonus_Salute_Strutture));
+                Difesa_CancelloMax = (int)((Strutture.Edifici.Cancello.Difesa + (Ricerca_Cancello_Difesa * Strutture.Edifici.Cancello.Difesa)) * (1 + Bonus_Difesa_Strutture));
+                Guarnigione_MuraMax = (int)((Strutture.Edifici.Mura.Guarnigione + (Ricerca_Mura_Guarnigione * Strutture.Edifici.Mura.Guarnigione)) * (1 + Bonus_Guarnigione_Strutture));
+                Salute_MuraMax = (int)((Strutture.Edifici.Mura.Salute + (Ricerca_Mura_Salute * Strutture.Edifici.Mura.Salute)) * (1 + Bonus_Salute_Strutture));
+                Difesa_MuraMax = (int)((Strutture.Edifici.Mura.Difesa + (Ricerca_Mura_Difesa * Strutture.Edifici.Mura.Difesa)) * (1 + Bonus_Difesa_Strutture));
+                Guarnigione_TorriMax = (int)((Strutture.Edifici.Torri.Guarnigione + (Ricerca_Torri_Guarnigione * Strutture.Edifici.Torri.Guarnigione)) * (1 + Bonus_Guarnigione_Strutture));
+                Salute_TorriMax = (int)((Strutture.Edifici.Torri.Salute + (Ricerca_Torri_Salute * Strutture.Edifici.Torri.Salute)) * (1 + Bonus_Salute_Strutture));
+                Difesa_TorriMax = (int)((Strutture.Edifici.Torri.Difesa + (Ricerca_Torri_Difesa * Strutture.Edifici.Torri.Difesa)) * (1 + Bonus_Difesa_Strutture));
+                Guarnigione_CastelloMax = (int)((Strutture.Edifici.Castello.Guarnigione + (Ricerca_Castello_Guarnigione * Strutture.Edifici.Castello.Guarnigione)) * (1 + Bonus_Guarnigione_Strutture));
+                Salute_CastelloMax = (int)((Strutture.Edifici.Castello.Salute + (Ricerca_Castello_Salute * Strutture.Edifici.Castello.Salute)) * (1 + Bonus_Salute_Strutture));
+                Difesa_CastelloMax = (int)((Strutture.Edifici.Castello.Difesa + (Ricerca_Castello_Difesa * Strutture.Edifici.Castello.Difesa)) * (1 + Bonus_Difesa_Strutture));
 
-                Guarnigione_MuraMax = Ricerca_Mura_Guarnigione * Strutture.Edifici.Mura.Guarnigione + Strutture.Edifici.Mura.Guarnigione;
-                Salute_MuraMax = Ricerca_Mura_Salute * Strutture.Edifici.Mura.Salute + Strutture.Edifici.Mura.Salute;
-                Difesa_MuraMax = Ricerca_Mura_Difesa * Strutture.Edifici.Mura.Difesa + Strutture.Edifici.Mura.Difesa;
+                // Aggiorna i valori attuali SOLO se il MAX è aumentato
+                // Aggiunge la DIFFERENZA tra nuovo e vecchio MAX
+                if (Salute_CancelloMax > oldSalute_CancelloMax)
+                    Salute_Cancello += (Salute_CancelloMax - oldSalute_CancelloMax);
+                if (Difesa_CancelloMax > oldDifesa_CancelloMax)
+                    Difesa_Cancello += (Difesa_CancelloMax - oldDifesa_CancelloMax);
 
-                Guarnigione_TorriMax = Ricerca_Torri_Guarnigione * Strutture.Edifici.Torri.Guarnigione + Strutture.Edifici.Torri.Guarnigione;
-                Salute_TorriMax = Ricerca_Torri_Salute * Strutture.Edifici.Torri.Salute + Strutture.Edifici.Torri.Salute;
-                Difesa_TorriMax = Ricerca_Torri_Difesa * Strutture.Edifici.Torri.Difesa + Strutture.Edifici.Torri.Difesa;
+                if (Salute_MuraMax > oldSalute_MuraMax)
+                    Salute_Mura += (Salute_MuraMax - oldSalute_MuraMax);
+                if (Difesa_MuraMax > oldDifesa_MuraMax)
+                    Difesa_Mura += (Difesa_MuraMax - oldDifesa_MuraMax);
 
-                Guarnigione_CastelloMax = Ricerca_Castello_Guarnigione * Strutture.Edifici.Castello.Guarnigione + Strutture.Edifici.Castello.Guarnigione;
-                Salute_CastelloMax = Ricerca_Castello_Salute * Strutture.Edifici.Castello.Salute + Strutture.Edifici.Castello.Salute;
-                Difesa_CastelloMax = Ricerca_Castello_Difesa * Strutture.Edifici.Castello.Difesa + Strutture.Edifici.Castello.Difesa;
+                if (Salute_TorriMax > oldSalute_TorriMax)
+                    Salute_Torri += (Salute_TorriMax - oldSalute_TorriMax);
+                if (Difesa_TorriMax > oldDifesa_TorriMax)
+                    Difesa_Torri += (Difesa_TorriMax - oldDifesa_TorriMax);
 
+                if (Salute_CastelloMax > oldSalute_CastelloMax)
+                    Salute_Castello += (Salute_CastelloMax - oldSalute_CastelloMax);
+                if (Difesa_CastelloMax > oldDifesa_CastelloMax)
+                    Difesa_Castello += (Difesa_CastelloMax - oldDifesa_CastelloMax);
+            }
+            public void SetupCaserme()
+            {
                 GuerrieriMax = Caserma_Guerrieri * Strutture.Edifici.CasermaGuerrieri.Limite;
                 LancieriMax = Caserma_Lancieri * Strutture.Edifici.CasermaLanceri.Limite;
                 ArceriMax = Caserma_Arceri * Strutture.Edifici.CasermaArceri.Limite;
@@ -780,7 +886,6 @@ namespace Server_Strategico.Gioco
                 if (GamePass_Avanzato_Tempo == 0) GamePass_Avanzato = false;
                 
                 if (ScudoDellaPace > 0) ScudoDellaPace--;
-                if (ScudoDellaPace == 0) servers_.AggiornaListaPVP(); // Scudo della pace scaduto
 
                 if (Costruttori > 0) Costruttori--;
                 if (Vip == false && Costruttori == 0) Code_Costruzione = 1;
@@ -788,9 +893,97 @@ namespace Server_Strategico.Gioco
                 if (Vip == true && Costruttori > 0) Code_Costruzione = 3;
 
                 if (Reclutatori > 0) Reclutatori--;
-                if (Vip == false && Reclutatori == 0) Code_Reclutamento = 1;
-                if (Vip == true && Reclutatori == 0) Code_Reclutamento = 2;
-                if (Vip == true && Reclutatori > 0) Code_Reclutamento = 3;
+                if (GamePass_Base == false && Reclutatori == 0) Code_Reclutamento = 1;
+                if (GamePass_Base == true && Reclutatori == 0) Code_Reclutamento = 2;
+                if (GamePass_Base == true && Reclutatori > 0) Code_Reclutamento = 3;
+            }
+            public async Task BonusPacchetti()
+            {
+                double bonusAttack = 0, bonusHealth = 0, bonusDefense = 0;
+
+                if (Vip)
+                {
+                    bonusAttack = 0.02; bonusHealth = 0.02; bonusDefense = 0.02;
+
+                    // + 1 Costruttori fino alla scadenza.
+
+                    Bonus_Attacco_Guerrieri = bonusAttack;
+                    Bonus_Attacco_Lanceri = bonusAttack;
+                    Bonus_Attacco_Arceri = bonusAttack;
+                    Bonus_Attacco_Catapulte = bonusAttack;
+
+                    Bonus_Salute_Guerrieri = bonusHealth;
+                    Bonus_Salute_Lanceri = bonusHealth;
+                    Bonus_Salute_Arceri = bonusHealth;
+                    Bonus_Salute_Catapulte = bonusHealth;
+
+                    Bonus_Difesa_Guerrieri = bonusDefense;
+                    Bonus_Difesa_Lanceri = bonusDefense;
+                    Bonus_Difesa_Arceri = bonusDefense;
+                    Bonus_Difesa_Catapulte = bonusDefense;
+
+                    Bonus_Salute_Strutture = 0.02;
+                    Bonus_Difesa_Strutture = 0.02;
+                    Bonus_Guarnigione_Strutture = 0.02;
+                }
+                if (GamePass_Base)
+                {
+                    bonusAttack = 0.04; bonusHealth = 0.04; bonusDefense = 0.04;
+
+                    // + 1 Reclutatori fino alla scadenza.
+
+                    Bonus_Costruzione = 0.02;
+                    Bonus_Addestramento = 0.02;
+
+                    Bonus_Attacco_Guerrieri = bonusAttack;
+                    Bonus_Attacco_Lanceri = bonusAttack;
+                    Bonus_Attacco_Arceri = bonusAttack;
+                    Bonus_Attacco_Catapulte = bonusAttack;
+
+                    Bonus_Salute_Guerrieri = bonusHealth;
+                    Bonus_Salute_Lanceri = bonusHealth;
+                    Bonus_Salute_Arceri = bonusHealth;
+                    Bonus_Salute_Catapulte = bonusHealth;
+
+                    Bonus_Difesa_Guerrieri = bonusDefense;
+                    Bonus_Difesa_Lanceri = bonusDefense;
+                    Bonus_Difesa_Arceri = bonusDefense;
+                    Bonus_Difesa_Catapulte = bonusDefense;
+
+                    Bonus_Salute_Strutture = 0.04;
+                    Bonus_Difesa_Strutture = 0.04;
+                    Bonus_Guarnigione_Strutture = 0.04;
+                }
+                if (GamePass_Avanzato)
+                {
+                    bonusAttack = 6; bonusHealth = 0.06; bonusDefense = 0.06;
+
+                    Bonus_Costruzione = 0.04;
+                    Bonus_Addestramento = 0.04;
+                    Bonus_Ricerca = 0.02;
+                    Bonus_Riparazione = 0.02;
+                    Bonus_Produzione_Risorse = 0.04;
+                    Bonus_Capacità_Trasporto = 0.04;
+
+                    Bonus_Attacco_Guerrieri = bonusAttack;
+                    Bonus_Attacco_Lanceri = bonusAttack;
+                    Bonus_Attacco_Arceri = bonusAttack;
+                    Bonus_Attacco_Catapulte = bonusAttack;
+
+                    Bonus_Salute_Guerrieri = bonusHealth;
+                    Bonus_Salute_Lanceri = bonusHealth;
+                    Bonus_Salute_Arceri = bonusHealth;
+                    Bonus_Salute_Catapulte = bonusHealth;
+
+                    Bonus_Difesa_Guerrieri = bonusDefense;
+                    Bonus_Difesa_Lanceri = bonusDefense;
+                    Bonus_Difesa_Arceri = bonusDefense;
+                    Bonus_Difesa_Catapulte = bonusDefense;
+
+                    Bonus_Salute_Strutture = 0.06;
+                    Bonus_Difesa_Strutture = 0.06;
+                    Bonus_Guarnigione_Strutture = 0.06;
+                }
             }
             public string FormatTime(double seconds)
             {
