@@ -26,10 +26,10 @@ namespace Server_Strategico.Gioco
 
             int ridurre_Addestramento = unitType switch
             {
-                "Guerrieri" => 1,
-                "Lanceri" => 1,
-                "Arceri" => 2,
-                "Catapulte" => 3,
+                "Guerrieri" => Ricerca.Guerrieri_Riduzione,
+                "Lanceri" => Ricerca.Lanceri_Riduzione,
+                "Arceri" => Ricerca.Arceri_Riduzione,
+                "Catapulte" => Ricerca.Catapulte_Riduzione,
                 _ => 0
             };
 
@@ -49,7 +49,7 @@ namespace Server_Strategico.Gioco
 
                 if (unitàGuerrieri + count > player.Caserma_Guerrieri * Strutture.Edifici.CasermaGuerrieri.Limite)
                 {
-                    Server.Server.Send(clientGuid, $"Log_Server|[title]Limite truppe raggiunto per i Guerrieri.[icon:guerriero][/title] [warning]{unitàGuerrieri}/{player.Caserma_Guerrieri * Strutture.Edifici.CasermaGuerrieri.Limite}]");
+                    Server.Server.Send(clientGuid, $"Log_Server|[title]Limite truppe raggiunto per i Guerrieri.[icon:guerriero] [warning]{unitàGuerrieri}/{player.Caserma_Guerrieri * Strutture.Edifici.CasermaGuerrieri.Limite}");
                     return;
                 }
             }
@@ -69,7 +69,7 @@ namespace Server_Strategico.Gioco
 
                 if (unitàLanceri + count > player.Caserma_Lancieri * Strutture.Edifici.CasermaLanceri.Limite)
                 {
-                    Server.Server.Send(clientGuid, $"Log_Server|[tile]Limite truppe raggiunto per i Lanceri.[icon:lancere][/tile] [warning][{unitàLanceri}/{player.Caserma_Lancieri * Strutture.Edifici.CasermaLanceri.Limite}]");
+                    Server.Server.Send(clientGuid, $"Log_Server|[tile]Limite truppe raggiunto per i Lanceri.[icon:lancere] [warning]{unitàLanceri}/{player.Caserma_Lancieri * Strutture.Edifici.CasermaLanceri.Limite}");
                     return;
                 }
             }
@@ -89,7 +89,7 @@ namespace Server_Strategico.Gioco
 
                 if (unitàArceri + count > player.Caserma_Arceri * Strutture.Edifici.CasermaArceri.Limite)
                 {
-                    Server.Server.Send(clientGuid, $"Log_Server|[tile]Limite truppe raggiunto per gli Arceri.[icon:arciere][/tile] [warning][{unitàArceri}/{player.Caserma_Arceri * Strutture.Edifici.CasermaArceri.Limite}]");
+                    Server.Server.Send(clientGuid, $"Log_Server|[tile]Limite truppe raggiunto per gli Arceri.[icon:arciere] [warning]{unitàArceri}/{player.Caserma_Arceri * Strutture.Edifici.CasermaArceri.Limite}");
                     return;
                 }
             }
@@ -109,7 +109,7 @@ namespace Server_Strategico.Gioco
 
                 if (unitàCatapulta + count > player.Caserma_Catapulte * Strutture.Edifici.CasermaCatapulte.Limite)
                 {
-                    Server.Server.Send(clientGuid, $"Log_Server|[tile]Limite truppe raggiunto per le Catapulte.[icon:catapulta][/tile] [warning][{unitàCatapulta}/{player.Caserma_Catapulte * Strutture.Edifici.CasermaCatapulte.Limite}]");
+                    Server.Server.Send(clientGuid, $"Log_Server|[tile]Limite truppe raggiunto per le Catapulte.[icon:catapulta] [warning]{unitàCatapulta}/{player.Caserma_Catapulte * Strutture.Edifici.CasermaCatapulte.Limite}");
                     return;
                 }
             }
@@ -158,7 +158,7 @@ namespace Server_Strategico.Gioco
             OnEvent(player, QuestEventType.Risorse, "Scudi", Convert.ToInt32(unitCost.Scudi * count));
             OnEvent(player, QuestEventType.Risorse, "Armature", Convert.ToInt32(unitCost.Armature * count));
 
-            int tempoAddestramento = Math.Max(1, Convert.ToInt32(unitCost.TempoReclutamento - player.Ricerca_Addestramento * ridurre_Addestramento));
+            int tempoAddestramento = Math.Max(1, Convert.ToInt32(unitCost.TempoReclutamento - (player.Ricerca_Addestramento * ridurre_Addestramento) - (unitCost.TempoReclutamento * player.Bonus_Addestramento)));
 
             if (player.recruit_Queue == null) // Inizializza coda se nulla
                 player.recruit_Queue = new Queue<RecruitTask>();
@@ -168,12 +168,12 @@ namespace Server_Strategico.Gioco
 
             StartNextRecruitments(player, clientGuid);
             Server.Server.Send(clientGuid,
-                $"Log_Server|[info]Risorse utilizzate per l'ddestramento di {count} [/info] [title]{(unitType + livello).Replace("_", " LV ")}[/title]:\r\n " +
-                $"[cibo][icon:cibo]-{(unitCost.Cibo * count):N0}[/cibo]  " +
-                $"[legno[icon:legno]]-{(unitCost.Legno * count):N0}[/legno]  " +
-                $"[pietra][icon:pietra]-{(unitCost.Pietra * count):N0}[/pietra]  " +
-                $"[ferro][icon:ferro]-{(unitCost.Ferro * count):N0}[/ferro]  " +
-                $"[oro][icon:oro]-{(unitCost.Oro * count):N0}[/oro]  " +
+                $"Log_Server|[info]Risorse utilizzate[/info] per l'ddestramento di [warning]{count} {(unitType + livello).Replace("_", " LV ")}[/warning]:\r\n " +
+                $"[cibo][icon:cibo]-{(unitCost.Cibo * count):N0}[/cibo] " +
+                $"[legno][icon:legno]]-{(unitCost.Legno * count):N0}[/legno] " +
+                $"[pietra][icon:pietra]-{(unitCost.Pietra * count):N0}[/pietra] " +
+                $"[ferro][icon:ferro]-{(unitCost.Ferro * count):N0}[/ferro] " +
+                $"[oro][icon:oro]-{(unitCost.Oro * count):N0}[/oro] " +
                 $"[popolazione][icon:popolazione]-{(unitCost.Popolazione * count):N0}[/oro]");
         }
         private static void StartNextRecruitments(Player player, Guid clientGuid)
@@ -194,7 +194,7 @@ namespace Server_Strategico.Gioco
                     player.pausedTasks_Recruit.Enqueue(t);
 
                     Console.WriteLine($"Costruzione di {t.Type} messa in pausa (slot ridotto)");
-                    Server.Server.Send(clientGuid, $"Log_Server|[tile]Reclutamento di[/tile] [warning]{t.Type.Replace("_", " Lv ")}[/warning] [tile]messa in pausa per riduzione slot.[/warning]");
+                    Server.Server.Send(clientGuid, $"Log_Server|[tile]Reclutamento di [warning]{t.Type.Replace("_", " Lv ")} [tile]messa in pausa per riduzione slot.");
                 }
                 return; // usciamo: prima delle pause non facciamo altro
             }
@@ -214,97 +214,135 @@ namespace Server_Strategico.Gioco
                 if (player.recruit_Queue.Count > 0)  // 3) Se non ci sono sospese, avvia dalla coda normale
                 {
                     var nextTask = player.recruit_Queue.Dequeue();
-                    nextTask.Start();
+                    if (nextTask != null)
+                        nextTask.Start();
                     player.currentTasks_Recruit.Add(nextTask);
 
-                    Console.WriteLine($"Reclutamento di {nextTask.Type} iniziata, durata {nextTask.DurationInSeconds}s");
-                    Server.Server.Send(clientGuid, $"Log_Server|[tile]Reclutamento di[/tile] [warning]{nextTask.Type.Replace("_", " Lv ")}[/warning] [tile]iniziata.");
+                    Console.WriteLine($"Reclutamento di {nextTask.Type} iniziata, durata {player.FormatTime(nextTask.DurationInSeconds)}s");
+                    Server.Server.Send(clientGuid, $"Log_Server|[title]Reclutamento di[/title] {nextTask.Type.Replace("_", " Lv ")} [title]iniziata. Durata[/title] [icon:tempo]{player.FormatTime(nextTask.DurationInSeconds)}");
                 }
                 else break;
             }
         }
         public static void CompleteRecruitment(Guid clientGuid, Player player)
         {
-            for (int i = player.currentTasks_Recruit.Count - 1; i >= 0; i--)
-            {
-                var task = player.currentTasks_Recruit[i];
+            if (player.currentTasks_Recruit == null || player.currentTasks_Recruit.Count == 0)
+                return;
+
+            // Usa una lista temporanea per raccogliere i task completati
+            var completedTasks = new List<RecruitTask>();
+
+            foreach (var task in player.currentTasks_Recruit)
                 if (task.IsComplete())
+                    completedTasks.Add(task);
+
+            // Ora processa e rimuovi i task completati
+            foreach (var task in completedTasks)
+            {
+                player.Unità_Addestrate++;
+
+                // Assicura che gli array esistano
+                if (player.Guerrieri == null || player.Guerrieri.Length < 5)
+                    player.Guerrieri = new int[5];
+                if (player.Lanceri == null || player.Lanceri.Length < 5)
+                    player.Lanceri = new int[5];
+                if (player.Arceri == null || player.Arceri.Length < 5)
+                    player.Arceri = new int[5];
+                if (player.Catapulte == null || player.Catapulte.Length < 5)
+                    player.Catapulte = new int[5];
+
+                switch (task.Type)
                 {
-                    player.Unità_Addestrate++;
-                    switch (task.Type)
-                    {
-                        case "Guerrieri_1": 
-                            player.Guerrieri[0]++;
-                            OnEvent(player, QuestEventType.Addestramento, "Guerrieri_1", 1);
-                            break;
-                        case "Lanceri_1": 
-                            player.Lanceri[0]++;
-                            OnEvent(player, QuestEventType.Addestramento, "Lanceri_1", 1);
-                            break;
-                        case "Arceri_1": 
-                            player.Arceri[0]++;
-                            OnEvent(player, QuestEventType.Addestramento, "Arceri_1", 1);
-                            break;
-                        case "Catapulte_1": 
-                            player.Catapulte[0]++;
-                            OnEvent(player, QuestEventType.Addestramento, "Catapulta_1", 1);
-                            break;
+                    case "Guerrieri_1":
+                        player.Guerrieri[0]++;
+                        OnEvent(player, QuestEventType.Addestramento, "Guerrieri", 1);
+                        break;
+                    case "Lanceri_1":
+                        player.Lanceri[0]++;
+                        OnEvent(player, QuestEventType.Addestramento, "Lanceri", 1);
+                        break;
+                    case "Arceri_1":
+                        player.Arceri[0]++;
+                        OnEvent(player, QuestEventType.Addestramento, "Arceri", 1);
+                        break;
+                    case "Catapulte_1":
+                        player.Catapulte[0]++;
+                        OnEvent(player, QuestEventType.Addestramento, "Catapulta", 1);
+                        break;
 
-                        case "Guerrieri_2":
-                            player.Guerrieri[1]++;
-                            OnEvent(player, QuestEventType.Addestramento, "Guerrieri_2", 1);
-                            break;
-                        case "Lanceri_2":
-                            player.Lanceri[1]++;
-                            OnEvent(player, QuestEventType.Addestramento, "Lanceri_2", 1);
-                            break;
-                        case "Arceri_2":
-                            player.Arceri[1]++;
-                            OnEvent(player, QuestEventType.Addestramento, "Arceri_2", 1);
-                            break;
-                        case "Catapulte_2":
-                            player.Catapulte[1]++;
-                            OnEvent(player, QuestEventType.Addestramento, "Catapulta_2", 1);
-                            break;
+                    case "Guerrieri_2":
+                        player.Guerrieri[1]++;
+                        OnEvent(player, QuestEventType.Addestramento, "Guerrieri", 1);
+                        break;
+                    case "Lanceri_2":
+                        player.Lanceri[1]++;
+                        OnEvent(player, QuestEventType.Addestramento, "Lanceri", 1);
+                        break;
+                    case "Arceri_2":
+                        player.Arceri[1]++;
+                        OnEvent(player, QuestEventType.Addestramento, "Arceri", 1);
+                        break;
+                    case "Catapulte_2":
+                        player.Catapulte[1]++;
+                        OnEvent(player, QuestEventType.Addestramento, "Catapulta", 1);
+                        break;
 
-                        case "Guerrieri_3":
-                            player.Guerrieri[2]++;
-                            OnEvent(player, QuestEventType.Addestramento, "Guerrieri_3", 1);
-                            break;
-                        case "Lanceri_3":
-                            player.Lanceri[2]++;
-                            OnEvent(player, QuestEventType.Addestramento, "Lanceri_3", 1);
-                            break;
-                        case "Arceri_3":
-                            player.Arceri[2]++;
-                            OnEvent(player, QuestEventType.Addestramento, "Arceri_3", 1);
-                            break;
-                        case "Catapulte_3":
-                            player.Catapulte[2]++;
-                            OnEvent(player, QuestEventType.Addestramento, "Catapulta_3", 1);
-                            break;
+                    case "Guerrieri_3":
+                        player.Guerrieri[2]++;
+                        OnEvent(player, QuestEventType.Addestramento, "Guerrieri", 1);
+                        break;
+                    case "Lanceri_3":
+                        player.Lanceri[2]++;
+                        OnEvent(player, QuestEventType.Addestramento, "Lanceri", 1);
+                        break;
+                    case "Arceri_3":
+                        player.Arceri[2]++;
+                        OnEvent(player, QuestEventType.Addestramento, "Arceri", 1);
+                        break;
+                    case "Catapulte_3":
+                        player.Catapulte[2]++;
+                        OnEvent(player, QuestEventType.Addestramento, "Catapulta", 1);
+                        break;
 
-                        case "Guerrieri_4":
-                            player.Guerrieri[3]++;
-                            OnEvent(player, QuestEventType.Addestramento, "Guerrieri_4", 1);
-                            break;
-                        case "Lanceri_4":
-                            player.Lanceri[3]++;
-                            OnEvent(player, QuestEventType.Addestramento, "Lanceri_4", 1);
-                            break;
-                        case "Arceri_4":
-                            player.Arceri[3]++;
-                            OnEvent(player, QuestEventType.Addestramento, "Arceri_4", 1);
-                            break;
-                        case "Catapulte_4":
-                            player.Catapulte[3]++;
-                            OnEvent(player, QuestEventType.Addestramento, "Catapulta_4", 1);
-                            break;
-                    }
-                    Server.Server.Send(clientGuid, $"Log_Server|[warning]{task.Type.Replace("_", " Lv ")}[/warning] addestrato!");
-                    player.currentTasks_Recruit.RemoveAt(i);
+                    case "Guerrieri_4":
+                        player.Guerrieri[3]++;
+                        OnEvent(player, QuestEventType.Addestramento, "Guerrieri", 1);
+                        break;
+                    case "Lanceri_4":
+                        player.Lanceri[3]++;
+                        OnEvent(player, QuestEventType.Addestramento, "Lanceri", 1);
+                        break;
+                    case "Arceri_4":
+                        player.Arceri[3]++;
+                        OnEvent(player, QuestEventType.Addestramento, "Arceri", 1);
+                        break;
+                    case "Catapulte_4":
+                        player.Catapulte[3]++;
+                        OnEvent(player, QuestEventType.Addestramento, "Catapulta", 1);
+                        break;
+
+                    case "Guerrieri_5":
+                        player.Guerrieri[4]++;
+                        OnEvent(player, QuestEventType.Addestramento, "Guerrieri", 1);
+                        break;
+                    case "Lanceri_5":
+                        player.Lanceri[4]++;
+                        OnEvent(player, QuestEventType.Addestramento, "Lanceri", 1);
+                        break;
+                    case "Arceri_5":
+                        player.Arceri[4]++;
+                        OnEvent(player, QuestEventType.Addestramento, "Arceri", 1);
+                        break;
+                    case "Catapulte_5":
+                        player.Catapulte[4]++;
+                        OnEvent(player, QuestEventType.Addestramento, "Catapulta", 1);
+                        break;
                 }
+
+                Server.Server.Send(clientGuid, $"Log_Server|[warning]{task.Type.Replace("_", " Lv ")}[/warning] addestrato!");
+                player.currentTasks_Recruit.Remove(task); // Rimuovi il task dalla lista corrente in modo sicuro
             }
+
             StartNextRecruitments(player, clientGuid);
         }
         public static string Get_Total_Recruit_Time(Player player)
@@ -324,12 +362,27 @@ namespace Server_Strategico.Gioco
         public static Dictionary<string, int> GetQueuedUnits(Player player)
         {
             var queuedUnits = new Dictionary<string, int>();
-            foreach (var task in player.recruit_Queue)
-            {
-                if (!queuedUnits.ContainsKey(task.Type))
-                    queuedUnits[task.Type] = 0;
-                queuedUnits[task.Type]++;
-            }
+            if (player.recruit_Queue.Count() > 0)
+                foreach (var task in player.recruit_Queue)
+                {
+                    if (!queuedUnits.ContainsKey(task.Type))
+                        queuedUnits[task.Type] = 0;
+                    queuedUnits[task.Type]++;
+                }
+            if (player.currentTasks_Recruit.Count() > 0)
+                foreach (var task in player.currentTasks_Recruit)
+                {
+                    if (!queuedUnits.ContainsKey(task.Type))
+                        queuedUnits[task.Type] = 0;
+                    queuedUnits[task.Type]++;
+                }
+            if (player.pausedTasks_Recruit.Count() > 0)
+                foreach (var task in player.pausedTasks_Recruit)
+                {
+                    if (!queuedUnits.ContainsKey(task.Type))
+                        queuedUnits[task.Type] = 0;
+                    queuedUnits[task.Type]++;
+                }
             return queuedUnits;
         }
 
@@ -368,116 +421,147 @@ namespace Server_Strategico.Gioco
         }
         public static void UsaDiamantiPerVelocizzareReclutamento(Guid clientGuid, Player player, int diamantiBluDaUsare)
         {
-            if (player.Diamanti_Blu < diamantiBluDaUsare && diamantiBluDaUsare < 0)
+            if (diamantiBluDaUsare <= 0 || player.Diamanti_Blu < diamantiBluDaUsare)
             {
-                Server.Server.Send(clientGuid, "Log_Server|[error]Non hai abbastanza[/error] [blu]Diamanti Blu![blu][icon:diamantiBlu]");
+                Server.Server.Send(clientGuid, "Log_Server|[error]Non hai abbastanza [blu]Diamanti Blu[/blu]![icon:diamanteBlu]");
                 return;
             }
 
-            double tempoTotale = 0; // Calcola il tempo totale ancora necessario
-            foreach (var task in player.currentTasks_Recruit) //Task in corso
-                tempoTotale += task.GetRemainingTime();
-            foreach (var task in player.pausedTasks_Recruit) //Task sospese
-                tempoTotale += task.GetRemainingTime();
-            foreach (var task in player.recruit_Queue) //Task in coda
-                tempoTotale += task.GetRemainingTime();
+            double tempoTotale = 0;
+
+            if (player.currentTasks_Recruit != null)
+                foreach (var task in player.currentTasks_Recruit)
+                    tempoTotale += Math.Max(0, task.GetRemainingTime());
+
+            if (player.pausedTasks_Recruit != null)
+                foreach (var task in player.pausedTasks_Recruit)
+                    tempoTotale += Math.Max(0, task.GetRemainingTime());
+
+            if (player.recruit_Queue != null)
+                foreach (var task in player.recruit_Queue)
+                    tempoTotale += Math.Max(0, task.DurationInSeconds);
 
             if (tempoTotale <= 0)
             {
                 Server.Server.Send(clientGuid, "Log_Server|[warning]Non ci sono unità da velocizzare.");
                 return;
             }
-            int riduzioneTotale = diamantiBluDaUsare * Variabili_Server.Velocizzazione_Tempo;             // Ogni diamante riduce 30 secondi
-            int maxDiamantiUtili = (int)Math.Ceiling(tempoTotale / Variabili_Server.Velocizzazione_Tempo); // Se si usano più diamanti del necessario, limita alla quantità utile
+
+            int riduzioneTotale = diamantiBluDaUsare * Variabili_Server.Velocizzazione_Tempo;
+            int maxDiamantiUtili = (int)Math.Ceiling(tempoTotale / Variabili_Server.Velocizzazione_Tempo);
 
             if (diamantiBluDaUsare > maxDiamantiUtili)
             {
                 diamantiBluDaUsare = maxDiamantiUtili;
                 riduzioneTotale = diamantiBluDaUsare * Variabili_Server.Velocizzazione_Tempo;
             }
-            if (player.currentTasks_Recruit.Count > 0)
-                foreach (var task in player.currentTasks_Recruit) //Task in corso
+
+            int riduzioneTotaleOriginale = riduzioneTotale;
+
+            // 1) Processa currentTasks
+            if (player.currentTasks_Recruit != null && player.currentTasks_Recruit.Count > 0)
+            {
+                var tasksList = player.currentTasks_Recruit.ToList();
+                foreach (var task in tasksList)
                 {
+                    if (riduzioneTotale <= 0) break;
+
                     double rimanente = task.GetRemainingTime();
                     if (rimanente <= 0) continue;
 
                     if (riduzioneTotale >= rimanente)
                     {
+                        int riduzione = (int)Math.Ceiling(rimanente);
                         task.ForzaCompletamento();
-                        riduzioneTotale -= (int)rimanente;
-                        player.Tempo_Sottratto_Diamanti += (int)rimanente;
-                        player.Tempo_Addestramento += (int)rimanente;
+                        player.Tempo_Sottratto_Diamanti += riduzione;
+                        player.Tempo_Addestramento += riduzione;
+                        riduzioneTotale -= riduzione;
                     }
                     else
                     {
-                        if (rimanente - riduzioneTotale < 1)
-                            riduzioneTotale -= 1;
                         task.RiduciTempo(riduzioneTotale);
-                        player.Tempo_Sottratto_Diamanti += (int)riduzioneTotale;
-                        player.Tempo_Addestramento += (int)riduzioneTotale;
+                        player.Tempo_Sottratto_Diamanti += riduzioneTotale;
+                        player.Tempo_Addestramento += riduzioneTotale;
                         riduzioneTotale = 0;
                     }
-                    if (riduzioneTotale <= 0)
-                        break;
                 }
-            if (player.recruit_Queue.Count > 0)
-                foreach (var task in player.recruit_Queue) //Task in coda
+            }
+
+            // 2) Processa recruit_Queue
+            if (riduzioneTotale > 0 && player.recruit_Queue != null && player.recruit_Queue.Count > 0)
+            {
+                var queueList = player.recruit_Queue.ToList();
+
+                foreach (var task in queueList)
                 {
+                    if (riduzioneTotale <= 0) break;
+
+                    double rimanente = task.DurationInSeconds;
+                    if (rimanente <= 0) continue;
+
+                    if (riduzioneTotale >= rimanente)
+                    {
+                        int riduzione = (int)Math.Ceiling(rimanente);
+                        task.ForzaCompletamento();
+                        player.Tempo_Sottratto_Diamanti += riduzione;
+                        player.Tempo_Addestramento += riduzione;
+                        riduzioneTotale -= riduzione;
+                    }
+                    else
+                    {
+                        task.RiduciTempo(riduzioneTotale);
+                        player.Tempo_Sottratto_Diamanti += riduzioneTotale;
+                        player.Tempo_Addestramento += riduzioneTotale;
+                        riduzioneTotale = 0;
+                    }
+                }
+
+                player.recruit_Queue = new Queue<RecruitTask>(queueList);
+            }
+
+            // 3) Processa pausedTasks
+            if (riduzioneTotale > 0 && player.pausedTasks_Recruit != null && player.pausedTasks_Recruit.Count > 0)
+            {
+                var pausedList = player.pausedTasks_Recruit.ToList();
+
+                foreach (var task in pausedList)
+                {
+                    if (riduzioneTotale <= 0) break;
+
                     double rimanente = task.GetRemainingTime();
                     if (rimanente <= 0) continue;
 
                     if (riduzioneTotale >= rimanente)
                     {
+                        int riduzione = (int)Math.Ceiling(rimanente);
                         task.ForzaCompletamento();
-                        player.Tempo_Sottratto_Diamanti += (int)rimanente;
-                        player.Tempo_Addestramento += (int)rimanente;
-                        riduzioneTotale -= (int)rimanente;
+                        player.Tempo_Sottratto_Diamanti += riduzione;
+                        player.Tempo_Addestramento += riduzione;
+                        riduzioneTotale -= riduzione;
                     }
                     else
                     {
-                        if (rimanente - riduzioneTotale < 1)
-                            riduzioneTotale -= 1;
                         task.RiduciTempo(riduzioneTotale);
-                        player.Tempo_Sottratto_Diamanti += (int)riduzioneTotale;
-                        player.Tempo_Addestramento += (int)riduzioneTotale;
+                        player.Tempo_Sottratto_Diamanti += riduzioneTotale;
+                        player.Tempo_Addestramento += riduzioneTotale;
                         riduzioneTotale = 0;
                     }
-                    if (riduzioneTotale <= 0)
-                        break;
                 }
-            if (player.pausedTasks_Recruit.Count > 0)
-                foreach (var task in player.pausedTasks_Recruit) //Task in coda
-                {
-                    double rimanente = task.GetRemainingTime();
-                    if (rimanente <= 0) continue;
 
-                    if (riduzioneTotale >= rimanente)
-                    {
-                        task.ForzaCompletamento();
-                        player.Tempo_Sottratto_Diamanti += (int)rimanente;
-                        player.Tempo_Addestramento += (int)rimanente;
-                        riduzioneTotale -= (int)rimanente;
-                    }
-                    else
-                    {
-                        if (rimanente - riduzioneTotale < 1)
-                            riduzioneTotale -= 1;
-                        task.RiduciTempo(riduzioneTotale);
-                        player.Tempo_Sottratto_Diamanti += (int)riduzioneTotale;
-                        player.Tempo_Addestramento += (int)riduzioneTotale;
-                        riduzioneTotale = 0;
-                    }
-                    if (riduzioneTotale <= 0)
-                        break;
-                }
+                player.pausedTasks_Recruit = new Queue<RecruitTask>(pausedList);
+            }
+
             player.Diamanti_Blu -= diamantiBluDaUsare;
             player.Diamanti_Blu_Utilizzati += diamantiBluDaUsare;
+
             OnEvent(player, QuestEventType.Risorse, "Diamanti Blu", diamantiBluDaUsare);
-            OnEvent(player, QuestEventType.Velocizzazione, "reclutamento", (int)riduzioneTotale);
-            OnEvent(player, QuestEventType.Velocizzazione, "Qualsiasi", (int)riduzioneTotale);
+
+            int tempoEffettivamenteRidotto = riduzioneTotaleOriginale - riduzioneTotale;
+            OnEvent(player, QuestEventType.Velocizzazione, "Addestramento", tempoEffettivamenteRidotto);
+            OnEvent(player, QuestEventType.Velocizzazione, "Qualsiasi", tempoEffettivamenteRidotto);
 
             CompleteRecruitment(clientGuid, player);
-            Server.Server.Send(clientGuid, $"Log_Server|[warning]Hai usato[/warning] [blu]{diamantiBluDaUsare} Diamanti Blu[/blu][icon:diamantiBlu] [warning]per velocizzare l'addestramento!");
+            Server.Server.Send(clientGuid, $"Log_Server|[title]Hai usato [warning][icon:diamanteBlu]{diamantiBluDaUsare} [blu]Diamanti Blu [title]per velocizzare l'addestramento! [icon:tempo]{player.FormatTime(tempoEffettivamenteRidotto)}");
         }
 
         public class RecruitTask // Classe privata per rappresentare un task di reclutamento
@@ -547,8 +631,9 @@ namespace Server_Strategico.Gioco
             public double GetRemainingTime()
             {
                 if (forceComplete) return 0;
-                if (IsPaused) return pausedRemainingSeconds;
-                if (startTime == default) return DurationInSeconds;
+                if (IsPaused) return Math.Max(0, pausedRemainingSeconds);
+                if (startTime == default) return Math.Max(0, DurationInSeconds);
+
                 double elapsed = (DateTime.Now - startTime).TotalSeconds;
                 double rem = Math.Max(0, DurationInSeconds - elapsed);
                 return rem;
@@ -563,22 +648,52 @@ namespace Server_Strategico.Gioco
             public void RiduciTempo(int secondi)
             {
                 if (secondi <= 0) return;
+
                 if (IsPaused)
                 {
                     pausedRemainingSeconds = Math.Max(0, pausedRemainingSeconds - secondi);
-                    if (pausedRemainingSeconds <= 0) ForzaCompletamento();
                     return;
                 }
 
-                double rem = GetRemainingTime(); // se in corso
-                if (rem <= 0) return;
+                double rem = GetRemainingTime();
+                if (rem <= 0) return; // Già completo
 
-                // riduci il tempo rimanente aggiornando DurationInSeconds rispetto al tempo già trascorso
-                double elapsed = (startTime == default) ? 0 : (DateTime.Now - startTime).TotalSeconds;
                 double newRem = Math.Max(0, rem - secondi);
 
-                if (newRem <= 0) ForzaCompletamento();
-                else DurationInSeconds = (int)Math.Ceiling(elapsed + newRem); // impostiamo DurationInSeconds in modo che Duration - elapsed = newRem
+                if (newRem <= 0.5) // Usa 0.5 invece di 0 per evitare problemi di arrotondamento
+                {
+                    // Imposta come completato: tempo passato
+                    DurationInSeconds = 1; // Minimo 1 secondo di durata
+                    startTime = DateTime.Now.AddSeconds(-2); // 2 secondi nel passato = già completato
+                }
+                else
+                {
+                    // Calcola quanto tempo è già trascorso
+                    double tempoGiaTrascorso = DurationInSeconds - rem;
+
+                    // Evita valori negativi
+                    tempoGiaTrascorso = Math.Max(0, tempoGiaTrascorso);
+
+                    // Calcola la nuova durata totale
+                    double nuovoDurationTotal = tempoGiaTrascorso + newRem;
+
+                    if (nuovoDurationTotal < 1)
+                    {
+                        // Se troppo piccolo, marca come completato
+                        DurationInSeconds = 1;
+                        startTime = DateTime.Now.AddSeconds(-2);
+                    }
+                    else
+                    {
+                        // Aggiorna startTime per riflettere il tempo risparmiato
+                        startTime = DateTime.Now.AddSeconds(-tempoGiaTrascorso);
+                        DurationInSeconds = (int)Math.Ceiling(nuovoDurationTotal);
+
+                        // Sanity check: assicura che DurationInSeconds sia positivo
+                        if (DurationInSeconds < 1)
+                            DurationInSeconds = 1;
+                    }
+                }
             }
         }
     }
