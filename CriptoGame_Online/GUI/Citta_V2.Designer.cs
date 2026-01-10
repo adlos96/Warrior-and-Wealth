@@ -33,6 +33,15 @@
             panel2 = new Panel();
             txt_Testo = new TextBox();
             panel1 = new Panel();
+            btn_Ripara_Tutto = new Button();
+            pictureBox_Torri_Difesa = new PictureBox();
+            pictureBox_Torri_Salute = new PictureBox();
+            pictureBox_Mura_Difesa = new PictureBox();
+            pictureBox_Mura_Salute = new PictureBox();
+            pictureBox_Cancello_Difesa = new PictureBox();
+            pictureBox_Cancello_Salute = new PictureBox();
+            pictureBox_Castello_Difesa = new PictureBox();
+            pictureBox_Castello_Salute = new PictureBox();
             label = new Label();
             btn_Citta = new Button();
             panel_Soldier_Citta = new Panel();
@@ -62,6 +71,14 @@
             panel_Sfondo.SuspendLayout();
             panel2.SuspendLayout();
             panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox_Torri_Difesa).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox_Torri_Salute).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox_Mura_Difesa).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox_Mura_Salute).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox_Cancello_Difesa).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox_Cancello_Salute).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox_Castello_Difesa).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox_Castello_Salute).BeginInit();
             SuspendLayout();
             // 
             // panel_Sfondo
@@ -89,19 +106,28 @@
             // 
             txt_Testo.BorderStyle = BorderStyle.None;
             txt_Testo.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txt_Testo.Location = new Point(12, 13);
+            txt_Testo.Location = new Point(3, 13);
             txt_Testo.Multiline = true;
             txt_Testo.Name = "txt_Testo";
             txt_Testo.ReadOnly = true;
-            txt_Testo.Size = new Size(687, 49);
+            txt_Testo.Size = new Size(713, 49);
             txt_Testo.TabIndex = 33;
-            txt_Testo.Text = "Acquista il tuo terreno virtuale e diventa proprietario di una porzione di terra. Ogni terreno genera una rendita giornaliera automatica. L’ammontare della rendita dipende dalla rarità.";
+            txt_Testo.Text = resources.GetString("txt_Testo.Text");
             txt_Testo.TextAlign = HorizontalAlignment.Center;
             // 
             // panel1
             // 
             panel1.BackgroundImage = (Image)resources.GetObject("panel1.BackgroundImage");
             panel1.BackgroundImageLayout = ImageLayout.Stretch;
+            panel1.Controls.Add(btn_Ripara_Tutto);
+            panel1.Controls.Add(pictureBox_Torri_Difesa);
+            panel1.Controls.Add(pictureBox_Torri_Salute);
+            panel1.Controls.Add(pictureBox_Mura_Difesa);
+            panel1.Controls.Add(pictureBox_Mura_Salute);
+            panel1.Controls.Add(pictureBox_Cancello_Difesa);
+            panel1.Controls.Add(pictureBox_Cancello_Salute);
+            panel1.Controls.Add(pictureBox_Castello_Difesa);
+            panel1.Controls.Add(pictureBox_Castello_Salute);
             panel1.Controls.Add(label);
             panel1.Controls.Add(btn_Citta);
             panel1.Controls.Add(panel_Soldier_Citta);
@@ -134,17 +160,137 @@
             panel1.Size = new Size(719, 600);
             panel1.TabIndex = 39;
             // 
+            // btn_Ripara_Tutto
+            // 
+            btn_Ripara_Tutto.BackgroundImage = Properties.Resources.Texture_Wood_2;
+            btn_Ripara_Tutto.FlatAppearance.BorderSize = 0;
+            btn_Ripara_Tutto.FlatStyle = FlatStyle.Popup;
+            btn_Ripara_Tutto.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_Ripara_Tutto.ForeColor = Color.Black;
+            btn_Ripara_Tutto.Location = new Point(632, 3);
+            btn_Ripara_Tutto.Name = "btn_Ripara_Tutto";
+            btn_Ripara_Tutto.Size = new Size(84, 25);
+            btn_Ripara_Tutto.TabIndex = 54;
+            btn_Ripara_Tutto.Text = "Ripara Tutto";
+            btn_Ripara_Tutto.UseVisualStyleBackColor = true;
+            btn_Ripara_Tutto.Visible = false;
+            btn_Ripara_Tutto.Click += btn_Ripara_Tutto_Click;
+            // 
+            // pictureBox_Torri_Difesa
+            // 
+            pictureBox_Torri_Difesa.BackColor = Color.Transparent;
+            pictureBox_Torri_Difesa.BackgroundImage = Properties.Resources.Ripara_Strutture;
+            pictureBox_Torri_Difesa.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBox_Torri_Difesa.Location = new Point(547, 489);
+            pictureBox_Torri_Difesa.Name = "pictureBox_Torri_Difesa";
+            pictureBox_Torri_Difesa.Size = new Size(26, 26);
+            pictureBox_Torri_Difesa.TabIndex = 53;
+            pictureBox_Torri_Difesa.TabStop = false;
+            pictureBox_Torri_Difesa.Visible = false;
+            pictureBox_Torri_Difesa.Click += pictureBox_Torri_Difesa_Click;
+            // 
+            // pictureBox_Torri_Salute
+            // 
+            pictureBox_Torri_Salute.BackColor = Color.Transparent;
+            pictureBox_Torri_Salute.BackgroundImage = Properties.Resources.Ripara_Strutture;
+            pictureBox_Torri_Salute.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBox_Torri_Salute.Location = new Point(547, 461);
+            pictureBox_Torri_Salute.Name = "pictureBox_Torri_Salute";
+            pictureBox_Torri_Salute.Size = new Size(26, 26);
+            pictureBox_Torri_Salute.TabIndex = 52;
+            pictureBox_Torri_Salute.TabStop = false;
+            pictureBox_Torri_Salute.Visible = false;
+            pictureBox_Torri_Salute.Click += pictureBox_Torri_Salute_Click;
+            // 
+            // pictureBox_Mura_Difesa
+            // 
+            pictureBox_Mura_Difesa.BackColor = Color.Transparent;
+            pictureBox_Mura_Difesa.BackgroundImage = Properties.Resources.Ripara_Strutture;
+            pictureBox_Mura_Difesa.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBox_Mura_Difesa.Location = new Point(521, 302);
+            pictureBox_Mura_Difesa.Name = "pictureBox_Mura_Difesa";
+            pictureBox_Mura_Difesa.Size = new Size(26, 26);
+            pictureBox_Mura_Difesa.TabIndex = 51;
+            pictureBox_Mura_Difesa.TabStop = false;
+            pictureBox_Mura_Difesa.Visible = false;
+            pictureBox_Mura_Difesa.Click += pictureBox_Mura_Difesa_Click;
+            // 
+            // pictureBox_Mura_Salute
+            // 
+            pictureBox_Mura_Salute.BackColor = Color.Transparent;
+            pictureBox_Mura_Salute.BackgroundImage = Properties.Resources.Ripara_Strutture;
+            pictureBox_Mura_Salute.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBox_Mura_Salute.Location = new Point(521, 274);
+            pictureBox_Mura_Salute.Name = "pictureBox_Mura_Salute";
+            pictureBox_Mura_Salute.Size = new Size(26, 26);
+            pictureBox_Mura_Salute.TabIndex = 50;
+            pictureBox_Mura_Salute.TabStop = false;
+            pictureBox_Mura_Salute.Visible = false;
+            pictureBox_Mura_Salute.Click += pictureBox_Mura_Salute_Click;
+            // 
+            // pictureBox_Cancello_Difesa
+            // 
+            pictureBox_Cancello_Difesa.BackColor = Color.Transparent;
+            pictureBox_Cancello_Difesa.BackgroundImage = Properties.Resources.Ripara_Strutture;
+            pictureBox_Cancello_Difesa.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBox_Cancello_Difesa.Location = new Point(457, 152);
+            pictureBox_Cancello_Difesa.Name = "pictureBox_Cancello_Difesa";
+            pictureBox_Cancello_Difesa.Size = new Size(26, 26);
+            pictureBox_Cancello_Difesa.TabIndex = 49;
+            pictureBox_Cancello_Difesa.TabStop = false;
+            pictureBox_Cancello_Difesa.Visible = false;
+            pictureBox_Cancello_Difesa.Click += pictureBox_Cancello_Difesa_Click;
+            // 
+            // pictureBox_Cancello_Salute
+            // 
+            pictureBox_Cancello_Salute.BackColor = Color.Transparent;
+            pictureBox_Cancello_Salute.BackgroundImage = Properties.Resources.Ripara_Strutture;
+            pictureBox_Cancello_Salute.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBox_Cancello_Salute.Location = new Point(457, 124);
+            pictureBox_Cancello_Salute.Name = "pictureBox_Cancello_Salute";
+            pictureBox_Cancello_Salute.Size = new Size(26, 26);
+            pictureBox_Cancello_Salute.TabIndex = 48;
+            pictureBox_Cancello_Salute.TabStop = false;
+            pictureBox_Cancello_Salute.Visible = false;
+            pictureBox_Cancello_Salute.Click += pictureBox_Cancello_Salute_Click;
+            // 
+            // pictureBox_Castello_Difesa
+            // 
+            pictureBox_Castello_Difesa.BackColor = Color.Transparent;
+            pictureBox_Castello_Difesa.BackgroundImage = Properties.Resources.Ripara_Strutture;
+            pictureBox_Castello_Difesa.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBox_Castello_Difesa.Location = new Point(191, 190);
+            pictureBox_Castello_Difesa.Name = "pictureBox_Castello_Difesa";
+            pictureBox_Castello_Difesa.Size = new Size(26, 26);
+            pictureBox_Castello_Difesa.TabIndex = 47;
+            pictureBox_Castello_Difesa.TabStop = false;
+            pictureBox_Castello_Difesa.Visible = false;
+            pictureBox_Castello_Difesa.Click += pictureBox_Castello_Difesa_Click;
+            // 
+            // pictureBox_Castello_Salute
+            // 
+            pictureBox_Castello_Salute.BackColor = Color.Transparent;
+            pictureBox_Castello_Salute.BackgroundImage = Properties.Resources.Ripara_Strutture;
+            pictureBox_Castello_Salute.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBox_Castello_Salute.Location = new Point(191, 162);
+            pictureBox_Castello_Salute.Name = "pictureBox_Castello_Salute";
+            pictureBox_Castello_Salute.Size = new Size(26, 26);
+            pictureBox_Castello_Salute.TabIndex = 46;
+            pictureBox_Castello_Salute.TabStop = false;
+            pictureBox_Castello_Salute.Visible = false;
+            pictureBox_Castello_Salute.Click += pictureBox_Castello_Salute_Click;
+            // 
             // label
             // 
             label.AutoSize = true;
             label.BackColor = Color.Transparent;
             label.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label.ForeColor = Color.LightGray;
-            label.Location = new Point(243, 328);
+            label.Location = new Point(243, 316);
             label.Name = "label";
-            label.Size = new Size(66, 15);
+            label.Size = new Size(142, 15);
             label.TabIndex = 44;
-            label.Text = "Città      [5]";
+            label.Text = "Centro      [5]        Lv: [99]";
             // 
             // btn_Citta
             // 
@@ -153,11 +299,11 @@
             btn_Citta.FlatStyle = FlatStyle.Popup;
             btn_Citta.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_Citta.ForeColor = Color.Black;
-            btn_Citta.Location = new Point(274, 366);
+            btn_Citta.Location = new Point(268, 357);
             btn_Citta.Name = "btn_Citta";
-            btn_Citta.Size = new Size(65, 25);
+            btn_Citta.Size = new Size(84, 25);
             btn_Citta.TabIndex = 45;
-            btn_Citta.Text = "Aggiungi";
+            btn_Citta.Text = "Guarnigione";
             btn_Citta.UseVisualStyleBackColor = true;
             btn_Citta.Click += btn_Citta_Click;
             // 
@@ -166,7 +312,7 @@
             panel_Soldier_Citta.BackColor = Color.Transparent;
             panel_Soldier_Citta.BackgroundImageLayout = ImageLayout.Stretch;
             panel_Soldier_Citta.ForeColor = Color.Transparent;
-            panel_Soldier_Citta.Location = new Point(240, 346);
+            panel_Soldier_Citta.Location = new Point(240, 334);
             panel_Soldier_Citta.Name = "panel_Soldier_Citta";
             panel_Soldier_Citta.Size = new Size(143, 17);
             panel_Soldier_Citta.TabIndex = 43;
@@ -180,9 +326,9 @@
             label2.ForeColor = Color.LightGray;
             label2.Location = new Point(398, 448);
             label2.Name = "label2";
-            label2.Size = new Size(66, 15);
+            label2.Size = new Size(145, 15);
             label2.TabIndex = 17;
-            label2.Text = "Torri      [4]";
+            label2.Text = "Torri      [4]             Lv: [99]";
             // 
             // label5
             // 
@@ -192,9 +338,9 @@
             label5.ForeColor = Color.LightGray;
             label5.Location = new Point(493, 39);
             label5.Name = "label5";
-            label5.Size = new Size(87, 15);
+            label5.Size = new Size(145, 15);
             label5.TabIndex = 41;
-            label5.Text = "Ingresso      [1]";
+            label5.Text = "Ingresso      [1]      Lv: [99]";
             // 
             // btn_Castello
             // 
@@ -203,11 +349,11 @@
             btn_Castello.FlatStyle = FlatStyle.Popup;
             btn_Castello.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_Castello.ForeColor = Color.Black;
-            btn_Castello.Location = new Point(53, 236);
+            btn_Castello.Location = new Point(70, 236);
             btn_Castello.Name = "btn_Castello";
-            btn_Castello.Size = new Size(65, 25);
+            btn_Castello.Size = new Size(84, 25);
             btn_Castello.TabIndex = 35;
-            btn_Castello.Text = "Aggiungi";
+            btn_Castello.Text = "Guarnigione";
             btn_Castello.UseVisualStyleBackColor = true;
             btn_Castello.Click += btn_Castello_Click;
             // 
@@ -218,11 +364,11 @@
             btn_Ingresso.FlatStyle = FlatStyle.Popup;
             btn_Ingresso.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_Ingresso.ForeColor = Color.Black;
-            btn_Ingresso.Location = new Point(527, 77);
+            btn_Ingresso.Location = new Point(521, 80);
             btn_Ingresso.Name = "btn_Ingresso";
-            btn_Ingresso.Size = new Size(65, 25);
+            btn_Ingresso.Size = new Size(84, 25);
             btn_Ingresso.TabIndex = 42;
-            btn_Ingresso.Text = "Aggiungi";
+            btn_Ingresso.Text = "Guarnigione";
             btn_Ingresso.UseVisualStyleBackColor = true;
             btn_Ingresso.Click += btn_Ingresso_Click;
             // 
@@ -255,11 +401,11 @@
             btn_Mura.FlatStyle = FlatStyle.Popup;
             btn_Mura.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_Mura.ForeColor = Color.Black;
-            btn_Mura.Location = new Point(592, 349);
+            btn_Mura.Location = new Point(581, 349);
             btn_Mura.Name = "btn_Mura";
-            btn_Mura.Size = new Size(65, 25);
+            btn_Mura.Size = new Size(84, 25);
             btn_Mura.TabIndex = 38;
-            btn_Mura.Text = "Aggiungi";
+            btn_Mura.Text = "Guarnigione";
             btn_Mura.UseVisualStyleBackColor = true;
             btn_Mura.Click += btn_Mura_Click;
             // 
@@ -282,9 +428,9 @@
             label1.ForeColor = Color.LightGray;
             label1.Location = new Point(45, 149);
             label1.Name = "label1";
-            label1.Size = new Size(83, 15);
+            label1.Size = new Size(141, 15);
             label1.TabIndex = 16;
-            label1.Text = "Castello      [6]";
+            label1.Text = "Castello      [6]      Lv: [99]";
             // 
             // panel_Soldier_Torri
             // 
@@ -327,9 +473,9 @@
             label4.ForeColor = Color.LightGray;
             label4.Location = new Point(308, 109);
             label4.Name = "label4";
-            label4.Size = new Size(86, 15);
+            label4.Size = new Size(144, 15);
             label4.TabIndex = 19;
-            label4.Text = "Cancello      [3]";
+            label4.Text = "Cancello      [3]      Lv: [99]";
             // 
             // btn_Cancello
             // 
@@ -338,11 +484,11 @@
             btn_Cancello.FlatStyle = FlatStyle.Popup;
             btn_Cancello.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_Cancello.ForeColor = Color.Black;
-            btn_Cancello.Location = new Point(342, 197);
+            btn_Cancello.Location = new Point(336, 200);
             btn_Cancello.Name = "btn_Cancello";
-            btn_Cancello.Size = new Size(65, 25);
+            btn_Cancello.Size = new Size(84, 25);
             btn_Cancello.TabIndex = 37;
-            btn_Cancello.Text = "Aggiungi";
+            btn_Cancello.Text = "Guarnigione";
             btn_Cancello.UseVisualStyleBackColor = true;
             btn_Cancello.Click += btn_Cancello_Click;
             // 
@@ -374,18 +520,18 @@
             label3.BackColor = Color.Transparent;
             label3.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.LightGray;
-            label3.Location = new Point(556, 257);
+            label3.Location = new Point(553, 257);
             label3.Name = "label3";
-            label3.Size = new Size(69, 15);
+            label3.Size = new Size(145, 15);
             label3.TabIndex = 18;
-            label3.Text = "Mura      [2]";
+            label3.Text = "Mura      [2]            Lv: [99]";
             // 
             // panel_Def_Mura
             // 
             panel_Def_Mura.BackColor = Color.Transparent;
             panel_Def_Mura.BackgroundImageLayout = ImageLayout.Stretch;
             panel_Def_Mura.ForeColor = Color.Transparent;
-            panel_Def_Mura.Location = new Point(556, 303);
+            panel_Def_Mura.Location = new Point(553, 303);
             panel_Def_Mura.Name = "panel_Def_Mura";
             panel_Def_Mura.Size = new Size(143, 17);
             panel_Def_Mura.TabIndex = 15;
@@ -409,11 +555,11 @@
             btn_Torri.FlatStyle = FlatStyle.Popup;
             btn_Torri.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_Torri.ForeColor = Color.Black;
-            btn_Torri.Location = new Point(429, 535);
+            btn_Torri.Location = new Point(426, 535);
             btn_Torri.Name = "btn_Torri";
-            btn_Torri.Size = new Size(65, 25);
+            btn_Torri.Size = new Size(84, 25);
             btn_Torri.TabIndex = 36;
-            btn_Torri.Text = "Aggiungi";
+            btn_Torri.Text = "Guarnigione";
             btn_Torri.UseVisualStyleBackColor = true;
             btn_Torri.Click += btn_Torri_Click;
             // 
@@ -422,7 +568,7 @@
             panel_Soldier_Mura.BackColor = Color.Transparent;
             panel_Soldier_Mura.BackgroundImageLayout = ImageLayout.Stretch;
             panel_Soldier_Mura.ForeColor = Color.Transparent;
-            panel_Soldier_Mura.Location = new Point(556, 326);
+            panel_Soldier_Mura.Location = new Point(553, 326);
             panel_Soldier_Mura.Name = "panel_Soldier_Mura";
             panel_Soldier_Mura.Size = new Size(143, 17);
             panel_Soldier_Mura.TabIndex = 14;
@@ -433,7 +579,7 @@
             panel_Hp_Mura.BackColor = Color.Transparent;
             panel_Hp_Mura.BackgroundImageLayout = ImageLayout.Stretch;
             panel_Hp_Mura.ForeColor = Color.Transparent;
-            panel_Hp_Mura.Location = new Point(556, 280);
+            panel_Hp_Mura.Location = new Point(553, 280);
             panel_Hp_Mura.Name = "panel_Hp_Mura";
             panel_Hp_Mura.Size = new Size(143, 17);
             panel_Hp_Mura.TabIndex = 13;
@@ -465,6 +611,14 @@
             panel2.PerformLayout();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox_Torri_Difesa).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox_Torri_Salute).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox_Mura_Difesa).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox_Mura_Salute).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox_Cancello_Difesa).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox_Cancello_Salute).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox_Castello_Difesa).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox_Castello_Salute).EndInit();
             ResumeLayout(false);
         }
 
@@ -499,5 +653,14 @@
         private Panel panel_Soldier_Citta;
         private Panel panel2;
         private TextBox txt_Testo;
+        private PictureBox pictureBox_Castello_Salute;
+        private PictureBox pictureBox_Castello_Difesa;
+        private PictureBox pictureBox_Cancello_Difesa;
+        private PictureBox pictureBox_Cancello_Salute;
+        private PictureBox pictureBox_Torri_Difesa;
+        private PictureBox pictureBox_Torri_Salute;
+        private PictureBox pictureBox_Mura_Difesa;
+        private PictureBox pictureBox_Mura_Salute;
+        private Button btn_Ripara_Tutto;
     }
 }

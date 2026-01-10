@@ -183,7 +183,8 @@ namespace CriptoGame_Online.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Bottone___Sfondo_1_A_removebg_preview {
+        internal static System.Drawing.Bitmap Bottone___Sfondo_1_A_removebg_preview
+        {
             get {
                 object obj = ResourceManager.GetObject("Bottone_+_Sfondo_1_A-removebg-preview", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -666,6 +667,16 @@ namespace CriptoGame_Online.Properties {
         internal static System.Drawing.Bitmap Raro {
             get {
                 object obj = ResourceManager.GetObject("Raro", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Ripara_Strutture {
+            get {
+                object obj = ResourceManager.GetObject("Ripara Strutture", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

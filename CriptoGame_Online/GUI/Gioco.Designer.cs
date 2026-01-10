@@ -32,6 +32,7 @@ namespace CriptoGame_Online
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Gioco));
             panel_2 = new DoubleBufferedPanel();
+            btn_Mappa = new Button();
             PVP_PVE = new Button();
             panel2 = new DoubleBufferedPanel();
             textBox1 = new TextBox();
@@ -147,7 +148,6 @@ namespace CriptoGame_Online
             txt_Virtual_Dolla = new TextBox();
             ico_13 = new DoubleBufferedPanel();
             panel1 = new DoubleBufferedPanel();
-            btn_Mappa = new Button();
             panel_2.SuspendLayout();
             panel2.SuspendLayout();
             Terreni.SuspendLayout();
@@ -181,6 +181,20 @@ namespace CriptoGame_Online
             panel_2.Size = new Size(893, 372);
             panel_2.TabIndex = 2;
             // 
+            // btn_Mappa
+            // 
+            btn_Mappa.BackgroundImage = Properties.Resources.Texture_Wood_2;
+            btn_Mappa.FlatAppearance.BorderSize = 0;
+            btn_Mappa.FlatStyle = FlatStyle.Popup;
+            btn_Mappa.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btn_Mappa.Location = new Point(7, 334);
+            btn_Mappa.Name = "btn_Mappa";
+            btn_Mappa.Size = new Size(67, 32);
+            btn_Mappa.TabIndex = 42;
+            btn_Mappa.Text = "Mappa";
+            btn_Mappa.UseVisualStyleBackColor = true;
+            btn_Mappa.Click += btn_Mappa_Click;
+            // 
             // PVP_PVE
             // 
             PVP_PVE.BackgroundImage = Properties.Resources.Texture_Wood_2;
@@ -201,9 +215,9 @@ namespace CriptoGame_Online
             panel2.BackgroundImageLayout = ImageLayout.Stretch;
             panel2.Controls.Add(textBox1);
             panel2.Controls.Add(panel_Log);
-            panel2.Location = new Point(429, 7);
+            panel2.Location = new Point(426, 7);
             panel2.Name = "panel2";
-            panel2.Size = new Size(461, 320);
+            panel2.Size = new Size(467, 320);
             panel2.TabIndex = 40;
             // 
             // textBox1
@@ -212,7 +226,7 @@ namespace CriptoGame_Online
             textBox1.BorderStyle = BorderStyle.None;
             textBox1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textBox1.ForeColor = Color.Silver;
-            textBox1.Location = new Point(121, 1);
+            textBox1.Location = new Point(123, 4);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(208, 22);
             textBox1.TabIndex = 40;
@@ -221,10 +235,11 @@ namespace CriptoGame_Online
             // 
             // panel_Log
             // 
+            panel_Log.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panel_Log.BackColor = Color.FromArgb(32, 26, 14);
             panel_Log.Location = new Point(15, 29);
             panel_Log.Name = "panel_Log";
-            panel_Log.Size = new Size(427, 271);
+            panel_Log.Size = new Size(433, 271);
             panel_Log.TabIndex = 39;
             // 
             // btn_Citta
@@ -495,7 +510,7 @@ namespace CriptoGame_Online
             groupBox_Esercito.Controls.Add(panel7);
             groupBox_Esercito.Controls.Add(lbl_Esercito);
             groupBox_Esercito.Controls.Add(panel_Sfondo_Bottoni);
-            groupBox_Esercito.Location = new Point(267, 5);
+            groupBox_Esercito.Location = new Point(265, 5);
             groupBox_Esercito.Name = "groupBox_Esercito";
             groupBox_Esercito.Size = new Size(160, 322);
             groupBox_Esercito.TabIndex = 27;
@@ -756,14 +771,14 @@ namespace CriptoGame_Online
             panel_Sfondo_Bottoni.Controls.Add(btn_II);
             panel_Sfondo_Bottoni.Location = new Point(3, 18);
             panel_Sfondo_Bottoni.Name = "panel_Sfondo_Bottoni";
-            panel_Sfondo_Bottoni.Size = new Size(147, 36);
+            panel_Sfondo_Bottoni.Size = new Size(155, 36);
             panel_Sfondo_Bottoni.TabIndex = 29;
             // 
             // btn_V
             // 
             btn_V.FlatAppearance.BorderSize = 0;
             btn_V.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_V.Location = new Point(115, 4);
+            btn_V.Location = new Point(119, 4);
             btn_V.Name = "btn_V";
             btn_V.Size = new Size(28, 28);
             btn_V.TabIndex = 33;
@@ -777,7 +792,7 @@ namespace CriptoGame_Online
             btn_I.BackgroundImageLayout = ImageLayout.Stretch;
             btn_I.FlatAppearance.BorderSize = 0;
             btn_I.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_I.Location = new Point(3, 4);
+            btn_I.Location = new Point(7, 4);
             btn_I.Name = "btn_I";
             btn_I.Size = new Size(28, 28);
             btn_I.TabIndex = 29;
@@ -789,7 +804,7 @@ namespace CriptoGame_Online
             // 
             btn_III.FlatAppearance.BorderSize = 0;
             btn_III.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_III.Location = new Point(59, 4);
+            btn_III.Location = new Point(63, 4);
             btn_III.Name = "btn_III";
             btn_III.Size = new Size(28, 28);
             btn_III.TabIndex = 31;
@@ -801,7 +816,7 @@ namespace CriptoGame_Online
             // 
             btn_IV.FlatAppearance.BorderSize = 0;
             btn_IV.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_IV.Location = new Point(87, 4);
+            btn_IV.Location = new Point(91, 4);
             btn_IV.Name = "btn_IV";
             btn_IV.Size = new Size(28, 28);
             btn_IV.TabIndex = 32;
@@ -813,7 +828,7 @@ namespace CriptoGame_Online
             // 
             btn_II.FlatAppearance.BorderSize = 0;
             btn_II.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_II.Location = new Point(31, 4);
+            btn_II.Location = new Point(35, 4);
             btn_II.Name = "btn_II";
             btn_II.Size = new Size(28, 28);
             btn_II.TabIndex = 30;
@@ -826,7 +841,7 @@ namespace CriptoGame_Online
             groupBox_Strutture.Controls.Add(panel6);
             groupBox_Strutture.Controls.Add(btn_Civile_Militare);
             groupBox_Strutture.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            groupBox_Strutture.Location = new Point(118, 5);
+            groupBox_Strutture.Location = new Point(116, 5);
             groupBox_Strutture.Name = "groupBox_Strutture";
             groupBox_Strutture.Size = new Size(150, 322);
             groupBox_Strutture.TabIndex = 26;
@@ -1119,7 +1134,7 @@ namespace CriptoGame_Online
             btn_Cambia_Risorse.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_Cambia_Risorse.Location = new Point(713, 2);
             btn_Cambia_Risorse.Name = "btn_Cambia_Risorse";
-            btn_Cambia_Risorse.Size = new Size(32, 26);
+            btn_Cambia_Risorse.Size = new Size(30, 26);
             btn_Cambia_Risorse.TabIndex = 7;
             btn_Cambia_Risorse.UseVisualStyleBackColor = true;
             btn_Cambia_Risorse.Click += btn_Cambia_Risorse_Click;
@@ -1463,20 +1478,6 @@ namespace CriptoGame_Online
             panel1.Size = new Size(954, 10);
             panel1.TabIndex = 6;
             // 
-            // btn_Mappa
-            // 
-            btn_Mappa.BackgroundImage = Properties.Resources.Texture_Wood_2;
-            btn_Mappa.FlatAppearance.BorderSize = 0;
-            btn_Mappa.FlatStyle = FlatStyle.Popup;
-            btn_Mappa.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Mappa.Location = new Point(7, 334);
-            btn_Mappa.Name = "btn_Mappa";
-            btn_Mappa.Size = new Size(67, 32);
-            btn_Mappa.TabIndex = 42;
-            btn_Mappa.Text = "Mappa";
-            btn_Mappa.UseVisualStyleBackColor = true;
-            btn_Mappa.Click += btn_Mappa_Click;
-            // 
             // Gioco
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1496,8 +1497,6 @@ namespace CriptoGame_Online
             Controls.Add(panel_2);
             Controls.Add(panel_1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
-            MaximumSize = new Size(1046, 594);
-            MinimumSize = new Size(1046, 594);
             Name = "Gioco";
             Text = "Gioco";
             Load += Gioco_Load;

@@ -53,19 +53,20 @@
             groupBox1.Controls.Add(label1);
             groupBox1.Location = new Point(12, 12);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(260, 427);
+            groupBox1.Size = new Size(287, 427);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             // 
             // panel2
             // 
+            panel2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panel2.AutoScroll = true;
             panel2.Controls.Add(label3);
             panel2.Controls.Add(lbl_Giocatore_Valore);
             panel2.Controls.Add(lbl_Giocatore_Testo);
             panel2.Location = new Point(3, 40);
             panel2.Name = "panel2";
-            panel2.Size = new Size(251, 365);
+            panel2.Size = new Size(278, 365);
             panel2.TabIndex = 5;
             // 
             // label3
@@ -73,7 +74,7 @@
             label3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            label3.Location = new Point(256, 2);
+            label3.Location = new Point(283, 2);
             label3.Name = "label3";
             label3.Size = new Size(65, 17);
             label3.TabIndex = 3;
@@ -84,7 +85,7 @@
             lbl_Giocatore_Valore.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lbl_Giocatore_Valore.AutoSize = true;
             lbl_Giocatore_Valore.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            lbl_Giocatore_Valore.Location = new Point(138, 3);
+            lbl_Giocatore_Valore.Location = new Point(165, 3);
             lbl_Giocatore_Valore.Name = "lbl_Giocatore_Valore";
             lbl_Giocatore_Valore.Size = new Size(110, 17);
             lbl_Giocatore_Valore.TabIndex = 2;
@@ -105,7 +106,7 @@
             label1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
-            label1.Location = new Point(92, 9);
+            label1.Location = new Point(103, 9);
             label1.Name = "label1";
             label1.Size = new Size(77, 20);
             label1.TabIndex = 0;
@@ -118,20 +119,21 @@
             groupBox2.BackColor = Color.Transparent;
             groupBox2.Controls.Add(panel1);
             groupBox2.Controls.Add(label4);
-            groupBox2.Location = new Point(272, 12);
+            groupBox2.Location = new Point(298, 12);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(296, 427);
+            groupBox2.Size = new Size(324, 427);
             groupBox2.TabIndex = 1;
             groupBox2.TabStop = false;
             // 
             // panel1
             // 
+            panel1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panel1.AutoScroll = true;
             panel1.Controls.Add(lbl_Statistiche);
             panel1.Controls.Add(lbl_Statistiche_Valore);
             panel1.Location = new Point(3, 40);
             panel1.Name = "panel1";
-            panel1.Size = new Size(287, 365);
+            panel1.Size = new Size(315, 365);
             panel1.TabIndex = 4;
             // 
             // lbl_Statistiche
@@ -149,7 +151,7 @@
             lbl_Statistiche_Valore.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lbl_Statistiche_Valore.AutoSize = true;
             lbl_Statistiche_Valore.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            lbl_Statistiche_Valore.Location = new Point(201, 3);
+            lbl_Statistiche_Valore.Location = new Point(202, 3);
             lbl_Statistiche_Valore.Name = "lbl_Statistiche_Valore";
             lbl_Statistiche_Valore.Size = new Size(65, 17);
             lbl_Statistiche_Valore.TabIndex = 3;
@@ -160,7 +162,7 @@
             label4.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
-            label4.Location = new Point(124, 9);
+            label4.Location = new Point(112, 10);
             label4.Name = "label4";
             label4.Size = new Size(82, 20);
             label4.TabIndex = 0;
@@ -171,7 +173,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources._11111111111;
-            ClientSize = new Size(574, 450);
+            ClientSize = new Size(629, 450);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Name = "Statistiche";
