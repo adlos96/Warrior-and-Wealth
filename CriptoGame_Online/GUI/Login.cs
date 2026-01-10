@@ -159,6 +159,7 @@ namespace CriptoGame_Online
 
         private async void Btn_New_Game_Click(object sender, EventArgs e)
         {
+            this.ActiveControl = lbl_Titolo;
             Btn_New_Game.Enabled = false;
             Btn_Login.Enabled = false;
             txt_Log.Text = "Connessione...";
