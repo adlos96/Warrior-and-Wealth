@@ -11,6 +11,9 @@ namespace CriptoGame_Online.GUI
         public static string tipo_Attacco = "";
         public static string tipo_Barbaro = "Villaggi Barbari";
         static int livello_Esercito = 1;
+
+        static bool attacco_Premuto = false;
+
         int[] guerrieri_Temp = new int[] { 0, 0, 0, 0, 0 };
         int[] picchieri_Temp = new int[] { 0, 0, 0, 0, 0 };
         int[] arcieri_Temp = new int[] { 0, 0, 0, 0, 0 };
@@ -18,7 +21,7 @@ namespace CriptoGame_Online.GUI
         public AttaccoCoordinato()
         {
             InitializeComponent();
-            this.Size = new Size(1196, 293);
+            this.Size = new Size(794, 293);
             groupBox_Raduno.Visible = false;
 
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -199,8 +202,7 @@ namespace CriptoGame_Online.GUI
             var items = comboBox_PVP.Items;
             if (Variabili_Client.Giocatori_PVP.Count > 0)
                 foreach (var i in Variabili_Client.Giocatori_PVP)
-                    if (!items.Contains(i) && !i.Contains(Variabili_Client.Utente.Username))
-                        comboBox_PVP.Items.Add(i);
+                    comboBox_PVP.Items.Add(i);
 
             lbl_Giocatori_PVP.Text = "Giocatori: " + comboBox_PVP.Items.Count;
 
@@ -256,7 +258,9 @@ namespace CriptoGame_Online.GUI
                                 {
                                     txt_Villaggio_B_Desc.Text = $"Hai esplorato con successo il villaggio barbaro, Bottino;\r\n Exp: {villaggio.Esperienza} Liv: {villaggio.Livello}\r\n Diamanti Blu: {villaggio.Diamanti_Blu} Diamanti Viola: {villaggio.Diamanti_Viola}\r\n" +
                                         $"Cibo: {villaggio.Cibo} Legno: {villaggio.Legno} Pietra: {villaggio.Pietra}\r\nFerro: {villaggio.Ferro} Oro: {villaggio.Oro}";
+                                    if (villaggio.Esplorato == true) btn_Attacco_PVE_Villaggio_B.Enabled = true;
                                 }
+                                if (villaggio.Esplorato == false) btn_Esplora_PVE_Villaggio_B.Enabled = true;
                             }
                         }
                         if (tipo_Barbaro == "Città Barbare")
@@ -286,25 +290,57 @@ namespace CriptoGame_Online.GUI
                                 if (Città.Esplorato == true) //Descrizione
                                     txt_Villaggio_B_Desc.Text = $"Hai esplorato con successo la città barbara, Bottino;\r\n Exp: {Città.Esperienza} Liv: {Città.Livello}\r\n Diamanti Blu: {Città.Diamanti_Blu} Diamanti Viola: {Città.Diamanti_Viola}\r\n" +
                                         $"Cibo: {Città.Cibo} Legno: {Città.Legno} Pietra: {Città.Pietra}\r\nFerro: {Città.Ferro} Oro: {Città.Oro}";
+                                if (Città.Esplorato == true) btn_Attacco_PVE_Villaggio_B.Enabled = true;
+                                if (Città.Esplorato == false) btn_Esplora_PVE_Villaggio_B.Enabled = true;
+                                if (Città.Esplorato == true && btn_Esplora_PVE_Villaggio_B.Text == "Attacco") btn_Esplora_PVE_Villaggio_B.Enabled = true;
                             }
                         }
-                        if (comboBox_Villaggi.SelectedIndex < 0)
-                            btn_Esplora_PVE_Villaggio_B.Enabled = false;
+                        if (comboBox_PVP.SelectedIndex < 0)
+                            btn_Attacco_PVP.Enabled = false;
                         else
-                            btn_Esplora_PVE_Villaggio_B.Enabled = true;
-                        btn_Attacco_PVE_Villaggio_B.Enabled = true;
+                            btn_Attacco_PVP.Enabled = true;
                     }));
                 }
                 await Task.Delay(1000); // meglio di Thread.Sleep
             }
 
         }
+        private void MostraCountdownAttacco()
+        {
+            TimeSpan tempo = TimeSpan.FromSeconds(60 * 3);
+            var timer = new System.Windows.Forms.Timer();
+            timer.Interval = 1000;
+
+            timer.Tick += (s, e) =>
+            {
+                if (tempo.TotalSeconds <= 0)
+                {
+                    timer.Stop();
+                    timer.Dispose();
+                    btn_Attacca.Text = "Attacca";
+                    btn_Sposta.Text = $"Sposta";
+                    if (!btn_Attacca.Enabled) btn_Attacca.Enabled = true;
+                    if (!btn_Sposta.Enabled) btn_Sposta.Enabled = true;
+                    return;
+                }
+                if (btn_Attacca.Enabled) btn_Attacca.Enabled = false;
+                if (btn_Sposta.Enabled) btn_Sposta.Enabled = false;
+
+                btn_Attacca.Text = $"Attacca {tempo:mm\\:ss}";
+                btn_Sposta.Text = $"Sposta {tempo:mm\\:ss}";
+                tempo = tempo.Subtract(TimeSpan.FromSeconds(1));
+            };
+
+            if (!btn_Attacca.Enabled) btn_Attacca.Enabled = true;
+            if (!btn_Sposta.Enabled) btn_Sposta.Enabled = true;
+            // mostra subito "Attacca 3:00"
+            btn_Attacca.Text = $"Attacca {tempo:mm\\:ss}";
+            btn_Sposta.Text = $"Sposta {tempo:mm\\:ss}";
+            timer.Start();
+        }
         private async void btn_Crea_Click(object sender, EventArgs e)
         {
             btn_Crea.Enabled = false;
-            btn_Attacco_PVE_Città_B.Text = "Raid";
-            btn_Esplora_PVE_Città_B.Text = "Esplora";
-
 
             ClientConnection.TestClient.Send($"AttaccoCooperativo|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Crea|");
             await Login.Sleep(3);
@@ -411,72 +447,106 @@ namespace CriptoGame_Online.GUI
 
         private async void btn_Attacco_PVP_Click(object sender, EventArgs e)
         {
+            this.ActiveControl = lbl_Arciere;
             btn_Attacco_PVP.Enabled = false;
+            this.Size = new Size(794, 550); //1178, 454
+            groupBox_Raduno.Visible = true;
+            btn_Sposta.Enabled = true;
+            btn_Attacca.Enabled = false;
             tipo_Attacco = "PVP";
             await Login.Sleep(20);
             btn_Attacco_PVP.Enabled = true;
         }
         private async void btn_Esplora_PVE_Villaggio_B_Click(object sender, EventArgs e)
         {
+            if (tipo_Barbaro == "Città Barbare")
+            {
+                groupBox_Raduno.Visible = true;
+
+                if (btn_Esplora_PVE_Villaggio_B.Text == "Attacco") //Attacco con truppe
+                {
+                    this.Size = new Size(794, 550); //1178, 454
+                    tipo_Attacco = "Città Barbaro";
+                    btn_Sposta.Visible = true;
+                    btn_Attacca.Visible = true;
+                }
+                else
+                {
+                    ClientConnection.TestClient.Send($"Esplora|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Citta Barbaro|{comboBox_Villaggi.Text.Replace("Citta Barbara - Livello: ", "")}");
+                    await Login.Sleep(5);
+                }
+            }
+            if (tipo_Barbaro == "Villaggi Barbari")
+            {
+                ClientConnection.TestClient.Send($"Esplora|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Villaggio Barbaro|{comboBox_Villaggi.Text.Replace("Villaggio Barbaro - Livello: ", "")}");
+                txt_Guerriero_Spedizione.Text = "0";
+                txt_Lancere_Spedizione.Text = "0";
+                txt_Arcere_Spedizione.Text = "0";
+                txt_Catapulta_Spedizione.Text = "0";
+
+                await Login.Sleep(5);
+            }
             this.ActiveControl = lbl_Arciere;
-            btn_Esplora_PVE_Villaggio_B.Enabled = false;
-            btn_Attacco_PVE_Villaggio_B.Enabled = false;
-            ClientConnection.TestClient.Send($"Esplora|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Villaggio Barbaro|{comboBox_Villaggi.Text.Replace("Villaggio Barbaro - Livello: ", "")}");
-            await Login.Sleep(5);
             btn_Esplora_PVE_Villaggio_B.Enabled = true;
             btn_Attacco_PVE_Villaggio_B.Enabled = true;
             Load_Guid();
         }
-        private async void btn_Esplora_PVE_Città_B_Click(object sender, EventArgs e)
-        {
-            this.ActiveControl = lbl_Arciere;
-            btn_Esplora_PVE_Città_B.Enabled = false;
-            btn_Attacco_PVE_Città_B.Enabled = false;
-            groupBox_Raduno.Visible = true;
-
-            if (btn_Esplora_PVE_Città_B.Text == "Attacco") //Attacco con truppe
-            {
-                this.Size = new Size(1196, 550); //1178, 454
-                tipo_Attacco = "Città Barbaro";
-            }
-            else
-            {
-                //Semplice esplorazione
-                ClientConnection.TestClient.Send($"Esplora|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Citta Barbaro|{comboBox_Città.Text.Replace("Citta Barbara - Livello: ", "")}");
-                await Login.Sleep(5);
-            }
-
-            btn_Esplora_PVE_Città_B.Enabled = true;
-            btn_Attacco_PVE_Città_B.Enabled = true;
-            Load_Guid();
-        }
         private async void btn_Attacco_PVE_Villaggio_B_Click(object sender, EventArgs e)
         {
-            tipo_Attacco = "Villaggio Barbaro";
-            this.ActiveControl = lbl_Arciere;
-            btn_Esplora_PVE_Villaggio_B.Enabled = false;
-            btn_Attacco_PVE_Villaggio_B.Enabled = false;
+            if (tipo_Barbaro == "Città Barbare")
+            {
+                if (btn_Attacco_PVE_Villaggio_B.Text == "Raid")
+                {
+                    btn_Attacco_PVE_Villaggio_B.Text = "Raduno";
+                    btn_Esplora_PVE_Villaggio_B.Text = "Attacco";
+                    btn_Esplora_PVE_Villaggio_B.Enabled = true;
+                    groupBox_Raduno.Visible = true;
+                    btn_Sposta.Visible = false;
+                    btn_Attacca.Visible = false;
+                    return;
+                }
+                if (btn_Attacco_PVE_Villaggio_B.Text == "Raduno")
+                {
+                    this.Size = new Size(794, 655);
+                    tipo_Attacco = "Città Barbaro";
+                    btn_Attacca.Visible = false;
+                    btn_Sposta.Visible = false;
 
-            groupBox_Raduno.Visible = true;
-            this.Size = new Size(1196, 550);
-            await Login.Sleep(5);
-            if (txt_Guerriero_Villaggio.Text == "????")
-                btn_Esplora_PVE_Villaggio_B.Enabled = true;
-            return;
+                    txt_Guerriero_Spedizione.Text = "0";
+                    txt_Lancere_Spedizione.Text = "0";
+                    txt_Arcere_Spedizione.Text = "0";
+                    txt_Catapulta_Spedizione.Text = "0";
+                    return;
+                }
+            }
+            if (tipo_Barbaro == "Villaggi Barbari")
+            {
+                tipo_Attacco = "Villaggio Barbaro";
+                this.ActiveControl = lbl_Arciere;
+                btn_Esplora_PVE_Villaggio_B.Enabled = false;
+                btn_Attacco_PVE_Villaggio_B.Enabled = false;
+
+                groupBox_Raduno.Visible = true;
+                this.Size = new Size(794, 550);
+                await Login.Sleep(5);
+                if (txt_Guerriero_Villaggio.Text == "????")
+                    btn_Esplora_PVE_Villaggio_B.Enabled = true;
+                return;
+            }
         }
         private void btn_Attacco_PVE_Città_B_Click(object sender, EventArgs e)
         {
-            if (btn_Attacco_PVE_Città_B.Text == "Raid")
+            if (btn_Attacco_PVE_Villaggio_B.Text == "Raid")
             {
-                btn_Attacco_PVE_Città_B.Text = "Raduno";
-                btn_Esplora_PVE_Città_B.Text = "Attacco";
-                btn_Esplora_PVE_Città_B.Enabled = true;
+                btn_Attacco_PVE_Villaggio_B.Text = "Raduno";
+                btn_Esplora_PVE_Villaggio_B.Text = "Attacco";
+                btn_Esplora_PVE_Villaggio_B.Enabled = true;
                 groupBox_Raduno.Visible = true;
                 return;
             }
-            if (btn_Attacco_PVE_Città_B.Text == "Raduno")
+            if (btn_Attacco_PVE_Villaggio_B.Text == "Raduno")
             {
-                this.Size = new Size(1196, 655);
+                this.Size = new Size(794, 655);
                 tipo_Attacco = "Città Barbaro";
                 btn_Attacca.Visible = false;
                 btn_Sposta.Visible = false;
@@ -487,12 +557,8 @@ namespace CriptoGame_Online.GUI
         public async Task<bool> Sleep(int secondi)
         {
             comboBox_Villaggi.Enabled = false;
-            comboBox_Città.Enabled = false;
-
             await Task.Delay(1000 * secondi);
-
             comboBox_Villaggi.Enabled = true;
-            comboBox_Città.Enabled = true;
             return true;
         }
         private void comboBox_Villaggi_TextChanged(object sender, EventArgs e)
@@ -518,56 +584,20 @@ namespace CriptoGame_Online.GUI
         {
             btn_Attacca.Enabled = false;
             btn_Sposta.Enabled = false;
+            var Dati = comboBox_Villaggi.Text.Replace(" ", "").Split('-');
+            var Dati_PVP = comboBox_PVP.Text.Replace(" ", "").Split(',');
+
             if (tipo_Attacco == "Villaggio Barbaro")
                 ClientConnection.TestClient.Send($"" +
                     $"Battaglia|" +
                     $"{Variabili_Client.Utente.Username}|" +
                     $"{Variabili_Client.Utente.Password}|" +
                     $"{tipo_Attacco}|" +
-                    $"{comboBox_Villaggi.Text.Replace("Villaggio Barbaro - Livello: ", "")}|" +
-                    $"{guerrieri_Temp[0]}|" +
-                    $"{guerrieri_Temp[1]}|" +
-                    $"{guerrieri_Temp[2]}|" +
-                    $"{guerrieri_Temp[3]}|" +
-                    $"{guerrieri_Temp[4]}|" +
-                    $"{picchieri_Temp[0]}|" +
-                    $"{picchieri_Temp[1]}|" +
-                    $"{picchieri_Temp[2]}|" +
-                    $"{picchieri_Temp[3]}|" +
-                    $"{picchieri_Temp[4]}|" +
-                    $"{arcieri_Temp[0]}|" +
-                    $"{arcieri_Temp[1]}|" +
-                    $"{arcieri_Temp[2]}|" +
-                    $"{arcieri_Temp[3]}|" +
-                    $"{arcieri_Temp[4]}|" +
-                    $"{catapulte_Temp[0]}|" +
-                    $"{catapulte_Temp[1]}|" +
-                    $"{catapulte_Temp[2]}|" +
-                    $"{catapulte_Temp[3]}|" +
-                    $"{catapulte_Temp[4]}");
-
-            if (tipo_Attacco == "PVP")
-                ClientConnection.TestClient.Send($"Battaglia|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{tipo_Attacco}|{comboBox_PVP.Text}|" +
-                    $"{guerrieri_Temp[0]}|" +
-                    $"{guerrieri_Temp[1]}|" +
-                    $"{guerrieri_Temp[2]}|" +
-                    $"{guerrieri_Temp[3]}|" +
-                    $"{guerrieri_Temp[4]}|" +
-                    $"{picchieri_Temp[0]}|" +
-                    $"{picchieri_Temp[1]}|" +
-                    $"{picchieri_Temp[2]}|" +
-                    $"{picchieri_Temp[3]}|" +
-                    $"{picchieri_Temp[4]}|" +
-                    $"{arcieri_Temp[0]}|" +
-                    $"{arcieri_Temp[1]}|" +
-                    $"{arcieri_Temp[2]}|" +
-                    $"{arcieri_Temp[3]}|" +
-                    $"{arcieri_Temp[4]}|" +
-                    $"{catapulte_Temp[0]}|" +
-                    $"{catapulte_Temp[1]}|" +
-                    $"{catapulte_Temp[2]}|" +
-                    $"{catapulte_Temp[3]}|" +
-                    $"{catapulte_Temp[4]}");
+                    $"{Dati[1].Replace("Livello:", "")}|" +
+                    $"{guerrieri_Temp[0]}|{guerrieri_Temp[1]}|{guerrieri_Temp[2]}|{guerrieri_Temp[3]}|{guerrieri_Temp[4]}|" +
+                    $"{picchieri_Temp[0]}|{picchieri_Temp[1]}|{picchieri_Temp[2]}|{picchieri_Temp[3]}|{picchieri_Temp[4]}|" +
+                    $"{arcieri_Temp[0]}|{arcieri_Temp[1]}|{arcieri_Temp[2]}|{arcieri_Temp[3]}|{arcieri_Temp[4]}|" +
+                    $"{catapulte_Temp[0]}|{catapulte_Temp[1]}|{catapulte_Temp[2]}|{catapulte_Temp[3]}|{catapulte_Temp[4]}");
 
             if (tipo_Attacco == "Città Barbaro")
                 ClientConnection.TestClient.Send($"" +
@@ -575,285 +605,238 @@ namespace CriptoGame_Online.GUI
                     $"{Variabili_Client.Utente.Username}|" +
                     $"{Variabili_Client.Utente.Password}|" +
                     $"{tipo_Attacco}|" +
-                    $"{comboBox_Città.Text.Replace("Citta Barbara - Livello: ", "")}|" +
-                    $"{guerrieri_Temp[0]}|" +
-                    $"{guerrieri_Temp[1]}|" +
-                    $"{guerrieri_Temp[2]}|" +
-                    $"{guerrieri_Temp[3]}|" +
-                    $"{guerrieri_Temp[4]}|" +
-                    $"{picchieri_Temp[0]}|" +
-                    $"{picchieri_Temp[1]}|" +
-                    $"{picchieri_Temp[2]}|" +
-                    $"{picchieri_Temp[3]}|" +
-                    $"{picchieri_Temp[4]}|" +
-                    $"{arcieri_Temp[0]}|" +
-                    $"{arcieri_Temp[1]}|" +
-                    $"{arcieri_Temp[2]}|" +
-                    $"{arcieri_Temp[3]}|" +
-                    $"{arcieri_Temp[4]}|" +
-                    $"{catapulte_Temp[0]}|" +
-                    $"{catapulte_Temp[1]}|" +
-                    $"{catapulte_Temp[2]}|" +
-                    $"{catapulte_Temp[3]}|" +
-                    $"{catapulte_Temp[4]}");
+                    $"{Dati[1].Replace("Livello:", "")}|" +
+                    $"{guerrieri_Temp[0]}|{guerrieri_Temp[1]}|{guerrieri_Temp[2]}|{guerrieri_Temp[3]}|{guerrieri_Temp[4]}|" +
+                    $"{picchieri_Temp[0]}|{picchieri_Temp[1]}|{picchieri_Temp[2]}|{picchieri_Temp[3]}|{picchieri_Temp[4]}|" +
+                    $"{arcieri_Temp[0]}|{arcieri_Temp[1]}|{arcieri_Temp[2]}|{arcieri_Temp[3]}|{arcieri_Temp[4]}|" +
+                    $"{catapulte_Temp[0]}|{catapulte_Temp[1]}|{catapulte_Temp[2]}|{catapulte_Temp[3]}|{catapulte_Temp[4]}");
+
+            if (tipo_Attacco == "PVP")
+                ClientConnection.TestClient.Send($"Battaglia|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{tipo_Attacco}|{Dati_PVP[0]}|" +
+                    $"{guerrieri_Temp[0]}|{guerrieri_Temp[1]}|{guerrieri_Temp[2]}|{guerrieri_Temp[3]}|{guerrieri_Temp[4]}|" +
+                    $"{picchieri_Temp[0]}|{picchieri_Temp[1]}|{picchieri_Temp[2]}|{picchieri_Temp[3]}|{picchieri_Temp[4]}|" +
+                    $"{arcieri_Temp[0]}|{arcieri_Temp[1]}|{arcieri_Temp[2]}|{arcieri_Temp[3]}|{arcieri_Temp[4]}|" +
+                    $"{catapulte_Temp[0]}|{catapulte_Temp[1]}|{catapulte_Temp[2]}|{catapulte_Temp[3]}|{catapulte_Temp[4]}");
 
             guerrieri_Temp = new int[] { 0, 0, 0, 0, 0 };
             picchieri_Temp = new int[] { 0, 0, 0, 0, 0 };
             arcieri_Temp = new int[] { 0, 0, 0, 0, 0 };
             catapulte_Temp = new int[] { 0, 0, 0, 0, 0 };
+
+            livello_Esercito = 1;
+            AggiornaSfondoEsercito();
             await Sleep(4);
             await Load_Guid();
             UpdateCombobox();
             btn_Attacco_PVE_Villaggio_B.Enabled = false;
-            btn_Attacco_PVE_Città_B.Enabled = false;
-            this.Size = new Size(1196, 293);
+            this.Size = new Size(794, 293);
             btn_Sposta.Enabled = true;
+            MostraCountdownAttacco();
         }
 
         private void btn_Sposta_Click(object sender, EventArgs e)
         {
+            int guerriero = Convert.ToInt32(lbl_Guerriero.Text);
+            int lancere = Convert.ToInt32(lbl_Lanciere.Text);
+            int arcere = Convert.ToInt32(lbl_Arciere.Text);
+            int catapulta = Convert.ToInt32(lbl_Catapulta.Text);
+
             if (livello_Esercito == 1)
             {
-                if (guerrieri_Temp[0] < Convert.ToInt32(lbl_Guerriero.Text)) guerrieri_Temp[0] += Convert.ToInt32(lbl_Guerriero.Text);
-                if (picchieri_Temp[0] < Convert.ToInt32(lbl_Lanciere.Text)) picchieri_Temp[0] += Convert.ToInt32(lbl_Lanciere.Text);
-                if (arcieri_Temp[0] < Convert.ToInt32(lbl_Arciere.Text)) arcieri_Temp[0] += Convert.ToInt32(lbl_Arciere.Text);
-                if (catapulte_Temp[0] < Convert.ToInt32(lbl_Catapulta.Text)) catapulte_Temp[0] += Convert.ToInt32(lbl_Catapulta.Text);
+                if (guerrieri_Temp[0] < guerriero) guerrieri_Temp[0] += guerriero;
+                if (picchieri_Temp[0] < lancere) picchieri_Temp[0] += lancere;
+                if (arcieri_Temp[0] < arcere) arcieri_Temp[0] += arcere;
+                if (catapulte_Temp[0] < catapulta) catapulte_Temp[0] += catapulta;
             }
             if (livello_Esercito == 2)
             {
-                if (guerrieri_Temp[1] < Convert.ToInt32(lbl_Guerriero.Text)) guerrieri_Temp[1] += Convert.ToInt32(lbl_Guerriero.Text);
-                if (picchieri_Temp[1] < Convert.ToInt32(lbl_Lanciere.Text)) picchieri_Temp[1] += Convert.ToInt32(lbl_Lanciere.Text);
-                if (arcieri_Temp[1] < Convert.ToInt32(lbl_Arciere.Text)) arcieri_Temp[1] += Convert.ToInt32(lbl_Arciere.Text);
-                if (catapulte_Temp[1] < Convert.ToInt32(lbl_Catapulta.Text)) catapulte_Temp[1] += Convert.ToInt32(lbl_Catapulta.Text);
+                if (guerrieri_Temp[1] < guerriero) guerrieri_Temp[1] += guerriero;
+                if (picchieri_Temp[1] < lancere) picchieri_Temp[1] += lancere;
+                if (arcieri_Temp[1] < arcere) arcieri_Temp[1] += arcere;
+                if (catapulte_Temp[1] < catapulta) catapulte_Temp[1] += catapulta;
             }
             if (livello_Esercito == 3)
             {
-                if (guerrieri_Temp[2] < Convert.ToInt32(lbl_Guerriero.Text)) guerrieri_Temp[2] += Convert.ToInt32(lbl_Guerriero.Text);
-                if (picchieri_Temp[2] < Convert.ToInt32(lbl_Lanciere.Text)) picchieri_Temp[2] += Convert.ToInt32(lbl_Lanciere.Text);
-                if (arcieri_Temp[2] < Convert.ToInt32(lbl_Arciere.Text)) arcieri_Temp[2] += Convert.ToInt32(lbl_Arciere.Text);
-                if (catapulte_Temp[2] < Convert.ToInt32(lbl_Catapulta.Text)) catapulte_Temp[2] += Convert.ToInt32(lbl_Catapulta.Text);
+                if (guerrieri_Temp[2] < guerriero) guerrieri_Temp[2] += guerriero;
+                if (picchieri_Temp[2] < lancere) picchieri_Temp[2] += lancere;
+                if (arcieri_Temp[2] < arcere) arcieri_Temp[2] += arcere;
+                if (catapulte_Temp[2] < catapulta) catapulte_Temp[2] += catapulta;
             }
             if (livello_Esercito == 4)
             {
-                if (guerrieri_Temp[3] < Convert.ToInt32(lbl_Guerriero.Text)) guerrieri_Temp[3] += Convert.ToInt32(lbl_Guerriero.Text);
-                if (picchieri_Temp[3] < Convert.ToInt32(lbl_Lanciere.Text)) picchieri_Temp[3] += Convert.ToInt32(lbl_Lanciere.Text);
-                if (arcieri_Temp[3] < Convert.ToInt32(lbl_Arciere.Text)) arcieri_Temp[3] += Convert.ToInt32(lbl_Arciere.Text);
-                if (catapulte_Temp[3] < Convert.ToInt32(lbl_Catapulta.Text)) catapulte_Temp[3] += Convert.ToInt32(lbl_Catapulta.Text);
+                if (guerrieri_Temp[3] < guerriero) guerrieri_Temp[3] += guerriero;
+                if (picchieri_Temp[3] < lancere) picchieri_Temp[3] += lancere;
+                if (arcieri_Temp[3] < arcere) arcieri_Temp[3] += arcere;
+                if (catapulte_Temp[3] < catapulta) catapulte_Temp[3] += catapulta;
             }
             if (livello_Esercito == 5)
             {
-                if (guerrieri_Temp[4] < Convert.ToInt32(lbl_Guerriero.Text)) guerrieri_Temp[4] += Convert.ToInt32(lbl_Guerriero.Text);
-                if (picchieri_Temp[4] < Convert.ToInt32(lbl_Lanciere.Text)) picchieri_Temp[4] += Convert.ToInt32(lbl_Lanciere.Text);
-                if (arcieri_Temp[4] < Convert.ToInt32(lbl_Arciere.Text)) arcieri_Temp[4] += Convert.ToInt32(lbl_Arciere.Text);
-                if (catapulte_Temp[4] < Convert.ToInt32(lbl_Catapulta.Text)) catapulte_Temp[4] += Convert.ToInt32(lbl_Catapulta.Text);
+                if (guerrieri_Temp[4] < guerriero) guerrieri_Temp[4] += guerriero;
+                if (picchieri_Temp[4] < lancere) picchieri_Temp[4] += lancere;
+                if (arcieri_Temp[4] < arcere) arcieri_Temp[4] += arcere;
+                if (catapulte_Temp[4] < catapulta) catapulte_Temp[4] += catapulta;
             }
+            trackBar_Guerriero.Maximum = guerriero - Convert.ToInt32(txt_Guerriero_Spedizione.Text);
+            trackBar_Lanciere.Maximum = lancere - Convert.ToInt32(txt_Lancere_Spedizione.Text);
+            trackBar_Arciere.Maximum = arcere - Convert.ToInt32(txt_Arcere_Spedizione.Text);
+            trackBar_Catapulta.Maximum = catapulta - Convert.ToInt32(txt_Catapulta_Spedizione.Text);
+            if (!attacco_Premuto) btn_Attacca.Enabled = true;
             Load_Guid();
-            trackBar_Guerriero.Maximum = Convert.ToInt32(txt_Guerriero_Esercito.Text) - Convert.ToInt32(txt_Guerriero_Spedizione.Text);
-            trackBar_Lanciere.Maximum = Convert.ToInt32(txt_Lanciere_Esercito.Text) - Convert.ToInt32(txt_Lancere_Spedizione.Text);
-            trackBar_Arciere.Maximum = Convert.ToInt32(txt_Arciere_Esercito.Text) - Convert.ToInt32(txt_Arcere_Spedizione.Text);
-            trackBar_Catapulta.Maximum = Convert.ToInt32(txt_Catapulta_Esercito.Text) - Convert.ToInt32(txt_Catapulta_Spedizione.Text);
-            btn_Attacca.Enabled = true;
+            attacco_Premuto = true;
         }
 
-        private void btn_I_Esercito_Click(object sender, EventArgs e)
+        void AggiornaSfondoEsercito()
         {
-            livello_Esercito = 1;
-
-            btn_I_Esercito.BackColor = Color.DimGray;
+            btn_I_Esercito.BackColor = Color.FromArgb(32, 36, 47);
             btn_II_Esercito.BackColor = Color.FromArgb(32, 36, 47);
             btn_III_Esercito.BackColor = Color.FromArgb(32, 36, 47);
             btn_IV_Esercito.BackColor = Color.FromArgb(32, 36, 47);
             btn_V_Esercito.BackColor = Color.FromArgb(32, 36, 47);
 
-            btn_I_Spedizione.BackColor = Color.DimGray;
+            btn_I_Spedizione.BackColor = Color.FromArgb(32, 36, 47);
             btn_II_Spedizione.BackColor = Color.FromArgb(32, 36, 47);
             btn_III_Spedizione.BackColor = Color.FromArgb(32, 36, 47);
             btn_IV_Spedizione.BackColor = Color.FromArgb(32, 36, 47);
             btn_V_Spedizione.BackColor = Color.FromArgb(32, 36, 47);
 
-            btn_I_Esercito.Enabled = false;
+            btn_I_Esercito.Enabled = true;
             btn_II_Esercito.Enabled = true;
             btn_III_Esercito.Enabled = true;
             btn_IV_Esercito.Enabled = true;
             btn_V_Esercito.Enabled = true;
 
-            btn_I_Spedizione.Enabled = true;
+            btn_I_Spedizione.Enabled = false;
             btn_II_Spedizione.Enabled = false;
             btn_III_Spedizione.Enabled = false;
             btn_IV_Spedizione.Enabled = false;
             btn_V_Spedizione.Enabled = false;
 
-            txt_Guerriero_Esercito.Text = Variabili_Client.Reclutamento.Guerrieri_1.Quantità.ToString();
-            txt_Lanciere_Esercito.Text = Variabili_Client.Reclutamento.Lanceri_1.Quantità.ToString();
-            txt_Arciere_Esercito.Text = Variabili_Client.Reclutamento.Arceri_1.Quantità.ToString();
-            txt_Catapulta_Esercito.Text = Variabili_Client.Reclutamento.Catapulte_1.Quantità.ToString();
+            if (livello_Esercito == 1)
+            {
+                btn_I_Esercito.BackColor = Color.DimGray;
+                btn_I_Spedizione.BackColor = Color.DimGray;
 
-            txt_Guerriero_Spedizione.Text = guerrieri_Temp[0].ToString();
-            txt_Lancere_Spedizione.Text = picchieri_Temp[0].ToString();
-            txt_Arcere_Spedizione.Text = arcieri_Temp[0].ToString();
-            txt_Catapulta_Spedizione.Text = catapulte_Temp[0].ToString();
+                btn_I_Esercito.Enabled = false;
+                btn_I_Spedizione.Enabled = true;
+
+                txt_Guerriero_Esercito.Text = Variabili_Client.Reclutamento.Guerrieri_1.Quantità.ToString();
+                txt_Lanciere_Esercito.Text = Variabili_Client.Reclutamento.Lanceri_1.Quantità.ToString();
+                txt_Arciere_Esercito.Text = Variabili_Client.Reclutamento.Arceri_1.Quantità.ToString();
+                txt_Catapulta_Esercito.Text = Variabili_Client.Reclutamento.Catapulte_1.Quantità.ToString();
+
+                txt_Guerriero_Spedizione.Text = guerrieri_Temp[0].ToString();
+                txt_Lancere_Spedizione.Text = picchieri_Temp[0].ToString();
+                txt_Arcere_Spedizione.Text = arcieri_Temp[0].ToString();
+                txt_Catapulta_Spedizione.Text = catapulte_Temp[0].ToString();
+            }
+            if (livello_Esercito == 2)
+            {
+                btn_II_Esercito.BackColor = Color.DimGray;
+                btn_II_Spedizione.BackColor = Color.DimGray;
+
+                btn_II_Esercito.Enabled = false;
+                btn_II_Spedizione.Enabled = true;
+
+                txt_Guerriero_Esercito.Text = Variabili_Client.Reclutamento.Guerrieri_2.Quantità.ToString();
+                txt_Lanciere_Esercito.Text = Variabili_Client.Reclutamento.Lanceri_2.Quantità.ToString();
+                txt_Arciere_Esercito.Text = Variabili_Client.Reclutamento.Arceri_2.Quantità.ToString();
+                txt_Catapulta_Esercito.Text = Variabili_Client.Reclutamento.Catapulte_2.Quantità.ToString();
+
+                txt_Guerriero_Spedizione.Text = guerrieri_Temp[1].ToString();
+                txt_Lancere_Spedizione.Text = picchieri_Temp[1].ToString();
+                txt_Arcere_Spedizione.Text = arcieri_Temp[1].ToString();
+                txt_Catapulta_Spedizione.Text = catapulte_Temp[1].ToString();
+            }
+            if (livello_Esercito == 3)
+            {
+                btn_III_Esercito.BackColor = Color.DimGray;
+                btn_III_Spedizione.BackColor = Color.DimGray;
+
+                btn_III_Esercito.Enabled = false;
+                btn_III_Spedizione.Enabled = true;
+
+                txt_Guerriero_Esercito.Text = Variabili_Client.Reclutamento.Guerrieri_3.Quantità.ToString();
+                txt_Lanciere_Esercito.Text = Variabili_Client.Reclutamento.Lanceri_3.Quantità.ToString();
+                txt_Arciere_Esercito.Text = Variabili_Client.Reclutamento.Arceri_3.Quantità.ToString();
+                txt_Catapulta_Esercito.Text = Variabili_Client.Reclutamento.Catapulte_3.Quantità.ToString();
+
+                txt_Guerriero_Spedizione.Text = guerrieri_Temp[2].ToString();
+                txt_Lancere_Spedizione.Text = picchieri_Temp[2].ToString();
+                txt_Arcere_Spedizione.Text = arcieri_Temp[2].ToString();
+                txt_Catapulta_Spedizione.Text = catapulte_Temp[2].ToString();
+            }
+            if (livello_Esercito == 4)
+            {
+                btn_IV_Esercito.BackColor = Color.DimGray;
+                btn_IV_Spedizione.BackColor = Color.DimGray;
+
+                btn_IV_Esercito.Enabled = false;
+                btn_IV_Spedizione.Enabled = true;
+
+                txt_Guerriero_Esercito.Text = Variabili_Client.Reclutamento.Guerrieri_4.Quantità.ToString();
+                txt_Lanciere_Esercito.Text = Variabili_Client.Reclutamento.Lanceri_4.Quantità.ToString();
+                txt_Arciere_Esercito.Text = Variabili_Client.Reclutamento.Arceri_4.Quantità.ToString();
+                txt_Catapulta_Esercito.Text = Variabili_Client.Reclutamento.Catapulte_4.Quantità.ToString();
+
+                txt_Guerriero_Spedizione.Text = guerrieri_Temp[3].ToString();
+                txt_Lancere_Spedizione.Text = picchieri_Temp[3].ToString();
+                txt_Arcere_Spedizione.Text = arcieri_Temp[3].ToString();
+                txt_Catapulta_Spedizione.Text = catapulte_Temp[3].ToString();
+            }
+            if (livello_Esercito == 5)
+            {
+                btn_V_Esercito.BackColor = Color.DimGray;
+                btn_V_Spedizione.BackColor = Color.DimGray;
+
+                btn_V_Esercito.Enabled = false;
+                btn_V_Spedizione.Enabled = true;
+
+                txt_Guerriero_Esercito.Text = Variabili_Client.Reclutamento.Guerrieri_5.Quantità.ToString();
+                txt_Lanciere_Esercito.Text = Variabili_Client.Reclutamento.Lanceri_5.Quantità.ToString();
+                txt_Arciere_Esercito.Text = Variabili_Client.Reclutamento.Arceri_5.Quantità.ToString();
+                txt_Catapulta_Esercito.Text = Variabili_Client.Reclutamento.Catapulte_5.Quantità.ToString();
+
+                txt_Guerriero_Spedizione.Text = guerrieri_Temp[4].ToString();
+                txt_Lancere_Spedizione.Text = picchieri_Temp[4].ToString();
+                txt_Arcere_Spedizione.Text = arcieri_Temp[4].ToString();
+                txt_Catapulta_Spedizione.Text = catapulte_Temp[4].ToString();
+            }
+        }
+
+        private void btn_I_Esercito_Click(object sender, EventArgs e)
+        {
+            livello_Esercito = 1;
+            AggiornaSfondoEsercito();
             Load_Guid();
             this.ActiveControl = btn_I_Esercito;
         }
         private void btn_II_Esercito_Click(object sender, EventArgs e)
         {
             livello_Esercito = 2;
-
-            btn_I_Esercito.BackColor = Color.FromArgb(32, 36, 47);
-            btn_II_Esercito.BackColor = Color.DimGray;
-            btn_III_Esercito.BackColor = Color.FromArgb(32, 36, 47);
-            btn_IV_Esercito.BackColor = Color.FromArgb(32, 36, 47);
-            btn_V_Esercito.BackColor = Color.FromArgb(32, 36, 47);
-
-            btn_I_Spedizione.BackColor = Color.FromArgb(32, 36, 47);
-            btn_II_Spedizione.BackColor = Color.DimGray;
-            btn_III_Spedizione.BackColor = Color.FromArgb(32, 36, 47);
-            btn_IV_Spedizione.BackColor = Color.FromArgb(32, 36, 47);
-            btn_V_Spedizione.BackColor = Color.FromArgb(32, 36, 47);
-
-            btn_I_Esercito.Enabled = true;
-            btn_II_Esercito.Enabled = false;
-            btn_III_Esercito.Enabled = true;
-            btn_IV_Esercito.Enabled = true;
-            btn_V_Esercito.Enabled = true;
-
-            btn_I_Spedizione.Enabled = false;
-            btn_II_Spedizione.Enabled = true;
-            btn_III_Spedizione.Enabled = false;
-            btn_IV_Spedizione.Enabled = false;
-            btn_V_Spedizione.Enabled = false;
-
-            txt_Guerriero_Esercito.Text = Variabili_Client.Reclutamento.Guerrieri_2.Quantità.ToString();
-            txt_Lanciere_Esercito.Text = Variabili_Client.Reclutamento.Lanceri_2.Quantità.ToString();
-            txt_Arciere_Esercito.Text = Variabili_Client.Reclutamento.Arceri_2.Quantità.ToString();
-            txt_Catapulta_Esercito.Text = Variabili_Client.Reclutamento.Catapulte_2.Quantità.ToString();
-
-            txt_Guerriero_Spedizione.Text = guerrieri_Temp[1].ToString();
-            txt_Lancere_Spedizione.Text = picchieri_Temp[1].ToString();
-            txt_Arcere_Spedizione.Text = arcieri_Temp[1].ToString();
-            txt_Catapulta_Spedizione.Text = catapulte_Temp[1].ToString();
+            AggiornaSfondoEsercito();
             Load_Guid();
-            this.ActiveControl = btn_I_Esercito;
+            this.ActiveControl = btn_II_Esercito;
         }
         private void btn_III_Esercito_Click(object sender, EventArgs e)
         {
             livello_Esercito = 3;
-
-            btn_I_Esercito.BackColor = Color.FromArgb(32, 36, 47);
-            btn_II_Esercito.BackColor = Color.FromArgb(32, 36, 47);
-            btn_III_Esercito.BackColor = Color.DimGray;
-            btn_IV_Esercito.BackColor = Color.FromArgb(32, 36, 47);
-            btn_V_Esercito.BackColor = Color.FromArgb(32, 36, 47);
-
-            btn_I_Spedizione.BackColor = Color.FromArgb(32, 36, 47);
-            btn_II_Spedizione.BackColor = Color.FromArgb(32, 36, 47);
-            btn_III_Spedizione.BackColor = Color.DimGray;
-            btn_IV_Spedizione.BackColor = Color.FromArgb(32, 36, 47);
-            btn_V_Spedizione.BackColor = Color.FromArgb(32, 36, 47);
-
-            btn_I_Esercito.Enabled = true;
-            btn_II_Esercito.Enabled = true;
-            btn_III_Esercito.Enabled = false;
-            btn_IV_Esercito.Enabled = true;
-            btn_V_Esercito.Enabled = true;
-
-            btn_I_Spedizione.Enabled = false;
-            btn_II_Spedizione.Enabled = false;
-            btn_III_Spedizione.Enabled = true;
-            btn_IV_Spedizione.Enabled = false;
-            btn_V_Spedizione.Enabled = false;
-
-            txt_Guerriero_Esercito.Text = Variabili_Client.Reclutamento.Guerrieri_3.Quantità.ToString();
-            txt_Lanciere_Esercito.Text = Variabili_Client.Reclutamento.Lanceri_3.Quantità.ToString();
-            txt_Arciere_Esercito.Text = Variabili_Client.Reclutamento.Arceri_3.Quantità.ToString();
-            txt_Catapulta_Esercito.Text = Variabili_Client.Reclutamento.Catapulte_3.Quantità.ToString();
-
-            txt_Guerriero_Spedizione.Text = guerrieri_Temp[2].ToString();
-            txt_Lancere_Spedizione.Text = picchieri_Temp[2].ToString();
-            txt_Arcere_Spedizione.Text = arcieri_Temp[2].ToString();
-            txt_Catapulta_Spedizione.Text = catapulte_Temp[2].ToString();
+            AggiornaSfondoEsercito();
             Load_Guid();
-            this.ActiveControl = btn_I_Esercito;
+            this.ActiveControl = btn_III_Esercito;
         }
         private void btn_IV_Esercito_Click(object sender, EventArgs e)
         {
             livello_Esercito = 4;
-
-            btn_I_Esercito.BackColor = Color.FromArgb(32, 36, 47);
-            btn_II_Esercito.BackColor = Color.FromArgb(32, 36, 47);
-            btn_III_Esercito.BackColor = Color.FromArgb(32, 36, 47);
-            btn_IV_Esercito.BackColor = Color.DimGray;
-            btn_V_Esercito.BackColor = Color.FromArgb(32, 36, 47);
-
-            btn_I_Spedizione.BackColor = Color.FromArgb(32, 36, 47);
-            btn_II_Spedizione.BackColor = Color.FromArgb(32, 36, 47);
-            btn_III_Spedizione.BackColor = Color.FromArgb(32, 36, 47);
-            btn_IV_Spedizione.BackColor = Color.DimGray;
-            btn_V_Spedizione.BackColor = Color.FromArgb(32, 36, 47);
-
-            btn_I_Esercito.Enabled = true;
-            btn_II_Esercito.Enabled = true;
-            btn_III_Esercito.Enabled = true;
-            btn_IV_Esercito.Enabled = false;
-            btn_V_Esercito.Enabled = true;
-
-            btn_I_Spedizione.Enabled = false;
-            btn_II_Spedizione.Enabled = false;
-            btn_III_Spedizione.Enabled = false;
-            btn_IV_Spedizione.Enabled = true;
-            btn_V_Spedizione.Enabled = false;
-
-            txt_Guerriero_Esercito.Text = Variabili_Client.Reclutamento.Guerrieri_4.Quantità.ToString();
-            txt_Lanciere_Esercito.Text = Variabili_Client.Reclutamento.Lanceri_4.Quantità.ToString();
-            txt_Arciere_Esercito.Text = Variabili_Client.Reclutamento.Arceri_4.Quantità.ToString();
-            txt_Catapulta_Esercito.Text = Variabili_Client.Reclutamento.Catapulte_4.Quantità.ToString();
-
-            txt_Guerriero_Spedizione.Text = guerrieri_Temp[3].ToString();
-            txt_Lancere_Spedizione.Text = picchieri_Temp[3].ToString();
-            txt_Arcere_Spedizione.Text = arcieri_Temp[3].ToString();
-            txt_Catapulta_Spedizione.Text = catapulte_Temp[3].ToString();
+            AggiornaSfondoEsercito();
             Load_Guid();
-            this.ActiveControl = btn_I_Esercito;
+            this.ActiveControl = btn_IV_Esercito;
         }
         private void btn_V_Esercito_Click(object sender, EventArgs e)
         {
             livello_Esercito = 5;
-
-            btn_I_Esercito.BackColor = Color.FromArgb(32, 36, 47);
-            btn_II_Esercito.BackColor = Color.FromArgb(32, 36, 47);
-            btn_III_Esercito.BackColor = Color.FromArgb(32, 36, 47);
-            btn_IV_Esercito.BackColor = Color.FromArgb(32, 36, 47);
-            btn_V_Esercito.BackColor = Color.DimGray;
-
-            btn_I_Spedizione.BackColor = Color.FromArgb(32, 36, 47);
-            btn_II_Spedizione.BackColor = Color.FromArgb(32, 36, 47);
-            btn_III_Spedizione.BackColor = Color.FromArgb(32, 36, 47);
-            btn_IV_Spedizione.BackColor = Color.FromArgb(32, 36, 47);
-            btn_V_Spedizione.BackColor = Color.DimGray;
-
-            btn_I_Esercito.Enabled = true;
-            btn_II_Esercito.Enabled = true;
-            btn_III_Esercito.Enabled = true;
-            btn_IV_Esercito.Enabled = true;
-            btn_V_Esercito.Enabled = false;
-
-            btn_I_Spedizione.Enabled = false;
-            btn_II_Spedizione.Enabled = false;
-            btn_III_Spedizione.Enabled = false;
-            btn_IV_Spedizione.Enabled = false;
-            btn_V_Spedizione.Enabled = true;
-
-            txt_Guerriero_Esercito.Text = Variabili_Client.Reclutamento.Guerrieri_5.Quantità.ToString();
-            txt_Lanciere_Esercito.Text = Variabili_Client.Reclutamento.Lanceri_5.Quantità.ToString();
-            txt_Arciere_Esercito.Text = Variabili_Client.Reclutamento.Arceri_5.Quantità.ToString();
-            txt_Catapulta_Esercito.Text = Variabili_Client.Reclutamento.Catapulte_5.Quantità.ToString();
-
-            txt_Guerriero_Spedizione.Text = guerrieri_Temp[4].ToString();
-            txt_Lancere_Spedizione.Text = picchieri_Temp[4].ToString();
-            txt_Arcere_Spedizione.Text = arcieri_Temp[4].ToString();
-            txt_Catapulta_Spedizione.Text = catapulte_Temp[4].ToString();
+            AggiornaSfondoEsercito();
             Load_Guid();
-            this.ActiveControl = btn_I_Esercito;
+            this.ActiveControl = btn_V_Esercito;
         }
 
         private void AttaccoCoordinato_FormClosing(object sender, FormClosingEventArgs e)
@@ -869,11 +852,13 @@ namespace CriptoGame_Online.GUI
             {
                 groupBox4.Text = "Città Barbare";
                 tipo_Barbaro = "Città Barbare";
+                btn_Attacco_PVE_Villaggio_B.Text = "Raid";
             }
             else
             {
                 groupBox4.Text = "Villaggi Barbari";
                 tipo_Barbaro = "Villaggi Barbari";
+                btn_Attacco_PVE_Villaggio_B.Text = "Attacco";
             }
             UpdateCombobox();
         }
