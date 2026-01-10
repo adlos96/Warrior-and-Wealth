@@ -5,11 +5,49 @@ namespace CriptoGame_Online
     public partial class Costruzione : Form
     {
         int livello_Esercito = 1;
+        public static CustomToolTip toolTip1;
         public Costruzione()
         {
+            toolTip1 = new CustomToolTip();
+
+            // Imposta qualche proprietà opzionale
+            toolTip1.InitialDelay = 150;
+            toolTip1.AutoPopDelay = 8000;
+
             InitializeComponent();
             this.ActiveControl = Btn_Costruzione; // assegna il focus al bottone
-            Esercito_GUI();
+
+            btn_I.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
+            btn_II.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
+            btn_III.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
+            btn_IV.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
+            btn_V.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
+
+            toolTip1.SetToolTip(this.ico_Structure_1, "[black]Fattorie");
+            toolTip1.SetToolTip(this.ico_Structure_2, "[black]Segherie");
+            toolTip1.SetToolTip(this.ico_Structure_3, "[black]Cave di pietra");
+            toolTip1.SetToolTip(this.ico_Structure_4, "[black]Miniere di ferro");
+            toolTip1.SetToolTip(this.ico_Structure_5, "[black]Miniere d'oro");
+            toolTip1.SetToolTip(this.ico_Structure_6, "[black]Abitazioni");
+
+            toolTip1.SetToolTip(this.ico_Structure_7, "[black]Workshop spade");
+            toolTip1.SetToolTip(this.ico_Structure_8, "[black]Workshop lance");
+            toolTip1.SetToolTip(this.ico_Structure_9, "[black]Workshop archi");
+            toolTip1.SetToolTip(this.ico_Structure_10, "[black]Workshop scudi");
+            toolTip1.SetToolTip(this.ico_Structure_11, "[black]Workshop armature");
+            toolTip1.SetToolTip(this.ico_Structure_12, "[black]Workshop frecce");
+
+            toolTip1.SetToolTip(this.ico_Unita_1, "[black]Guerrieri");
+            toolTip1.SetToolTip(this.ico_Unita_2, "[black]Lanceri");
+            toolTip1.SetToolTip(this.ico_Unita_3, "[black]Arceri");
+            toolTip1.SetToolTip(this.ico_Unita_4, "[black]Catapulte");
+
+            toolTip1.SetToolTip(this.ico_Caserma_1, "[black]Caserma guerrieri");
+            toolTip1.SetToolTip(this.ico_Caserma_2, "[black]Caserma lanceri");
+            toolTip1.SetToolTip(this.ico_Caserma_3, "[black]Caserma arceri");
+            toolTip1.SetToolTip(this.ico_Caserma_4, "[black]Caserma catapulte");
+
+            UnlockSoldierTier(livello_Esercito);
         }
 
         private void Costruzione_Load(object sender, EventArgs e)
@@ -17,14 +55,9 @@ namespace CriptoGame_Online
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
         }
-        private void Esercito_GUI()
+        void UnlockSoldierTier(int tier)
         {
-            //Bottoni livelli esercito
-            btn_I.BackgroundImage = Properties.Resources.Texture_Wood_1;
-            btn_II.BackgroundImage = Properties.Resources.Texture_Wood_1;
-            btn_III.BackgroundImage = Properties.Resources.Texture_Wood_1;
-            btn_IV.BackgroundImage = Properties.Resources.Texture_Wood_1;
-            btn_V.BackgroundImage = Properties.Resources.Texture_Wood_1;
+            int livello = Convert.ToInt32(Variabili_Client.Utente.Livello);
 
             btn_I.BackColor = Color.FromArgb(229, 208, 181);
             btn_II.BackColor = Color.FromArgb(229, 208, 181);
@@ -32,62 +65,90 @@ namespace CriptoGame_Online
             btn_IV.BackColor = Color.FromArgb(229, 208, 181);
             btn_V.BackColor = Color.FromArgb(229, 208, 181);
 
-            btn_I.Enabled = false;
-            btn_II.Enabled = true;
-            btn_III.Enabled = true;
-            btn_IV.Enabled = true;
-            btn_V.Enabled = true;
+            //Controllo se il livello è maggiore abilita il tier specifico dei soldati
+            if (livello_Esercito != 1)
+            {
+                btn_I.Enabled = true;
+                btn_I.BackgroundImage = Properties.Resources.Texture_Wood_1;
+            }
+            else btn_I.Enabled = false;
+
+            if (livello < Convert.ToInt32(Variabili_Client.truppe_II))
+            {
+                btn_II.Enabled = false;
+                btn_II.BackColor = Color.FromArgb(206, 206, 206);
+            }
+            else
+            {
+                if (livello_Esercito != 2) btn_II.Enabled = true;
+                else btn_II.Enabled = false;
+
+                btn_II.BackgroundImage = Properties.Resources.Texture_Wood_1;
+            }
+            if (livello < Convert.ToInt32(Variabili_Client.truppe_III))
+            {
+                btn_III.Enabled = false;
+                btn_III.BackColor = Color.FromArgb(206, 206, 206);
+            }
+            else
+            {
+                if (livello_Esercito != 3) btn_III.Enabled = true;
+                else btn_III.Enabled = false;
+                btn_III.BackgroundImage = Properties.Resources.Texture_Wood_1;
+            }
+            if (livello < Convert.ToInt32(Variabili_Client.truppe_IV))
+            {
+                btn_IV.Enabled = false;
+                btn_IV.BackColor = Color.FromArgb(206, 206, 206);
+            }
+            else
+            {
+                if (livello_Esercito != 4) btn_IV.Enabled = true;
+                else btn_IV.Enabled = false;
+                btn_IV.BackgroundImage = Properties.Resources.Texture_Wood_1;
+            }
+            if (livello < Convert.ToInt32(Variabili_Client.truppe_V))
+            {
+                btn_V.Enabled = false;
+                btn_V.BackColor = Color.FromArgb(206, 206, 206);
+            }
+            else
+            {
+                if (livello_Esercito != 5) btn_V.Enabled = true;
+                else btn_V.Enabled = false;
+                btn_V.BackgroundImage = Properties.Resources.Texture_Wood_1;
+            }
         }
 
         #region Bottoni livelli esercito
         private void btn_I_Click(object sender, EventArgs e)
         {
-            btn_I.Enabled = false;
-            btn_II.Enabled = true;
-            btn_III.Enabled = true;
-            btn_IV.Enabled = true;
-            btn_V.Enabled = true;
             livello_Esercito = 1;
+            UnlockSoldierTier(livello_Esercito);
             this.ActiveControl = btn_Reclutamento; // assegna il focus al bottone
         }
         private void btn_II_Click(object sender, EventArgs e)
         {
-            btn_I.Enabled = true;
-            btn_II.Enabled = false;
-            btn_III.Enabled = true;
-            btn_IV.Enabled = true;
-            btn_V.Enabled = true;
             livello_Esercito = 2;
+            UnlockSoldierTier(livello_Esercito);
             this.ActiveControl = btn_Reclutamento; // assegna il focus al bottone
         }
         private void btn_III_Click(object sender, EventArgs e)
         {
-            btn_I.Enabled = true;
-            btn_II.Enabled = true;
-            btn_III.Enabled = false;
-            btn_IV.Enabled = true;
-            btn_V.Enabled = true;
             livello_Esercito = 3;
+            UnlockSoldierTier(livello_Esercito);
             this.ActiveControl = btn_Reclutamento; // assegna il focus al bottone
         }
         private void btn_IV_Click(object sender, EventArgs e)
         {
-            btn_I.Enabled = true;
-            btn_II.Enabled = true;
-            btn_III.Enabled = true;
-            btn_IV.Enabled = false;
-            btn_V.Enabled = true;
             livello_Esercito = 4;
+            UnlockSoldierTier(livello_Esercito);
             this.ActiveControl = btn_Reclutamento; // assegna il focus al bottone
         }
         private void btn_V_Click(object sender, EventArgs e)
         {
-            btn_I.Enabled = true;
-            btn_II.Enabled = true;
-            btn_III.Enabled = true;
-            btn_IV.Enabled = true;
-            btn_V.Enabled = false;
             livello_Esercito = 5;
+            UnlockSoldierTier(livello_Esercito);
             this.ActiveControl = btn_Reclutamento; // assegna il focus al bottone
         }
         #endregion
@@ -430,7 +491,7 @@ namespace CriptoGame_Online
 
         private void Set_0_Caserme_Lanceri_Click(object sender, EventArgs e)
         {
-            txt_Caserme_Arceri_Costruzione.Text = "0";
+            txt_Caserme_Lanceri_Costruzione.Text = "0";
         }
         private void Add_1_Caserme_Lanceri_Click(object sender, EventArgs e)
         {
@@ -444,7 +505,7 @@ namespace CriptoGame_Online
 
         private void Set_0_Caserme_Arceri_Click(object sender, EventArgs e)
         {
-            txt_Caserme_Lanceri_Costruzione.Text = "0";
+            txt_Caserme_Arceri_Costruzione.Text = "0";
         }
         private void Add_1_Caserme_Arceri_Click(object sender, EventArgs e)
         {
