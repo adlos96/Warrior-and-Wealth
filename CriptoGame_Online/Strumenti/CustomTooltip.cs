@@ -5,7 +5,7 @@ public class CustomToolTip
 {
     private readonly Dictionary<Control, string> _tips = new();
     private TooltipForm? _activeTip;
-    private CancellationTokenSource? _autoHideCts;
+    private int _currentTooltipId;
 
     public int InitialDelay { get; set; } = 300;
     public int AutoPopDelay { get; set; } = 5000;
@@ -28,9 +28,12 @@ public class CustomToolTip
 
     private async Task ShowTooltipAsync(Control ctl)
     {
+        var tooltipId = ++_currentTooltipId;
+
         await Task.Delay(InitialDelay);
 
-        if (!ctl.ClientRectangle.Contains(ctl.PointToClient(Cursor.Position)))
+        // Verifica se è ancora valido mostrare il tooltip
+        if (tooltipId != _currentTooltipId || !ctl.ClientRectangle.Contains(ctl.PointToClient(Cursor.Position)))
             return;
 
         HideTooltip();
@@ -41,24 +44,16 @@ public class CustomToolTip
         };
 
         _activeTip.Show();
-        _ = AutoHideAsync();
+        _ = AutoHideAsync(tooltipId);
     }
 
-    private async Task AutoHideAsync()
+    private async Task AutoHideAsync(int tooltipId)
     {
-        _autoHideCts?.Cancel();
-        _autoHideCts = new CancellationTokenSource();
-        var token = _autoHideCts.Token;
+        await Task.Delay(AutoPopDelay);
 
-        try
-        {
-            await Task.Delay(AutoPopDelay, token);
-            if (!token.IsCancellationRequested)
-                HideTooltip();
-        }
-        catch (TaskCanceledException)
-        {
-        }
+        // Nascondi solo se è ancora lo stesso tooltip
+        if (tooltipId == _currentTooltipId)
+            HideTooltip();
     }
 
     private void MoveTooltip()
@@ -71,7 +66,7 @@ public class CustomToolTip
 
     private void HideTooltip()
     {
-        _autoHideCts?.Cancel();
+        _currentTooltipId++; // Invalida tutti i tooltip pendenti
         if (_activeTip != null)
         {
             _activeTip.Close();
@@ -90,6 +85,7 @@ public class CustomToolTip
 
         public TooltipForm(string text)
         {
+            this.AutoScaleMode = AutoScaleMode.None;
             // PARSING del testo con LogSupport
             _segments = LogSupport.Parse(text);
 
@@ -109,9 +105,10 @@ public class CustomToolTip
 
         private void CalculateSize()
         {
-            using (Graphics g = CreateGraphics())
+            using (Bitmap bmp = new Bitmap(1, 1))
+            using (Graphics g = Graphics.FromImage(bmp))
             {
-                int maxLineWidth = 300;
+                int maxLineWidth = 400;
                 float currentX = 0;
                 float totalHeight = TooltipFont.GetHeight(g);
                 float maxWidth = 0;
@@ -171,8 +168,9 @@ public class CustomToolTip
 
                 maxWidth = Math.Max(maxWidth, currentX);
 
-                Width = (int)maxWidth + 30; //Largezza
-                Height = (int)totalHeight + 30; //Altezza
+                // AGGIUNGI UN PADDING MINIMO
+                Width = Math.Max(190, (int)maxWidth + 30); //Largezza
+                Height = Math.Max(30, (int)totalHeight + 30); //Altezza
             }
         }
 
