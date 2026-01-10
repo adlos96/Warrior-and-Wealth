@@ -24,6 +24,7 @@ namespace CriptoGame_Online.GUI
 
         private  async void btn_Scambia_Click(object sender, EventArgs e)
         {
+            this.ActiveControl = btn_Scambia;
             ClientConnection.TestClient.Send($"Scambia_Diamanti|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{txt_Diamond_Viola.Text}");
             btn_Scambia.Enabled = false;
             await Sleep();
