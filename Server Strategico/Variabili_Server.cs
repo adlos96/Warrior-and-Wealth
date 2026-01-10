@@ -3,23 +3,42 @@
     internal class Variabili_Server
     {
         //ServerData
-        public static int moltiplicatore_Esperienza = 10; //Moltiplicatore esperienza (10 + 1 * 10 == 20 -- 10 + 2 * 10 == 30 -- 10 + 3 * 10 == 40)
-        public static int D_Viola_To_Blu = 3; // Numero di diamanti blu ottenuti per ogni diamante viola
-        public static int Velocizzazione_Tempo = 36; // per ogni diamante blu speso quanti secondi vengono velocizzati
+        public static Int16 moltiplicatore_Esperienza = 10; //Moltiplicatore esperienza (10 + 1 * 10 == 20 -- 10 + 2 * 10 == 30 -- 10 + 3 * 10 == 40)
+        public static Int16 D_Viola_To_Blu = 3; // Numero di diamanti blu ottenuti per ogni diamante viola
+        public static Int16 Velocizzazione_Tempo = 36; // per ogni diamante blu speso quanti secondi vengono velocizzati
         public static decimal prelievo_Minimo = 5.00m;
-        public static int numero_Code_Base = 1; // Ogni giocatore parte con questo numero di esecuzioni parallele massime (costruttori, Riclutatori, Ricerca)
-        public static int numero_Code_Base_Vip = 1; // quante code aggiunge il vip
+        public static Int16 numero_Code_Base = 1; // Ogni giocatore parte con questo numero di esecuzioni parallele massime (costruttori, Riclutatori, Ricerca)
+        public static Int16 numero_Code_Base_Vip = 1; // quante code aggiunge il vip
         public static int timer_Reset_Barbari = 0;
         public static int timer_Reset_Quest = 0;
 
-        //Trasporto - Pesi -
+        //PVP
+        public static Int16 Max_Diamanti_Viola_PVP = 150; //massimo diamanti viola che un giocatore può guadagnare in un giorno tramite PVP
+        public static Int16 max_Diamanti_Blu_PVP = 300; //massimo diamanti blu che un giocatore può guadagnare in un giorno tramite PVP
+        public static Int16 Max_Diamanti_Viola_PVP_Giocatore = 10; //massimo diamanti viola che un giocatore può guadagnare da un singolo avversario tramite PVP
+        public static Int16 Max_Diamanti_Blu_PVP_Giocatore = 20; //massimo diamanti viola che un giocatore può guadagnare da un singolo avversario tramite PVP
+        public static bool Reset_Gironaliero = false;
+        public static bool Reset_Settimanale = false;
+        public static bool Reset_Mensile = false;
 
-        public static int peso_Risorse_Civile = 3; //peso base per ogni risorsa
+        //Trasporto - Pesi -
         public static int peso_Risorse_Militare = 9; //peso base per ogni risorsa
-        public static int peso_Risorse_Ferro = 6;
-        public static int peso_Risorse_Oro = 11;
-        public static int peso_Risorse_Diamante_Blu = 500;
-        public static int peso_Risorse_Diamante_Viola = 1500;
+        public static int peso_Risorse_Cibo = 4;
+        public static int peso_Risorse_Legno = 6;
+        public static int peso_Risorse_Pietra = 9;
+        public static int peso_Risorse_Ferro = 12;
+        public static int peso_Risorse_Oro = 16;
+        public static int peso_Risorse_Diamante_Blu = 1200;
+        public static int peso_Risorse_Diamante_Viola = 2200;
+
+        public static int tempo_Riparazione = 6; //tempo in secondi per riparare le strutture danneggiate
+
+        //Sblocco Esercito
+        public static int truppe_II = 9;
+        public static int truppe_III = 19;
+        public static int truppe_IV = 38;
+        public static int truppe_V = 50;
+
 
         public class PartialTimerData
         {
@@ -115,31 +134,37 @@
         {
             public decimal Produzione { get; set; }
             public int Rarita { get; set; }
+            public int Limite_Strutture { get; set; }
             public static Terreni_Virtuali Comune = new Terreni_Virtuali
             {
                 Produzione = 0.00000000111m,
-                Rarita = 50
+                Rarita = 50,
+                Limite_Strutture = 5
             };
             public static Terreni_Virtuali NonComune = new Terreni_Virtuali
             {
                 Produzione = 0.00000000222m,
-                Rarita = 20
+                Rarita = 20,
+                Limite_Strutture = 10
             };
             public static Terreni_Virtuali Raro = new Terreni_Virtuali
             {
                 Produzione = 0.00000000333m,
-                Rarita = 15
+                Rarita = 15,
+                Limite_Strutture = 15
             };
             public static Terreni_Virtuali Epico = new Terreni_Virtuali
             {
                 Produzione = 0.00000000444m,
-                Rarita = 10
+                Rarita = 10,
+                Limite_Strutture = 20
             };
 
             public static Terreni_Virtuali Leggendario = new Terreni_Virtuali
             {
                 Produzione = 0.00000000555m,
-                Rarita = 5
+                Rarita = 5,
+                Limite_Strutture = 25
             };
         }
     }
