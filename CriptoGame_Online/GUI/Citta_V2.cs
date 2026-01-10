@@ -1,5 +1,6 @@
 ﻿using CriptoGame_Online.Strumenti;
 using Strategico_V2;
+using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace CriptoGame_Online.GUI
@@ -294,14 +295,9 @@ namespace CriptoGame_Online.GUI
         {
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
+            pictureBox_Castello_Salute.BackgroundImageLayout = ImageLayout.Stretch;
 
-            GUI();
-            //Update();
             Task.Run(() => Gui_Update(cts.Token), cts.Token);
-        }
-        private void GUI()
-        {
-
         }
 
         async void Gui_Update(CancellationToken token)
@@ -310,41 +306,46 @@ namespace CriptoGame_Online.GUI
             {
                 if (panel1.IsHandleCreated && !panel1.IsDisposed)
                 {
+                    int daRiparare = 0;
                     panel1.BeginInvoke((Action)(() =>
                     {
+                        Gioco.toolTip1.SetToolTip(this.pictureBox_Cancello_Salute, $"{Variabili_Client.Citta.Cancello.Descrizione}");
+                        Gioco.toolTip1.SetToolTip(this.pictureBox_Cancello_Difesa, $"{Variabili_Client.Citta.Cancello.DescrizioneB}");
+
+                        Gioco.toolTip1.SetToolTip(this.pictureBox_Mura_Salute, $"{Variabili_Client.Citta.Mura.Descrizione}");
+                        Gioco.toolTip1.SetToolTip(this.pictureBox_Mura_Difesa, $"{Variabili_Client.Citta.Mura.DescrizioneB}");
+
+                        Gioco.toolTip1.SetToolTip(this.pictureBox_Torri_Salute, $"{Variabili_Client.Citta.Torri.Descrizione}");
+                        Gioco.toolTip1.SetToolTip(this.pictureBox_Torri_Difesa, $"{Variabili_Client.Citta.Torri.DescrizioneB}");
+
+                        Gioco.toolTip1.SetToolTip(this.pictureBox_Castello_Salute, $"{Variabili_Client.Citta.Castello.Descrizione}");
+                        Gioco.toolTip1.SetToolTip(this.pictureBox_Castello_Difesa, $"{Variabili_Client.Citta.Castello.DescrizioneB}");
+
                         soldierBarCancello.MaxValue = Variabili_Client.Citta.Cancello.Guarnigione_Max;
                         soldierBarCancello.Value = Variabili_Client.Citta.Cancello.Guarnigione;
-
                         defenseBarCancello.MaxValue = Variabili_Client.Citta.Cancello.Difesa_Max;
                         defenseBarCancello.Value = Variabili_Client.Citta.Cancello.Difesa;
-
                         barravitaCancello.MaxValue = Variabili_Client.Citta.Cancello.Salute_Max;
                         barravitaCancello.Value = Variabili_Client.Citta.Cancello.Salute;
 
                         soldierBarMura.MaxValue = Variabili_Client.Citta.Mura.Guarnigione_Max;
                         soldierBarMura.Value = Variabili_Client.Citta.Mura.Guarnigione;
-
                         defenseBarMura.MaxValue = Variabili_Client.Citta.Mura.Difesa_Max;
                         defenseBarMura.Value = Variabili_Client.Citta.Mura.Difesa;
-
                         barravitaMura.MaxValue = Variabili_Client.Citta.Mura.Salute_Max;
                         barravitaMura.Value = Variabili_Client.Citta.Mura.Salute;
 
                         soldierBarTorri.MaxValue = Variabili_Client.Citta.Torri.Guarnigione_Max;
                         soldierBarTorri.Value = Variabili_Client.Citta.Torri.Guarnigione;
-
                         defenseBarTorri.MaxValue = Variabili_Client.Citta.Torri.Difesa_Max;
                         defenseBarTorri.Value = Variabili_Client.Citta.Torri.Difesa;
-
                         barravitaTorri.MaxValue = Variabili_Client.Citta.Torri.Salute_Max;
                         barravitaTorri.Value = Variabili_Client.Citta.Torri.Salute;
 
                         soldierBarCastello.MaxValue = Variabili_Client.Citta.Castello.Guarnigione_Max;
                         soldierBarCastello.Value = Variabili_Client.Citta.Castello.Guarnigione;
-
                         defenseBarCastello.MaxValue = Variabili_Client.Citta.Castello.Difesa_Max;
                         defenseBarCastello.Value = Variabili_Client.Citta.Castello.Difesa;
-
                         barravitaCastello.MaxValue = Variabili_Client.Citta.Castello.Salute_Max;
                         barravitaCastello.Value = Variabili_Client.Citta.Castello.Salute;
 
@@ -353,6 +354,61 @@ namespace CriptoGame_Online.GUI
 
                         soldierBarCitta.MaxValue = Variabili_Client.Citta.Città.Guarnigione_Max;
                         soldierBarCitta.Value = Variabili_Client.Citta.Città.Guarnigione;
+
+                        if (Variabili_Client.Citta.Mura.Salute < Variabili_Client.Citta.Mura.Salute_Max)
+                        {
+                            pictureBox_Mura_Salute.Visible = true;
+                            daRiparare++;
+                        }
+                        else pictureBox_Mura_Salute.Visible = false;
+                        if (Variabili_Client.Citta.Mura.Difesa < Variabili_Client.Citta.Mura.Difesa_Max)
+                        {
+                            pictureBox_Mura_Difesa.Visible = true;
+                            daRiparare++;
+                        }
+                        else pictureBox_Mura_Difesa.Visible = false;
+
+                        if (Variabili_Client.Citta.Cancello.Salute < Variabili_Client.Citta.Cancello.Salute_Max)
+                        {
+                            pictureBox_Cancello_Salute.Visible = true;
+                            daRiparare++;
+                        }
+                        else pictureBox_Cancello_Salute.Visible = false;
+                        if (Variabili_Client.Citta.Cancello.Difesa < Variabili_Client.Citta.Cancello.Difesa_Max)
+                        {
+                            pictureBox_Cancello_Difesa.Visible = true;
+                            daRiparare++;
+                        }
+                        else pictureBox_Cancello_Difesa.Visible = false;
+
+                        if (Variabili_Client.Citta.Torri.Salute < Variabili_Client.Citta.Torri.Salute_Max)
+                        {
+                            pictureBox_Torri_Salute.Visible = true;
+                            daRiparare++;
+                        }
+                        else pictureBox_Torri_Salute.Visible = false;
+                        if (Variabili_Client.Citta.Torri.Difesa < Variabili_Client.Citta.Torri.Difesa_Max)
+                        {
+                            pictureBox_Torri_Difesa.Visible = true;
+                            daRiparare++;
+                        }
+                        else pictureBox_Torri_Difesa.Visible = false;
+
+                        if (Variabili_Client.Citta.Castello.Salute < Variabili_Client.Citta.Castello.Salute_Max)
+                        {
+                            pictureBox_Castello_Salute.Visible = true;
+                            daRiparare++;
+                        }
+                        else pictureBox_Castello_Salute.Visible = false;
+                        if (Variabili_Client.Citta.Castello.Difesa < Variabili_Client.Citta.Castello.Difesa_Max)
+                        {
+                            pictureBox_Castello_Difesa.Visible = true;
+                            daRiparare++;
+                        }
+                        else pictureBox_Castello_Difesa.Visible = false;
+
+                        if (daRiparare >= 2) btn_Ripara_Tutto.Visible = true;
+                        else btn_Ripara_Tutto.Visible = false;
 
                         //Colori
                         if (barravitaCancello.Value >= barravitaCancello.MaxValue * 0.66)
@@ -386,11 +442,19 @@ namespace CriptoGame_Online.GUI
                         //Ridisegna solo se il valore è cambiato
                         foreach (var (bar, panel) in barreCitta)
                         {
+                            var a = bar.Text;
                             int currentValue = bar.Value; // valore attuale
+                            int ActualValueMax = bar.MaxValue; // valore attuale
                             if (!lastValues.TryGetValue(bar, out int lastValue) || lastValue != currentValue)
                             {
                                 panel.Invalidate();
                                 lastValues[bar] = currentValue;
+                            }
+                            int currentValueMax = bar.MaxValue; // valore attuale
+                            if (!lastValues.TryGetValue(bar, out int lastValueMax) || lastValue != ActualValueMax)
+                            {
+                                panel.Invalidate();
+                                lastValues[bar] = currentValueMax;
                             }
                         }
                     }));
@@ -517,6 +581,51 @@ namespace CriptoGame_Online.GUI
             Spostamento_Truppe.struttura = "Castello";
             Spostamento_Truppe form_Gioco = new Spostamento_Truppe();
             form_Gioco.ShowDialog();
+        }
+
+        private void pictureBox_Mura_Salute_Click(object sender, EventArgs e)
+        {
+            ClientConnection.TestClient.Send($"Ripara|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Mura|Salute");
+        }
+
+        private void pictureBox_Mura_Difesa_Click(object sender, EventArgs e)
+        {
+            ClientConnection.TestClient.Send($"Ripara|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Mura|Difesa");
+        }
+
+        private void pictureBox_Cancello_Salute_Click(object sender, EventArgs e)
+        {
+            ClientConnection.TestClient.Send($"Ripara|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Cancello|Salute");
+        }
+
+        private void pictureBox_Cancello_Difesa_Click(object sender, EventArgs e)
+        {
+            ClientConnection.TestClient.Send($"Ripara|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Cancello|Difesa");
+        }
+
+        private void pictureBox_Torri_Salute_Click(object sender, EventArgs e)
+        {
+            ClientConnection.TestClient.Send($"Ripara|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Torri|Salute");
+        }
+
+        private void pictureBox_Torri_Difesa_Click(object sender, EventArgs e)
+        {
+            ClientConnection.TestClient.Send($"Ripara|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Torri|Difesa");
+        }
+
+        private void pictureBox_Castello_Salute_Click(object sender, EventArgs e)
+        {
+            ClientConnection.TestClient.Send($"Ripara|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Castello|Salute");
+        }
+
+        private void pictureBox_Castello_Difesa_Click(object sender, EventArgs e)
+        {
+            ClientConnection.TestClient.Send($"Ripara|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Castello|Difesa");
+        }
+
+        private void btn_Ripara_Tutto_Click(object sender, EventArgs e)
+        {
+            ClientConnection.TestClient.Send($"Ripara|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Ripara Tutto");
         }
     }
 
