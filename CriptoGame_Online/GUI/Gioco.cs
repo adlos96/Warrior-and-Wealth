@@ -8,7 +8,7 @@ namespace CriptoGame_Online
     {
         public static Gioco? Instance { get; private set; }
         public static GameTextBox? logBox;
-        public CustomToolTip toolTip1;
+        public static CustomToolTip toolTip1;
         static string strutture = "Civile";
         static string tipo_Risorse = "Civile";
         static string Caserme = "Esercito";
@@ -24,7 +24,6 @@ namespace CriptoGame_Online
                 Dock = DockStyle.Fill
             };
             panel_Log.Controls.Add(logBox);// texbox personallizata
-
         }
 
         public static void Log_Update(string messaggio)
@@ -82,6 +81,8 @@ namespace CriptoGame_Online
                 Thread.Sleep(33); // poco piu di 30 fps
                 logBox.Invoke((Action)(async () =>
                 {
+                    UnlockSoldierTier(livello_Esercito); //Controlla lo sblocco delle truppe in base al livello esercito ed in base al livello selezionato per la visualizzazione
+
                     toolTip1.SetToolTip(this.ico_10, $"{Variabili_Client.Giocatore_Desc}");
                     toolTip1.SetToolTip(this.ico_11, $"{Variabili_Client.Diamanti_Blu_Desc}");
                     toolTip1.SetToolTip(this.ico_12, $"{Variabili_Client.Diamanti_Viola_Desc}");
@@ -158,11 +159,11 @@ namespace CriptoGame_Online
 
                     if (tipo_Risorse == "Militare") //risorse
                     {
-                        toolTip1.SetToolTip(this.ico_1, $"{Variabili_Client.Spade_Desc}Produzione: [verde]{Variabili_Client.Utente_Risorse.Spade_s}[/verde][black]s\r\n Limite: [ferroScuro]{Variabili_Client.Utente_Risorse.Spade_Limite}\n");
-                        toolTip1.SetToolTip(this.ico_2, $"{Variabili_Client.Lance_Desc}Produzione: [verde]{Variabili_Client.Utente_Risorse.Lance_s}[/verde][black]s\r\n Limite: [ferroScuro]{Variabili_Client.Utente_Risorse.Lance_Limite}\n");
-                        toolTip1.SetToolTip(this.ico_3, $"{Variabili_Client.Archi_Desc}Produzione: [verde]{Variabili_Client.Utente_Risorse.Archi_s}[/verde][black]s\r\n Limite: [ferroScuro]{Variabili_Client.Utente_Risorse.Archi_Limite}\n");
-                        toolTip1.SetToolTip(this.ico_4, $"{Variabili_Client.Scudi_Desc}Produzione: [verde]{Variabili_Client.Utente_Risorse.Scudi_s}[/verde][black]s\r\n Limite: [ferroScuro]{Variabili_Client.Utente_Risorse.Scudi_Limite}\n");
-                        toolTip1.SetToolTip(this.ico_5, $"{Variabili_Client.Armature_Desc}Produzione: [verde]{Variabili_Client.Utente_Risorse.Armature_s}[/verde][black]s\r\n Limite: [ferroScuro]{Variabili_Client.Utente_Risorse.Armature_Limite}\n");
+                        toolTip1.SetToolTip(this.ico_1, $"{Variabili_Client.Spade_Desc}Produzione: [verde]{Variabili_Client.Utente_Risorse.Spade_s}[/verde][black]s\r\n Limite: [ferroScuro]{Variabili_Client.Utente_Risorse.Spade_Limite}");
+                        toolTip1.SetToolTip(this.ico_2, $"{Variabili_Client.Lance_Desc}Produzione: [verde]{Variabili_Client.Utente_Risorse.Lance_s}[/verde][black]s\r\n Limite: [ferroScuro]{Variabili_Client.Utente_Risorse.Lance_Limite}");
+                        toolTip1.SetToolTip(this.ico_3, $"{Variabili_Client.Archi_Desc}Produzione: [verde]{Variabili_Client.Utente_Risorse.Archi_s}[/verde][black]s\r\n Limite: [ferroScuro]{Variabili_Client.Utente_Risorse.Archi_Limite}");
+                        toolTip1.SetToolTip(this.ico_4, $"{Variabili_Client.Scudi_Desc}Produzione: [verde]{Variabili_Client.Utente_Risorse.Scudi_s}[/verde][black]s\r\n Limite: [ferroScuro]{Variabili_Client.Utente_Risorse.Scudi_Limite}");
+                        toolTip1.SetToolTip(this.ico_5, $"{Variabili_Client.Armature_Desc}Produzione: [verde]{Variabili_Client.Utente_Risorse.Armature_s}[/verde][black]s\r\n Limite: [ferroScuro]{Variabili_Client.Utente_Risorse.Armature_Limite}");
                         toolTip1.SetToolTip(this.ico_6, $"{Variabili_Client.Frecce_Desc}Produzione: [verde]{Variabili_Client.Utente_Risorse.Frecce_s}[/verde][black]s\r\n Limite: [ferroScuro]{Variabili_Client.Utente_Risorse.Frecce_Limite}");
 
                         txt_Risorsa1.Text = Variabili_Client.Utente_Risorse.Spade;
@@ -175,35 +176,35 @@ namespace CriptoGame_Online
                     else
                     {
                         toolTip1.SetToolTip(this.ico_1, $"{Variabili_Client.Cibo_Desc}" +
-                            $"Produzione: [icon:cibo][verde]{Variabili_Client.Utente_Risorse.Cibo_s}[/verde][black]s\r\n" +
-                            $"Edifici: [grigioGrafite]0[/grigioGrafite][black]s\r\n" +
+                            $"Produzione: [icon:cibo][arancione]{(Convert.ToDouble(Variabili_Client.Utente_Risorse.Cibo_s) + Convert.ToDouble(Variabili_Client.Utente_Risorse.Strutture_Cibo) + Convert.ToDouble(Variabili_Client.Utente_Risorse.Mantenimento_Cibo)).ToString("0.00")}[black]/[verde]{Variabili_Client.Utente_Risorse.Cibo_s}[/verde][black]s\r\n" +
+                            $"Edifici: [icon:cibo][rosso]{Variabili_Client.Utente_Risorse.Strutture_Cibo}[/rosso][black]s\r\n" +
                             $"Esercito: [icon:cibo][rosso]{Variabili_Client.Utente_Risorse.Mantenimento_Cibo}[/rosso][black]s\r\n" +
                             $"Limite: [icon:cibo][ferroScuro]{Variabili_Client.Utente_Risorse.Cibo_Limite}\n");
 
                         toolTip1.SetToolTip(this.ico_2, $"{Variabili_Client.Legno_Desc}" +
-                            $"Produzione: [icon:legno][verde]{Variabili_Client.Utente_Risorse.Legna_s}[/verde][black]s\r\n" +
-                            $"Edifici: [icon:legno][grigioGrafite]0 [/grigioGrafite][black]s\r\n" +
-                            $"Limite: [icon:legno][ferroScuro]{Variabili_Client.Utente_Risorse.Legna_Limite}");
+                            $"Produzione: [icon:legno][arancione]{(Convert.ToDouble(Variabili_Client.Utente_Risorse.Legna_s) - Convert.ToDouble(Variabili_Client.Utente_Risorse.Strutture_Legna)).ToString("0.00")}[black]/[verde]{Variabili_Client.Utente_Risorse.Legna_s}[/verde][black]s\r\n" +
+                            $"Edifici: [icon:legno][rosso]{Variabili_Client.Utente_Risorse.Strutture_Legna}[/rosso][black]s\r\n" +
+                            $"Limite: [icon:legno][ferroScuro]{Variabili_Client.Utente_Risorse.Legna_Limite}\n");
 
                         toolTip1.SetToolTip(this.ico_3, $"{Variabili_Client.Pietra_Desc}" +
-                            $"Produzione: [icon:pietra][verde]{Variabili_Client.Utente_Risorse.Pietra_s}[/verde][black]s\r\n" +
-                            $"Edifici: [icon:pietra][grigioGrafite]0 [/grigioGrafite][black]s\r\n" +
-                            $"Limite: [icon:pietra][ferroScuro]{Variabili_Client.Utente_Risorse.Pietra_Limite}");
+                            $"Produzione: [icon:pietra][arancione]{(Convert.ToDouble(Variabili_Client.Utente_Risorse.Pietra_s) - Convert.ToDouble(Variabili_Client.Utente_Risorse.Strutture_Pietra)).ToString("0.00")}[black]/[verde]{Variabili_Client.Utente_Risorse.Pietra_s}[/verde][black]s\r\n" +
+                            $"Edifici: [icon:pietra][rosso]{Variabili_Client.Utente_Risorse.Strutture_Pietra}[/rosso][black]s\r\n" +
+                            $"Limite: [icon:pietra][ferroScuro]{Variabili_Client.Utente_Risorse.Pietra_Limite}\n");
 
                         toolTip1.SetToolTip(this.ico_4, $"{Variabili_Client.Ferro_Desc}" +
-                            $"Produzione: [icon:ferro][verde]{Variabili_Client.Utente_Risorse.Ferro_s}[/verde][black]s\n" +
-                            $"Edifici: [icon:ferro][grigioGrafite]0[/grigioGrafite][black]s\r\n" +
+                            $"Produzione: [icon:ferro][arancione]{(Convert.ToDouble(Variabili_Client.Utente_Risorse.Ferro_s) - Convert.ToDouble(Variabili_Client.Utente_Risorse.Strutture_Ferro)).ToString("0.00")}[black]/[verde]{Variabili_Client.Utente_Risorse.Ferro_s}[/verde][black]s\n" +
+                            $"Edifici: [icon:ferro][rosso]{Variabili_Client.Utente_Risorse.Strutture_Ferro}[/rosso][black]s\r\n" +
                             $"Limite: [icon:ferro][ferroScuro]{Variabili_Client.Utente_Risorse.Ferro_Limite}");
 
                         toolTip1.SetToolTip(this.ico_5, $"{Variabili_Client.Oro_Desc}" +
-                            $"Produzione: [verde]{Variabili_Client.Utente_Risorse.Oro_s}[/verde][black]s\r\n" +
-                            $"Edifici: [icon:oro][grigioGrafite]0[/grigioGrafite][black]s\r\n" +
+                            $"Produzione: [icon:oro][arancione]{(Convert.ToDouble(Variabili_Client.Utente_Risorse.Oro_s) - Convert.ToDouble(Variabili_Client.Utente_Risorse.Strutture_Oro) - Convert.ToDouble(Variabili_Client.Utente_Risorse.Mantenimento_Oro)).ToString("0.00")}[black]/[verde]{Variabili_Client.Utente_Risorse.Oro_s}[/verde][black]s\r\n" +
+                            $"Edifici: [icon:oro][rosso]{Variabili_Client.Utente_Risorse.Strutture_Oro}[/rosso][black]s\r\n" +
                             $"Esercito: [icon:oro][rosso]{Variabili_Client.Utente_Risorse.Mantenimento_Oro}[/rosso][black]s\r\n" +
-                            $"Limite: [icon:oro][ferroScuro]{Variabili_Client.Utente_Risorse.Oro_Limite}\n");
+                            $"Limite: [icon:oro][ferroScuro]{Variabili_Client.Utente_Risorse.Oro_Limite}");
 
                         toolTip1.SetToolTip(this.ico_6, $"{Variabili_Client.Popolazione_Desc}" +
                             $"Produzione: [icon:popolazione][verde]{Variabili_Client.Utente_Risorse.Popolazione_s}[/verde][black]s\r\n" +
-                            $"Limite: [ferroScuro]{Variabili_Client.Utente_Risorse.Popolazione_Limite}[icon:popolazione]");
+                            $"Limite: [icon:popolazione][ferroScuro]{Variabili_Client.Utente_Risorse.Popolazione_Limite}\n");
 
                         txt_Risorsa1.Text = Variabili_Client.Utente_Risorse.Cibo;
                         txt_Risorsa2.Text = Variabili_Client.Utente_Risorse.Legna;
@@ -213,18 +214,8 @@ namespace CriptoGame_Online
                         txt_Risorsa6.Text = Variabili_Client.Utente_Risorse.Popolazione;
                     }
 
-                    toolTip1.SetToolTip(this.ico_Unit_1, Variabili_Client.Reclutamento.Guerrieri_1.Descrizione);
-                    toolTip1.SetToolTip(this.ico_Unit_2, Variabili_Client.Reclutamento.Lanceri_1.Descrizione);
-                    toolTip1.SetToolTip(this.ico_Unit_3, Variabili_Client.Reclutamento.Arceri_1.Descrizione);
-                    toolTip1.SetToolTip(this.ico_Unit_4, Variabili_Client.Reclutamento.Catapulte_1.Descrizione);
-
                     if (Caserme == "Caserme") //Caserme
                     {
-                        toolTip1.SetToolTip(this.ico_Unit_1, Variabili_Client.Costruzione.Caserme_Guerrieri.Descrizione);
-                        toolTip1.SetToolTip(this.ico_Unit_2, Variabili_Client.Costruzione.Caserme_Lanceri.Descrizione);
-                        toolTip1.SetToolTip(this.ico_Unit_3, Variabili_Client.Costruzione.Caserme_arceri.Descrizione);
-                        toolTip1.SetToolTip(this.ico_Unit_4, Variabili_Client.Costruzione.Caserme_Catapulte.Descrizione);
-
                         txt_Unit_1.Text = Variabili_Client.Costruzione.Caserme_Guerrieri.Quantità;
                         txt_Unit_2.Text = Variabili_Client.Costruzione.Caserme_Lanceri.Quantità;
                         txt_Unit_3.Text = Variabili_Client.Costruzione.Caserme_arceri.Quantità;
@@ -234,8 +225,13 @@ namespace CriptoGame_Online
                         txt_Unit_Coda_2.Text = Variabili_Client.Costruzione_Coda.Caserme_Lanceri.Quantità;
                         txt_Unit_Coda_3.Text = Variabili_Client.Costruzione_Coda.Caserme_arceri.Quantità;
                         txt_Unit_Coda_4.Text = Variabili_Client.Costruzione_Coda.Caserme_Catapulte.Quantità;
+
+                        toolTip1.SetToolTip(this.ico_Unit_1, Variabili_Client.Costruzione.Caserme_Guerrieri.Descrizione);
+                        toolTip1.SetToolTip(this.ico_Unit_2, Variabili_Client.Costruzione.Caserme_Lanceri.Descrizione);
+                        toolTip1.SetToolTip(this.ico_Unit_3, Variabili_Client.Costruzione.Caserme_arceri.Descrizione);
+                        toolTip1.SetToolTip(this.ico_Unit_4, Variabili_Client.Costruzione.Caserme_Catapulte.Descrizione);
                     }
-                    if (btn_I.Enabled == false && Caserme == "Esercito")
+                    if (Caserme == "Esercito" && livello_Esercito == 1)
                     {
                         txt_Unit_1.Text = Variabili_Client.Reclutamento.Guerrieri_1.Quantità;
                         txt_Unit_2.Text = Variabili_Client.Reclutamento.Lanceri_1.Quantità;
@@ -245,8 +241,13 @@ namespace CriptoGame_Online
                         txt_Unit_Coda_2.Text = Variabili_Client.Reclutamento_Coda.Lanceri_1.Quantità;
                         txt_Unit_Coda_3.Text = Variabili_Client.Reclutamento_Coda.Arceri_1.Quantità;
                         txt_Unit_Coda_4.Text = Variabili_Client.Reclutamento_Coda.Catapulte_1.Quantità;
+
+                        toolTip1.SetToolTip(this.ico_Unit_1, Variabili_Client.Reclutamento.Guerrieri_1.Descrizione);
+                        toolTip1.SetToolTip(this.ico_Unit_2, Variabili_Client.Reclutamento.Lanceri_1.Descrizione);
+                        toolTip1.SetToolTip(this.ico_Unit_3, Variabili_Client.Reclutamento.Arceri_1.Descrizione);
+                        toolTip1.SetToolTip(this.ico_Unit_4, Variabili_Client.Reclutamento.Catapulte_1.Descrizione);
                     }
-                    if (btn_II.Enabled == false)
+                    if (Caserme == "Esercito" && livello_Esercito == 2)
                     {
                         // Sostituisci questo blocco per aggiornare le unità da livello 1 a livello 2
                         txt_Unit_1.Text = Variabili_Client.Reclutamento.Guerrieri_2.Quantità;
@@ -257,8 +258,13 @@ namespace CriptoGame_Online
                         txt_Unit_Coda_2.Text = Variabili_Client.Reclutamento_Coda.Lanceri_2.Quantità;
                         txt_Unit_Coda_3.Text = Variabili_Client.Reclutamento_Coda.Arceri_2.Quantità;
                         txt_Unit_Coda_4.Text = Variabili_Client.Reclutamento_Coda.Catapulte_2.Quantità;
+
+                        toolTip1.SetToolTip(this.ico_Unit_1, Variabili_Client.Reclutamento.Guerrieri_2.Descrizione);
+                        toolTip1.SetToolTip(this.ico_Unit_2, Variabili_Client.Reclutamento.Lanceri_2.Descrizione);
+                        toolTip1.SetToolTip(this.ico_Unit_3, Variabili_Client.Reclutamento.Arceri_2.Descrizione);
+                        toolTip1.SetToolTip(this.ico_Unit_4, Variabili_Client.Reclutamento.Catapulte_2.Descrizione);
                     }
-                    if (btn_III.Enabled == false)
+                    if (Caserme == "Esercito" && livello_Esercito == 3)
                     {
                         // Sostituisci questo blocco per aggiornare le unità da livello 2 a livello 3
                         txt_Unit_1.Text = Variabili_Client.Reclutamento.Guerrieri_3.Quantità;
@@ -269,8 +275,13 @@ namespace CriptoGame_Online
                         txt_Unit_Coda_2.Text = Variabili_Client.Reclutamento_Coda.Lanceri_3.Quantità;
                         txt_Unit_Coda_3.Text = Variabili_Client.Reclutamento_Coda.Arceri_3.Quantità;
                         txt_Unit_Coda_4.Text = Variabili_Client.Reclutamento_Coda.Catapulte_3.Quantità;
+
+                        toolTip1.SetToolTip(this.ico_Unit_1, Variabili_Client.Reclutamento.Guerrieri_3.Descrizione);
+                        toolTip1.SetToolTip(this.ico_Unit_2, Variabili_Client.Reclutamento.Lanceri_3.Descrizione);
+                        toolTip1.SetToolTip(this.ico_Unit_3, Variabili_Client.Reclutamento.Arceri_3.Descrizione);
+                        toolTip1.SetToolTip(this.ico_Unit_4, Variabili_Client.Reclutamento.Catapulte_3.Descrizione);
                     }
-                    if (btn_IV.Enabled == false)
+                    if (Caserme == "Esercito" && livello_Esercito == 4)
                     {
                         // Sostituisci questo blocco per aggiornare le unità da livello 3 a livello 4
                         txt_Unit_1.Text = Variabili_Client.Reclutamento.Guerrieri_4.Quantità;
@@ -281,8 +292,13 @@ namespace CriptoGame_Online
                         txt_Unit_Coda_2.Text = Variabili_Client.Reclutamento_Coda.Lanceri_4.Quantità;
                         txt_Unit_Coda_3.Text = Variabili_Client.Reclutamento_Coda.Arceri_4.Quantità;
                         txt_Unit_Coda_4.Text = Variabili_Client.Reclutamento_Coda.Catapulte_4.Quantità;
+
+                        toolTip1.SetToolTip(this.ico_Unit_1, Variabili_Client.Reclutamento.Guerrieri_4.Descrizione);
+                        toolTip1.SetToolTip(this.ico_Unit_2, Variabili_Client.Reclutamento.Lanceri_4.Descrizione);
+                        toolTip1.SetToolTip(this.ico_Unit_3, Variabili_Client.Reclutamento.Arceri_4.Descrizione);
+                        toolTip1.SetToolTip(this.ico_Unit_4, Variabili_Client.Reclutamento.Catapulte_4.Descrizione);
                     }
-                    if (btn_V.Enabled == false)
+                    if (Caserme == "Esercito" && livello_Esercito == 5)
                     {
                         // Sostituisci questo blocco per aggiornare le unità da livello 4 a livello 5
                         txt_Unit_1.Text = Variabili_Client.Reclutamento.Guerrieri_5.Quantità;
@@ -293,6 +309,11 @@ namespace CriptoGame_Online
                         txt_Unit_Coda_2.Text = Variabili_Client.Reclutamento_Coda.Lanceri_5.Quantità;
                         txt_Unit_Coda_3.Text = Variabili_Client.Reclutamento_Coda.Arceri_5.Quantità;
                         txt_Unit_Coda_4.Text = Variabili_Client.Reclutamento_Coda.Catapulte_5.Quantità;
+
+                        toolTip1.SetToolTip(this.ico_Unit_1, Variabili_Client.Reclutamento.Guerrieri_5.Descrizione);
+                        toolTip1.SetToolTip(this.ico_Unit_2, Variabili_Client.Reclutamento.Lanceri_5.Descrizione);
+                        toolTip1.SetToolTip(this.ico_Unit_3, Variabili_Client.Reclutamento.Arceri_5.Descrizione);
+                        toolTip1.SetToolTip(this.ico_Unit_4, Variabili_Client.Reclutamento.Catapulte_5.Descrizione);
                     }
 
                     lbl_Timer_Costruzione.Text = "Build: " + Variabili_Client.Utente.Tempo_Costruzione;
@@ -473,30 +494,13 @@ namespace CriptoGame_Online
         }
         private void Esercito_1()
         {
-            //Bottoni livelli esercito
-            btn_I.BackgroundImage = Properties.Resources.Texture_Wood_1;
-            btn_II.BackgroundImage = Properties.Resources.Texture_Wood_1;
-            btn_III.BackgroundImage = Properties.Resources.Texture_Wood_1;
-            btn_IV.BackgroundImage = Properties.Resources.Texture_Wood_1;
-            btn_V.BackgroundImage = Properties.Resources.Texture_Wood_1;
-
-            btn_I.BackColor = Color.FromArgb(229, 208, 181);
-            btn_II.BackColor = Color.FromArgb(229, 208, 181);
-            btn_III.BackColor = Color.FromArgb(229, 208, 181);
-            btn_IV.BackColor = Color.FromArgb(229, 208, 181);
-            btn_V.BackColor = Color.FromArgb(229, 208, 181);
-
-            btn_I.Enabled = false;
-            btn_II.Enabled = true;
-            btn_III.Enabled = true;
-            btn_IV.Enabled = true;
-            btn_V.Enabled = true;
-
             btn_I.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
             btn_II.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
             btn_III.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
             btn_IV.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
             btn_V.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
+
+            UnlockSoldierTier(livello_Esercito);
         }
 
         private void btn_Cambia_Risorse_Click(object sender, EventArgs e)
@@ -599,55 +603,94 @@ namespace CriptoGame_Online
             Statistiche form_Gioco = new Statistiche();
             form_Gioco.Show();
         }
+        void UnlockSoldierTier(int tier)
+        {
+            int livello = Convert.ToInt32(Variabili_Client.Utente.Livello);
 
+            btn_I.BackColor = Color.FromArgb(229, 208, 181);
+            btn_II.BackColor = Color.FromArgb(229, 208, 181);
+            btn_III.BackColor = Color.FromArgb(229, 208, 181);
+            btn_IV.BackColor = Color.FromArgb(229, 208, 181);
+            btn_V.BackColor = Color.FromArgb(229, 208, 181);
+
+            //Controllo se il livello è maggiore abilita il tier specifico dei soldati
+            if (livello_Esercito != 1)
+            {
+                btn_I.Enabled = true;
+                btn_I.BackgroundImage = Properties.Resources.Texture_Wood_1;
+            } else btn_I.Enabled = false;
+
+            if (livello < Convert.ToInt32(Variabili_Client.truppe_II))
+            {
+                btn_II.Enabled = false;
+                btn_II.BackColor = Color.FromArgb(206, 206, 206);
+            }
+            else
+            {
+                if (livello_Esercito != 2) btn_II.Enabled = true;
+                else btn_II.Enabled = false;
+
+                btn_II.BackgroundImage = Properties.Resources.Texture_Wood_1;
+            }
+            if (livello < Convert.ToInt32(Variabili_Client.truppe_III))
+            {
+                btn_III.Enabled = false;
+                btn_III.BackColor = Color.FromArgb(206, 206, 206);
+            } else
+            {
+                if (livello_Esercito != 3) btn_III.Enabled = true;
+                else btn_III.Enabled = false;
+                btn_III.BackgroundImage = Properties.Resources.Texture_Wood_1;
+            }
+            if (livello < Convert.ToInt32(Variabili_Client.truppe_IV))
+            {
+                btn_IV.Enabled = false;
+                btn_IV.BackColor = Color.FromArgb(206, 206, 206);
+            } else
+            {
+                if (livello_Esercito != 4) btn_IV.Enabled = true;
+                else btn_IV.Enabled = false;
+                btn_IV.BackgroundImage = Properties.Resources.Texture_Wood_1;
+            }
+            if (livello < Convert.ToInt32(Variabili_Client.truppe_V))
+            {
+                btn_V.Enabled = false;
+                btn_V.BackColor = Color.FromArgb(206, 206, 206);
+            } else
+            {
+                if (livello_Esercito != 5) btn_V.Enabled = true;
+                else btn_V.Enabled = false;
+                btn_V.BackgroundImage = Properties.Resources.Texture_Wood_1;
+            }
+        }
         private void btn_I_Click(object sender, EventArgs e)
         {
-            btn_I.Enabled = false;
-            btn_II.Enabled = true;
-            btn_III.Enabled = true;
-            btn_IV.Enabled = true;
-            btn_V.Enabled = true;
             livello_Esercito = 1;
+            UnlockSoldierTier(livello_Esercito);
             this.ActiveControl = Btn_Costruzione; // assegna il focus al bottone
         }
         private void btn_II_Click(object sender, EventArgs e)
         {
-            btn_I.Enabled = true;
-            btn_II.Enabled = false;
-            btn_III.Enabled = true;
-            btn_IV.Enabled = true;
-            btn_V.Enabled = true;
             livello_Esercito = 2;
+            UnlockSoldierTier(livello_Esercito);
             this.ActiveControl = Btn_Costruzione; // assegna il focus al bottone
         }
         private void btn_III_Click(object sender, EventArgs e)
         {
-            btn_I.Enabled = true;
-            btn_II.Enabled = true;
-            btn_III.Enabled = false;
-            btn_IV.Enabled = true;
-            btn_V.Enabled = true;
             livello_Esercito = 3;
+            UnlockSoldierTier(livello_Esercito);
             this.ActiveControl = Btn_Costruzione; // assegna il focus al bottone
         }
         private void btn_IV_Click(object sender, EventArgs e)
         {
-            btn_I.Enabled = true;
-            btn_II.Enabled = true;
-            btn_III.Enabled = true;
-            btn_IV.Enabled = false;
-            btn_V.Enabled = true;
             livello_Esercito = 4;
+            UnlockSoldierTier(livello_Esercito);
             this.ActiveControl = Btn_Costruzione; // assegna il focus al bottone
         }
         private void btn_V_Click(object sender, EventArgs e)
         {
-            btn_I.Enabled = true;
-            btn_II.Enabled = true;
-            btn_III.Enabled = true;
-            btn_IV.Enabled = true;
-            btn_V.Enabled = false;
             livello_Esercito = 5;
+            UnlockSoldierTier(livello_Esercito);
             this.ActiveControl = Btn_Costruzione; // assegna il focus al bottone
         }
 
