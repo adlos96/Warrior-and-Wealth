@@ -28,7 +28,6 @@ namespace Strategico_V2
             public int Catapulte { get; set; }
 
         }
-
         public class PacchettoVillaggi
         {
             public string Type { get; set; }
@@ -39,29 +38,88 @@ namespace Strategico_V2
         public static string Server = "0";
         public static string Versione = "0";
 
-        public static string Esperienza_Desc = "0";
-        public static string Livello_Desc = "0";
-        public static string D_Viola_D_Blu = "0";
-        public static string Tempo_D_Blu = "0";
+        public static string Esperienza_Desc = "";
+        public static string Livello_Desc = "";
+        public static string D_Viola_D_Blu = "";
+        public static string Tempo_D_Blu = "";
 
-        public static string Giocatore_Desc = "0";
-        public static string Diamanti_Blu_Desc = "0";
-        public static string Diamanti_Viola_Desc = "0";
-        public static string Dollari_VIrtuali_Desc = "0";
+        public static string Giocatore_Desc = "";
+        public static string Diamanti_Blu_Desc = "";
+        public static string Diamanti_Viola_Desc = "";
+        public static string Dollari_VIrtuali_Desc = "";
 
-        public static string Cibo_Desc = "0";
-        public static string Legno_Desc = "0";
-        public static string Pietra_Desc = "0";
-        public static string Ferro_Desc = "0";
-        public static string Oro_Desc = "0";
-        public static string Popolazione_Desc = "0";
+        public static string Cibo_Desc = "";
+        public static string Legno_Desc = "";
+        public static string Pietra_Desc = "";
+        public static string Ferro_Desc = "";
+        public static string Oro_Desc = "";
+        public static string Popolazione_Desc = "";
 
-        public static string Spade_Desc = "0";
-        public static string Lance_Desc = "0";
-        public static string Archi_Desc = "0";
-        public static string Scudi_Desc = "0";
-        public static string Armature_Desc = "0";
-        public static string Frecce_Desc = "0";
+        public static string Spade_Desc = "";
+        public static string Lance_Desc = "";
+        public static string Archi_Desc = "";
+        public static string Scudi_Desc = "";
+        public static string Armature_Desc = "";
+        public static string Frecce_Desc = "";
+
+        public static string Ricerca_Addestramento_Desc = "";
+        public static string Ricerca_Produzione_Desc = "";
+        public static string Ricerca_Costruzione_Desc = "";
+        public static string Ricerca_Popolazione_Desc = "";
+        public static string Ricerca_Trasporto_Desc = "";
+        public static string Ricerca_Riparazione_Desc = "";
+
+        public static string Ricerca_Guerrieri_Livello_Desc = "";
+        public static string Ricerca_Guerrieri_Salute_Desc = "";
+        public static string Ricerca_Guerrieri_Attacco_Desc = "";
+        public static string Ricerca_Guerrieri_Difesa_Desc = "";
+
+        public static string Ricerca_Lanceri_Livello_Desc = "";
+        public static string Ricerca_Lanceri_Salute_Desc = "";
+        public static string Ricerca_Lanceri_Attacco_Desc = "";
+        public static string Ricerca_Lanceri_Difesa_Desc = "";
+
+        public static string Ricerca_Arceri_Livello_Desc = "";
+        public static string Ricerca_Arceri_Salute_Desc = "";
+        public static string Ricerca_Arceri_Attacco_Desc = "";
+        public static string Ricerca_Arceri_Difesa_Desc = "";
+
+        public static string Ricerca_Catapulte_Livello_Desc = "";
+        public static string Ricerca_Catapulte_Salute_Desc = "";
+        public static string Ricerca_Catapulte_Attacco_Desc = "";
+        public static string Ricerca_Catapulte_Difesa_Desc = "";
+
+        public static string Ricerca_Ingresso_Livello_Desc = "";
+        public static string Ricerca_Ingresso_Guarnigione_Desc = "";
+
+        public static string Ricerca_Citta_Livello_Desc = "";
+        public static string Ricerca_Citta_Guarnigione_Desc = "";
+
+        public static string Ricerca_Mura_Livello_Desc = "";
+        public static string Ricerca_Mura_Salute_Desc = "";
+        public static string Ricerca_Mura_Difesa_Desc = "";
+        public static string Ricerca_Mura_Guarnigione_Desc = "";
+
+        public static string Ricerca_Cancello_Livello_Desc = "";
+        public static string Ricerca_Cancello_Salute_Desc = "";
+        public static string Ricerca_Cancello_Difesa_Desc = "";
+        public static string Ricerca_Cancello_Guarnigione_Desc = "";
+
+        public static string Ricerca_Torri_Livello_Desc = "";
+        public static string Ricerca_Torri_Salute_Desc = "";
+        public static string Ricerca_Torri_Difesa_Desc = "";
+        public static string Ricerca_Torri_Guarnigione_Desc = "";
+
+        public static string Ricerca_Castello_Livello_Desc = "";
+        public static string Ricerca_Castello_Salute_Desc = "";
+        public static string Ricerca_Castello_Difesa_Desc = "";
+        public static string Ricerca_Castello_Guarnigione_Desc = "";
+
+        //Sblocco Esercito
+        public static string truppe_II = "0";
+        public static string truppe_III = "0";
+        public static string truppe_IV = "0";
+        public static string truppe_V = "0";
 
         public static List<string> Giocatori_PVP = new List<string>();
         public static List<string> Raduni_Creati = new List<string>(); //Raduni pubblici
@@ -110,6 +168,7 @@ namespace Strategico_V2
             public int Guarnigione_Max { get; set; }
             public string Quantità { get; set; }
             public string Descrizione { get; set; }
+            public string DescrizioneB { get; set; }
             public string Riparazione { get; set; }
 
             public string Costo_Cibo { get; set; }
@@ -127,6 +186,12 @@ namespace Strategico_V2
 
             public string Mantenimento_Cibo { get; set; }
             public string Mantenimento_Oro { get; set; }
+
+            public string Strutture_Cibo { get; set; }
+            public string Strutture_Legna { get; set; }
+            public string Strutture_Pietra { get; set; }
+            public string Strutture_Ferro { get; set; }
+            public string Strutture_Oro { get; set; }
 
             public string Cibo { get; set; }
             public string Legna { get; set; }
@@ -207,6 +272,12 @@ namespace Strategico_V2
 
             // Statistiche
             #region Stats
+
+            public string Potenza_Totale { get; set; }
+            public string Potenza_Edifici { get; set; }
+            public string Potenza_Ricerca { get; set; }
+            public string Potenza_Esercito { get; set; }
+
             public string Unità_Eliminate { get; set; }
             public string Guerrieri_Eliminate { get; set; }
             public string Lanceri_Eliminate { get; set; }
@@ -251,6 +322,30 @@ namespace Strategico_V2
             public string Diamanti_Blu_Utilizzati { get; set; }
             #endregion
 
+            // Bonus
+            public string Bonus_Salute_Guerrieri { get; set; }
+            public string Bonus_Salute_Lanceri { get; set; }
+            public string Bonus_Salute_Arceri { get; set; }
+            public string Bonus_Salute_Catapulte { get; set; }
+            public string Bonus_Difesa_Guerrieri { get; set; }
+            public string Bonus_Difesa_Lanceri { get; set; }
+            public string Bonus_Difesa_Arceri { get; set; }
+            public string Bonus_Difesa_Catapulte { get; set; }
+            public string Bonus_Attacco_Guerrieri { get; set; }
+            public string Bonus_Attacco_Lanceri { get; set; }
+            public string Bonus_Attacco_Arceri { get; set; }
+            public string Bonus_Attacco_Catapulte { get; set; }
+
+            public string Bonus_Salute_Strutture { get; set; }
+            public string Bonus_Difesa_Strutture { get; set; }
+            public string Bonus_Guarnigione_Strutture { get; set; }
+
+            public string Bonus_Produzione_Risorse { get; set; }
+            public string Bonus_Capacità_Trasporto { get; set; }
+            public string Bonus_Costruzione { get; set; }
+            public string Bonus_Addestramento { get; set; }
+            public string Bonus_Ricerca { get; set; }
+            public string Bonus_Riparazione { get; set; }
         }
         public class Bonus_Ricerca
         {
@@ -258,6 +353,8 @@ namespace Strategico_V2
             public string Ricerca_Costruzione { get; set; }
             public string Ricerca_Addestramento { get; set; }
             public string Ricerca_Popolazione { get; set; }
+            public string Ricerca_Trasporto { get; set; }
+            public string Ricerca_Riparazione { get; set; }
 
             public string Bonus_Esperienza { get; set; }
             public string Bonus_Salute_Spadaccini { get; set; }
@@ -384,6 +481,12 @@ namespace Strategico_V2
             Mantenimento_Cibo = "0",
             Mantenimento_Oro = "0",
 
+            Strutture_Cibo = "0",
+            Strutture_Legna = "0",
+            Strutture_Pietra = "0",
+            Strutture_Ferro = "0",
+            Strutture_Oro = "0",
+
             Guerrieri_Max = 0,
             Lanceri_Max = 0,
             Arceri_Max = 0,
@@ -419,6 +522,8 @@ namespace Strategico_V2
             Ricerca_Costruzione = "0",
             Ricerca_Addestramento = "0",
             Ricerca_Popolazione = "0",
+            Ricerca_Trasporto = "0",
+            Ricerca_Riparazione = "0",
 
             Ricerca_Ingresso_Guarnigione = "0",
             Ricerca_Citta_Guarnigione = "0",
@@ -461,6 +566,11 @@ namespace Strategico_V2
         };
         public static Dati Statistiche = new Dati
         {
+            Potenza_Totale = "0",
+            Potenza_Edifici = "0",
+            Potenza_Ricerca = "0",
+            Potenza_Esercito = "0",
+
             Tempo_Sottratto_Diamanti = "0",
             Diamanti_Viola_Utilizzati = "0",
             Diamanti_Blu_Utilizzati = "0",
@@ -495,93 +605,133 @@ namespace Strategico_V2
             Tempo_Costruzione_Totale = "0",
             Tempo_Ricerca_Totale = "0"
         };
+        public static Dati Bonus = new Dati
+        {
+        Bonus_Salute_Guerrieri = "0",
+        Bonus_Salute_Lanceri = "0",
+        Bonus_Salute_Arceri = "0",
+        Bonus_Salute_Catapulte = "0",
+        Bonus_Difesa_Guerrieri = "0",
+        Bonus_Difesa_Lanceri = "0",
+        Bonus_Difesa_Arceri = "0",
+        Bonus_Difesa_Catapulte = "0",
+        Bonus_Attacco_Guerrieri = "0",
+        Bonus_Attacco_Lanceri = "0",
+        Bonus_Attacco_Arceri = "0",
+        Bonus_Attacco_Catapulte = "0",
+
+        Bonus_Salute_Strutture = "0",
+        Bonus_Difesa_Strutture = "0",
+        Bonus_Guarnigione_Strutture = "0",
+
+        Bonus_Produzione_Risorse = "0",
+        Bonus_Capacità_Trasporto = "0",
+        Bonus_Costruzione = "0",
+        Bonus_Addestramento = "0",
+        Bonus_Ricerca = "0",
+        Bonus_Riparazione = "0"
+    };
 
         public class Shop
         {
             public string Costo { get; set; }
             public string Reward { get; set; }
+            public string desc { get; set; }
 
             public static Shop Vip_1 = new Shop
             {
                 Costo = "500", //Diamanti_Viola
-                Reward = "24" //VIP
+                Reward = "24", //VIP
+                desc = ""
             };
             public static Shop Vip_2 = new Shop
             {
                 Costo = "14.99", //USDT
-                Reward = "24" //VIP
+                Reward = "24", //VIP
+                desc = ""
             };
 
             public static Shop GamePass_Base = new Shop
             {
                 Costo = "14.99", //USDT
-                Reward = "1" //VIP
+                Reward = "1", //VIP
+                desc = ""
             };
             public static Shop GamePass_Avanzato = new Shop
             {
                 Costo = "14.99", //USDT
-                Reward = "1" //VIP
+                Reward = "1", //VIP
+                desc = ""
             };
 
             public static Shop Pacchetto_Diamanti_1 = new Shop
             {
                 Costo = "5.99", //USDT
-                Reward = "150" //Diamanti_Viola
+                Reward = "150", //Diamanti_Viola
+                desc = ""
             };
             public static Shop Pacchetto_Diamanti_2 = new Shop
             {
                 Costo = "14.99",
-                Reward = "475"
+                Reward = "475",
+                desc = ""
             };
             public static Shop Pacchetto_Diamanti_3 = new Shop
             {
                 Costo = "24.99",
-                Reward = "800"
+                Reward = "800",
+                desc = ""
             };
             public static Shop Pacchetto_Diamanti_4 = new Shop
             {
                 Costo = "49.99",
-                Reward = "1500"
+                Reward = "1500",
+                desc = ""
             };
             public static Shop Scudo_Pace_8h = new Shop
             {
-                Costo = "75",
-                Reward = "8" //8 ore in secondi
+                Costo = "0",
+                Reward = "0", //8 ore in secondi
+                desc = ""
             };
             public static Shop Scudo_Pace_24h = new Shop
             {
-                Costo = "210",
-                Reward = "24" //24 ore in secondi
+                Costo = "0",
+                Reward = "0", //24 ore in secondi
+                desc = ""
             };
             public static Shop Scudo_Pace_72h = new Shop
             {
-                Costo = "615",
-                Reward = "72" //72 ore in secondi
+                Costo = "0",
+                Reward = "0", //72 ore in secondi
+                desc = ""
             };
 
             public static Shop Costruttore_24h = new Shop
             {
-                Costo = "400",
-                Reward = "24" //24 ore in secondi
+                Costo = "0",
+                Reward = "0", //24 ore in secondi
+                desc = ""
             };
             public static Shop Costruttore_48h = new Shop
             {
-                Costo = "780",
-                Reward = "48" //48 ore in secondi
+                Costo = "0",
+                Reward = "0", //48 ore in secondi
+                desc = ""
             };
 
             public static Shop Reclutatore_24h = new Shop
             {
-                Costo = "580",
-                Reward = "24" //24 ore in secondi
+                Costo = "0",
+                Reward = "0", //24 ore in secondi
+                desc = ""
             };
             public static Shop Reclutatore_48h = new Shop
             {
                 Costo = "1120",
-                Reward = "48" //48 ore in secondi
+                Reward = "48", //48 ore in secondi
+                desc = ""
             };
-
-
         }
         
         public class Citta
@@ -616,7 +766,9 @@ namespace Strategico_V2
                 Difesa_Max = 0,
                 Guarnigione = 0,
                 Guarnigione_Max = 0,
-                Riparazione = "0"
+                Riparazione = "0",
+                Descrizione = "",
+                DescrizioneB = ""
             };
             public static Dati Torri = new Dati
             {
@@ -648,7 +800,9 @@ namespace Strategico_V2
                 Difesa_Max = 0,
                 Guarnigione = 0,
                 Guarnigione_Max = 0,
-                Riparazione = "0"
+                Riparazione = "0",
+                Descrizione = "",
+                DescrizioneB = ""
             };
             public static Dati Cancello = new Dati
             {
@@ -680,7 +834,9 @@ namespace Strategico_V2
                 Difesa_Max = 0,
                 Guarnigione = 0,
                 Guarnigione_Max = 0,
-                Riparazione = "0"
+                Riparazione = "0",
+                Descrizione = "",
+                DescrizioneB = ""
             };
             public static Dati Mura = new Dati
             {
@@ -712,7 +868,9 @@ namespace Strategico_V2
                 Difesa_Max = 0,
                 Guarnigione = 0,
                 Guarnigione_Max = 0,
-                Riparazione = "0"
+                Riparazione = "0",
+                Descrizione = "",
+                DescrizioneB = ""
             };
             public static Dati Ingresso = new Dati
             {
@@ -739,7 +897,8 @@ namespace Strategico_V2
 
                 Livello = "0",
                 Guarnigione = 0,
-                Guarnigione_Max = 0
+                Guarnigione_Max = 0,
+                Descrizione = ""
             };
             public static Dati Città = new Dati
             {
@@ -766,7 +925,8 @@ namespace Strategico_V2
 
                 Livello = "0",
                 Guarnigione = 0,
-                Guarnigione_Max = 0
+                Guarnigione_Max = 0,
+                Descrizione = ""
             };
         }
         public class Reclutamento
@@ -1507,24 +1667,29 @@ namespace Strategico_V2
         {
             public static Dati Comune = new Dati
             {
-                Quantità = "0"
+                Quantità = "0",
+                Descrizione = ""
             };
             public static Dati NonComune = new Dati
             {
-                Quantità = "0"
+                Quantità = "0",
+                Descrizione = ""
             };
             public static Dati Raro = new Dati
             {
-                Quantità = "0"
+                Quantità = "0",
+                Descrizione = ""
             };
             public static Dati Epico = new Dati
             {
-                Quantità = "0"
+                Quantità = "0",
+                Descrizione = ""
             };
 
             public static Dati Leggendario = new Dati
             {
-                Quantità = "0"
+                Quantità = "0",
+                Descrizione = ""
             };
         }
 
