@@ -12,7 +12,7 @@ namespace Server_Strategico.Server
         private static readonly string SavePath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), 
             "Server Strategico",
-            "Saves"
+            "Saves_Test"
         );
 
         public static void Initialize()
@@ -27,6 +27,11 @@ namespace Server_Strategico.Server
             {
                 var playerData = new PlayerSaveData
                 {
+                    Diamanti_Viola_PVP_Ottenuti = player.Diamanti_Viola_PVP_Ottenuti,
+                    Diamanti_Blu_PVP_Ottenuti = player.Diamanti_Blu_PVP_Ottenuti,
+                    Diamanti_Viola_PVP_Persi = player.Diamanti_Viola_PVP_Persi,
+                    Diamanti_Blu_PVP_Persi = player.Diamanti_Blu_PVP_Persi,
+
                     //Dati Giocatore
                     Username = player.Username,
                     Password = player.Password,
@@ -52,6 +57,7 @@ namespace Server_Strategico.Server
                     Diamanti_Viola = player.Diamanti_Viola,
                     Dollari_Virtuali = player.Dollari_Virtuali,
                     forza_Esercito = player.forza_Esercito,
+                    limite_Strutture = player.limite_Strutture,
 
                     //Terreni Virtuali
                     Terreno_Comune = player.Terreno_Comune,
@@ -183,9 +189,10 @@ namespace Server_Strategico.Server
                     //Ricerca
                     Ricerca_Produzione = player.Ricerca_Produzione,
                     Ricerca_Costruzione = player.Ricerca_Costruzione,
-                    Ricerca_Riparazione = player.Ricerca_Riparazione,
                     Ricerca_Addestramento = player.Ricerca_Addestramento,
                     Ricerca_Popolazione = player.Ricerca_Popolazione,
+                    Ricerca_Trasporto = player.Ricerca_Trasporto,
+                    Ricerca_Riparazione = player.Ricerca_Riparazione,
 
                     Ricerca_Ingresso_Guarnigione = player.Ricerca_Ingresso_Guarnigione,
                     Ricerca_Citta_Guarnigione = player.Ricerca_Citta_Guarnigione,
@@ -229,9 +236,9 @@ namespace Server_Strategico.Server
 
                     // Statistiche
                     Unità_Eliminate = player.Unità_Eliminate,
-                    Guerrieri_Eliminate = player.Guerrieri_Eliminate,
-                    Lanceri_Eliminate = player.Lanceri_Eliminate,
-                    Arceri_Eliminate = player.Arceri_Eliminate,
+                    Guerrieri_Eliminati = player.Guerrieri_Eliminati,
+                    Lanceri_Eliminati = player.Lanceri_Eliminati,
+                    Arceri_Eliminati = player.Arceri_Eliminati,
                     Catapulte_Eliminate = player.Catapulte_Eliminate,
                     Unità_Addestrate = player.Unità_Addestrate,
 
@@ -399,6 +406,11 @@ namespace Server_Strategico.Server
                 var player = Server.servers_.GetPlayer(username, password);
                 if (player != null) // Aggiorna il giocatore esistente con i dati salvati
                 {
+                    player.Diamanti_Viola_PVP_Ottenuti = playerData.Diamanti_Viola_PVP_Ottenuti;
+                    player.Diamanti_Blu_PVP_Ottenuti = playerData.Diamanti_Blu_PVP_Ottenuti;
+                    player.Diamanti_Viola_PVP_Persi = playerData.Diamanti_Viola_PVP_Persi;
+                    player.Diamanti_Blu_PVP_Persi = playerData.Diamanti_Blu_PVP_Persi;
+
                     player.Username = playerData.Username;
                     player.Password = playerData.Password;
                     player.Livello = playerData.Livello;
@@ -429,8 +441,11 @@ namespace Server_Strategico.Server
                     player.Terreno_Leggendario = playerData.Terreno_Leggendario;
 
                     //Quest
-                    player.QuestProgress.Completions = playerData.Completions;
-                    player.QuestProgress.CurrentProgress = playerData.CurrentProgress;
+                    for (int i = 0; i < playerData.Completions.Count(); i++)
+                    {
+                        player.QuestProgress.Completions[i] = playerData.Completions[i];
+                        player.QuestProgress.CurrentProgress[i] = playerData.CurrentProgress[i];
+                    }
 
                     // Risorse
                     player.Cibo = playerData.Cibo;
@@ -483,9 +498,10 @@ namespace Server_Strategico.Server
                     //Ricerche
                     player.Ricerca_Produzione = playerData.Ricerca_Produzione;
                     player.Ricerca_Costruzione = playerData.Ricerca_Costruzione;
-                    player.Ricerca_Riparazione = playerData.Ricerca_Riparazione;
                     player.Ricerca_Addestramento = playerData.Ricerca_Addestramento;
                     player.Ricerca_Popolazione = playerData.Ricerca_Popolazione;
+                    player.Ricerca_Trasporto = playerData.Ricerca_Trasporto;
+                    player.Ricerca_Riparazione = playerData.Ricerca_Riparazione;
 
                     player.Guerriero_Livello = playerData.Guerriero_Livello;
                     player.Guerriero_Salute = playerData.Guerriero_Salute;
@@ -597,9 +613,9 @@ namespace Server_Strategico.Server
 
                     // Statistiche
                     player.Unità_Eliminate = playerData.Unità_Eliminate;
-                    player.Guerrieri_Eliminate = playerData.Guerrieri_Eliminate;
-                    player.Lanceri_Eliminate = playerData.Lanceri_Eliminate;
-                    player.Arceri_Eliminate = playerData.Arceri_Eliminate;
+                    player.Guerrieri_Eliminati = playerData.Guerrieri_Eliminati;
+                    player.Lanceri_Eliminati = playerData.Lanceri_Eliminati;
+                    player.Arceri_Eliminati = playerData.Arceri_Eliminati;
                     player.Catapulte_Eliminate = playerData.Catapulte_Eliminate;
                     player.Unità_Addestrate = playerData.Unità_Addestrate;
 
@@ -698,9 +714,7 @@ namespace Server_Strategico.Server
                             if (t.IsInProgress)
                             {
                                 task.Start();
-
-                                // Riporta il tempo rimasto
-                                double elapsed = t.DurationInSeconds - t.RemainingSeconds;
+                                double elapsed = t.DurationInSeconds - t.RemainingSeconds; // Riporta il tempo rimasto
                                 task.RiduciTempo((int)elapsed);
                             }
                             else if (t.RemainingSeconds <= 0)
@@ -717,6 +731,7 @@ namespace Server_Strategico.Server
                     // --- Stato Ricerca ---
                     player.Ricerca_Attiva = player.currentTasks_Research.Count > 0 || player.research_Queue.Count > 0;
 
+                    // --- Barbari ---
                     string fileName_Villaggio = Path.Combine(SavePath, $"{username}");
                     if (File.Exists(fileName_Villaggio + "_Villaggi.json")) // Caricamento Villaggi Personali
                     {
@@ -746,8 +761,7 @@ namespace Server_Strategico.Server
                          })
                          .ToList();
                     }
-                    else
-                        Console.WriteLine($"[GameSave] Nessun salvataggio trovato per {username}");
+                    else Console.WriteLine($"[GameSave] Nessun salvataggio trovato per {username}");
 
                     if (File.Exists(fileName_Villaggio + "_Citta.json") && Saved == false) // Caricamento Città Globali
                     {
@@ -778,10 +792,9 @@ namespace Server_Strategico.Server
                         .ToList();
                         Saved = true; // carica 1 volta sola e non per ogni giocatore
                     }
-                    else
-                        Console.WriteLine($"[GameLoad] Nessun salvataggio trovato per {username}");
+                    else Console.WriteLine($"[GameLoad] Nessun salvataggio trovato per {username}");
 
-                    Console.WriteLine($"[GameLoad] Caricati i dati del giocatore {username}");
+                    Console.WriteLine($"[GameLoad] Caricamento dei dati del giocatore {username} completato");
                     return true;
                 }
             }
@@ -797,17 +810,50 @@ namespace Server_Strategico.Server
             {
                 var ServerData = new ServerSaveData
                 {
+                    moltiplicatore_Esperienza = Variabili_Server.moltiplicatore_Esperienza,
+                    D_Viola_To_Blu = Variabili_Server.D_Viola_To_Blu,
+                    Velocizzazione_Tempo = Variabili_Server.Velocizzazione_Tempo,
+                    prelievo_Minimo = Variabili_Server.prelievo_Minimo,
                     numero_Code_Base = Variabili_Server.numero_Code_Base,
                     numero_Code_Base_Vip = Variabili_Server.numero_Code_Base_Vip,
-                    moltiplicatore_Esperienza = Variabili_Server.moltiplicatore_Esperienza,
-                    Velocizzazione_Tempo = Variabili_Server.Velocizzazione_Tempo,
-                    D_Viola_To_Blu = Variabili_Server.D_Viola_To_Blu,
+                    timer_Reset_Barbari = Variabili_Server.timer_Reset_Barbari,
                     timer_Reset_Quest = Variabili_Server.timer_Reset_Quest,
-                    timer_Reset_Barbari = Variabili_Server.timer_Reset_Barbari
+
+                    //PVP
+                    Max_Diamanti_Viola_PVP = Variabili_Server.Max_Diamanti_Viola_PVP,
+                    max_Diamanti_Blu_PVP = Variabili_Server.max_Diamanti_Blu_PVP,
+                    Max_Diamanti_Viola_PVP_Giocatore = Variabili_Server.Max_Diamanti_Viola_PVP_Giocatore,
+                    Max_Diamanti_Blu_PVP_Giocatore = Variabili_Server.Max_Diamanti_Blu_PVP_Giocatore,
+                    Reset_Gironaliero = Variabili_Server.Reset_Gironaliero,
+                    Reset_Settimanale = Variabili_Server.Reset_Settimanale,
+                    Reset_Mensile = Variabili_Server.Reset_Mensile,
+
+                    //Trasporto - Pesi -
+                    peso_Risorse_Militare = Variabili_Server.peso_Risorse_Militare,
+                    peso_Risorse_Cibo = Variabili_Server.peso_Risorse_Cibo,
+                    peso_Risorse_Legno = Variabili_Server.peso_Risorse_Legno,
+                    peso_Risorse_Pietra = Variabili_Server.peso_Risorse_Pietra,
+                    peso_Risorse_Ferro = Variabili_Server.peso_Risorse_Ferro,
+                    peso_Risorse_Oro = Variabili_Server.peso_Risorse_Oro,
+                    peso_Risorse_Diamante_Blu = Variabili_Server.peso_Risorse_Diamante_Blu,
+                    peso_Risorse_Diamante_Viola = Variabili_Server.peso_Risorse_Diamante_Viola,
+
+                    tempo_Riparazione = Variabili_Server.tempo_Riparazione,
+
+                    //Sblocco Esercito
+                    truppe_II = Variabili_Server.truppe_II,
+                    truppe_III = Variabili_Server.truppe_III,
+                    truppe_IV = Variabili_Server.truppe_IV,
+                    truppe_V = Variabili_Server.truppe_V
                 };
                 string fileName = Path.Combine(SavePath, $"ServerData.json");
                 string jsonString = JsonSerializer.Serialize(ServerData, new JsonSerializerOptions { WriteIndented = true });
-                await File.WriteAllTextAsync(fileName, jsonString);
+
+                // ⚡ Ottimizzazione: scrittura asincrona su stream invece di generare una stringa gigantesca
+                await using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None, 65536, true))
+                {
+                    await JsonSerializer.SerializeAsync(fs, ServerData, new JsonSerializerOptions { WriteIndented = true });
+                }
 
                 Console.WriteLine($"[GameSave] Salvati i dati del server");
             }
@@ -815,8 +861,6 @@ namespace Server_Strategico.Server
             {
                 Console.WriteLine($"[GameSave] Errore durante il salvataggio: {ex.Message}");
             }
-
-            Console.WriteLine("[GameSave] Dati dei GameServer salvati.");
         }
         public static async Task LoadServerData()
         {
@@ -824,7 +868,10 @@ namespace Server_Strategico.Server
             {
                 string fileName = Path.Combine(SavePath, $"ServerData.json");
                 if (!File.Exists(fileName))
+                {
                     Console.WriteLine($"[LoadData] Nessun salvataggio trovato per ServerData.json");
+                    return;
+                }
 
                 string jsonString = await File.ReadAllTextAsync(fileName);
                 var serverData = JsonSerializer.Deserialize<ServerSaveData>(jsonString);
@@ -836,6 +883,42 @@ namespace Server_Strategico.Server
                 Variabili_Server.D_Viola_To_Blu = serverData.D_Viola_To_Blu;
                 Variabili_Server.timer_Reset_Quest = serverData.timer_Reset_Quest;
                 Variabili_Server.timer_Reset_Barbari = serverData.timer_Reset_Barbari;
+
+                Variabili_Server.moltiplicatore_Esperienza = serverData.moltiplicatore_Esperienza;
+                Variabili_Server.D_Viola_To_Blu = serverData.D_Viola_To_Blu;
+                Variabili_Server.Velocizzazione_Tempo = serverData.Velocizzazione_Tempo;
+                Variabili_Server.prelievo_Minimo = serverData.prelievo_Minimo;
+                Variabili_Server.numero_Code_Base = serverData.numero_Code_Base;
+                Variabili_Server.numero_Code_Base_Vip = serverData.numero_Code_Base_Vip;
+                Variabili_Server.timer_Reset_Barbari = serverData.timer_Reset_Barbari;
+                Variabili_Server.timer_Reset_Quest = serverData.timer_Reset_Quest;
+
+                //PVP
+                Variabili_Server.Max_Diamanti_Viola_PVP = serverData.Max_Diamanti_Viola_PVP;
+                Variabili_Server.max_Diamanti_Blu_PVP = serverData.max_Diamanti_Blu_PVP;
+                Variabili_Server.Max_Diamanti_Viola_PVP_Giocatore = serverData.Max_Diamanti_Viola_PVP_Giocatore;
+                Variabili_Server.Max_Diamanti_Blu_PVP_Giocatore = serverData.Max_Diamanti_Blu_PVP_Giocatore;
+                Variabili_Server.Reset_Gironaliero = serverData.Reset_Gironaliero;
+                Variabili_Server.Reset_Settimanale = serverData.Reset_Settimanale;
+                Variabili_Server.Reset_Mensile = serverData.Reset_Mensile;
+
+                //Trasporto - Pesi -
+                Variabili_Server.peso_Risorse_Militare = serverData.peso_Risorse_Militare;
+                Variabili_Server.peso_Risorse_Cibo = serverData.peso_Risorse_Cibo;
+                Variabili_Server.peso_Risorse_Legno = serverData.peso_Risorse_Legno;
+                Variabili_Server.peso_Risorse_Pietra = serverData.peso_Risorse_Pietra;
+                Variabili_Server.peso_Risorse_Ferro = serverData.peso_Risorse_Ferro;
+                Variabili_Server.peso_Risorse_Oro = serverData.peso_Risorse_Oro;
+                Variabili_Server.peso_Risorse_Diamante_Blu = serverData.peso_Risorse_Diamante_Blu;
+                Variabili_Server.peso_Risorse_Diamante_Viola = serverData.peso_Risorse_Diamante_Viola;
+
+                Variabili_Server.tempo_Riparazione = serverData.tempo_Riparazione;
+
+                //Sblocco Esercito
+                Variabili_Server.truppe_II = serverData.truppe_II;
+                Variabili_Server.truppe_III = serverData.truppe_III;
+                Variabili_Server.truppe_IV = serverData.truppe_IV;
+                Variabili_Server.truppe_V = serverData.truppe_V;
 
                 Console.WriteLine($"[LoadData] Caricati i dati del server");
             }
@@ -883,7 +966,6 @@ namespace Server_Strategico.Server
                         Console.WriteLine($"[autoGameLoad] Errore durante l'estrazione della password per {username}: {ex.Message}");
                     }
                 }
-
                 Console.WriteLine("[autoGameLoad] Caricamento automatico completato per tutti i giocatori");
             }
             catch (Exception ex)
@@ -900,7 +982,6 @@ namespace Server_Strategico.Server
             public bool IsInProgress { get; set; }
             public bool IsPaused { get; set; }
         }
-
         public class VillaggioSaveData
         {
             public int Id { get; set; }
@@ -923,13 +1004,41 @@ namespace Server_Strategico.Server
         }
         private class ServerSaveData
         {
-            public int moltiplicatore_Esperienza { get; set; } // Moltiplicatore esperienza quest
-            public int D_Viola_To_Blu { get; set; } // Numero di diamanti blu ottenuti per ogni diamante viola
-            public int Velocizzazione_Tempo { get; set; } // per ogni diamante blu speso quanti secondi vengono velocizzati
-            public int numero_Code_Base { get; set; } // Ogni giocatore parte con questo numero di esecuzioni parallele massime (costruttori, Riclutatori, Ricerca)
-            public int numero_Code_Base_Vip { get; set; } // quante code aggiunge il vip
-            public int timer_Reset_Barbari { get; set; } //Timer per il reset degli accampamenti barbari
-            public int timer_Reset_Quest { get; set; } //Timer per il reset delle quest
+            public Int16 moltiplicatore_Esperienza { get; set; } //Moltiplicatore esperienza (10 + 1 * 10 == 20 -- 10 + 2 * 10 == 30 -- 10 + 3 * 10 == 40)
+            public Int16 D_Viola_To_Blu { get; set; } // Numero di diamanti blu ottenuti per ogni diamante viola
+            public Int16 Velocizzazione_Tempo { get; set; } // per ogni diamante blu speso quanti secondi vengono velocizzati
+            public decimal prelievo_Minimo { get; set; }
+            public Int16 numero_Code_Base { get; set; } // Ogni giocatore parte con questo numero di esecuzioni parallele massime (costruttori, Riclutatori, Ricerca)
+            public Int16 numero_Code_Base_Vip { get; set; } // quante code aggiunge il vip
+            public int timer_Reset_Barbari { get; set; }
+            public int timer_Reset_Quest { get; set; }
+
+            //PVP
+            public Int16 Max_Diamanti_Viola_PVP { get; set; } //massimo diamanti viola che un giocatore può guadagnare in un giorno tramite PVP
+            public Int16 max_Diamanti_Blu_PVP { get; set; } //massimo diamanti blu che un giocatore può guadagnare in un giorno tramite PVP
+            public Int16 Max_Diamanti_Viola_PVP_Giocatore { get; set; } //massimo diamanti viola che un giocatore può guadagnare da un singolo avversario tramite PVP
+            public Int16 Max_Diamanti_Blu_PVP_Giocatore { get; set; } //massimo diamanti viola che un giocatore può guadagnare da un singolo avversario tramite PVP
+            public bool Reset_Gironaliero { get; set; }
+            public bool Reset_Settimanale { get; set; }
+            public bool Reset_Mensile { get; set; }
+
+            //Trasporto - Pesi -
+            public int peso_Risorse_Militare { get; set; } //peso base per ogni risorsa
+            public int peso_Risorse_Cibo { get; set; }
+            public int peso_Risorse_Legno { get; set; }
+            public int peso_Risorse_Pietra { get; set; }
+            public int peso_Risorse_Ferro { get; set; }
+            public int peso_Risorse_Oro { get; set; }
+            public int peso_Risorse_Diamante_Blu { get; set; }
+            public int peso_Risorse_Diamante_Viola { get; set; }
+
+            public int tempo_Riparazione { get; set; } //tempo in secondi per riparare le strutture danneggiate
+
+            //Sblocco Esercito
+            public int truppe_II { get; set; }
+            public int truppe_III { get; set; }
+            public int truppe_IV { get; set; }
+            public int truppe_V { get; set; }
         }
         private class PlayerSaveData
         {
@@ -975,6 +1084,7 @@ namespace Server_Strategico.Server
             public int Costruttori { get; set; }
             public int Reclutatori { get; set; }
             public int ScudoDellaPace { get; set; }
+            public int limite_Strutture { get; set; }
 
             // Forza esercito
             public double forza_Esercito { get; set; }
@@ -1026,9 +1136,9 @@ namespace Server_Strategico.Server
             // Statistiche
             #region Stats
             public int Unità_Eliminate { get; set; }
-            public int Guerrieri_Eliminate { get; set; }
-            public int Lanceri_Eliminate { get; set; }
-            public int Arceri_Eliminate { get; set; }
+            public int Guerrieri_Eliminati { get; set; }
+            public int Lanceri_Eliminati { get; set; }
+            public int Arceri_Eliminati { get; set; }
             public int Catapulte_Eliminate { get; set; }
 
             public int Unità_Perse { get; set; }
@@ -1090,6 +1200,7 @@ namespace Server_Strategico.Server
             public int Ricerca_Costruzione { get; set; }
             public int Ricerca_Addestramento { get; set; }
             public int Ricerca_Popolazione { get; set; }
+            public int Ricerca_Trasporto { get; set; }
             public int Ricerca_Riparazione { get; set; }
 
 
@@ -1134,6 +1245,7 @@ namespace Server_Strategico.Server
             public int Catapulta_Difesa { get; set; }
             public int Catapulta_Attacco { get; set; }
 
+            public bool[] Riparazioni { get; set; } = new bool[8];
             // Premi
             public bool[] PremiNormali { get; set; } = new bool[20];
             public bool[] PremiVIP { get; set; } = new bool[20];
@@ -1203,6 +1315,12 @@ namespace Server_Strategico.Server
             public int[] Arceri_Citta { get; set; } = new int[5];
             public int[] Catapulte_Citta { get; set; } = new int[5];
             #endregion
+
+            //Limiti giocatore [DD - MM - AA]
+            public int Diamanti_Viola_PVP_Ottenuti { get; set; }
+            public int Diamanti_Blu_PVP_Ottenuti { get; set; }
+            public int Diamanti_Viola_PVP_Persi { get; set; }
+            public int Diamanti_Blu_PVP_Persi { get; set; }
             #endregion
 
         }
