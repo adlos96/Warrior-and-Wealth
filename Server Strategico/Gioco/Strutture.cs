@@ -1,9 +1,12 @@
-﻿namespace Server_Strategico.Gioco
+﻿using static Server_Strategico.Gioco.Ricerca;
+
+namespace Server_Strategico.Gioco
 {
     public class Strutture
     {
         public class Edifici
         {
+            #region Dati
             public int Cibo { get; set; }
             public int Legno { get; set; }
             public int Pietra { get; set; }
@@ -27,6 +30,7 @@
             public int Limite { get; set; }
             public double Incremento { get; set; }
             public double TempoCostruzione { get; set; }
+            #endregion
 
             public static Edifici Terreni_Virtuali = new Edifici
             {
@@ -34,76 +38,76 @@
                 TempoCostruzione = 10
             };
 
-            // Edifici Civili
+            // Edifici Civili - Produzione Risorse
             public static Edifici Fattoria = new Edifici
             {
-                Cibo = 100,
-                Legno = 100,
-                Pietra = 100,
-                Ferro = 100,
-                Oro = 100,
+                Cibo = 200,
+                Legno = 200,
+                Pietra = 200,
+                Ferro = 200,
+                Oro = 200,
                 Popolazione = 5,
-                Produzione = 1.12,
-                TempoCostruzione = 101,
+                Produzione = 1.06,
+                TempoCostruzione = 1800,
                 Limite = 1600
             };
             public static Edifici Segheria = new Edifici
             {
-                Cibo = 175,
-                Legno = 175,
-                Pietra = 175,
-                Ferro = 175,
-                Oro = 175,
+                Cibo = 275,
+                Legno = 275,
+                Pietra = 275,
+                Ferro = 275,
+                Oro = 275,
                 Popolazione = 7,
-                Produzione = 0.96,
-                TempoCostruzione = 117,
+                Produzione = 0.90,
+                TempoCostruzione = 2044,
                 Limite = 1500
             };
             public static Edifici CavaPietra = new Edifici
             {
-                Cibo = 250,
-                Legno = 250,
-                Pietra = 250,
-                Ferro = 250,
-                Oro = 250,
+                Cibo = 350,
+                Legno = 350,
+                Pietra = 350,
+                Ferro = 350,
+                Oro = 350,
                 Popolazione = 10,
-                Produzione = 0.83,
-                TempoCostruzione = 136,
-                Limite = 1500
+                Produzione = 0.77,
+                TempoCostruzione = 2310,
+                Limite = 1400
             };
             public static Edifici MinieraFerro = new Edifici
             {
-                Cibo = 325,
-                Legno = 325,
-                Pietra = 325,
-                Ferro = 325,
-                Oro = 325,
+                Cibo = 425,
+                Legno = 425,
+                Pietra = 425,
+                Ferro = 425,
+                Oro = 425,
                 Popolazione = 10,
-                Produzione = 0.70,
-                TempoCostruzione = 148,
-                Limite = 1400
+                Produzione = 0.64,
+                TempoCostruzione = 2598,
+                Limite = 1300
             };
             public static Edifici MinieraOro = new Edifici
             {
-                Cibo = 400,
-                Legno = 400,
-                Pietra = 400,
-                Ferro = 400,
-                Oro = 400,
+                Cibo = 500,
+                Legno = 500,
+                Pietra = 500,
+                Ferro = 500,
+                Oro = 500,
                 Popolazione = 10,
-                Produzione = 0.57,
-                TempoCostruzione = 172,
-                Limite = 1300
+                Produzione = 0.52,
+                TempoCostruzione = 2920,
+                Limite = 1200
             };
             public static Edifici Case = new Edifici
             {
-                Cibo = 2500,
-                Legno = 2500,
-                Pietra = 2500,
-                Ferro = 2500,
+                Cibo = 2600,
+                Legno = 2200,
+                Pietra = 2700,
+                Ferro = 2400,
                 Oro = 2500,
-                Produzione = 0.001,
-                TempoCostruzione = 221,
+                Produzione = 0.0008,
+                TempoCostruzione = 3264,
                 Limite = 10
             };
             // Produzione Militari
@@ -112,175 +116,222 @@
                 Cibo = 1750,
                 Legno = 1750,
                 Pietra = 1750,
-                Ferro = 1750,
-                Oro = 1750,
+                Ferro = 1950,
+                Oro = 1950,
                 Popolazione = 15,
                 Produzione = 0.008,
-                Consumo_Legno = 0.15,
-                Consumo_Ferro = 0.25,
-                Consumo_Oro = 0.20,
-                TempoCostruzione = 152,
-                Limite = 50
+                Consumo_Legno = 0.24,
+                Consumo_Ferro = 0.29,
+                Consumo_Oro = 0.24,
+                TempoCostruzione = 2150,
+                Limite = 30
             };
             public static Edifici ProduzioneLance = new Edifici
             {
-                Cibo = 2000,
-                Legno = 2000,
+                Cibo = 2200,
+                Legno = 2300,
                 Pietra = 2000,
                 Ferro = 2000,
-                Oro = 2000,
+                Oro = 2200,
                 Popolazione = 15,
                 Produzione = 0.007,
-                Consumo_Legno = 0.35,
-                Consumo_Ferro = 0.18,
-                Consumo_Oro = 0.20,
-                TempoCostruzione = 181,
-                Limite = 45
+                Consumo_Legno = 0.47,
+                Consumo_Ferro = 0.21,
+                Consumo_Oro = 0.29,
+                TempoCostruzione = 2538,
+                Limite = 25
             };
             public static Edifici ProduzioneArchi = new Edifici
             {
-                Cibo = 2250,
-                Legno = 2250,
+                Cibo = 2450,
+                Legno = 2550,
                 Pietra = 2250,
                 Ferro = 2250,
-                Oro = 2250,
+                Oro = 2350,
                 Popolazione = 15,
-                Consumo_Legno = 0.45,
-                Consumo_Oro = 0.20,
-                Produzione = 0.0075,
-                TempoCostruzione = 214,
-                Limite = 40
+                Produzione = 0.006,
+                Consumo_Legno = 0.49,
+                Consumo_Oro = 0.39,
+                TempoCostruzione = 2960,
+                Limite = 20
             };
             public static Edifici ProduzioneScudi = new Edifici
             {
-                Cibo = 2500,
+                Cibo = 2800,
                 Legno = 2500,
-                Pietra = 2500,
+                Pietra = 2600,
                 Ferro = 2500,
-                Oro = 2500,
+                Oro = 2700,
                 Popolazione = 15,
-                Produzione = 0.008,
+                Produzione = 0.007,
                 Consumo_Legno = 0.22,
                 Consumo_Ferro = 0.35,
-                Consumo_Oro = 0.25,
-                TempoCostruzione = 229,
-                Limite = 40
+                Consumo_Oro = 0.34,
+                TempoCostruzione = 3404,
+                Limite = 20
             };
             public static Edifici ProduzioneArmature = new Edifici
             {
                 Cibo = 2750,
                 Legno = 2750,
                 Pietra = 2750,
-                Ferro = 2750,
-                Oro = 2750,
+                Ferro = 2950,
+                Oro = 2850,
                 Popolazione = 15,
-                Produzione = 0.0065,
+                Produzione = 0.0055,
                 Consumo_Ferro = 0.50,
-                Consumo_Oro = 0.35,
-                TempoCostruzione = 253,
-                Limite = 40
+                Consumo_Oro = 0.41,
+                TempoCostruzione = 3870,
+                Limite = 20
             };
             public static Edifici ProduzioneFrecce = new Edifici
             {
-                Cibo = 3750,
-                Legno = 3750,
-                Pietra = 3750,
+                Cibo = 3950,
+                Legno = 4150,
+                Pietra = 3850,
                 Ferro = 3750,
-                Oro = 3750,
+                Oro = 3550,
                 Popolazione = 20,
-                Produzione = 0.005,
-                Consumo_Legno = 0.25,
-                Consumo_Pietra = 0.40,
-                Consumo_Ferro = 0.18,
-                Consumo_Oro = 0.20,
-                TempoCostruzione = 294,
-                Limite = 500
+                Produzione = 0.0040,
+                Consumo_Legno = 0.31,
+                Consumo_Pietra = 0.43,
+                Consumo_Ferro = 0.26,
+                Consumo_Oro = 0.39,
+                TempoCostruzione = 4358,
+                Limite = 200
             };
 
             public static Edifici CasermaGuerrieri = new Edifici
             {
-                Cibo = 2450,
-                Legno = 2450,
-                Pietra = 2450,
-                Ferro = 2450,
-                Oro = 2450,
+                Cibo = 2950,
+                Legno = 2950,
+                Pietra = 2950,
+                Ferro = 2950,
+                Oro = 2950,
                 Popolazione = 30,
-                TempoCostruzione = 274,
-                Consumo_Oro = 0.20,
-                Consumo_Cibo = 0.40,
+                TempoCostruzione = 2600,
+                Consumo_Cibo = 0.45,
+                Consumo_Oro = 0.25,
                 Limite = 15
             };
             public static Edifici CasermaLanceri = new Edifici
             {
-                Cibo = 2650,
-                Legno = 2650,
-                Pietra = 2650,
-                Ferro = 2650,
-                Oro = 2650,
+                Cibo = 3150,
+                Legno = 3150,
+                Pietra = 3150,
+                Ferro = 3150,
+                Oro = 3150,
                 Popolazione = 35,
-                TempoCostruzione = 295,
-                Consumo_Oro = 0.25,
-                Consumo_Cibo = 0.50,
+                TempoCostruzione = 2944,
+                Consumo_Cibo = 0.55,
+                Consumo_Oro = 0.30,
                 Limite = 10
             };
             public static Edifici CasermaArceri = new Edifici
             {
-                Cibo = 3850,
-                Legno = 3850,
-                Pietra = 3850,
-                Ferro = 3850,
-                Oro = 3850,
+                Cibo = 4350,
+                Legno = 4350,
+                Pietra = 4350,
+                Ferro = 4350,
+                Oro = 4350,
                 Popolazione = 40,
-                TempoCostruzione = 316,
-                Consumo_Oro = 0.30,
-                Consumo_Cibo = 0.60,
+                TempoCostruzione = 3410,
+                Consumo_Cibo = 0.65,
+                Consumo_Oro = 0.35,
                 Limite = 5
             };
             public static Edifici CasermaCatapulte = new Edifici
             {
-                Cibo = 4550,
-                Legno = 4550,
-                Pietra = 4550,
-                Ferro = 4550,
-                Oro = 4550,
+                Cibo = 5050,
+                Legno = 5050,
+                Pietra = 5050,
+                Ferro = 5050,
+                Oro = 5050,
                 Popolazione = 55,
-                TempoCostruzione = 337,
-                Consumo_Oro = 0.45,
-                Consumo_Cibo = 0.90,
+                TempoCostruzione = 3998,
+                Consumo_Cibo = 0.95,
+                Consumo_Oro = 0.55,
                 Limite = 3
             };
-
+            // Valori statistiche edifici difensivi villaggio
             public static Edifici Ingresso = new Edifici
             {
-                Guarnigione = 75
+                Guarnigione = 15,
             };
             public static Edifici Citta = new Edifici
             {
-                Guarnigione = 125
+                Guarnigione = 25
             };
             public static Edifici Cancello = new Edifici
             {
-                Salute = 50,
-                Difesa = 50,
-                Guarnigione = 50
+                Salute = 35,
+                Difesa = 25,
+                Guarnigione = 20
             };
             public static Edifici Mura = new Edifici
             {
-                Salute = 50,
-                Difesa = 50,
-                Guarnigione = 50
+                Salute = 30,
+                Difesa = 20,
+                Guarnigione = 20
             };
             public static Edifici Torri = new Edifici
             {
-                Salute = 50,
-                Difesa = 50,
-                Guarnigione = 50
+                Salute = 40,
+                Difesa = 30,
+                Guarnigione = 20
             };
             public static Edifici Castello = new Edifici
             {
-                Salute = 75,
-                Difesa = 75,
-                Guarnigione = 100
+                Salute = 50,
+                Difesa = 40,
+                Guarnigione = 25
+            };
+        }
+        public class Riparazione // Costi di riparazione delle strutture
+        {
+            public static Edifici Cancello = new Edifici
+            {
+                Salute = 1,
+                Difesa = 1,
+
+                Consumo_Cibo = 380,
+                Consumo_Legno = 180,
+                Consumo_Pietra = 320,
+                Consumo_Ferro = 400,
+                Consumo_Oro = 340,
+            };
+            public static Edifici Mura = new Edifici
+            {
+                Salute = 1,
+                Difesa = 1,
+
+                Consumo_Cibo = 570,
+                Consumo_Legno = 240,
+                Consumo_Pietra = 480,
+                Consumo_Ferro = 260,
+                Consumo_Oro = 410,
+            };
+            public static Edifici Torri = new Edifici
+            {
+                Salute = 1,
+                Difesa = 1,
+
+                Consumo_Cibo = 830,
+                Consumo_Legno = 280,
+                Consumo_Pietra = 755,
+                Consumo_Ferro = 480,
+                Consumo_Oro = 550,
+            };
+            public static Edifici Castello = new Edifici
+            {
+                Salute = 1,
+                Difesa = 1,
+
+                Consumo_Cibo = 1500,
+                Consumo_Legno = 680,
+                Consumo_Pietra = 1363,
+                Consumo_Ferro = 940,
+                Consumo_Oro = 820,
             };
         }
     }

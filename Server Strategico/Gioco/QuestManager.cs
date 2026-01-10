@@ -69,16 +69,16 @@ namespace Server_Strategico.Gioco
                 { 34, new Quest_Template { Id = 34, Quest_Description = "Attacca città barbare", Experience = 15, Require = 5, Max_Complete = 4 } },
 
                 // --- COSTRUZIONI MILITARI ---
-                { 35, new Quest_Template { Id = 35, Quest_Description = "Costruisci qualsiasi struttura militare", Experience = 25, Require = 20, Max_Complete = 4 } },
+                { 35, new Quest_Template { Id = 35, Quest_Description = "Costruisci qualsiasi struttura militare", Experience = 25, Require = 25, Max_Complete = 4 } },
                 { 36, new Quest_Template { Id = 36, Quest_Description = "Addestra qualsiasi unità militare", Experience = 20, Require = 400, Max_Complete = 4 } },
 
                 //Risorse
-                { 37, new Quest_Template { Id = 37, Quest_Description = "Utilizza cibo", Experience = 10, Require = 20000, Max_Complete = 4 } },
-                { 38, new Quest_Template { Id = 38, Quest_Description = "Utilizza legno", Experience = 10, Require = 19000, Max_Complete = 4 } },
-                { 39, new Quest_Template { Id = 39, Quest_Description = "Utilizza pietra", Experience = 10, Require = 18000, Max_Complete = 4 } },
-                { 40, new Quest_Template { Id = 40, Quest_Description = "Utilizza ferro", Experience = 10, Require = 17000, Max_Complete = 4 } },
-                { 41, new Quest_Template { Id = 41, Quest_Description = "Utilizza oro", Experience = 10, Require = 15000, Max_Complete = 4 } },
-                { 42, new Quest_Template { Id = 42, Quest_Description = "Utilizza popolazione", Experience = 10, Require = 250, Max_Complete = 4 } },
+                { 37, new Quest_Template { Id = 37, Quest_Description = "Utilizza cibo", Experience = 10, Require = 50000, Max_Complete = 4 } },
+                { 38, new Quest_Template { Id = 38, Quest_Description = "Utilizza legno", Experience = 10, Require =42000, Max_Complete = 4 } },
+                { 39, new Quest_Template { Id = 39, Quest_Description = "Utilizza pietra", Experience = 10, Require = 38000, Max_Complete = 4 } },
+                { 40, new Quest_Template { Id = 40, Quest_Description = "Utilizza ferro", Experience = 10, Require = 35000, Max_Complete = 4 } },
+                { 41, new Quest_Template { Id = 41, Quest_Description = "Utilizza oro", Experience = 10, Require = 31000, Max_Complete = 4 } },
+                { 42, new Quest_Template { Id = 42, Quest_Description = "Utilizza popolazione", Experience = 10, Require = 300, Max_Complete = 4 } },
 
                 { 43, new Quest_Template { Id = 43, Quest_Description = "Utilizza spade", Experience = 10, Require = 200, Max_Complete = 4 } },
                 { 44, new Quest_Template { Id = 44, Quest_Description = "Utilizza lance", Experience = 10, Require = 200, Max_Complete = 4 } },
@@ -88,12 +88,19 @@ namespace Server_Strategico.Gioco
                 { 48, new Quest_Template { Id = 48, Quest_Description = "Utilizza frecce", Experience = 10, Require = 1250, Max_Complete = 4 } },
 
                 // --- COSTRUZIONI AVANZATE / SPECIALI ---
-                { 49, new Quest_Template { Id = 49, Quest_Description = "Completa tutte le quest iniziali", Experience = 150, Require = 52, Max_Complete = 1 } },
+                { 49, new Quest_Template { Id = 49, Quest_Description = "Completa tutte le quest iniziali", Experience = 150, Require = 59, Max_Complete = 1 } },
 
                 { 50, new Quest_Template { Id = 50, Quest_Description = "Esplora villaggio barbaro", Experience = 5, Require = 5, Max_Complete = 2 } },
                 { 51, new Quest_Template { Id = 51, Quest_Description = "Esplora città barbare", Experience = 5, Require = 5, Max_Complete = 2 } },
                 { 52, new Quest_Template { Id = 52, Quest_Description = "Esplora giocatori", Experience = 5, Require = 5, Max_Complete = 2 } },
                 { 53, new Quest_Template { Id = 53, Quest_Description = "Esegui qualsiasi esplorazione", Experience = 10, Require = 10, Max_Complete = 2 } },
+
+                { 54, new Quest_Template { Id = 54, Quest_Description = "Raggiungi il livello 5", Experience = 10, Require = 5, Max_Complete = 1 } },
+                { 55, new Quest_Template { Id = 55, Quest_Description = "Raggiungi il livello 10", Experience = 15, Require = 10, Max_Complete = 1 } },
+                { 56, new Quest_Template { Id = 56, Quest_Description = "Raggiungi il livello 25", Experience = 20, Require = 25, Max_Complete = 1 } },
+                { 57, new Quest_Template { Id = 57, Quest_Description = "Raggiungi il livello 50", Experience = 30, Require = 50, Max_Complete = 1 } },
+                { 58, new Quest_Template { Id = 58, Quest_Description = "Raggiungi il livello 75", Experience = 40, Require = 75, Max_Complete = 1 } },
+                { 59, new Quest_Template { Id = 59, Quest_Description = "Raggiungi il livello 100", Experience = 50, Require = 100, Max_Complete = 1 } },
 
             };
         }
@@ -114,7 +121,7 @@ namespace Server_Strategico.Gioco
 
             public static QuestRewardSet Vip_Monthly = new QuestRewardSet
             {
-                Rewards = new List<int> { 3, 6, 40, 9, 13, 16, 19, 25, 30, 36, 41, 45, 49, 54, 59, 65, 71, 76, 81, 0 }, //Reward solo per i vip
+                Rewards = new List<int> { 3, 6, 40, 9, 13, 16, 19, 25, 30, 36, 41, 45, 49, 54, 59, 65, 71, 76, 81, 1 }, //Reward solo per i vip
             };
         }
         public class PlayerQuestProgress
@@ -156,6 +163,8 @@ namespace Server_Strategico.Gioco
                     {
                         QuestManager.OnEvent(player, QuestEventType.Miglioramento, "", 1); // Per ogni quest completata, aggiorna la quest
                         player.Quest_Completate++;
+                        QuestManager.QuestUpdate(player);
+                        QuestManager.QuestRewardUpdate(player);
                     }
                     return true; // Quest completata
                 }
@@ -167,10 +176,12 @@ namespace Server_Strategico.Gioco
         {
             Costruzione,
             Addestramento,
-            Eliminazione,
+            Uccisioni,
             Risorse,
+            Battaglie,
             Miglioramento,
-            Velocizzazione
+            Velocizzazione,
+            Livelli
         }
         public static void OnEvent(Player player, QuestEventType eventType, string targetName, int amount = 1) // 🔸 Metodo principale: riceve un evento dal gioco
         {
@@ -181,25 +192,26 @@ namespace Server_Strategico.Gioco
                 case QuestEventType.Costruzione:
                     GestisciCostruzione(player, targetName, amount);
                     break;
-
                 case QuestEventType.Addestramento:
                     GestisciAddestramento(player, targetName, amount);
                     break;
-
-                case QuestEventType.Eliminazione:
-                    GestisciEliminazione(player, targetName, amount);
+                case QuestEventType.Uccisioni:
+                    GestisciUccisioni(player, targetName, amount);
                     break;
-
                 case QuestEventType.Risorse:
                     GestisciRisorse(player, targetName, amount);
                     break;
-
+                case QuestEventType.Battaglie:
+                    GestisciBattaglie(player, targetName, amount);
+                    break;
                 case QuestEventType.Miglioramento:
                     GestisciMiglioramento(player, targetName, amount);
                     break;
-
                 case QuestEventType.Velocizzazione:
                     GestisciVelocizzazione(player, targetName, amount);
+                    break;
+                case QuestEventType.Livelli:
+                    GestisciLivelli(player, targetName, amount);
                     break;
             }
             QuestUpdate(player); // Dopo ogni evento → invia aggiornamento al client
@@ -287,38 +299,60 @@ namespace Server_Strategico.Gioco
         {
             switch (tipo)
             {
-                case "Guerrieri_1":
+                case "Guerrieri":
                     player.QuestProgress.AddProgress(1, quantita, player);
-                    player.QuestProgress.AddProgress(36, quantita, player); //Addestra qualsiasi unità
                     break;
-                case "Lanceri_1":
+                case "Lanceri":
                     player.QuestProgress.AddProgress(2, quantita, player);
-                    player.QuestProgress.AddProgress(36, quantita, player); //Addestra qualsiasi unità
                     break;
-                case "Arceri_1":
+                case "Arceri":
                     player.QuestProgress.AddProgress(3, quantita, player);
-                    player.QuestProgress.AddProgress(36, quantita, player); //Addestra qualsiasi unità
                     break;
-                case "Catapulta_1":
+                case "Catapulta":
                     player.QuestProgress.AddProgress(4, quantita, player);
-                    player.QuestProgress.AddProgress(36, quantita, player); //Addestra qualsiasi unità
-                    break;
-                default:
-                    player.QuestProgress.AddProgress(36, quantita, player); //Addestra qualsiasi unità
                     break;
             }
+            player.QuestProgress.AddProgress(36, quantita, player); //Addestra qualsiasi unità
         }
-        private static void GestisciEliminazione(Player player, string tipo, int quantita)
+        private static void GestisciBattaglie(Player player, string tipo, int quantita)
         {
             switch (tipo)
             {
-                case "Guerrieri_1":
+                case "Attacca Giocatore":
+                    player.QuestProgress.AddProgress(32, quantita, player);
+                    break;
+                case "Attacco Villaggio Barbaro":
+                    player.QuestProgress.AddProgress(33, quantita, player);
+                    break;
+                case "Attacco Citta Barbaro":
+                    player.QuestProgress.AddProgress(34, quantita, player);
+                    break;
+
+                case "Esplora Giocatore":
+                    player.QuestProgress.AddProgress(50, quantita, player);
+                    break;
+                case "Esplora Villaggio Barbaro":
+                    player.QuestProgress.AddProgress(51, quantita, player);
+                    break;
+                case "Esplora Citta Barbaro":
+                    player.QuestProgress.AddProgress(52, quantita, player);
+                    break;
+                case "Esplora Qualsiasi":
+                    player.QuestProgress.AddProgress(53, quantita, player);
+                    break;
+            }
+        }
+        private static void GestisciUccisioni(Player player, string tipo, int quantita)
+        {
+            switch (tipo)
+            {
+                case "Guerrieri":
                     player.QuestProgress.AddProgress(5, quantita, player);
                     break;
-                case "Lanceri_1":
+                case "Lanceri":
                     player.QuestProgress.AddProgress(6, quantita, player);
                     break;
-                case "Arceri_1":
+                case "Arceri":
                     player.QuestProgress.AddProgress(7, quantita, player);
                     break;
                 case "Catapulta":
@@ -326,7 +360,7 @@ namespace Server_Strategico.Gioco
                     break;
             }
 
-            player.QuestProgress.AddProgress(9, quantita, player); //Eliminazione truppe generico
+            player.QuestProgress.AddProgress(9, quantita, player); //Uccisione truppe generico
         }
         private static void GestisciRisorse(Player player, string tipo, int quantita)
         {
@@ -396,6 +430,15 @@ namespace Server_Strategico.Gioco
         private static void GestisciMiglioramento(Player player, string tipo, int quantita) //Completa tutte le quest.
         {
             player.QuestProgress.AddProgress(49, quantita, player);
+        }
+        private static void GestisciLivelli(Player player, string tipo, int quantita)
+        {
+            player.QuestProgress.AddProgress(54, quantita, player);
+            player.QuestProgress.AddProgress(55, quantita, player);
+            player.QuestProgress.AddProgress(56, quantita, player);
+            player.QuestProgress.AddProgress(57, quantita, player);
+            player.QuestProgress.AddProgress(58, quantita, player);
+            player.QuestProgress.AddProgress(59, quantita, player);
         }
 
         public static void QuestUpdate(Player player) // 🔸 INVIO AL CLIENT
