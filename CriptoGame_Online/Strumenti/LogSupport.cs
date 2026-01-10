@@ -26,13 +26,15 @@ namespace CriptoGame_Online.Strumenti
             ["carbone"] = Color.FromArgb(30, 30, 30),     // Quasi nero, molto medievale
             ["grafite"] = Color.FromArgb(60, 60, 60),     // Grigio scuro
             ["marroneQuercia"] = Color.FromArgb(90, 60, 35),     // Legno antico
-            ["verdeForesta"] = Color.FromArgb(34, 80, 44),     // Verde scuro, naturale
+            ["verdeF"] = Color.FromArgb(34, 80, 44),     // Verde scuro, naturale
             ["bluGotico"] = Color.FromArgb(36, 52, 94),     // Blu profondo
             ["rossoAraldico"] = Color.FromArgb(130, 30, 30),    // Rosso medievale scuro
             ["porporaReale"] = Color.FromArgb(85, 30, 75),     // Porpora regale scura
             ["acciaioBlu"] = Color.FromArgb(70, 95, 120),    // Freddo, metallico
             ["ruggine"] = Color.FromArgb(120, 55, 25),    // Marrone-ruggine scuro
             ["ferroScuro"] = Color.FromArgb(50, 50, 60),     // Grigio metallo scuro
+
+            ["arancione"] = Color.FromArgb(220, 78, 0),      // Arancione scuro
 
             ["success"] = Color.FromArgb(46, 204, 113),  // Verde
             ["warning"] = Color.FromArgb(241, 196, 15),  // Giallo
@@ -62,6 +64,9 @@ namespace CriptoGame_Online.Strumenti
 
         private static readonly Dictionary<string, Image> Icons = new()
         {
+            ["xp"] = Properties.Resources.Exp_1,
+            ["lv"] = Properties.Resources.level_up_1_,
+
             ["cibo"] = Properties.Resources.wheat_sack,
             ["legno"] = Properties.Resources.wood_log_6,
             ["pietra"] = Properties.Resources.Stone_2,
@@ -85,9 +90,9 @@ namespace CriptoGame_Online.Strumenti
             ["spade"] = Properties.Resources.Sword_1,
             ["lance"] = Properties.Resources.spears,
             ["archi"] = Properties.Resources.icons8_tiro_con_l_arco_48_1_,
-            ["scudo"] = Properties.Resources.icons8_scudo_48_2_,
-            ["armatura"] = Properties.Resources.icons8_armor_48_1_,
-            ["freccia"] = Properties.Resources.icons8_freccia_di_arcieri_48,
+            ["scudi"] = Properties.Resources.icons8_scudo_48_2_,
+            ["armature"] = Properties.Resources.icons8_armor_48_1_,
+            ["frecce"] = Properties.Resources.icons8_freccia_di_arcieri_48,
 
             ["Fattoria"] = Properties.Resources.icons8_fattoria_48_1_,
             ["Segheria"] = Properties.Resources.wood_cutting,

@@ -301,10 +301,10 @@ namespace CriptoGame_Online.GUI
                         {
                             if (livello_Unità == 1)
                             {
-                                g_Citta = Convert.ToInt32(Variabili_Client.Citta.Città.Guerrieri_1);
-                                l_Citta = Convert.ToInt32(Variabili_Client.Citta.Città.Lanceri_1);
-                                a_Citta = Convert.ToInt32(Variabili_Client.Citta.Città.Arceri_1);
-                                c_Citta = Convert.ToInt32(Variabili_Client.Citta.Città.Catapulte_1);
+                                g_Citta = Convert.ToInt32(Variabili_Client.Citta.Cancello.Guerrieri_1);
+                                l_Citta = Convert.ToInt32(Variabili_Client.Citta.Cancello.Lanceri_1);
+                                a_Citta = Convert.ToInt32(Variabili_Client.Citta.Cancello.Arceri_1);
+                                c_Citta = Convert.ToInt32(Variabili_Client.Citta.Cancello.Catapulte_1);
 
                                 g_Esercito = Convert.ToInt32(Variabili_Client.Reclutamento.Guerrieri_1.Quantità);
                                 l_Esercito = Convert.ToInt32(Variabili_Client.Reclutamento.Lanceri_1.Quantità);
@@ -892,21 +892,17 @@ namespace CriptoGame_Online.GUI
         private void AdjustTrackBars(TrackBar currentTrackBar)
         {
             // Calcola il totale attuale
-            int totale = trackBar_Guerriero.Value + trackBar_Lanciere.Value +
-                         trackBar_Arciere.Value + trackBar_Catapulta.Value;
+            int totale = trackBar_Guerriero.Value + trackBar_Lanciere.Value + trackBar_Arciere.Value + trackBar_Catapulta.Value;
+            int maxGuarnigione = 0; // Ottieni il max della guarnigione
 
-            // Ottieni il max della guarnigione
-            int maxGuarnigione = 0;
+            if (struttura == "Ingresso") maxGuarnigione = Variabili_Client.Citta.Ingresso.Guarnigione_Max;
+            else if (struttura == "Citta") maxGuarnigione = Variabili_Client.Citta.Città.Guarnigione_Max;
+            else if (struttura == "Cancello") maxGuarnigione = Variabili_Client.Citta.Cancello.Guarnigione_Max;
+            else if (struttura == "Mura") maxGuarnigione = Variabili_Client.Citta.Mura.Guarnigione_Max;
+            else if (struttura == "Torri") maxGuarnigione = Variabili_Client.Citta.Torri.Guarnigione_Max;
+            else if (struttura == "Castello") maxGuarnigione = Variabili_Client.Citta.Castello.Guarnigione_Max;
 
-            if (struttura == "Ingresso")
-                maxGuarnigione = Variabili_Client.Citta.Ingresso.Guarnigione_Max;
-            else if (struttura == "Citta")
-                maxGuarnigione = Variabili_Client.Citta.Città.Guarnigione_Max;
-            else if (struttura == "Cancello")
-                maxGuarnigione = Variabili_Client.Citta.Cancello.Guarnigione_Max;
-
-            // Se supera il limite, riduci il valore della trackbar corrente
-            if (totale > maxGuarnigione)
+            if (totale > maxGuarnigione) // Se supera il limite, riduci il valore della trackbar corrente
             {
                 int eccesso = totale - maxGuarnigione;
                 currentTrackBar.Value = Math.Max(0, currentTrackBar.Value - eccesso);
