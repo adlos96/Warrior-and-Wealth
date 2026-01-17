@@ -210,6 +210,7 @@ namespace Server_Strategico.Server
         public class GameServer
         {
             public Dictionary<string, Player> players = new Dictionary<string, Player>();
+            int _saveIndex = 0;
             public async Task<bool> AddPlayer(string username, string password, Guid guid)
             {
                 if (!players.ContainsKey(username))
@@ -357,21 +358,25 @@ namespace Server_Strategico.Server
                 .ToList();
                 await Task.WhenAll(updateTasks); // 3. Attendiamo che tutti gli aggiornamenti di rete siano completati in parallelo.
             }
+            async Task addBOT(int b)
+            {
+                for (int i = 0; i < b; i++)
+                    await AddPlayer($"Fake{i}", "123", Guid.Empty);
+            }
             public async Task RunGameLoopAsync(CancellationToken cancellationToken)
             {
-                int saveCounter = 0, saveCounterPlayer = 0, riparazioni = 0, _saveIndex = 0, _firstStart = 0;
+                int saveCounter = 0, saveCounterPlayer = 0, riparazioni = 0, _firstStart = 0;
                 double totale_Stats = 0, media_Stats = 0, min_Stats = 0, max_Stats = 0, numero_Stats = 0;
 
                 // --- BLOCCO RIPRISTINATO: GENERAZIONE GIOCATORI ---
-                for (int i = 0; i < 50000; i++)
-                    await AddPlayer($"Fake{i}", "123", Guid.Empty);
+                await addBOT(50000);
 
                 // --- BLOCCO RIPRISTINATO: INIZIALIZZAZIONE ---
                 await GameSave.LoadServerData();
                 await GameSave.Load_Player_Data_Auto();
                 servers_.AggiornaListaPVP();
                 await Gioco.Barbari.Inizializza();
-                CompleteTask(cancellationToken);
+                //CompleteTask(cancellationToken); //Avvolte genera un'eccezione... la collezione è stata modificata.
                 ScheduleManager.AvvioReset();
                 // ----------------------------------------------
 
@@ -401,11 +406,13 @@ namespace Server_Strategico.Server
 
                                 if (_firstStart == 0)
                                 {
-                                    player.SetupVillaggioGiocatore(); //Richiamare solo quando effettivamente c'è bisogno +- 145 ms in più su 5000 player
+                                    player.SetupVillaggioGiocatore(); //Richiamare solo quando effettivamente c'è bisogno +- 145 ms in più su 50000 player
+                                    player.SetupCaserme();
+                                    player.BonusPacchetti();
                                     Ripara(player);
                                     CalcoloPotenza(player);
                                     Esperienza.LevelUp(player);
-                                    player.SetupCaserme();
+                                    _firstStart++;
                                 }
 
                                 if (riparazioni >= Variabili_Server.tempo_Riparazione)
@@ -420,8 +427,8 @@ namespace Server_Strategico.Server
                                 player.ManutenzioneEsercito();
                                 player.ServerTimer();
                                 player.ResetGiornaliero();
-                                if (player.Vip || player.GamePass_Base || player.GamePass_Avanzato) player.BonusPacchetti();
 
+                                if (player.Vip || player.GamePass_Base || player.GamePass_Avanzato) player.BonusPacchetti();
                                 if (player.currentTasks_Building.Count > 0) player.Tempo_Costruzione++;
                                 if (player.currentTasks_Recruit.Count > 0) player.Tempo_Addestramento++;
                                 if (player.currentTasks_Research.Count > 0) player.Tempo_Ricerca++;
@@ -442,7 +449,7 @@ namespace Server_Strategico.Server
                     if (saveCounterPlayer >= 20)
                     {
                         saveCounterPlayer = 0;
-                        SaveSomePlayersAsync(50); //Salva 50 player per volta...
+                        SaveSomePlayersAsync(100); //Salva 50 player per volta...
                     }
 
                     TimeSpan tempoImpiegato_3 = taskStopwatch.Elapsed;
@@ -452,7 +459,7 @@ namespace Server_Strategico.Server
                     {
                         riparazioni = 0;
                         AttacchiCooperativi.AggiornaAttacchi();
-                        //servers_.AggiornaListaPVP();
+                        servers_.AggiornaListaPVP();
                     }
 
                     TimeSpan tempoImpiegato_4 = taskStopwatch.Elapsed;
@@ -470,7 +477,7 @@ namespace Server_Strategico.Server
 
                     // Log del tempo totale
                     TimeSpan tempoImpiegato_2 = taskStopwatch.Elapsed;
-                    if (numero_Stats < 2) numero_Stats += 1;
+                    if (numero_Stats < 3) numero_Stats += 1;
                     else
                     {
                         numero_Stats += 1;
@@ -485,17 +492,15 @@ namespace Server_Strategico.Server
                         Console.WriteLine($"[PERF] B - Min:                    [{min_Stats:F4} ms]");
                         Console.WriteLine($"[PERF] C - Med:                    [{media_Stats:F4} ms]");
                         Console.WriteLine($"[PERF] E - Max:                    [{max_Stats:F4} ms]");
-                        Console.WriteLine($"[PERF] D - X player:               [{(media_Stats / players.Count()):F4} ms]\n");
+                        Console.WriteLine($"[PERF] D - X player:               [{(media_Stats / players.Count()):F5} ms]\n");
                     }
 
                     // Regolazione dinamica del ritardo (per tornare a 1000ms totali)
                     double tempoRimanente = 1000.0 - tempoImpiegato_2.TotalMilliseconds;
                     if (tempoRimanente <= 0) tempoRimanente = 50;
                     if (tempoRimanente > 0) await Task.Delay((int)tempoRimanente);
-                    _firstStart++;
                 }
             }
-            int _saveIndex = 0;
             public async Task SaveSomePlayersAsync(int count)
             {
                 if (players.Count == 0) return;

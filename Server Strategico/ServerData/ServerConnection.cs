@@ -55,6 +55,7 @@ namespace Server_Strategico.Server
 
                         DescUpdate(player);
                         QuestManager.QuestUpdate(player);
+                        QuestManager.QuestRewardUpdate(player);
                         AggiornaVillaggiClient(player);
                         Server.servers_.AggiornaListaPVP();
                     }
@@ -68,6 +69,7 @@ namespace Server_Strategico.Server
                         Server.Send(clientGuid, "Login|true");
                         DescUpdate(player);
                         QuestManager.QuestUpdate(player);
+                        QuestManager.QuestRewardUpdate(player);
                         AggiornaVillaggiClient(player);
                         Server.servers_.AggiornaListaPVP();
                     }
