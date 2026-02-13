@@ -1,6 +1,6 @@
 ﻿using static Server_Strategico.Gioco.Giocatori;
 using static Server_Strategico.Gioco.Giocatori.Player;
-using static Server_Strategico.Gioco.QuestManager;
+using static Server_Strategico.Manager.QuestManager;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Server_Strategico.Gioco
@@ -69,7 +69,7 @@ namespace Server_Strategico.Gioco
 
                 if (unitàLanceri + count > player.Caserma_Lancieri * Strutture.Edifici.CasermaLanceri.Limite)
                 {
-                    Server.Server.Send(clientGuid, $"Log_Server|[tile]Limite truppe raggiunto per i Lanceri.[icon:lancere] [warning]{unitàLanceri}/{player.Caserma_Lancieri * Strutture.Edifici.CasermaLanceri.Limite}");
+                    Server.Server.Send(clientGuid, $"Log_Server|[tile]Limite truppe raggiunto per i Lancieri.[icon:lancere] [warning]{unitàLanceri}/{player.Caserma_Lancieri * Strutture.Edifici.CasermaLanceri.Limite}");
                     return;
                 }
             }
@@ -89,7 +89,7 @@ namespace Server_Strategico.Gioco
 
                 if (unitàArceri + count > player.Caserma_Arceri * Strutture.Edifici.CasermaArceri.Limite)
                 {
-                    Server.Server.Send(clientGuid, $"Log_Server|[tile]Limite truppe raggiunto per gli Arceri.[icon:arciere] [warning]{unitàArceri}/{player.Caserma_Arceri * Strutture.Edifici.CasermaArceri.Limite}");
+                    Server.Server.Send(clientGuid, $"Log_Server|[tile]Limite truppe raggiunto per gli Arcieri.[icon:arciere] [warning]{unitàArceri}/{player.Caserma_Arceri * Strutture.Edifici.CasermaArceri.Limite}");
                     return;
                 }
             }
@@ -235,6 +235,29 @@ namespace Server_Strategico.Gioco
             foreach (var task in player.currentTasks_Recruit)
                 if (task.IsComplete())
                     completedTasks.Add(task);
+
+            // Svuota la queue e processa
+            var pausedList = player.pausedTasks_Recruit.ToList();
+            player.pausedTasks_Recruit.Clear(); // IMPORTANTE: svuota prima!
+
+            foreach (var task in pausedList)
+                if (task.IsComplete())
+                {
+                    completedTasks.Add(task);
+                    player.currentTasks_Recruit.Add(task); // sposta in current
+                }
+                else player.pausedTasks_Recruit.Enqueue(task); // rimetti in paused
+
+            var queueList = player.recruit_Queue.ToList();
+            player.recruit_Queue.Clear(); // SVUOTA PRIMA!
+
+            foreach (var task in queueList)
+                if (task.IsComplete())
+                {
+                    completedTasks.Add(task);
+                    player.currentTasks_Recruit.Add(task); // sposta in current
+                }
+                else player.recruit_Queue.Enqueue(task); // rimetti in queue
 
             // Ora processa e rimuovi i task completati
             foreach (var task in completedTasks)
@@ -455,71 +478,9 @@ namespace Server_Strategico.Gioco
                 diamantiBluDaUsare = maxDiamantiUtili;
                 riduzioneTotale = diamantiBluDaUsare * Variabili_Server.Velocizzazione_Tempo;
             }
-
             int riduzioneTotaleOriginale = riduzioneTotale;
 
-            // 1) Processa currentTasks
-            if (player.currentTasks_Recruit != null && player.currentTasks_Recruit.Count > 0)
-            {
-                var tasksList = player.currentTasks_Recruit.ToList();
-                foreach (var task in tasksList)
-                {
-                    if (riduzioneTotale <= 0) break;
-
-                    double rimanente = task.GetRemainingTime();
-                    if (rimanente <= 0) continue;
-
-                    if (riduzioneTotale >= rimanente)
-                    {
-                        int riduzione = (int)Math.Ceiling(rimanente);
-                        task.ForzaCompletamento();
-                        player.Tempo_Sottratto_Diamanti += riduzione;
-                        player.Tempo_Addestramento += riduzione;
-                        riduzioneTotale -= riduzione;
-                    }
-                    else
-                    {
-                        task.RiduciTempo(riduzioneTotale);
-                        player.Tempo_Sottratto_Diamanti += riduzioneTotale;
-                        player.Tempo_Addestramento += riduzioneTotale;
-                        riduzioneTotale = 0;
-                    }
-                }
-            }
-
-            // 2) Processa recruit_Queue
-            if (riduzioneTotale > 0 && player.recruit_Queue != null && player.recruit_Queue.Count > 0)
-            {
-                var queueList = player.recruit_Queue.ToList();
-
-                foreach (var task in queueList)
-                {
-                    if (riduzioneTotale <= 0) break;
-
-                    double rimanente = task.DurationInSeconds;
-                    if (rimanente <= 0) continue;
-
-                    if (riduzioneTotale >= rimanente)
-                    {
-                        int riduzione = (int)Math.Ceiling(rimanente);
-                        task.ForzaCompletamento();
-                        player.Tempo_Sottratto_Diamanti += riduzione;
-                        player.Tempo_Addestramento += riduzione;
-                        riduzioneTotale -= riduzione;
-                    }
-                    else
-                    {
-                        task.RiduciTempo(riduzioneTotale);
-                        player.Tempo_Sottratto_Diamanti += riduzioneTotale;
-                        player.Tempo_Addestramento += riduzioneTotale;
-                        riduzioneTotale = 0;
-                    }
-                }
-
-                player.recruit_Queue = new Queue<RecruitTask>(queueList);
-            }
-
-            // 3) Processa pausedTasks
+            // 1) Processa pausedTasks
             if (riduzioneTotale > 0 && player.pausedTasks_Recruit != null && player.pausedTasks_Recruit.Count > 0)
             {
                 var pausedList = player.pausedTasks_Recruit.ToList();
@@ -547,8 +508,63 @@ namespace Server_Strategico.Gioco
                         riduzioneTotale = 0;
                     }
                 }
+            }
+            // 2) Processa currentTasks
+            if (player.currentTasks_Recruit != null && player.currentTasks_Recruit.Count > 0)
+            {
+                var tasksList = player.currentTasks_Recruit.ToList();
+                foreach (var task in tasksList)
+                {
+                    if (riduzioneTotale <= 0) break;
 
-                player.pausedTasks_Recruit = new Queue<RecruitTask>(pausedList);
+                    double rimanente = task.GetRemainingTime();
+                    if (rimanente <= 0) continue;
+
+                    if (riduzioneTotale >= rimanente)
+                    {
+                        int riduzione = (int)Math.Ceiling(rimanente);
+                        task.ForzaCompletamento();
+                        player.Tempo_Sottratto_Diamanti += riduzione;
+                        player.Tempo_Addestramento += riduzione;
+                        riduzioneTotale -= riduzione;
+                    }
+                    else
+                    {
+                        task.RiduciTempo(riduzioneTotale);
+                        player.Tempo_Sottratto_Diamanti += riduzioneTotale;
+                        player.Tempo_Addestramento += riduzioneTotale;
+                        riduzioneTotale = 0;
+                    }
+                }
+            }
+            // 3) Processa recruit_Queue
+            if (riduzioneTotale > 0 && player.recruit_Queue != null && player.recruit_Queue.Count > 0)
+            {
+                var queueList = player.recruit_Queue.ToList();
+
+                foreach (var task in queueList)
+                {
+                    if (riduzioneTotale <= 0) break;
+
+                    double rimanente = task.DurationInSeconds;
+                    if (rimanente <= 0) continue;
+
+                    if (riduzioneTotale >= rimanente)
+                    {
+                        int riduzione = (int)Math.Ceiling(rimanente);
+                        task.ForzaCompletamento();
+                        player.Tempo_Sottratto_Diamanti += riduzione;
+                        player.Tempo_Addestramento += riduzione;
+                        riduzioneTotale -= riduzione;
+                    }
+                    else
+                    {
+                        task.RiduciTempo(riduzioneTotale);
+                        player.Tempo_Sottratto_Diamanti += riduzioneTotale;
+                        player.Tempo_Addestramento += riduzioneTotale;
+                        riduzioneTotale = 0;
+                    }
+                }
             }
 
             player.Diamanti_Blu -= diamantiBluDaUsare;
@@ -572,8 +588,8 @@ namespace Server_Strategico.Gioco
             private bool forceComplete = false;
 
             // gestione pausa
-            public bool IsPaused { get; private set; } = false;
-            private double pausedRemainingSeconds = 0;
+            public bool IsPaused { get; set; } = false;
+            public double pausedRemainingSeconds = 0;
 
             public RecruitTask(string type, int durationInSeconds)
             {
@@ -597,7 +613,7 @@ namespace Server_Strategico.Gioco
                     return;
                 }
                 double elapsed = Math.Max(0, DurationInSeconds - remainingSeconds); // calcola elapsed = durata_totale - remaining
-                startTime = DateTime.UtcNow.AddSeconds(-elapsed); // startTime = ora - elapsed
+                startTime = DateTime.Now.AddSeconds(-elapsed); // startTime = ora - elapsed
 
                 // reset stati pausa / forza
                 IsPaused = false;
