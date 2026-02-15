@@ -1,10 +1,10 @@
 ﻿using Server_Strategico.Gioco;
-using System;
+using Server_Strategico.Manager;
+using Server_Strategico.ServerData.Moduli;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using WatsonTcp;
 using static Server_Strategico.Gioco.Giocatori;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Server_Strategico.Server
 {
@@ -118,44 +118,58 @@ namespace Server_Strategico.Server
         public static void Send(Guid guid, string msg)
         {
             if (Client_Connessi.Contains(guid) && guid != Guid.Empty)
+            {
                 server.SendAsync(guid, msg);
+                if (!msg.Contains("Update_Data") && !msg.Contains("QuestRewards") && !msg.Contains("QuestUpdate")) 
+                    Console.WriteLine($"[SERVER|LOG] > {msg}");
+            }
         }
 
         public static async Task NewPlayer(string player, string password)
         {
             var player1 = servers_.GetPlayer(player, password);
-            player1.Cibo = 400000;
-            player1.Legno = 400000;
-            player1.Pietra = 400000;
-            player1.Ferro = 400000;
-            player1.Oro = 400000;
-            player1.Popolazione = 20000;
 
-            player1.Spade = 2000;
-            player1.Lance = 2000;
-            player1.Archi = 2000;
-            player1.Scudi = 2000;
-            player1.Armature = 2000;
-            player1.Frecce = 200;
+            player1.Tutorial = false;
+            player1.Cibo = 20000;
+            player1.Legno = 20000;
+            player1.Pietra = 20000;
+            player1.Ferro = 20000;
+            player1.Oro = 20000;
+            player1.Popolazione = 1000;
 
-            player1.Diamanti_Blu = 1500;
-            player1.Diamanti_Viola = 1500000;
+            //player1.Spade = 2000;
+            //player1.Lance = 2000;
+            //player1.Archi = 2000;
+            //player1.Scudi = 2000;
+            //player1.Armature = 2000;
+            //player1.Frecce = 200;
+
+            //player1.Caserma_Guerrieri = 5;
+            //player1.Caserma_Lancieri = 5;
+            //player1.Caserma_Arceri = 5;
+            //player1.Caserma_Catapulte = 5;
+
+            player1.Diamanti_Blu = 15000;
+            player1.Diamanti_Viola = 30000;
 
             //Test battaglie
-            player1.Guerrieri = [25, 0, 0, 0, 0];
-            player1.Lanceri = [25, 0, 0, 0, 0];
-            player1.Arceri = [25, 0, 0, 0, 0];
-            player1.Catapulte = [25, 0, 0, 0, 0];
-
-            //player1.Guerrieri_Ingresso = [25, 0, 0, 0, 0];
-            //player1.Lanceri_Ingresso  = [25, 0, 0, 0, 0];
-            //player1.Arceri_Ingresso = [25, 0, 0, 0, 0];
-            //player1.Catapulte_Ingresso = [25, 0, 0, 0, 0];
-
-            player1.Guerrieri_Cancello = [5, 0, 0, 0, 0];
-            player1.Lanceri_Cancello = [5, 0, 0, 0, 0];
-            player1.Arceri_Cancello = [5, 0, 0, 0, 0];
-            player1.Catapulte_Cancello = [5, 0, 0, 0, 0];
+            //if (!player1.Tutorial) //Senza tutorial, per test truppe e battaglie
+            //{
+            //    player1.Guerrieri = [25, 0, 0, 0, 0];
+            //    player1.Lanceri = [25, 0, 0, 0, 0];
+            //    player1.Arceri = [25, 0, 0, 0, 0];
+            //    player1.Catapulte = [25, 0, 0, 0, 0];
+            //
+            //    player1.Guerrieri_Ingresso = [5, 0, 0, 0, 0];
+            //    player1.Lanceri_Ingresso = [5, 0, 0, 0, 0];
+            //    player1.Arceri_Ingresso = [5, 0, 0, 0, 0];
+            //    player1.Catapulte_Ingresso = [0, 0, 0, 0, 0];
+            //
+            //    player1.Guerrieri_Cancello = [5, 0, 0, 0, 0];
+            //    player1.Lanceri_Cancello = [5, 0, 0, 0, 0];
+            //    player1.Arceri_Cancello = [5, 0, 0, 0, 0];
+            //    player1.Catapulte_Cancello = [5, 0, 0, 0, 0];
+            //}
 
             Gioco.Barbari.GeneraVillaggiPerGiocatore(player1);
         }
@@ -280,7 +294,7 @@ namespace Server_Strategico.Server
                 foreach (var kv in players)
                 {
                     var player = kv.Value;
-                    if (player.ScudoDellaPace != 0) continue;
+                    if (player.ScudoDellaPace != 0 || player.Livello < Variabili_Server.PVP_Unlock) continue; //Continue salta il codice sottostante? riparte con un nuovo ciclo?
                     if (indexCache.TryGetValue(player.Username, out int idx))
                     {
                         var utentePVP = Utenti_PVP[idx];
@@ -296,7 +310,7 @@ namespace Server_Strategico.Server
             public async Task PrintResourcesAsync()
             {
                 Process proc = Process.GetCurrentProcess();
-                double ramMb = proc.WorkingSet64 / 1024.0 / 1024.0; // RAM in MB
+                double ramMb = proc.WorkingSet64 / 1024.0 / 1024.0; // RAM in Byte
                 TimeSpan currentCpu = proc.TotalProcessorTime; // CPU
                 DateTime now = DateTime.UtcNow;
 
@@ -312,7 +326,7 @@ namespace Server_Strategico.Server
                 _lastCpu = currentCpu;
                 _lastTime = now;
                 Console.WriteLine($"[Server Resources] Totale - RAM: {ramMb:F2} MB | CPU: {cpuPercent:F2} %");
-                Console.WriteLine($"[Server Resources] X player - RAM: {ramMb/players.Count()*1024:F2} KB");
+                Console.WriteLine($"[Server Resources] X player - RAM: {(ramMb - Variabili_Server._Server_Consumo_RAM) / players.Count()*1024:F2} KB");
                 await Task.CompletedTask;
             }
 
@@ -365,18 +379,23 @@ namespace Server_Strategico.Server
             }
             public async Task RunGameLoopAsync(CancellationToken cancellationToken)
             {
-                int saveCounter = 0, saveCounterPlayer = 0, riparazioni = 0, _firstStart = 0;
+                int saveCounter = 0, saveCounterPlayer = 0, riparazioni = 0, _firstStart = 0, stats = 0;
                 double totale_Stats = 0, media_Stats = 0, min_Stats = 0, max_Stats = 0, numero_Stats = 0;
 
                 // --- BLOCCO RIPRISTINATO: GENERAZIONE GIOCATORI ---
-                await addBOT(50000);
-
+                if (Variabili_Server._Server_Consumo_RAM == 0)
+                {
+                    Process proc = Process.GetCurrentProcess();
+                    Variabili_Server._Server_Consumo_RAM = (int)(proc.WorkingSet64 / 1024.0 / 1024.0);
+                    Console.WriteLine($"[Server] Baseline RAM impostata: {Variabili_Server._Server_Consumo_RAM:F2} MB");
+                }
+                //await addBOT(250000);
                 // --- BLOCCO RIPRISTINATO: INIZIALIZZAZIONE ---
                 await GameSave.LoadServerData();
                 await GameSave.Load_Player_Data_Auto();
                 servers_.AggiornaListaPVP();
                 await Gioco.Barbari.Inizializza();
-                //CompleteTask(cancellationToken); //Avvolte genera un'eccezione... la collezione è stata modificata.
+                CompleteTask(cancellationToken); //Avvolte genera un'eccezione... la collezione è stata modificata.
                 ScheduleManager.AvvioReset();
                 // ----------------------------------------------
 
@@ -389,25 +408,20 @@ namespace Server_Strategico.Server
 
                     Stopwatch taskStopwatch = Stopwatch.StartNew();
                     saveCounter++;
+                    saveCounterPlayer++;
                     riparazioni++;
+                    stats++;
 
                     for (int i = 0; i < maxConcurrentTasks; i++)
-                    {
                         workers[i] = Task.Run(() =>
                         {
                             while (queue.TryDequeue(out var player))
                             {
-                                // === IDENTICA LOGICA PLAYER ===
-                                if (player.building_Queue.Count != 0) BuildingManager.CompleteBuilds(player.guid_Player, player);
-                                if (player.recruit_Queue.Count != 0)UnitManager.CompleteRecruitment(player.guid_Player, player);
-                                if (player.currentTasks_Research.Count != 0) ResearchManager.CompleteResearch(player.guid_Player, player);
-
                                 //player.Esperienza += 235;
-
-                                if (_firstStart == 0)
+                                if (player.Stato_Giocatore == false) continue; // Se il giocatore è inattivo, salta tutte le operazioni e passa al successivo.
+                                if (_firstStart == 0) // X "Scaldare" i thread
                                 {
-                                    player.SetupVillaggioGiocatore(); //Richiamare solo quando effettivamente c'è bisogno +- 145 ms in più su 50000 player
-                                    player.SetupCaserme();
+                                    player.SetupVillaggioGiocatore(player); //Richiamare solo quando effettivamente c'è bisogno +- 145 ms in più su 50000 player
                                     player.BonusPacchetti();
                                     Ripara(player);
                                     CalcoloPotenza(player);
@@ -427,18 +441,12 @@ namespace Server_Strategico.Server
                                 player.ManutenzioneEsercito();
                                 player.ServerTimer();
                                 player.ResetGiornaliero();
-
-                                if (player.Vip || player.GamePass_Base || player.GamePass_Avanzato) player.BonusPacchetti();
-                                if (player.currentTasks_Building.Count > 0) player.Tempo_Costruzione++;
-                                if (player.currentTasks_Recruit.Count > 0) player.Tempo_Addestramento++;
-                                if (player.currentTasks_Research.Count > 0) player.Tempo_Ricerca++;
                             }
                         });
-                    }
                     await Task.WhenAll(workers); // Attendiamo il completamento di tutti i Task... qui avvienecl'esecuzione del codice sopra
 
-                    TimeSpan tempoImpiegato_1 = taskStopwatch.Elapsed;
-                    Console.WriteLine($"[PERF] 1 - Server elaborato in:    [{tempoImpiegato_1.TotalMilliseconds:F4} ms]");
+                    //TimeSpan tempoImpiegato_1 = taskStopwatch.Elapsed;
+                    //Console.WriteLine($"[PERF] 1 - Server elaborato in:    [{tempoImpiegato_1.TotalMilliseconds:F4} ms]");
 
                     if (saveCounter >= 300)
                     {
@@ -452,8 +460,8 @@ namespace Server_Strategico.Server
                         SaveSomePlayersAsync(100); //Salva 50 player per volta...
                     }
 
-                    TimeSpan tempoImpiegato_3 = taskStopwatch.Elapsed;
-                    Console.WriteLine($"[PERF] 3 - Server elaborato in:    [{tempoImpiegato_3.TotalMilliseconds:F4} ms]");
+                    //TimeSpan tempoImpiegato_3 = taskStopwatch.Elapsed;
+                    //Console.WriteLine($"[PERF] 3 - Server elaborato in:    [{tempoImpiegato_3.TotalMilliseconds:F4} ms]");
 
                     if (riparazioni >= Variabili_Server.tempo_Riparazione)
                     {
@@ -462,37 +470,41 @@ namespace Server_Strategico.Server
                         servers_.AggiornaListaPVP();
                     }
 
-                    TimeSpan tempoImpiegato_4 = taskStopwatch.Elapsed;
-                    Console.WriteLine($"[PERF] 4 - Server elaborato in:    [{tempoImpiegato_4.TotalMilliseconds:F4} ms]");
+                    //TimeSpan tempoImpiegato_4 = taskStopwatch.Elapsed;
+                    //Console.WriteLine($"[PERF] 4 - Server elaborato in:    [{tempoImpiegato_4.TotalMilliseconds:F4} ms]");
 
                     Auto_Update_Clients();
-                    TimeSpan tempoImpiegato_5 = taskStopwatch.Elapsed;
-                    Console.WriteLine($"[PERF] 5 - Server elaborato in:    [{tempoImpiegato_5.TotalMilliseconds:F4} ms]");
+                    //TimeSpan tempoImpiegato_5 = taskStopwatch.Elapsed;
+                    //Console.WriteLine($"[PERF] 5 - Server elaborato in:    [{tempoImpiegato_5.TotalMilliseconds:F4} ms]");
 
                     if (Variabili_Server.timer_Reset_Quest > 0) Variabili_Server.timer_Reset_Quest--;
                     if (Variabili_Server.timer_Reset_Quest == 0) QuestManager.RigeneraQuest();
                     if (Variabili_Server.timer_Reset_Barbari > 0) Variabili_Server.timer_Reset_Barbari--;
                     if (Variabili_Server.timer_Reset_Barbari == 0) Barbari.RigeneraBarbari();
-                    taskStopwatch.Stop();
 
-                    // Log del tempo totale
+                    //// Log del tempo totale
+                    taskStopwatch.Stop();
                     TimeSpan tempoImpiegato_2 = taskStopwatch.Elapsed;
+                    if (stats >= 60)
+                    {
+                        PrintResourcesAsync();
+                        Console.WriteLine("Core: " + maxConcurrentTasks + " Giocatori: " + players.Count());
+                        Console.WriteLine($"[PERF] A - Server elaborato in:    [{tempoImpiegato_2.TotalMilliseconds:F4} ms]");
+                        Console.WriteLine($"[PERF] B - Min:                    [{min_Stats:F4} ms]");
+                        Console.WriteLine($"[PERF] C - Med:                    [{media_Stats:F4} ms]");
+                        Console.WriteLine($"[PERF] D - Max:                    [{max_Stats:F4} ms]");
+                        Console.WriteLine($"[PERF] E - X player:               [{(media_Stats / players.Count()):F5} ms]\n");
+                        stats = 0;
+                    }
                     if (numero_Stats < 3) numero_Stats += 1;
                     else
                     {
                         numero_Stats += 1;
                         totale_Stats += tempoImpiegato_2.TotalMilliseconds;
                         media_Stats = totale_Stats / numero_Stats;
-
+                    
                         if (tempoImpiegato_2.TotalMilliseconds > max_Stats) max_Stats = tempoImpiegato_2.TotalMilliseconds;
                         if (tempoImpiegato_2.TotalMilliseconds < min_Stats || min_Stats == 0) min_Stats = tempoImpiegato_2.TotalMilliseconds;
-
-                        Console.WriteLine("Core: " + maxConcurrentTasks + " Giocatori: " + players.Count());
-                        Console.WriteLine($"[PERF] A - Server elaborato in:    [{tempoImpiegato_2.TotalMilliseconds:F4} ms]");
-                        Console.WriteLine($"[PERF] B - Min:                    [{min_Stats:F4} ms]");
-                        Console.WriteLine($"[PERF] C - Med:                    [{media_Stats:F4} ms]");
-                        Console.WriteLine($"[PERF] E - Max:                    [{max_Stats:F4} ms]");
-                        Console.WriteLine($"[PERF] D - X player:               [{(media_Stats / players.Count()):F5} ms]\n");
                     }
 
                     // Regolazione dinamica del ritardo (per tornare a 1000ms totali)
@@ -504,6 +516,7 @@ namespace Server_Strategico.Server
             public async Task SaveSomePlayersAsync(int count)
             {
                 if (players.Count == 0) return;
+                if (players.Count < count) count = players.Count;
                 var list = players.Values.ToList();
 
                 for (int i = 0; i < count; i++)
@@ -515,7 +528,6 @@ namespace Server_Strategico.Server
                     await GameSave.SavePlayer(player);
                 }
             }
-
             public static void CalcoloPotenza(Player player)
             {
                 const int p_Strutture = 25;
@@ -572,16 +584,63 @@ namespace Server_Strategico.Server
                 // Totale
                 player.Potenza_Totale = player.Potenza_Strutture + player.Potenza_Esercito + player.Potenza_Ricerca;
             }
-            public async Task CompleteTask(CancellationToken cancellationToken)
+            public async Task CompleteTask(CancellationToken cancellationToken) //Task parallelo, andrebbe usato x richiamare cose, costruzioni, tempo, ecc...
             {
+                int tempo_1 = 0;
                 while (!cancellationToken.IsCancellationRequested)
                 {
                     foreach (var player in players.Values)
                     {
-                        BuildingManager.CompleteBuilds(player.guid_Player, player);
-                        UnitManager.CompleteRecruitment(player.guid_Player, player);
+                        // Vecchio codice completamento
+                        //BuildingManager.CompleteBuilds(player.guid_Player, player);
+                        //UnitManager.CompleteRecruitment(player.guid_Player, player);
                         ResearchManager.CompleteResearch(player.guid_Player, player);
+
+                        // -- V2 --
+                        BuildingManagerV2.CompleteBuilds(player.guid_Player, player);
+                        UnitManagerV2.CompleteRecruitment(player.guid_Player, player);
+                        QuestManager.QuestUpdate(player);
+                        string a = player.Username;
+                        if (tempo_1 >= 10)
+                        {
+                            if (player.Vip || player.GamePass_Base || player.GamePass_Avanzato) player.BonusPacchetti();
+                            if (player.task_Attuale_Costruzioni.Count > 0) player.Tempo_Costruzione++;
+                            if (player.task_Attuale_Recutamento.Count > 0) player.Tempo_Addestramento++;
+                            if (player.currentTasks_Research.Count > 0) player.Tempo_Ricerca++;
+
+                            lock (player.LockCostruzione)
+                            {
+                                if (player.task_Attuale_Costruzioni.Count > 0)
+                                    foreach (var task in player.task_Attuale_Costruzioni)
+                                    {
+                                        if (player.task_Attuale_Costruzioni[0].IsPaused) task.Resume();
+                                        if (!task.IsComplete() && !task.IsPaused) 
+                                            task.TempoInSecondi -= 1;
+                                    }
+                                
+                                if (player.task_Attuale_Costruzioni.Count == 0)
+                                    for (int i = 0; i <= player.Code_Costruzione; i++)
+                                        if (player.task_Coda_Costruzioni.Count() > 0)
+                                            player.task_Attuale_Costruzioni.Add(player.task_Coda_Costruzioni.Dequeue());
+                            }
+                            lock (player.LockReclutamento)
+                            {
+                                if (player.task_Attuale_Recutamento.Count > 0)
+                                    foreach (var task in player.task_Attuale_Recutamento)
+                                    {
+                                        if (player.task_Attuale_Recutamento[0].IsPaused) task.Resume();
+                                        if (!task.IsComplete() && !task.IsPaused) task.TempoInSecondi -= 1;
+                                    }
+
+                                if (player.task_Attuale_Recutamento.Count == 0)
+                                    for (int i = 0; i <= player.Code_Costruzione; i++)
+                                        if (player.task_Coda_Recutamento.Count() > 0)
+                                            player.task_Attuale_Recutamento.Add(player.task_Coda_Recutamento.Dequeue());
+                            }
+                        }
                     }
+                    if (tempo_1 >= 10) tempo_1 = 0;     
+                    tempo_1++;
                     await Task.Delay(100); // Ciclo ogni secondo, o regola il ritardo come necessario
                 }
             }
@@ -687,7 +746,7 @@ namespace Server_Strategico.Server
                     }
                 }
             }
-            public void GuerrieriCitta(Player player)
+            public static void GuerrieriCitta(Player player)
             {
                 player.Guarnigione_Ingresso = player.Guerrieri_Ingresso.Sum() + player.Lanceri_Ingresso.Sum() + player.Arceri_Ingresso.Sum() + player.Catapulte_Ingresso.Sum();
                 player.Guarnigione_Citta = player.Guerrieri_Citta.Sum() + player.Lanceri_Citta.Sum() + player.Arceri_Citta.Sum() + player.Catapulte_Citta.Sum();
