@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "RKH5LSWZiac=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\TheCh\\source\\repos\\Online-Cripto-Game\\Server Strategico\\Server Strategico.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\TheCh\\.nuget\\packages\\newtonsoft.json\\13.0.4\\newtonsoft.json.13.0.4.nupkg.sha512",
+    "C:\\Users\\TheCh\\.nuget\\packages\\system.text.encodings.web\\7.0.0\\system.text.encodings.web.7.0.0.nupkg.sha512",
+    "C:\\Users\\TheCh\\.nuget\\packages\\system.text.json\\7.0.0\\system.text.json.7.0.0.nupkg.sha512",
+    "C:\\Users\\TheCh\\.nuget\\packages\\watsontcp\\6.0.6\\watsontcp.6.0.6.nupkg.sha512"
+  ],
+  "logs": []
+}
