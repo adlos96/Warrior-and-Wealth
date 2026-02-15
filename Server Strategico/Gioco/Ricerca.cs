@@ -37,6 +37,7 @@ namespace Server_Strategico.Gioco
                 Pietra = 5000,
                 Ferro = 4750,
                 Oro = 4550,
+                Popolazione = 25,
                 TempoRicerca = 3600
             };
             public static dati Produzione = new dati
@@ -46,6 +47,7 @@ namespace Server_Strategico.Gioco
                 Pietra = 6000,
                 Ferro = 5750,
                 Oro = 5500,
+                Popolazione = 30,
                 TempoRicerca = 4500
             };
             public static dati Addestramento = new dati
@@ -55,6 +57,7 @@ namespace Server_Strategico.Gioco
                 Pietra = 6500,
                 Ferro = 6250,
                 Oro = 6000,
+                Popolazione = 25,
                 TempoRicerca = 5400
             };
             public static dati Popolazione = new dati
@@ -64,6 +67,7 @@ namespace Server_Strategico.Gioco
                 Pietra = 7500,
                 Ferro = 7250,
                 Oro = 7000,
+                Popolazione = 50,
                 TempoRicerca = 7200
             };
             public static dati Trasporto = new dati
@@ -73,6 +77,7 @@ namespace Server_Strategico.Gioco
                 Pietra = 15000,
                 Ferro = 14500,
                 Oro = 14250,
+                Popolazione = 40,
                 TempoRicerca = 129600
             };
             public static dati Riparazione = new dati
@@ -82,6 +87,7 @@ namespace Server_Strategico.Gioco
                 Pietra = 26500,
                 Ferro = 24750,
                 Oro = 24250,
+                Popolazione = 60,
                 TempoRicerca = 345600
             };
 
@@ -113,6 +119,7 @@ namespace Server_Strategico.Gioco
                 Pietra = 5500,
                 Ferro = 5250,
                 Oro = 5000,
+                Popolazione = 10,
                 TempoRicerca = 12600
             };
             public static dati Difesa = new dati
@@ -122,6 +129,7 @@ namespace Server_Strategico.Gioco
                 Pietra = 3500,
                 Ferro = 3500,
                 Oro = 3250,
+                Popolazione = 15,
                 TempoRicerca = 14400
             };
             public static dati Attacco = new dati
@@ -131,6 +139,7 @@ namespace Server_Strategico.Gioco
                 Pietra = 6000,
                 Ferro = 5750,
                 Oro = 5500,
+                Popolazione = 20,
                 TempoRicerca = 16200
             };
             public static dati Livello = new dati
@@ -140,6 +149,7 @@ namespace Server_Strategico.Gioco
                 Pietra = 7500,
                 Ferro = 7250,
                 Oro = 7000,
+                Popolazione = 25,
                 TempoRicerca = 21600
             };
 
@@ -164,36 +174,6 @@ namespace Server_Strategico.Gioco
                 Popolazione = 25
 
             };
-            public static dati Mura = new dati
-            {
-                Cibo = 7000,
-                Legno = 6750,
-                Pietra = 6500,
-                Ferro = 6250,
-                Oro = 6000,
-                TempoRicerca = 9000,
-                Popolazione = 30
-            };
-            public static dati Cancello = new dati
-            {
-                Cibo = 9000,
-                Legno = 8500,
-                Pietra = 8000,
-                Ferro = 8750,
-                Oro = 8500,
-                TempoRicerca = 10800,
-                Popolazione = 35
-            };
-            public static dati Torri = new dati
-            {
-                Cibo = 11000,
-                Legno = 10750,
-                Pietra = 10500,
-                Ferro = 10250,
-                Oro = 10000,
-                TempoRicerca = 14400,
-                Popolazione = 40
-            };
             public static dati Città = new dati
             {
                 Cibo = 13000,
@@ -204,7 +184,161 @@ namespace Server_Strategico.Gioco
                 TempoRicerca = 18000,
                 Popolazione = 45
             };
-            public static dati Castello = new dati
+
+            public static dati Mura_Livello = new dati
+            {
+                Cibo = 7000,
+                Legno = 6750,
+                Pietra = 6500,
+                Ferro = 6250,
+                Oro = 6000,
+                TempoRicerca = 9000,
+                Popolazione = 30
+            };
+            public static dati Mura_Salute = new dati
+            {
+                Cibo = 7000,
+                Legno = 6750,
+                Pietra = 6500,
+                Ferro = 6250,
+                Oro = 6000,
+                TempoRicerca = 9000,
+                Popolazione = 30
+            };
+            public static dati Mura_Difesa = new dati
+            {
+                Cibo = 7000,
+                Legno = 6750,
+                Pietra = 6500,
+                Ferro = 6250,
+                Oro = 6000,
+                TempoRicerca = 9000,
+                Popolazione = 30
+            };
+            public static dati Mura_Guarnigione = new dati
+            {
+                Cibo = 7000,
+                Legno = 6750,
+                Pietra = 6500,
+                Ferro = 6250,
+                Oro = 6000,
+                TempoRicerca = 9000,
+                Popolazione = 30
+            };
+
+            public static dati Cancello_Livello = new dati
+            {
+                Cibo = 9000,
+                Legno = 8500,
+                Pietra = 8000,
+                Ferro = 8750,
+                Oro = 8500,
+                TempoRicerca = 10800,
+                Popolazione = 35
+            };
+            public static dati Cancello_Salute = new dati
+            {
+                Cibo = 9000,
+                Legno = 8500,
+                Pietra = 8000,
+                Ferro = 8750,
+                Oro = 8500,
+                TempoRicerca = 10800,
+                Popolazione = 35
+            };
+            public static dati Cancello_Difesa = new dati
+            {
+                Cibo = 9000,
+                Legno = 8500,
+                Pietra = 8000,
+                Ferro = 8750,
+                Oro = 8500,
+                TempoRicerca = 10800,
+                Popolazione = 35
+            };
+            public static dati Cancello_Guarnigione = new dati
+            {
+                Cibo = 9000,
+                Legno = 8500,
+                Pietra = 8000,
+                Ferro = 8750,
+                Oro = 8500,
+                TempoRicerca = 10800,
+                Popolazione = 35
+            };
+
+            public static dati Torri_Livello = new dati
+            {
+                Cibo = 11000,
+                Legno = 10750,
+                Pietra = 10500,
+                Ferro = 10250,
+                Oro = 10000,
+                TempoRicerca = 14400,
+                Popolazione = 40
+            };
+            public static dati Torri_Salute = new dati
+            {
+                Cibo = 11000,
+                Legno = 10750,
+                Pietra = 10500,
+                Ferro = 10250,
+                Oro = 10000,
+                TempoRicerca = 14400,
+                Popolazione = 40
+            };
+            public static dati Torri_Difesa = new dati
+            {
+                Cibo = 11000,
+                Legno = 10750,
+                Pietra = 10500,
+                Ferro = 10250,
+                Oro = 10000,
+                TempoRicerca = 14400,
+                Popolazione = 40
+            };
+            public static dati Torri_Guarnigione = new dati
+            {
+                Cibo = 11000,
+                Legno = 10750,
+                Pietra = 10500,
+                Ferro = 10250,
+                Oro = 10000,
+                TempoRicerca = 14400,
+                Popolazione = 40
+            };
+
+            public static dati Castello_Livello = new dati
+            {
+                Cibo = 15000,
+                Legno = 14750,
+                Pietra = 14500,
+                Ferro = 14250,
+                Oro = 14000,
+                TempoRicerca = 21600,
+                Popolazione = 60
+            };
+            public static dati Castello_Salute = new dati
+            {
+                Cibo = 15000,
+                Legno = 14750,
+                Pietra = 14500,
+                Ferro = 14250,
+                Oro = 14000,
+                TempoRicerca = 21600,
+                Popolazione = 60
+            };
+            public static dati Castello_Difesa = new dati
+            {
+                Cibo = 15000,
+                Legno = 14750,
+                Pietra = 14500,
+                Ferro = 14250,
+                Oro = 14000,
+                TempoRicerca = 21600,
+                Popolazione = 60
+            };
+            public static dati Castello_Guarnigione = new dati
             {
                 Cibo = 15000,
                 Legno = 14750,

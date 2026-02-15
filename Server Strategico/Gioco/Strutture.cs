@@ -41,72 +41,72 @@ namespace Server_Strategico.Gioco
             // Edifici Civili - Produzione Risorse
             public static Edifici Fattoria = new Edifici
             {
-                Cibo = 200,
-                Legno = 200,
-                Pietra = 200,
-                Ferro = 200,
-                Oro = 200,
-                Popolazione = 5,
-                Produzione = 1.06,
-                TempoCostruzione = 1800,
-                Limite = 1600
+                Cibo = 400,                 //Costo
+                Legno = 375,                //Costo 
+                Pietra = 350,               //Costo
+                Ferro = 325,                //Costo    
+                Oro = 300,                  //Costo
+                Popolazione = 5,            //Costo
+                Produzione = 1.06,          //Produzione Risorsa (tick)
+                TempoCostruzione = 1800,    //Tempo costruzione in secondi
+                Limite = 1600               //Spazio magazzino per la risorsa
             };
             public static Edifici Segheria = new Edifici
             {
-                Cibo = 275,
-                Legno = 275,
-                Pietra = 275,
-                Ferro = 275,
-                Oro = 275,
+                Cibo = 550,
+                Legno = 525,
+                Pietra = 500,
+                Ferro = 475,
+                Oro = 450,
                 Popolazione = 7,
                 Produzione = 0.90,
                 TempoCostruzione = 2044,
-                Limite = 1500
+                Limite = 1400
             };
             public static Edifici CavaPietra = new Edifici
             {
-                Cibo = 350,
-                Legno = 350,
-                Pietra = 350,
-                Ferro = 350,
-                Oro = 350,
+                Cibo = 700,
+                Legno = 675,
+                Pietra = 650,
+                Ferro = 625,
+                Oro = 600,
                 Popolazione = 10,
                 Produzione = 0.77,
                 TempoCostruzione = 2310,
-                Limite = 1400
+                Limite = 1300
             };
             public static Edifici MinieraFerro = new Edifici
             {
-                Cibo = 425,
-                Legno = 425,
-                Pietra = 425,
-                Ferro = 425,
-                Oro = 425,
+                Cibo = 850,
+                Legno = 825,
+                Pietra = 800,
+                Ferro = 775,
+                Oro = 750,
                 Popolazione = 10,
                 Produzione = 0.64,
                 TempoCostruzione = 2598,
-                Limite = 1300
+                Limite = 1200
             };
             public static Edifici MinieraOro = new Edifici
             {
-                Cibo = 500,
-                Legno = 500,
-                Pietra = 500,
-                Ferro = 500,
-                Oro = 500,
+                Cibo = 1000,
+                Legno = 975,
+                Pietra = 950,
+                Ferro = 925,
+                Oro = 900,
                 Popolazione = 10,
                 Produzione = 0.52,
                 TempoCostruzione = 2920,
-                Limite = 1200
+                Limite = 1100
             };
             public static Edifici Case = new Edifici
             {
-                Cibo = 2600,
-                Legno = 2200,
-                Pietra = 2700,
-                Ferro = 2400,
-                Oro = 2500,
-                Produzione = 0.0008,
+                Cibo = 2400,
+                Legno = 2000,
+                Pietra = 2500,
+                Ferro = 2200,
+                Oro = 2300,
+                Produzione = 0.0014,
                 TempoCostruzione = 3264,
                 Limite = 10
             };
@@ -143,11 +143,11 @@ namespace Server_Strategico.Gioco
             };
             public static Edifici ProduzioneArchi = new Edifici
             {
-                Cibo = 2450,
-                Legno = 2550,
-                Pietra = 2250,
-                Ferro = 2250,
-                Oro = 2350,
+                Cibo = 2550,
+                Legno = 2650,
+                Pietra = 2350,
+                Ferro = 2350,
+                Oro = 2450,
                 Popolazione = 15,
                 Produzione = 0.006,
                 Consumo_Legno = 0.49,
@@ -212,20 +212,20 @@ namespace Server_Strategico.Gioco
                 TempoCostruzione = 2600,
                 Consumo_Cibo = 0.45,
                 Consumo_Oro = 0.25,
-                Limite = 15
+                Limite = 14
             };
             public static Edifici CasermaLanceri = new Edifici
             {
-                Cibo = 3150,
-                Legno = 3150,
-                Pietra = 3150,
-                Ferro = 3150,
-                Oro = 3150,
+                Cibo = 3550,
+                Legno = 3550,
+                Pietra = 3550,
+                Ferro = 3550,
+                Oro = 3550,
                 Popolazione = 35,
                 TempoCostruzione = 2944,
                 Consumo_Cibo = 0.55,
                 Consumo_Oro = 0.30,
-                Limite = 10
+                Limite = 9
             };
             public static Edifici CasermaArceri = new Edifici
             {
@@ -242,11 +242,11 @@ namespace Server_Strategico.Gioco
             };
             public static Edifici CasermaCatapulte = new Edifici
             {
-                Cibo = 5050,
-                Legno = 5050,
-                Pietra = 5050,
-                Ferro = 5050,
-                Oro = 5050,
+                Cibo = 5250,
+                Legno = 5250,
+                Pietra = 5250,
+                Ferro = 5250,
+                Oro = 5250,
                 Popolazione = 55,
                 TempoCostruzione = 3998,
                 Consumo_Cibo = 0.95,
