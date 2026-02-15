@@ -1,7 +1,5 @@
 ﻿using CriptoGame_Online.Strumenti;
 using Strategico_V2;
-using System;
-
 
 namespace CriptoGame_Online.GUI
 {
@@ -39,7 +37,7 @@ namespace CriptoGame_Online.GUI
         {
             await Load_Guid();
             UpdateCombobox();
-
+            attacco_Premuto = false;
             this.ActiveControl = btn_Crea; // assegna il focus al bottone
             Task.Run(() => Gui_Update(cts.Token), cts.Token);
         }
@@ -59,13 +57,36 @@ namespace CriptoGame_Online.GUI
             if (tipo_Barbaro == "Città Barbare")
             {
                 comboBox_Villaggi.Items.Clear();
-                foreach (var item in Variabili_Client.CittaGlobali)
+
+                if (Convert.ToInt32(Variabili_Client.Utente.Livello) < Convert.ToInt32(Variabili_Client.unlock_Città_Barbare))
                 {
-                    int risorse = item.Cibo + item.Legno + item.Pietra + item.Ferro + item.Oro + item.Diamanti_Blu + item.Diamanti_Viola;
-                    if (risorse > 0)
-                        comboBox_Villaggi.Items.Add("Citta Barbare - Livello: " + item.Livello);
+                    txt_Villaggio_B_Desc.Text = $"Raggiungi il livello {Variabili_Client.unlock_Città_Barbare} per sbloccare le città barbare.\n Al momento puoi attaccare i villaggi barbari";
+                    btn_Attacco_PVE_Villaggio_B.Enabled = false;
+                    btn_Esplora_PVE_Villaggio_B.Enabled = false;
                 }
-                txt_Villaggio_B_Desc.Text = "Raggiungi il livello 5 per sbloccare le città. \n\rEsplora il barbaro per avere una stima delle sue truppe";
+                else
+                {
+                    txt_Villaggio_B_Desc.Text = "Esplora il barbaro per avere una stima delle sue truppe";
+                    btn_Attacco_PVE_Villaggio_B.Enabled = true;
+                    btn_Esplora_PVE_Villaggio_B.Enabled = true;
+
+                    foreach (var item in Variabili_Client.CittaGlobali)
+                    {
+                        int risorse = item.Cibo + item.Legno + item.Pietra + item.Ferro + item.Oro + item.Diamanti_Blu + item.Diamanti_Viola;
+                        if (risorse > 0)
+                            comboBox_Villaggi.Items.Add("Citta Barbare - Livello: " + item.Livello);
+                    }
+                }
+            }
+            if (Convert.ToInt32(Variabili_Client.Utente.Livello) < Convert.ToInt32(Variabili_Client.unlock_PVP))
+            {
+                btn_Attacco_PVP.Enabled = false;
+                txt_PVP.Text = $"Raggiungi il livello {Variabili_Client.unlock_PVP} per sbloccare il PVP.";
+            }
+            else
+            {
+                btn_Attacco_PVP.Enabled = true;
+                txt_PVP.Text = "Attacca altri giocatori per ottenere risorse e salire di livello.";
             }
         }
         void Raduni_Guid()
@@ -200,11 +221,20 @@ namespace CriptoGame_Online.GUI
             }
 
             var items = comboBox_PVP.Items;
-            if (Variabili_Client.Giocatori_PVP.Count > 0)
+            if (Variabili_Client.Giocatori_PVP.Count() > 0 
+                && Variabili_Client.Giocatori_PVP.Count() != comboBox_PVP.Items.Count 
+                && Convert.ToInt32(Variabili_Client.Utente.Livello) >= Convert.ToInt32(Variabili_Client.unlock_PVP))
+            {
+                comboBox_PVP.Items.Clear();
                 foreach (var i in Variabili_Client.Giocatori_PVP)
-                    comboBox_PVP.Items.Add(i);
-
-            lbl_Giocatori_PVP.Text = "Giocatori: " + comboBox_PVP.Items.Count;
+                    if (!i.Contains(Variabili_Client.Utente.Username)) comboBox_PVP.Items.Add(i); //Aggiunge tutti i giocatori tranne se stesso
+                lbl_Giocatori_PVP.Text = "Giocatori: " + comboBox_PVP.Items.Count;
+            }
+            else
+            {
+                lbl_Giocatori_PVP.Text = "Giocatori: 0";
+                if (comboBox_PVP.Items.Count > 0) comboBox_PVP.Items.Clear();
+            }
 
             trackBar_Guerriero.Value = 0;
             trackBar_Lanciere.Value = 0;
@@ -295,13 +325,9 @@ namespace CriptoGame_Online.GUI
                                 if (Città.Esplorato == true && btn_Esplora_PVE_Villaggio_B.Text == "Attacco") btn_Esplora_PVE_Villaggio_B.Enabled = true;
                             }
                         }
-                        if (comboBox_PVP.SelectedIndex < 0)
-                            btn_Attacco_PVP.Enabled = false;
-                        else
-                            btn_Attacco_PVP.Enabled = true;
                     }));
-                }
                 await Task.Delay(1000); // meglio di Thread.Sleep
+                }
             }
 
         }
@@ -472,7 +498,7 @@ namespace CriptoGame_Online.GUI
                 }
                 else
                 {
-                    ClientConnection.TestClient.Send($"Esplora|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Citta Barbaro|{comboBox_Villaggi.Text.Replace("Citta Barbara - Livello: ", "")}");
+                    ClientConnection.TestClient.Send($"Esplora|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Citta Barbaro|{comboBox_Villaggi.Text.Replace("Citta Barbare - Livello: ", "")}");
                     await Login.Sleep(5);
                 }
             }
@@ -640,7 +666,7 @@ namespace CriptoGame_Online.GUI
             int lancere = Convert.ToInt32(lbl_Lanciere.Text);
             int arcere = Convert.ToInt32(lbl_Arciere.Text);
             int catapulta = Convert.ToInt32(lbl_Catapulta.Text);
-
+            if (guerriero + lancere + arcere + catapulta == 0) return;
             if (livello_Esercito == 1)
             {
                 if (guerrieri_Temp[0] < guerriero) guerrieri_Temp[0] += guerriero;
