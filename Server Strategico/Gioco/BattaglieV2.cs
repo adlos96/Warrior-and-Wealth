@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using static Server_Strategico.Gioco.Esercito;
 using static Server_Strategico.Gioco.Giocatori;
-using static Server_Strategico.Gioco.QuestManager;
+using static Server_Strategico.Manager.QuestManager;
 using static Server_Strategico.Gioco.Ricerca;
 
 public class BattaglieV2
@@ -1147,7 +1147,7 @@ public class BattaglieV2
                     int g = result.FaseDistanza.AttackerKills_Guerrieri[i];
                     int l = result.FaseDistanza.AttackerKills_Lancieri[i];
                     if (g > 0 || l > 0)
-                        SendClient(attackerGuid, $"Log_Server|[highlight]Lv{i + 1}: [verde]{g} [highlight]Guerrieri + [verde]{l} [highlight]Lanceri");
+                        SendClient(attackerGuid, $"Log_Server|[highlight]Lv{i + 1}: [verde]{g} [highlight]Guerrieri + [verde]{l} [highlight]Lancieri");
                 }
                 SendClient(attackerGuid, $"Log_Server|[highlight]Tue perdite: [error]{result.FaseDistanza.GetTotalEnemyKills()} [highlight]unità.");
                 for (int i = 0; i < 5; i++)
@@ -1155,7 +1155,7 @@ public class BattaglieV2
                     int g = result.FaseDistanza.DefenderKills_Guerrieri[i];
                     int l = result.FaseDistanza.DefenderKills_Lancieri[i];
                     if (g > 0 || l > 0)
-                        SendClient(attackerGuid, $"Log_Server|[highlight]Lv{i + 1}: [error]{g} [highlight]Guerrieri + [error]{l} [highlight]Lanceri");
+                        SendClient(attackerGuid, $"Log_Server|[highlight]Lv{i + 1}: [error]{g} [highlight]Guerrieri + [error]{l} [highlight]Lancieri");
                 }
             }
             SendClient(attackerGuid, "Log_Server|");
@@ -1240,7 +1240,7 @@ public class BattaglieV2
                     int g = result.FaseDistanza.AttackerKills_Guerrieri[i];
                     int l = result.FaseDistanza.AttackerKills_Lancieri[i];
                     if (g > 0 || l > 0)
-                        SendClient(defenderGuid, $"Log_Server|[highlight]Lv{i + 1}: [verde]{g} [highlight]Guerrieri + [verde]{l} [highlight]Lanceri");
+                        SendClient(defenderGuid, $"Log_Server|[highlight]Lv{i + 1}: [verde]{g} [highlight]Guerrieri + [verde]{l} [highlight]Lancieri");
                 }
                 SendClient(defenderGuid, $"Log_Server|[highlight]Tue perdite: [error]{result.FaseDistanza.GetTotalPlayerKills()} [highlight]unità.\n");
                 for (int i = 0; i < 5; i++)
@@ -1248,7 +1248,7 @@ public class BattaglieV2
                     int g = result.FaseDistanza.DefenderKills_Guerrieri[i];
                     int l = result.FaseDistanza.DefenderKills_Lancieri[i];
                     if (g > 0 || l > 0)
-                        SendClient(defenderGuid, $"Log_Server|[highlight]Lv{i + 1}: [error]{g} [highlight]Guerrieri + [error]{l} [highlight]Lanceri");
+                        SendClient(defenderGuid, $"Log_Server|[highlight]Lv{i + 1}: [error]{g} [highlight]Guerrieri + [error]{l} [highlight]Lancieri");
                 }
             }
         }
@@ -1335,12 +1335,12 @@ public class BattaglieV2
                 int l = result.FaseDistanza.AttackerKills_Lancieri[i];
                 if (g > 0 || l > 0)
                 {
-                    SendClient(clientGuid, $"Log_Server|[highlight]Lv{i + 1}: [error]{g} [highlight]Guerrieri + [error]{l} [highlight]Lanceri");
+                    SendClient(clientGuid, $"Log_Server|[highlight]Lv{i + 1}: [error]{g} [highlight]Guerrieri + [error]{l} [highlight]Lancieri");
                     totGuerrieri += g;
                     totLancieri += l;
                 }
             }
-            SendClient(clientGuid, $"Log_Server|[highlight]TOT: [error]{totGuerrieri} [highlight]Guerrieri + [error]{totLancieri} [highlight]Lanceri");
+            SendClient(clientGuid, $"Log_Server|[highlight]TOT: [error]{totGuerrieri} [highlight]Guerrieri + [error]{totLancieri} [highlight]Lancieri");
 
             SendClient(clientGuid, $"Log_Server|\n[highlight]Perdite giocatore:");
             int totTueG = 0, totTueL = 0;
@@ -1350,12 +1350,12 @@ public class BattaglieV2
                 int l = result.FaseDistanza.DefenderKills_Lancieri[i];
                 if (g > 0 || l > 0)
                 {
-                    SendClient(clientGuid, $"Log_Server|[highlight]Lv{i + 1}: [error]{g} [highlight]Guerrieri + [error]{l} [highlight]Lanceri");
+                    SendClient(clientGuid, $"Log_Server|[highlight]Lv{i + 1}: [error]{g} [highlight]Guerrieri + [error]{l} [highlight]Lancieri");
                     totTueG += g;
                     totTueL += l;
                 }
             }
-            SendClient(clientGuid, $"Log_Server|[highlight]TOT: [error]{totTueG} [highlight]Guerrieri + [error]{totTueL} [highlight]Lanceri");
+            SendClient(clientGuid, $"Log_Server|[highlight]TOT: [error]{totTueG} [highlight]Guerrieri + [error]{totTueL} [highlight]Lancieri");
             SendClient(clientGuid, "Log_Server|");
         }
         if (true) // Solo per non cambiare nomi alle variabili g,l,a,c

@@ -723,7 +723,7 @@ namespace Server_Strategico.Gioco
 
             if (player.Frecce < arcieri * Esercito.Unità.Arcere_1.Componente_Lancio + catapulte * Esercito.Unità.Catapulta_1.Componente_Lancio)
             {
-                Send(clientGuid, $"Log_Server|Gli arceri e le catapulte del giocatore [{player.Username}] subiscono una riduzione del danno per mancanza di frecce [{arcieri * Esercito.Unità.Arcere_1.Componente_Lancio + catapulte * Esercito.Unità.Catapulta_1.Componente_Lancio}/{player.Frecce}]:");
+                Send(clientGuid, $"Log_Server|Gli arcieri e le catapulte del giocatore [{player.Username}] subiscono una riduzione del danno per mancanza di frecce [{arcieri * Esercito.Unità.Arcere_1.Componente_Lancio + catapulte * Esercito.Unità.Catapulta_1.Componente_Lancio}/{player.Frecce}]:");
                 arcieri_Temp = arcieri_Temp / 3;
                 catapulte_Temp = catapulte_Temp / 3;
                 player.Frecce = 0;
@@ -733,7 +733,7 @@ namespace Server_Strategico.Gioco
 
             if (player2.Frecce < arcieri_Enemy * Esercito.Unità.Arcere_1.Componente_Lancio + catapulte_Enemy * Esercito.Unità.Catapulta_1.Componente_Lancio)
             {
-                Send(clientGuid, $"Log_Server|Gli arceri e le catapulte del giocatore [{player2.Username}] subiscono una riduzione del danno per mancanza di frecce [{arcieri_Enemy * Esercito.Unità.Arcere_1.Componente_Lancio + catapulte_Enemy * Esercito.Unità.Catapulta_1.Componente_Lancio}/{player.Frecce}]:");
+                Send(clientGuid, $"Log_Server|Gli arcieri e le catapulte del giocatore [{player2.Username}] subiscono una riduzione del danno per mancanza di frecce [{arcieri_Enemy * Esercito.Unità.Arcere_1.Componente_Lancio + catapulte_Enemy * Esercito.Unità.Catapulta_1.Componente_Lancio}/{player.Frecce}]:");
                 arcieri_Enemy_Temp = arcieri_Enemy_Temp / 3;
                 catapulte_Enemy_Temp = catapulte_Enemy_Temp / 3;
                 player2.Frecce = 0;
@@ -791,20 +791,20 @@ namespace Server_Strategico.Gioco
                 int esperienza2 = guerrieri_Morti_Att * Esercito.Unità.Guerriero_1.Esperienza + lancieri_Morti_Att * Esercito.Unità.Lancere_1.Esperienza;
 
                 Send(clientGuid2, $"Log_Server|Guerrieri morti: {guerrieri_Morti}/{player2.Guerrieri} Lancieri morti:  {lancieri_Morti}/{player2.Lanceri}\r\n Esperienza:  {esperienza2}\r\n");
-                Send(clientGuid2, $"Log_Server|Gli arceri e le catapulte del giocatore [{player2.Username}] hanno causato:");
+                Send(clientGuid2, $"Log_Server|Gli arcieri e le catapulte del giocatore [{player2.Username}] hanno causato:");
                 Send(clientGuid2, $"Log_Server|Frecce utilizzate: {arcieri_Enemy * Esercito.Unità.Arcere_1.Componente_Lancio + catapulte_Enemy * Esercito.Unità.Catapulta_1.Componente_Lancio}");
 
                 player2.Guerrieri[0] = guerrieri_Enemy;
                 player2.Lanceri[0] = picchieri_Enemy;
 
             }
-            Console.WriteLine($"Gli arceri e le catapulte del giocatore [{player.Username}] hanno causato:");
+            Console.WriteLine($"Gli arcieri e le catapulte del giocatore [{player.Username}] hanno causato:");
             Console.WriteLine($"Guerrieri morti: {guerrieri_Morti_Att} Lancieri morti:  {lancieri_Morti_Att}");
 
             Send(clientGuid, $"Log_Server|Guerrieri morti: {guerrieri_Morti_Att} Lancieri morti:  {lancieri_Morti_Att}\r\n");
-            Send(clientGuid, $"Log_Server|Gli arceri e le catapulte del giocatore [{player.Username}] hanno causato:");
+            Send(clientGuid, $"Log_Server|Gli arcieri e le catapulte del giocatore [{player.Username}] hanno causato:");
             Send(clientGuid2, $"Log_Server|Guerrieri morti: {guerrieri_Morti_Att} Lancieri morti:  {lancieri_Morti_Att}\r\n");
-            Send(clientGuid2, $"Log_Server|Gli arceri e le catapulte del giocatore [{player.Username}] hanno causato:");
+            Send(clientGuid2, $"Log_Server|Gli arcieri e le catapulte del giocatore [{player.Username}] hanno causato:");
 
             if (arcieri_Enemy > 0 || catapulte_Enemy > 0)
             {
@@ -842,14 +842,14 @@ namespace Server_Strategico.Gioco
                 int esperienza1 = guerrieri_Morti * Esercito.Unità.Guerriero_1.Esperienza + lancieri_Morti * Esercito.Unità.Lancere_1.Esperienza;
 
                 Send(clientGuid, $"Log_Server|Guerrieri morti: {guerrieri_Morti}/{player.Guerrieri} Lancieri morti:  {lancieri_Morti}/{player.Lanceri}\r\n Esperienza:  {esperienza1}\r\n");
-                Send(clientGuid, $"Log_Server|Gli arceri e le catapulte del giocatore [{player2.Username}] hanno causato:");
+                Send(clientGuid, $"Log_Server|Gli arcieri e le catapulte del giocatore [{player2.Username}] hanno causato:");
                 Send(clientGuid, $"Log_Server|Frecce utilizzate: {arcieri * Esercito.Unità.Arcere_1.Componente_Lancio + catapulte * Esercito.Unità.Catapulta_1.Componente_Lancio}");
 
                 player.Guerrieri[0] = guerrieri;
                 player.Lanceri[0] = picchieri;
             }
 
-            Console.WriteLine($"Gli arceri e le catapulte del giocatore [{player.Username}] hanno causato:");
+            Console.WriteLine($"Gli arcieri e le catapulte del giocatore [{player.Username}] hanno causato:");
             Console.WriteLine($"Guerrieri morti: {guerrieri_Morti} Lancieri morti:  {lancieri_Morti}");
             return true;
         } // Arcieri e Mezzi d'assedio attaccano prima della battaglia (giocatore-giocatore)
