@@ -159,7 +159,7 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(32, 36, 47);
-            panel2.BackgroundImage = Properties.Resources.icons8_medieval_48;
+            panel2.BackgroundImage = Properties.Resources.Catapulta_V2;
             panel2.BackgroundImageLayout = ImageLayout.Stretch;
             panel2.BorderStyle = BorderStyle.FixedSingle;
             panel2.ImeMode = ImeMode.NoControl;
@@ -220,7 +220,7 @@
             // 
             // ico_Unit_3
             // 
-            ico_Unit_3.BackgroundImage = Properties.Resources.Arciere_V2_removebg_preview;
+            ico_Unit_3.BackgroundImage = Properties.Resources.Arciere_V2;
             ico_Unit_3.BackgroundImageLayout = ImageLayout.Zoom;
             ico_Unit_3.Location = new Point(4, 4);
             ico_Unit_3.Name = "ico_Unit_3";
@@ -334,7 +334,7 @@
             // 
             // ico_Unit_2
             // 
-            ico_Unit_2.BackgroundImage = Properties.Resources.Lancere_V2_removebg_preview;
+            ico_Unit_2.BackgroundImage = Properties.Resources.Lanciere_V2;
             ico_Unit_2.BackgroundImageLayout = ImageLayout.Zoom;
             ico_Unit_2.Location = new Point(4, 4);
             ico_Unit_2.Name = "ico_Unit_2";
@@ -381,7 +381,7 @@
             // 
             // ico_Unit_1
             // 
-            ico_Unit_1.BackgroundImage = Properties.Resources.Guerriero_V2_removebg_preview;
+            ico_Unit_1.BackgroundImage = Properties.Resources.Guerriero_V2;
             ico_Unit_1.BackgroundImageLayout = ImageLayout.Zoom;
             ico_Unit_1.Location = new Point(4, 3);
             ico_Unit_1.Name = "ico_Unit_1";
@@ -455,7 +455,7 @@
             // panel_Catapulta
             // 
             panel_Catapulta.BackColor = Color.FromArgb(32, 36, 47);
-            panel_Catapulta.BackgroundImage = Properties.Resources.icons8_medieval_48;
+            panel_Catapulta.BackgroundImage = Properties.Resources.Catapulta_V2;
             panel_Catapulta.BackgroundImageLayout = ImageLayout.Stretch;
             panel_Catapulta.BorderStyle = BorderStyle.FixedSingle;
             panel_Catapulta.ImeMode = ImeMode.NoControl;
@@ -588,7 +588,7 @@
             // 
             // doubleBufferedPanel2
             // 
-            doubleBufferedPanel2.BackgroundImage = Properties.Resources.Guerriero_V2_removebg_preview;
+            doubleBufferedPanel2.BackgroundImage = Properties.Resources.Guerriero_V2;
             doubleBufferedPanel2.BackgroundImageLayout = ImageLayout.Zoom;
             doubleBufferedPanel2.Location = new Point(4, 3);
             doubleBufferedPanel2.Name = "doubleBufferedPanel2";
@@ -635,7 +635,7 @@
             // 
             // doubleBufferedPanel10
             // 
-            doubleBufferedPanel10.BackgroundImage = Properties.Resources.Arciere_V2_removebg_preview;
+            doubleBufferedPanel10.BackgroundImage = Properties.Resources.Arciere_V2;
             doubleBufferedPanel10.BackgroundImageLayout = ImageLayout.Zoom;
             doubleBufferedPanel10.Location = new Point(4, 3);
             doubleBufferedPanel10.Name = "doubleBufferedPanel10";
@@ -682,7 +682,7 @@
             // 
             // doubleBufferedPanel6
             // 
-            doubleBufferedPanel6.BackgroundImage = Properties.Resources.Lancere_V2_removebg_preview;
+            doubleBufferedPanel6.BackgroundImage = Properties.Resources.Lanciere_V2;
             doubleBufferedPanel6.BackgroundImageLayout = ImageLayout.Zoom;
             doubleBufferedPanel6.Location = new Point(4, 3);
             doubleBufferedPanel6.Name = "doubleBufferedPanel6";

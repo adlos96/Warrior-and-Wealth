@@ -178,6 +178,7 @@
             Controls.Add(groupBox1);
             Name = "Statistiche";
             Text = "Giocatore";
+            FormClosing += Statistiche_FormClosing;
             Load += Giocatore_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();

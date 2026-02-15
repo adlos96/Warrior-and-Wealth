@@ -74,11 +74,12 @@
             // txt_Log
             // 
             txt_Log.BorderStyle = BorderStyle.None;
-            txt_Log.Location = new Point(3, 169);
+            txt_Log.Location = new Point(3, 154);
+            txt_Log.Multiline = true;
             txt_Log.Name = "txt_Log";
-            txt_Log.Size = new Size(187, 16);
+            txt_Log.ReadOnly = true;
+            txt_Log.Size = new Size(187, 38);
             txt_Log.TabIndex = 9;
-            txt_Log.MouseClick += txt_Log_MouseClick;
             // 
             // txt_Ip
             // 
@@ -104,11 +105,11 @@
             // 
             lbl_Titolo.AutoSize = true;
             lbl_Titolo.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lbl_Titolo.Location = new Point(74, 6);
+            lbl_Titolo.Location = new Point(28, 0);
             lbl_Titolo.Name = "lbl_Titolo";
-            lbl_Titolo.Size = new Size(36, 13);
+            lbl_Titolo.Size = new Size(93, 13);
             lbl_Titolo.TabIndex = 6;
-            lbl_Titolo.Text = "Login";
+            lbl_Titolo.Text = "Warrior - Wealth";
             // 
             // Btn_Login
             // 
@@ -199,7 +200,7 @@
             MaximumSize = new Size(250, 291);
             MinimumSize = new Size(250, 291);
             Name = "Login";
-            Text = "Adlos Wars";
+            Text = "Login";
             FormClosing += Login_FormClosing;
             Load += Gioco_Load;
             panel1.ResumeLayout(false);
