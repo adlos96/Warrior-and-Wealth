@@ -15,26 +15,16 @@ namespace CriptoGame_Online.Strumenti
             ["black"] = Color.Black,
             ["verde"] = Color.Green,
             ["rosso"] = Color.FromArgb(139, 0, 0),          //Rosso scuro
-            ["grigioGrafite"] = Color.FromArgb(80, 80, 80),
-            ["ruggine"] = Color.FromArgb(160, 72, 40),
-
-            ["legnoScuro"] = Color.FromArgb(70, 50, 30),   // legno bruciato
-            ["legnoAntico"] = Color.FromArgb(139, 94, 60),
-            ["ombraNotturna"] = Color.FromArgb(30, 30, 35),   // quasi nero
-            ["ruggineScura"] = Color.FromArgb(90, 40, 25),   // ruggine medievale
-
-            ["carbone"] = Color.FromArgb(30, 30, 30),     // Quasi nero, molto medievale
-            ["grafite"] = Color.FromArgb(60, 60, 60),     // Grigio scuro
-            ["marroneQuercia"] = Color.FromArgb(90, 60, 35),     // Legno antico
+            ["ferroScuro"] = Color.FromArgb(50, 50, 60),     // Grigio metallo scuro
             ["verdeF"] = Color.FromArgb(34, 80, 44),     // Verde scuro, naturale
             ["bluGotico"] = Color.FromArgb(36, 52, 94),     // Blu profondo
-            ["rossoAraldico"] = Color.FromArgb(130, 30, 30),    // Rosso medievale scuro
             ["porporaReale"] = Color.FromArgb(85, 30, 75),     // Porpora regale scura
             ["acciaioBlu"] = Color.FromArgb(70, 95, 120),    // Freddo, metallico
-            ["ruggine"] = Color.FromArgb(120, 55, 25),    // Marrone-ruggine scuro
-            ["ferroScuro"] = Color.FromArgb(50, 50, 60),     // Grigio metallo scuro
-
             ["arancione"] = Color.FromArgb(220, 78, 0),      // Arancione scuro
+
+            //Test colori
+            ["ocraDorata"] = Color.FromArgb(184, 134, 11),          //Rosso scuro
+            ["bluNotte"] = Color.FromArgb(26, 42, 51),          //Rosso scuro
 
             ["success"] = Color.FromArgb(46, 204, 113),  // Verde
             ["warning"] = Color.FromArgb(241, 196, 15),  // Giallo
@@ -50,7 +40,6 @@ namespace CriptoGame_Online.Strumenti
             ["viola"] = Color.FromArgb(155, 89, 182), // Viola brillante
             ["blu"] = Color.FromArgb(52, 152, 219), // Blu/azzurro intenso
 
-            ["attacco"] = Color.FromArgb(192, 57, 43),     // Rosso scuro
             ["info"] = Color.FromArgb(52, 152, 219),     // Azzurro
             ["title"] = Color.FromArgb(255, 223, 186),   // Beige chiaro
             ["highlight"] = Color.FromArgb(255, 255, 150), // Giallo chiaro
@@ -87,36 +76,39 @@ namespace CriptoGame_Online.Strumenti
 
             ["tempo"] = Properties.Resources.Clessidra_removebg_preview,
 
-            ["spade"] = Properties.Resources.Sword_1,
-            ["lance"] = Properties.Resources.spears,
-            ["archi"] = Properties.Resources.icons8_tiro_con_l_arco_48_1_,
-            ["scudi"] = Properties.Resources.icons8_scudo_48_2_,
-            ["armature"] = Properties.Resources.icons8_armor_48_1_,
-            ["frecce"] = Properties.Resources.icons8_freccia_di_arcieri_48,
+            ["spade"] = Properties.Resources.Spade_V2,
+            ["lance"] = Properties.Resources.Lance_V2,
+            ["archi"] = Properties.Resources.Archi_V2,
+            ["scudi"] = Properties.Resources.Scudi_V2,
+            ["armature"] = Properties.Resources.Armature_V2,
+            ["frecce"] = Properties.Resources.Frecce_V2,
 
-            ["Fattoria"] = Properties.Resources.icons8_fattoria_48_1_,
-            ["Segheria"] = Properties.Resources.wood_cutting,
-            ["CavaPietra"] = Properties.Resources.icons8_carrello_da_miniera_48_3_,
-            ["MinieraFerro"] = Properties.Resources.icons8_carrello_da_miniera_48_2_,
-            ["MinieraOro"] = Properties.Resources.icons8_carrello_da_miniera_48_1_,
-            ["Case"] = Properties.Resources.medieval_house_1_,
+            ["fattoria"] = Properties.Resources.Fattoria_V2,
+            ["segheria"] = Properties.Resources.Segheria_V2,
+            ["cavaPietra"] = Properties.Resources.CavaDiPietra_V2,
+            ["minieraFerro"] = Properties.Resources.MinieraFerro_V2,
+            ["minieraOro"] = Properties.Resources.MinieraOro_V2,
+            ["case"] = Properties.Resources.Abitazioni_V2,
 
-            ["guerriero"] = Properties.Resources.Guerriero_V2_removebg_preview,
-            ["lancere"] = Properties.Resources.Lancere_V2_removebg_preview,
-            ["arcere"] = Properties.Resources.Arciere_V2_removebg_preview,
-            ["catapulta"] = Properties.Resources.icons8_medieval_48,
+            ["guerriero"] = Properties.Resources.Guerriero_V2,
+            ["lancere"] = Properties.Resources.Lanciere_V2,
+            ["arcere"] = Properties.Resources.Arciere_V2,
+            ["catapulta"] = Properties.Resources.Catapulta_V2,
 
-            ["workshopSpade"] = Properties.Resources.Workshop_Spade,
-            ["workshopLance"] = Properties.Resources.Workshop_Lance,
-            ["workshopArchi"] = Properties.Resources.Workshop_Archi,
-            ["workshopScudi"] = Properties.Resources.Workshop_Scudi,
-            ["workshopArmture"] = Properties.Resources.Workshop_Armature,
-            ["workshopFrecce"] = Properties.Resources.Workshop_Frecce,
+            ["workshopSpade"] = Properties.Resources.Workshop_Spade_V2,
+            ["workshopLance"] = Properties.Resources.Workshop_Lance_V2,
+            ["workshopArchi"] = Properties.Resources.Workshop_Archi_V2,
+            ["workshopScudi"] = Properties.Resources.Workshop_Scudi_V2,
+            ["workshopArmture"] = Properties.Resources.Workshop_Armature_V2,
+            ["workshopFrecce"] = Properties.Resources.Workshop_Frecce_V2,
 
-            ["CasermaGuerrieri"] = Properties.Resources.icons8_freccia_di_arcieri_48,  //No immagine D:
-            ["CasermaLanceri"] = Properties.Resources.icons8_freccia_di_arcieri_48,  //No immagine D:
-            ["CasermaArceri"] = Properties.Resources.icons8_freccia_di_arcieri_48,  //No immagine D:
-            ["CasermaCatapulte"] = Properties.Resources.icons8_freccia_di_arcieri_48,  //No immagine D:
+            ["casermaGuerrieri"] = Properties.Resources.Caserma_Guerieri_V2,
+            ["casermaLanceri"] = Properties.Resources.Caserma_Lanceri_V2,
+            ["casermaArceri"] = Properties.Resources.Caserma_Arcieri_V2,
+            ["casermaCatapulte"] = Properties.Resources.Caserma_Catapulte_V2,
+
+            ["info"] = Properties.Resources.info,
+            ["scambio"] = Properties.Resources.exchange_Edit_removebg_preview,
         };
 
         public static List<GameTextBox.Segment> Parse(string message)
