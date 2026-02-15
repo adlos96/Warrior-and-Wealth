@@ -43,21 +43,29 @@ namespace CriptoGame_Online
             btn_Difesa_Catapulte.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
             btn_Salute_Catapulte.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
 
+            btn_Livello_Castello.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
             btn_Guarnigione_Castello.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
             btn_Difesa_Castello.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
             btn_Salute_Castello.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+            btn_Livello_Castello.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
 
+            btn_Livello_Torri.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
             btn_Guarnigione_Torri.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
             btn_Difesa_Torri.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
             btn_Salute_Torri.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+            btn_Livello_Torri.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
 
+            btn_Livello_Mura.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
             btn_Guarnigione_Mura.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
             btn_Difesa_Mura.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
             btn_Salute_Mura.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+            btn_Livello_Mura.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
 
+            btn_Livello_Cancello.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
             btn_Guarnigione_Cancello.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
             btn_Difesa_Cancello.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
             btn_Salute_Cancello.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
+            btn_Livello_Cancello.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
 
             btn_Guarnigione_Ingresso.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
             btn_Guarnigione_Citta.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
@@ -92,18 +100,22 @@ namespace CriptoGame_Online
             Gioco.toolTip1.SetToolTip(this.btn_Guarnigione_Citta, Variabili_Client.Ricerca_Citta_Guarnigione_Desc);
             Gioco.toolTip1.SetToolTip(this.btn_Guarnigione_Ingresso, Variabili_Client.Ricerca_Ingresso_Guarnigione_Desc);
 
+            Gioco.toolTip1.SetToolTip(this.btn_Livello_Mura, Variabili_Client.Ricerca_Mura_Livello_Desc);
             Gioco.toolTip1.SetToolTip(this.btn_Salute_Mura, Variabili_Client.Ricerca_Mura_Salute_Desc);
             Gioco.toolTip1.SetToolTip(this.btn_Difesa_Mura, Variabili_Client.Ricerca_Mura_Difesa_Desc);
             Gioco.toolTip1.SetToolTip(this.btn_Guarnigione_Mura, Variabili_Client.Ricerca_Mura_Guarnigione_Desc);
 
+            Gioco.toolTip1.SetToolTip(this.btn_Livello_Cancello, Variabili_Client.Ricerca_Cancello_Livello_Desc);
             Gioco.toolTip1.SetToolTip(this.btn_Salute_Cancello, Variabili_Client.Ricerca_Cancello_Salute_Desc);
             Gioco.toolTip1.SetToolTip(this.btn_Difesa_Cancello, Variabili_Client.Ricerca_Cancello_Difesa_Desc);
             Gioco.toolTip1.SetToolTip(this.btn_Guarnigione_Cancello, Variabili_Client.Ricerca_Cancello_Guarnigione_Desc);
 
+            Gioco.toolTip1.SetToolTip(this.btn_Livello_Torri, Variabili_Client.Ricerca_Torri_Livello_Desc);
             Gioco.toolTip1.SetToolTip(this.btn_Salute_Torri, Variabili_Client.Ricerca_Torri_Salute_Desc);
             Gioco.toolTip1.SetToolTip(this.btn_Difesa_Torri, Variabili_Client.Ricerca_Torri_Difesa_Desc);
             Gioco.toolTip1.SetToolTip(this.btn_Guarnigione_Torri, Variabili_Client.Ricerca_Torri_Guarnigione_Desc);
 
+            Gioco.toolTip1.SetToolTip(this.btn_Livello_Castello, Variabili_Client.Ricerca_Castello_Livello_Desc);
             Gioco.toolTip1.SetToolTip(this.btn_Salute_Castello, Variabili_Client.Ricerca_Castello_Salute_Desc);
             Gioco.toolTip1.SetToolTip(this.btn_Difesa_Castello, Variabili_Client.Ricerca_Castello_Difesa_Desc);
             Gioco.toolTip1.SetToolTip(this.btn_Guarnigione_Castello, Variabili_Client.Ricerca_Castello_Guarnigione_Desc);
@@ -124,8 +136,7 @@ namespace CriptoGame_Online
 
                         if (lbl_Tempo_Ricerca.Text == "Tempo ricerca: 00:00:00s")
                             pictureBox_Speed.Visible = false;
-                        else
-                            pictureBox_Speed.Visible = true;
+                        else pictureBox_Speed.Visible = true;
 
                         btn_Costruzione.Text = $"Costruzione: {Variabili_Client.Utente_Ricerca.Ricerca_Costruzione}";
                         btn_Risorse.Text = $"Produzione: {Variabili_Client.Utente_Ricerca.Ricerca_Produzione}";
@@ -157,18 +168,22 @@ namespace CriptoGame_Online
                         btn_Guarnigione_Ingresso.Text = $"Guarnigione: {Variabili_Client.Utente_Ricerca.Ricerca_Ingresso_Guarnigione}";
                         btn_Guarnigione_Citta.Text = $"Guernigione: {Variabili_Client.Utente_Ricerca.Ricerca_Citta_Guarnigione}";
 
+                        btn_Livello_Cancello.Text = $"Livello: {Variabili_Client.Utente_Ricerca.Ricerca_Cancello_Livello}";
                         btn_Salute_Cancello.Text = $"Salute: {Variabili_Client.Utente_Ricerca.Ricerca_Cancello_Salute}";
                         btn_Difesa_Cancello.Text = $"Difesa: {Variabili_Client.Utente_Ricerca.Ricerca_Cancello_Difesa}";
                         btn_Guarnigione_Cancello.Text = $"Guarnigione: {Variabili_Client.Utente_Ricerca.Ricerca_Cancello_Guarnigione}";
 
+                        btn_Livello_Mura.Text = $"Livello: {Variabili_Client.Utente_Ricerca.Ricerca_Mura_Livello}";
                         btn_Salute_Mura.Text = $"Salute: {Variabili_Client.Utente_Ricerca.Ricerca_Mura_Salute}";
                         btn_Difesa_Mura.Text = $"Difesa: {Variabili_Client.Utente_Ricerca.Ricerca_Mura_Difesa}";
                         btn_Guarnigione_Mura.Text = $"Guarnigione: {Variabili_Client.Utente_Ricerca.Ricerca_Mura_Guarnigione}";
 
+                        btn_Livello_Torri.Text = $"Livello: {Variabili_Client.Utente_Ricerca.Ricerca_Torri_Livello}";
                         btn_Salute_Torri.Text = $"Salute: {Variabili_Client.Utente_Ricerca.Ricerca_Torri_Salute}";
                         btn_Difesa_Torri.Text = $"Difesa: {Variabili_Client.Utente_Ricerca.Ricerca_Torri_Difesa}";
                         btn_Guarnigione_Torri.Text = $"Guarnigione: {Variabili_Client.Utente_Ricerca.Ricerca_Torri_Guarnigione}";
 
+                        btn_Livello_Castello.Text = $"Livello: {Variabili_Client.Utente_Ricerca.Ricerca_Castello_Livello}";
                         btn_Salute_Castello.Text = $"Salute: {Variabili_Client.Utente_Ricerca.Ricerca_Castello_Salute}";
                         btn_Difesa_Castello.Text = $"Difesa: {Variabili_Client.Utente_Ricerca.Ricerca_Castello_Difesa}";
                         btn_Guarnigione_Castello.Text = $"Guarnigione: {Variabili_Client.Utente_Ricerca.Ricerca_Castello_Guarnigione}";
@@ -205,18 +220,22 @@ namespace CriptoGame_Online
                             btn_Guarnigione_Citta.Enabled = true;
                             btn_Guarnigione_Ingresso.Enabled = true;
 
+                            btn_Livello_Castello.Enabled = true;
                             btn_Salute_Cancello.Enabled = true;
                             btn_Difesa_Cancello.Enabled = true;
                             btn_Guarnigione_Cancello.Enabled = true;
 
+                            btn_Livello_Mura.Enabled = true;
                             btn_Salute_Mura.Enabled = true;
                             btn_Difesa_Mura.Enabled = true;
                             btn_Guarnigione_Mura.Enabled = true;
 
+                            btn_Livello_Torri.Enabled = true;
                             btn_Salute_Torri.Enabled = true;
                             btn_Difesa_Torri.Enabled = true;
                             btn_Guarnigione_Torri.Enabled = true;
 
+                            btn_Livello_Castello.Enabled = true;
                             btn_Salute_Castello.Enabled = true;
                             btn_Difesa_Castello.Enabled = true;
                             btn_Guarnigione_Castello.Enabled = true;
@@ -253,188 +272,193 @@ namespace CriptoGame_Online
                             btn_Guarnigione_Citta.Enabled = false;
                             btn_Guarnigione_Ingresso.Enabled = false;
 
+                            btn_Livello_Cancello.Enabled = false;
                             btn_Salute_Cancello.Enabled = false;
                             btn_Difesa_Cancello.Enabled = false;
                             btn_Guarnigione_Cancello.Enabled = false;
 
+                            btn_Livello_Mura.Enabled = false;
                             btn_Salute_Mura.Enabled = false;
                             btn_Difesa_Mura.Enabled = false;
                             btn_Guarnigione_Mura.Enabled = false;
 
+                            btn_Livello_Torri.Enabled = false;
                             btn_Salute_Torri.Enabled = false;
                             btn_Difesa_Torri.Enabled = false;
                             btn_Guarnigione_Torri.Enabled = false;
 
+                            btn_Livello_Castello.Enabled = false;
                             btn_Salute_Castello.Enabled = false;
                             btn_Difesa_Castello.Enabled = false;
                             btn_Guarnigione_Castello.Enabled = false;
                         }
 
-                        if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Costruzione" && Variabili_Client.Utente.Ricerca_Attiva == true)
-                            panel_Costruzione.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Produzione" && Variabili_Client.Utente.Ricerca_Attiva == true)
-                            panel_Risorse.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Addestramento" && Variabili_Client.Utente.Ricerca_Attiva == true)
-                            panel_Addestramento.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Popolazione" && Variabili_Client.Utente.Ricerca_Attiva == true)
-                            panel_Popolazione.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Trasporto" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Trasporto.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Riparazione" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Riparazione.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Livello_Guerrieri" && Variabili_Client.Utente.Ricerca_Attiva == true)
-                            panel_Livello_Guerrieri.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Salute_Guerrieri" && Variabili_Client.Utente.Ricerca_Attiva == true)
-                            panel_Salute_Guerrieri.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Difesa_Guerrieri" && Variabili_Client.Utente.Ricerca_Attiva == true)
-                            panel_Difesa_Guerrieri.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Attacco_Guerrieri" && Variabili_Client.Utente.Ricerca_Attiva == true)
-                            panel_Attacco_Guerrieri.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Livello_Lanceri" && Variabili_Client.Utente.Ricerca_Attiva == true)
-                            panel_Livello_Lanceri.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Salute_Lanceri" && Variabili_Client.Utente.Ricerca_Attiva == true)
-                            panel_Salute_Lanceri.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Difesa_Lanceri" && Variabili_Client.Utente.Ricerca_Attiva == true)
-                            panel_Difesa_Lanceri.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Attacco_Lanceri" && Variabili_Client.Utente.Ricerca_Attiva == true)
-                            panel_Attacco_Lanceri.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Livello_Arceri" && Variabili_Client.Utente.Ricerca_Attiva == true)
-                            panel_Livello_Arceri.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Salute_Arceri" && Variabili_Client.Utente.Ricerca_Attiva == true)
-                            panel_Salute_Arceri.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Difesa_Arceri" && Variabili_Client.Utente.Ricerca_Attiva == true)
-                            panel_Difesa_Arceri.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Attacco_Arceri" && Variabili_Client.Utente.Ricerca_Attiva == true)
-                            panel_Attacco_Arceri.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Livello_Catapulte" && Variabili_Client.Utente.Ricerca_Attiva == true)
-                            panel_Livello_Catapulte.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Salute_Catapulte" && Variabili_Client.Utente.Ricerca_Attiva == true)
-                            panel_Salute_Catapulte.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Difesa_Catapulte" && Variabili_Client.Utente.Ricerca_Attiva == true)
-                            panel_Difesa_Catapulte.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Attacco_Catapulte" && Variabili_Client.Utente.Ricerca_Attiva == true)
-                            panel_Attacco_Catapulte.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Ingresso_Guarnigione" && Variabili_Client.Utente.Ricerca_Attiva == true)
-                            panel_Guarnigione_Ingresso.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Citta_Guarnigione" && Variabili_Client.Utente.Ricerca_Attiva == true)
-                            panel_Guarnigione_Città.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Cancello_Salute" && Variabili_Client.Utente.Ricerca_Attiva == true)
-                            panel_Salute_Cancello.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Cancello_Difesa" && Variabili_Client.Utente.Ricerca_Attiva == true)
-                            panel_Difesa_Cancello.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Cancello_Guarnigione" && Variabili_Client.Utente.Ricerca_Attiva == true)
-                            panel_Guarnigione_Cancello.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Mura_Salute" && Variabili_Client.Utente.Ricerca_Attiva == true)
-                            panel_Salute_Mura.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Mura_Difesa" && Variabili_Client.Utente.Ricerca_Attiva == true)
-                            panel_Difesa_Mura.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Mura_Guarnigione" && Variabili_Client.Utente.Ricerca_Attiva == true)
-                            panel_Guarnigione_Mura.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Torri_Salute" && Variabili_Client.Utente.Ricerca_Attiva == true)
-                            panel_Salute_Torri.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Torri_Difesa" && Variabili_Client.Utente.Ricerca_Attiva == true)
-                            panel_Difesa_Torri.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Torri_Guarnigione" && Variabili_Client.Utente.Ricerca_Attiva == true)
-                            panel_Guarnigione_Torri.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Castello_Salute" && Variabili_Client.Utente.Ricerca_Attiva == true)
-                            panel_Salute_Castello.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Castello_Difesa" && Variabili_Client.Utente.Ricerca_Attiva == true)
-                            panel_Difesa_Castello.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Castello_Guarnigione" && Variabili_Client.Utente.Ricerca_Attiva == true)
-                            panel_Guarnigione_Castello.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
-
-
-                        // Reimposta lo sfondo dei bottoni se non sono selezionati
-                        if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Costruzione" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Costruzione.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Produzione" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Risorse.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Addestramento" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Addestramento.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Popolazione" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Popolazione.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Trasporto" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Trasporto.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Riparazione" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Riparazione.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
-
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Livello_Guerrieri" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Livello_Guerrieri.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Salute_Guerrieri" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Salute_Guerrieri.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Difesa_Guerrieri" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Difesa_Guerrieri.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Attacco_Guerrieri" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Attacco_Guerrieri.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
-
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Livello_Lanceri" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Livello_Lanceri.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Salute_Lanceri" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Salute_Lanceri.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Difesa_Lanceri" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Difesa_Lanceri.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Attacco_Lanceri" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Attacco_Lanceri.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
-
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Livello_Arceri" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Livello_Arceri.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Salute_Arceri" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Salute_Arceri.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Difesa_Arceri" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Difesa_Arceri.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Attacco_Arceri" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Attacco_Arceri.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
-
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Livello_Catapulte" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Livello_Catapulte.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Salute_Catapulte" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Salute_Catapulte.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Difesa_Catapulte" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Difesa_Catapulte.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Attacco_Catapulte" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Attacco_Catapulte.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
-
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Ingresso_Guarnigione" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Guarnigione_Ingresso.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Citta_Guarnigione" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Guarnigione_Città.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
-
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Cancello_Salute" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Guarnigione_Cancello.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Cancello_Difesa" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Difesa_Cancello.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Cancello_Guarnigione" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Salute_Cancello.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
-
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Mura_Salute" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Salute_Mura.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Mura_Difesa" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Difesa_Mura.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Mura_Guarnigione" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Guarnigione_Mura.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
-
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Torri_Salute" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Salute_Torri.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Torri_Difesa" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Difesa_Torri.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Torri_Guarnigione" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Guarnigione_Torri.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
-
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Castello_Salute" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Salute_Castello.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Castello_Difesa" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Difesa_Castello.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
-                        else if (Variabili_Client.Ricerca_1_Bottone_Cliccato == "btn_Castello_Guarnigione" && Variabili_Client.Utente.Ricerca_Attiva == false)
-                            panel_Guarnigione_Castello.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                        //Sfondi bottoni
+                        switch (Variabili_Client.Ricerca_1_Bottone_Cliccato)
+                        {
+                            case "btn_Costruzione":
+                                if ( Variabili_Client.Utente.Ricerca_Attiva == true) panel_Costruzione.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if ( Variabili_Client.Utente.Ricerca_Attiva == false) panel_Costruzione.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Produzione":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Risorse.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Risorse.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Addestramento":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Addestramento.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Addestramento.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Popolazione":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Popolazione.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Popolazione.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Trasporto":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Trasporto.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Trasporto.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Riparazione":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Riparazione.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Riparazione.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Livello_Guerrieri":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Livello_Guerrieri.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Livello_Guerrieri.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Salute_Guerrieri":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Salute_Guerrieri.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Salute_Guerrieri.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Difesa_Guerrieri":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Difesa_Guerrieri.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Difesa_Guerrieri.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Attacco_Guerrieri":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Attacco_Guerrieri.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Attacco_Guerrieri.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Livello_Lanceri":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Livello_Lanceri.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Livello_Lanceri.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Salute_Lanceri":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Salute_Lanceri.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Salute_Lanceri.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Difesa_Lanceri":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Difesa_Lanceri.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Difesa_Lanceri.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Attacco_Lanceri":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Attacco_Lanceri.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Attacco_Lanceri.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Livello_Arceri":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Livello_Arceri.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Livello_Arceri.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Salute_Arceri":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Salute_Arceri.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Salute_Arceri.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Difesa_Arceri":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Difesa_Arceri.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Difesa_Arceri.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Attacco_Arceri":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Attacco_Arceri.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Attacco_Arceri.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Livello_Catapulte":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Livello_Catapulte.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Livello_Catapulte.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Salute_Catapulte":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Salute_Catapulte.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Salute_Catapulte.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Difesa_Catapulte":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Difesa_Catapulte.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Difesa_Catapulte.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Attacco_Catapulte":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Attacco_Catapulte.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Attacco_Catapulte.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Guarnigione_Ingresso":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Guarnigione_Ingresso.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Guarnigione_Ingresso.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Guarnigione_Citta":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Guarnigione_Città.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Guarnigione_Città.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Livello_Cancello":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Livello_Cancello.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Livello_Cancello.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Salute_Cancello":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Salute_Cancello.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Salute_Cancello.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Difesa_Cancello":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Difesa_Cancello.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Difesa_Cancello.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Guarnigione_Cancello":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Guarnigione_Cancello.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Guarnigione_Cancello.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Livello_Mura":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Livello_Mura.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Livello_Mura.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Salute_Mura":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Salute_Mura.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Salute_Mura.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Difesa_Mura":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Difesa_Mura.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Difesa_Mura.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Guarnigione_Mura":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Guarnigione_Mura.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Guarnigione_Mura.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Livello_Torri":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Livello_Torri.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Livello_Torri.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Salute_Torri":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Salute_Torri.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Salute_Torri.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Difesa_Torri":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Difesa_Torri.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Difesa_Torri.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Guarnigione_Torri":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Guarnigione_Torri.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Guarnigione_Torri.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Livello_Castello":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Livello_Castello.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Livello_Castello.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Salute_Castello":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Salute_Castello.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Salute_Castello.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Difesa_Castello":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Difesa_Castello.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Difesa_Castello.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            case "btn_Guarnigione_Castello":
+                                if (Variabili_Client.Utente.Ricerca_Attiva == true) panel_Guarnigione_Castello.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+                                if (Variabili_Client.Utente.Ricerca_Attiva == false) panel_Guarnigione_Castello.BackgroundImage = Properties.Resources.Bottone___Sfondo_1_A_removebg_preview;
+                                break;
+                            default:
+                                break;
+                        }
                     }));
                 }
                 await Task.Delay(1000); // meglio di Thread.Sleep
@@ -715,6 +739,38 @@ namespace CriptoGame_Online
             panel_Guarnigione_Castello.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
             ClientConnection.TestClient.Send($"Ricerca|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Cancello Guarnigione");
             Variabili_Client.Ricerca_1_Bottone_Cliccato = "btn_Cancello_Guarnigione";
+        }
+
+        private void btn_Livello_Castello_Click(object sender, EventArgs e)
+        {
+            this.ActiveControl = lbl_Tempo_Ricerca;
+            panel_Livello_Castello.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+            ClientConnection.TestClient.Send($"Ricerca|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Castello Livello");
+            Variabili_Client.Ricerca_1_Bottone_Cliccato = "btn_Castello_Livello";
+        }
+
+        private void btn_Livello_Torri_Click(object sender, EventArgs e)
+        {
+            this.ActiveControl = lbl_Tempo_Ricerca;
+            panel_Livello_Torri.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+            ClientConnection.TestClient.Send($"Ricerca|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Torri Livello");
+            Variabili_Client.Ricerca_1_Bottone_Cliccato = "btn_Torri_Livello";
+        }
+
+        private void btn_Livello_Mura_Click(object sender, EventArgs e)
+        {
+            this.ActiveControl = lbl_Tempo_Ricerca;
+            panel_Livello_Mura.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+            ClientConnection.TestClient.Send($"Ricerca|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Mura Livello");
+            Variabili_Client.Ricerca_1_Bottone_Cliccato = "btn_Mura_Livello";
+        }
+
+        private void btn_Livello_Cancello_Click(object sender, EventArgs e)
+        {
+            this.ActiveControl = lbl_Tempo_Ricerca;
+            panel_Livello_Cancello.BackgroundImage = Properties.Resources.Bottone___Sfondo_2_A_removebg_preview;
+            ClientConnection.TestClient.Send($"Ricerca|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Cancello Livello");
+            Variabili_Client.Ricerca_1_Bottone_Cliccato = "btn_Cancello_Livello";
         }
     }
 }

@@ -20,11 +20,11 @@ namespace CriptoGame_Online.GUI
         {
             while (!token.IsCancellationRequested)
             {
-                if (groupBox1.IsHandleCreated && !groupBox1.IsDisposed)
+                if (lbl_Giocatore_Testo.IsHandleCreated && !lbl_Giocatore_Testo.IsDisposed)
                 {
                     lbl_Giocatore_Testo.Invoke(new Action(() =>
                     {
-                        lbl_Giocatore_Testo.Text = 
+                        lbl_Giocatore_Testo.Text =
                         $"VIP: \n" +
                         $"GamepPass A: \n" +
                         $"GamepPass B: \n" +
@@ -37,7 +37,7 @@ namespace CriptoGame_Online.GUI
                         $"Edifici: \n" +
                         $"Ricerca: \n" +
                         $"Esercito: \n" +
-                        $"Totale: \n" +
+                        $"Totale: \n\n" +
                         $"------- Bonus -------\n\n" +
                         $"Costruzione: \n" +
                         $"Addestramento: \n" +
@@ -182,6 +182,12 @@ namespace CriptoGame_Online.GUI
                 await Task.Delay(1000); // meglio di Thread.Sleep
             }
 
+        }
+
+        private async void Statistiche_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            cts.Cancel();
+            await Task.Delay(1000);
         }
     }
 }

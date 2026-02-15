@@ -30,8 +30,6 @@ namespace CriptoGame_Online.GUI
 
         async void Gui_Update(CancellationToken token)
         {
-            bool oneTime = true;
-
             while (!token.IsCancellationRequested)
             {
                 if (panel1.IsHandleCreated && !panel1.IsDisposed)
@@ -802,14 +800,6 @@ namespace CriptoGame_Online.GUI
                             maxGuarnigione = Variabili_Client.Citta.Castello.Guarnigione_Max;
                         }
 
-                        if (oneTime)
-                        {
-                            trackBar_Guerriero.Maximum = g_Esercito;
-                            trackBar_Lanciere.Maximum = l_Esercito;
-                            trackBar_Arciere.Maximum = a_Esercito;
-                            trackBar_Catapulta.Maximum = c_Esercito;
-                            oneTime = false;
-                        }
                         txt_Guerriero_Esercito.Text = g_Esercito.ToString();
                         txt_Lanciere_Esercito.Text = l_Esercito.ToString();
                         txt_Arciere_Esercito.Text = a_Esercito.ToString();

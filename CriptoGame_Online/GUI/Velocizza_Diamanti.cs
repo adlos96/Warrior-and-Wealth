@@ -36,7 +36,9 @@ namespace CriptoGame_Online.GUI
                 else if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
                     txt_Diamond_Blu.Text = (Convert.ToInt32(txt_Diamond_Blu.Text) + 10).ToString();
                 else txt_Diamond_Blu.Text = (Convert.ToInt32(txt_Diamond_Blu.Text) + 1).ToString();
-            if (Convert.ToInt32(txt_Diamond_Blu.Text) < 0) txt_Diamond_Blu.Text = "0";
+
+            if (Convert.ToInt32(txt_Diamond_Blu.Text) > Convert.ToInt32(Variabili_Client.Utente_Risorse.Diamond_Blu.Replace(".", "")))
+                txt_Diamond_Blu.Text = Variabili_Client.Utente_Risorse.Diamond_Blu;
         }
 
         private void pictureBox_Meno_Click(object sender, EventArgs e)
@@ -53,17 +55,31 @@ namespace CriptoGame_Online.GUI
 
         private async void btn_Velocizza_Click(object sender, EventArgs e)
         {
-            this.ActiveControl = pictureBox_Meno;
+            this.ActiveControl = ico_12; // assegna il focus al bottone
 
-            if (tipo == "Costruzione")
-                ClientConnection.TestClient.Send($"Velocizza_Diamanti|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Costruzione|{txt_Diamond_Blu.Text}");
-            if (tipo == "Reclutamento")
-                ClientConnection.TestClient.Send($"Velocizza_Diamanti|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Reclutamento|{txt_Diamond_Blu.Text}");
-            if (tipo == "Ricerca")
-                ClientConnection.TestClient.Send($"Velocizza_Diamanti|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Ricerca|{txt_Diamond_Blu.Text}");
-            btn_Velocizza.Enabled = false;
-            await Sleep();
-            btn_Velocizza.Enabled = true;
+            // Messaggio di conferma chiaro
+            var result = MessageBox.Show(
+                $"Sei sicuro di voler utilizzare i diamanti blu?\n" +
+                $"Diamanti Blu: {txt_Diamond_Blu.Text}\n" +
+                $"Diamanti attuali: {Variabili_Client.Utente_Risorse.Diamond_Blu}\n",
+                "Conferma velocizzazione",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
+
+            if (result == DialogResult.Yes)
+            {
+                // Esegui l'acquisto
+                if (tipo == "Costruzione")
+                    ClientConnection.TestClient.Send($"Velocizza_Diamanti|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Costruzione|{txt_Diamond_Blu.Text}");
+                if (tipo == "Reclutamento")
+                    ClientConnection.TestClient.Send($"Velocizza_Diamanti|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Reclutamento|{txt_Diamond_Blu.Text}");
+                if (tipo == "Ricerca")
+                    ClientConnection.TestClient.Send($"Velocizza_Diamanti|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Ricerca|{txt_Diamond_Blu.Text}");
+                btn_Velocizza.Enabled = false;
+                await Sleep();
+                btn_Velocizza.Enabled = true;
+            }
         }
 
         async Task Sleep()

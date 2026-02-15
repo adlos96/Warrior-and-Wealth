@@ -8,15 +8,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace CriptoGame_Online
 {
     public partial class Shop : Form
     {
         int pagina = 1; // pagina iniziale
+        public static CustomToolTip toolTip1;
         public Shop()
         {
             InitializeComponent();
+
+            toolTip1 = new CustomToolTip();
+
+            // Imposta qualche proprietà opzionale
+            toolTip1.InitialDelay = 150;
+            toolTip1.AutoPopDelay = 15000;
 
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -97,7 +105,7 @@ namespace CriptoGame_Online
 
         private void panel_Prossimo_Click(object sender, EventArgs e)
         {
-            if (pagina >= 1 && pagina <= 3)
+            if (pagina >= 1 && pagina < 3)
                 pagina++;
             Update_UI();
         }
@@ -156,6 +164,9 @@ namespace CriptoGame_Online
 
                 txt_Pacchetto_Desc_1.Text = "VIP";
                 txt_Pacchetto_Desc_2.Text = "VIP";
+
+                toolTip1.SetToolTip(this.panel_Image_1, Variabili_Client.Shop.Vip_1.desc);
+                toolTip1.SetToolTip(this.panel_Image_2, Variabili_Client.Shop.Vip_2.desc);
             }
             if (pagina == 2)
             {
@@ -215,7 +226,12 @@ namespace CriptoGame_Online
                 txt_Pacchetto_Desc_5.Text = "Scudo della pace";
                 txt_Pacchetto_Desc_6.Text = "Scudo della pace";
 
-
+                toolTip1.SetToolTip(this.panel_Image_1, Variabili_Client.Shop.Costruttore_24h.desc);
+                toolTip1.SetToolTip(this.panel_Image_2, Variabili_Client.Shop.Costruttore_48h.desc);
+                toolTip1.SetToolTip(this.panel_Image_3, Variabili_Client.Shop.Reclutatore_24h.desc);
+                toolTip1.SetToolTip(this.panel_Image_4, Variabili_Client.Shop.Reclutatore_48h.desc);
+                toolTip1.SetToolTip(this.panel_Image_5, Variabili_Client.Shop.Scudo_Pace_8h.desc);
+                toolTip1.SetToolTip(this.panel_Image_6, Variabili_Client.Shop.Scudo_Pace_24h.desc);
             }
             if (pagina == 3)
             {
@@ -273,140 +289,136 @@ namespace CriptoGame_Online
                 txt_Pacchetto_Desc_4.Text = "";
                 txt_Pacchetto_Desc_5.Text = "";
                 txt_Pacchetto_Desc_6.Text = "";
+
+                toolTip1.SetToolTip(this.panel_Image_1, Variabili_Client.Shop.Scudo_Pace_72h.desc);
+                toolTip1.SetToolTip(this.panel_Image_2, Variabili_Client.Shop.GamePass_Base.desc);
+                toolTip1.SetToolTip(this.panel_Image_3, Variabili_Client.Shop.GamePass_Avanzato.desc);
             }
         }
 
         private async void panel_Bottone_1_MouseClick(object sender, MouseEventArgs e)
         {
-            if (pagina == 1)
-            {
-                ClientConnection.TestClient.Send($"Shop|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Vip_1");
-                panel_Bottone_1.Enabled = false;
-                await Sleep(2); // meglio di Thread.Sleep
-                panel_Bottone_1.Enabled = true;
-            }
-            if (pagina == 2)
-            {
-                ClientConnection.TestClient.Send($"Shop|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Costruttori_24H");
-                panel_Bottone_1.Enabled = false;
-                await Sleep(2); // meglio di Thread.Sleep
-                panel_Bottone_1.Enabled = true;
-            }
-            if (pagina == 3)
-            {
-                ClientConnection.TestClient.Send($"Shop|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Scudo_Pace_72H");
-                panel_Bottone_1.Enabled = false;
-                await Sleep(2); // meglio di Thread.Sleep
-                panel_Bottone_1.Enabled = true;
-            }
+            // Messaggio di conferma chiaro
+            var result = MessageBox.Show(
+                $"Sei sicuro di voler acquistare questo oggetto?\n",
+                $"Conferma acquisto",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
+
+            if (pagina == 1 && result == DialogResult.Yes)
+                    ClientConnection.TestClient.Send($"Shop|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Vip_1");
+            
+            if (pagina == 2 && result == DialogResult.Yes)
+                    ClientConnection.TestClient.Send($"Shop|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Costruttori_24H");
+            
+            if (pagina == 3 && result == DialogResult.Yes)
+                    ClientConnection.TestClient.Send($"Shop|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Scudo_Pace_72H");
+            
+            panel_Bottone_1.Enabled = false;
+            await Sleep(2); // meglio di Thread.Sleep
+            panel_Bottone_1.Enabled = true;
         }
         private async void panel_Bottone_2_MouseClick(object sender, MouseEventArgs e)
         {
-            if (pagina == 1)
-            {
-                ClientConnection.TestClient.Send($"Shop|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Vip_2");
-                panel_Bottone_1.Enabled = false;
-                await Sleep(2); // meglio di Thread.Sleep
-                panel_Bottone_1.Enabled = true;
-            }
-            if (pagina == 2)
-            {
-                ClientConnection.TestClient.Send($"Shop|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Costruttori_48H");
-                panel_Bottone_1.Enabled = false;
-                await Sleep(2); // meglio di Thread.Sleep
-                panel_Bottone_1.Enabled = true;
-            }
+            var result = MessageBox.Show(
+                $"Sei sicuro di voler acquistare questo oggetto?\n",
+                $"Conferma acquisto",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
+
+            if (pagina == 1 && result == DialogResult.Yes)
+                    ClientConnection.TestClient.Send($"Shop|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Vip_2");
+
+            if (pagina == 2 && result == DialogResult.Yes)
+                    ClientConnection.TestClient.Send($"Shop|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Costruttori_48H");
             if (pagina == 3)
-            {
-                panel_Bottone_1.Enabled = false;
-            }
+
+            panel_Bottone_2.Enabled = false;
+            await Sleep(2); // meglio di Thread.Sleep
+            panel_Bottone_2.Enabled = true;
         }
         private async void panel_Bottone_3_MouseClick(object sender, MouseEventArgs e)
         {
-            if (pagina == 1)
-            {
-                ClientConnection.TestClient.Send($"Shop|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Pacchetto_1");
-                panel_Bottone_1.Enabled = false;
-                await Sleep(2); // meglio di Thread.Sleep
-                panel_Bottone_1.Enabled = true;
-            }
-            if (pagina == 2)
-            {
-                ClientConnection.TestClient.Send($"Shop|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Reclutatori_24H");
-                panel_Bottone_1.Enabled = false;
-                await Sleep(2); // meglio di Thread.Sleep
-                panel_Bottone_1.Enabled = true;
-            }
-            if (pagina == 3)
-            {
-                panel_Bottone_1.Enabled = false;
-            }
+            var result = MessageBox.Show(
+                $"Sei sicuro di voler acquistare questo oggetto?\n",
+                $"Conferma acquisto",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
+
+            if (pagina == 1 && result == DialogResult.Yes)
+                    ClientConnection.TestClient.Send($"Shop|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Pacchetto_1");
+
+            if (pagina == 2 && result == DialogResult.Yes)
+                    ClientConnection.TestClient.Send($"Shop|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Reclutatori_24H");
+            
+            
+            panel_Bottone_3.Enabled = false;
+            await Sleep(2); // meglio di Thread.Sleep
+            panel_Bottone_3.Enabled = true;
         }
 
         private async void panel_Bottone_4_MouseClick(object sender, MouseEventArgs e)
         {
-            if (pagina == 1)
-            {
-                ClientConnection.TestClient.Send($"Shop|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Pacchetto_2");
-                panel_Bottone_1.Enabled = false;
-                await Sleep(2); // meglio di Thread.Sleep
-                panel_Bottone_1.Enabled = true;
-            }
-            if (pagina == 2)
-            {
-                ClientConnection.TestClient.Send($"Shop|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Reclutatori_48H");
-                panel_Bottone_1.Enabled = false;
-                await Sleep(2); // meglio di Thread.Sleep
-                panel_Bottone_1.Enabled = true;
-            }
-            if (pagina == 3)
-            {
-                panel_Bottone_1.Enabled = false;
-            }
+            var result = MessageBox.Show(
+                $"Sei sicuro di voler acquistare questo oggetto?\n",
+                $"Conferma acquisto",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
+
+            if (pagina == 1 && result == DialogResult.Yes)
+                    ClientConnection.TestClient.Send($"Shop|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Pacchetto_2");
+
+            if (pagina == 2 && result == DialogResult.Yes)
+                    ClientConnection.TestClient.Send($"Shop|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Reclutatori_48H");
+
+
+            panel_Bottone_4.Enabled = false;
+            await Sleep(2); // meglio di Thread.Sleep
+            panel_Bottone_4.Enabled = true;
         }
 
         private async void panel_Bottone_5_MouseClick(object sender, MouseEventArgs e)
         {
-            if (pagina == 1)
-            {
-                ClientConnection.TestClient.Send($"Shop|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Pacchetto_3");
-                panel_Bottone_1.Enabled = false;
-                await Sleep(2); // meglio di Thread.Sleep
-                panel_Bottone_1.Enabled = true;
-            }
-            if (pagina == 2)
-            {
-                ClientConnection.TestClient.Send($"Shop|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Scudo_Pace_8H");
-                panel_Bottone_1.Enabled = false;
-                await Sleep(2); // meglio di Thread.Sleep
-                panel_Bottone_1.Enabled = true;
-            }
-            if (pagina == 3)
-            {
-                panel_Bottone_1.Enabled = false;
-            }
+            var result = MessageBox.Show(
+                $"Sei sicuro di voler acquistare questo oggetto?\n",
+                $"Conferma acquisto",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
+
+            if (pagina == 1 && result == DialogResult.Yes)
+                    ClientConnection.TestClient.Send($"Shop|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Pacchetto_3");
+
+            if (pagina == 2 && result == DialogResult.Yes)
+                    ClientConnection.TestClient.Send($"Shop|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Scudo_Pace_8H");
+
+            
+            panel_Bottone_5.Enabled = false;
+            await Sleep(2); // meglio di Thread.Sleep
+            panel_Bottone_5.Enabled = true;
         }
 
         private async void panel_Bottone_6_MouseClick(object sender, MouseEventArgs e)
         {
-            if (pagina == 1)
-            {
-                ClientConnection.TestClient.Send($"Shop|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Pacchetto_4");
-                panel_Bottone_1.Enabled = false;
-                await Sleep(2); // meglio di Thread.Sleep
-                panel_Bottone_1.Enabled = true;
-            }
-            if (pagina == 2)
-            {
-                ClientConnection.TestClient.Send($"Shop|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Scudo_Pace_24H");
-                panel_Bottone_1.Enabled = false;
-                await Sleep(2); // meglio di Thread.Sleep
-                panel_Bottone_1.Enabled = true;
-            }
-            if (pagina == 3)
-            {
-                panel_Bottone_1.Enabled = false;
-            }
+            var result = MessageBox.Show(
+                $"Sei sicuro di voler acquistare questo oggetto?\n",
+                $"Conferma acquisto",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
+
+            if (pagina == 1 && result == DialogResult.Yes)
+                    ClientConnection.TestClient.Send($"Shop|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Pacchetto_4");
+            if (pagina == 2 && result == DialogResult.Yes)
+                    ClientConnection.TestClient.Send($"Shop|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Scudo_Pace_24H");
+
+            panel_Bottone_6.Enabled = false;
+            await Sleep(2); // meglio di Thread.Sleep
+            panel_Bottone_6.Enabled = true;
         }
 
         public static async Task<bool> Sleep(int secondi)

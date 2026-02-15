@@ -1,4 +1,6 @@
-﻿using Strategico_V2;
+﻿using CriptoGame_Online.Strumenti;
+using NAudio.Wave;
+using Strategico_V2;
 
 namespace CriptoGame_Online
 {
@@ -6,6 +8,7 @@ namespace CriptoGame_Online
     {
         int livello_Esercito = 1;
         public static CustomToolTip toolTip1;
+        private CancellationTokenSource cts = new CancellationTokenSource();
         public Costruzione()
         {
             toolTip1 = new CustomToolTip();
@@ -31,7 +34,7 @@ namespace CriptoGame_Online
             toolTip1.SetToolTip(this.ico_Structure_6, "[black]Abitazioni");
 
             toolTip1.SetToolTip(this.ico_Structure_7, "[black]Workshop spade");
-            toolTip1.SetToolTip(this.ico_Structure_8, "[black]Workshop lance");
+            toolTip1.SetToolTip(this.ico_Structure_8, "[black]Workshop lancie");
             toolTip1.SetToolTip(this.ico_Structure_9, "[black]Workshop archi");
             toolTip1.SetToolTip(this.ico_Structure_10, "[black]Workshop scudi");
             toolTip1.SetToolTip(this.ico_Structure_11, "[black]Workshop armature");
@@ -43,17 +46,206 @@ namespace CriptoGame_Online
             toolTip1.SetToolTip(this.ico_Unita_4, "[black]Catapulte");
 
             toolTip1.SetToolTip(this.ico_Caserma_1, "[black]Caserma guerrieri");
-            toolTip1.SetToolTip(this.ico_Caserma_2, "[black]Caserma lanceri");
-            toolTip1.SetToolTip(this.ico_Caserma_3, "[black]Caserma arceri");
+            toolTip1.SetToolTip(this.ico_Caserma_2, "[black]Caserma lancieri");
+            toolTip1.SetToolTip(this.ico_Caserma_3, "[black]Caserma arcieri");
             toolTip1.SetToolTip(this.ico_Caserma_4, "[black]Caserma catapulte");
 
             UnlockSoldierTier(livello_Esercito);
+            if (Variabili_Client.tutorial_Attivo) Tutorial_Start();
         }
+        async void Gui_Update(CancellationToken token)
+        {
+            int i = 0;
+            while (!token.IsCancellationRequested)
+            {
+                if (groupBox_Costruisci.IsHandleCreated && !groupBox_Costruisci.IsDisposed)
+                    panel_1.BeginInvoke((Action)(() =>
+                    {
+                        if (Variabili_Client.tutorial_Attivo)
+                        {
+                            if (Variabili_Client.tutorial[10] == true)
+                            {
+                                if (!panel_1.Visible && !Variabili_Client.tutorial[11])
+                                {
+                                    ico_Structure_1.Visible = true;
+                                    panel_1.Visible = true;
+                                }
+                                if (txt_Fattoria_Costruzione.Text == "1") Btn_Costruzione.Enabled = true;
+                                else Btn_Costruzione.Enabled = false;
+                            }
+                            if (Variabili_Client.tutorial[13] == true)
+                            {
+                                if (!panel_2.Visible && !Variabili_Client.tutorial[14])
+                                {
+                                    ico_Structure_1.Visible = false;
+                                    panel_1.Visible = false;
 
+                                    ico_Structure_2.Visible = true;
+                                    panel_2.Visible = true;
+                                }
+                                if (txt_Segheria_Costruzione.Text == "1") Btn_Costruzione.Enabled = true;
+                                else Btn_Costruzione.Enabled = false;
+                            }
+                            if (Variabili_Client.tutorial[14] == true)
+                            {
+                                if (!panel_3.Visible && !Variabili_Client.tutorial[15])
+                                {
+                                    ico_Structure_2.Visible = false;
+                                    panel_2.Visible = false;
+
+                                    ico_Structure_3.Visible = true;
+                                    panel_3.Visible = true;
+                                }
+                                if (txt_Cava_Costruzione.Text == "1") Btn_Costruzione.Enabled = true;
+                                else Btn_Costruzione.Enabled = false;
+                            }
+                            if (Variabili_Client.tutorial[15] == true)
+                            {
+                                if (!panel_4.Visible && !Variabili_Client.tutorial[16])
+                                {
+                                    ico_Structure_3.Visible = false;
+                                    panel_3.Visible = false;
+
+                                    ico_Structure_4.Visible = true;
+                                    panel_4.Visible = true;
+                                }
+                                if (txt_MinieraFerro_Costruzione.Text == "1") Btn_Costruzione.Enabled = true;
+                                else Btn_Costruzione.Enabled = false;
+                            }
+                            if (Variabili_Client.tutorial[16] == true)
+                            {
+                                if (!panel_5.Visible && !Variabili_Client.tutorial[17])
+                                {
+                                    ico_Structure_4.Visible = false;
+                                    panel_4.Visible = false;
+
+                                    ico_Structure_5.Visible = true;
+                                    panel_5.Visible = true;
+                                }
+                                if (txt_MinieraOro_Costruzione.Text == "1") Btn_Costruzione.Enabled = true;
+                                else Btn_Costruzione.Enabled = false;
+                            }
+                            if (Variabili_Client.tutorial[17] == true) //Abitazioni
+                            {
+                                if (!panel_6.Visible)
+                                {
+                                    ico_Structure_5.Visible = false;
+                                    panel_5.Visible = false;
+
+                                    ico_Structure_6.Visible = true;
+                                    panel_6.Visible = true;
+                                }
+                                if (txt_Case_Costruzione.Text == "1") Btn_Costruzione.Enabled = true;
+                                else Btn_Costruzione.Enabled = false;
+                            }
+                            if (Variabili_Client.tutorial[18] == true) //Strutture militari
+                                if (i == 0)
+                                {
+                                    ico_Structure_1.Visible = true;
+                                    ico_Structure_2.Visible = true;
+                                    ico_Structure_3.Visible = true;
+                                    ico_Structure_4.Visible = true;
+                                    ico_Structure_5.Visible = true;
+                                    panel_1.Visible = true;
+                                    panel_2.Visible = true;
+                                    panel_3.Visible = true;
+                                    panel_4.Visible = true;
+                                    panel_5.Visible = true;
+
+                                    groupBox_Strutture_Militari.Visible = true;
+                                    groupBox_Strutture_Civili.Visible = false;
+                                }
+                            if (Variabili_Client.tutorial[19] == true) //Unità Militari / Esercito
+                                if (i == 0)
+                                {
+                                    groupBox_Reclutamento.Visible = true;
+                                    groupBox_Recluta.Visible = true;
+                                    groupBox_Strutture_Militari.Visible = false;
+                                }
+                            if (Variabili_Client.tutorial[20] == true) //Caserme
+                                if (i == 0)
+                                {
+                                    groupBox_Caserme.Visible = true;
+                                    groupBox_Reclutamento.Visible = false;
+                                }
+                            
+                            if (Variabili_Client.tutorial[21] == true) //Addestramento
+                            {
+                                groupBox_Strutture_Civili.Visible = true;
+                                groupBox_Strutture_Militari.Visible = true;
+                                groupBox_Reclutamento.Visible = true;
+                                i++;
+                            }
+                        }
+                    }));
+
+                await Task.Delay(1000); // meglio di Thread.Sleep
+            }
+        }
         private void Costruzione_Load(object sender, EventArgs e)
         {
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
+            Task.Run(() => Gui_Update(cts.Token), cts.Token);
+        }
+        void Tutorial_Start()
+        {
+            groupBox_Strutture_Civili.Visible = true;
+            groupBox_Strutture_Militari.Visible = false;
+            groupBox_Caserme.Visible = false;
+            groupBox_Reclutamento.Visible = false;
+            groupBox_Costruisci.Visible = true;
+            groupBox_Recluta.Visible = false;
+
+            ico_Structure_1.Visible = false;
+            ico_Structure_2.Visible = false;
+            ico_Structure_3.Visible = false;
+            ico_Structure_4.Visible = false;
+            ico_Structure_5.Visible = false;
+            ico_Structure_6.Visible = false;
+            //ico_Structure_7.Visible = false;
+            //ico_Structure_8.Visible = false;
+            //ico_Structure_9.Visible = false;
+            //ico_Structure_10.Visible = false;
+            //ico_Structure_11.Visible = false;
+            //ico_Structure_12.Visible = false;
+            //ico_Unita_1.Visible = false;
+            //ico_Unita_2.Visible = false;
+            //ico_Unita_3.Visible = false;
+            //ico_Unita_4.Visible = false;
+            //ico_Caserma_1.Visible = false;
+            //ico_Caserma_2.Visible = false;
+            //ico_Caserma_3.Visible = false;
+            //ico_Caserma_4.Visible = false;
+
+            //Strutture civili e militari in ordine...
+            panel_1.Visible = false;
+            panel_2.Visible = false;
+            panel_3.Visible = false;
+            panel_4.Visible = false;
+            panel_5.Visible = false;
+            panel_6.Visible = false;
+            //panel_7.Visible = false;
+            //panel_8.Visible = false;
+            //panel_9.Visible = false;
+            //panel_10.Visible = false;
+            //panel_11.Visible = false;
+            //panel_12.Visible = false;
+
+            //Caserme
+            //panel_13.Visible = false;
+            //panel_14.Visible = false;
+            //panel_15.Visible = false;
+            //panel_16.Visible = false;
+
+            //Reclutamento
+            //panel_17.Visible = false;
+            //panel_18.Visible = false;
+            //panel_19.Visible = false;
+            //panel_20.Visible = false;
+            panel_21.Visible = false; //Questa unità è vuota, non esiste...
+            panel32.Visible = false;
+
         }
         void UnlockSoldierTier(int tier)
         {
@@ -155,6 +347,7 @@ namespace CriptoGame_Online
 
         private void Btn_Costruzione_Click(object sender, EventArgs e)
         {
+            this.ActiveControl = groupBox_Costruisci; // assegna il focus al bottone
             ClientConnection.TestClient.Send($"Costruzione|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|" +
                 $"{txt_Fattoria_Costruzione.Text}|" +
                 $"{txt_Segheria_Costruzione.Text}|" +
@@ -172,6 +365,9 @@ namespace CriptoGame_Online
                 $"{txt_Caserme_Arceri_Costruzione.Text}|" +
                 $"{txt_Caserme_Lanceri_Costruzione.Text}|" +
                 $"{txt_Caserme_Catapulte_Costruzione.Text}");
+
+            if (Variabili_Client.tutorial_Attivo == true)
+                ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{12}");
 
             txt_Fattoria_Costruzione.Text = "0";
             txt_Segheria_Costruzione.Text = "0";
@@ -193,13 +389,9 @@ namespace CriptoGame_Online
         }
         private void btn_Reclutamento_Click(object sender, EventArgs e)
         {
-            string livello = "1";
-            if (btn_II.Enabled == false) livello = "2";
-            if (btn_III.Enabled == false) livello = "3";
-            if (btn_IV.Enabled == false) livello = "4";
-            if (btn_V.Enabled == false) livello = "5";
+            this.ActiveControl = btn_Reclutamento; // assegna il focus al bottone
 
-            ClientConnection.TestClient.Send($"Reclutamento|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{livello}|" +
+            ClientConnection.TestClient.Send($"Reclutamento|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{livello_Esercito}|" +
                 $"{txt_Guerriero_Reclutamento.Text}|" +
                 $"{txt_Lancere_Reclutamento.Text}|" +
                 $"{txt_Arcere_Reclutamento.Text}|" +
@@ -532,5 +724,24 @@ namespace CriptoGame_Online
                 txt_Caserme_Catapulte_Costruzione.Text = (Convert.ToInt32(txt_Caserme_Catapulte_Costruzione.Text) + 1).ToString();
         }
         #endregion
+
+        private void Costruzione_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (Variabili_Client.tutorial_Attivo == true)
+                ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{23}");
+            cts.Cancel();
+        }
+
+        private void ico_Caserma_4_Click(object sender, EventArgs e)
+        {
+            if (Variabili_Client.tutorial_Attivo == true)
+                ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{22}");
+        }
+
+        private void ico_Unita_1_Click(object sender, EventArgs e)
+        {
+            if (Variabili_Client.tutorial_Attivo == true)
+                ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{21}");
+        }
     }
 }
