@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Text.Json;
-using static Server_Strategico.Gioco.BuildingManager;
 using static Server_Strategico.Gioco.Giocatori;
 using static Server_Strategico.Gioco.Variabili_Server;
-using static Server_Strategico.Gioco.QuestManager;
+using static Server_Strategico.Manager.QuestManager;
 using static Server_Strategico.Server.Server;
 using System.Runtime.CompilerServices;
+using Server_Strategico.Manager;
 
 namespace Server_Strategico.Gioco
 {
@@ -19,6 +19,9 @@ namespace Server_Strategico.Gioco
             public string Password { get; set; }
             public Guid guid_Player { get; set; }
             public bool Tutorial { get; set; }
+            public bool Stato_Giocatore { get; set; }
+            public bool[] Tutorial_Stato { get; set; } = new bool[20];
+            public bool[] Tutorial_Premi { get; set; } = new bool[20];
 
             // Esperienza e VIP
             public int Esperienza { get; set; }
@@ -162,18 +165,22 @@ namespace Server_Strategico.Gioco
             public int Ricerca_Ingresso_Guarnigione { get; set; }
             public int Ricerca_Citta_Guarnigione { get; set; }
 
+            public int Ricerca_Cancello_Livello { get; set; }
             public int Ricerca_Cancello_Salute { get; set; }
             public int Ricerca_Cancello_Difesa { get; set; }
             public int Ricerca_Cancello_Guarnigione { get; set; }
 
+            public int Ricerca_Mura_Livello { get; set; }
             public int Ricerca_Mura_Salute { get; set; }
             public int Ricerca_Mura_Difesa { get; set; }
             public int Ricerca_Mura_Guarnigione { get; set; }
 
+            public int Ricerca_Torri_Livello { get; set; }
             public int Ricerca_Torri_Salute { get; set; }
             public int Ricerca_Torri_Difesa { get; set; }
             public int Ricerca_Torri_Guarnigione { get; set; }
 
+            public int Ricerca_Castello_Livello { get; set; }
             public int Ricerca_Castello_Salute { get; set; }
             public int Ricerca_Castello_Difesa { get; set; }
             public int Ricerca_Castello_Guarnigione { get; set; }
@@ -316,16 +323,17 @@ namespace Server_Strategico.Gioco
             public QuestManager.PlayerQuestProgress QuestProgress { get; set; } = new();
             public List<Gioco.Barbari.VillaggioBarbaro> VillaggiPersonali { get; set; } = new();
 
-            public List<BuildingManager.ConstructionTask> currentTasks_Building = new(); // Lista dei task attualmente in costruzione (slot globali, max = Code_Costruzione)
-            public Queue<BuildingManager.ConstructionTask> pausedTasks_Building = new(); 
-            public Queue<BuildingManager.ConstructionTask> building_Queue = new(); // Coda globale di attesa (quando tutti gli slot sono occupati)
+            public List<BuildingManagerV2.ConstructionTaskV2> task_Attuale_Costruzioni = new(); // Lista di costruzioni attive... Possono esserci anche edifici in pausa... 
+            public Queue<BuildingManagerV2.ConstructionTaskV2> task_Coda_Costruzioni = new(); // Coda globale di attesa (quando tutti gli slot sono occupati)
 
-            public List<UnitManager.RecruitTask> currentTasks_Recruit = new(); // Lista dei task attualmente in costruzione (slot globali, max = Code_Reclutamento)
-            public Queue<UnitManager.RecruitTask> pausedTasks_Recruit = new();
-            public Queue<UnitManager.RecruitTask> recruit_Queue = new(); // Coda globale di attesa (quando tutti gli slot sono occupati)
+            public List<UnitManagerV2.UnitTaskV2> task_Attuale_Recutamento = new(); // Lista di costruzioni attive... Possono esserci anche edifici in pausa... 
+            public Queue<UnitManagerV2.UnitTaskV2> task_Coda_Recutamento = new(); // Coda globale di attesa (quando tutti gli slot sono occupati)
 
             public List<ResearchManager.ResearchTask> currentTasks_Research = new(); // Lista dei task attualmente in costruzione (slot globali, max = 1)
             public Queue<ResearchManager.ResearchTask> research_Queue = new(); // Coda globale di attesa (quando tutti gli slot sono occupati)
+
+            public readonly object LockCostruzione = new object();
+            public readonly object LockReclutamento = new object();
 
             public Player(string username, string password, Guid guid_Client)
             {
@@ -336,6 +344,8 @@ namespace Server_Strategico.Gioco
                 PremiNormali = new bool[20];
                 PremiVIP = new bool[20];
                 Tutorial = true;
+                Tutorial_Stato = new bool[32];
+                Tutorial_Premi = new bool[32];
 
                 //Limiti giocatore [DD - MM - AA]
                 Diamanti_Viola_PVP_Ottenuti = 0;
@@ -365,6 +375,7 @@ namespace Server_Strategico.Gioco
                 GamePass_Base_Tempo = 0;
                 GamePass_Avanzato_Tempo = 0;
                 Ricerca_Attiva = false;
+                Stato_Giocatore = true;
                 Diamanti_Blu = 0;
                 Diamanti_Viola = 0;
                 Dollari_Virtuali = 0;
@@ -521,18 +532,22 @@ namespace Server_Strategico.Gioco
                 Ricerca_Ingresso_Guarnigione = 0;
                 Ricerca_Citta_Guarnigione = 0;
 
+                Ricerca_Cancello_Livello = 0;
                 Ricerca_Cancello_Salute = 0;
                 Ricerca_Cancello_Difesa = 0;
                 Ricerca_Cancello_Guarnigione = 0;
 
+                Ricerca_Mura_Livello = 0;
                 Ricerca_Mura_Salute = 0;
                 Ricerca_Mura_Difesa = 0;
                 Ricerca_Mura_Guarnigione = 0;
 
+                Ricerca_Torri_Livello = 0;
                 Ricerca_Torri_Salute = 0;
                 Ricerca_Torri_Difesa = 0;
                 Ricerca_Torri_Guarnigione = 0;
 
+                Ricerca_Castello_Livello = 0;
                 Ricerca_Castello_Salute = 0;
                 Ricerca_Castello_Difesa = 0;
                 Ricerca_Castello_Guarnigione = 0;
@@ -691,7 +706,7 @@ namespace Server_Strategico.Gioco
                 if (Frecce < Workshop_Frecce * Strutture.Edifici.ProduzioneFrecce.Limite)
                     Frecce += Workshop_Frecce * Strutture.Edifici.ProduzioneFrecce.Produzione * (1 + Bonus_Produzione_Risorse);
             }
-            public void SetupVillaggioGiocatore()
+            public void SetupVillaggioGiocatore(Player player)
             {
                 // Salva i valori MAX precedenti PRIMA di ricalcolarli
                 int oldSalute_CancelloMax = Salute_CancelloMax;
@@ -722,24 +737,26 @@ namespace Server_Strategico.Gioco
                 // Aggiorna i valori attuali SOLO se il MAX è aumentato
                 // Aggiunge la DIFFERENZA tra nuovo e vecchio MAX
                 if (Salute_CancelloMax > oldSalute_CancelloMax)
-                    Salute_Cancello += (Salute_CancelloMax - oldSalute_CancelloMax);
+                    Salute_Cancello += Salute_CancelloMax - oldSalute_CancelloMax;
                 if (Difesa_CancelloMax > oldDifesa_CancelloMax)
-                    Difesa_Cancello += (Difesa_CancelloMax - oldDifesa_CancelloMax);
+                    Difesa_Cancello += Difesa_CancelloMax - oldDifesa_CancelloMax;
 
                 if (Salute_MuraMax > oldSalute_MuraMax)
-                    Salute_Mura += (Salute_MuraMax - oldSalute_MuraMax);
+                    Salute_Mura += Salute_MuraMax - oldSalute_MuraMax;
                 if (Difesa_MuraMax > oldDifesa_MuraMax)
-                    Difesa_Mura += (Difesa_MuraMax - oldDifesa_MuraMax);
+                    Difesa_Mura += Difesa_MuraMax - oldDifesa_MuraMax;
 
                 if (Salute_TorriMax > oldSalute_TorriMax)
-                    Salute_Torri += (Salute_TorriMax - oldSalute_TorriMax);
+                    Salute_Torri += Salute_TorriMax - oldSalute_TorriMax;
                 if (Difesa_TorriMax > oldDifesa_TorriMax)
-                    Difesa_Torri += (Difesa_TorriMax - oldDifesa_TorriMax);
+                    Difesa_Torri += Difesa_TorriMax - oldDifesa_TorriMax;
 
                 if (Salute_CastelloMax > oldSalute_CastelloMax)
-                    Salute_Castello += (Salute_CastelloMax - oldSalute_CastelloMax);
+                    Salute_Castello += Salute_CastelloMax - oldSalute_CastelloMax;
                 if (Difesa_CastelloMax > oldDifesa_CastelloMax)
-                    Difesa_Castello += (Difesa_CastelloMax - oldDifesa_CastelloMax);
+                    Difesa_Castello += Difesa_CastelloMax - oldDifesa_CastelloMax;
+
+                Server.Server.GameServer.GuerrieriCitta(player);
             }
             public void SetupCaserme()
             {
