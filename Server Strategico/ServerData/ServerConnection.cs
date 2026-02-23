@@ -59,6 +59,8 @@ namespace Server_Strategico.Server
                         Server.servers_.AggiornaListaPVP();
                         Tutorial(player);
                         player.SetupCaserme();
+                        GamePass_Premi_Send(player);
+                        Update_Data_OneTime(clientGuid,player);
                     }
                     else
                         Server.Send(clientGuid, $"Login|false|Questo nome utente è già presente: [{msgArgs[1]}]");
@@ -74,7 +76,23 @@ namespace Server_Strategico.Server
                         Server.servers_.AggiornaListaPVP();
                         Tutorial(player);
                         player.SetupCaserme();
+                        GamePass_Premi_Send(player);
+                        Update_Data_OneTime(clientGuid, player);
                         if (player.Stato_Giocatore == false) player.Stato_Giocatore = true;
+                        if (player.Last_Login != DateTime.Now.Date) //Accesso giornaliero - Incremento e controllo accessi consecutivi per GamePass
+                        {
+                            var daysDiff = (DateTime.Now.Date - player.Last_Login.Date).Days; 
+                            if (daysDiff == 1)
+                            {
+                                player.GamePass_Accessi_Consecutivi += 1;
+                                player.Last_Login = DateTime.Now.Date;
+                            }
+                            else if (daysDiff > 1)
+                            {
+                                player.GamePass_Accessi_Consecutivi = 1;
+                                player.Last_Login = DateTime.Now.Date;
+                            }
+                        }
                     }
                     else
                         Server.Send(clientGuid, $"Login|false|Username o password non corrispondono. User: [{msgArgs[1]}] psw: [{msgArgs[2]}]");
@@ -163,6 +181,7 @@ namespace Server_Strategico.Server
                             BattaglieV2.Battaglia_PvP(player, difensore, clientGuid, difensore.guid_Player, result.AttaccantePerdite.Guerrieri, result.AttaccantePerdite.Lancieri, result.AttaccantePerdite.Arcieri, result.AttaccantePerdite.Catapulte);
 
                         Server.servers_.AggiornaListaPVP();
+                        Server.GameServer.GuerrieriCitta(player);
                     }
                     
                     break;
@@ -191,6 +210,7 @@ namespace Server_Strategico.Server
                     break;
                 case "SpostamentoTruppe":
                     SpostamentoTruppe(clientGuid, player, msgArgs); //sposta le troppe tra il "giocatore" e la città/cancello/ingresso
+                    Server.GameServer.GuerrieriCitta(player);
                     break;
                 case "Ripara":
                     Set_Riparazioni(player, msgArgs);
@@ -201,10 +221,24 @@ namespace Server_Strategico.Server
                 case "Tutorial Update":
                     TutorialUpdate(player, msgArgs);
                     break;
+                case "GamePass DailyReward":
+                    GamePass_Premi(player);
+                    break;
 
                 default: Console.WriteLine($"Messaggio: [{msgArgs}]"); break;
             }
            
+        }
+        public static void GamePass_Premi(Player player)
+        {
+            //if (player.GamePass_Avanzato)
+                for (int i = 0; i < Variabili_Server.gamePass_DailyReward.Count(); i++) //Forse utilizzando il numero dei giorni consecutivi posso evitare il for? da testare
+                    if (player.GamePass_Accessi_Consecutivi == i && player.GamePass_Premi[i] == false)
+                    {
+                        player.Diamanti_Viola += Variabili_Server.gamePass_DailyReward[i];
+                        player.GamePass_Premi[i] = true;
+                    }
+            GamePass_Premi_Send(player);
         }
         public static void TutorialUpdate(Player player, string[] Dati)
         {
@@ -764,6 +798,7 @@ namespace Server_Strategico.Server
                             player.PremiNormali[reward] = true;
                             player.Diamanti_Blu += QuestManager.QuestRewardSet.Normali_Monthly.Rewards[reward];
                             QuestManager.QuestRewardUpdate(player);
+                            QuestManager.QuestUpdate(player);
                             return;
                         }else
                         {
@@ -791,11 +826,12 @@ namespace Server_Strategico.Server
                             player.PremiVIP[reward] = true;
                             player.Diamanti_Viola += QuestManager.QuestRewardSet.Vip_Monthly.Rewards[reward];
                         }
+                        QuestManager.QuestRewardUpdate(player);
+                        QuestManager.QuestUpdate(player);
                     }
                     break;
 
             }
-            QuestManager.QuestRewardUpdate(player);
         }
         static async Task<bool> New_Player(string username, string password, Guid guid)
         {
@@ -845,6 +881,19 @@ namespace Server_Strategico.Server
                     return true;
             }
             return true;
+        }
+        public static void GamePass_Premi_Send(Player player)
+        {
+            string gamePass_DailyReward_Ottenuti = "";
+            foreach (var item in player.GamePass_Premi)
+                gamePass_DailyReward_Ottenuti += $"|{item}";
+            Server.Send(player.guid_Player, "Gamepass_Premi_Ottenuti" + gamePass_DailyReward_Ottenuti);
+
+            string gamePass_DailyReward = "";
+            foreach (var item in Variabili_Server.gamePass_DailyReward)
+                gamePass_DailyReward += $"|{item}";
+            Server.Send(player.guid_Player, "Gamepass_Premi" + gamePass_DailyReward);
+
         }
         public static void Tutorial(Player player)
         {
@@ -968,83 +1017,12 @@ namespace Server_Strategico.Server
             };
             Server.Send(player.guid_Player, JsonSerializer.Serialize(cittaUpdate));
         }
-        public static void Update_Data(Guid guid, Player player)
+        public static void Update_Data_OneTime(Guid guid, Player player)
         {
-            var buildingsQueue = BuildingManagerV2.GetQueuedBuildings(player);
-            var unitsQueue = UnitManagerV2.GetQueuedUnits(player);
-
-            double Cibo = 0, Oro = 0;
-            double Cibo_Strutture = 0, Legno_Strutture = 0, Ferro_Strutture = 0, Pietra_Strutture = 0, Oro_Strutture = 0;
-
-            Cibo -= player.Guerrieri[0] * Esercito.Unità.Guerriero_1.Cibo + player.Lanceri[0] * Esercito.Unità.Lancere_1.Cibo + player.Arceri[0] * Esercito.Unità.Arcere_1.Cibo + player.Catapulte[0] * Esercito.Unità.Catapulta_1.Cibo;
-            Cibo -= player.Guerrieri[1] * Esercito.Unità.Guerriero_2.Cibo + player.Lanceri[1] * Esercito.Unità.Lancere_2.Cibo + player.Arceri[1] * Esercito.Unità.Arcere_2.Cibo + player.Catapulte[1] * Esercito.Unità.Catapulta_2.Cibo;
-            Cibo -= player.Guerrieri[2] * Esercito.Unità.Guerriero_3.Cibo + player.Lanceri[2] * Esercito.Unità.Lancere_3.Cibo + player.Arceri[2] * Esercito.Unità.Arcere_3.Cibo + player.Catapulte[2] * Esercito.Unità.Catapulta_3.Cibo;
-            Cibo -= player.Guerrieri[3] * Esercito.Unità.Guerriero_4.Cibo + player.Lanceri[3] * Esercito.Unità.Lancere_4.Cibo + player.Arceri[3] * Esercito.Unità.Arcere_4.Cibo + player.Catapulte[3] * Esercito.Unità.Catapulta_4.Cibo;
-            Cibo -= player.Guerrieri[4] * Esercito.Unità.Guerriero_5.Cibo + player.Lanceri[4] * Esercito.Unità.Lancere_5.Cibo + player.Arceri[4] * Esercito.Unità.Arcere_5.Cibo + player.Catapulte[4] * Esercito.Unità.Catapulta_5.Cibo;
-
-            Oro -= player.Guerrieri[0] * Esercito.Unità.Guerriero_1.Salario + player.Lanceri[0] * Esercito.Unità.Lancere_1.Salario + player.Arceri[0] * Esercito.Unità.Arcere_1.Salario + player.Catapulte[0] * Esercito.Unità.Catapulta_1.Salario;
-            Oro -= player.Guerrieri[1] * Esercito.Unità.Guerriero_2.Salario + player.Lanceri[1] * Esercito.Unità.Lancere_2.Salario + player.Arceri[1] * Esercito.Unità.Arcere_2.Salario + player.Catapulte[1] * Esercito.Unità.Catapulta_2.Salario;
-            Oro -= player.Guerrieri[2] * Esercito.Unità.Guerriero_3.Salario + player.Lanceri[2] * Esercito.Unità.Lancere_3.Salario + player.Arceri[2] * Esercito.Unità.Arcere_3.Salario + player.Catapulte[2] * Esercito.Unità.Catapulta_3.Salario;
-            Oro -= player.Guerrieri[3] * Esercito.Unità.Guerriero_4.Salario + player.Lanceri[3] * Esercito.Unità.Lancere_4.Salario + player.Arceri[3] * Esercito.Unità.Arcere_4.Salario + player.Catapulte[3] * Esercito.Unità.Catapulta_4.Salario;
-            Oro -= player.Guerrieri[4] * Esercito.Unità.Guerriero_5.Salario + player.Lanceri[4] * Esercito.Unità.Lancere_5.Salario + player.Arceri[4] * Esercito.Unità.Arcere_5.Salario + player.Catapulte[4] * Esercito.Unità.Catapulta_5.Salario;
-
-            Cibo_Strutture -= player.Caserma_Guerrieri * Strutture.Edifici.CasermaGuerrieri.Consumo_Cibo;
-            Oro_Strutture -= player.Caserma_Guerrieri * Strutture.Edifici.CasermaGuerrieri.Consumo_Oro;
-
-            Cibo_Strutture -= player.Caserma_Lancieri * Strutture.Edifici.CasermaLanceri.Consumo_Cibo;
-            Oro_Strutture -= player.Caserma_Lancieri * Strutture.Edifici.CasermaLanceri.Consumo_Oro;
-
-            Cibo_Strutture -= player.Caserma_Arceri * Strutture.Edifici.CasermaArceri.Consumo_Cibo;
-            Oro_Strutture -= player.Caserma_Arceri * Strutture.Edifici.CasermaArceri.Consumo_Oro;
-
-            Cibo_Strutture -= player.Caserma_Catapulte * Strutture.Edifici.CasermaCatapulte.Consumo_Cibo;
-            Oro_Strutture -= player.Caserma_Catapulte * Strutture.Edifici.CasermaCatapulte.Consumo_Oro;
-
-            Legno_Strutture -= player.Workshop_Spade * Strutture.Edifici.ProduzioneSpade.Consumo_Legno;
-            Ferro_Strutture -= player.Workshop_Spade * Strutture.Edifici.ProduzioneSpade.Consumo_Ferro;
-            Oro_Strutture -= player.Workshop_Spade * Strutture.Edifici.ProduzioneSpade.Consumo_Oro;
-
-            Legno_Strutture -= player.Workshop_Lance * Strutture.Edifici.ProduzioneLance.Consumo_Legno;
-            Ferro_Strutture -= player.Workshop_Lance * Strutture.Edifici.ProduzioneLance.Consumo_Ferro;
-            Oro_Strutture -= player.Workshop_Lance * Strutture.Edifici.ProduzioneLance.Consumo_Oro;
-
-            Legno_Strutture -= player.Workshop_Archi * Strutture.Edifici.ProduzioneArchi.Consumo_Legno;
-            Oro_Strutture -= player.Workshop_Archi * Strutture.Edifici.ProduzioneArchi.Consumo_Oro;
-
-            Legno_Strutture -= player.Workshop_Scudi * Strutture.Edifici.ProduzioneScudi.Consumo_Legno;
-            Ferro_Strutture -= player.Workshop_Scudi * Strutture.Edifici.ProduzioneScudi.Consumo_Ferro;
-            Oro_Strutture -= player.Workshop_Scudi * Strutture.Edifici.ProduzioneScudi.Consumo_Oro;
-
-            Ferro_Strutture -= player.Workshop_Armature * Strutture.Edifici.ProduzioneArmature.Consumo_Ferro;
-            Oro_Strutture -= player.Workshop_Armature * Strutture.Edifici.ProduzioneArmature.Consumo_Oro;
-
-            Legno_Strutture -= player.Workshop_Frecce * Strutture.Edifici.ProduzioneFrecce.Consumo_Legno;
-            Pietra_Strutture -= player.Workshop_Frecce * Strutture.Edifici.ProduzioneFrecce.Consumo_Pietra;
-            Ferro_Strutture -= player.Workshop_Frecce * Strutture.Edifici.ProduzioneFrecce.Consumo_Ferro;
-            Oro_Strutture -= player.Workshop_Frecce * Strutture.Edifici.ProduzioneFrecce.Consumo_Oro;
-
-            //QuestManager.QuestUpdate(player);
-            //QuestManager.QuestRewardUpdate(player);
-            //Descrizioni.DescUpdate(player);
-            //AggiornaVillaggiClient(player);
-
             string data =
             "Update_Data|" +
-
-            //Dati utente
-            $"livello={player.Livello}|" +
-            $"esperienza={player.Esperienza}|" +
-            $"vip={player.Vip}|" +
-            $"vip_Tempo={player.FormatTime(player.Vip_Tempo)}|" +
-
-            $"Scudo_Tempo={player.FormatTime(player.ScudoDellaPace)}|" +
-            $"Costruttori_Tempo={player.FormatTime(player.Costruttori)}|" +
-            $"Reclutatori_Tempo={player.FormatTime(player.Reclutatori)}|" +
-
-            $"GamePass_Base={player.GamePass_Base}|" +
-            $"GamePass_Base_Tempo={player.FormatTime(player.GamePass_Base_Tempo)}|" +
-            $"GamePass_Avanzato={player.GamePass_Avanzato}|" +
-            $"GamePass_Avanzato_Tempo={player.FormatTime(player.GamePass_Avanzato_Tempo)}|" +
+            $"D_Viola_D_Blu={Variabili_Server.D_Viola_To_Blu}|" +
+            $"Tempo_D_Blu={Variabili_Server.Velocizzazione_Tempo}|" +
 
             $"QuestMensili_Tempo={player.FormatTime(Variabili_Server.timer_Reset_Quest)}|" +
             $"Barbari_Tempo={player.FormatTime(Variabili_Server.timer_Reset_Barbari)}|" +
@@ -1052,6 +1030,7 @@ namespace Server_Strategico.Server
             $"punti_quest={player.Punti_Quest}|" +
             $"costo_terreni_Virtuali={Strutture.Edifici.Terreni_Virtuali.Diamanti_Viola}|" +
             $"Tutorial={player.Tutorial}|" +
+            $"Giorni_Consecutivi={player.GamePass_Accessi_Consecutivi}|" +
 
             //Livelli Sblocco
             $"Unlock_Truppe_II={Variabili_Server.truppe_II}|" +
@@ -1094,564 +1073,56 @@ namespace Server_Strategico.Server
             $"Pacchetto_GamePass_Base_Reward={Variabili_Server.Shop.GamePass_Base.Reward}|" +
             $"Pacchetto_GamePass_Avanzato_Costo={Variabili_Server.Shop.GamePass_Avanzato.Costo}|" +
             $"Pacchetto_GamePass_Avanzato_Reward={Variabili_Server.Shop.GamePass_Avanzato.Reward}|" +
-
-            //Risorse
-            $"cibo={player.Cibo:#,0}|" +
-            $"legna={player.Legno:#,0}|" +
-            $"pietra={player.Pietra:#,0}|" +
-            $"ferro={player.Ferro:#,0}|" +
-            $"oro={player.Oro:#,0}|" +
-            $"popolazione={player.Popolazione:#,0.00}|" +
-
-            $"dollari_virtuali={player.Dollari_Virtuali:#,0.0000000000}|" +
-            $"diamanti_blu={player.Diamanti_Blu:#,0}|" +
-            $"diamanti_viola={player.Diamanti_Viola:#,0}|" +
-
-            $"cibo_max={Edifici.Fattoria.Limite:#,0}|" +
-            $"legno_max={Edifici.Segheria.Limite:#,0}|" +
-            $"pietra_max={Edifici.CavaPietra.Limite:#,0}|" +
-            $"ferro_max={Edifici.MinieraFerro.Limite:#,0}|" +
-            $"oro_max={Edifici.MinieraOro.Limite:#,0}|" +
-            $"popolazione_max={Edifici.Case.Limite:#,0}|" +
-
-            //Produzione Risorse
-            $"cibo_s={player.Fattoria * (Strutture.Edifici.Fattoria.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Cibo * (1 + player.Bonus_Produzione_Risorse)):#,0.00}|" +
-            $"legna_s={player.Segheria * (Strutture.Edifici.Segheria.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Legno * (1 + player.Bonus_Produzione_Risorse)):#,0.00}|" +
-            $"pietra_s={player.CavaPietra * (Strutture.Edifici.CavaPietra.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Pietra * (1 + player.Bonus_Produzione_Risorse)):#,0.00}|" +
-            $"ferro_s={player.MinieraFerro * (Strutture.Edifici.MinieraFerro.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Ferro * (1 + player.Bonus_Produzione_Risorse)):#,0.00}|" +
-            $"oro_s={player.MinieraOro * (Strutture.Edifici.MinieraOro.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Oro * (1 + player.Bonus_Produzione_Risorse)):#,0.00}|" +
-            $"popolazione_s={player.Abitazioni * (Strutture.Edifici.Case.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Popolazione):#,0.000}|" +
-
-            $"spade_s={player.Workshop_Spade * (Strutture.Edifici.ProduzioneSpade.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Spade):#,0.000}|" +
-            $"lance_s={player.Workshop_Lance * (Strutture.Edifici.ProduzioneLance.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Lance):#,0.000}|" +
-            $"archi_s={player.Workshop_Archi * (Strutture.Edifici.ProduzioneArchi.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Archi):#,0.000}|" +
-            $"scudi_s={player.Workshop_Scudi * (Strutture.Edifici.ProduzioneScudi.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Scudi):#,0.000}|" +
-            $"armature_s={player.Workshop_Armature * (Strutture.Edifici.ProduzioneArmature.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Armature):#,0.000}|" +
-            $"frecce_s={player.Workshop_Frecce * (Strutture.Edifici.ProduzioneFrecce.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Popolazione):#,0.000}|" +
-
-            $"consumo_cibo_s={Cibo:#,0.00}|" + //Esercito
-            $"consumo_oro_s={Oro:#,0.00}|" + //Esercito
-
-            $"consumo_cibo_strutture={Cibo_Strutture:#,0.00}|" + //Strutture
-            $"consumo_legno_strutture={Legno_Strutture:#,0.00}|" + //Strutture
-            $"consumo_pietra_strutture={Pietra_Strutture:#,0.00}|" + //Strutture
-            $"consumo_ferro_strutture={Ferro_Strutture:#,0.00}|" + //Strutture
-            $"consumo_oro_strutture={Oro_Strutture:#,0.00}|" + //Strutture
-
-            //Limiti Risorse
-            $"cibo_limite={player.Fattoria * Strutture.Edifici.Fattoria.Limite:#,0}|" +
-            $"legna_limite={player.Segheria * Strutture.Edifici.Segheria.Limite:#,0}|" +
-            $"pietra_limite={player.CavaPietra * Strutture.Edifici.CavaPietra.Limite:#,0}|" +
-            $"ferro_limite={player.MinieraFerro * Strutture.Edifici.MinieraFerro.Limite:#,0}|" +
-            $"oro_limite={player.MinieraOro * Strutture.Edifici.MinieraOro.Limite:#,0}|" +
-            $"popolazione_limite={player.Abitazioni * Strutture.Edifici.Case.Limite:#,0}|" +
-
-            $"spade_limite={player.Workshop_Spade * Strutture.Edifici.ProduzioneSpade.Limite:#,0}|" +
-            $"lance_limite={player.Workshop_Lance * Strutture.Edifici.ProduzioneLance.Limite:#,0}|" +
-            $"archi_limite={player.Workshop_Archi * Strutture.Edifici.ProduzioneArchi.Limite:#,0}|" +
-            $"scudi_limite={player.Workshop_Scudi * Strutture.Edifici.ProduzioneScudi.Limite:#,0}|" +
-            $"armature_limite={player.Workshop_Armature * Strutture.Edifici.ProduzioneArmature.Limite:#,0}|" +
-            $"frecce_limite={player.Workshop_Frecce * Strutture.Edifici.ProduzioneFrecce.Limite:#,0}|" +
-
-            //Risorse Militari
-            $"spade={player.Spade:#,0.00}|" +
-            $"lance={player.Lance:#,0.00}|" +
-            $"archi={player.Archi:#,0.00}|" +
-            $"scudi={player.Scudi:#,0.00}|" +
-            $"armature={player.Armature:#,0.00}|" +
-            $"frecce={player.Frecce:#,0}|" +
-
-            $"spade_max={Edifici.ProduzioneSpade.Limite:#,0}|" +
-            $"lance_max={Edifici.ProduzioneLance.Limite:#,0}|" +
-            $"archi_max={Edifici.ProduzioneArchi.Limite:#,0}|" +
-            $"scudi_max={Edifici.ProduzioneScudi.Limite:#,0}|" +
-            $"armature_max={Edifici.ProduzioneArmature.Limite:#,0}|" +
-            $"frecce_max={Edifici.ProduzioneFrecce.Limite:#,0}|" +
-
-            //Strutture Civili
-            $"fattorie={player.Fattoria:#,0}|" +
-            $"segherie={player.Segheria:#,0}|" +
-            $"cave_pietra={player.CavaPietra:#,0}|" +
-            $"miniere_ferro={player.MinieraFerro:#,0}|" +
-            $"miniere_oro={player.MinieraOro:#,0}|" +
-            $"case={player.Abitazioni:#,0}|" +
-
-            //Terreni Virtuali
-            $"comune={player.Terreno_Comune:#,0}|" +
-            $"noncomune={player.Terreno_NonComune:#,0}|" +
-            $"raro={player.Terreno_Raro:#,0}|" +
-            $"epico={player.Terreno_Epico:#,0}|" +
-            $"leggendario={player.Terreno_Leggendario:#,0}|" +
-
-            //Strutture Militari
-            $"workshop_spade={player.Workshop_Spade}|" +
-            $"workshop_lance={player.Workshop_Lance}|" +
-            $"workshop_archi={player.Workshop_Archi}|" +
-            $"workshop_scudi={player.Workshop_Scudi}|" +
-            $"workshop_armature={player.Workshop_Armature}|" +
-            $"workshop_frecce={player.Workshop_Frecce}|" +
-
-            $"caserma_guerrieri={player.Caserma_Guerrieri}|" +
-            $"caserma_lanceri={player.Caserma_Lancieri}|" +
-            $"caserma_arceri={player.Caserma_Arceri}|" +
-            $"caserma_catapulte={player.Caserma_Catapulte}|" +
-
-            $"guerrieri_max={player.GuerrieriMax:#,0}|" +
-            $"lanceri_max={player.LancieriMax:#,0}|" +
-            $"arceri_max={player.ArceriMax:#,0}|" +
-            $"catapulte_max={player.CatapulteMax:#,0}|" +
-
-            // Code edifici in formato key=valore (chiavi minuscole)
-            $"fattoria_coda={buildingsQueue.GetValueOrDefault("Fattoria", 0)}|" +
-            $"segheria_coda={buildingsQueue.GetValueOrDefault("Segheria", 0)}|" +
-            $"cavapietra_coda={buildingsQueue.GetValueOrDefault("CavaPietra", 0)}|" +
-            $"minieraferro_coda={buildingsQueue.GetValueOrDefault("MinieraFerro", 0)}|" +
-            $"minieraoro_coda={buildingsQueue.GetValueOrDefault("MinieraOro", 0)}|" +
-            $"casa_coda={buildingsQueue.GetValueOrDefault("Case", 0)}|" +
-
-            $"workshop_spade_coda={buildingsQueue.GetValueOrDefault("ProduzioneSpade", 0)}|" +
-            $"workshop_lance_coda={buildingsQueue.GetValueOrDefault("ProduzioneLance", 0)}|" +
-            $"workshop_archi_coda={buildingsQueue.GetValueOrDefault("ProduzioneArchi", 0)}|" +
-            $"workshop_scudi_coda={buildingsQueue.GetValueOrDefault("ProduzioneScudi", 0)}|" +
-            $"workshop_armature_coda={buildingsQueue.GetValueOrDefault("ProduzioneArmature", 0)}|" +
-            $"workshop_frecce_coda={buildingsQueue.GetValueOrDefault("ProduzioneFrecce", 0)}|" +
-
-            $"caserma_guerrieri_coda={buildingsQueue.GetValueOrDefault("CasermaGuerrieri", 0)}|" +
-            $"caserma_lanceri_coda={buildingsQueue.GetValueOrDefault("CasermaLanceri", 0)}|" +
-            $"caserma_arceri_coda={buildingsQueue.GetValueOrDefault("CasermaArceri", 0)}|" +
-            $"caserma_catapulte_coda={buildingsQueue.GetValueOrDefault("CasermaCatapulte", 0)}|" +
-
-            // unità
-            $"guerrieri_1={player.Guerrieri[0]}|" +
-            $"guerrieri_2={player.Guerrieri[1]}|" +
-            $"guerrieri_3={player.Guerrieri[2]}|" +
-            $"guerrieri_4={player.Guerrieri[3]}|" +
-            $"guerrieri_5={player.Guerrieri[4]}|" +
-
-            $"lanceri_1={player.Lanceri[0]}|" +
-            $"lanceri_2={player.Lanceri[1]}|" +
-            $"lanceri_3={player.Lanceri[2]}|" +
-            $"lanceri_4={player.Lanceri[3]}|" +
-            $"lanceri_5={player.Lanceri[4]}|" +
-
-            $"arceri_1={player.Arceri[0]}|" +
-            $"arceri_2={player.Arceri[1]}|" +
-            $"arceri_3={player.Arceri[2]}|" +
-            $"arceri_4={player.Arceri[3]}|" +
-            $"arceri_5={player.Arceri[4]}|" +
-
-            $"catapulte_1={player.Catapulte[0]}|" +
-            $"catapulte_2={player.Catapulte[1]}|" +
-            $"catapulte_3={player.Catapulte[2]}|" +
-            $"catapulte_4={player.Catapulte[3]}|" +
-            $"catapulte_5={player.Catapulte[4]}|" +
-
-            // Code unità
-            $"guerrieri_1_coda={unitsQueue.GetValueOrDefault("Guerrieri_1", 0)}|" +
-            $"guerrieri_2_coda={unitsQueue.GetValueOrDefault("Guerrieri_2", 0)}|" +
-            $"guerrieri_3_coda={unitsQueue.GetValueOrDefault("Guerrieri_3", 0)}|" +
-            $"guerrieri_4_coda={unitsQueue.GetValueOrDefault("Guerrieri_4", 0)}|" +
-            $"guerrieri_5_coda={unitsQueue.GetValueOrDefault("Guerrieri_5", 0)}|" +
-
-            $"lanceri_1_coda={unitsQueue.GetValueOrDefault("Lanceri_1", 0)}|" +
-            $"lanceri_2_coda={unitsQueue.GetValueOrDefault("Lanceri_2", 0)}|" +
-            $"lanceri_3_coda={unitsQueue.GetValueOrDefault("Lanceri_3", 0)}|" +
-            $"lanceri_4_coda={unitsQueue.GetValueOrDefault("Lanceri_4", 0)}|" +
-            $"lanceri_5_coda={unitsQueue.GetValueOrDefault("Lanceri_5", 0)}|" +
-
-            $"arceri_1_coda={unitsQueue.GetValueOrDefault("Arceri_1", 0)}|" +
-            $"arceri_2_coda={unitsQueue.GetValueOrDefault("Arceri_2", 0)}|" +
-            $"arceri_3_coda={unitsQueue.GetValueOrDefault("Arceri_3", 0)}|" +
-            $"arceri_4_coda={unitsQueue.GetValueOrDefault("Arceri_4", 0)}|" +
-            $"arceri_5_coda={unitsQueue.GetValueOrDefault("Arceri_5", 0)}|" +
-
-            $"catapulte_1_coda={unitsQueue.GetValueOrDefault("Catapulte_1", 0)}|" +
-            $"catapulte_2_coda={unitsQueue.GetValueOrDefault("Catapulte_2", 0)}|" +
-            $"catapulte_3_coda={unitsQueue.GetValueOrDefault("Catapulte_3", 0)}|" +
-            $"catapulte_4_coda={unitsQueue.GetValueOrDefault("Catapulte_4", 0)}|" +
-            $"catapulte_5_coda={unitsQueue.GetValueOrDefault("Catapulte_5", 0)}|" +
-
-            $"forza_esercito={player.forza_Esercito:#,0.00}|" +
-
-            //Terreni Virtuali
-            $"terreni_comune={player.Terreno_Comune}|" +
-            $"terreni_noncomune={player.Terreno_NonComune}|" +
-            $"terreni_raro={player.Terreno_Raro}|" +
-            $"terreni_epico={player.Terreno_Epico}|" +
-            $"terreni_leggendario={player.Terreno_Leggendario}|" +
-
-            //Città Ingresso
-            $"Guarnigione_Ingresso={player.Guarnigione_Ingresso}|" +
-            $"Guarnigione_IngressoMax={player.Guarnigione_IngressoMax}|" +
-
-            //Ingresso
-            $"Guerrieri_1_Ingresso={player.Guerrieri_Ingresso[0]}|" +
-            $"Lanceri_1_Ingresso={player.Lanceri_Ingresso[0]}|" +
-            $"Arceri_1_Ingresso={player.Arceri_Ingresso[0]}|" +
-            $"Catapulte_1_Ingresso={player.Catapulte_Ingresso[0]}|" +
-            $"Guerrieri_2_Ingresso={player.Guerrieri_Ingresso[1]}|" +
-            $"Lanceri_2_Ingresso={player.Lanceri_Ingresso[1]}|" +
-            $"Arceri_2_Ingresso={player.Arceri_Ingresso[1]}|" +
-            $"Catapulte_2_Ingresso={player.Catapulte_Ingresso[1]}|" +
-            $"Guerrieri_3_Ingresso={player.Guerrieri_Ingresso[2]}|" +
-            $"Lanceri_3_Ingresso={player.Lanceri_Ingresso[2]}|" +
-            $"Arceri_3_Ingresso={player.Arceri_Ingresso[2]}|" +
-            $"Catapulte_3_Ingresso={player.Catapulte_Ingresso[2]}|" +
-            $"Guerrieri_4_Ingresso={player.Guerrieri_Ingresso[3]}|" +
-            $"Lanceri_4_Ingresso={player.Lanceri_Ingresso[3]}|" +
-            $"Arceri_4_Ingresso={player.Arceri_Ingresso[3]}|" +
-            $"Catapulte_4_Ingresso={player.Catapulte_Ingresso[3]}|" +
-            $"Guerrieri_5_Ingresso={player.Guerrieri_Ingresso[4]}|" +
-            $"Lanceri_5_Ingresso={player.Lanceri_Ingresso[4]}|" +
-            $"Arceri_5_Ingresso={player.Arceri_Ingresso[4]}|" +
-            $"Catapulte_5_Ingresso={player.Catapulte_Ingresso[4]}|" +
-
-            //Città Cancello
-            $"Guarnigione_Cancello={player.Guarnigione_Cancello}|" +
-            $"Guarnigione_CancelloMax={player.Guarnigione_CancelloMax}|" +
-            $"Guerrieri_1_Cancello={player.Guerrieri_Cancello[0]}|" +
-            $"Lanceri_1_Cancello={player.Lanceri_Cancello[0]}|" +
-            $"Arceri_1_Cancello={player.Arceri_Cancello[0]}|" +
-            $"Catapulte_1_Cancello={player.Catapulte_Cancello[0]}|" +
-            $"Guerrieri_2_Cancello={player.Guerrieri_Cancello[1]}|" +
-            $"Lanceri_2_Cancello={player.Lanceri_Cancello[1]}|" +
-            $"Arceri_2_Cancello={player.Arceri_Cancello[1]}|" +
-            $"Catapulte_2_Cancello={player.Catapulte_Cancello[1]}|" +
-            $"Guerrieri_3_Cancello={player.Guerrieri_Cancello[2]}|" +
-            $"Lanceri_3_Cancello={player.Lanceri_Cancello[2]}|" +
-            $"Arceri_3_Cancello={player.Arceri_Cancello[2]}|" +
-            $"Catapulte_3_Cancello={player.Catapulte_Cancello[2]}|" +
-            $"Guerrieri_4_Cancello={player.Guerrieri_Cancello[3]}|" +
-            $"Lanceri_4_Cancello={player.Lanceri_Cancello[3]}|" +
-            $"Arceri_4_Cancello={player.Arceri_Cancello[3]}|" +
-            $"Catapulte_4_Cancello={player.Catapulte_Cancello[3]}|" +
-            $"Guerrieri_5_Cancello={player.Guerrieri_Cancello[4]}|" +
-            $"Lanceri_5_Cancello={player.Lanceri_Cancello[4]}|" +
-            $"Arceri_5_Cancello={player.Arceri_Cancello[4]}|" +
-            $"Catapulte_5_Cancello={player.Catapulte_Cancello[4]}|" +
-
-            $"Salute_Cancello={player.Salute_Cancello}|" +
-            $"Salute_CancelloMax={player.Salute_CancelloMax}|" +
-            $"Difesa_Cancello={player.Difesa_Cancello}|" +
-            $"Difesa_CancelloMax={player.Difesa_CancelloMax}|" +
-
-            //Città Mura
-            $"Guarnigione_Mura={player.Guarnigione_Mura}|" +
-            $"Guarnigione_MuraMax={player.Guarnigione_MuraMax}|" +
-            $"Guerrieri_1_Mura={player.Guerrieri_Mura[0]}|" +
-            $"Lanceri_1_Mura={player.Lanceri_Mura[0]}|" +
-            $"Arceri_1_Mura={player.Arceri_Mura[0]}|" +
-            $"Catapulte_1_Mura={player.Catapulte_Mura[0]}|" +
-            $"Guerrieri_2_Mura={player.Guerrieri_Mura[1]}|" +
-            $"Lanceri_2_Mura={player.Lanceri_Mura[1]}|" +
-            $"Arceri_2_Mura={player.Arceri_Mura[1]}|" +
-            $"Catapulte_2_Mura={player.Catapulte_Mura[1]}|" +
-            $"Guerrieri_3_Mura={player.Guerrieri_Mura[2]}|" +
-            $"Lanceri_3_Mura={player.Lanceri_Mura[2]}|" +
-            $"Arceri_3_Mura={player.Arceri_Mura[2]}|" +
-            $"Catapulte_3_Mura={player.Catapulte_Mura[2]}|" +
-            $"Guerrieri_4_Mura={player.Guerrieri_Mura[3]}|" +
-            $"Lanceri_4_Mura={player.Lanceri_Mura[3]}|" +
-            $"Arceri_4_Mura={player.Arceri_Mura[3]}|" +
-            $"Catapulte_4_Mura={player.Catapulte_Mura[3]}|" +
-            $"Guerrieri_5_Mura={player.Guerrieri_Mura[4]}|" +
-            $"Lanceri_5_Mura={player.Lanceri_Mura[4]}|" +
-            $"Arceri_5_Mura={player.Arceri_Mura[4]}|" +
-            $"Catapulte_5_Mura={player.Catapulte_Mura[4]}|" +
-            $"Salute_Mura={player.Salute_Mura}|" +
-            $"Salute_MuraMax={player.Salute_MuraMax}|" +
-            $"Difesa_Mura={player.Difesa_Mura}|" +
-            $"Difesa_MuraMax={player.Difesa_MuraMax}|" +
-
-            //Città Torri
-            $"Guarnigione_Torri={player.Guarnigione_Torri}|" +
-            $"Guarnigione_TorriMax={player.Guarnigione_TorriMax}|" +
-            $"Guerrieri_1_Torri={player.Guerrieri_Torri[0]}|" +
-            $"Lanceri_1_Torri={player.Lanceri_Torri[0]}|" +
-            $"Arceri_1_Torri={player.Arceri_Torri[0]}|" +
-            $"Catapulte_1_Torri={player.Catapulte_Torri[0]}|" +
-            $"Guerrieri_2_Torri={player.Guerrieri_Torri[1]}|" +
-            $"Lanceri_2_Torri={player.Lanceri_Torri[1]}|" +
-            $"Arceri_2_Torri={player.Arceri_Torri[1]}|" +
-            $"Catapulte_2_Torri={player.Catapulte_Torri[1]}|" +
-            $"Guerrieri_3_Torri={player.Guerrieri_Torri[2]}|" +
-            $"Lanceri_3_Torri={player.Lanceri_Torri[2]}|" +
-            $"Arceri_3_Torri={player.Arceri_Torri[2]}|" +
-            $"Catapulte_3_Torri={player.Catapulte_Torri[2]}|" +
-            $"Guerrieri_4_Torri={player.Guerrieri_Torri[3]}|" +
-            $"Lanceri_4_Torri={player.Lanceri_Torri[3]}|" +
-            $"Arceri_4_Torri={player.Arceri_Torri[3]}|" +
-            $"Catapulte_4_Torri={player.Catapulte_Torri[3]}|" +
-            $"Guerrieri_5_Torri={player.Guerrieri_Torri[4]}|" +
-            $"Lanceri_5_Torri={player.Lanceri_Torri[4]}|" +
-            $"Arceri_5_Torri={player.Arceri_Torri[4]}|" +
-            $"Catapulte_5_Torri={player.Catapulte_Torri[4]}|" +
-
-            $"Salute_Torri={player.Salute_Torri}|" +
-            $"Salute_TorriMax={player.Salute_TorriMax}|" +
-            $"Difesa_Torri={player.Difesa_Torri}|" +
-            $"Difesa_TorriMax={player.Difesa_TorriMax}|" +
-
-            //Città Castello
-            $"Guarnigione_Castello={player.Guarnigione_Castello}|" +
-            $"Guarnigione_CastelloMax={player.Guarnigione_CastelloMax}|" +
-            $"Guerrieri_1_Castello={player.Guerrieri_Castello[0]}|" +
-            $"Lanceri_1_Castello={player.Lanceri_Castello[0]}|" +
-            $"Arceri_1_Castello={player.Arceri_Castello[0]}|" +
-            $"Catapulte_1_Castello={player.Catapulte_Castello[0]}|" +
-            $"Guerrieri_2_Castello={player.Guerrieri_Castello[1]}|" +
-            $"Lanceri_2_Castello={player.Lanceri_Castello[1]}|" +
-            $"Arceri_2_Castello={player.Arceri_Castello[1]}|" +
-            $"Catapulte_2_Castello={player.Catapulte_Castello[1]}|" +
-            $"Guerrieri_3_Castello={player.Guerrieri_Castello[2]}|" +
-            $"Lanceri_3_Castello={player.Lanceri_Castello[2]}|" +
-            $"Arceri_3_Castello={player.Arceri_Castello[2]}|" +
-            $"Catapulte_3_Castello={player.Catapulte_Castello[2]}|" +
-            $"Guerrieri_4_Castello={player.Guerrieri_Castello[3]}|" +
-            $"Lanceri_4_Castello={player.Lanceri_Castello[3]}|" +
-            $"Arceri_4_Castello={player.Arceri_Castello[3]}|" +
-            $"Catapulte_4_Castello={player.Catapulte_Castello[3]}|" +
-            $"Guerrieri_5_Castello={player.Guerrieri_Castello[4]}|" +
-            $"Lanceri_5_Castello={player.Lanceri_Castello[4]}|" +
-            $"Arceri_5_Castello={player.Arceri_Castello[4]}|" +
-            $"Catapulte_5_Castello={player.Catapulte_Castello[4]}|" +
-            $"Salute_Castello={player.Salute_Castello}|" +
-            $"Salute_CastelloMax={player.Salute_CastelloMax}|" +
-            $"Difesa_Castello={player.Difesa_Castello}|" +
-            $"Difesa_CastelloMax={player.Difesa_CastelloMax}|" +
-
-            //Città Piazza
-            $"Guarnigione_Citta={player.Guarnigione_Citta}|" +
-            $"Guarnigione_CittaMax={player.Guarnigione_CittaMax}|" +
-            $"Guerrieri_1_Citta={player.Guerrieri_Citta[0]}|" +
-            $"Lanceri_1_Citta={player.Lanceri_Citta[0]}|" +
-            $"Arceri_1_Citta={player.Arceri_Citta[0]}|" +
-            $"Catapulte_1_Citta={player.Catapulte_Citta[0]}|" +
-            $"Guerrieri_2_Citta={player.Guerrieri_Citta[1]}|" +
-            $"Lanceri_2_Citta={player.Lanceri_Citta[1]}|" +
-            $"Arceri_2_Citta={player.Arceri_Citta[1]}|" +
-            $"Catapulte_2_Citta={player.Catapulte_Citta[1]}|" +
-            $"Guerrieri_3_Citta={player.Guerrieri_Citta[2]}|" +
-            $"Lanceri_3_Citta={player.Lanceri_Citta[2]}|" +
-            $"Arceri_3_Citta={player.Arceri_Citta[2]}|" +
-            $"Catapulte_3_Citta={player.Catapulte_Citta[2]}|" +
-            $"Guerrieri_4_Citta={player.Guerrieri_Citta[3]}|" +
-            $"Lanceri_4_Citta={player.Lanceri_Citta[3]}|" +
-            $"Arceri_4_Citta={player.Arceri_Citta[3]}|" +
-            $"Catapulte_4_Citta={player.Catapulte_Citta[3]}|" +
-            $"Guerrieri_5_Citta={player.Guerrieri_Citta[4]}|" +
-            $"Lanceri_5_Citta={player.Lanceri_Citta[4]}|" +
-            $"Arceri_5_Citta={player.Arceri_Citta[4]}|" +
-            $"Catapulte_5_Citta={player.Catapulte_Citta[4]}|" +
-
-            //Quest claim "normali"
-            $"punti_quest={player.Punti_Quest}|" +
-
-            //Ricerca I (Infinita)
-            $"guerriero_salute={player.Guerriero_Salute}|" +
-            $"guerriero_difesa={player.Guerriero_Difesa}|" +
-            $"guerriero_attacco={player.Guerriero_Attacco}|" +
-            $"guerriero_livello={player.Guerriero_Livello}|" +
-
-            $"lanciere_salute={player.Lancere_Salute}|" +
-            $"lanciere_difesa={player.Lancere_Difesa}|" +
-            $"lanciere_attacco={player.Lancere_Attacco}|" +
-            $"lanciere_livello={player.Lancere_Livello}|" +
-
-            $"arciere_salute={player.Arcere_Salute}|" +
-            $"arciere_difesa={player.Arcere_Difesa}|" +
-            $"arciere_attacco={player.Arcere_Attacco}|" +
-            $"arciere_livello={player.Arcere_Livello}|" +
-
-            $"catapulta_salute={player.Catapulta_Salute}|" +
-            $"catapulta_difesa={player.Catapulta_Difesa}|" +
-            $"catapulta_attacco={player.Catapulta_Attacco}|" +
-            $"catapulta_livello={player.Catapulta_Livello}|" +
-
-            $"ricerca_produzione={player.Ricerca_Produzione}|" +
-            $"ricerca_costruzione={player.Ricerca_Costruzione}|" +
-            $"ricerca_addestramento={player.Ricerca_Addestramento}|" +
-            $"ricerca_popolazione={player.Ricerca_Popolazione}|" +
-
-            //Ricerca citta
-            $"ricerca_ingresso_guarnigione={player.Ricerca_Ingresso_Guarnigione}|" +
-            $"ricerca_citta_guarnigione={player.Ricerca_Citta_Guarnigione}|" +
-
-            $"ricerca_cancello_salute={player.Ricerca_Cancello_Salute}|" +
-            $"ricerca_cancello_difesa={player.Ricerca_Cancello_Difesa}|" +
-            $"ricerca_cancello_guarnigione={player.Ricerca_Cancello_Guarnigione}|" +
-
-            $"ricerca_mura_salute={player.Ricerca_Mura_Salute}|" +
-            $"ricerca_mura_difesa={player.Ricerca_Mura_Difesa}|" +
-            $"ricerca_mura_guarnigione={player.Ricerca_Mura_Guarnigione}|" +
-
-            $"ricerca_torri_salute={player.Ricerca_Torri_Salute}|" +
-            $"ricerca_torri_difesa={player.Ricerca_Torri_Difesa}|" +
-            $"ricerca_torri_guarnigione={player.Ricerca_Torri_Guarnigione}|" +
-
-            $"ricerca_castello_salute={player.Ricerca_Castello_Salute}|" +
-            $"ricerca_castello_difesa={player.Ricerca_Castello_Difesa}|" +
-            $"ricerca_castello_guarnigione={player.Ricerca_Castello_Guarnigione}|" +
-
-            //Tempi
-            $"Code_Costruzioni={player.Code_Costruzione}|" +
-            $"Code_Reclutamenti={player.Code_Reclutamento}|" +
-            $"Code_Costruzioni_Disponibili={player.task_Attuale_Costruzioni.Count}|" +
-            $"Code_Reclutamenti_Disponibili={player.task_Attuale_Recutamento.Count}|" +
-
-            $"Tempo_Costruzione={BuildingManagerV2.Get_Total_Building_Time(player)}|" +
-            $"Tempo_Reclutamento={UnitManagerV2.Get_Total_Recruit_Time(player)}|" +
-            $"Tempo_Ricerca_Citta={ResearchManager.GetTotalResearchTime(player)}|" +
-            $"Tempo_Ricerca_Globale={1}|" +
-
-            $"Ricerca_Attiva={player.Ricerca_Attiva}|" +
-
-            $"D_Viola_D_Blu={Variabili_Server.D_Viola_To_Blu}|" +
-            $"Tempo_D_Blu={Variabili_Server.Velocizzazione_Tempo}|" +
-
-            // Statistiche
-            $"Potenza_Totale={player.Potenza_Totale:#,0}|" +
-            $"Potenza_Strutture={player.Potenza_Strutture:#,0}|" +
-            $"Potenza_Ricerca={player.Potenza_Ricerca:#,0}|" +
-            $"Potenza_Esercito={player.Potenza_Esercito:#,0}|" +
-
-            $"Unità_Eliminate={player.Unità_Eliminate:#,0}|" +
-            $"Guerrieri_Eliminate={player.Guerrieri_Eliminati:#,0}|" +
-            $"Lanceri_Eliminate={player.Lanceri_Eliminati:#,0}|" +
-            $"Arceri_Eliminate={player.Arceri_Eliminati:#,0}|" +
-            $"Catapulte_Eliminate={player.Catapulte_Eliminate:#,0}|" +
-
-            $"Unità_Perse={player.Unità_Perse:#,0}|" +
-            $"Guerrieri_Persi={player.Guerrieri_Persi:#,0}|" +
-            $"Lanceri_Persi={player.Lanceri_Persi:#,0}|" +
-            $"Arceri_Persi={player.Arceri_Persi:#,0}|" +
-            $"Catapulte_Persi={player.Catapulte_Perse:#,0}|" +
-            $"Risorse_Razziate={player.Risorse_Razziate:#,0}|" +
-
-            $"Strutture_Civili_Costruite={player.Strutture_Civili_Costruite:#,0}|" +
-            $"Strutture_Militari_Costruite={player.Strutture_Militari_Costruite:#,0}|" +
-            $"Caserme_Costruite={player.Caserme_Costruite:#,0}|" +
-
-            $"Frecce_Utilizzate={player.Frecce_Utilizzate:#,0}|" +
-            $"Battaglie_Vinte={player.Battaglie_Vinte:#,0}|" +
-            $"Battaglie_Perse={player.Battaglie_Perse:#,0}|" +
-            $"Quest_Completate={player.Quest_Completate:#,0}|" +
-            $"Attacchi_Subiti_PVP={player.Attacchi_Subiti_PVP:#,0}|" +
-            $"Attacchi_Effettuati_PVP={player.Attacchi_Effettuati_PVP:#,0}|" +
-
-            $"Barbari_Sconfitti={player.Barbari_Sconfitti:#,0}|" +
-            $"Accampamenti_Barbari_Sconfitti={player.Accampamenti_Barbari_Sconfitti:#,0}|" +
-            $"Città_Barbare_Sconfitte={player.Città_Barbare_Sconfitte:#,0}|" +
-            $"Danno_HP_Barbaro={player.Danno_HP_Barbaro:#,0}|" +
-            $"Danno_DEF_Barbaro={player.Danno_DEF_Barbaro:#,0}|" +
-
-            $"Unità_Addestrate={player.Unità_Addestrate:#,0}|" +
-            $"Risorse_Utilizzate={player.Risorse_Utilizzate:#,0}|" +
-            $"Tempo_Addestramento_Risparmiato={player.FormatTime(player.Tempo_Addestramento)}|" +
-            $"Tempo_Costruzione_Risparmiato={player.FormatTime(player.Tempo_Costruzione)}|" +
-            $"Tempo_Ricerca_Risparmiato={player.FormatTime(player.Tempo_Ricerca)}|" +
-            $"Tempo_Sottratto_Diamanti={player.FormatTime(player.Tempo_Sottratto_Diamanti)}|" +
-
-            $"Bonus_Costruzione={player.Bonus_Costruzione * 100}%|" +
-            $"Bonus_Addestramento={player.Bonus_Addestramento * 100}%|" +
-            $"Bonus_Ricerca={player.Bonus_Ricerca * 100}%|" +
-            $"Bonus_Riparazione={player.Bonus_Riparazione * 100}%|" +
-            $"Bonus_Produzione_Risorse={player.Bonus_Produzione_Risorse * 100}%|" +
-            $"Bonus_Capacità_Trasporto={player.Bonus_Capacità_Trasporto * 100}%|" +
-
-            $"Bonus_Salute_Strutture={player.Bonus_Salute_Strutture * 100}%|" +
-            $"Bonus_Difesa_Strutture={player.Bonus_Difesa_Strutture * 100}%|" +
-            $"Bonus_Guarnigione_Strutture={player.Bonus_Guarnigione_Strutture * 100}%|" +
-
-            $"Bonus_Attacco_Guerrieri={player.Bonus_Attacco_Guerrieri * 100}%|" +
-            $"Bonus_Salute_Guerrieri={player.Bonus_Salute_Guerrieri * 100}%|" +
-            $"Bonus_Difesa_Guerrieri={player.Bonus_Difesa_Guerrieri * 100}%|" +
-            $"Bonus_Attacco_Lanceri={player.Bonus_Attacco_Lanceri * 100}%|" +
-            $"Bonus_Salute_Lanceri={player.Bonus_Salute_Lanceri * 100}%|" +
-            $"Bonus_Difesa_Lanceri={player.Bonus_Difesa_Lanceri * 100}%|" +
-            $"Bonus_Attacco_Arceri={player.Bonus_Attacco_Arceri * 100}%|" +
-            $"Bonus_Salute_Arceri={player.Bonus_Salute_Arceri * 100}%|" +
-            $"Bonus_Difesa_Arceri={player.Bonus_Difesa_Arceri * 100}%|" +
-            $"Bonus_Attacco_Catapulte={player.Bonus_Attacco_Catapulte * 100}%|" +
-            $"Bonus_Salute_Catapulte={player.Bonus_Salute_Catapulte * 100}%|" +
-            $"Bonus_Difesa_Catapulte={player.Bonus_Difesa_Catapulte * 100}%|";
+            "";
 
             Server.Send(guid, data);
-            if (player.Tutorial == true)
-            {
-                string tutorialData =
-                "Update_Data|" +
-                $"Tutorial_1={player.Tutorial_Stato[0]}|" +
-                $"Tutorial_2={player.Tutorial_Stato[1]}|" +
-                $"Tutorial_3={player.Tutorial_Stato[2]}|" +
-                $"Tutorial_4={player.Tutorial_Stato[3]}|" +
-                $"Tutorial_5={player.Tutorial_Stato[4]}|" +
-                $"Tutorial_6={player.Tutorial_Stato[5]}|" +
-                $"Tutorial_7={player.Tutorial_Stato[6]}|" +
-                $"Tutorial_8={player.Tutorial_Stato[7]}|" +
-                $"Tutorial_9={player.Tutorial_Stato[8]}|" +
-                $"Tutorial_10={player.Tutorial_Stato[9]}|" +
-                $"Tutorial_11={player.Tutorial_Stato[10]}|" +
-                $"Tutorial_12={player.Tutorial_Stato[11]}|" +
-                $"Tutorial_13={player.Tutorial_Stato[12]}|" +
-                $"Tutorial_14={player.Tutorial_Stato[13]}|" +
-                $"Tutorial_15={player.Tutorial_Stato[14]}|" +
-                $"Tutorial_16={player.Tutorial_Stato[15]}|" +
-                $"Tutorial_17={player.Tutorial_Stato[16]}|" +
-                $"Tutorial_18={player.Tutorial_Stato[17]}|" +
-                $"Tutorial_19={player.Tutorial_Stato[18]}|" +
-                $"Tutorial_20={player.Tutorial_Stato[19]}|" +
-                $"Tutorial_21={player.Tutorial_Stato[20]}|" +
-                $"Tutorial_22={player.Tutorial_Stato[21]}|" +
-                $"Tutorial_23={player.Tutorial_Stato[22]}|" +
-                $"Tutorial_24={player.Tutorial_Stato[23]}|" +
-                $"Tutorial_25={player.Tutorial_Stato[24]}|" +
-                $"Tutorial_26={player.Tutorial_Stato[25]}|" +
-                $"Tutorial_27={player.Tutorial_Stato[26]}|" +
-                $"Tutorial_28={player.Tutorial_Stato[27]}|" +
-                $"Tutorial_29={player.Tutorial_Stato[28]}|" +
-                $"Tutorial_30={player.Tutorial_Stato[29]}|" +
-                $"Tutorial_31={player.Tutorial_Stato[30]}|" +
-                $"Tutorial_32={player.Tutorial_Stato[31]}";
+        }
+        public static void Update_Data(Guid guid, Player player)
+        {
+            if (!Server.Client_Connessi.Contains(player.guid_Player)) return; //Se non è presente nella lista connesso...
 
-                Server.Send(guid, tutorialData);
-                if (player.Tutorial_Stato[31]) player.Tutorial = false;
+            var current = player.Snapshot.BuildCurrentState(player);
+            var delta = player.Snapshot.BuildDelta(current);
+            if (delta != null) Server.Send(guid, delta);
+
+            if (player.Livello >= Variabili_Server.PVP_Unlock)
+            {
+                string raduno = $"Raduno|";
+                string raduno_Player = $"Raduni_Player|";
+                if (AttacchiCooperativi.AttacchiInCorso.Keys.Count() > 0)
+                    foreach (string idAttacco in AttacchiCooperativi.AttacchiInCorso.Keys)
+                    {
+                        var attacco = AttacchiCooperativi.AttacchiInCorso[idAttacco];
+                        raduno += $"{attacco.CreatoreUsername}|{idAttacco}|{attacco.TempoRimanente / 60}-";
+                    }
+                else raduno = "";
+
+                if (AttacchiCooperativi.AttacchiInPlayer.Keys.Count() > 0)
+                    foreach (string idAttacco in AttacchiCooperativi.AttacchiInPlayer.Keys)
+                    {
+                        var attacco = AttacchiCooperativi.AttacchiInPlayer[idAttacco];
+                        var user = attacco.GiocatoriPartecipanti.Keys;
+                        var users = attacco.GiocatoriPartecipanti.Values;
+
+                        foreach (var item in attacco.GiocatoriPartecipanti.Keys)
+                        {
+                            if (player.Username == item)
+                                foreach (var items in attacco.GiocatoriPartecipanti.Values)
+                                    if (items.Player == player.Username)
+                                        raduno_Player += $"{item}|{idAttacco}|{attacco.TempoRimanente / 60}|{items.Guerrieri[0]}|{items.Lanceri[0]}|{items.Arceri[0]}|{items.Catapulte[0]}-";
+                        }
+                    }
+                else raduno_Player = "";
+                if (raduno != "") Server.Send(guid, raduno); //Invia i raduni aperti
+                if (raduno_Player != "") Server.Send(guid, raduno_Player); //Invia i raduni aperti
             }
 
-            string raduno = $"Raduno|";
-            string raduno_Player = $"Raduni_Player|";
-            if (AttacchiCooperativi.AttacchiInCorso.Keys.Count() > 0)
-                foreach (string idAttacco in AttacchiCooperativi.AttacchiInCorso.Keys)
-                {
-                    var attacco = AttacchiCooperativi.AttacchiInCorso[idAttacco];
-                    raduno += $"{attacco.CreatoreUsername}|{idAttacco}|{attacco.TempoRimanente / 60}-";
-                }
-            else raduno = "";
-
-            if (AttacchiCooperativi.AttacchiInPlayer.Keys.Count() > 0)
-                foreach (string idAttacco in AttacchiCooperativi.AttacchiInPlayer.Keys)
-                {
-                    var attacco = AttacchiCooperativi.AttacchiInPlayer[idAttacco];
-                    var user = attacco.GiocatoriPartecipanti.Keys;
-                    var users = attacco.GiocatoriPartecipanti.Values;
-
-                    foreach (var item in attacco.GiocatoriPartecipanti.Keys)
-                    {
-                        if (player.Username == item)
-                            foreach (var items in attacco.GiocatoriPartecipanti.Values)
-                                if (items.Player == player.Username)
-                                    raduno_Player += $"{item}|{idAttacco}|{attacco.TempoRimanente / 60}|{items.Guerrieri[0]}|{items.Lanceri[0]}|{items.Arceri[0]}|{items.Catapulte[0]}-";
-                    }
-                }
-            else raduno_Player = "";
-            if (raduno != "") Server.Send(guid, raduno); //Invia i raduni aperti
-            if (raduno_Player != "") Server.Send(guid, raduno_Player); //Invia i raduni aperti
-
-            int potenzaPlayer = (int)player.Potenza_Totale;
-            int maxPlayers = 80; // Numero massimo di giocatori da inviare
-
             // Filtra giocatori con potenza simile (ad esempio ±20%)
-            var giocatoriFiltrati = Server.Utenti_PVP
+            if (player.Livello >= Variabili_Server.PVP_Unlock)
+            {
+                int potenzaPlayer = (int)player.Potenza_Totale;
+                int maxPlayers = 20; // Numero massimo di giocatori da inviare
+                var giocatoriFiltrati = Server.Utenti_PVP
                 .Where(username => {
                     var p = player.Potenza_Totale;
                     return p >= potenzaPlayer * 0.8 && p <= potenzaPlayer * 1.2;
@@ -1659,11 +1130,11 @@ namespace Server_Strategico.Server
                 .Take(maxPlayers) // prendi al massimo 50
                 .Select(username => costruisci_stringa(username)) // costruisci la stringa
                 .ToList();
+                string stringa_finale = string.Join("|", giocatoriFiltrati);
 
-            string stringa_finale = string.Join("|", giocatoriFiltrati);
-
-            if (!string.IsNullOrEmpty(stringa_finale))
-                Server.Send(guid, $"Update_PVP_Player|{giocatoriFiltrati.Count}|{stringa_finale}");
+                if (!string.IsNullOrEmpty(stringa_finale))
+                    Server.Send(guid, $"Update_PVP_Player|{giocatoriFiltrati.Count}|{stringa_finale}");
+            }
 
             //var stringhePVP = Server.Utenti_PVP
             //.Select(username => costruisci_stringa(username))

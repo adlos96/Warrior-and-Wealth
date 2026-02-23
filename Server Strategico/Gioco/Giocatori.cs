@@ -1,11 +1,13 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using Server_Strategico.Manager;
+using Server_Strategico.ServerData.Moduli;
+using System;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using static Server_Strategico.Gioco.Giocatori;
 using static Server_Strategico.Gioco.Variabili_Server;
 using static Server_Strategico.Manager.QuestManager;
 using static Server_Strategico.Server.Server;
-using System.Runtime.CompilerServices;
-using Server_Strategico.Manager;
 
 namespace Server_Strategico.Gioco
 {
@@ -19,9 +21,13 @@ namespace Server_Strategico.Gioco
             public string Password { get; set; }
             public Guid guid_Player { get; set; }
             public bool Tutorial { get; set; }
-            public bool Stato_Giocatore { get; set; }
+            public bool Stato_Giocatore { get; set; } //Giocatore attivo?
+            public bool Banned_Giocatore { get; set; } //Giocatore bannato?
             public bool[] Tutorial_Stato { get; set; } = new bool[20];
             public bool[] Tutorial_Premi { get; set; } = new bool[20];
+            public bool[] GamePass_Premi { get; set; } = new bool[90];
+            public Int16 GamePass_Accessi_Consecutivi { get; set; }
+
 
             // Esperienza e VIP
             public int Esperienza { get; set; }
@@ -34,6 +40,7 @@ namespace Server_Strategico.Gioco
             public int GamePass_Avanzato_Tempo { get; set; }
             public bool GamePass_Base { get; set; }
             public bool GamePass_Avanzato { get; set; }
+            public DateTime Last_Login { get; set; }
             // Coda e scudi
             public int Code_Reclutamento { get; set; }
             public int Code_Costruzione { get; set; }
@@ -332,6 +339,8 @@ namespace Server_Strategico.Gioco
             public List<ResearchManager.ResearchTask> currentTasks_Research = new(); // Lista dei task attualmente in costruzione (slot globali, max = 1)
             public Queue<ResearchManager.ResearchTask> research_Queue = new(); // Coda globale di attesa (quando tutti gli slot sono occupati)
 
+            public PlayerSnapshot Snapshot = new PlayerSnapshot();
+
             public readonly object LockCostruzione = new object();
             public readonly object LockReclutamento = new object();
 
@@ -344,10 +353,15 @@ namespace Server_Strategico.Gioco
                 PremiNormali = new bool[20];
                 PremiVIP = new bool[20];
                 Tutorial = true;
+                Banned_Giocatore = false;
+                Stato_Giocatore = true;
                 Tutorial_Stato = new bool[32];
                 Tutorial_Premi = new bool[32];
+                GamePass_Premi = new bool[90];
+                GamePass_Accessi_Consecutivi = 0;
+                Last_Login = DateTime.Now.Date;
 
-                //Limiti giocatore [DD - MM - AA]
+                //Limiti giocatore [DD]
                 Diamanti_Viola_PVP_Ottenuti = 0;
                 Diamanti_Blu_PVP_Ottenuti = 0;
                 Diamanti_Viola_PVP_Persi = 0;
@@ -375,7 +389,6 @@ namespace Server_Strategico.Gioco
                 GamePass_Base_Tempo = 0;
                 GamePass_Avanzato_Tempo = 0;
                 Ricerca_Attiva = false;
-                Stato_Giocatore = true;
                 Diamanti_Blu = 0;
                 Diamanti_Viola = 0;
                 Dollari_Virtuali = 0;
@@ -837,9 +850,7 @@ namespace Server_Strategico.Gioco
                     cibo += Guerrieri_Torri[i] * guerriero_Cibo[i] + Lanceri_Torri[i] * lancere_cibo[i] + Arceri_Torri[i] * arcere_cibo[i] + Catapulte_Torri[i] * catapulta_cibo[i];
                     cibo += Guerrieri_Castello[i] * guerriero_Cibo[i] + Lanceri_Castello[i] * lancere_cibo[i] + Arceri_Castello[i] * arcere_cibo[i] + Catapulte_Castello[i] * catapulta_cibo[i];
                     cibo += Guerrieri_Citta[i] * guerriero_Cibo[i] + Lanceri_Citta[i] * lancere_cibo[i] + Arceri_Citta[i] * arcere_cibo[i] + Catapulte_Citta[i] * catapulta_cibo[i];
-                }
-                for (int i = 0; i < 5; i++)
-                {
+
                     oro += Guerrieri[i] * guerriero_oro[i] + Lanceri[i] * lancere_oro[i] + Arceri[i] * arcere_oro[i] + Catapulte[i] * catapulta_oro[i];
                     oro += Guerrieri_Ingresso[i] * guerriero_oro[i] + Lanceri_Ingresso[i] * lancere_oro[i] + Arceri_Ingresso[i] * arcere_oro[i] + Catapulte_Ingresso[i] * catapulta_oro[i];
                     oro += Guerrieri_Cancello[i] * guerriero_oro[i] + Lanceri_Cancello[i] * lancere_oro[i] + Arceri_Cancello[i] * arcere_oro[i] + Catapulte_Cancello[i] * catapulta_oro[i];
@@ -881,11 +892,11 @@ namespace Server_Strategico.Gioco
                 ferro += Workshop_Frecce * Strutture.Edifici.ProduzioneFrecce.Consumo_Ferro;
                 oro += Workshop_Frecce * Strutture.Edifici.ProduzioneFrecce.Consumo_Oro;
 
-                Cibo -= cibo;
-                Legno -= legno;
-                Pietra -= pietra;
-                Ferro -= ferro;
-                Oro -= oro;
+                Cibo -= cibo * 5;
+                Legno -= legno * 5;
+                Pietra -= pietra * 5;
+                Ferro -= ferro * 5;
+                Oro -= oro * 5;
 
                 if (Cibo <= 0) Cibo = 0;
                 if (Legno <= 0) Legno = 0;
