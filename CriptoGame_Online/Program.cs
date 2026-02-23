@@ -1,3 +1,5 @@
+using CriptoGame_Online.GUI;
+
 namespace CriptoGame_Online
 {
     internal static class Program
@@ -15,7 +17,6 @@ namespace CriptoGame_Online
 
             if (login.ShowDialog() == DialogResult.OK) // login riuscito
                 Application.Run(new Gioco());
-            
             else
                 Application.Exit(); // chiudi tutto se login non completato
 

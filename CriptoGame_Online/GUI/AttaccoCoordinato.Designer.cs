@@ -110,7 +110,7 @@
             comboBox_Villaggi = new ComboBox();
             groupBox7 = new GroupBox();
             lbl_Giocatori_PVP = new Label();
-            textBox11 = new TextBox();
+            txt_PVP = new TextBox();
             btn_Attacco_PVP = new Button();
             btn_Esplora_PVP = new Button();
             comboBox_PVP = new ComboBox();
@@ -298,7 +298,7 @@
             // 
             // doubleBufferedPanel2
             // 
-            doubleBufferedPanel2.BackgroundImage = Properties.Resources.Guerriero_V2_removebg_preview;
+            doubleBufferedPanel2.BackgroundImage = Properties.Resources.Guerriero_V2;
             doubleBufferedPanel2.BackgroundImageLayout = ImageLayout.Zoom;
             doubleBufferedPanel2.Location = new Point(4, 3);
             doubleBufferedPanel2.Name = "doubleBufferedPanel2";
@@ -345,7 +345,7 @@
             // 
             // doubleBufferedPanel6
             // 
-            doubleBufferedPanel6.BackgroundImage = Properties.Resources.Lancere_V2_removebg_preview;
+            doubleBufferedPanel6.BackgroundImage = Properties.Resources.Lanciere_V2;
             doubleBufferedPanel6.BackgroundImageLayout = ImageLayout.Zoom;
             doubleBufferedPanel6.Location = new Point(4, 3);
             doubleBufferedPanel6.Name = "doubleBufferedPanel6";
@@ -392,7 +392,7 @@
             // 
             // doubleBufferedPanel10
             // 
-            doubleBufferedPanel10.BackgroundImage = Properties.Resources.Arciere_V2_removebg_preview;
+            doubleBufferedPanel10.BackgroundImage = Properties.Resources.Arciere_V2;
             doubleBufferedPanel10.BackgroundImageLayout = ImageLayout.Zoom;
             doubleBufferedPanel10.Location = new Point(4, 3);
             doubleBufferedPanel10.Name = "doubleBufferedPanel10";
@@ -452,8 +452,8 @@
             // panel_Catapulta
             // 
             panel_Catapulta.BackColor = Color.FromArgb(32, 36, 47);
-            panel_Catapulta.BackgroundImage = Properties.Resources.icons8_medieval_48;
-            panel_Catapulta.BackgroundImageLayout = ImageLayout.Stretch;
+            panel_Catapulta.BackgroundImage = Properties.Resources.Catapulta_V2;
+            panel_Catapulta.BackgroundImageLayout = ImageLayout.Zoom;
             panel_Catapulta.BorderStyle = BorderStyle.FixedSingle;
             panel_Catapulta.ImeMode = ImeMode.NoControl;
             panel_Catapulta.Location = new Point(4, 3);
@@ -503,8 +503,8 @@
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(32, 36, 47);
-            panel2.BackgroundImage = Properties.Resources.icons8_medieval_48;
-            panel2.BackgroundImageLayout = ImageLayout.Stretch;
+            panel2.BackgroundImage = Properties.Resources.Catapulta_V2;
+            panel2.BackgroundImageLayout = ImageLayout.Zoom;
             panel2.BorderStyle = BorderStyle.FixedSingle;
             panel2.ImeMode = ImeMode.NoControl;
             panel2.Location = new Point(4, 3);
@@ -553,7 +553,7 @@
             // 
             // ico_Unit_3
             // 
-            ico_Unit_3.BackgroundImage = Properties.Resources.Arciere_V2_removebg_preview;
+            ico_Unit_3.BackgroundImage = Properties.Resources.Arciere_V2;
             ico_Unit_3.BackgroundImageLayout = ImageLayout.Zoom;
             ico_Unit_3.Location = new Point(4, 4);
             ico_Unit_3.Name = "ico_Unit_3";
@@ -588,7 +588,7 @@
             // 
             // ico_Unit_2
             // 
-            ico_Unit_2.BackgroundImage = Properties.Resources.Lancere_V2_removebg_preview;
+            ico_Unit_2.BackgroundImage = Properties.Resources.Lanciere_V2;
             ico_Unit_2.BackgroundImageLayout = ImageLayout.Zoom;
             ico_Unit_2.Location = new Point(4, 4);
             ico_Unit_2.Name = "ico_Unit_2";
@@ -635,7 +635,7 @@
             // 
             // ico_Unit_1
             // 
-            ico_Unit_1.BackgroundImage = Properties.Resources.Guerriero_V2_removebg_preview;
+            ico_Unit_1.BackgroundImage = Properties.Resources.Guerriero_V2;
             ico_Unit_1.BackgroundImageLayout = ImageLayout.Zoom;
             ico_Unit_1.Location = new Point(4, 3);
             ico_Unit_1.Name = "ico_Unit_1";
@@ -839,8 +839,8 @@
             // panel6
             // 
             panel6.BackColor = Color.FromArgb(32, 36, 47);
-            panel6.BackgroundImage = Properties.Resources.icons8_medieval_48;
-            panel6.BackgroundImageLayout = ImageLayout.Stretch;
+            panel6.BackgroundImage = Properties.Resources.Catapulta_V2;
+            panel6.BackgroundImageLayout = ImageLayout.Zoom;
             panel6.BorderStyle = BorderStyle.FixedSingle;
             panel6.ImeMode = ImeMode.NoControl;
             panel6.Location = new Point(4, 3);
@@ -900,7 +900,7 @@
             // 
             // doubleBufferedPanel14
             // 
-            doubleBufferedPanel14.BackgroundImage = Properties.Resources.Arciere_V2_removebg_preview;
+            doubleBufferedPanel14.BackgroundImage = Properties.Resources.Arciere_V2;
             doubleBufferedPanel14.BackgroundImageLayout = ImageLayout.Zoom;
             doubleBufferedPanel14.Location = new Point(4, 4);
             doubleBufferedPanel14.Name = "doubleBufferedPanel14";
@@ -1014,7 +1014,7 @@
             // 
             // doubleBufferedPanel16
             // 
-            doubleBufferedPanel16.BackgroundImage = Properties.Resources.Lancere_V2_removebg_preview;
+            doubleBufferedPanel16.BackgroundImage = Properties.Resources.Lanciere_V2;
             doubleBufferedPanel16.BackgroundImageLayout = ImageLayout.Zoom;
             doubleBufferedPanel16.Location = new Point(4, 4);
             doubleBufferedPanel16.Name = "doubleBufferedPanel16";
@@ -1061,7 +1061,7 @@
             // 
             // doubleBufferedPanel17
             // 
-            doubleBufferedPanel17.BackgroundImage = Properties.Resources.Guerriero_V2_removebg_preview;
+            doubleBufferedPanel17.BackgroundImage = Properties.Resources.Guerriero_V2;
             doubleBufferedPanel17.BackgroundImageLayout = ImageLayout.Zoom;
             doubleBufferedPanel17.Location = new Point(4, 3);
             doubleBufferedPanel17.Name = "doubleBufferedPanel17";
@@ -1169,7 +1169,7 @@
             // 
             groupBox7.BackColor = Color.FromArgb(32, 36, 47);
             groupBox7.Controls.Add(lbl_Giocatori_PVP);
-            groupBox7.Controls.Add(textBox11);
+            groupBox7.Controls.Add(txt_PVP);
             groupBox7.Controls.Add(btn_Attacco_PVP);
             groupBox7.Controls.Add(btn_Esplora_PVP);
             groupBox7.Controls.Add(comboBox_PVP);
@@ -1195,20 +1195,20 @@
             lbl_Giocatori_PVP.TabIndex = 148;
             lbl_Giocatori_PVP.Text = "Giocatori: 0";
             // 
-            // textBox11
+            // txt_PVP
             // 
-            textBox11.BackColor = Color.FromArgb(32, 36, 47);
-            textBox11.Font = new Font("Microsoft Sans Serif", 8F);
-            textBox11.ForeColor = SystemColors.Control;
-            textBox11.Location = new Point(8, 71);
-            textBox11.Margin = new Padding(4, 3, 4, 3);
-            textBox11.Multiline = true;
-            textBox11.Name = "textBox11";
-            textBox11.ReadOnly = true;
-            textBox11.Size = new Size(206, 75);
-            textBox11.TabIndex = 147;
-            textBox11.Text = "Raggiungi il livello 10 per sbloccare le battaglie PVP.";
-            textBox11.TextAlign = HorizontalAlignment.Center;
+            txt_PVP.BackColor = Color.FromArgb(32, 36, 47);
+            txt_PVP.Font = new Font("Microsoft Sans Serif", 8F);
+            txt_PVP.ForeColor = SystemColors.Control;
+            txt_PVP.Location = new Point(8, 71);
+            txt_PVP.Margin = new Padding(4, 3, 4, 3);
+            txt_PVP.Multiline = true;
+            txt_PVP.Name = "txt_PVP";
+            txt_PVP.ReadOnly = true;
+            txt_PVP.Size = new Size(206, 75);
+            txt_PVP.TabIndex = 147;
+            txt_PVP.Text = "Raggiungi il livello 10 per sbloccare le battaglie PVP.";
+            txt_PVP.TextAlign = HorizontalAlignment.Center;
             // 
             // btn_Attacco_PVP
             // 
@@ -1296,8 +1296,8 @@
             // panel26
             // 
             panel26.BackColor = Color.FromArgb(32, 36, 47);
-            panel26.BackgroundImage = Properties.Resources.icons8_medieval_48;
-            panel26.BackgroundImageLayout = ImageLayout.Stretch;
+            panel26.BackgroundImage = Properties.Resources.Catapulta_V2;
+            panel26.BackgroundImageLayout = ImageLayout.Zoom;
             panel26.BorderStyle = BorderStyle.FixedSingle;
             panel26.ImeMode = ImeMode.NoControl;
             panel26.Location = new Point(4, 3);
@@ -1334,7 +1334,7 @@
             // 
             // doubleBufferedPanel12
             // 
-            doubleBufferedPanel12.BackgroundImage = Properties.Resources.Arciere_V2_removebg_preview;
+            doubleBufferedPanel12.BackgroundImage = Properties.Resources.Arciere_V2;
             doubleBufferedPanel12.BackgroundImageLayout = ImageLayout.Zoom;
             doubleBufferedPanel12.Location = new Point(4, 3);
             doubleBufferedPanel12.Name = "doubleBufferedPanel12";
@@ -1381,7 +1381,7 @@
             // 
             // doubleBufferedPanel8
             // 
-            doubleBufferedPanel8.BackgroundImage = Properties.Resources.Lancere_V2_removebg_preview;
+            doubleBufferedPanel8.BackgroundImage = Properties.Resources.Lanciere_V2;
             doubleBufferedPanel8.BackgroundImageLayout = ImageLayout.Zoom;
             doubleBufferedPanel8.Location = new Point(4, 3);
             doubleBufferedPanel8.Name = "doubleBufferedPanel8";
@@ -1428,7 +1428,7 @@
             // 
             // doubleBufferedPanel4
             // 
-            doubleBufferedPanel4.BackgroundImage = Properties.Resources.Guerriero_V2_removebg_preview;
+            doubleBufferedPanel4.BackgroundImage = Properties.Resources.Guerriero_V2;
             doubleBufferedPanel4.BackgroundImageLayout = ImageLayout.Zoom;
             doubleBufferedPanel4.Location = new Point(4, 3);
             doubleBufferedPanel4.Name = "doubleBufferedPanel4";
@@ -1860,7 +1860,7 @@
         private ComboBox comboBox_Villaggi;
         private GroupBox groupBox7;
         private Label lbl_Giocatori_PVP;
-        private TextBox textBox11;
+        private TextBox txt_PVP;
         private Button btn_Attacco_PVP;
         private Button btn_Esplora_PVP;
         private ComboBox comboBox_PVP;

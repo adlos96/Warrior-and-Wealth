@@ -103,7 +103,7 @@
             // 
             // ico_12
             // 
-            ico_12.BackgroundImage = Properties.Resources.diamond_1;
+            ico_12.BackgroundImage = Properties.Resources.DiamanteBlu_V2;
             ico_12.BackgroundImageLayout = ImageLayout.Stretch;
             ico_12.Location = new Point(68, 55);
             ico_12.Name = "ico_12";

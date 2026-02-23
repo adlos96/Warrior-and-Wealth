@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using CriptoGame_Online.GUI;
+using System.Collections.Generic;
 
 namespace Strategico_V2
 {
@@ -32,6 +33,12 @@ namespace Strategico_V2
         {
             public string Type { get; set; }
             public List<VillaggioClient> Dati { get; set; }
+        }
+        public class dati
+        {
+            public int StatoTutorial { get; set; }
+            public string Obiettivo { get; set; }
+            public string Descrizione { get; set; }
         }
 
         public static string Ricerca_1_Bottone_Cliccato = "";
@@ -120,6 +127,8 @@ namespace Strategico_V2
         public static string truppe_III = "0";
         public static string truppe_IV = "0";
         public static string truppe_V = "0";
+        public static string unlock_Città_Barbare = "0";
+        public static string unlock_PVP = "0";
 
         public static List<string> Giocatori_PVP = new List<string>();
         public static List<string> Raduni_Creati = new List<string>(); //Raduni pubblici
@@ -127,6 +136,13 @@ namespace Strategico_V2
 
         public static List<VillaggioClient> VillaggiPersonali = new();
         public static List<VillaggioClient> CittaGlobali = new();
+
+        public static bool tutorial_Attivo = true;
+        public static bool[] tutorial = new bool[32];
+        public static string[] GamePass_Premi = new string[90];
+        public static bool[] GamePass_Premi_Completati = new bool[90];
+        public static int Giorni_Accessi_Consecutivi = 0;
+        public static List<dati> tutorial_dati = new List<dati>();
 
         public class Dati
         {
@@ -355,6 +371,8 @@ namespace Strategico_V2
             public string Ricerca_Popolazione { get; set; }
             public string Ricerca_Trasporto { get; set; }
             public string Ricerca_Riparazione { get; set; }
+            public string Ricerca_Spionaggio { get; set; }
+            public string Ricerca_ControSpionaggio { get; set; }
 
             public string Bonus_Esperienza { get; set; }
             public string Bonus_Salute_Spadaccini { get; set; }
@@ -392,19 +410,23 @@ namespace Strategico_V2
 
             public string Ricerca_Ingresso_Guarnigione { get; set; }
             public string Ricerca_Citta_Guarnigione { get; set; }
-                   
+
+            public string Ricerca_Cancello_Livello { get; set; }
             public string Ricerca_Cancello_Salute { get; set; }
             public string Ricerca_Cancello_Difesa { get; set; }
             public string Ricerca_Cancello_Guarnigione { get; set; }
-                   
+
+            public string Ricerca_Mura_Livello { get; set; }
             public string Ricerca_Mura_Salute { get; set; }
             public string Ricerca_Mura_Difesa { get; set; }
             public string Ricerca_Mura_Guarnigione { get; set; }
-                   
+
+            public string Ricerca_Torri_Livello { get; set; }
             public string Ricerca_Torri_Salute { get; set; }
             public string Ricerca_Torri_Difesa { get; set; }
             public string Ricerca_Torri_Guarnigione { get; set; }
-                   
+
+            public string Ricerca_Castello_Livello { get; set; }
             public string Ricerca_Castello_Salute { get; set; }
             public string Ricerca_Castello_Difesa { get; set; }
             public string Ricerca_Castello_Guarnigione { get; set; }
@@ -524,22 +546,28 @@ namespace Strategico_V2
             Ricerca_Popolazione = "0",
             Ricerca_Trasporto = "0",
             Ricerca_Riparazione = "0",
+            Ricerca_Spionaggio = "0",
+            Ricerca_ControSpionaggio = "0",
 
             Ricerca_Ingresso_Guarnigione = "0",
             Ricerca_Citta_Guarnigione = "0",
 
+            Ricerca_Cancello_Livello = "0",
             Ricerca_Cancello_Salute = "0",
             Ricerca_Cancello_Difesa = "0",
             Ricerca_Cancello_Guarnigione = "0",
 
+            Ricerca_Mura_Livello = "0",
             Ricerca_Mura_Salute = "0",
             Ricerca_Mura_Difesa = "0",
             Ricerca_Mura_Guarnigione = "0",
 
+            Ricerca_Torri_Livello = "0",
             Ricerca_Torri_Salute = "0",
             Ricerca_Torri_Difesa = "0",
             Ricerca_Torri_Guarnigione = "0",
 
+            Ricerca_Castello_Livello = "0",
             Ricerca_Castello_Salute = "0",
             Ricerca_Castello_Difesa = "0",
             Ricerca_Castello_Guarnigione = "0",

@@ -52,9 +52,30 @@ namespace CriptoGame_Online
                         progressBar1.Maximum = Convert.ToInt32(CurrentRewardPoints[19]);
 
                         int point = Convert.ToInt32(Variabili_Client.Utente.Montly_Quest_Point);
-                        if (point > progressBar1.Maximum)
-                            point = progressBar1.Maximum;
-                        progressBar1.Value = (int)point;
+                        if (point > progressBar1.Maximum) point = progressBar1.Maximum;
+                        else if (point <= CurrentRewardPoints[0]) progressBar1.Value = (int)(point * 0.45);
+                        else if (point <= CurrentRewardPoints[1] && point > CurrentRewardPoints[0]) progressBar1.Value = (int)(point * 0.95);
+                        else if (point <= CurrentRewardPoints[2] && point > CurrentRewardPoints[1]) progressBar1.Value = (int)(point * 1.05);
+                        else if (point <= CurrentRewardPoints[3] && point > CurrentRewardPoints[2]) progressBar1.Value = (int)(point * 1.02);
+                        else if (point <= CurrentRewardPoints[4] && point > CurrentRewardPoints[3]) progressBar1.Value = (int)(point * 0.55);
+                        else if (point <= CurrentRewardPoints[5] && point > CurrentRewardPoints[4]) progressBar1.Value = (int)(point * 0.875);
+                        else if (point <= CurrentRewardPoints[6] && point > CurrentRewardPoints[5]) progressBar1.Value = (int)(point * 0.82);
+                        else if (point <= CurrentRewardPoints[7] && point > CurrentRewardPoints[6]) progressBar1.Value = (int)(point * 0.78);
+                        else if (point <= CurrentRewardPoints[8] && point > CurrentRewardPoints[7]) progressBar1.Value = (int)(point * 0.755);
+                        else if (point <= CurrentRewardPoints[9] && point > CurrentRewardPoints[8]) progressBar1.Value = (int)(point * 0.75);
+                        else if (point <= CurrentRewardPoints[10] && point > CurrentRewardPoints[9]) progressBar1.Value = (int)(point * 0.765);
+                        else if (point <= CurrentRewardPoints[11] && point > CurrentRewardPoints[10]) progressBar1.Value = (int)(point * 0.795);
+                        else if (point <= CurrentRewardPoints[12] && point > CurrentRewardPoints[11]) progressBar1.Value = (int)(point * 0.82);
+                        else if (point <= CurrentRewardPoints[13] && point > CurrentRewardPoints[12]) progressBar1.Value = (int)(point * 0.85);
+                        else if (point <= CurrentRewardPoints[14] && point > CurrentRewardPoints[13]) progressBar1.Value = (int)(point * 0.9);
+                        else if (point <= CurrentRewardPoints[15] && point > CurrentRewardPoints[14]) progressBar1.Value = (int)(point * 0.94);
+                        else if (point <= CurrentRewardPoints[16] && point > CurrentRewardPoints[15]) progressBar1.Value = (int)(point * 0.99);
+                        else if (point <= CurrentRewardPoints[17] && point > CurrentRewardPoints[16]) progressBar1.Value = (int)(point * 1.035);
+                        else if (point <= CurrentRewardPoints[18] && point > CurrentRewardPoints[17]) progressBar1.Value = (int)(point * 1.08);
+                        else if (point <= CurrentRewardPoints[19] && point > CurrentRewardPoints[18]) progressBar1.Value = (int)(point * 0.975);
+                        else progressBar1.Value = (int)point;
+
+                        textBox_Punti_Quest.Text = $"Punti: {point}";
                     }));
                 }
                 await Task.Delay(750); // meglio di Thread.Sleep
@@ -207,7 +228,6 @@ namespace CriptoGame_Online
             txt_Reward_20.Text = CurrentRewardsNormali[19].ToString();
             txt_Reward_Vip_20.Text = CurrentRewardsVip[19].ToString();
         }
-
         private void Check_Unlock_Reward()
         {
             int point = Convert.ToInt32(Variabili_Client.Utente.Montly_Quest_Point);

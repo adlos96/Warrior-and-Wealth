@@ -19,7 +19,7 @@ namespace CriptoGame_Online.Properties {
     // tramite uno strumento quale ResGen o Visual Studio.
     // Per aggiungere o rimuovere un membro, modificare il file con estensione ResX ed eseguire nuovamente ResGen
     // con l'opzione /str oppure ricompilare il progetto VS.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -83,6 +83,16 @@ namespace CriptoGame_Online.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Abitazioni_V2 {
+            get {
+                object obj = ResourceManager.GetObject("Abitazioni_V2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap acceleration {
             get {
                 object obj = ResourceManager.GetObject("acceleration", resourceCulture);
@@ -113,9 +123,9 @@ namespace CriptoGame_Online.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Arciere {
+        internal static System.Drawing.Bitmap Archi_V2 {
             get {
-                object obj = ResourceManager.GetObject("Arciere", resourceCulture);
+                object obj = ResourceManager.GetObject("Archi_V2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -123,9 +133,9 @@ namespace CriptoGame_Online.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Arciere__2_ {
+        internal static System.Drawing.Bitmap Arciere_V2 {
             get {
-                object obj = ResourceManager.GetObject("Arciere (2)", resourceCulture);
+                object obj = ResourceManager.GetObject("Arciere_V2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -133,19 +143,9 @@ namespace CriptoGame_Online.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Arciere_V2_removebg_preview {
+        internal static System.Drawing.Bitmap Armature_V2 {
             get {
-                object obj = ResourceManager.GetObject("Arciere_V2-removebg-preview", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Attack {
-            get {
-                object obj = ResourceManager.GetObject("Attack", resourceCulture);
+                object obj = ResourceManager.GetObject("Armature_V2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -183,8 +183,7 @@ namespace CriptoGame_Online.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Bottone___Sfondo_1_A_removebg_preview
-        {
+        internal static System.Drawing.Bitmap Bottone___Sfondo_1_A_removebg_preview {
             get {
                 object obj = ResourceManager.GetObject("Bottone_+_Sfondo_1_A-removebg-preview", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -197,6 +196,66 @@ namespace CriptoGame_Online.Properties {
         internal static System.Drawing.Bitmap Bottone___Sfondo_2_A_removebg_preview {
             get {
                 object obj = ResourceManager.GetObject("Bottone_+_Sfondo_2_A-removebg-preview", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Caserma_Arcieri_V2 {
+            get {
+                object obj = ResourceManager.GetObject("Caserma_Arcieri_V2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Caserma_Catapulte_V2 {
+            get {
+                object obj = ResourceManager.GetObject("Caserma_Catapulte_V2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Caserma_Guerieri_V2 {
+            get {
+                object obj = ResourceManager.GetObject("Caserma_Guerieri_V2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Caserma_Lanceri_V2 {
+            get {
+                object obj = ResourceManager.GetObject("Caserma_Lanceri_V2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Catapulta_V2 {
+            get {
+                object obj = ResourceManager.GetObject("Catapulta_V2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CavaDiPietra_V2 {
+            get {
+                object obj = ResourceManager.GetObject("CavaDiPietra_V2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -267,6 +326,26 @@ namespace CriptoGame_Online.Properties {
         internal static System.Drawing.Bitmap delete {
             get {
                 object obj = ResourceManager.GetObject("delete", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DiamanteBlu_V2 {
+            get {
+                object obj = ResourceManager.GetObject("DiamanteBlu_V2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DiamanteViola_V2 {
+            get {
+                object obj = ResourceManager.GetObject("DiamanteViola_V2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -354,6 +433,46 @@ namespace CriptoGame_Online.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Fattoria_Base {
+            get {
+                object obj = ResourceManager.GetObject("Fattoria_Base", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Fattoria_V2 {
+            get {
+                object obj = ResourceManager.GetObject("Fattoria_V2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Ferro_V2 {
+            get {
+                object obj = ResourceManager.GetObject("Ferro_V2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Frecce_V2 {
+            get {
+                object obj = ResourceManager.GetObject("Frecce_V2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap freepik__retouch__52313 {
             get {
                 object obj = ResourceManager.GetObject("freepik__retouch__52313", resourceCulture);
@@ -404,6 +523,16 @@ namespace CriptoGame_Online.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Gamepass_Reward_V2 {
+            get {
+                object obj = ResourceManager.GetObject("Gamepass_Reward_V2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Gold_Ingot_icon_icon {
             get {
                 object obj = ResourceManager.GetObject("Gold Ingot icon icon", resourceCulture);
@@ -414,9 +543,9 @@ namespace CriptoGame_Online.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Guerriero_V2_removebg_preview {
+        internal static System.Drawing.Bitmap Grano_V2 {
             get {
-                object obj = ResourceManager.GetObject("Guerriero_V2-removebg-preview", resourceCulture);
+                object obj = ResourceManager.GetObject("Grano_V2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -424,9 +553,9 @@ namespace CriptoGame_Online.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap icons8_armor_48_1_ {
+        internal static System.Drawing.Bitmap Guerriero_V2 {
             get {
-                object obj = ResourceManager.GetObject("icons8-armor-48(1)", resourceCulture);
+                object obj = ResourceManager.GetObject("Guerriero_V2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -464,66 +593,6 @@ namespace CriptoGame_Online.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap icons8_fattoria_48_1_ {
-            get {
-                object obj = ResourceManager.GetObject("icons8-fattoria-48(1)", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_freccia_di_arcieri_48 {
-            get {
-                object obj = ResourceManager.GetObject("icons8-freccia-di-arcieri-48", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_log_48 {
-            get {
-                object obj = ResourceManager.GetObject("icons8-log-48", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_medieval_48 {
-            get {
-                object obj = ResourceManager.GetObject("icons8-medieval-48", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_scudo_48_2_ {
-            get {
-                object obj = ResourceManager.GetObject("icons8-scudo-48(2)", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_tiro_con_l_arco_48_1_ {
-            get {
-                object obj = ResourceManager.GetObject("icons8-tiro-con-l\'arco-48(1)", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap info {
             get {
                 object obj = ResourceManager.GetObject("info", resourceCulture);
@@ -544,9 +613,19 @@ namespace CriptoGame_Online.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Lancere_V2_removebg_preview {
+        internal static System.Drawing.Bitmap Lance_V2 {
             get {
-                object obj = ResourceManager.GetObject("Lancere_V2-removebg-preview", resourceCulture);
+                object obj = ResourceManager.GetObject("Lance_V2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Lanciere_V2 {
+            get {
+                object obj = ResourceManager.GetObject("Lanciere_V2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -557,6 +636,16 @@ namespace CriptoGame_Online.Properties {
         internal static System.Drawing.Bitmap Leggendario {
             get {
                 object obj = ResourceManager.GetObject("Leggendario", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Legna_V2 {
+            get {
+                object obj = ResourceManager.GetObject("Legna_V2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -587,6 +676,26 @@ namespace CriptoGame_Online.Properties {
         internal static System.Drawing.Bitmap medieval_house_1_ {
             get {
                 object obj = ResourceManager.GetObject("medieval-house(1)", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MinieraFerro_V2 {
+            get {
+                object obj = ResourceManager.GetObject("MinieraFerro_V2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MinieraOro_V2 {
+            get {
+                object obj = ResourceManager.GetObject("MinieraOro_V2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -634,6 +743,16 @@ namespace CriptoGame_Online.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Oro_V2 {
+            get {
+                object obj = ResourceManager.GetObject("Oro_V2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Pacchetto_Risorse {
             get {
                 object obj = ResourceManager.GetObject("Pacchetto_Risorse", resourceCulture);
@@ -644,9 +763,9 @@ namespace CriptoGame_Online.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap picchiere {
+        internal static System.Drawing.Bitmap Pietra_V2 {
             get {
-                object obj = ResourceManager.GetObject("picchiere", resourceCulture);
+                object obj = ResourceManager.GetObject("Pietra_V2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -657,6 +776,26 @@ namespace CriptoGame_Online.Properties {
         internal static System.Drawing.Bitmap plus_64x {
             get {
                 object obj = ResourceManager.GetObject("plus_64x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Popolazione_V2 {
+            get {
+                object obj = ResourceManager.GetObject("Popolazione_V2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Quest_V2 {
+            get {
+                object obj = ResourceManager.GetObject("Quest_V2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -684,9 +823,29 @@ namespace CriptoGame_Online.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Scudi_V2 {
+            get {
+                object obj = ResourceManager.GetObject("Scudi_V2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Scudo_Pace_1 {
             get {
                 object obj = ResourceManager.GetObject("Scudo_Pace_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Segheria_V2 {
+            get {
+                object obj = ResourceManager.GetObject("Segheria_V2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -744,9 +903,9 @@ namespace CriptoGame_Online.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap spears {
+        internal static System.Drawing.Bitmap Spade_V2 {
             get {
-                object obj = ResourceManager.GetObject("spears", resourceCulture);
+                object obj = ResourceManager.GetObject("Spade_V2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -757,16 +916,6 @@ namespace CriptoGame_Online.Properties {
         internal static System.Drawing.Bitmap Stone_2 {
             get {
                 object obj = ResourceManager.GetObject("Stone_2", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Sword_1 {
-            get {
-                object obj = ResourceManager.GetObject("Sword_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -794,20 +943,9 @@ namespace CriptoGame_Online.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Un_arciere_medievale_a_figura_intera__stile_videogame_fantasy__con_arco_teso_e_faretra__abbigliamento_da_cacciatore__sfondo_trasparente__icona_PNG {
+        internal static System.Drawing.Bitmap Tributi_V2 {
             get {
-                object obj = ResourceManager.GetObject("Un arciere medievale a figura intera, stile videogame fantasy, con arco teso e fa" +
-                        "retra, abbigliamento da cacciatore, sfondo trasparente, icona PNG", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Un_guerriero_medievale_1_ {
-            get {
-                object obj = ResourceManager.GetObject("Un guerriero medievale(1)", resourceCulture);
+                object obj = ResourceManager.GetObject("Tributi_V2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -905,9 +1043,9 @@ namespace CriptoGame_Online.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Workshop_Archi {
+        internal static System.Drawing.Bitmap Workshop_Archi_V2 {
             get {
-                object obj = ResourceManager.GetObject("Workshop_Archi", resourceCulture);
+                object obj = ResourceManager.GetObject("Workshop_Archi_V2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -915,9 +1053,9 @@ namespace CriptoGame_Online.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Workshop_Armature {
+        internal static System.Drawing.Bitmap Workshop_Armature_V2 {
             get {
-                object obj = ResourceManager.GetObject("Workshop_Armature", resourceCulture);
+                object obj = ResourceManager.GetObject("Workshop_Armature_V2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -925,9 +1063,9 @@ namespace CriptoGame_Online.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Workshop_Frecce {
+        internal static System.Drawing.Bitmap Workshop_Frecce_V2 {
             get {
-                object obj = ResourceManager.GetObject("Workshop_Frecce", resourceCulture);
+                object obj = ResourceManager.GetObject("Workshop_Frecce_V2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -935,9 +1073,9 @@ namespace CriptoGame_Online.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Workshop_Lance {
+        internal static System.Drawing.Bitmap Workshop_Lance_V2 {
             get {
-                object obj = ResourceManager.GetObject("Workshop_Lance", resourceCulture);
+                object obj = ResourceManager.GetObject("Workshop_Lance_V2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -945,9 +1083,9 @@ namespace CriptoGame_Online.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Workshop_Scudi {
+        internal static System.Drawing.Bitmap Workshop_Scudi_V2 {
             get {
-                object obj = ResourceManager.GetObject("Workshop_Scudi", resourceCulture);
+                object obj = ResourceManager.GetObject("Workshop_Scudi_V2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -955,9 +1093,9 @@ namespace CriptoGame_Online.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Workshop_Spade {
+        internal static System.Drawing.Bitmap Workshop_Spade_V2 {
             get {
-                object obj = ResourceManager.GetObject("Workshop_Spade", resourceCulture);
+                object obj = ResourceManager.GetObject("Workshop_Spade_V2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

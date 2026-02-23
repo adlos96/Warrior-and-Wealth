@@ -27,9 +27,12 @@ namespace CriptoGame_Online.GUI
         private StatBar soldierBarCitta;
 
         private Dictionary<StatBar, int> lastValues = new Dictionary<StatBar, int>();
+        private Dictionary<StatBar, int> lastValuesMax = new Dictionary<StatBar, int>();
         private List<(StatBar bar, Panel panel)> barreCitta;
 
         private CancellationTokenSource cts = new CancellationTokenSource();
+
+        public static bool[] tutorial = new bool[2];
 
         public Citta_V2()
         {
@@ -296,10 +299,9 @@ namespace CriptoGame_Online.GUI
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             pictureBox_Castello_Salute.BackgroundImageLayout = ImageLayout.Stretch;
-
+            
             Task.Run(() => Gui_Update(cts.Token), cts.Token);
         }
-
         async void Gui_Update(CancellationToken token)
         {
             while (!token.IsCancellationRequested)
@@ -309,6 +311,7 @@ namespace CriptoGame_Online.GUI
                     int daRiparare = 0;
                     panel1.BeginInvoke((Action)(() =>
                     {
+                        ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{23}");
                         Gioco.toolTip1.SetToolTip(this.pictureBox_Cancello_Salute, $"{Variabili_Client.Citta.Cancello.Descrizione}");
                         Gioco.toolTip1.SetToolTip(this.pictureBox_Cancello_Difesa, $"{Variabili_Client.Citta.Cancello.DescrizioneB}");
 
@@ -451,12 +454,17 @@ namespace CriptoGame_Online.GUI
                                 lastValues[bar] = currentValue;
                             }
                             int currentValueMax = bar.MaxValue; // valore attuale
-                            if (!lastValues.TryGetValue(bar, out int lastValueMax) || lastValue != ActualValueMax)
+                            if (!lastValuesMax.TryGetValue(bar, out int lastValueMax) || lastValue != ActualValueMax)
                             {
                                 panel.Invalidate();
-                                lastValues[bar] = currentValueMax;
+                                lastValuesMax[bar] = currentValueMax;
                             }
                         }
+
+                        lbl_Mura.Text = $"Mura      [2]      Lv: {Variabili_Client.Citta.Mura.Livello}";
+                        lbl_Cancello.Text = $"Cancello      [3]      Lv: {Variabili_Client.Citta.Cancello.Livello}";
+                        lbl_Torri.Text = $"Torri      [4]      Lv: {Variabili_Client.Citta.Torri.Livello}";
+                        lbl_Castello.Text = $"Castello      [5]      Lv: {Variabili_Client.Citta.Castello.Livello}";
                     }));
                 }
                 await Task.Delay(1000); // meglio di Thread.Sleep
@@ -535,9 +543,12 @@ namespace CriptoGame_Online.GUI
 
         private void Citta_V2_FormClosing(object sender, FormClosingEventArgs e)
         {
-            GameAudio.StopMusic();
-            GameAudio.PlayMenuMusic("Gioco");
-            MusicManager.SetVolume(0.2f);
+            if (!Variabili_Client.tutorial_Attivo)
+            {
+                GameAudio.StopMusic();
+                GameAudio.PlayMenuMusic("Gioco");
+                MusicManager.SetVolume(0.2f);
+            }
             cts.Cancel();
         }
 
@@ -579,17 +590,25 @@ namespace CriptoGame_Online.GUI
         private void btn_Castello_Click(object sender, EventArgs e)
         {
             Spostamento_Truppe.struttura = "Castello";
+            if (Variabili_Client.tutorial_Attivo == true)
+                ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{26}");
             Spostamento_Truppe form_Gioco = new Spostamento_Truppe();
             form_Gioco.ShowDialog();
         }
 
         private void pictureBox_Mura_Salute_Click(object sender, EventArgs e)
         {
+            tutorial[0] = true;
+            if (Variabili_Client.tutorial_Attivo == true && tutorial[0] && tutorial[1])
+                ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{25}");
             ClientConnection.TestClient.Send($"Ripara|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Mura|Salute");
         }
 
         private void pictureBox_Mura_Difesa_Click(object sender, EventArgs e)
         {
+            tutorial[1] = true;
+            if (Variabili_Client.tutorial_Attivo == true && tutorial[0] && tutorial[1])
+                ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{25}");
             ClientConnection.TestClient.Send($"Ripara|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Mura|Difesa");
         }
 

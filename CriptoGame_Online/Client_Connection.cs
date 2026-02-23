@@ -1,5 +1,6 @@
 ﻿using CriptoGame_Online;
 using System.Globalization;
+using System.Numerics;
 using System.Text;
 using System.Text.Json;
 using WatsonTcp;
@@ -186,6 +187,21 @@ namespace Strategico_V2
                         case "RadunoPartecipo":
                             Update_Raduni_Partecipazione(mess);
                             break;
+                        case "Tutorial":
+                            if (mess[1] == "Dati")
+                            {
+                                var dati = JsonSerializer.Deserialize<List<dati>>(mess[2]);
+                                Variabili_Client.tutorial_dati = dati;
+                            }
+                            break;
+                        case "Gamepass_Premi":
+                            for (int i = 1; i < mess.Count(); i++)
+                                Variabili_Client.GamePass_Premi[i-1] = mess[i];
+                            break;
+                        case "Gamepass_Premi_Ottenuti":
+                            for (int i = 1; i < mess.Count(); i++)
+                                Variabili_Client.GamePass_Premi_Completati[i - 1] = Convert.ToBoolean(mess[i]);
+                            break;
 
                         default: Console.WriteLine($"[Errore] >> [{messaggio}] Comando non riconosciuto"); break;
                     }
@@ -195,6 +211,10 @@ namespace Strategico_V2
                     Console.WriteLine("-----------------------------");
                     Console.WriteLine("");
                 }
+
+            }
+            public static void Tutorial_Data(string messaggio)
+            {
 
             }
             public static void AggiornaVillaggiDalServer(string messaggio)
@@ -450,11 +470,15 @@ namespace Strategico_V2
                 SetValue<string>("QuestMensili_Tempo", v => Variabili_Client.Utente.Montly_Quest_Tempo = v);
                 SetValue<string>("Barbari_Tempo", v => Variabili_Client.Utente.Barbari_Tempo = v);
 
-                //Svlocco truppe
+                SetValue<int>("Giorni_Consecutivi", v => Variabili_Client.Giorni_Accessi_Consecutivi = v);
+
+                //Sblocco truppe
                 SetValue<string>("Unlock_Truppe_II", v => Variabili_Client.truppe_II = v);
                 SetValue<string>("Unlock_Truppe_III", v => Variabili_Client.truppe_III = v);
                 SetValue<string>("Unlock_Truppe_IV", v => Variabili_Client.truppe_IV = v);
                 SetValue<string>("Unlock_Truppe_V", v => Variabili_Client.truppe_V = v);
+                SetValue<string>("Unlock_Città_Barbare", v => Variabili_Client.unlock_Città_Barbare = v);
+                SetValue<string>("Unlock_PVP", v => Variabili_Client.unlock_PVP = v);
 
                 //Shop
                 SetValue<string>("Pacchetto_Vip_1_Reward", v => Variabili_Client.Shop.Vip_1.Reward = v);
@@ -658,6 +682,8 @@ namespace Strategico_V2
                 SetValue<string>("ricerca_costruzione", v => Variabili_Client.Utente_Ricerca.Ricerca_Costruzione = v);
                 SetValue<string>("ricerca_addestramento", v => Variabili_Client.Utente_Ricerca.Ricerca_Addestramento = v);
                 SetValue<string>("ricerca_popolazione", v => Variabili_Client.Utente_Ricerca.Ricerca_Popolazione = v);
+                SetValue<string>("ricerca_riparazione", v => Variabili_Client.Utente_Ricerca.Ricerca_Riparazione = v);
+                SetValue<string>("ricerca_trasporto", v => Variabili_Client.Utente_Ricerca.Ricerca_Trasporto = v);
 
                 SetValue<string>("guerriero_salute", v => Variabili_Client.Utente_Ricerca.Salute_Spadaccini = v);
                 SetValue<string>("guerriero_difesa", v => Variabili_Client.Utente_Ricerca.Difesa_Spadaccini = v);
@@ -683,18 +709,22 @@ namespace Strategico_V2
                 SetValue<string>("ricerca_ingresso_guarnigione", v => Variabili_Client.Utente_Ricerca.Ricerca_Ingresso_Guarnigione = v);
                 SetValue<string>("ricerca_citta_guarnigione", v => Variabili_Client.Utente_Ricerca.Ricerca_Citta_Guarnigione = v);
 
+                SetValue<string>("ricerca_cancello_livello", v => Variabili_Client.Utente_Ricerca.Ricerca_Cancello_Livello = v);
                 SetValue<string>("ricerca_cancello_salute", v => Variabili_Client.Utente_Ricerca.Ricerca_Cancello_Salute = v);
                 SetValue<string>("ricerca_cancello_difesa", v => Variabili_Client.Utente_Ricerca.Ricerca_Cancello_Difesa = v);
                 SetValue<string>("ricerca_cancello_guarnigione", v => Variabili_Client.Utente_Ricerca.Ricerca_Cancello_Guarnigione = v);
 
+                SetValue<string>("ricerca_mura_livello", v => Variabili_Client.Utente_Ricerca.Ricerca_Mura_Livello = v);
                 SetValue<string>("ricerca_mura_salute", v => Variabili_Client.Utente_Ricerca.Ricerca_Mura_Salute = v);
                 SetValue<string>("ricerca_mura_difesa", v => Variabili_Client.Utente_Ricerca.Ricerca_Mura_Difesa = v);
                 SetValue<string>("ricerca_mura_guarnigione", v => Variabili_Client.Utente_Ricerca.Ricerca_Mura_Guarnigione = v);
 
+                SetValue<string>("ricerca_torri_livello", v => Variabili_Client.Utente_Ricerca.Ricerca_Torri_Livello = v);
                 SetValue<string>("ricerca_torri_salute", v => Variabili_Client.Utente_Ricerca.Ricerca_Torri_Salute = v);
                 SetValue<string>("ricerca_torri_difesa", v => Variabili_Client.Utente_Ricerca.Ricerca_Torri_Difesa = v);
                 SetValue<string>("ricerca_torri_guarnigione", v => Variabili_Client.Utente_Ricerca.Ricerca_Torri_Guarnigione = v);
 
+                SetValue<string>("ricerca_castello_livello", v => Variabili_Client.Utente_Ricerca.Ricerca_Castello_Livello = v);
                 SetValue<string>("ricerca_castello_salute", v => Variabili_Client.Utente_Ricerca.Ricerca_Castello_Salute = v);
                 SetValue<string>("ricerca_castello_difesa", v => Variabili_Client.Utente_Ricerca.Ricerca_Castello_Difesa = v);
                 SetValue<string>("ricerca_castello_guarnigione", v => Variabili_Client.Utente_Ricerca.Ricerca_Castello_Guarnigione = v);
@@ -951,6 +981,42 @@ namespace Strategico_V2
                 SetValue<string>("Bonus_Attacco_Catapulte", v => Variabili_Client.Bonus.Bonus_Attacco_Catapulte = v);
                 SetValue<string>("Bonus_Salute_Catapulte", v => Variabili_Client.Bonus.Bonus_Salute_Catapulte = v);
                 SetValue<string>("Bonus_Difesa_Catapulte", v => Variabili_Client.Bonus.Bonus_Difesa_Catapulte = v);
+
+                //Tutorial
+                SetValue<bool>("Tutorial", v => Variabili_Client.tutorial_Attivo = v);
+
+                SetValue<bool>("Tutorial_1", v => Variabili_Client.tutorial[0] = v);
+                SetValue<bool>("Tutorial_2", v => Variabili_Client.tutorial[1] = v);
+                SetValue<bool>("Tutorial_3", v => Variabili_Client.tutorial[2] = v);
+                SetValue<bool>("Tutorial_4", v => Variabili_Client.tutorial[3] = v);
+                SetValue<bool>("Tutorial_5", v => Variabili_Client.tutorial[4] = v);
+                SetValue<bool>("Tutorial_6", v => Variabili_Client.tutorial[5] = v);
+                SetValue<bool>("Tutorial_7", v => Variabili_Client.tutorial[6] = v);
+                SetValue<bool>("Tutorial_8", v => Variabili_Client.tutorial[7] = v);
+                SetValue<bool>("Tutorial_9", v => Variabili_Client.tutorial[8] = v);
+                SetValue<bool>("Tutorial_10", v => Variabili_Client.tutorial[9] = v);
+                SetValue<bool>("Tutorial_11", v => Variabili_Client.tutorial[10] = v);
+                SetValue<bool>("Tutorial_12", v => Variabili_Client.tutorial[11] = v);
+                SetValue<bool>("Tutorial_13", v => Variabili_Client.tutorial[12] = v);
+                SetValue<bool>("Tutorial_14", v => Variabili_Client.tutorial[13] = v);
+                SetValue<bool>("Tutorial_15", v => Variabili_Client.tutorial[14] = v);
+                SetValue<bool>("Tutorial_16", v => Variabili_Client.tutorial[15] = v);
+                SetValue<bool>("Tutorial_17", v => Variabili_Client.tutorial[16] = v);
+                SetValue<bool>("Tutorial_18", v => Variabili_Client.tutorial[17] = v);
+                SetValue<bool>("Tutorial_19", v => Variabili_Client.tutorial[18] = v);
+                SetValue<bool>("Tutorial_20", v => Variabili_Client.tutorial[19] = v);
+                SetValue<bool>("Tutorial_21", v => Variabili_Client.tutorial[20] = v);
+                SetValue<bool>("Tutorial_22", v => Variabili_Client.tutorial[21] = v);
+                SetValue<bool>("Tutorial_23", v => Variabili_Client.tutorial[22] = v);
+                SetValue<bool>("Tutorial_24", v => Variabili_Client.tutorial[23] = v);
+                SetValue<bool>("Tutorial_25", v => Variabili_Client.tutorial[24] = v);
+                SetValue<bool>("Tutorial_26", v => Variabili_Client.tutorial[25] = v);
+                SetValue<bool>("Tutorial_27", v => Variabili_Client.tutorial[26] = v);
+                SetValue<bool>("Tutorial_28", v => Variabili_Client.tutorial[27] = v);
+                SetValue<bool>("Tutorial_29", v => Variabili_Client.tutorial[28] = v);
+                SetValue<bool>("Tutorial_30", v => Variabili_Client.tutorial[29] = v);
+                SetValue<bool>("Tutorial_31", v => Variabili_Client.tutorial[30] = v);
+                SetValue<bool>("Tutorial_32", v => Variabili_Client.tutorial[31] = v);
 
                 //Dati
                 SetValue<string>("Code_Costruzioni", v => Variabili_Client.Utente.Code_Costruzione = v);
@@ -1256,6 +1322,9 @@ namespace Strategico_V2
                         Variabili_Client.Ricerca_Citta_Guarnigione_Desc = desc;
                         break;
 
+                    case "Ricerca Cancello Livello":
+                        Variabili_Client.Ricerca_Cancello_Livello_Desc = desc;
+                        break;
                     case "Ricerca Cancello Salute":
                         Variabili_Client.Ricerca_Cancello_Salute_Desc = desc;
                         break;
@@ -1266,6 +1335,9 @@ namespace Strategico_V2
                         Variabili_Client.Ricerca_Cancello_Guarnigione_Desc = desc;
                         break;
 
+                    case "Ricerca Mura Livello":
+                        Variabili_Client.Ricerca_Mura_Livello_Desc = desc;
+                        break;
                     case "Ricerca Mura Salute":
                         Variabili_Client.Ricerca_Mura_Salute_Desc = desc;
                         break;
@@ -1276,6 +1348,9 @@ namespace Strategico_V2
                         Variabili_Client.Ricerca_Mura_Guarnigione_Desc = desc;
                         break;
 
+                    case "Ricerca Torri Livello":
+                        Variabili_Client.Ricerca_Torri_Livello_Desc = desc;
+                        break;
                     case "Ricerca Torri Salute":
                         Variabili_Client.Ricerca_Torri_Salute_Desc = desc;
                         break;
@@ -1286,6 +1361,9 @@ namespace Strategico_V2
                         Variabili_Client.Ricerca_Torri_Guarnigione_Desc = desc;
                         break;
 
+                    case "Ricerca Castello Livello":
+                        Variabili_Client.Ricerca_Castello_Livello_Desc = desc;
+                        break;
                     case "Ricerca Castello Salute":
                         Variabili_Client.Ricerca_Castello_Salute_Desc = desc;
                         break;
@@ -1294,6 +1372,44 @@ namespace Strategico_V2
                         break;
                     case "Ricerca Castello Guarnigione":
                         Variabili_Client.Ricerca_Castello_Guarnigione_Desc = desc;
+                        break;
+
+                    //Shop
+                    case "Shop Vip 1":
+                        Variabili_Client.Shop.Vip_1.desc = desc;
+                        break;
+                    case "Shop Vip 2":
+                        Variabili_Client.Shop.Vip_2.desc = desc;
+                        break;
+
+                    case "Shop Costruttore 24h":
+                        Variabili_Client.Shop.Costruttore_24h.desc = desc;
+                        break;
+                    case "Shop Costruttore 48h":
+                        Variabili_Client.Shop.Costruttore_48h.desc = desc;
+                        break;
+                    case "Shop Reclutatore 24h":
+                        Variabili_Client.Shop.Reclutatore_24h.desc = desc;
+                        break;
+                    case "Shop Reclutatore 48h":
+                        Variabili_Client.Shop.Reclutatore_48h.desc = desc;
+                        break;
+
+                    case "Shop Scudo Pace 8h":
+                        Variabili_Client.Shop.Scudo_Pace_8h.desc = desc;
+                        break;
+                    case "Shop Scudo Pace 24h":
+                        Variabili_Client.Shop.Scudo_Pace_24h.desc = desc;
+                        break;
+                    case "Shop Scudo Pace 72h":
+                        Variabili_Client.Shop.Scudo_Pace_72h.desc = desc;
+                        break;
+
+                    case "Shop GamePass Base":
+                        Variabili_Client.Shop.GamePass_Base.desc = desc;
+                        break;
+                    case "Shop GamePass Avanzato":
+                        Variabili_Client.Shop.GamePass_Avanzato.desc = desc;
                         break;
                 }
             }

@@ -698,6 +698,8 @@ namespace Server_Strategico.Gioco
         // Aggiorna lo stato di tutti gli attacchi (da chiamare nel ciclo di gioco)
         public static void AggiornaAttacchi()
         {
+            if (AttacchiInCorso.Count() == 0) return;
+
             foreach (var attaccoCooperativo in AttacchiInCorso.Values.ToList())
             {
                 if (!attaccoCooperativo.AttaccoInCorso)

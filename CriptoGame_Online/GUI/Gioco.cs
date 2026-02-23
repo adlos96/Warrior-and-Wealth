@@ -1,6 +1,7 @@
 ﻿using CriptoGame_Online.GUI;
 using CriptoGame_Online.Strumenti;
 using Strategico_V2;
+using System.Reflection;
 
 namespace CriptoGame_Online
 {
@@ -28,10 +29,7 @@ namespace CriptoGame_Online
 
         public static void Log_Update(string messaggio)
         {
-            if (logBox != null)
-            {
-                logBox.Invoke(new Action(() => logBox.AddLineFromServer(messaggio)));
-            }
+            if (logBox != null) logBox.Invoke(new Action(() => logBox.AddLineFromServer(messaggio)));
         }
 
         private void Gioco_Load(object sender, EventArgs e)
@@ -43,9 +41,9 @@ namespace CriptoGame_Online
             MusicManager.SetVolume(0.3f);
 
             // Pannelli e Cose
-            panel_1.BackColor = Color.FromArgb(100, 229, 208, 181);
+            panel_Risorse_1.BackColor = Color.FromArgb(100, 229, 208, 181);
             panel_2.BackColor = Color.FromArgb(100, 229, 208, 181);
-            panel_3.BackColor = Color.FromArgb(100, 229, 208, 181);
+            panel_Risorse_2.BackColor = Color.FromArgb(100, 229, 208, 181);
             panel_Sfondo_Bottoni.BackColor = Color.FromArgb(50, 180, 150, 100);
 
             panel_Image_2.BackColor = Color.FromArgb(100, 218, 193, 163); //Sfondo immagini diamanti
@@ -66,8 +64,55 @@ namespace CriptoGame_Online
             Update();
             Task.Run(() => Gui_Update());
             Log_Update($"[info]Benvenuto[/info] giocatore: [title]{Variabili_Client.Utente.Username}");
+            Tutorial_Start();
         }
+        void Tutorial_Start()
+        {
+            if (Variabili_Client.tutorial_Attivo)
+            {
+                Tutorial form_Gioco = new Tutorial();
+                form_Gioco.Show();
+                //Abilita la prima fase del tutorial se non è già stata completata... Il tutorial deve essere completato in toto, non si può saltare ne salvare lo stato...
 
+            }
+            else return;
+
+            panel_Risorse_1.Visible = false;
+
+            groupBox_Terreni.Visible = false;
+            groupBox_Strutture.Visible = false;
+            groupBox_Esercito.Visible = false;
+
+            btn_Acquista_Terreni.Visible = false;
+            Btn_Costruzione.Visible = false;
+            btn_Citta.Visible = false;
+            btn_Shop.Visible = false;
+            btn_Ricerca.Visible = false;
+            btn_Quest_Mensile.Visible = false;
+            btn_PVP_PVE.Visible = false;
+
+            btn_Scambia.Visible = false;
+            btn_Acquista_Terreni.Visible = false;
+
+            panel2.Visible = false; //Pannello log/chat
+
+            //Risorse 2
+            panel_Risorse_2.Visible = false;
+            ico_10.Visible = false;
+            ico_11.Visible = false;
+            ico_12.Visible = false;
+            ico_13.Visible = false;
+            txt_Username.Visible = false;
+            txt_Diamond_1.Visible = false;
+            txt_Diamond_2.Visible = false;
+            txt_Virtual_Dolla.Visible = false;
+
+            //Feudi
+            btn_Acquista_Terreni.Visible = false;
+            btn_Scambia.Visible = false;
+            panel_Image_2.Visible = false;
+            panel_Image_3.Visible = false;
+        }
         async void Gui_Update()
         {
             toolTip1 = new CustomToolTip();
@@ -81,7 +126,86 @@ namespace CriptoGame_Online
                 Thread.Sleep(33); // poco piu di 30 fps
                 logBox.Invoke((Action)(async () =>
                 {
+                    //Tutorial
+                    if (Variabili_Client.tutorial_Attivo)
+                    {
+                        if (Variabili_Client.tutorial[1]) panel_Risorse_1.Visible = true;
+                        if (Variabili_Client.tutorial[2]) //D_Viola
+                        {
+                            panel_Risorse_2.Visible = true;
+                            ico_12.Visible = true;
+                            txt_Diamond_2.Visible = true;
+                        }
+                        if (Variabili_Client.tutorial[3]) //D_Blu
+                        {
+                            ico_11.Visible = true;
+                            txt_Diamond_1.Visible = true;
+                        }
+                        if (Variabili_Client.tutorial[4]) //Tributi
+                        {
+                            ico_13.Visible = true;
+                            txt_Virtual_Dolla.Visible = true;
+                        }
+                        if (Variabili_Client.tutorial[5]) //Feudi
+                        {
+                            groupBox_Terreni.Visible = true;
+                        }
+                        if (Variabili_Client.tutorial[6]) //Acquista feudo
+                        {
+                            btn_Acquista_Terreni.Visible = true;
+                            panel2.Visible = true;
+                            panel_Image_2.Visible = true;
+                        }
+                        if (Variabili_Client.tutorial[8]) //Strutture Civili Militari
+                        {
+                            groupBox_Strutture.Visible = true;
+                        }
+                        if (Variabili_Client.tutorial[9]) //Costruzione
+                        {
+                            Btn_Costruzione.Visible = true;
+                        }
+                        if (Variabili_Client.tutorial[10]) //scambia
+                        {
+                            btn_Scambia.Visible = true;
+                            panel_Image_3.Visible = true;
+                        }
+                        if (Variabili_Client.tutorial[19]) //Esercito
+                        {
+                            groupBox_Esercito.Visible = true;
+                        }
+                        if (Variabili_Client.tutorial[22]) //Città
+                        {
+                            btn_Citta.Visible = true;
+                        }
+                        if (Variabili_Client.tutorial[24]) //Giocatore / Statisctiche
+                        {
+                            txt_Username.Visible = true;
+                            ico_10.Visible = true;
+                        }
+                        if (Variabili_Client.tutorial[25]) //Shop
+                        {
+                            btn_Shop.Visible = true;
+                        }
+                        if (Variabili_Client.tutorial[27]) //Ricerca
+                        {
+                            btn_Ricerca.Visible = true;
+                        }
+                        if (Variabili_Client.tutorial[28]) //Quest Mensili
+                        {
+                            btn_Quest_Mensile.Visible = true;
+                        }
+                        if (Variabili_Client.tutorial[29]) //Battaglie
+                        {
+                            btn_PVP_PVE.Visible = true;
+                        }
+                    }
+
                     UnlockSoldierTier(livello_Esercito); //Controlla lo sblocco delle truppe in base al livello esercito ed in base al livello selezionato per la visualizzazione
+
+                    toolTip1.SetToolTip(this.btn_I, $"Il livello II si blocca raggiunto il livello: {Variabili_Client.truppe_II}");
+                    toolTip1.SetToolTip(this.btn_II, $"Il livello III si blocca raggiunto il livello: {Variabili_Client.truppe_III}");
+                    toolTip1.SetToolTip(this.btn_III, $"Il livello IV si blocca raggiunto il livello: {Variabili_Client.truppe_IV}");
+                    toolTip1.SetToolTip(this.btn_IV, $"Il livello V si blocca raggiunto il livello: {Variabili_Client.truppe_V}");
 
                     toolTip1.SetToolTip(this.ico_10, $"{Variabili_Client.Giocatore_Desc}");
                     toolTip1.SetToolTip(this.ico_11, $"{Variabili_Client.Diamanti_Blu_Desc}");
@@ -359,8 +483,8 @@ namespace CriptoGame_Online
             lbl_Arceri_Max.Font = new Font("Cinzel Decorative", 7);
             lbl_Catapulte_Max.Font = new Font("Cinzel Decorative", 7);
 
-            lbl_Timer_Addestramento.Font = new Font("Cinzel Decorative", 8, FontStyle.Bold);
-            lbl_Timer_Costruzione.Font = new Font("Cinzel Decorative", 8, FontStyle.Bold);
+            lbl_Timer_Addestramento.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
+            lbl_Timer_Costruzione.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
             txt_Tipi_Risorse.Font = new Font("Cinzel Decorative", 8, FontStyle.Bold);
 
             Banner();
@@ -520,12 +644,12 @@ namespace CriptoGame_Online
 
             txt_Tipi_Risorse.Text = "Militare";
             tipo_Risorse = "Militare";
-            ico_1.BackgroundImage = Properties.Resources.Sword_1;
-            ico_2.BackgroundImage = Properties.Resources.spears;
-            ico_3.BackgroundImage = Properties.Resources.icons8_tiro_con_l_arco_48_1_;
-            ico_4.BackgroundImage = Properties.Resources.icons8_scudo_48_2_;
-            ico_5.BackgroundImage = Properties.Resources.icons8_armor_48_1_;
-            ico_6.BackgroundImage = Properties.Resources.icons8_freccia_di_arcieri_48;
+            ico_1.BackgroundImage = Properties.Resources.Spade_V2;
+            ico_2.BackgroundImage = Properties.Resources.Lance_V2;
+            ico_3.BackgroundImage = Properties.Resources.Archi_V2;
+            ico_4.BackgroundImage = Properties.Resources.Scudi_V2;
+            ico_5.BackgroundImage = Properties.Resources.Armature_V2;
+            ico_6.BackgroundImage = Properties.Resources.Frecce_V2;
 
         }
         private void btn_Civile_Militare_Click(object sender, EventArgs e)
@@ -534,23 +658,25 @@ namespace CriptoGame_Online
             {
                 groupBox_Strutture.Text = "Strutture Militari";
                 strutture = "Militare";
-                ico_Structure_1.BackgroundImage = Properties.Resources.Workshop_Spade;
-                ico_Structure_2.BackgroundImage = Properties.Resources.Workshop_Lance;
-                ico_Structure_3.BackgroundImage = Properties.Resources.Workshop_Archi;
-                ico_Structure_4.BackgroundImage = Properties.Resources.Workshop_Scudi;
-                ico_Structure_5.BackgroundImage = Properties.Resources.Workshop_Armature;
-                ico_Structure_6.BackgroundImage = Properties.Resources.Workshop_Frecce;
+                ico_Structure_1.BackgroundImage = Properties.Resources.Workshop_Spade_V2;
+                ico_Structure_2.BackgroundImage = Properties.Resources.Workshop_Lance_V2;
+                ico_Structure_3.BackgroundImage = Properties.Resources.Workshop_Archi_V2;
+                ico_Structure_4.BackgroundImage = Properties.Resources.Workshop_Scudi_V2;
+                ico_Structure_5.BackgroundImage = Properties.Resources.Workshop_Armature_V2;
+                ico_Structure_6.BackgroundImage = Properties.Resources.Workshop_Frecce_V2;
+                if (Variabili_Client.tutorial_Attivo == true)
+                    ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{10}");
                 return;
             }
 
             groupBox_Strutture.Text = "Strutture Civili";
             strutture = "Civile";
-            ico_Structure_1.BackgroundImage = Properties.Resources.wheat;
-            ico_Structure_2.BackgroundImage = Properties.Resources.wood_cutting;
-            ico_Structure_3.BackgroundImage = Properties.Resources.icons8_carrello_da_miniera_48_3_;
-            ico_Structure_4.BackgroundImage = Properties.Resources.icons8_carrello_da_miniera_48_2_;
-            ico_Structure_5.BackgroundImage = Properties.Resources.icons8_carrello_da_miniera_48_1_;
-            ico_Structure_6.BackgroundImage = Properties.Resources.medieval_house_1_;
+            ico_Structure_1.BackgroundImage = Properties.Resources.Fattoria_V2;
+            ico_Structure_2.BackgroundImage = Properties.Resources.Segheria_V2;
+            ico_Structure_3.BackgroundImage = Properties.Resources.CavaDiPietra_V2;
+            ico_Structure_4.BackgroundImage = Properties.Resources.MinieraFerro_V2;
+            ico_Structure_5.BackgroundImage = Properties.Resources.MinieraOro_V2;
+            ico_Structure_6.BackgroundImage = Properties.Resources.Abitazioni_V2;
         }
         private void btn_Info_Terreni_Virtuali_Click(object sender, EventArgs e)
         {
@@ -559,37 +685,56 @@ namespace CriptoGame_Online
         }
         private void btn_Citta_Click(object sender, EventArgs e)
         {
-            GameAudio.PlayMenuMusic("Villaggio");
-            MusicManager.SetVolume(0.3f);
+            if (!Variabili_Client.tutorial_Attivo)
+            {
+                GameAudio.PlayMenuMusic("Villaggio");
+                MusicManager.SetVolume(0.3f);
+            }
 
+            if (Variabili_Client.tutorial_Attivo == true)
+                ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{24}");
             Citta_V2 form_Gioco = new Citta_V2();
             form_Gioco.Show();
         }
         private void Btn_Costruzione_Click(object sender, EventArgs e)
         {
+            if (Variabili_Client.tutorial_Attivo == true)
+                ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{11}");
             Costruzione form_Gioco = new Costruzione();
-            form_Gioco.ShowDialog();
+            form_Gioco.Show();
         }
         private void btn_Shop_Click(object sender, EventArgs e)
         {
+            if (Variabili_Client.tutorial_Attivo == true)
+                ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{28}");
             Shop form_Gioco = new Shop();
             form_Gioco.ShowDialog();
         }
         private void btn_Ricerca_Click(object sender, EventArgs e)
         {
+            if (Variabili_Client.tutorial_Attivo == true)
+                ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{29}");
             Ricerca_1 form_Gioco = new Ricerca_1();
             form_Gioco.ShowDialog();
         }
         private void btn_Quest_Mensile_Click(object sender, EventArgs e)
         {
+            if (Variabili_Client.tutorial_Attivo == true)
+                ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{30}");
             MontlyQuest form_Gioco = new MontlyQuest();
             form_Gioco.Show();
 
         }
         private void PVP_PVE_Click(object sender, EventArgs e)
         {
-            GameAudio.PlayMenuMusic("PVP");
-            MusicManager.SetVolume(0.3f);
+            if (!Variabili_Client.tutorial_Attivo)
+            {
+                GameAudio.PlayMenuMusic("PVP");
+                MusicManager.SetVolume(0.3f);
+            }
+
+            if (Variabili_Client.tutorial_Attivo == true)
+                ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{31}");
             AttaccoCoordinato form_Gioco = new AttaccoCoordinato();
             form_Gioco.ShowDialog();
         }
@@ -600,6 +745,8 @@ namespace CriptoGame_Online
         }
         private void ico_10_MouseClick(object sender, MouseEventArgs e)
         {
+            if (Variabili_Client.tutorial_Attivo == true)
+                ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{27}");
             Statistiche form_Gioco = new Statistiche();
             form_Gioco.Show();
         }
@@ -618,7 +765,8 @@ namespace CriptoGame_Online
             {
                 btn_I.Enabled = true;
                 btn_I.BackgroundImage = Properties.Resources.Texture_Wood_1;
-            } else btn_I.Enabled = false;
+            }
+            else btn_I.Enabled = false;
 
             if (livello < Convert.ToInt32(Variabili_Client.truppe_II))
             {
@@ -636,7 +784,8 @@ namespace CriptoGame_Online
             {
                 btn_III.Enabled = false;
                 btn_III.BackColor = Color.FromArgb(206, 206, 206);
-            } else
+            }
+            else
             {
                 if (livello_Esercito != 3) btn_III.Enabled = true;
                 else btn_III.Enabled = false;
@@ -646,7 +795,8 @@ namespace CriptoGame_Online
             {
                 btn_IV.Enabled = false;
                 btn_IV.BackColor = Color.FromArgb(206, 206, 206);
-            } else
+            }
+            else
             {
                 if (livello_Esercito != 4) btn_IV.Enabled = true;
                 else btn_IV.Enabled = false;
@@ -656,7 +806,8 @@ namespace CriptoGame_Online
             {
                 btn_V.Enabled = false;
                 btn_V.BackColor = Color.FromArgb(206, 206, 206);
-            } else
+            }
+            else
             {
                 if (livello_Esercito != 5) btn_V.Enabled = true;
                 else btn_V.Enabled = false;
@@ -711,15 +862,15 @@ namespace CriptoGame_Online
         {
             if (Caserme == "Esercito")
             {
-                lbl_Esercito.Text = "Caserme";
+                groupBox_Esercito.Text = "Caserme";
                 panel_Sfondo_Bottoni.Visible = false;
                 lbl_Coda_Reclutamento.Visible = false;
                 lbl_Timer_Addestramento.Visible = false;
 
-                ico_Unit_1.BackgroundImage = Properties.Resources.cross;
-                ico_Unit_2.BackgroundImage = Properties.Resources.cross;
-                ico_Unit_3.BackgroundImage = Properties.Resources.cross;
-                ico_Unit_4.BackgroundImage = Properties.Resources.cross;
+                ico_Unit_1.BackgroundImage = Properties.Resources.Caserma_Guerieri_V2;
+                ico_Unit_2.BackgroundImage = Properties.Resources.Caserma_Lanceri_V2;
+                ico_Unit_3.BackgroundImage = Properties.Resources.Caserma_Arcieri_V2;
+                ico_Unit_4.BackgroundImage = Properties.Resources.Caserma_Catapulte_V2;
 
                 lbl_Guerrieri_Max.Visible = false;
                 lbl_Lanceri_Max.Visible = false;
@@ -730,14 +881,14 @@ namespace CriptoGame_Online
             }
             else
             {
-                lbl_Esercito.Text = "Esercito";
+                groupBox_Esercito.Text = "Esercito";
                 panel_Sfondo_Bottoni.Visible = true;
                 lbl_Coda_Reclutamento.Visible = true;
                 lbl_Timer_Addestramento.Visible = true;
-                ico_Unit_1.BackgroundImage = Properties.Resources.Guerriero_V2_removebg_preview;
-                ico_Unit_2.BackgroundImage = Properties.Resources.Lancere_V2_removebg_preview;
-                ico_Unit_3.BackgroundImage = Properties.Resources.Arciere_V2_removebg_preview;
-                ico_Unit_4.BackgroundImage = Properties.Resources.icons8_medieval_48;
+                ico_Unit_1.BackgroundImage = Properties.Resources.Spade_V2;
+                ico_Unit_2.BackgroundImage = Properties.Resources.Spade_V2;
+                ico_Unit_3.BackgroundImage = Properties.Resources.Spade_V2;
+                ico_Unit_4.BackgroundImage = Properties.Resources.Spade_V2;
 
                 lbl_Guerrieri_Max.Visible = true;
                 lbl_Lanceri_Max.Visible = true;
@@ -751,12 +902,40 @@ namespace CriptoGame_Online
 
         private void btn_Acquista_Terreni_Click(object sender, EventArgs e)
         {
-            ClientConnection.TestClient.Send($"Costruzione_Terreni|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|");
+            // Messaggio di conferma chiaro
+            var result = MessageBox.Show(
+                $"Sei sicuro di voler acquistare un feudo?\n" +
+                $"Costo: {Variabili_Client.Utente.Costo_terreni_Virtuali} Diamanti Viola\n" +
+                $"Diamanti attuali: {Variabili_Client.Utente_Risorse.Diamond_Viola}",
+                "Conferma acquisto",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
+
+            if (result == DialogResult.Yes)
+            {
+                // Esegui l'acquisto
+                ClientConnection.TestClient.Send($"Costruzione_Terreni|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|");
+                if (Variabili_Client.tutorial_Attivo == true)
+                    ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{8}");
+            }
         }
 
         private void btn_Mappa_Click(object sender, EventArgs e)
         {
             Mappa form_Gioco = new Mappa();
+            form_Gioco.ShowDialog();
+        }
+
+        private void ico_Notifiche_MouseClick(object sender, MouseEventArgs e)
+        {
+            Notifiche form_Gioco = new Notifiche();
+            form_Gioco.ShowDialog();
+        }
+
+        private void btn_GamePass_Reward_Click(object sender, EventArgs e)
+        {
+            GamePassReward form_Gioco = new GamePassReward();
             form_Gioco.ShowDialog();
         }
     }

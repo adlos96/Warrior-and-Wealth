@@ -316,7 +316,7 @@
             txt_Testo.ReadOnly = true;
             txt_Testo.Size = new Size(353, 49);
             txt_Testo.TabIndex = 32;
-            txt_Testo.Text = "Acquista il tuo terreno virtuale e diventa proprietario di una porzione di terra. Ogni terreno genera una rendita giornaliera automatica. L’ammontare della rendita dipende dalla rarità.";
+            txt_Testo.Text = "Acquista il tuo feudo e diventa proprietario di una porzione di terra. Ogni terreno genera una rendita giornaliera automatica. L’ammontare della rendita dipende dalla rarità.";
             txt_Testo.TextAlign = HorizontalAlignment.Center;
             // 
             // Terreni_Virtuali
@@ -332,7 +332,7 @@
             MaximumSize = new Size(415, 510);
             MinimumSize = new Size(415, 510);
             Name = "Terreni_Virtuali";
-            Text = "Terreni Virtuali";
+            Text = "Feudi";
             Load += Terreni_Virtuali_Load;
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();

@@ -31,7 +31,7 @@
         public static int peso_Risorse_Diamante_Blu = 1200;
         public static int peso_Risorse_Diamante_Viola = 2200;
 
-        public static int tempo_Riparazione = 6; //tempo in secondi per riparare le strutture danneggiate
+        public static int tempo_Riparazione = 12; //tempo in secondi per riparare le strutture danneggiate
 
         //Sblocco Esercito
         public static int truppe_II = 9;
@@ -39,6 +39,32 @@
         public static int truppe_IV = 38;
         public static int truppe_V = 50;
 
+        public static int citta_Barbare_Unlock = 5;  //Sblocco Città barbare
+        public static int PVP_Unlock = 10;  //Sblocco pvp
+
+        public static int _Server_Consumo_RAM = 0;
+        public static int[] gamePass_DailyReward = {
+            135, 135, 135, 135, 135,
+            135, 282, 135, 135, 135,
+            135, 135, 135, 135, 525,
+            135, 135, 135, 135, 135,
+            135, 135, 135, 135, 135,
+            135, 135, 135, 135, 825,
+
+            135, 135, 135, 135, 135,
+            135, 135, 135, 135, 135,
+            135, 135, 135, 135, 135,
+            135, 135, 135, 135, 135,
+            135, 135, 135, 135, 135,
+            135, 135, 135, 135, 1095,
+
+            135, 135, 135, 135, 135,
+            135, 135, 135, 135, 135,
+            135, 135, 135, 135, 135,
+            135, 135, 135, 135, 135,
+            135, 135, 135, 135, 135,
+            135, 135, 135, 135, 2100,
+        };
 
         public class PartialTimerData
         {
@@ -90,7 +116,7 @@
             public static Shop Pacchetto_Diamanti_4 = new Shop
             {
                 Costo = 49.99,
-                Reward = 1500
+                Reward = 1700
             };
             public static Shop Scudo_Pace_8h = new Shop
             {
@@ -137,9 +163,9 @@
             public int Limite_Strutture { get; set; }
             public static Terreni_Virtuali Comune = new Terreni_Virtuali
             {
-                Produzione = 0.00000000111m,
-                Rarita = 50,
-                Limite_Strutture = 5
+                Produzione = 0.00000000111m,    //Reward ogni tick
+                Rarita = 50,                    //percentuale di probabilità di trovarlo
+                Limite_Strutture = 5            //Aumenta il limite di strutture massime costruibili nel proprio villaggio (Regno)
             };
             public static Terreni_Virtuali NonComune = new Terreni_Virtuali
             {

@@ -59,7 +59,7 @@ namespace CriptoGame_Online
 
             txt_Log.BackColor = Color.FromArgb(229, 208, 181);
             txt_Log.Text = "LOG";
-            txt_Log.ForeColor = Color.Gray;
+            txt_Log.ForeColor = Color.Black;
             txt_Log.Font = new Font("Cinzel Decorative", 8, FontStyle.Regular);
 
         }
@@ -92,19 +92,13 @@ namespace CriptoGame_Online
             txt_Ip.ForeColor = Color.Black;
         }
 
-        private void txt_Log_MouseClick(object sender, MouseEventArgs e)
-        {
-            txt_Log.Text = "";
-            txt_Log.ForeColor = Color.Black;
-        }
-
         private async void Btn_Login_Click(object sender, EventArgs e)
         {
             this.ActiveControl = lbl_Titolo;
             Btn_Login.Enabled = false;
             Btn_New_Game.Enabled = false;
             txt_Log.Text = "Connessione...";
-            ClientConnection.TestClient.InitializeClient(); // Connessione server
+            await ClientConnection.TestClient.InitializeClient(); // Connessione server
 
             if (txt_Ip.Text != "IP: AUTO")
                 ClientConnection.TestClient._ServerIp = txt_Ip.Text;
@@ -112,14 +106,14 @@ namespace CriptoGame_Online
             string username = txt_Username_Login.Text;
             string password = txt_Password_Login.Text;
 
-            username = "adlos";
-            password = "123";
+            //username = "adlos";
+            //password = "123";
 
             await Sleep(2);
             txt_Log.Text = "Login...";
             await Sleep(2);
             ClientConnection.TestClient.Send($"Login|{username}|{password}");
-            await Loop_Login(5);
+            await Loop_Login(4);
             await Sleep(2);
 
             if (Variabili_Client.Utente.User_Login == true)
@@ -163,13 +157,13 @@ namespace CriptoGame_Online
             Btn_New_Game.Enabled = false;
             Btn_Login.Enabled = false;
             txt_Log.Text = "Connessione...";
-            ClientConnection.TestClient.InitializeClient(); // Connessione server
+            await ClientConnection.TestClient.InitializeClient(); // Connessione server
 
             if (txt_Ip.Text != "IP: AUTO")
                 ClientConnection.TestClient._ServerIp = txt_Ip.Text;
 
             await Sleep(2);
-            txt_Log.Text = "Cotattando il server...";
+            txt_Log.Text = "Contattando il server...";
             await Sleep(2);
             ClientConnection.TestClient.Send($"New Player|{txt_Username_Login.Text}|{txt_Password_Login.Text}");
             await Sleep(2);

@@ -11,7 +11,7 @@ namespace CriptoGame_Online.Strumenti
         private static WaveOutEvent? outputDevice;
         private static bool loop;
         private static string? currentTrack;
-        private static float globalVolume = 0.7f;
+        private static float globalVolume = 1.0f;
         private static List<string>? currentPlaylist;
         private static int currentTrackIndex = 0;
         private static Random random = new Random();
@@ -77,6 +77,38 @@ namespace CriptoGame_Online.Strumenti
             {
                 Console.WriteLine($"Errore riproduzione musica loop: {ex.Message}");
             }
+        }
+        public static void PlaySequence(List<string> sequence)
+        {
+            if (sequence == null || sequence.Count == 0)
+            {
+                Console.WriteLine("Sequenza audio vuota");
+                return;
+            }
+
+            Task.Run(() =>
+            {
+                try
+                {
+                    // Filtra solo file esistenti
+                    var validTracks = sequence.Where(File.Exists).ToList();
+                    if (validTracks.Count == 0)
+                    {
+                        Console.WriteLine("Nessuna traccia valida nella sequenza");
+                        return;
+                    }
+
+                    currentPlaylist = validTracks;
+                    currentTrackIndex = 0;
+                    loop = false; // NON loop, solo sequenza lineare
+
+                    PlayTrackFromPlaylist();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Errore avvio sequenza: {ex.Message}");
+                }
+            });
         }
 
         /// Riproduce una playlist di tracce in ordine casuale (ASYNC per non bloccare UI)
@@ -150,13 +182,27 @@ namespace CriptoGame_Online.Strumenti
             if (currentPlaylist == null || currentPlaylist.Count == 0)
                 return;
 
-            currentTrackIndex = (currentTrackIndex + 1) % currentPlaylist.Count;
+            currentTrackIndex++;
 
-            // Se siamo tornati all'inizio, rimescola la playlist
-            if (currentTrackIndex == 0)
+            // Se abbiamo finito la sequenza
+            if (currentTrackIndex >= currentPlaylist.Count)
             {
-                currentPlaylist = currentPlaylist.OrderBy(x => random.Next()).ToList();
-                Console.WriteLine("🔀 Playlist rimescolata");
+                // Se era in loop, rimescola e ricomincia
+                if (loop)
+                {
+                    currentTrackIndex = 0;
+                    currentPlaylist = currentPlaylist.OrderBy(x => random.Next()).ToList();
+                    Console.WriteLine("🔀 Playlist rimescolata");
+                    PlayTrackFromPlaylist();
+                }
+                else
+                {
+                    // Fine sequenza, stop
+                    Console.WriteLine("✓ Sequenza completata");
+                    currentPlaylist = null;
+                    currentTrackIndex = 0;
+                }
+                return;
             }
 
             PlayTrackFromPlaylist();
@@ -495,30 +541,212 @@ namespace CriptoGame_Online.Strumenti
         {
             GetPath("Assets/Sound/Music/sword_11.mp3")
         };
-
         // Battaglia PvP
         public static readonly List<string> PLAYLIST_PVP = new()
         {
             GetPath("Assets/Sound/Music/sword_3.mp3"),
             GetPath("Assets/Sound/Music/battle_2.mp3")
         };
-
         // Costruzioni
         public static readonly List<string> PLAYLIST_BUILD = new()
         {
             GetPath("Assets/Sound/Music/build_1.mp3")
         };
+        // Tutorial
+        public static readonly List<string> PLAYLIST_Introduzione_1 = new()
+        {
+            GetPath("Assets/Sound/Tutorial/Introduzione_1.mp3")
+        };
+        public static readonly List<string> PLAYLIST_Introduzione_2 = new()
+        {
+            GetPath("Assets/Sound/Tutorial/Introduzione_2.mp3")
+        };
+        public static readonly List<string> PLAYLIST_Risorse_1 = new()
+        {
+            GetPath("Assets/Sound/Tutorial/Risorse_1.mp3")
+        };
+        public static readonly List<string> PLAYLIST_DiamantiViola = new()
+        {
+            GetPath("Assets/Sound/Tutorial/DiamantiViola_pt1.mp3"),
+            GetPath("Assets/Sound/Tutorial/DiamantiViola_pt2.mp3"),
+            GetPath("Assets/Sound/Tutorial/DiamantiViola_pt3.mp3")
+        };
+        public static readonly List<string> PLAYLIST_DiamantiBlu = new()
+        {
+            GetPath("Assets/Sound/Tutorial/DiamantiBlu_pt1.mp3"),
+            GetPath("Assets/Sound/Tutorial/DiamantiBlu_pt2.mp3")
+        };
+        public static readonly List<string> PLAYLIST_TributiFeudo = new()
+        {
+            GetPath("Assets/Sound/Tutorial/TributiFeudi.mp3")
+        };
+        public static readonly List<string> PLAYLIST_Feudi = new()
+        {
+            GetPath("Assets/Sound/Tutorial/Feudi.mp3")
+        };
+        public static readonly List<string> PLAYLIST_AcquistaFeudo = new()
+        {
+            GetPath("Assets/Sound/Tutorial/AcquistaFeudo_pt1.mp3"),
+            GetPath("Assets/Sound/Tutorial/AcquistaFeudo_pt2.mp3")
+        };
+        public static readonly List<string> PLAYLIST_Costruzione_1 = new()
+        {
+            GetPath("Assets/Sound/Tutorial/Costruzione_1.mp3")
+        };
+        public static readonly List<string> PLAYLIST_CivileMilitare = new()
+        {
+            GetPath("Assets/Sound/Tutorial/Strutture_CiviliMilitari_pt1.mp3"),
+            GetPath("Assets/Sound/Tutorial/Strutture_CiviliMilitari_pt2.mp3")
+        };
+        public static readonly List<string> PLAYLIST_Costruzione_2 = new()
+        {
+            GetPath("Assets/Sound/Tutorial/Costruzione_pt1.mp3"),
+            GetPath("Assets/Sound/Tutorial/Costruzione_pt2.mp3")
+        };
+        public static readonly List<string> PLAYLIST_Costruisci_Fattoria = new()
+        {
+            GetPath("Assets/Sound/Tutorial/Costruisci_Fattoria_pt1.mp3"),
+            GetPath("Assets/Sound/Tutorial/Costruisci_Fattoria_pt2.mp3")
+        };
+        public static readonly List<string> PLAYLIST_Scambia = new()
+        {
+            GetPath("Assets/Sound/Tutorial/Scambia_pt1.mp3"),
+            GetPath("Assets/Sound/Tutorial/Scambia_pt2.mp3"),
+            GetPath("Assets/Sound/Tutorial/Scambia_pt3.mp3"),
+            GetPath("Assets/Sound/Tutorial/Scambia_pt4.mp3")
+        };
+        public static readonly List<string> PLAYLIST_Velocizza = new()
+        {
+            GetPath("Assets/Sound/Tutorial/Velocizza_pt1.mp3"),
+            GetPath("Assets/Sound/Tutorial/Velocizza_pt2.mp3"),
+            GetPath("Assets/Sound/Tutorial/Velocizza_pt2.mp3"),
+            GetPath("Assets/Sound/Tutorial/Velocizza_pt4.mp3")
+        };
+        public static readonly List<string> PLAYLIST_Costruisci_Segheria = new()
+        {
+            GetPath("Assets/Sound/Tutorial/Costruisci_Segheria.mp3")
+        };
+        public static readonly List<string> PLAYLIST_Costruisci_Cava = new()
+        {
+            GetPath("Assets/Sound/Tutorial/Costruisci_Cava.mp3")
+        };
+        public static readonly List<string> PLAYLIST_Costruisci_MinieraFerro = new()
+        {
+            GetPath("Assets/Sound/Tutorial/Costruisci_MinieraFerro.mp3")
+        };
+        public static readonly List<string> PLAYLIST_Costruisci_MinieraOro = new()
+        {
+            GetPath("Assets/Sound/Tutorial/Costruisci_MinieraOro.mp3")
+        };
+        public static readonly List<string> PLAYLIST_Costruisci_Casa = new()
+        {
+            GetPath("Assets/Sound/Tutorial/Costruisci_Casa.mp3")
+        };
+        public static readonly List<string> PLAYLIST_Strutture_Militari = new()
+        {
+            GetPath("Assets/Sound/Tutorial/Strutture_Militari_pt1.mp3"),
+            GetPath("Assets/Sound/Tutorial/Strutture_Militari_pt2.mp3")
+        };
+        public static readonly List<string> PLAYLIST_Unita_Militari = new()
+        {
+            GetPath("Assets/Sound/Tutorial/Unita_Militari_pt1.mp3"),
+            GetPath("Assets/Sound/Tutorial/Unita_Militari_pt2.mp3")
+        };
+        public static readonly List<string> PLAYLIST_Caserme = new()
+        {
+            GetPath("Assets/Sound/Tutorial/Caserme.mp3")
+        };
+        public static readonly List<string> PLAYLIST_Addestramento = new()
+        {
+            GetPath("Assets/Sound/Tutorial/Addestramento.mp3")
+        };
+        public static readonly List<string> PLAYLIST_Citta = new()
+        {
+            GetPath("Assets/Sound/Tutorial/Citta_pt1.mp3"),
+            GetPath("Assets/Sound/Tutorial/Citta_pt2.mp3"),
+            GetPath("Assets/Sound/Tutorial/Citta_pt3.mp3"),
+            GetPath("Assets/Sound/Tutorial/Citta_pt4.mp3")
+        };
+        public static readonly List<string> PLAYLIST_Riparazione = new()
+        {
+            GetPath("Assets/Sound/Tutorial/Riparazioni_pt1.mp3"),
+            GetPath("Assets/Sound/Tutorial/Riparazioni_pt2.mp3")
+        };
+        public static readonly List<string> PLAYLIST_Guarnigione = new()
+        {
+            GetPath("Assets/Sound/Tutorial/Guarnigione.mp3")
+        };
+        public static readonly List<string> PLAYLIST_Statistiche = new()
+        {
+            GetPath("Assets/Sound/Tutorial/Statistiche.mp3")
+        };
+        public static readonly List<string> PLAYLIST_Shop = new()
+        {
+            GetPath("Assets/Sound/Tutorial/Shop.mp3")
+        };
+        public static readonly List<string> PLAYLIST_Ricerca = new()
+        {
+            GetPath("Assets/Sound/Tutorial/Ricerca_pt1.mp3"),
+            GetPath("Assets/Sound/Tutorial/Ricerca_pt2.mp3")
+        };
+        public static readonly List<string> PLAYLIST_Quest_Mensili = new()
+        {
+            GetPath("Assets/Sound/Tutorial/Quest_Mensili_pt1.mp3"),
+            GetPath("Assets/Sound/Tutorial/Quest_Mensili_pt2.mp3")
+        };
+        public static readonly List<string> PLAYLIST_Battaglia = new()
+        {
+            GetPath("Assets/Sound/Tutorial/Battaglie_pt1.mp3"),
+            GetPath("Assets/Sound/Tutorial/Battaglie_pt2.mp3")
+        };
+        public static readonly List<string> PLAYLIST_Finale = new()
+        {
+            GetPath("Assets/Sound/Tutorial/Finale.mp3")
+        };
 
         public static void PlayMenuMusic(string musica)
         {
-            if (musica == "Gioco")
-                MusicManager.PlayPlaylist(PLAYLIST_GIOCO, shuffle: true);
-            if (musica == "Login")
-                MusicManager.PlayPlaylist(PLAYLIST_LOGIN, shuffle: true);
-            if (musica == "Villaggio")
-                MusicManager.PlayPlaylist(PLAYLIST_VILLAGE, shuffle: true);
-            if (musica == "PVP")
-                MusicManager.PlayPlaylist(PLAYLIST_PVP, shuffle: true);
+            if (musica == "Gioco") MusicManager.PlayPlaylist(PLAYLIST_GIOCO, shuffle: true);
+            else if (musica == "Login") MusicManager.PlayPlaylist(PLAYLIST_LOGIN, shuffle: true);
+            else if (musica == "Villaggio") MusicManager.PlayPlaylist(PLAYLIST_VILLAGE, shuffle: true);
+            else if (musica == "PVP") MusicManager.PlayPlaylist(PLAYLIST_PVP, shuffle: true);
+
+            else if (musica == "Tutorial - 1") MusicManager.PlaySequence(PLAYLIST_Introduzione_1);
+            else if (musica == "Tutorial - 2") MusicManager.PlaySequence(PLAYLIST_Introduzione_2);
+            else if (musica == "Tutorial - 3") MusicManager.PlaySequence(PLAYLIST_Risorse_1);
+            else if (musica == "Tutorial - 4") MusicManager.PlaySequence(PLAYLIST_DiamantiViola);
+            else if (musica == "Tutorial - 5") MusicManager.PlaySequence(PLAYLIST_DiamantiBlu);
+            else if (musica == "Tutorial - 6") MusicManager.PlaySequence(PLAYLIST_TributiFeudo);
+            else if (musica == "Tutorial - 7") MusicManager.PlaySequence(PLAYLIST_Feudi);
+            else if (musica == "Tutorial - 8") MusicManager.PlaySequence(PLAYLIST_AcquistaFeudo);
+            else if (musica == "Tutorial - 9") MusicManager.PlaySequence(PLAYLIST_Costruzione_1);
+            else if (musica == "Tutorial - 10") MusicManager.PlaySequence(PLAYLIST_CivileMilitare);
+
+            else if (musica == "Tutorial - 11") MusicManager.PlaySequence(PLAYLIST_Costruzione_2);
+            else if (musica == "Tutorial - 12") MusicManager.PlaySequence(PLAYLIST_Costruisci_Fattoria);
+            else if (musica == "Tutorial - 13") MusicManager.PlaySequence(PLAYLIST_Scambia);
+            else if (musica == "Tutorial - 14") MusicManager.PlaySequence(PLAYLIST_Velocizza);
+            else if (musica == "Tutorial - 15") MusicManager.PlaySequence(PLAYLIST_Costruisci_Segheria);
+            else if (musica == "Tutorial - 16") MusicManager.PlaySequence(PLAYLIST_Costruisci_Cava);
+            else if (musica == "Tutorial - 17") MusicManager.PlaySequence(PLAYLIST_Costruisci_MinieraFerro);
+            else if (musica == "Tutorial - 18") MusicManager.PlaySequence(PLAYLIST_Costruisci_MinieraOro);
+            else if (musica == "Tutorial - 19") MusicManager.PlaySequence(PLAYLIST_Costruisci_Casa);
+            else if (musica == "Tutorial - 20") MusicManager.PlaySequence(PLAYLIST_Strutture_Militari);
+
+            else if (musica == "Tutorial - 21") MusicManager.PlaySequence(PLAYLIST_Unita_Militari);
+            else if (musica == "Tutorial - 22") MusicManager.PlaySequence(PLAYLIST_Caserme);
+            else if (musica == "Tutorial - 23") MusicManager.PlaySequence(PLAYLIST_Addestramento);
+            else if (musica == "Tutorial - 24") MusicManager.PlaySequence(PLAYLIST_Citta);
+            else if (musica == "Tutorial - 25") MusicManager.PlaySequence(PLAYLIST_Riparazione);
+            else if (musica == "Tutorial - 26") MusicManager.PlaySequence(PLAYLIST_Guarnigione);
+            else if (musica == "Tutorial - 27") MusicManager.PlaySequence(PLAYLIST_Statistiche);
+            else if (musica == "Tutorial - 28") MusicManager.PlaySequence(PLAYLIST_Shop);
+            else if (musica == "Tutorial - 29") MusicManager.PlaySequence(PLAYLIST_Ricerca);
+            else if (musica == "Tutorial - 30") MusicManager.PlaySequence(PLAYLIST_Quest_Mensili);
+
+            else if (musica == "Tutorial - 31") MusicManager.PlaySequence(PLAYLIST_Battaglia);
+            else if (musica == "Tutorial - 32") MusicManager.PlaySequence(PLAYLIST_Finale);
+
         }
         public static void StopMusic()
         {

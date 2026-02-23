@@ -1,5 +1,6 @@
-﻿using static Server_Strategico.Gioco.Giocatori;
-using static Server_Strategico.Gioco.QuestManager;
+﻿using Server_Strategico.ServerData.Moduli;
+using static Server_Strategico.Gioco.Giocatori;
+using static Server_Strategico.Manager.QuestManager;
 using static Server_Strategico.Gioco.Ricerca;
 
 namespace Server_Strategico.Gioco
@@ -43,20 +44,24 @@ namespace Server_Strategico.Gioco
                 "Catapulta Livello" => player.Catapulta_Livello + 1,                                                       
                                                                                                                            
                 "Ingresso Guarnigione" => player.Ricerca_Ingresso_Guarnigione + 1,                                         
-                "Citta Guarnigione" => player.Ricerca_Citta_Guarnigione + 1,                                               
-                                                                                                                           
+                "Citta Guarnigione" => player.Ricerca_Citta_Guarnigione + 1,
+
+                "Cancello Livello" => player.Ricerca_Cancello_Livello + 1,
                 "Cancello Salute" => player.Ricerca_Cancello_Salute + 1,
                 "Cancello Difesa" => player.Ricerca_Cancello_Difesa + 1,
                 "Cancello Guarnigione" => player.Ricerca_Cancello_Guarnigione + 1,
 
+                "Mura Livello" => player.Ricerca_Mura_Livello + 1,
                 "Mura Salute" => player.Ricerca_Mura_Salute + 1,
                 "Mura Difesa" => player.Ricerca_Mura_Difesa + 1,
                 "Mura Guarnigione" => player.Ricerca_Mura_Guarnigione + 1,
 
+                "Torri Livello" => player.Ricerca_Torri_Livello + 1,
                 "Torri Salute" => player.Ricerca_Torri_Salute + 1,
                 "Torri Difesa" => player.Ricerca_Torri_Difesa + 1,
                 "Torri Guarnigione" => player.Ricerca_Torri_Guarnigione + 1,
 
+                "Castello Livello" => player.Ricerca_Castello_Livello + 1,
                 "Castello Salute" => player.Ricerca_Castello_Salute + 1,
                 "Castello Difesa" => player.Ricerca_Castello_Difesa + 1,
                 "Castello Guarnigione" => player.Ricerca_Castello_Guarnigione + 1,
@@ -123,7 +128,7 @@ namespace Server_Strategico.Gioco
             }
             else
                 Server.Server.Send(clientGuid,
-                $"Log_Server|[info]Risorse insufficenti per la ricerca {researchCost} [info]livello: [title]{livello}[/title]\r\n " +
+                $"Log_Server|[error]Risorse insufficenti per la ricerca [warning]{researchType} [/warning]livello: [title]{livello}\r\n " +
                 $"[cibo]{(researchCost.Cibo):N0}[/cibo] [icon:cibo] " +
                 $"[legno]{(researchCost.Legno):N0}[/legno] [icon:legno] " +
                 $"[pietra]{(researchCost.Pietra):N0}[/pietra] [icon:pietra] " +
@@ -142,7 +147,9 @@ namespace Server_Strategico.Gioco
 
             if ((ricerca == "Produzione" || ricerca == "Costruzione" || ricerca == "Addestramento" || ricerca == "Popolazione") && player.Livello < livelloRichiesto)
             { returnValue = true; richiesto = livelloRichiesto; msg = "giocatore"; }
-            if ((ricerca == "Trasporto" || ricerca == "Riparazione") && player.Livello < livelloRichiesto * 2)
+            if ((ricerca == "Trasporto") && player.Livello < livelloRichiesto * 2)
+            { returnValue = true; richiesto = livelloRichiesto; msg = "giocatore"; }
+            if ((ricerca == "Riparazione") && player.Livello < livelloRichiesto * 15)
             { returnValue = true; richiesto = livelloRichiesto; msg = "giocatore"; }
 
             if (ricerca == "Guerriero Livello" && player.Livello <= (player.Guerriero_Livello + 1) * 2) {returnValue = true; richiesto = (player.Guerriero_Livello + 1) * 2; msg = "giocatore";}
@@ -161,28 +168,32 @@ namespace Server_Strategico.Gioco
             if (ricerca == "Arcere Difesa" && player.Arcere_Difesa >= (player.Arcere_Livello + 1) * 2) {returnValue = true; richiesto = (player.Arcere_Livello + 1) * 2; msg = "Arcere"; }
                    
             if (ricerca == "Catapulta Livello" && player.Livello <= (player.Catapulta_Livello + 1) * 2) {returnValue = true; richiesto = (player.Catapulta_Livello + 1) * 2; msg = "giocatore";}
-            if (ricerca == "Catapulta Salute" && player.Catapulta_Salute >= (player.Catapulta_Livello + 1) * 2) {returnValue = true; richiesto = (player.Catapulta_Livello + 1) * 2; msg = "Catapulta";}
-            if (ricerca == "Catapulta Attacco" && player.Catapulta_Attacco >= (player.Catapulta_Livello + 1) * 2) {returnValue = true; richiesto = (player.Catapulta_Livello + 1) * 2; msg = "Catapulta"; }
-            if (ricerca == "Catapulta Difesa" && player.Catapulta_Difesa >= (player.Catapulta_Livello + 1) * 2) {returnValue = true; richiesto = (player.Catapulta_Livello + 1) * 2; msg = "Catapulta"; }
+            if (ricerca == "Catapulta Salute" && player.Catapulta_Salute >= (player.Catapulta_Livello + 1) * 2) {returnValue = true; richiesto = (player.Catapulta_Livello + 1) * 2; msg = "catapulta";}
+            if (ricerca == "Catapulta Attacco" && player.Catapulta_Attacco >= (player.Catapulta_Livello + 1) * 2) {returnValue = true; richiesto = (player.Catapulta_Livello + 1) * 2; msg = "catapulta"; }
+            if (ricerca == "Catapulta Difesa" && player.Catapulta_Difesa >= (player.Catapulta_Livello + 1) * 2) {returnValue = true; richiesto = (player.Catapulta_Livello + 1) * 2; msg = "catapulta"; }
                    
             if (ricerca == "Ingresso Guarnigione" && player.Livello <= (player.Ricerca_Ingresso_Guarnigione + 1) * 4) {returnValue = true; richiesto = (player.Ricerca_Ingresso_Guarnigione + 1) * 4; msg = "giocatore";}
             if (ricerca == "Citta Guarnigione" && player.Livello <= (player.Ricerca_Citta_Guarnigione + 1) * 4) {returnValue = true; richiesto = (player.Ricerca_Citta_Guarnigione + 1) * 4; msg = "giocatore";}
-                   
-            if (ricerca == "Cancello Salute" && player.Livello <= (player.Ricerca_Cancello_Salute + 1) * 4) {returnValue = true; richiesto = (player.Ricerca_Cancello_Salute + 1) * 4; msg = "giocatore";}
-            if (ricerca == "Cancello Difesa" && player.Livello <= (player.Ricerca_Cancello_Difesa + 1) * 4) {returnValue = true; richiesto = (player.Ricerca_Cancello_Difesa + 1) * 4; msg = "giocatore";}
-            if (ricerca == "Cancello Guarnigione" && player.Livello <= (player.Ricerca_Cancello_Guarnigione + 1) * 4) {returnValue = true; richiesto = (player.Ricerca_Cancello_Guarnigione + 1) * 4; msg = "giocatore";}
-                   
-            if (ricerca == "Mura Salute" && player.Livello <= (player.Ricerca_Mura_Salute + 1) * 4) {returnValue = true; richiesto = (player.Ricerca_Mura_Salute + 1) * 4; msg = "giocatore";}
-            if (ricerca == "Mura Difesa" && player.Livello <= (player.Ricerca_Mura_Difesa + 1) * 4) {returnValue = true; richiesto = (player.Ricerca_Mura_Difesa + 1) * 4; msg = "giocatore";}
-            if (ricerca == "Mura Guarnigione" && player.Livello <= (player.Ricerca_Mura_Guarnigione + 1) * 4) {returnValue = true; richiesto = (player.Ricerca_Mura_Guarnigione + 1) * 4; msg = "giocatore";}
 
-            if (ricerca == "Torri Salute" && player.Livello <= (player.Ricerca_Torri_Salute + 1) * 4) {returnValue = true; richiesto = (player.Ricerca_Torri_Salute + 1) * 4; msg = "giocatore";}
-            if (ricerca == "Torri Difesa" && player.Livello <= (player.Ricerca_Torri_Difesa + 1) * 4) {returnValue = true; richiesto = (player.Ricerca_Torri_Difesa + 1) * 4; msg = "giocatore";}
-            if (ricerca == "Torri Guarnigione" && player.Livello <= (player.Ricerca_Torri_Guarnigione + 1) * 4) {returnValue = true; richiesto = (player.Ricerca_Torri_Guarnigione + 1) * 4; msg = "giocatore";}
+            if (ricerca == "Cancello Livello" && player.Livello <= (player.Ricerca_Cancello_Livello + 1) * 4) { returnValue = true; richiesto = (player.Ricerca_Cancello_Livello + 1) * 4; msg = "giocatore"; }
+            if (ricerca == "Cancello Salute" && player.Ricerca_Cancello_Livello * 2 <= player.Ricerca_Cancello_Salute) {returnValue = true; richiesto = (player.Ricerca_Cancello_Salute + 1) * 4; msg = "cancello"; }
+            if (ricerca == "Cancello Difesa" && player.Ricerca_Cancello_Livello * 2 <= player.Ricerca_Cancello_Difesa) {returnValue = true; richiesto = (player.Ricerca_Cancello_Difesa + 1) * 4; msg = "cancello"; }
+            if (ricerca == "Cancello Guarnigione" && player.Ricerca_Cancello_Livello * 2 <= player.Ricerca_Cancello_Guarnigione) {returnValue = true; richiesto = (player.Ricerca_Cancello_Guarnigione + 1) * 4; msg = "cancello"; }
 
-            if (ricerca == "Castello Salute" && player.Livello <= (player.Ricerca_Castello_Salute + 1) * 4) {returnValue = true; richiesto = (player.Ricerca_Castello_Salute + 1) * 4; msg = "giocatore";}
-            if (ricerca == "Castello Difesa" && player.Livello <= (player.Ricerca_Castello_Difesa + 1) * 4) {returnValue = true; richiesto =  (player.Ricerca_Castello_Difesa + 1) * 4; msg = "giocatore";}
-            if (ricerca == "Castello Guarnigione" && player.Livello <= (player.Ricerca_Castello_Guarnigione + 1) * 4) {returnValue = true; richiesto = (player.Ricerca_Castello_Guarnigione + 1) * 4; msg = "giocatore";}
+            if (ricerca == "Mura Livello" && player.Livello <= (player.Ricerca_Mura_Livello + 1) * 4) { returnValue = true; richiesto = (player.Ricerca_Mura_Livello + 1) * 4; msg = "giocatore"; }
+            if (ricerca == "Mura Salute" && player.Ricerca_Mura_Livello * 2 <= player.Ricerca_Mura_Salute) {returnValue = true; richiesto = (player.Ricerca_Mura_Salute + 1) * 4; msg = "mura"; }
+            if (ricerca == "Mura Difesa" && player.Ricerca_Mura_Livello * 2 <= player.Ricerca_Mura_Difesa) {returnValue = true; richiesto = (player.Ricerca_Mura_Difesa + 1) * 4; msg = "mura"; }
+            if (ricerca == "Mura Guarnigione" && player.Ricerca_Mura_Livello * 2 <= player.Ricerca_Mura_Guarnigione) {returnValue = true; richiesto = (player.Ricerca_Mura_Guarnigione + 1) * 4; msg = "mura"; }
+
+            if (ricerca == "Torri Livello" && player.Livello <= (player.Ricerca_Torri_Livello + 1) * 4) { returnValue = true; richiesto = (player.Ricerca_Torri_Livello + 1) * 4; msg = "giocatore"; }
+            if (ricerca == "Torri Salute" && player.Ricerca_Torri_Livello * 2 <= player.Ricerca_Torri_Salute) {returnValue = true; richiesto = (player.Ricerca_Torri_Salute + 1) * 4; msg = "torri";}
+            if (ricerca == "Torri Difesa" && player.Ricerca_Torri_Livello * 2 <= player.Ricerca_Torri_Difesa) {returnValue = true; richiesto = (player.Ricerca_Torri_Difesa + 1) * 4; msg = "torri"; }
+            if (ricerca == "Torri Guarnigione" && player.Ricerca_Torri_Livello * 2 <= player.Ricerca_Torri_Guarnigione) {returnValue = true; richiesto = (player.Ricerca_Torri_Guarnigione + 1) * 4; msg = "torri"; }
+
+            if (ricerca == "Castello Livello" && player.Livello <= (player.Ricerca_Castello_Livello + 1) * 4) { returnValue = true; richiesto = (player.Ricerca_Castello_Livello + 1) * 4; msg = "giocacatore"; }
+            if (ricerca == "Castello Salute" && player.Ricerca_Castello_Livello * 2 == player.Ricerca_Castello_Salute) {returnValue = true; richiesto = (player.Ricerca_Castello_Livello + 1) * 4; msg = "castello"; }
+            if (ricerca == "Castello Difesa" && player.Ricerca_Castello_Livello * 2 == player.Ricerca_Castello_Difesa) {returnValue = true; richiesto =  (player.Ricerca_Castello_Difesa + 1) * 4; msg = "castello"; }
+            if (ricerca == "Castello Guarnigione" && player.Ricerca_Castello_Livello * 2 == player.Ricerca_Castello_Guarnigione) {returnValue = true; richiesto = (player.Ricerca_Castello_Guarnigione + 1) * 4; msg = "castello"; }
 
             if (returnValue == true)
                 Server.Server.Send(player.guid_Player, $"Log_Server|[error]La ricerca [title]{ricerca} {livelloRicerca} [error]richiede che il livello del [title]{msg}[error] sia almeno lv [title]{richiesto}");
@@ -306,6 +317,10 @@ namespace Server_Strategico.Gioco
                 case "Citta Guarnigione":
                     player.Ricerca_Citta_Guarnigione++;
                     break;
+
+                case "Cancello Livello":
+                    player.Ricerca_Cancello_Livello++;
+                    break;
                 case "Cancello Salute":
                     player.Ricerca_Cancello_Salute++;
                     break;
@@ -314,6 +329,10 @@ namespace Server_Strategico.Gioco
                     break;
                 case "Cancello Guarnigione":
                     player.Ricerca_Cancello_Guarnigione++;
+                    break;
+
+                case "Mura Livello":
+                    player.Ricerca_Mura_Livello++;
                     break;
                 case "Mura Salute":
                     player.Ricerca_Mura_Salute++;
@@ -324,6 +343,10 @@ namespace Server_Strategico.Gioco
                 case "Mura Guarnigione":
                     player.Ricerca_Mura_Guarnigione++;
                     break;
+
+                case "Torri Livello":
+                    player.Ricerca_Torri_Livello++;
+                    break;
                 case "Torri Salute":
                     player.Ricerca_Torri_Salute++;
                     break;
@@ -332,6 +355,10 @@ namespace Server_Strategico.Gioco
                     break;
                 case "Torri Guarnigione":
                     player.Ricerca_Torri_Guarnigione++;
+                    break;
+
+                case "Castello Livello":
+                    player.Ricerca_Castello_Livello++;
                     break;
                 case "Castello Salute":
                     player.Ricerca_Castello_Salute++;
@@ -346,8 +373,8 @@ namespace Server_Strategico.Gioco
                     Console.WriteLine($"[error]Ricerca [title]{researchType} [error]non definita negli effetti!");
                     break;
             }
-            player.SetupVillaggioGiocatore();
-            Server.ServerConnection.DescUpdate(player); //Aggiornare le descrizioni per i nuovi dati
+            player.SetupVillaggioGiocatore(player);
+            Descrizioni.DescUpdate(player); //Aggiornare le descrizioni per i nuovi dati
         }
         public static string GetTotalResearchTime(Player player) // Totale tempo ricerche in coda + in corso
         {
@@ -362,15 +389,15 @@ namespace Server_Strategico.Gioco
         {
             return researchType switch
             {
-                "Addestramento" => new ResearchCost
+                "Produzione" => new ResearchCost
                 {
-                    Cibo = Tipi.Addestramento.Cibo * livello,
-                    Legno = Tipi.Addestramento.Legno * livello,
-                    Pietra = Tipi.Addestramento.Pietra * livello,
-                    Ferro = Tipi.Addestramento.Ferro * livello,
-                    Oro = Tipi.Addestramento.Oro * livello,
-                    Popolazione = 0,
-                    TempoRicerca = Tipi.Addestramento.TempoRicerca * livello // o calcola dinamicamente
+                    Cibo = Tipi.Produzione.Cibo * livello,
+                    Legno = Tipi.Produzione.Legno * livello,
+                    Pietra = Tipi.Produzione.Pietra * livello,
+                    Ferro = Tipi.Produzione.Ferro * livello,
+                    Oro = Tipi.Produzione.Oro * livello,
+                    Popolazione = 30,
+                    TempoRicerca = Tipi.Addestramento.TempoRicerca * livello
                 },
                 "Costruzione" => new ResearchCost
                 {
@@ -379,18 +406,18 @@ namespace Server_Strategico.Gioco
                     Pietra = Tipi.Costruzione.Pietra * livello,
                     Ferro = Tipi.Costruzione.Ferro * livello,
                     Oro = Tipi.Costruzione.Oro * livello,
-                    Popolazione = 0,
+                    Popolazione = 25,
                     TempoRicerca = Tipi.Addestramento.TempoRicerca * livello
                 },
-                "Produzione" => new ResearchCost
+                "Addestramento" => new ResearchCost
                 {
-                    Cibo = Tipi.Produzione.Cibo * livello,
-                    Legno = Tipi.Produzione.Legno * livello,
-                    Pietra = Tipi.Produzione.Pietra * livello,
-                    Ferro = Tipi.Produzione.Ferro * livello,
-                    Oro = Tipi.Produzione.Oro * livello,
-                    Popolazione = 0,
-                    TempoRicerca = Tipi.Addestramento.TempoRicerca * livello
+                    Cibo = Tipi.Addestramento.Cibo * livello,
+                    Legno = Tipi.Addestramento.Legno * livello,
+                    Pietra = Tipi.Addestramento.Pietra * livello,
+                    Ferro = Tipi.Addestramento.Ferro * livello,
+                    Oro = Tipi.Addestramento.Oro * livello,
+                    Popolazione = 25,
+                    TempoRicerca = Tipi.Addestramento.TempoRicerca * livello // o calcola dinamicamente
                 },
                 "Popolazione" => new ResearchCost
                 {
@@ -399,7 +426,7 @@ namespace Server_Strategico.Gioco
                     Pietra = Tipi.Popolazione.Pietra * livello,
                     Ferro = Tipi.Popolazione.Ferro * livello,
                     Oro = Tipi.Popolazione.Oro * livello,
-                    Popolazione = 0,
+                    Popolazione = 50,
                     TempoRicerca = Tipi.Addestramento.TempoRicerca * livello // più tempo per livelli più alti
                 },
                 "Trasporto" => new ResearchCost
@@ -409,7 +436,7 @@ namespace Server_Strategico.Gioco
                     Pietra = Tipi.Trasporto.Pietra * livello,
                     Ferro = Tipi.Trasporto.Ferro * livello,
                     Oro = Tipi.Trasporto.Oro * livello,
-                    Popolazione = 0,
+                    Popolazione = 40,
                     TempoRicerca = Tipi.Addestramento.TempoRicerca * livello // più tempo per livelli più alti
                 },
                 "Riparazione" => new ResearchCost
@@ -419,7 +446,7 @@ namespace Server_Strategico.Gioco
                     Pietra = Tipi.Riparazione.Pietra * livello,
                     Ferro = Tipi.Riparazione.Ferro * livello,
                     Oro = Tipi.Riparazione.Oro * livello,
-                    Popolazione = 0,
+                    Popolazione = 60,
                     TempoRicerca = Tipi.Addestramento.TempoRicerca * livello // più tempo per livelli più alti
                 },
 
@@ -430,7 +457,7 @@ namespace Server_Strategico.Gioco
                     Pietra = Soldati.Salute.Pietra * livello,
                     Ferro = Soldati.Salute.Ferro * livello,
                     Oro = Soldati.Salute.Oro * livello,
-                    Popolazione = 0,
+                    Popolazione = Soldati.Salute.Popolazione * livello,
                     TempoRicerca = Soldati.Salute.TempoRicerca * livello // più tempo per livelli più alti
                 },
                 "Guerriero Attacco" => new ResearchCost
@@ -440,28 +467,28 @@ namespace Server_Strategico.Gioco
                     Pietra = Soldati.Attacco.Pietra * livello,
                     Ferro = Soldati.Attacco.Ferro * livello,
                     Oro = Soldati.Attacco.Oro * livello,
-                    Popolazione = 0,
+                    Popolazione = Soldati.Attacco.Popolazione * livello,
                     TempoRicerca = Soldati.Attacco.TempoRicerca * livello // più tempo per livelli più alti
                 },
                 "Guerriero Difesa" => new ResearchCost
                 {
-                    Cibo = Soldati.Attacco.Cibo * livello,
-                    Legno = Soldati.Attacco.Legno * livello,
-                    Pietra = Soldati.Attacco.Pietra * livello,
-                    Ferro = Soldati.Attacco.Ferro * livello,
-                    Oro = Soldati.Attacco.Oro * livello,
-                    Popolazione = 0,
-                    TempoRicerca = Soldati.Attacco.TempoRicerca * livello // più tempo per livelli più alti
+                    Cibo = Soldati.Difesa.Cibo * livello,
+                    Legno = Soldati.Difesa.Legno * livello,
+                    Pietra = Soldati.Difesa.Pietra * livello,
+                    Ferro = Soldati.Difesa.Ferro * livello,
+                    Oro = Soldati.Difesa.Oro * livello,
+                    Popolazione = Soldati.Difesa.Popolazione * livello,
+                    TempoRicerca = Soldati.Difesa.TempoRicerca * livello // più tempo per livelli più alti
                 },
                 "Guerriero Livello" => new ResearchCost
                 {
-                    Cibo = Soldati.Attacco.Cibo * livello,
-                    Legno = Soldati.Attacco.Legno * livello,
-                    Pietra = Soldati.Attacco.Pietra * livello,
-                    Ferro = Soldati.Attacco.Ferro * livello,
-                    Oro = Soldati.Attacco.Oro * livello,
-                    Popolazione = 0,
-                    TempoRicerca = Soldati.Attacco.TempoRicerca * livello // più tempo per livelli più alti
+                    Cibo = Soldati.Livello.Cibo * livello,
+                    Legno = Soldati.Livello.Legno * livello,
+                    Pietra = Soldati.Livello.Pietra * livello,
+                    Ferro = Soldati.Livello.Ferro * livello,
+                    Oro = Soldati.Livello.Oro * livello,
+                    Popolazione = Soldati.Livello.Popolazione * livello,
+                    TempoRicerca = Soldati.Livello.TempoRicerca * livello // più tempo per livelli più alti
                 },
 
                 "Lancere Salute" => new ResearchCost
@@ -471,7 +498,7 @@ namespace Server_Strategico.Gioco
                     Pietra = Soldati.Salute.Pietra * livello,
                     Ferro = Soldati.Salute.Ferro * livello,
                     Oro = Soldati.Salute.Oro * livello,
-                    Popolazione = 0,
+                    Popolazione = Soldati.Salute.Popolazione * livello,
                     TempoRicerca = Soldati.Salute.TempoRicerca * livello // più tempo per livelli più alti
                 },
                 "Lancere Attacco" => new ResearchCost
@@ -481,28 +508,28 @@ namespace Server_Strategico.Gioco
                     Pietra = Soldati.Attacco.Pietra * livello,
                     Ferro = Soldati.Attacco.Ferro * livello,
                     Oro = Soldati.Attacco.Oro * livello,
-                    Popolazione = 0,
+                    Popolazione = Soldati.Attacco.Popolazione * livello,
                     TempoRicerca = Soldati.Attacco.TempoRicerca * livello // più tempo per livelli più alti
                 },
                 "Lancere Difesa" => new ResearchCost
                 {
-                    Cibo = Soldati.Attacco.Cibo * livello,
-                    Legno = Soldati.Attacco.Legno * livello,
-                    Pietra = Soldati.Attacco.Pietra * livello,
-                    Ferro = Soldati.Attacco.Ferro * livello,
-                    Oro = Soldati.Attacco.Oro * livello,
-                    Popolazione = 0,
-                    TempoRicerca = Soldati.Attacco.TempoRicerca * livello // più tempo per livelli più alti
+                    Cibo = Soldati.Difesa.Cibo * livello,
+                    Legno = Soldati.Difesa.Legno * livello,
+                    Pietra = Soldati.Difesa.Pietra * livello,
+                    Ferro = Soldati.Difesa.Ferro * livello,
+                    Oro = Soldati.Difesa.Oro * livello,
+                    Popolazione = Soldati.Difesa.Popolazione * livello,
+                    TempoRicerca = Soldati.Difesa.TempoRicerca * livello // più tempo per livelli più alti
                 },
                 "Lancere Livello" => new ResearchCost
                 {
-                    Cibo = Soldati.Attacco.Cibo * livello,
-                    Legno = Soldati.Attacco.Legno * livello,
-                    Pietra = Soldati.Attacco.Pietra * livello,
-                    Ferro = Soldati.Attacco.Ferro * livello,
-                    Oro = Soldati.Attacco.Oro * livello,
-                    Popolazione = 0,
-                    TempoRicerca = Soldati.Attacco.TempoRicerca * livello // più tempo per livelli più alti
+                    Cibo = Soldati.Livello.Cibo * livello,
+                    Legno = Soldati.Livello.Legno * livello,
+                    Pietra = Soldati.Livello.Pietra * livello,
+                    Ferro = Soldati.Livello.Ferro * livello,
+                    Oro = Soldati.Livello.Oro * livello,
+                    Popolazione = Soldati.Livello.Popolazione * livello,
+                    TempoRicerca = Soldati.Livello.TempoRicerca * livello // più tempo per livelli più alti
                 },
 
                 "Arcere Salute" => new ResearchCost
@@ -512,7 +539,7 @@ namespace Server_Strategico.Gioco
                     Pietra = Soldati.Salute.Pietra * livello,
                     Ferro = Soldati.Salute.Ferro * livello,
                     Oro = Soldati.Salute.Oro * livello,
-                    Popolazione = 0,
+                    Popolazione = Soldati.Salute.Popolazione * livello,
                     TempoRicerca = Soldati.Salute.TempoRicerca * livello // più tempo per livelli più alti
                 },
                 "Arcere Attacco" => new ResearchCost
@@ -522,28 +549,28 @@ namespace Server_Strategico.Gioco
                     Pietra = Soldati.Attacco.Pietra * livello,
                     Ferro = Soldati.Attacco.Ferro * livello,
                     Oro = Soldati.Attacco.Oro * livello,
-                    Popolazione = 0,
+                    Popolazione = Soldati.Attacco.Popolazione * livello,
                     TempoRicerca = Soldati.Attacco.TempoRicerca * livello // più tempo per livelli più alti
                 },
                 "Arcere Difesa" => new ResearchCost
                 {
-                    Cibo = Soldati.Attacco.Cibo * livello,
-                    Legno = Soldati.Attacco.Legno * livello,
-                    Pietra = Soldati.Attacco.Pietra * livello,
-                    Ferro = Soldati.Attacco.Ferro * livello,
-                    Oro = Soldati.Attacco.Oro * livello,
-                    Popolazione = 0,
-                    TempoRicerca = Soldati.Attacco.TempoRicerca * livello // più tempo per livelli più alti
+                    Cibo = Soldati.Difesa.Cibo * livello,
+                    Legno = Soldati.Difesa.Legno * livello,
+                    Pietra = Soldati.Difesa.Pietra * livello,
+                    Ferro = Soldati.Difesa.Ferro * livello,
+                    Oro = Soldati.Difesa.Oro * livello,
+                    Popolazione = Soldati.Difesa.Popolazione * livello,
+                    TempoRicerca = Soldati.Difesa.TempoRicerca * livello // più tempo per livelli più alti
                 },
                 "Arcere Livello" => new ResearchCost
                 {
-                    Cibo = Soldati.Attacco.Cibo * livello,
-                    Legno = Soldati.Attacco.Legno * livello,
-                    Pietra = Soldati.Attacco.Pietra * livello,
-                    Ferro = Soldati.Attacco.Ferro * livello,
-                    Oro = Soldati.Attacco.Oro * livello,
-                    Popolazione = 0,
-                    TempoRicerca = Soldati.Attacco.TempoRicerca * livello // più tempo per livelli più alti
+                    Cibo = Soldati.Livello.Cibo * livello,
+                    Legno = Soldati.Livello.Legno * livello,
+                    Pietra = Soldati.Livello.Pietra * livello,
+                    Ferro = Soldati.Livello.Ferro * livello,
+                    Oro = Soldati.Livello.Oro * livello,
+                    Popolazione = Soldati.Livello.Popolazione * livello,
+                    TempoRicerca = Soldati.Livello.TempoRicerca * livello // più tempo per livelli più alti
                 },
 
                 "Catapulta Salute" => new ResearchCost
@@ -553,7 +580,7 @@ namespace Server_Strategico.Gioco
                     Pietra = Soldati.Salute.Pietra * livello,
                     Ferro = Soldati.Salute.Ferro * livello,
                     Oro = Soldati.Salute.Oro * livello,
-                    Popolazione = 0,
+                    Popolazione = Soldati.Salute.Popolazione * livello,
                     TempoRicerca = Soldati.Salute.TempoRicerca * livello // più tempo per livelli più alti
                 },
                 "Catapulta Attacco" => new ResearchCost
@@ -563,28 +590,28 @@ namespace Server_Strategico.Gioco
                     Pietra = Soldati.Attacco.Pietra * livello,
                     Ferro = Soldati.Attacco.Ferro * livello,
                     Oro = Soldati.Attacco.Oro * livello,
-                    Popolazione = 0,
+                    Popolazione = Soldati.Attacco.Popolazione * livello,
                     TempoRicerca = Soldati.Attacco.TempoRicerca * livello // più tempo per livelli più alti
                 },
                 "Catapulta Difesa" => new ResearchCost
                 {
-                    Cibo = Soldati.Attacco.Cibo * livello,
-                    Legno = Soldati.Attacco.Legno * livello,
-                    Pietra = Soldati.Attacco.Pietra * livello,
-                    Ferro = Soldati.Attacco.Ferro * livello,
-                    Oro = Soldati.Attacco.Oro * livello,
-                    Popolazione = 0,
-                    TempoRicerca = Soldati.Attacco.TempoRicerca * livello // più tempo per livelli più alti
+                    Cibo = Soldati.Difesa.Cibo * livello,
+                    Legno = Soldati.Difesa.Legno * livello,
+                    Pietra = Soldati.Difesa.Pietra * livello,
+                    Ferro = Soldati.Difesa.Ferro * livello,
+                    Oro = Soldati.Difesa.Oro * livello,
+                    Popolazione = Soldati.Difesa.Popolazione * livello,
+                    TempoRicerca = Soldati.Difesa.TempoRicerca * livello // più tempo per livelli più alti
                 },
                 "Catapulta Livello" => new ResearchCost
                 {
-                    Cibo = Soldati.Attacco.Cibo * livello,
-                    Legno = Soldati.Attacco.Legno * livello,
-                    Pietra = Soldati.Attacco.Pietra * livello,
-                    Ferro = Soldati.Attacco.Ferro * livello,
-                    Oro = Soldati.Attacco.Oro * livello,
-                    Popolazione = 0,
-                    TempoRicerca = Soldati.Attacco.TempoRicerca * livello // più tempo per livelli più alti
+                    Cibo = Soldati.Livello.Cibo * livello,
+                    Legno = Soldati.Livello.Legno * livello,
+                    Pietra = Soldati.Livello.Pietra * livello,
+                    Ferro = Soldati.Livello.Ferro * livello,
+                    Oro = Soldati.Livello.Oro * livello,
+                    Popolazione = Soldati.Livello.Popolazione * livello,
+                    TempoRicerca = Soldati.Livello.TempoRicerca * livello // più tempo per livelli più alti
                 },
 
                 "Ingresso Guarnigione" => new ResearchCost
@@ -609,123 +636,123 @@ namespace Server_Strategico.Gioco
                 },
                 "Cancello Salute" => new ResearchCost
                 {
-                    Cibo = Citta.Cancello.Cibo * livello,
-                    Legno = Citta.Cancello.Legno * livello,
-                    Pietra = Citta.Cancello.Pietra * livello,
-                    Ferro = Citta.Cancello.Ferro * livello,
-                    Oro = Citta.Cancello.Oro * livello,
-                    Popolazione = Citta.Cancello.Popolazione * livello,
-                    TempoRicerca = Citta.Cancello.TempoRicerca * livello // più tempo per livelli più alti
+                    Cibo = Citta.Cancello_Salute.Cibo * livello,
+                    Legno = Citta.Cancello_Salute.Legno * livello,
+                    Pietra = Citta.Cancello_Salute.Pietra * livello,
+                    Ferro = Citta.Cancello_Salute.Ferro * livello,
+                    Oro = Citta.Cancello_Salute.Oro * livello,
+                    Popolazione = Citta.Cancello_Salute.Popolazione * livello,
+                    TempoRicerca = Citta.Cancello_Salute.TempoRicerca * livello // più tempo per livelli più alti
                 },
                 "Cancello Difesa" => new ResearchCost
                 {
-                    Cibo = Citta.Cancello.Cibo * livello,
-                    Legno = Citta.Cancello.Legno * livello,
-                    Pietra = Citta.Cancello.Pietra * livello,
-                    Ferro = Citta.Cancello.Ferro * livello,
-                    Oro = Citta.Cancello.Oro * livello,
-                    Popolazione = Citta.Cancello.Popolazione * livello,
-                    TempoRicerca = Citta.Cancello.TempoRicerca * livello // più tempo per livelli più alti
+                    Cibo = Citta.Cancello_Difesa.Cibo * livello,
+                    Legno = Citta.Cancello_Difesa.Legno * livello,
+                    Pietra = Citta.Cancello_Difesa.Pietra * livello,
+                    Ferro = Citta.Cancello_Difesa.Ferro * livello,
+                    Oro = Citta.Cancello_Difesa.Oro * livello,
+                    Popolazione = Citta.Cancello_Difesa.Popolazione * livello,
+                    TempoRicerca = Citta.Cancello_Difesa.TempoRicerca * livello // più tempo per livelli più alti
                 },
                 "Cancello Guarnigione" => new ResearchCost
                 {
-                    Cibo = Citta.Cancello.Cibo * livello,
-                    Legno = Citta.Cancello.Legno * livello,
-                    Pietra = Citta.Cancello.Pietra * livello,
-                    Ferro = Citta.Cancello.Ferro * livello,
-                    Oro = Citta.Cancello.Oro * livello,
-                    Popolazione = Citta.Cancello.Popolazione * livello,
-                    TempoRicerca = Citta.Cancello.TempoRicerca * livello // più tempo per livelli più alti
+                    Cibo = Citta.Cancello_Guarnigione.Cibo * livello,
+                    Legno = Citta.Cancello_Guarnigione.Legno * livello,
+                    Pietra = Citta.Cancello_Guarnigione.Pietra * livello,
+                    Ferro = Citta.Cancello_Guarnigione.Ferro * livello,
+                    Oro = Citta.Cancello_Guarnigione.Oro * livello,
+                    Popolazione = Citta.Cancello_Guarnigione.Popolazione * livello,
+                    TempoRicerca = Citta.Cancello_Guarnigione.TempoRicerca * livello // più tempo per livelli più alti
                 },
                 "Mura Salute" => new ResearchCost
                 {
-                    Cibo = Citta.Mura.Cibo * livello,
-                    Legno = Citta.Mura.Legno * livello,
-                    Pietra = Citta.Mura.Pietra * livello,
-                    Ferro = Citta.Mura.Ferro * livello,
-                    Oro = Citta.Mura.Oro * livello,
-                    Popolazione = Citta.Mura.Popolazione * livello,
-                    TempoRicerca = Citta.Mura.TempoRicerca * livello // più tempo per livelli più alti
+                    Cibo = Citta.Mura_Salute.Cibo * livello,
+                    Legno = Citta.Mura_Salute.Legno * livello,
+                    Pietra = Citta.Mura_Salute.Pietra * livello,
+                    Ferro = Citta.Mura_Salute.Ferro * livello,
+                    Oro = Citta.Mura_Salute.Oro * livello,
+                    Popolazione = Citta.Mura_Salute.Popolazione * livello,
+                    TempoRicerca = Citta.Mura_Salute.TempoRicerca * livello // più tempo per livelli più alti
                 },
                 "Mura Difesa" => new ResearchCost
                 {
-                    Cibo = Citta.Mura.Cibo * livello,
-                    Legno = Citta.Mura.Legno * livello,
-                    Pietra = Citta.Mura.Pietra * livello,
-                    Ferro = Citta.Mura.Ferro * livello,
-                    Oro = Citta.Mura.Oro * livello,
-                    Popolazione = Citta.Mura.Popolazione * livello,
-                    TempoRicerca = Citta.Mura.TempoRicerca * livello // più tempo per livelli più alti
+                    Cibo = Citta.Mura_Difesa.Cibo * livello,
+                    Legno = Citta.Mura_Difesa.Legno * livello,
+                    Pietra = Citta.Mura_Difesa.Pietra * livello,
+                    Ferro = Citta.Mura_Difesa.Ferro * livello,
+                    Oro = Citta.Mura_Difesa.Oro * livello,
+                    Popolazione = Citta.Mura_Difesa.Popolazione * livello,
+                    TempoRicerca = Citta.Mura_Difesa.TempoRicerca * livello // più tempo per livelli più alti
                 },
                 "Mura Guarnigione" => new ResearchCost
                 {
-                    Cibo = Citta.Mura.Cibo * livello,
-                    Legno = Citta.Mura.Legno * livello,
-                    Pietra = Citta.Mura.Pietra * livello,
-                    Ferro = Citta.Mura.Ferro * livello,
-                    Oro = Citta.Mura.Oro * livello,
-                    Popolazione = Citta.Mura.Popolazione * livello,
-                    TempoRicerca = Citta.Mura.TempoRicerca * livello // più tempo per livelli più alti
+                    Cibo = Citta.Mura_Guarnigione.Cibo * livello,
+                    Legno = Citta.Mura_Guarnigione.Legno * livello,
+                    Pietra = Citta.Mura_Guarnigione.Pietra * livello,
+                    Ferro = Citta.Mura_Guarnigione.Ferro * livello,
+                    Oro = Citta.Mura_Guarnigione.Oro * livello,
+                    Popolazione = Citta.Mura_Guarnigione.Popolazione * livello,
+                    TempoRicerca = Citta.Mura_Guarnigione.TempoRicerca * livello // più tempo per livelli più alti
                 },
                 "Torri Salute" => new ResearchCost
                 {
-                    Cibo = Citta.Torri.Cibo * livello,
-                    Legno = Citta.Torri.Legno * livello,
-                    Pietra = Citta.Torri.Pietra * livello,
-                    Ferro = Citta.Torri.Ferro * livello,
-                    Oro = Citta.Torri.Oro * livello,
-                    Popolazione = Citta.Torri.Popolazione * livello,
-                    TempoRicerca = Citta.Torri.TempoRicerca * livello // più tempo per livelli più alti
+                    Cibo = Citta.Torri_Salute.Cibo * livello,
+                    Legno = Citta.Torri_Salute.Legno * livello,
+                    Pietra = Citta.Torri_Salute.Pietra * livello,
+                    Ferro = Citta.Torri_Salute.Ferro * livello,
+                    Oro = Citta.Torri_Salute.Oro * livello,
+                    Popolazione = Citta.Torri_Salute.Popolazione * livello,
+                    TempoRicerca = Citta.Torri_Salute.TempoRicerca * livello // più tempo per livelli più alti
                 },
                 "Torri Difesa" => new ResearchCost
                 {
-                    Cibo = Citta.Torri.Cibo * livello,
-                    Legno = Citta.Torri.Legno * livello,
-                    Pietra = Citta.Torri.Pietra * livello,
-                    Ferro = Citta.Torri.Ferro * livello,
-                    Oro = Citta.Torri.Oro * livello,
-                    Popolazione = Citta.Torri.Popolazione * livello,
-                    TempoRicerca = Citta.Torri.TempoRicerca * livello // più tempo per livelli più alti
+                    Cibo = Citta.Torri_Difesa.Cibo * livello,
+                    Legno = Citta.Torri_Difesa.Legno * livello,
+                    Pietra = Citta.Torri_Difesa.Pietra * livello,
+                    Ferro = Citta.Torri_Difesa.Ferro * livello,
+                    Oro = Citta.Torri_Difesa.Oro * livello,
+                    Popolazione = Citta.Torri_Difesa.Popolazione * livello,
+                    TempoRicerca = Citta.Torri_Difesa.TempoRicerca * livello // più tempo per livelli più alti
                 },
                 "Torri Guarnigione" => new ResearchCost
                 {
-                    Cibo = Citta.Torri.Cibo * livello,
-                    Legno = Citta.Torri.Legno * livello,
-                    Pietra = Citta.Torri.Pietra * livello,
-                    Ferro = Citta.Torri.Ferro * livello,
-                    Oro = Citta.Torri.Oro * livello,
-                    Popolazione = Citta.Torri.Popolazione * livello,
-                    TempoRicerca = Citta.Torri.TempoRicerca * livello // più tempo per livelli più alti
+                    Cibo = Citta.Torri_Guarnigione.Cibo * livello,
+                    Legno = Citta.Torri_Guarnigione.Legno * livello,
+                    Pietra = Citta.Torri_Guarnigione.Pietra * livello,
+                    Ferro = Citta.Torri_Guarnigione.Ferro * livello,
+                    Oro = Citta.Torri_Guarnigione.Oro * livello,
+                    Popolazione = Citta.Torri_Guarnigione.Popolazione * livello,
+                    TempoRicerca = Citta.Torri_Guarnigione.TempoRicerca * livello // più tempo per livelli più alti
                 },
                 "Castello Salute" => new ResearchCost
                 {
-                    Cibo = Citta.Castello.Cibo * livello,
-                    Legno = Citta.Castello.Legno * livello,
-                    Pietra = Citta.Castello.Pietra * livello,
-                    Ferro = Citta.Castello.Ferro * livello,
-                    Oro = Citta.Castello.Oro * livello,
-                    Popolazione = Citta.Castello.Popolazione * livello,
-                    TempoRicerca = Citta.Castello.TempoRicerca * livello // più tempo per livelli più alti
+                    Cibo = Citta.Castello_Salute.Cibo * livello,
+                    Legno = Citta.Castello_Salute.Legno * livello,
+                    Pietra = Citta.Castello_Salute.Pietra * livello,
+                    Ferro = Citta.Castello_Salute.Ferro * livello,
+                    Oro = Citta.Castello_Salute.Oro * livello,
+                    Popolazione = Citta.Castello_Salute.Popolazione * livello,
+                    TempoRicerca = Citta.Castello_Salute.TempoRicerca * livello // più tempo per livelli più alti
                 },
                 "Castello Difesa" => new ResearchCost
                 {
-                    Cibo = Citta.Castello.Cibo * livello,
-                    Legno = Citta.Castello.Legno * livello,
-                    Pietra = Citta.Castello.Pietra * livello,
-                    Ferro = Citta.Castello.Ferro * livello,
-                    Oro = Citta.Castello.Oro * livello,
-                    Popolazione = Citta.Castello.Popolazione * livello,
-                    TempoRicerca = Citta.Castello.TempoRicerca * livello // più tempo per livelli più alti
+                    Cibo = Citta.Castello_Difesa.Cibo * livello,
+                    Legno = Citta.Castello_Difesa.Legno * livello,
+                    Pietra = Citta.Castello_Difesa.Pietra * livello,
+                    Ferro = Citta.Castello_Difesa.Ferro * livello,
+                    Oro = Citta.Castello_Difesa.Oro * livello,
+                    Popolazione = Citta.Castello_Difesa.Popolazione * livello,
+                    TempoRicerca = Citta.Castello_Difesa.TempoRicerca * livello // più tempo per livelli più alti
                 },
                 "Castello Guarnigione" => new ResearchCost
                 {
-                    Cibo = Citta.Castello.Cibo * livello,
-                    Legno = Citta.Castello.Legno * livello,
-                    Pietra = Citta.Castello.Pietra * livello,
-                    Ferro = Citta.Castello.Ferro * livello,
-                    Oro = Citta.Castello.Oro * livello,
-                    Popolazione = Citta.Castello.Popolazione * livello,
-                    TempoRicerca = Citta.Castello.TempoRicerca * livello // più tempo per livelli più alti
+                    Cibo = Citta.Castello_Guarnigione.Cibo * livello,
+                    Legno = Citta.Castello_Guarnigione.Legno * livello,
+                    Pietra = Citta.Castello_Guarnigione.Pietra * livello,
+                    Ferro = Citta.Castello_Guarnigione.Ferro * livello,
+                    Oro = Citta.Castello_Guarnigione.Oro * livello,
+                    Popolazione = Citta.Castello_Guarnigione.Popolazione * livello,
+                    TempoRicerca = Citta.Castello_Guarnigione.TempoRicerca * livello // più tempo per livelli più alti
                 },
                 _ => null
             };
@@ -809,9 +836,6 @@ namespace Server_Strategico.Gioco
             OnEvent(player, QuestEventType.Risorse, "Diamanti Blu", diamantiBluDaUsare);
             int tempoEffettivamenteRidotto = riduzioneTotaleOriginale - riduzioneResidua;
             OnEvent(player, QuestEventType.Velocizzazione, "Qualsiasi", tempoEffettivamenteRidotto);
-
-            // Completa eventuali ricerche finite
-            CompleteResearch(clientGuid, player);
 
             Server.Server.Send(clientGuid, $"Log_Server|[title]Hai usato [icon:diamanteBlu][warning]{diamantiBluDaUsare} [blu]Diamanti Blu [title]per velocizzare la ricerca! [icon:tempo]{player.FormatTime(tempoEffettivamenteRidotto)}");
         }
