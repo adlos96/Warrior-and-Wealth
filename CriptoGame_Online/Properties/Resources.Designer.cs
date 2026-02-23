@@ -333,6 +333,26 @@ namespace CriptoGame_Online.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap DiamanteBlu_V2 {
+            get {
+                object obj = ResourceManager.GetObject("DiamanteBlu_V2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DiamanteViola_V2 {
+            get {
+                object obj = ResourceManager.GetObject("DiamanteViola_V2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap diamond_1 {
             get {
                 object obj = ResourceManager.GetObject("diamond_1", resourceCulture);
@@ -433,6 +453,16 @@ namespace CriptoGame_Online.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Ferro_V2 {
+            get {
+                object obj = ResourceManager.GetObject("Ferro_V2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Frecce_V2 {
             get {
                 object obj = ResourceManager.GetObject("Frecce_V2", resourceCulture);
@@ -486,6 +516,16 @@ namespace CriptoGame_Online.Properties {
         internal static System.Drawing.Bitmap GamePass_Base {
             get {
                 object obj = ResourceManager.GetObject("GamePass_Base", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Gamepass_Reward_V2 {
+            get {
+                object obj = ResourceManager.GetObject("Gamepass_Reward_V2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -603,6 +643,16 @@ namespace CriptoGame_Online.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Legna_V2 {
+            get {
+                object obj = ResourceManager.GetObject("Legna_V2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap level_up_1_ {
             get {
                 object obj = ResourceManager.GetObject("level-up(1)", resourceCulture);
@@ -693,6 +743,16 @@ namespace CriptoGame_Online.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Oro_V2 {
+            get {
+                object obj = ResourceManager.GetObject("Oro_V2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Pacchetto_Risorse {
             get {
                 object obj = ResourceManager.GetObject("Pacchetto_Risorse", resourceCulture);
@@ -703,9 +763,39 @@ namespace CriptoGame_Online.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Pietra_V2 {
+            get {
+                object obj = ResourceManager.GetObject("Pietra_V2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap plus_64x {
             get {
                 object obj = ResourceManager.GetObject("plus_64x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Popolazione_V2 {
+            get {
+                object obj = ResourceManager.GetObject("Popolazione_V2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Quest_V2 {
+            get {
+                object obj = ResourceManager.GetObject("Quest_V2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -846,6 +936,16 @@ namespace CriptoGame_Online.Properties {
         internal static System.Drawing.Bitmap Texture_Wood_2 {
             get {
                 object obj = ResourceManager.GetObject("Texture Wood 2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Tributi_V2 {
+            get {
+                object obj = ResourceManager.GetObject("Tributi_V2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

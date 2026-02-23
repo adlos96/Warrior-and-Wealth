@@ -228,3 +228,5 @@ C:\Users\Adlos\source\repos\Online-Cripto-Game\CriptoGame_Online\obj\Debug\net9.
 C:\Users\Adlos\source\repos\Online-Cripto-Game\CriptoGame_Online\obj\Debug\net9.0-windows8.0\CriptoGame_Online.pdb
 C:\Users\Adlos\source\repos\Online-Cripto-Game\CriptoGame_Online\obj\Debug\net9.0-windows8.0\CriptoGame_Online.genruntimeconfig.cache
 C:\Users\Adlos\source\repos\Online-Cripto-Game\CriptoGame_Online\obj\Debug\net9.0-windows8.0\ref\CriptoGame_Online.dll
+C:\Users\TheCh\source\repos\Online-Cripto-Game\CriptoGame_Online\obj\Debug\net9.0-windows8.0\CriptoGame_Online.GUI.GamePassReward.resources
+C:\Users\TheCh\source\repos\Online-Cripto-Game\CriptoGame_Online\obj\Debug\net9.0-windows8.0\CriptoGame_Online.GUI.Quest.resources
