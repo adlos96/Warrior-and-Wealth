@@ -128,13 +128,13 @@ namespace Server_Strategico.Server
         {
             var player1 = servers_.GetPlayer(player, password);
 
-            player1.Tutorial = false;
-            player1.Cibo = 20000;
-            player1.Legno = 20000;
-            player1.Pietra = 20000;
-            player1.Ferro = 20000;
-            player1.Oro = 20000;
-            player1.Popolazione = 1000;
+            player1.Tutorial = true;
+            //player1.Cibo = 20000;
+            //player1.Legno = 20000;
+            //player1.Pietra = 20000;
+            //player1.Ferro = 20000;
+            //player1.Oro = 20000;
+            //player1.Popolazione = 1000;
 
             //player1.Spade = 2000;
             //player1.Lance = 2000;
@@ -148,8 +148,8 @@ namespace Server_Strategico.Server
             //player1.Caserma_Arceri = 5;
             //player1.Caserma_Catapulte = 5;
 
-            player1.Diamanti_Blu = 15000;
-            player1.Diamanti_Viola = 30000;
+            //player1.Diamanti_Blu = 15000;
+            //player1.Diamanti_Viola = 30000;
 
             //Test battaglie
             //if (!player1.Tutorial) //Senza tutorial, per test truppe e battaglie
