@@ -483,8 +483,8 @@ namespace CriptoGame_Online
             lbl_Arceri_Max.Font = new Font("Cinzel Decorative", 7);
             lbl_Catapulte_Max.Font = new Font("Cinzel Decorative", 7);
 
-            lbl_Timer_Addestramento.Font = new Font("Cinzel Decorative", 8, FontStyle.Bold);
-            lbl_Timer_Costruzione.Font = new Font("Cinzel Decorative", 8, FontStyle.Bold);
+            lbl_Timer_Addestramento.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
+            lbl_Timer_Costruzione.Font = new Font("Cinzel Decorative", 7, FontStyle.Bold);
             txt_Tipi_Risorse.Font = new Font("Cinzel Decorative", 8, FontStyle.Bold);
 
             Banner();
@@ -930,6 +930,12 @@ namespace CriptoGame_Online
         private void ico_Notifiche_MouseClick(object sender, MouseEventArgs e)
         {
             Notifiche form_Gioco = new Notifiche();
+            form_Gioco.ShowDialog();
+        }
+
+        private void btn_GamePass_Reward_Click(object sender, EventArgs e)
+        {
+            GamePassReward form_Gioco = new GamePassReward();
             form_Gioco.ShowDialog();
         }
     }

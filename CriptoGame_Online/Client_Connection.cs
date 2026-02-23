@@ -1,5 +1,6 @@
 ﻿using CriptoGame_Online;
 using System.Globalization;
+using System.Numerics;
 using System.Text;
 using System.Text.Json;
 using WatsonTcp;
@@ -192,10 +193,14 @@ namespace Strategico_V2
                                 var dati = JsonSerializer.Deserialize<List<dati>>(mess[2]);
                                 Variabili_Client.tutorial_dati = dati;
                             }
-                            if (mess[1] == "Update")
-                            {
-                                //Aggiornale le singole bool in base al progresso del tutorial
-                            }
+                            break;
+                        case "Gamepass_Premi":
+                            for (int i = 1; i < mess.Count(); i++)
+                                Variabili_Client.GamePass_Premi[i-1] = mess[i];
+                            break;
+                        case "Gamepass_Premi_Ottenuti":
+                            for (int i = 1; i < mess.Count(); i++)
+                                Variabili_Client.GamePass_Premi_Completati[i - 1] = Convert.ToBoolean(mess[i]);
                             break;
 
                         default: Console.WriteLine($"[Errore] >> [{messaggio}] Comando non riconosciuto"); break;
@@ -465,6 +470,8 @@ namespace Strategico_V2
                 SetValue<string>("QuestMensili_Tempo", v => Variabili_Client.Utente.Montly_Quest_Tempo = v);
                 SetValue<string>("Barbari_Tempo", v => Variabili_Client.Utente.Barbari_Tempo = v);
 
+                SetValue<int>("Giorni_Consecutivi", v => Variabili_Client.Giorni_Accessi_Consecutivi = v);
+
                 //Sblocco truppe
                 SetValue<string>("Unlock_Truppe_II", v => Variabili_Client.truppe_II = v);
                 SetValue<string>("Unlock_Truppe_III", v => Variabili_Client.truppe_III = v);
@@ -675,6 +682,8 @@ namespace Strategico_V2
                 SetValue<string>("ricerca_costruzione", v => Variabili_Client.Utente_Ricerca.Ricerca_Costruzione = v);
                 SetValue<string>("ricerca_addestramento", v => Variabili_Client.Utente_Ricerca.Ricerca_Addestramento = v);
                 SetValue<string>("ricerca_popolazione", v => Variabili_Client.Utente_Ricerca.Ricerca_Popolazione = v);
+                SetValue<string>("ricerca_riparazione", v => Variabili_Client.Utente_Ricerca.Ricerca_Riparazione = v);
+                SetValue<string>("ricerca_trasporto", v => Variabili_Client.Utente_Ricerca.Ricerca_Trasporto = v);
 
                 SetValue<string>("guerriero_salute", v => Variabili_Client.Utente_Ricerca.Salute_Spadaccini = v);
                 SetValue<string>("guerriero_difesa", v => Variabili_Client.Utente_Ricerca.Difesa_Spadaccini = v);

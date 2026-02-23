@@ -284,8 +284,8 @@ namespace CriptoGame_Online
                 txt_Image_6.Text = "";
 
                 txt_Pacchetto_Desc_1.Text = "Scudo della pace";
-                txt_Pacchetto_Desc_2.Text = "GamePass Base";
-                txt_Pacchetto_Desc_3.Text = "GamePass Avanzato";
+                txt_Pacchetto_Desc_2.Text = "GamePass Silver";
+                txt_Pacchetto_Desc_3.Text = "GamePass Gold";
                 txt_Pacchetto_Desc_4.Text = "";
                 txt_Pacchetto_Desc_5.Text = "";
                 txt_Pacchetto_Desc_6.Text = "";

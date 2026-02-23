@@ -128,7 +128,7 @@ namespace Server_Strategico.Gioco
             }
             else
                 Server.Server.Send(clientGuid,
-                $"Log_Server|[info]Risorse insufficenti per la ricerca {researchCost} [info]livello: [title]{livello}[/title]\r\n " +
+                $"Log_Server|[error]Risorse insufficenti per la ricerca [warning]{researchType} [/warning]livello: [title]{livello}\r\n " +
                 $"[cibo]{(researchCost.Cibo):N0}[/cibo] [icon:cibo] " +
                 $"[legno]{(researchCost.Legno):N0}[/legno] [icon:legno] " +
                 $"[pietra]{(researchCost.Pietra):N0}[/pietra] [icon:pietra] " +
@@ -147,7 +147,9 @@ namespace Server_Strategico.Gioco
 
             if ((ricerca == "Produzione" || ricerca == "Costruzione" || ricerca == "Addestramento" || ricerca == "Popolazione") && player.Livello < livelloRichiesto)
             { returnValue = true; richiesto = livelloRichiesto; msg = "giocatore"; }
-            if ((ricerca == "Trasporto" || ricerca == "Riparazione") && player.Livello < livelloRichiesto * 2)
+            if ((ricerca == "Trasporto") && player.Livello < livelloRichiesto * 2)
+            { returnValue = true; richiesto = livelloRichiesto; msg = "giocatore"; }
+            if ((ricerca == "Riparazione") && player.Livello < livelloRichiesto * 15)
             { returnValue = true; richiesto = livelloRichiesto; msg = "giocatore"; }
 
             if (ricerca == "Guerriero Livello" && player.Livello <= (player.Guerriero_Livello + 1) * 2) {returnValue = true; richiesto = (player.Guerriero_Livello + 1) * 2; msg = "giocatore";}
@@ -834,9 +836,6 @@ namespace Server_Strategico.Gioco
             OnEvent(player, QuestEventType.Risorse, "Diamanti Blu", diamantiBluDaUsare);
             int tempoEffettivamenteRidotto = riduzioneTotaleOriginale - riduzioneResidua;
             OnEvent(player, QuestEventType.Velocizzazione, "Qualsiasi", tempoEffettivamenteRidotto);
-
-            // Completa eventuali ricerche finite
-            CompleteResearch(clientGuid, player);
 
             Server.Server.Send(clientGuid, $"Log_Server|[title]Hai usato [icon:diamanteBlu][warning]{diamantiBluDaUsare} [blu]Diamanti Blu [title]per velocizzare la ricerca! [icon:tempo]{player.FormatTime(tempoEffettivamenteRidotto)}");
         }

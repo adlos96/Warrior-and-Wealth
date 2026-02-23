@@ -36,6 +36,11 @@ namespace Server_Strategico.ServerData.Moduli
                     Diamanti_Blu_PVP_Persi = player.Diamanti_Blu_PVP_Persi,
                     Tutorial = player.Tutorial,
 
+                    Stato_Giocatore = player.Stato_Giocatore,
+                    Banned_Giocatore = player.Banned_Giocatore,
+                    GamePass_Premi = player.GamePass_Premi,
+                    GamePass_Accessi_Consecutivi = player.GamePass_Accessi_Consecutivi,
+
                     //Dati Giocatore
                     Username = player.Username,
                     Password = player.Password,
@@ -46,6 +51,7 @@ namespace Server_Strategico.ServerData.Moduli
                     Code_Costruzione = player.Code_Costruzione,
                     Code_Reclutamento = player.Code_Reclutamento,
                     Code_Ricerca = player.Code_Ricerca,
+                    Last_Login = player.Last_Login,
 
                     Livello = player.Livello,
                     Esperienza = player.Esperienza,
@@ -280,6 +286,9 @@ namespace Server_Strategico.ServerData.Moduli
                     PremiNormali = player.PremiNormali,
                     PremiVIP = player.PremiVIP,
 
+                    //Gamepass PRemi raccolti
+
+
                     // -- V2
                     // --- Code Costruzione ---
                     CurrentBuildingTasksV2 = player.task_Attuale_Costruzioni
@@ -408,6 +417,14 @@ namespace Server_Strategico.ServerData.Moduli
                     player.GamePass_Avanzato = playerData.GamePass_Avanzato;
                     player.GamePass_Base_Tempo = playerData.GamePass_Base_Tempo;
                     player.GamePass_Avanzato_Tempo = playerData.GamePass_Avanzato_Tempo;
+                    player.Last_Login = playerData.Last_Login;
+
+                    player.Stato_Giocatore = playerData.Stato_Giocatore;
+                    player.Banned_Giocatore = playerData.Banned_Giocatore;
+                    player.GamePass_Accessi_Consecutivi = playerData.GamePass_Accessi_Consecutivi;
+
+                    for (int i = 0; i < playerData.GamePass_Premi.Count(); i++)
+                        player.GamePass_Premi = playerData.GamePass_Premi;
 
                     player.ScudoDellaPace = playerData.ScudoDellaPace;
                     player.Costruttori = playerData.Costruttori;
@@ -1045,6 +1062,13 @@ namespace Server_Strategico.ServerData.Moduli
             public bool GamePass_Base { get; set; }
             public bool GamePass_Avanzato { get; set; }
             public bool Ricerca_Attiva { get; set; }
+            public bool Stato_Giocatore { get; set; } //Giocatore attivo?
+            public bool Banned_Giocatore { get; set; } //Giocatore bannato?
+            public bool[] GamePass_Premi { get; set; } = new bool[90];
+            public Int16 GamePass_Accessi_Consecutivi { get; set; }
+            public DateTime Last_Login { get; set; }
+
+
             // Coda e scudi
             public int Code_Reclutamento { get; set; }
             public int Code_Costruzione { get; set; }

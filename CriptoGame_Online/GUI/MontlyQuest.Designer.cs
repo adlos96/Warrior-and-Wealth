@@ -1547,7 +1547,7 @@
             // 
             // btn_Reward_Vip_1
             // 
-            btn_Reward_Vip_1.BackgroundImage = Properties.Resources.diamond_2;
+            btn_Reward_Vip_1.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_Vip_1.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_Vip_1.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_1.FlatStyle = FlatStyle.Flat;
@@ -1575,7 +1575,7 @@
             // 
             // btn_Reward_Vip_19
             // 
-            btn_Reward_Vip_19.BackgroundImage = Properties.Resources.diamond_2;
+            btn_Reward_Vip_19.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_Vip_19.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_Vip_19.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_19.FlatStyle = FlatStyle.Flat;
@@ -1589,7 +1589,7 @@
             // 
             // btn_Reward_Vip_18
             // 
-            btn_Reward_Vip_18.BackgroundImage = Properties.Resources.diamond_2;
+            btn_Reward_Vip_18.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_Vip_18.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_Vip_18.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_18.FlatStyle = FlatStyle.Flat;
@@ -1603,7 +1603,7 @@
             // 
             // btn_Reward_Vip_2
             // 
-            btn_Reward_Vip_2.BackgroundImage = Properties.Resources.diamond_2;
+            btn_Reward_Vip_2.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_Vip_2.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_Vip_2.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_2.FlatStyle = FlatStyle.Flat;
@@ -1617,7 +1617,7 @@
             // 
             // btn_Reward_Vip_17
             // 
-            btn_Reward_Vip_17.BackgroundImage = Properties.Resources.diamond_2;
+            btn_Reward_Vip_17.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_Vip_17.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_Vip_17.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_17.FlatStyle = FlatStyle.Flat;
@@ -1631,7 +1631,7 @@
             // 
             // btn_Reward_Vip_3
             // 
-            btn_Reward_Vip_3.BackgroundImage = Properties.Resources.diamond_1;
+            btn_Reward_Vip_3.BackgroundImage = Properties.Resources.DiamanteBlu_V2;
             btn_Reward_Vip_3.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_Vip_3.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_3.FlatStyle = FlatStyle.Flat;
@@ -1645,7 +1645,7 @@
             // 
             // btn_Reward_Vip_16
             // 
-            btn_Reward_Vip_16.BackgroundImage = Properties.Resources.diamond_2;
+            btn_Reward_Vip_16.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_Vip_16.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_Vip_16.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_16.FlatStyle = FlatStyle.Flat;
@@ -1659,7 +1659,7 @@
             // 
             // btn_Reward_Vip_4
             // 
-            btn_Reward_Vip_4.BackgroundImage = Properties.Resources.diamond_2;
+            btn_Reward_Vip_4.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_Vip_4.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_Vip_4.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_4.FlatStyle = FlatStyle.Flat;
@@ -1673,7 +1673,7 @@
             // 
             // btn_Reward_Vip_15
             // 
-            btn_Reward_Vip_15.BackgroundImage = Properties.Resources.diamond_2;
+            btn_Reward_Vip_15.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_Vip_15.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_Vip_15.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_15.FlatStyle = FlatStyle.Flat;
@@ -1687,7 +1687,7 @@
             // 
             // btn_Reward_Vip_5
             // 
-            btn_Reward_Vip_5.BackgroundImage = Properties.Resources.diamond_2;
+            btn_Reward_Vip_5.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_Vip_5.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_Vip_5.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_5.FlatStyle = FlatStyle.Flat;
@@ -1701,7 +1701,7 @@
             // 
             // btn_Reward_Vip_14
             // 
-            btn_Reward_Vip_14.BackgroundImage = Properties.Resources.diamond_2;
+            btn_Reward_Vip_14.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_Vip_14.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_Vip_14.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_14.FlatStyle = FlatStyle.Flat;
@@ -1715,7 +1715,7 @@
             // 
             // btn_Reward_Vip_6
             // 
-            btn_Reward_Vip_6.BackgroundImage = Properties.Resources.diamond_2;
+            btn_Reward_Vip_6.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_Vip_6.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_Vip_6.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_6.FlatStyle = FlatStyle.Flat;
@@ -1729,7 +1729,7 @@
             // 
             // btn_Reward_Vip_13
             // 
-            btn_Reward_Vip_13.BackgroundImage = Properties.Resources.diamond_2;
+            btn_Reward_Vip_13.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_Vip_13.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_Vip_13.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_13.FlatStyle = FlatStyle.Flat;
@@ -1743,7 +1743,7 @@
             // 
             // btn_Reward_Vip_7
             // 
-            btn_Reward_Vip_7.BackgroundImage = Properties.Resources.diamond_2;
+            btn_Reward_Vip_7.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_Vip_7.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_Vip_7.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_7.FlatStyle = FlatStyle.Flat;
@@ -1757,7 +1757,7 @@
             // 
             // btn_Reward_Vip_12
             // 
-            btn_Reward_Vip_12.BackgroundImage = Properties.Resources.diamond_2;
+            btn_Reward_Vip_12.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_Vip_12.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_Vip_12.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_12.FlatStyle = FlatStyle.Flat;
@@ -1771,7 +1771,7 @@
             // 
             // btn_Reward_Vip_8
             // 
-            btn_Reward_Vip_8.BackgroundImage = Properties.Resources.diamond_2;
+            btn_Reward_Vip_8.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_Vip_8.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_Vip_8.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_8.FlatStyle = FlatStyle.Flat;
@@ -1785,7 +1785,7 @@
             // 
             // btn_Reward_Vip_11
             // 
-            btn_Reward_Vip_11.BackgroundImage = Properties.Resources.diamond_2;
+            btn_Reward_Vip_11.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_Vip_11.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_Vip_11.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_11.FlatStyle = FlatStyle.Flat;
@@ -1799,7 +1799,7 @@
             // 
             // btn_Reward_Vip_9
             // 
-            btn_Reward_Vip_9.BackgroundImage = Properties.Resources.diamond_2;
+            btn_Reward_Vip_9.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_Vip_9.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_Vip_9.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_9.FlatStyle = FlatStyle.Flat;
@@ -1813,7 +1813,7 @@
             // 
             // btn_Reward_Vip_10
             // 
-            btn_Reward_Vip_10.BackgroundImage = Properties.Resources.diamond_2;
+            btn_Reward_Vip_10.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_Vip_10.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_Vip_10.FlatAppearance.BorderSize = 0;
             btn_Reward_Vip_10.FlatStyle = FlatStyle.Flat;
@@ -1884,7 +1884,7 @@
             // 
             // btn_Reward_1
             // 
-            btn_Reward_1.BackgroundImage = Properties.Resources.diamond_2;
+            btn_Reward_1.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_1.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_1.FlatAppearance.BorderSize = 0;
             btn_Reward_1.FlatStyle = FlatStyle.Flat;
@@ -1898,7 +1898,7 @@
             // 
             // btn_Reward_20
             // 
-            btn_Reward_20.BackgroundImage = Properties.Resources.diamond_2;
+            btn_Reward_20.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_20.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_20.FlatAppearance.BorderSize = 0;
             btn_Reward_20.FlatStyle = FlatStyle.Flat;
@@ -1912,7 +1912,7 @@
             // 
             // btn_Reward_19
             // 
-            btn_Reward_19.BackgroundImage = Properties.Resources.diamond_2;
+            btn_Reward_19.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_19.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_19.FlatAppearance.BorderSize = 0;
             btn_Reward_19.FlatStyle = FlatStyle.Flat;
@@ -1926,7 +1926,7 @@
             // 
             // btn_Reward_2
             // 
-            btn_Reward_2.BackgroundImage = Properties.Resources.diamond_1;
+            btn_Reward_2.BackgroundImage = Properties.Resources.DiamanteBlu_V2;
             btn_Reward_2.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_2.FlatAppearance.BorderSize = 0;
             btn_Reward_2.FlatStyle = FlatStyle.Flat;
@@ -1940,7 +1940,7 @@
             // 
             // btn_Reward_18
             // 
-            btn_Reward_18.BackgroundImage = Properties.Resources.diamond_2;
+            btn_Reward_18.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_18.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_18.FlatAppearance.BorderSize = 0;
             btn_Reward_18.FlatStyle = FlatStyle.Flat;
@@ -1954,7 +1954,7 @@
             // 
             // btn_Reward_10
             // 
-            btn_Reward_10.BackgroundImage = Properties.Resources.diamond_2;
+            btn_Reward_10.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_10.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_10.FlatAppearance.BorderSize = 0;
             btn_Reward_10.FlatStyle = FlatStyle.Flat;
@@ -1968,7 +1968,7 @@
             // 
             // btn_Reward_9
             // 
-            btn_Reward_9.BackgroundImage = Properties.Resources.diamond_2;
+            btn_Reward_9.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_9.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_9.FlatAppearance.BorderSize = 0;
             btn_Reward_9.FlatStyle = FlatStyle.Flat;
@@ -1982,7 +1982,7 @@
             // 
             // btn_Reward_17
             // 
-            btn_Reward_17.BackgroundImage = Properties.Resources.diamond_1;
+            btn_Reward_17.BackgroundImage = Properties.Resources.DiamanteBlu_V2;
             btn_Reward_17.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_17.FlatAppearance.BorderSize = 0;
             btn_Reward_17.FlatStyle = FlatStyle.Flat;
@@ -1996,7 +1996,7 @@
             // 
             // btn_Reward_11
             // 
-            btn_Reward_11.BackgroundImage = Properties.Resources.diamond_1;
+            btn_Reward_11.BackgroundImage = Properties.Resources.DiamanteBlu_V2;
             btn_Reward_11.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_11.FlatAppearance.BorderSize = 0;
             btn_Reward_11.FlatStyle = FlatStyle.Flat;
@@ -2010,7 +2010,7 @@
             // 
             // btn_Reward_3
             // 
-            btn_Reward_3.BackgroundImage = Properties.Resources.diamond_2;
+            btn_Reward_3.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_3.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_3.FlatAppearance.BorderSize = 0;
             btn_Reward_3.FlatStyle = FlatStyle.Flat;
@@ -2024,7 +2024,7 @@
             // 
             // btn_Reward_8
             // 
-            btn_Reward_8.BackgroundImage = Properties.Resources.diamond_2;
+            btn_Reward_8.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_8.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_8.FlatAppearance.BorderSize = 0;
             btn_Reward_8.FlatStyle = FlatStyle.Flat;
@@ -2038,7 +2038,7 @@
             // 
             // btn_Reward_16
             // 
-            btn_Reward_16.BackgroundImage = Properties.Resources.diamond_2;
+            btn_Reward_16.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_16.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_16.FlatAppearance.BorderSize = 0;
             btn_Reward_16.FlatStyle = FlatStyle.Flat;
@@ -2052,7 +2052,7 @@
             // 
             // btn_Reward_12
             // 
-            btn_Reward_12.BackgroundImage = Properties.Resources.diamond_2;
+            btn_Reward_12.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_12.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_12.FlatAppearance.BorderSize = 0;
             btn_Reward_12.FlatStyle = FlatStyle.Flat;
@@ -2066,7 +2066,7 @@
             // 
             // btn_Reward_4
             // 
-            btn_Reward_4.BackgroundImage = Properties.Resources.diamond_1;
+            btn_Reward_4.BackgroundImage = Properties.Resources.DiamanteBlu_V2;
             btn_Reward_4.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_4.FlatAppearance.BorderSize = 0;
             btn_Reward_4.FlatStyle = FlatStyle.Flat;
@@ -2080,7 +2080,7 @@
             // 
             // btn_Reward_7
             // 
-            btn_Reward_7.BackgroundImage = Properties.Resources.diamond_1;
+            btn_Reward_7.BackgroundImage = Properties.Resources.DiamanteBlu_V2;
             btn_Reward_7.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_7.FlatAppearance.BorderSize = 0;
             btn_Reward_7.FlatStyle = FlatStyle.Flat;
@@ -2094,7 +2094,7 @@
             // 
             // btn_Reward_15
             // 
-            btn_Reward_15.BackgroundImage = Properties.Resources.diamond_2;
+            btn_Reward_15.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_15.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_15.FlatAppearance.BorderSize = 0;
             btn_Reward_15.FlatStyle = FlatStyle.Flat;
@@ -2108,7 +2108,7 @@
             // 
             // btn_Reward_13
             // 
-            btn_Reward_13.BackgroundImage = Properties.Resources.diamond_2;
+            btn_Reward_13.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_13.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_13.FlatAppearance.BorderSize = 0;
             btn_Reward_13.FlatStyle = FlatStyle.Flat;
@@ -2122,7 +2122,7 @@
             // 
             // btn_Reward_5
             // 
-            btn_Reward_5.BackgroundImage = Properties.Resources.diamond_2;
+            btn_Reward_5.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_5.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_5.FlatAppearance.BorderSize = 0;
             btn_Reward_5.FlatStyle = FlatStyle.Flat;
@@ -2136,7 +2136,7 @@
             // 
             // btn_Reward_6
             // 
-            btn_Reward_6.BackgroundImage = Properties.Resources.diamond_2;
+            btn_Reward_6.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_6.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_6.FlatAppearance.BorderSize = 0;
             btn_Reward_6.FlatStyle = FlatStyle.Flat;
@@ -2150,7 +2150,7 @@
             // 
             // btn_Reward_14
             // 
-            btn_Reward_14.BackgroundImage = Properties.Resources.diamond_1;
+            btn_Reward_14.BackgroundImage = Properties.Resources.DiamanteBlu_V2;
             btn_Reward_14.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_14.FlatAppearance.BorderSize = 0;
             btn_Reward_14.FlatStyle = FlatStyle.Flat;

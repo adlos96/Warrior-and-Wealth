@@ -139,6 +139,9 @@ namespace Strategico_V2
 
         public static bool tutorial_Attivo = true;
         public static bool[] tutorial = new bool[32];
+        public static string[] GamePass_Premi = new string[90];
+        public static bool[] GamePass_Premi_Completati = new bool[90];
+        public static int Giorni_Accessi_Consecutivi = 0;
         public static List<dati> tutorial_dati = new List<dati>();
 
         public class Dati
@@ -368,6 +371,8 @@ namespace Strategico_V2
             public string Ricerca_Popolazione { get; set; }
             public string Ricerca_Trasporto { get; set; }
             public string Ricerca_Riparazione { get; set; }
+            public string Ricerca_Spionaggio { get; set; }
+            public string Ricerca_ControSpionaggio { get; set; }
 
             public string Bonus_Esperienza { get; set; }
             public string Bonus_Salute_Spadaccini { get; set; }
@@ -541,6 +546,8 @@ namespace Strategico_V2
             Ricerca_Popolazione = "0",
             Ricerca_Trasporto = "0",
             Ricerca_Riparazione = "0",
+            Ricerca_Spionaggio = "0",
+            Ricerca_ControSpionaggio = "0",
 
             Ricerca_Ingresso_Guarnigione = "0",
             Ricerca_Citta_Guarnigione = "0",

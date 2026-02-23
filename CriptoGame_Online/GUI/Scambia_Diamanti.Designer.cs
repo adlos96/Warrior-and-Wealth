@@ -54,7 +54,7 @@
             // 
             // ico_12
             // 
-            ico_12.BackgroundImage = Properties.Resources.diamond_2;
+            ico_12.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             ico_12.BackgroundImageLayout = ImageLayout.Stretch;
             ico_12.Location = new Point(12, 78);
             ico_12.Name = "ico_12";
@@ -74,7 +74,7 @@
             // 
             // ico_11
             // 
-            ico_11.BackgroundImage = Properties.Resources.diamond_1;
+            ico_11.BackgroundImage = Properties.Resources.DiamanteBlu_V2;
             ico_11.BackgroundImageLayout = ImageLayout.Stretch;
             ico_11.Location = new Point(131, 78);
             ico_11.Name = "ico_11";
