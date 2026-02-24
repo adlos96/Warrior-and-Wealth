@@ -2,6 +2,8 @@
 {
     internal class Variabili_Server
     {
+        public static string versione_Client_Necessario = "0.1.11.0";
+
         //ServerData
         public static Int16 moltiplicatore_Esperienza = 10; //Moltiplicatore esperienza (10 + 1 * 10 == 20 -- 10 + 2 * 10 == 30 -- 10 + 3 * 10 == 40)
         public static Int16 D_Viola_To_Blu = 3; // Numero di diamanti blu ottenuti per ogni diamante viola
@@ -41,8 +43,6 @@
 
         public static int citta_Barbare_Unlock = 5;  //Sblocco Città barbare
         public static int PVP_Unlock = 10;  //Sblocco pvp
-
-        public static string versione_Client_Necessario = "0.1.1";
 
         public static int _Server_Consumo_RAM = 0;
         public static int[] gamePass_DailyReward = {
