@@ -309,9 +309,9 @@ namespace Warrior_and_Wealth.GUI
                 if (panel1.IsHandleCreated && !panel1.IsDisposed)
                 {
                     int daRiparare = 0;
-                    panel1.BeginInvoke((Action)(() =>
+                    panel1.BeginInvoke((Action)(async() =>
                     {
-                        ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{23}");
+                        if (await Tutorial.TutorialPrecedentiCompletati(23) && Variabili_Client.tutorial[22] == false) ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{23}");
                         Gioco.toolTip1.SetToolTip(this.pictureBox_Cancello_Salute, $"{Variabili_Client.Citta.Cancello.Descrizione}");
                         Gioco.toolTip1.SetToolTip(this.pictureBox_Cancello_Difesa, $"{Variabili_Client.Citta.Cancello.DescrizioneB}");
 
@@ -587,27 +587,27 @@ namespace Warrior_and_Wealth.GUI
             form_Gioco.ShowDialog();
         }
 
-        private void btn_Castello_Click(object sender, EventArgs e)
+        private async void btn_Castello_Click(object sender, EventArgs e)
         {
             Spostamento_Truppe.struttura = "Castello";
-            if (Variabili_Client.tutorial_Attivo == true)
+            if (Variabili_Client.tutorial_Attivo == true && await Tutorial.TutorialPrecedentiCompletati(26))
                 ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{26}");
             Spostamento_Truppe form_Gioco = new Spostamento_Truppe();
             form_Gioco.ShowDialog();
         }
 
-        private void pictureBox_Mura_Salute_Click(object sender, EventArgs e)
+        private async void pictureBox_Mura_Salute_Click(object sender, EventArgs e)
         {
             tutorial[0] = true;
-            if (Variabili_Client.tutorial_Attivo == true && tutorial[0] && tutorial[1])
+            if (Variabili_Client.tutorial_Attivo == true && await Tutorial.TutorialPrecedentiCompletati(25) && tutorial[0] && tutorial[1])
                 ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{25}");
             ClientConnection.TestClient.Send($"Ripara|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Mura|Salute");
         }
 
-        private void pictureBox_Mura_Difesa_Click(object sender, EventArgs e)
+        private async void pictureBox_Mura_Difesa_Click(object sender, EventArgs e)
         {
             tutorial[1] = true;
-            if (Variabili_Client.tutorial_Attivo == true && tutorial[0] && tutorial[1])
+            if (Variabili_Client.tutorial_Attivo == true && await Tutorial.TutorialPrecedentiCompletati(25) && tutorial[0] && tutorial[1])
                 ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{25}");
             ClientConnection.TestClient.Send($"Ripara|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Mura|Difesa");
         }

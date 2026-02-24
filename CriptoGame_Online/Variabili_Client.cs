@@ -41,6 +41,9 @@ namespace Strategico_V2
             public string Descrizione { get; set; }
         }
 
+        public static string versione_Client_Necessario = "0";
+        public static string versione_Client_Attuale = "0.1.12.0";
+
         public static string Ricerca_1_Bottone_Cliccato = "";
         public static string Server = "0";
         public static string Versione = "0";
@@ -143,9 +146,6 @@ namespace Strategico_V2
         public static bool[] GamePass_Premi_Completati = new bool[90];
         public static int Giorni_Accessi_Consecutivi = 0;
         public static List<dati> tutorial_dati = new List<dati>();
-
-        public static string versione_Client_Necessario = "0";
-        public static string versione_Client_Attuale = "0.1.1";
 
         public class Dati
         {

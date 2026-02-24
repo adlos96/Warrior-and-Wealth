@@ -90,6 +90,9 @@ namespace Warrior_and_Wealth
             btn_Ricerca.Visible = false;
             btn_Quest_Mensile.Visible = false;
             btn_PVP_PVE.Visible = false;
+            btn_GamePass_Reward.Visible = false;
+            btn_Mappa.Visible = false;
+            ico_Notifiche.Visible = false;
 
             btn_Scambia.Visible = false;
             btn_Acquista_Terreni.Visible = false;
@@ -177,12 +180,12 @@ namespace Warrior_and_Wealth
                         {
                             btn_Citta.Visible = true;
                         }
-                        if (Variabili_Client.tutorial[24]) //Giocatore / Statisctiche
+                        if (Variabili_Client.tutorial[25]) //Giocatore / Statisctiche
                         {
                             txt_Username.Visible = true;
                             ico_10.Visible = true;
                         }
-                        if (Variabili_Client.tutorial[25]) //Shop
+                        if (Variabili_Client.tutorial[26]) //Shop
                         {
                             btn_Shop.Visible = true;
                         }
@@ -197,6 +200,16 @@ namespace Warrior_and_Wealth
                         if (Variabili_Client.tutorial[29]) //Battaglie
                         {
                             btn_PVP_PVE.Visible = true;
+
+                            btn_GamePass_Reward.Visible = false;
+                            btn_Mappa.Visible = false;
+                            ico_Notifiche.Visible = false;
+                        }
+                        if (Variabili_Client.tutorial[31]) //Visualizza il resto al termine... 
+                        {
+                            btn_GamePass_Reward.Visible = true;
+                            //btn_Mappa.Visible = false; //Mappa (Non funziona)
+                            //ico_Notifiche.Visible = false; //Notifiche, non ancora implementato.
                         }
                     }
 
@@ -652,7 +665,7 @@ namespace Warrior_and_Wealth
             ico_6.BackgroundImage = Properties.Resources.Frecce_V2;
 
         }
-        private void btn_Civile_Militare_Click(object sender, EventArgs e)
+        private async void btn_Civile_Militare_Click(object sender, EventArgs e)
         {
             if (groupBox_Strutture.Text == "Strutture Civili")
             {
@@ -664,7 +677,7 @@ namespace Warrior_and_Wealth
                 ico_Structure_4.BackgroundImage = Properties.Resources.Workshop_Scudi_V2;
                 ico_Structure_5.BackgroundImage = Properties.Resources.Workshop_Armature_V2;
                 ico_Structure_6.BackgroundImage = Properties.Resources.Workshop_Frecce_V2;
-                if (Variabili_Client.tutorial_Attivo == true)
+                if (Variabili_Client.tutorial_Attivo == true && await Tutorial.TutorialPrecedentiCompletati(10))
                     ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{10}");
                 return;
             }
@@ -683,7 +696,7 @@ namespace Warrior_and_Wealth
             Terreni_Virtuali form_Gioco = new Terreni_Virtuali();
             form_Gioco.ShowDialog();
         }
-        private void btn_Citta_Click(object sender, EventArgs e)
+        private async void btn_Citta_Click(object sender, EventArgs e)
         {
             if (!Variabili_Client.tutorial_Attivo)
             {
@@ -691,41 +704,41 @@ namespace Warrior_and_Wealth
                 MusicManager.SetVolume(0.3f);
             }
 
-            if (Variabili_Client.tutorial_Attivo == true)
+            if (Variabili_Client.tutorial_Attivo == true && await Tutorial.TutorialPrecedentiCompletati(24))
                 ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{24}");
             Citta_V2 form_Gioco = new Citta_V2();
             form_Gioco.Show();
         }
-        private void Btn_Costruzione_Click(object sender, EventArgs e)
+        private async void Btn_Costruzione_Click(object sender, EventArgs e)
         {
-            if (Variabili_Client.tutorial_Attivo == true)
+            if (Variabili_Client.tutorial_Attivo == true && await Tutorial.TutorialPrecedentiCompletati(11))
                 ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{11}");
             Costruzione form_Gioco = new Costruzione();
             form_Gioco.Show();
         }
-        private void btn_Shop_Click(object sender, EventArgs e)
+        private async void btn_Shop_Click(object sender, EventArgs e)
         {
-            if (Variabili_Client.tutorial_Attivo == true)
+            if (Variabili_Client.tutorial_Attivo == true && await Tutorial.TutorialPrecedentiCompletati(28))
                 ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{28}");
             Shop form_Gioco = new Shop();
             form_Gioco.ShowDialog();
         }
-        private void btn_Ricerca_Click(object sender, EventArgs e)
+        private async  void btn_Ricerca_Click(object sender, EventArgs e)
         {
-            if (Variabili_Client.tutorial_Attivo == true)
+            if (Variabili_Client.tutorial_Attivo == true && await Tutorial.TutorialPrecedentiCompletati(29))
                 ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{29}");
             Ricerca_1 form_Gioco = new Ricerca_1();
             form_Gioco.ShowDialog();
         }
-        private void btn_Quest_Mensile_Click(object sender, EventArgs e)
+        private async void btn_Quest_Mensile_Click(object sender, EventArgs e)
         {
-            if (Variabili_Client.tutorial_Attivo == true)
+            if (Variabili_Client.tutorial_Attivo == true && await Tutorial.TutorialPrecedentiCompletati(30))
                 ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{30}");
             MontlyQuest form_Gioco = new MontlyQuest();
             form_Gioco.Show();
 
         }
-        private void PVP_PVE_Click(object sender, EventArgs e)
+        private async void PVP_PVE_Click(object sender, EventArgs e)
         {
             if (!Variabili_Client.tutorial_Attivo)
             {
@@ -733,7 +746,7 @@ namespace Warrior_and_Wealth
                 MusicManager.SetVolume(0.3f);
             }
 
-            if (Variabili_Client.tutorial_Attivo == true)
+            if (Variabili_Client.tutorial_Attivo == true && await Tutorial.TutorialPrecedentiCompletati(31))
                 ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{31}");
             AttaccoCoordinato form_Gioco = new AttaccoCoordinato();
             form_Gioco.ShowDialog();
@@ -743,9 +756,9 @@ namespace Warrior_and_Wealth
             Scambia_Diamanti form_Gioco = new Scambia_Diamanti();
             form_Gioco.ShowDialog();
         }
-        private void ico_10_MouseClick(object sender, MouseEventArgs e)
+        private async void ico_10_MouseClick(object sender, MouseEventArgs e)
         {
-            if (Variabili_Client.tutorial_Attivo == true)
+            if (Variabili_Client.tutorial_Attivo == true && await Tutorial.TutorialPrecedentiCompletati(27))
                 ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{27}");
             Statistiche form_Gioco = new Statistiche();
             form_Gioco.Show();
@@ -900,7 +913,7 @@ namespace Warrior_and_Wealth
 
         }
 
-        private void btn_Acquista_Terreni_Click(object sender, EventArgs e)
+        private async void btn_Acquista_Terreni_Click(object sender, EventArgs e)
         {
             // Messaggio di conferma chiaro
             var result = MessageBox.Show(
@@ -916,7 +929,7 @@ namespace Warrior_and_Wealth
             {
                 // Esegui l'acquisto
                 ClientConnection.TestClient.Send($"Costruzione_Terreni|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|");
-                if (Variabili_Client.tutorial_Attivo == true)
+                if (Variabili_Client.tutorial_Attivo == true && await Tutorial.TutorialPrecedentiCompletati(8))
                     ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{8}");
             }
         }

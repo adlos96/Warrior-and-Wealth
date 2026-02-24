@@ -1,5 +1,6 @@
 ﻿
 using Strategico_V2;
+using Warrior_and_Wealth.GUI;
 
 namespace Warrior_and_Wealth
 {
@@ -165,6 +166,7 @@ namespace Warrior_and_Wealth
                                 if (i == 0)
                                 {
                                     groupBox_Caserme.Visible = true;
+                                    groupBox_Reclutamento.Visible = false;
                                     groupBox_Reclutamento.Visible = false;
                                 }
                             
@@ -344,7 +346,7 @@ namespace Warrior_and_Wealth
         }
         #endregion
 
-        private void Btn_Costruzione_Click(object sender, EventArgs e)
+        private async void Btn_Costruzione_Click(object sender, EventArgs e)
         {
             this.ActiveControl = groupBox_Costruisci; // assegna il focus al bottone
             ClientConnection.TestClient.Send($"Costruzione|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|" +
@@ -365,7 +367,7 @@ namespace Warrior_and_Wealth
                 $"{txt_Caserme_Lanceri_Costruzione.Text}|" +
                 $"{txt_Caserme_Catapulte_Costruzione.Text}");
 
-            if (Variabili_Client.tutorial_Attivo == true)
+            if (Variabili_Client.tutorial_Attivo == true && await Tutorial.TutorialPrecedentiCompletati(12))
                 ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{12}");
 
             txt_Fattoria_Costruzione.Text = "0";
@@ -724,22 +726,22 @@ namespace Warrior_and_Wealth
         }
         #endregion
 
-        private void Costruzione_FormClosing(object sender, FormClosingEventArgs e)
+        private async void Costruzione_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (Variabili_Client.tutorial_Attivo == true)
+            if (Variabili_Client.tutorial_Attivo == true && await Tutorial.TutorialPrecedentiCompletati(23))
                 ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{23}");
             cts.Cancel();
         }
 
-        private void ico_Caserma_4_Click(object sender, EventArgs e)
+        private async void ico_Caserma_4_Click(object sender, EventArgs e)
         {
-            if (Variabili_Client.tutorial_Attivo == true)
+            if (Variabili_Client.tutorial_Attivo == true && await Tutorial.TutorialPrecedentiCompletati(22))
                 ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{22}");
         }
 
-        private void ico_Unita_1_Click(object sender, EventArgs e)
+        private async void ico_Unita_1_Click(object sender, EventArgs e)
         {
-            if (Variabili_Client.tutorial_Attivo == true)
+            if (Variabili_Client.tutorial_Attivo == true && await Tutorial.TutorialPrecedentiCompletati(21))
                 ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{21}");
         }
     }

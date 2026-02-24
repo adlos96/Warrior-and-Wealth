@@ -187,7 +187,7 @@ namespace Server_Strategico.ServerData.Moduli
             public static dati Velocizza = new dati
             {
                 StatoTutorial = 14,
-                Obiettivo = "Velocizza la costruzione.",
+                Obiettivo = "Velocizza la costruzione. Completa la fattoria",
                 Descrizione = "Ottimo, sei riuscito a ottenere i tuoi primi Diamanti Blu tramite lo scambio." +
                 "In questo modo, se dovessi rimanerne sprovvisto e ne avessi bisogno, potrai ottenerli in qualsiasi momento… a patto di avere Diamanti Viola a disposizione. " +
                 "In questo tutorial ti mostrerò solo come velocizzare la costruzione della Fattoria,ma più avanti potrai fare la stessa cosa anche con le altre strutture, con le unità militari in addestramento… " +

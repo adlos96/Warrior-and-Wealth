@@ -136,6 +136,7 @@ namespace Server_Strategico.Manager
 
             public bool AddProgress(int questId, int amount, Player player)
             {
+                if (player.Tutorial == true) return false;
                 var quest = QuestDatabase.Quests[questId];
                 if (IsQuestFullyCompleted(questId)) // Se la quest è già completata il numero massimo di volte, non fare nulla
                 {

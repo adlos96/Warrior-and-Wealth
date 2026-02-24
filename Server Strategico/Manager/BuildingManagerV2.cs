@@ -409,14 +409,6 @@ namespace Server_Strategico.Manager
                 player.Diamanti_Blu -= diamantiBluDaUsare;
                 player.Diamanti_Blu_Utilizzati += diamantiBluDaUsare;
 
-                //Tutorial
-                var msgArgs = "0|1|2|3".Split('|');
-                if (player.Tutorial && !player.Tutorial_Stato[13])
-                {
-                    msgArgs[3] = "14";
-                    TutorialUpdate(player, msgArgs);
-                }
-
                 // Eventi
                 OnEvent(player, QuestEventType.Risorse, "Diamanti Blu", diamantiBluDaUsare);
 

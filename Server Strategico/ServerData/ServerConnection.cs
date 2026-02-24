@@ -242,14 +242,16 @@ namespace Server_Strategico.Server
         }
         public static void TutorialUpdate(Player player, string[] Dati)
         {
-            bool precedenti_Completati = false;
-            for (int i = 0; i < Convert.ToInt32(Dati[3]); i++)
-            {
-                if (!player.Tutorial_Stato[i])
-                    precedenti_Completati = true;
-                else precedenti_Completati = false;
-            }
-            if (Dati[3] == "1") { player.Tutorial_Stato[0] = true; player.Tutorial_Premi[0] = true;
+            bool precedenti_Completati = true;
+            int missione = Convert.ToInt32(Dati[3]) - 1;
+            for (int i = 0; i < missione; i++)
+                if (!player.Tutorial_Stato[i]) // se uno NON è completato
+                {
+                    precedenti_Completati = false;
+                    break;
+                }
+            
+            if (Dati[3] == "1" && player.Tutorial_Stato[missione] != true) { player.Tutorial_Stato[missione] = true; player.Tutorial_Premi[missione] = true;
                 player.Cibo = 0;
                 player.Legno = 0;
                 player.Pietra = 0;
@@ -280,21 +282,65 @@ namespace Server_Strategico.Server
                 player.MinieraOro = 0;
                 player.Abitazioni = 0;
 
-            }
-            else if (Dati[3] == "2" && precedenti_Completati) { player.Tutorial_Stato[1] = true; player.Tutorial_Premi[1] = true; }
-            else if (Dati[3] == "3" && precedenti_Completati) { player.Tutorial_Stato[2] = true; player.Tutorial_Premi[2] = true; }
-            else if (Dati[3] == "4" && precedenti_Completati) { player.Tutorial_Stato[3] = true; player.Tutorial_Premi[3] = true; }
-            else if (Dati[3] == "5" && precedenti_Completati) { player.Tutorial_Stato[4] = true; player.Tutorial_Premi[4] = true; }
-            else if (Dati[3] == "6" && precedenti_Completati) { player.Tutorial_Stato[5] = true; player.Tutorial_Premi[5] = true; }
-            else if (Dati[3] == "7" && precedenti_Completati) { player.Tutorial_Stato[6] = true; player.Tutorial_Premi[6] = true; player.Diamanti_Viola = 150; }
-            else if (Dati[3] == "8" && precedenti_Completati) { player.Tutorial_Stato[7] = true; player.Tutorial_Premi[7] = true; }
-            else if (Dati[3] == "9" && precedenti_Completati) { player.Tutorial_Stato[8] = true; player.Tutorial_Premi[8] = true; }
-            else if (Dati[3] == "10" && precedenti_Completati) { player.Tutorial_Stato[9] = true; player.Tutorial_Premi[9] = true; }
+                //Statistiche
+                player.Unità_Eliminate = 0;      
+                player.Guerrieri_Eliminati = 0;  
+                player.Lanceri_Eliminati = 0;    
+                player.Arceri_Eliminati = 0;     
+                player.Catapulte_Eliminate = 0;  
+                player.Unità_Addestrate = 0;     
 
-            else if (Dati[3] == "11" && precedenti_Completati) 
+                player.Unità_Perse = 0;          
+                player.Guerrieri_Persi = 0;      
+                player.Lanceri_Persi = 0;        
+                player.Arceri_Persi = 0;         
+                player.Catapulte_Perse = 0;      
+                player.Risorse_Razziate = 0;     
+
+                player.Strutture_Civili_Costruite = 0;     
+                player.Strutture_Militari_Costruite = 0;   
+                player.Caserme_Costruite = 0;              
+
+                player.Frecce_Utilizzate = 0;      
+                player.Battaglie_Vinte = 0;        
+                player.Battaglie_Perse = 0;         
+                player.Quest_Completate = 0;       
+                player.Attacchi_Subiti_PVP = 0;
+                player.Attacchi_Effettuati_PVP = 0;
+
+                player.Barbari_Sconfitti = 0; 
+                player.Accampamenti_Barbari_Sconfitti = 0;
+                player.Città_Barbare_Sconfitte = 0;
+                player.Danno_HP_Barbaro = 0;
+                player.Danno_DEF_Barbaro = 0;
+
+                player.Risorse_Utilizzate = 0;       
+                player.Tempo_Addestramento = 0;      
+                player.Tempo_Costruzione = 0;        
+                player.Tempo_Ricerca = 0;            
+                player.Tempo_Sottratto_Diamanti = 0; 
+
+                player.Consumo_Cibo_Esercito = 0;    
+                player.Consumo_Oro_Esercito = 0;     
+                player.Diamanti_Viola_Utilizzati = 0;
+                player.Diamanti_Blu_Utilizzati = 0;  
+                Console.WriteLine($"[Tutorial] >> Giocatore: {player.Username} - Missione {Dati[3]} Completata - Stato: {player.Tutorial_Stato[missione]}");
+
+            }
+            else if (Dati[3] == "2" && player.Tutorial_Stato[missione] != true && precedenti_Completati) { player.Tutorial_Stato[missione] = true; player.Tutorial_Premi[missione] = true; Console.WriteLine($"[Tutorial] >> Giocatore: {player.Username} - Missione {Dati[3]} Completata - Stato: {player.Tutorial_Stato[missione]}"); }
+            else if (Dati[3] == "3" && player.Tutorial_Stato[missione] != true && precedenti_Completati) { player.Tutorial_Stato[missione] = true; player.Tutorial_Premi[missione] = true; Console.WriteLine($"[Tutorial] >> Giocatore: {player.Username} - Missione {Dati[3]} Completata - Stato: {player.Tutorial_Stato[missione]}"); }
+            else if (Dati[3] == "4" && player.Tutorial_Stato[missione] != true && precedenti_Completati) { player.Tutorial_Stato[missione] = true; player.Tutorial_Premi[missione] = true; Console.WriteLine($"[Tutorial] >> Giocatore: {player.Username} - Missione {Dati[3]} Completata - Stato: {player.Tutorial_Stato[missione]}"); }
+            else if (Dati[3] == "5" && player.Tutorial_Stato[missione] != true && precedenti_Completati) { player.Tutorial_Stato[missione] = true; player.Tutorial_Premi[missione] = true; Console.WriteLine($"[Tutorial] >> Giocatore: {player.Username} - Missione {Dati[3]} Completata - Stato: {player.Tutorial_Stato[missione]}"); }
+            else if (Dati[3] == "6" && player.Tutorial_Stato[missione] != true && precedenti_Completati) { player.Tutorial_Stato[missione] = true; player.Tutorial_Premi[missione] = true; Console.WriteLine($"[Tutorial] >> Giocatore: {player.Username} - Missione {Dati[3]} Completata - Stato: {player.Tutorial_Stato[missione]}"); }
+            else if (Dati[3] == "7" && player.Tutorial_Stato[missione] != true && precedenti_Completati) { player.Tutorial_Stato[missione] = true; player.Tutorial_Premi[missione] = true; player.Diamanti_Viola = 150; Console.WriteLine($"[Tutorial] >> Giocatore: {player.Username} - Missione {Dati[3]} Completata - Stato: {player.Tutorial_Stato[missione]}"); }
+            else if (Dati[3] == "8" && player.Tutorial_Stato[missione] != true && precedenti_Completati) { player.Tutorial_Stato[missione] = true; player.Tutorial_Premi[missione] = true; Console.WriteLine($"[Tutorial] >> Giocatore: {player.Username} - Missione {Dati[3]} Completata - Stato: {player.Tutorial_Stato[missione]}");}
+            else if (Dati[3] == "9" && player.Tutorial_Stato[missione] != true && precedenti_Completati) { player.Tutorial_Stato[missione] = true; player.Tutorial_Premi[missione] = true; Console.WriteLine($"[Tutorial] >> Giocatore: {player.Username} - Missione {Dati[3]} Completata - Stato: {player.Tutorial_Stato[missione]}"); }
+            else if (Dati[3] == "10" && player.Tutorial_Stato[missione] != true && precedenti_Completati) { player.Tutorial_Stato[missione] = true; player.Tutorial_Premi[missione] = true; Console.WriteLine($"[Tutorial] >> Giocatore: {player.Username} - Missione {Dati[3]} Completata - Stato: {player.Tutorial_Stato[missione]}"); }
+
+            else if (Dati[3] == "11" && player.Tutorial_Stato[missione] != true && precedenti_Completati) 
             { 
-                player.Tutorial_Stato[10] = true;
-                if (!player.Tutorial_Premi[10])
+                player.Tutorial_Stato[missione] = true;
+                if (!player.Tutorial_Premi[missione])
                 {
                     player.Cibo = Strutture.Edifici.Fattoria.Cibo;
                     player.Legno = Strutture.Edifici.Fattoria.Legno;
@@ -303,25 +349,29 @@ namespace Server_Strategico.Server
                     player.Oro = Strutture.Edifici.Fattoria.Oro;
                     player.Popolazione = Strutture.Edifici.Fattoria.Popolazione;
                     player.Tutorial_Premi[10] = true;
+                    Console.WriteLine($"[Tutorial] >> Giocatore: {player.Username} - Missione {Dati[3]} Completata - Stato: {player.Tutorial_Stato[missione]}");
                 }
             }
-            else if (Dati[3] == "12" && precedenti_Completati)
+            else if (Dati[3] == "12" && player.Tutorial_Stato[missione] != true && precedenti_Completati)
             {
-                player.Tutorial_Stato[11] = true;
-                player.Tutorial_Premi[11] = true;
-                player.Diamanti_Viola = 20;
-                player.Diamanti_Blu = 0;
-                player.Punti_Quest = 0;
+                player.Tutorial_Stato[missione] = true;
+                if (!player.Tutorial_Premi[missione])
+                {
+                    player.Tutorial_Premi[missione] = true;
+                    player.Diamanti_Viola = (int)Strutture.Edifici.Fattoria.TempoCostruzione / Variabili_Server.D_Viola_To_Blu / Variabili_Server.Velocizzazione_Tempo + 5;
+                    Console.WriteLine($"[Tutorial] >> Giocatore: {player.Username} - Missione {Dati[3]} Completata - Stato: {player.Tutorial_Stato[missione]}");
+                }
             }
-            else if (Dati[3] == "13" && precedenti_Completati) 
+            else if (Dati[3] == "13" && player.Tutorial_Stato[missione] != true && precedenti_Completati) //Scambia diamanti
             {   
-                player.Tutorial_Stato[12] = true; 
-                player.Tutorial_Premi[12] = true;
+                player.Tutorial_Stato[missione] = true; 
+                player.Tutorial_Premi[missione] = true;
+                Console.WriteLine($"[Tutorial] >> Giocatore: {player.Username} - Missione {Dati[3]} Completata - Stato: {player.Tutorial_Stato[missione]}");
             }
-            else if (Dati[3] == "14" && precedenti_Completati) 
+            else if (Dati[3] == "14" && player.Tutorial_Stato[missione] != true && precedenti_Completati) 
             { 
-                player.Tutorial_Stato[13] = true;
-                if (!player.Tutorial_Premi[13])
+                player.Tutorial_Stato[missione] = true;
+                if (!player.Tutorial_Premi[missione])
                 {
                     player.Cibo = Strutture.Edifici.Segheria.Cibo;
                     player.Legno = Strutture.Edifici.Segheria.Legno;
@@ -329,15 +379,16 @@ namespace Server_Strategico.Server
                     player.Ferro = Strutture.Edifici.Segheria.Ferro;
                     player.Oro = Strutture.Edifici.Segheria.Oro;
                     player.Popolazione = Strutture.Edifici.Segheria.Popolazione;
-                    player.Diamanti_Viola = 27;
-                    player.Diamanti_Blu = 10;
-                    player.Tutorial_Premi[13] = true;
+                    player.Diamanti_Viola += (int)Strutture.Edifici.Segheria.TempoCostruzione / Variabili_Server.D_Viola_To_Blu / Variabili_Server.Velocizzazione_Tempo + 10;
+                    player.Diamanti_Blu += 20;
+                    player.Tutorial_Premi[missione] = true;
+                    Console.WriteLine($"[Tutorial] >> Giocatore: {player.Username} - Missione {Dati[3]} Completata - Stato: {player.Tutorial_Stato[missione]}");
                 }
             }
-            else if (Dati[3] == "15" && precedenti_Completati)
+            else if (Dati[3] == "15" && player.Tutorial_Stato[missione] != true && precedenti_Completati)
             {
-                player.Tutorial_Stato[14] = true;
-                if (!player.Tutorial_Premi[14])
+                player.Tutorial_Stato[missione] = true;
+                if (!player.Tutorial_Premi[missione])
                 {
                     player.Cibo = Strutture.Edifici.CavaPietra.Cibo;
                     player.Legno = Strutture.Edifici.CavaPietra.Legno;
@@ -345,15 +396,16 @@ namespace Server_Strategico.Server
                     player.Ferro = Strutture.Edifici.CavaPietra.Ferro;
                     player.Oro = Strutture.Edifici.CavaPietra.Oro;
                     player.Popolazione = Strutture.Edifici.CavaPietra.Popolazione;
-                    player.Diamanti_Viola = 35;
-                    player.Diamanti_Blu = 15;
-                    player.Tutorial_Premi[14] = true;
+                    player.Diamanti_Viola += 5;
+                    player.Diamanti_Blu += (int)Strutture.Edifici.MinieraFerro.TempoCostruzione / Variabili_Server.Velocizzazione_Tempo + 10;
+                    player.Tutorial_Premi[missione] = true;
+                    Console.WriteLine($"[Tutorial] >> Giocatore: {player.Username} - Missione {Dati[3]} Completata - Stato: {player.Tutorial_Stato[missione]}");
                 }
             }
-            else if (Dati[3] == "16" && precedenti_Completati) 
+            else if (Dati[3] == "16" && player.Tutorial_Stato[missione] != true && precedenti_Completati) 
             {
-                player.Tutorial_Stato[15] = true;
-                if (!player.Tutorial_Premi[15])
+                player.Tutorial_Stato[missione] = true;
+                if (!player.Tutorial_Premi[missione])
                 {
                     player.Cibo = Strutture.Edifici.MinieraFerro.Cibo;
                     player.Legno = Strutture.Edifici.MinieraFerro.Legno;
@@ -361,15 +413,16 @@ namespace Server_Strategico.Server
                     player.Ferro = Strutture.Edifici.MinieraFerro.Ferro;
                     player.Oro = Strutture.Edifici.MinieraFerro.Oro;
                     player.Popolazione = Strutture.Edifici.MinieraFerro.Popolazione;
-                    player.Diamanti_Viola = 35;
-                    player.Diamanti_Blu = 15;
-                    player.Tutorial_Premi[15] = true;
+                    player.Diamanti_Viola += 5;
+                    player.Diamanti_Blu += (int)Strutture.Edifici.MinieraFerro.TempoCostruzione / Variabili_Server.Velocizzazione_Tempo + 20;
+                    player.Tutorial_Premi[missione] = true;
+                    Console.WriteLine($"[Tutorial] >> Giocatore: {player.Username} - Missione {Dati[3]} Completata - Stato: {player.Tutorial_Stato[missione]}");
                 }
             }
-            else if (Dati[3] == "17" && precedenti_Completati) 
+            else if (Dati[3] == "17" && player.Tutorial_Stato[missione] != true && precedenti_Completati) 
             {
-                player.Tutorial_Stato[16] = true;
-                if (!player.Tutorial_Premi[16])
+                player.Tutorial_Stato[missione] = true;
+                if (!player.Tutorial_Premi[missione])
                 {
                     player.Cibo = Strutture.Edifici.MinieraOro.Cibo;
                     player.Legno = Strutture.Edifici.MinieraOro.Legno;
@@ -377,15 +430,16 @@ namespace Server_Strategico.Server
                     player.Ferro = Strutture.Edifici.MinieraOro.Ferro;
                     player.Oro = Strutture.Edifici.MinieraOro.Oro;
                     player.Popolazione = Strutture.Edifici.MinieraOro.Popolazione;
-                    player.Diamanti_Viola = 35;
-                    player.Diamanti_Blu = 20;
+                    player.Diamanti_Viola += 5;
+                    player.Diamanti_Blu += (int)Strutture.Edifici.MinieraOro.TempoCostruzione / Variabili_Server.Velocizzazione_Tempo + 30;
                     player.Tutorial_Premi[16] = true;
+                    Console.WriteLine($"[Tutorial] >> Giocatore: {player.Username} - Missione {Dati[3]} Completata - Stato: {player.Tutorial_Stato[missione]}");
                 }
             }
-            else if (Dati[3] == "18" && precedenti_Completati) 
+            else if (Dati[3] == "18" && player.Tutorial_Stato[missione] != true && precedenti_Completati) 
             {
-                player.Tutorial_Stato[17] = true;
-                if (!player.Tutorial_Premi[17])
+                player.Tutorial_Stato[missione] = true;
+                if (!player.Tutorial_Premi[missione])
                 {
                     player.Cibo = Strutture.Edifici.Case.Cibo;
                     player.Legno = Strutture.Edifici.Case.Legno;
@@ -393,27 +447,28 @@ namespace Server_Strategico.Server
                     player.Ferro = Strutture.Edifici.Case.Ferro;
                     player.Oro = Strutture.Edifici.Case.Oro;
                     player.Popolazione = Strutture.Edifici.Case.Popolazione;
-                    player.Diamanti_Viola = 40;
-                    player.Diamanti_Blu = 20;
-                    player.Tutorial_Premi[17] = true;
+                    player.Diamanti_Viola += 5;
+                    player.Diamanti_Blu += (int)Strutture.Edifici.Case.TempoCostruzione / Variabili_Server.Velocizzazione_Tempo + 40;
+                    player.Tutorial_Premi[missione] = true;
+                    Console.WriteLine($"[Tutorial] >> Giocatore: {player.Username} - Missione {Dati[3]} Completata - Stato: {player.Tutorial_Stato[missione]}");
                 }
             }
-            else if (Dati[3] == "19" && precedenti_Completati)
+            else if (Dati[3] == "19" && player.Tutorial_Stato[missione] != true && precedenti_Completati)
             {
-                player.Tutorial_Stato[18] = true;
-                player.Tutorial_Premi[18] = true;
+                player.Tutorial_Stato[missione] = true;
+                player.Tutorial_Premi[missione] = true;
+                Console.WriteLine($"[Tutorial] >> Giocatore: {player.Username} - Missione {Dati[3]} Completata - Stato: {player.Tutorial_Stato[missione]}");
             }
-            else if (Dati[3] == "20" && precedenti_Completati) { player.Tutorial_Stato[19] = true; player.Tutorial_Premi[19] = true; }
-            else if (Dati[3] == "21" && precedenti_Completati) { player.Tutorial_Stato[20] = true; player.Tutorial_Premi[20] = true; }
-            else if (Dati[3] == "22" && precedenti_Completati) { player.Tutorial_Stato[21] = true; player.Tutorial_Premi[21] = true; }
-            else if (Dati[3] == "23" && precedenti_Completati) { player.Tutorial_Stato[22] = true; player.Tutorial_Premi[22] = true; }
-            else if (Dati[3] == "24" && precedenti_Completati) 
+            else if (Dati[3] == "20" && player.Tutorial_Stato[missione] != true&& precedenti_Completati) { player.Tutorial_Stato[missione] = true; player.Tutorial_Premi[missione] = true; Console.WriteLine($"[Tutorial] >> Giocatore: {player.Username} - Missione {Dati[3]} Completata - Stato: {player.Tutorial_Stato[missione]}"); }
+            else if (Dati[3] == "21" && player.Tutorial_Stato[missione] != true&& precedenti_Completati) { player.Tutorial_Stato[missione] = true; player.Tutorial_Premi[missione] = true; Console.WriteLine($"[Tutorial] >> Giocatore: {player.Username} - Missione {Dati[3]} Completata - Stato: {player.Tutorial_Stato[missione]}"); }
+            else if (Dati[3] == "22" && player.Tutorial_Stato[missione] != true&& precedenti_Completati) { player.Tutorial_Stato[missione] = true; player.Tutorial_Premi[missione] = true; Console.WriteLine($"[Tutorial] >> Giocatore: {player.Username} - Missione {Dati[3]} Completata - Stato: {player.Tutorial_Stato[missione]}"); }
+            else if (Dati[3] == "23" && player.Tutorial_Stato[missione] != true&& precedenti_Completati) { player.Tutorial_Stato[missione] = true; player.Tutorial_Premi[missione] = true; Console.WriteLine($"[Tutorial] >> Giocatore: {player.Username} - Missione {Dati[3]} Completata - Stato: {player.Tutorial_Stato[missione]}"); }
+            else if (Dati[3] == "24" && player.Tutorial_Stato[missione] != true && precedenti_Completati) 
             { 
-                player.Tutorial_Stato[23] = true; 
-                
-                if (!player.Tutorial_Premi[23])
+                player.Tutorial_Stato[missione] = true; 
+                if (!player.Tutorial_Premi[missione])
                 {
-                    player.Tutorial_Premi[23] = true;
+                    player.Tutorial_Premi[missione] = true;
                     player.Salute_Mura = player.Salute_MuraMax;
                     player.Salute_Mura -= 5;
                     player.Difesa_Mura = player.Difesa_MuraMax;
@@ -423,19 +478,31 @@ namespace Server_Strategico.Server
                     player.Pietra += Riparazione.Mura.Consumo_Pietra * 10;
                     player.Ferro += Riparazione.Mura.Consumo_Ferro * 10;
                     player.Oro += Riparazione.Mura.Consumo_Oro * 10;
+                    Console.WriteLine($"[Tutorial] >> Giocatore: {player.Username} - Missione {Dati[3]} Completata - Stato: {player.Tutorial_Stato[missione]}");
                 }
             }
-            else if (Dati[3] == "25" && precedenti_Completati) { player.Tutorial_Stato[24] = true; player.Tutorial_Premi[24] = true; }
-            else if (Dati[3] == "26" && precedenti_Completati) { player.Tutorial_Stato[25] = true; player.Tutorial_Premi[25] = true; }
-            else if (Dati[3] == "27" && precedenti_Completati) { player.Tutorial_Stato[26] = true; player.Tutorial_Premi[26] = true; }
-            else if (Dati[3] == "28" && precedenti_Completati) { player.Tutorial_Stato[27] = true; player.Tutorial_Premi[27] = true; }
-            else if (Dati[3] == "29" && precedenti_Completati) { player.Tutorial_Stato[28] = true; player.Tutorial_Premi[28] = true; }
-            else if (Dati[3] == "30" && precedenti_Completati) { player.Tutorial_Stato[29] = true; player.Tutorial_Premi[29] = true; }
-            else if (Dati[3] == "31" && precedenti_Completati) { player.Tutorial_Stato[30] = true; player.Tutorial_Premi[30] = true; }
-            else if (Dati[3] == "32" && precedenti_Completati) 
+            else if (Dati[3] == "25" && player.Tutorial_Stato[missione] != true && precedenti_Completati) // Riparazione mura
             { 
-                player.Tutorial_Stato[31] = true;
-                player.Tutorial_Premi[31] = true;
+                player.Tutorial_Stato[missione] = true;
+                if (!player.Tutorial_Premi[missione])
+                {
+                    Console.WriteLine($"[Tutorial] >> Giocatore: {player.Username} - Missione {Dati[3]} Completata - Stato: {player.Tutorial_Stato[missione]}");
+                }
+            }
+            else if (Dati[3] == "26" && player.Tutorial_Stato[missione] != true && precedenti_Completati) { player.Tutorial_Stato[missione] = true; player.Tutorial_Premi[missione] = true; Console.WriteLine($"[Tutorial] >> Giocatore: {player.Username} - Missione {Dati[3]} Completata - Stato: {player.Tutorial_Stato[missione]}"); }
+            else if (Dati[3] == "27" && player.Tutorial_Stato[missione] != true && precedenti_Completati) { player.Tutorial_Stato[missione] = true; player.Tutorial_Premi[missione] = true; Console.WriteLine($"[Tutorial] >> Giocatore: {player.Username} - Missione {Dati[3]} Completata - Stato: {player.Tutorial_Stato[missione]}"); }
+            else if (Dati[3] == "28" && player.Tutorial_Stato[missione] != true && precedenti_Completati) { player.Tutorial_Stato[missione] = true; player.Tutorial_Premi[missione] = true; Console.WriteLine($"[Tutorial] >> Giocatore: {player.Username} - Missione {Dati[3]} Completata - Stato: {player.Tutorial_Stato[missione]}"); }
+            else if (Dati[3] == "29" && player.Tutorial_Stato[missione] != true && precedenti_Completati) { player.Tutorial_Stato[missione] = true; player.Tutorial_Premi[missione] = true; Console.WriteLine($"[Tutorial] >> Giocatore: {player.Username} - Missione {Dati[3]} Completata - Stato: {player.Tutorial_Stato[missione]}"); }
+            else if (Dati[3] == "30" && player.Tutorial_Stato[missione] != true && precedenti_Completati) { player.Tutorial_Stato[missione] = true; player.Tutorial_Premi[missione] = true; Console.WriteLine($"[Tutorial] >> Giocatore: {player.Username} - Missione {Dati[3]} Completata - Stato: {player.Tutorial_Stato[missione]}"); }
+            else if (Dati[3] == "31" && player.Tutorial_Stato[missione] != true && precedenti_Completati) { player.Tutorial_Stato[missione] = true; player.Tutorial_Premi[missione] = true; Console.WriteLine($"[Tutorial] >> Giocatore: {player.Username} - Missione {Dati[3]} Completata - Stato: {player.Tutorial_Stato[missione]}"); }
+            else if (Dati[3] == "32" && player.Tutorial_Stato[missione] != true && precedenti_Completati) 
+            { 
+                player.Tutorial_Stato[missione] = true;
+                player.Tutorial_Premi[missione] = true;
+                player.Punti_Quest = 0;
+                player.Diamanti_Viola += 150;
+                player.Diamanti_Viola += 200;
+                Console.WriteLine($"[Tutorial] >> Giocatore: {player.Username} - Missione {Dati[3]} Completata - Stato: {player.Tutorial_Stato[missione]}");
                 //Andrebbe aggiunto un salvataggio dei dati dell'utente a questo pounto...
             }
 

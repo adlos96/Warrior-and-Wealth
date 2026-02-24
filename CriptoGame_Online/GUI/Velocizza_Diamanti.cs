@@ -31,10 +31,13 @@ namespace Warrior_and_Wealth.GUI
         private void pictureBox_Più_Click(object sender, EventArgs e)
         {
             if (Convert.ToInt32(Variabili_Client.Utente_Risorse.Diamond_Blu.Replace(".", "")) > Convert.ToInt32(txt_Diamond_Blu.Text))
-                if ((Control.ModifierKeys & Keys.Control) == Keys.Control) // controlla se Ctrl è premuto al momento del click
-                    txt_Diamond_Blu.Text = (Convert.ToInt32(txt_Diamond_Blu.Text) + 5).ToString();
+
+                if ((Control.ModifierKeys & Keys.Control) == Keys.Control && (Control.ModifierKeys & Keys.Shift) == Keys.Shift) // controlla se Ctrl è premuto al momento del click
+                    txt_Diamond_Blu.Text = (Convert.ToInt32(txt_Diamond_Blu.Text) + 50).ToString();
                 else if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
                     txt_Diamond_Blu.Text = (Convert.ToInt32(txt_Diamond_Blu.Text) + 10).ToString();
+                else if ((Control.ModifierKeys & Keys.Control) == Keys.Control) // controlla se Ctrl è premuto al momento del click
+                    txt_Diamond_Blu.Text = (Convert.ToInt32(txt_Diamond_Blu.Text) + 5).ToString();
                 else txt_Diamond_Blu.Text = (Convert.ToInt32(txt_Diamond_Blu.Text) + 1).ToString();
 
             if (Convert.ToInt32(txt_Diamond_Blu.Text) > Convert.ToInt32(Variabili_Client.Utente_Risorse.Diamond_Blu.Replace(".", "")))
@@ -44,10 +47,12 @@ namespace Warrior_and_Wealth.GUI
         private void pictureBox_Meno_Click(object sender, EventArgs e)
         {
             if (Convert.ToInt32(txt_Diamond_Blu.Text) > 0)
-                if ((Control.ModifierKeys & Keys.Control) == Keys.Control) // controlla se Ctrl è premuto al momento del click
-                    txt_Diamond_Blu.Text = (Convert.ToInt32(txt_Diamond_Blu.Text) - 5).ToString();
+                if ((Control.ModifierKeys & Keys.Control) == Keys.Control && (Control.ModifierKeys & Keys.Shift) == Keys.Shift) // controlla se Ctrl è premuto al momento del click
+                    txt_Diamond_Blu.Text = (Convert.ToInt32(txt_Diamond_Blu.Text) - 50).ToString();
                 else if ((Control.ModifierKeys & Keys.Shift) == Keys.Shift)
                     txt_Diamond_Blu.Text = (Convert.ToInt32(txt_Diamond_Blu.Text) - 10).ToString();
+                else if ((Control.ModifierKeys & Keys.Control) == Keys.Control) // controlla se Ctrl è premuto al momento del click
+                    txt_Diamond_Blu.Text = (Convert.ToInt32(txt_Diamond_Blu.Text) - 5).ToString();
                 else
                     txt_Diamond_Blu.Text = (Convert.ToInt32(txt_Diamond_Blu.Text) - 1).ToString();
             if (Convert.ToInt32(txt_Diamond_Blu.Text) < 0) txt_Diamond_Blu.Text = "0";
