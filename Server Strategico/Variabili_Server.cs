@@ -42,7 +42,7 @@
         public static int citta_Barbare_Unlock = 5;  //Sblocco Città barbare
         public static int PVP_Unlock = 10;  //Sblocco pvp
 
-        public static string versione_Client_Necessario = "0.1.0";
+        public static string versione_Client_Necessario = "0.1.1";
 
         public static int _Server_Consumo_RAM = 0;
         public static int[] gamePass_DailyReward = {
