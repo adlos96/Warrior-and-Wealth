@@ -109,11 +109,8 @@ namespace Warrior_and_Wealth
             await ClientConnection.TestClient.InitializeClient(); // Connessione server
             await Sleep(1);
             if (!await VersioneDisponibile())
-            {
-                Btn_Login.Enabled = true;
-                Btn_New_Game.Enabled = true;
                 return;
-            }
+            
             if (txt_Username_Login.Text == "Inserisci Nome utente")
             {
                 txt_Log.Text = "Inserisci un nome utente valido!";
