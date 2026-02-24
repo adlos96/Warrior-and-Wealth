@@ -155,24 +155,25 @@ namespace Warrior_and_Wealth.Strumenti
                 currentTrackIndex = 0;
 
             var track = currentPlaylist[currentTrackIndex];
-            Stop();
+
+            Stop(); // versione interna senza Task.Delay
 
             try
             {
                 audioFile = new AudioFileReader(track);
                 audioFile.Volume = globalVolume;
+
                 outputDevice = new WaveOutEvent();
                 outputDevice.Init(audioFile);
                 outputDevice.PlaybackStopped += OnPlaybackStopped;
-                currentTrack = track;
-                outputDevice.Play();
 
-                Console.WriteLine($"▶ Riproduzione: {Path.GetFileName(track)}");
+                currentTrack = track;
+
+                outputDevice?.Play(); // safe call
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Errore riproduzione: {ex.Message}");
-                // Passa alla traccia successiva in caso di errore
                 NextTrack();
             }
         }
@@ -326,13 +327,7 @@ namespace Warrior_and_Wealth.Strumenti
                 try
                 {
                     outputDevice.PlaybackStopped -= OnPlaybackStopped;
-                    if (outputDevice.PlaybackState == PlaybackState.Playing)
-                        outputDevice.Stop();
-                }
-                catch { }
-
-                try
-                {
+                    outputDevice.Stop();
                     outputDevice.Dispose();
                 }
                 catch { }
@@ -342,23 +337,15 @@ namespace Warrior_and_Wealth.Strumenti
 
             if (audioFile != null)
             {
-                try
-                {
-                    audioFile.Dispose();
-                }
+                try { audioFile.Dispose(); }
                 catch { }
 
                 audioFile = null;
             }
 
-            // Resetta lo stato DOPO aver pulito le risorse
-            Task.Delay(100).ContinueWith(_ =>
-            {
-                isStopping = false;
-                loop = false;
-                currentTrack = null;
-                // NON resettare currentPlaylist qui se vogliamo mantenere la playlist attiva
-            });
+            loop = false;
+            currentTrack = null;
+            isStopping = false;
         }
 
         public static bool IsPlaying => outputDevice?.PlaybackState == PlaybackState.Playing;
