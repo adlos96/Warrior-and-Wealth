@@ -46,6 +46,7 @@ namespace Server_Strategico.Server
                 Console.WriteLine("Siamo su Linux");
                 GameSave.SavePath = "/opt/warriorandwealth/Saves_Test";
             }
+            GameSave.Initialize();
 
             if (!_Ssl) server = new WatsonTcpServer(serverIp, serverPort);
             else

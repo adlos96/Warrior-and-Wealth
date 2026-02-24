@@ -7,7 +7,6 @@ namespace Server_Strategico
     {
         static void Main(string[] args)
         {
-            GameSave.Initialize(); // Inizializza il sistema di salvataggio
             GetInstance(); // Starta il server
         }
     }
