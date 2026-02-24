@@ -26,7 +26,7 @@ namespace Warrior_and_Wealth.GUI
                 Dock = DockStyle.Fill
             };
 
-            logBox.MouseDown += LogBox_MouseDown; //Creare l'evento MouseDown per il logBox
+            logBox.MouseClick += LogBox_MouseDown; //Creare l'evento MouseDown per il logBox
             panel_Log.Controls.Add(logBox);// texbox personallizata
 
             Task.Run(() => Gui_Update(cts.Token), cts.Token);

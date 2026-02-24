@@ -145,7 +145,7 @@ namespace Strategico_V2
         public static List<dati> tutorial_dati = new List<dati>();
 
         public static string versione_Client_Necessario = "0";
-        public static string versione_Client_Attuale = "0.1.0";
+        public static string versione_Client_Attuale = "0.1.1";
 
         public class Dati
         {

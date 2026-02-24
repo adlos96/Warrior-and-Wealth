@@ -511,6 +511,7 @@ namespace Server_Strategico.Server
 
                     await GameSave.SavePlayer(player);
                 }
+                Console.WriteLine(GameSave.SavePath);
             }
             public static void CalcoloPotenza(Player player)
             {
