@@ -35,7 +35,7 @@ namespace Server_Strategico.Server
         private Server()
         {
             string subjectName = Environment.MachineName; //Ottine il nome della macchina (hostname)
-            if (subjectName == "DESKTOP-DOBLVTI") serverIp = "0.0.0.0";
+            if (subjectName == "DESKTOP-DOBLVTI" || subjectName == "ADLO") serverIp = "0.0.0.0";
             else GameSave.SavePath = "/opt/warriorandwealth/Saves_Test";
             
 
