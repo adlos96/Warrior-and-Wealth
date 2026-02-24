@@ -164,7 +164,7 @@ namespace Warrior_and_Wealth
                 var versioneNecessaria = Variabili_Client.versione_Client_Necessario.Split('.');
                 var versioneAttuale = Variabili_Client.versione_Client_Attuale.Split('.');
 
-                if (versioneNecessaria[0] != versioneAttuale[0] || versioneNecessaria[1] != versioneAttuale[1])
+                if (versioneNecessaria[0] != versioneAttuale[0] || versioneNecessaria[1] != versioneAttuale[1] || versioneNecessaria[2] != versioneAttuale[2])
                 {
                     Btn_Login.Enabled = false;
                     Btn_New_Game.Enabled = false;
@@ -175,7 +175,7 @@ namespace Warrior_and_Wealth
                     this.Size = new Size(251, 377);
                     return false;
                 }
-                else if (versioneNecessaria[2] != versioneAttuale[2])
+                else if (versioneNecessaria[3] != versioneAttuale[3])
                 {
                     lbl_Aggiornamento_Disponibile.Visible = true;
                     btn_Aggiorna.Visible = true;

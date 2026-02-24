@@ -79,6 +79,7 @@ namespace Warrior_and_Wealth
                                 {
                                     ico_Structure_1.Visible = false;
                                     panel_1.Visible = false;
+                                    txt_Fattoria_Costruzione.Text = "0";
 
                                     ico_Structure_2.Visible = true;
                                     panel_2.Visible = true;
@@ -92,6 +93,7 @@ namespace Warrior_and_Wealth
                                 {
                                     ico_Structure_2.Visible = false;
                                     panel_2.Visible = false;
+                                    txt_Segheria_Costruzione.Text = "0";
 
                                     ico_Structure_3.Visible = true;
                                     panel_3.Visible = true;
@@ -105,6 +107,7 @@ namespace Warrior_and_Wealth
                                 {
                                     ico_Structure_3.Visible = false;
                                     panel_3.Visible = false;
+                                    txt_Cava_Costruzione.Text = "0";
 
                                     ico_Structure_4.Visible = true;
                                     panel_4.Visible = true;
@@ -118,6 +121,7 @@ namespace Warrior_and_Wealth
                                 {
                                     ico_Structure_4.Visible = false;
                                     panel_4.Visible = false;
+                                    txt_MinieraFerro_Costruzione.Text = "0";
 
                                     ico_Structure_5.Visible = true;
                                     panel_5.Visible = true;
@@ -131,6 +135,7 @@ namespace Warrior_and_Wealth
                                 {
                                     ico_Structure_5.Visible = false;
                                     panel_5.Visible = false;
+                                    txt_MinieraOro_Costruzione.Text = "0";
 
                                     ico_Structure_6.Visible = true;
                                     panel_6.Visible = true;
@@ -167,7 +172,7 @@ namespace Warrior_and_Wealth
                                 {
                                     groupBox_Caserme.Visible = true;
                                     groupBox_Reclutamento.Visible = false;
-                                    groupBox_Reclutamento.Visible = false;
+                                    groupBox_Recluta.Visible = false;
                                 }
                             
                             if (Variabili_Client.tutorial[21] == true) //Addestramento
@@ -180,7 +185,7 @@ namespace Warrior_and_Wealth
                         }
                     }));
 
-                await Task.Delay(1000); // meglio di Thread.Sleep
+                await Task.Delay(1000);
             }
         }
         private void Costruzione_Load(object sender, EventArgs e)
