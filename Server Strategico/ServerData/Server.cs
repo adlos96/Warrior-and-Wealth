@@ -36,6 +36,15 @@ namespace Server_Strategico.Server
         {
             string subjectName = Environment.MachineName; //Ottine il nome della macchina (hostname)
             if (subjectName == "DESKTOP-DOBLVTI") serverIp = "0.0.0.0";
+            else
+            {
+                GameSave.SavePath = "/opt/warriorandwealth/Saves_Test";
+                // Assicurati che la cartella esista
+                if (!Directory.Exists(GameSave.SavePath))
+                {
+                    Directory.CreateDirectory(GameSave.SavePath);
+                }
+            }
 
             if (!_Ssl) server = new WatsonTcpServer(serverIp, serverPort);
             else
