@@ -14,6 +14,7 @@ namespace Warrior_and_Wealth
             InitializeComponent();
             //this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
+            this.Size = new Size(251, 331);
         }
 
         private void Gioco_Load(object sender, EventArgs e)
@@ -60,6 +61,11 @@ namespace Warrior_and_Wealth
             txt_Log.Text = "LOG";
             txt_Log.ForeColor = Color.Black;
             txt_Log.Font = new Font("Cinzel Decorative", 8, FontStyle.Regular);
+
+            txt_Versione_Attuale.BackColor = Color.FromArgb(229, 208, 181);
+            txt_Versione_Attuale.Text = "Versione attuale: " + Variabili_Client.versione_Client_Attuale;
+            txt_Versione_Attuale.ForeColor = Color.Black;
+            txt_Versione_Attuale.Font = new Font("Cinzel Decorative", 8, FontStyle.Regular);
 
         }
 
@@ -164,20 +170,18 @@ namespace Warrior_and_Wealth
                     Btn_New_Game.Enabled = false;
                     lbl_Aggiornamento_Disponibile.Visible = true;
                     btn_Aggiorna.Visible = true;
-                    lbl_Versione_Attuale.Visible = true;
 
-                    lbl_Versione_Attuale.Text = "Versione attuale: " + Variabili_Client.versione_Client_Attuale;
                     lbl_Aggiornamento_Disponibile.Text = "Necessario aggiornamento: " + Variabili_Client.versione_Client_Necessario;
+                    this.Size = new Size(251, 377);
                     return false;
                 }
                 else if (versioneNecessaria[2] != versioneAttuale[2])
                 {
                     lbl_Aggiornamento_Disponibile.Visible = true;
                     btn_Aggiorna.Visible = true;
-                    lbl_Versione_Attuale.Visible = true;
 
-                    lbl_Versione_Attuale.Text = "Versione attuale: " + Variabili_Client.versione_Client_Attuale;
                     lbl_Aggiornamento_Disponibile.Text = "Disponibile aggiornamento: " + Variabili_Client.versione_Client_Necessario;
+                    this.Size = new Size(251, 377);
                     if (!avviso_Aggiornamento)
                     {
                         avviso_Aggiornamento = true;

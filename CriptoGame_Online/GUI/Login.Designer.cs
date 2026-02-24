@@ -30,7 +30,7 @@
         {
             lbl_Username_Login = new Label();
             panel1 = new Panel();
-            lbl_Versione_Attuale = new Label();
+            txt_Versione_Attuale = new TextBox();
             txt_Log = new TextBox();
             txt_Ip = new TextBox();
             label1 = new Label();
@@ -59,7 +59,7 @@
             // 
             // panel1
             // 
-            panel1.Controls.Add(lbl_Versione_Attuale);
+            panel1.Controls.Add(txt_Versione_Attuale);
             panel1.Controls.Add(txt_Log);
             panel1.Controls.Add(txt_Ip);
             panel1.Controls.Add(label1);
@@ -75,16 +75,16 @@
             panel1.Size = new Size(193, 276);
             panel1.TabIndex = 1;
             // 
-            // lbl_Versione_Attuale
+            // txt_Versione_Attuale
             // 
-            lbl_Versione_Attuale.AutoSize = true;
-            lbl_Versione_Attuale.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lbl_Versione_Attuale.Location = new Point(38, 24);
-            lbl_Versione_Attuale.Name = "lbl_Versione_Attuale";
-            lbl_Versione_Attuale.Size = new Size(121, 13);
-            lbl_Versione_Attuale.TabIndex = 10;
-            lbl_Versione_Attuale.Text = "Versione Attuale: 0.1.0";
-            lbl_Versione_Attuale.Visible = false;
+            txt_Versione_Attuale.BackColor = Color.White;
+            txt_Versione_Attuale.BorderStyle = BorderStyle.None;
+            txt_Versione_Attuale.Location = new Point(21, 29);
+            txt_Versione_Attuale.Name = "txt_Versione_Attuale";
+            txt_Versione_Attuale.Size = new Size(151, 16);
+            txt_Versione_Attuale.TabIndex = 11;
+            txt_Versione_Attuale.Text = "Versione Attuale: 0.1.11.0";
+            txt_Versione_Attuale.TextAlign = HorizontalAlignment.Center;
             // 
             // txt_Log
             // 
@@ -220,7 +220,7 @@
             btn_Aggiorna.FlatAppearance.BorderSize = 0;
             btn_Aggiorna.FlatStyle = FlatStyle.Flat;
             btn_Aggiorna.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Aggiorna.Location = new Point(61, 311);
+            btn_Aggiorna.Location = new Point(57, 307);
             btn_Aggiorna.Name = "btn_Aggiorna";
             btn_Aggiorna.Size = new Size(114, 27);
             btn_Aggiorna.TabIndex = 18;
@@ -235,7 +235,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.freepik__upload__73441_AAA;
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(235, 342);
+            ClientSize = new Size(235, 338);
             Controls.Add(lbl_Aggiornamento_Disponibile);
             Controls.Add(btn_Aggiorna);
             Controls.Add(panel1);
@@ -268,8 +268,8 @@
         private TextBox txt_Ip;
         private Label label1;
         private TextBox txt_Log;
-        private Label lbl_Versione_Attuale;
         private Label lbl_Aggiornamento_Disponibile;
         private Button btn_Aggiorna;
+        private TextBox txt_Versione_Attuale;
     }
 }
