@@ -1,0 +1,8 @@
+Come funziona?
+
+- Eseguire il file "build-installer.ps1" tramite powershell
+- Verrà eliminata la cartella pubblicazioni se esiste
+- Verrà compilato il gioco
+- Verrà eseguito il compilatore
+
+- Il compilatore viene gestito dal file "Warrior&Wealth.iss"
