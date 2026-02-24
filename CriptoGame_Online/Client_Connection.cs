@@ -34,8 +34,7 @@ namespace Strategico_V2
 
         internal class TestClient
         {
-            //public static string _ServerIp = "warriorandwealth.duckdns.org"; // adly.xed.im 185.229.236.183
-            public static string _ServerIp = "localhost"; // adly.xed.im 185.229.236.183
+            public static string _ServerIp = "warriorandwealth.duckdns.org"; // adly.xed.im 185.229.236.183
             private static int _ServerPort = 8443;
             private static bool _Ssl = false;
             private static string _CertFile = "";
@@ -53,6 +52,10 @@ namespace Strategico_V2
                 {
                     Console.WriteLine("Client partito");
                     Console.WriteLine($"Use SSL: {_Ssl}");
+
+                    //Controlla se siamo in locale... 
+                    string subjectName = Environment.MachineName; //Ottine il nome della macchina (hostname)
+                    if (subjectName == "DESKTOP-DOBLVTI" || subjectName == "ADLO") _ServerIp = "localhost";
 
                     if (_Ssl)
                     {
