@@ -242,6 +242,13 @@ namespace Server_Strategico.Server
         }
         public static void TutorialUpdate(Player player, string[] Dati)
         {
+            bool precedenti_Completati = false;
+            for (int i = 0; i < Convert.ToInt32(Dati[3]); i++)
+            {
+                if (!player.Tutorial_Stato[i])
+                    precedenti_Completati = true;
+                else precedenti_Completati = false;
+            }
             if (Dati[3] == "1") { player.Tutorial_Stato[0] = true; player.Tutorial_Premi[0] = true;
                 player.Cibo = 0;
                 player.Legno = 0;
@@ -274,17 +281,17 @@ namespace Server_Strategico.Server
                 player.Abitazioni = 0;
 
             }
-            else if (Dati[3] == "2" && !player.Tutorial_Stato[1]) { player.Tutorial_Stato[1] = true; player.Tutorial_Premi[1] = true; }
-            else if (Dati[3] == "3" && !player.Tutorial_Stato[2]) { player.Tutorial_Stato[2] = true; player.Tutorial_Premi[2] = true; }
-            else if (Dati[3] == "4" && !player.Tutorial_Stato[3]) { player.Tutorial_Stato[3] = true; player.Tutorial_Premi[3] = true; }
-            else if (Dati[3] == "5" && !player.Tutorial_Stato[4]) { player.Tutorial_Stato[4] = true; player.Tutorial_Premi[4] = true; }
-            else if (Dati[3] == "6" && !player.Tutorial_Stato[5]) { player.Tutorial_Stato[5] = true; player.Tutorial_Premi[5] = true; }
-            else if (Dati[3] == "7" && !player.Tutorial_Stato[6]) { player.Tutorial_Stato[6] = true; player.Tutorial_Premi[6] = true; player.Diamanti_Viola = 150; }
-            else if (Dati[3] == "8" && !player.Tutorial_Stato[7]) { player.Tutorial_Stato[7] = true; player.Tutorial_Premi[7] = true; }
-            else if (Dati[3] == "9" && !player.Tutorial_Stato[8]) { player.Tutorial_Stato[8] = true; player.Tutorial_Premi[8] = true; }
-            else if (Dati[3] == "10" && !player.Tutorial_Stato[9]) { player.Tutorial_Stato[9] = true; player.Tutorial_Premi[9] = true; }
+            else if (Dati[3] == "2" && precedenti_Completati) { player.Tutorial_Stato[1] = true; player.Tutorial_Premi[1] = true; }
+            else if (Dati[3] == "3" && precedenti_Completati) { player.Tutorial_Stato[2] = true; player.Tutorial_Premi[2] = true; }
+            else if (Dati[3] == "4" && precedenti_Completati) { player.Tutorial_Stato[3] = true; player.Tutorial_Premi[3] = true; }
+            else if (Dati[3] == "5" && precedenti_Completati) { player.Tutorial_Stato[4] = true; player.Tutorial_Premi[4] = true; }
+            else if (Dati[3] == "6" && precedenti_Completati) { player.Tutorial_Stato[5] = true; player.Tutorial_Premi[5] = true; }
+            else if (Dati[3] == "7" && precedenti_Completati) { player.Tutorial_Stato[6] = true; player.Tutorial_Premi[6] = true; player.Diamanti_Viola = 150; }
+            else if (Dati[3] == "8" && precedenti_Completati) { player.Tutorial_Stato[7] = true; player.Tutorial_Premi[7] = true; }
+            else if (Dati[3] == "9" && precedenti_Completati) { player.Tutorial_Stato[8] = true; player.Tutorial_Premi[8] = true; }
+            else if (Dati[3] == "10" && precedenti_Completati) { player.Tutorial_Stato[9] = true; player.Tutorial_Premi[9] = true; }
 
-            else if (Dati[3] == "11" && !player.Tutorial_Stato[10]) 
+            else if (Dati[3] == "11" && precedenti_Completati) 
             { 
                 player.Tutorial_Stato[10] = true;
                 if (!player.Tutorial_Premi[10])
@@ -298,7 +305,7 @@ namespace Server_Strategico.Server
                     player.Tutorial_Premi[10] = true;
                 }
             }
-            else if (Dati[3] == "12" && !player.Tutorial_Stato[11])
+            else if (Dati[3] == "12" && precedenti_Completati)
             {
                 player.Tutorial_Stato[11] = true;
                 player.Tutorial_Premi[11] = true;
@@ -306,12 +313,12 @@ namespace Server_Strategico.Server
                 player.Diamanti_Blu = 0;
                 player.Punti_Quest = 0;
             }
-            else if (Dati[3] == "13" && !player.Tutorial_Stato[12]) 
+            else if (Dati[3] == "13" && precedenti_Completati) 
             {   
                 player.Tutorial_Stato[12] = true; 
                 player.Tutorial_Premi[12] = true;
             }
-            else if (Dati[3] == "14" && !player.Tutorial_Stato[13]) 
+            else if (Dati[3] == "14" && precedenti_Completati) 
             { 
                 player.Tutorial_Stato[13] = true;
                 if (!player.Tutorial_Premi[13])
@@ -327,7 +334,7 @@ namespace Server_Strategico.Server
                     player.Tutorial_Premi[13] = true;
                 }
             }
-            else if (Dati[3] == "15" && !player.Tutorial_Stato[14])
+            else if (Dati[3] == "15" && precedenti_Completati)
             {
                 player.Tutorial_Stato[14] = true;
                 if (!player.Tutorial_Premi[14])
@@ -343,7 +350,7 @@ namespace Server_Strategico.Server
                     player.Tutorial_Premi[14] = true;
                 }
             }
-            else if (Dati[3] == "16" && !player.Tutorial_Stato[15]) 
+            else if (Dati[3] == "16" && precedenti_Completati) 
             {
                 player.Tutorial_Stato[15] = true;
                 if (!player.Tutorial_Premi[15])
@@ -359,7 +366,7 @@ namespace Server_Strategico.Server
                     player.Tutorial_Premi[15] = true;
                 }
             }
-            else if (Dati[3] == "17" && !player.Tutorial_Stato[16]) 
+            else if (Dati[3] == "17" && precedenti_Completati) 
             {
                 player.Tutorial_Stato[16] = true;
                 if (!player.Tutorial_Premi[16])
@@ -375,7 +382,7 @@ namespace Server_Strategico.Server
                     player.Tutorial_Premi[16] = true;
                 }
             }
-            else if (Dati[3] == "18" && !player.Tutorial_Stato[17]) 
+            else if (Dati[3] == "18" && precedenti_Completati) 
             {
                 player.Tutorial_Stato[17] = true;
                 if (!player.Tutorial_Premi[17])
@@ -391,16 +398,16 @@ namespace Server_Strategico.Server
                     player.Tutorial_Premi[17] = true;
                 }
             }
-            else if (Dati[3] == "19" && !player.Tutorial_Stato[18])
+            else if (Dati[3] == "19" && precedenti_Completati)
             {
                 player.Tutorial_Stato[18] = true;
                 player.Tutorial_Premi[18] = true;
             }
-            else if (Dati[3] == "20" && !player.Tutorial_Stato[19]) { player.Tutorial_Stato[19] = true; player.Tutorial_Premi[19] = true; }
-            else if (Dati[3] == "21" && !player.Tutorial_Stato[20]) { player.Tutorial_Stato[20] = true; player.Tutorial_Premi[20] = true; }
-            else if (Dati[3] == "22" && !player.Tutorial_Stato[21]) { player.Tutorial_Stato[21] = true; player.Tutorial_Premi[21] = true; }
-            else if (Dati[3] == "23" && !player.Tutorial_Stato[22]) { player.Tutorial_Stato[22] = true; player.Tutorial_Premi[22] = true; }
-            else if (Dati[3] == "24" && !player.Tutorial_Stato[23]) 
+            else if (Dati[3] == "20" && precedenti_Completati) { player.Tutorial_Stato[19] = true; player.Tutorial_Premi[19] = true; }
+            else if (Dati[3] == "21" && precedenti_Completati) { player.Tutorial_Stato[20] = true; player.Tutorial_Premi[20] = true; }
+            else if (Dati[3] == "22" && precedenti_Completati) { player.Tutorial_Stato[21] = true; player.Tutorial_Premi[21] = true; }
+            else if (Dati[3] == "23" && precedenti_Completati) { player.Tutorial_Stato[22] = true; player.Tutorial_Premi[22] = true; }
+            else if (Dati[3] == "24" && precedenti_Completati) 
             { 
                 player.Tutorial_Stato[23] = true; 
                 
@@ -418,14 +425,14 @@ namespace Server_Strategico.Server
                     player.Oro += Riparazione.Mura.Consumo_Oro * 10;
                 }
             }
-            else if (Dati[3] == "25" && !player.Tutorial_Stato[24]) { player.Tutorial_Stato[24] = true; player.Tutorial_Premi[24] = true; }
-            else if (Dati[3] == "26" && !player.Tutorial_Stato[25]) { player.Tutorial_Stato[25] = true; player.Tutorial_Premi[25] = true; }
-            else if (Dati[3] == "27" && !player.Tutorial_Stato[26]) { player.Tutorial_Stato[26] = true; player.Tutorial_Premi[26] = true; }
-            else if (Dati[3] == "28" && !player.Tutorial_Stato[27]) { player.Tutorial_Stato[27] = true; player.Tutorial_Premi[27] = true; }
-            else if (Dati[3] == "29" && !player.Tutorial_Stato[28]) { player.Tutorial_Stato[28] = true; player.Tutorial_Premi[28] = true; }
-            else if (Dati[3] == "30" && !player.Tutorial_Stato[29]) { player.Tutorial_Stato[29] = true; player.Tutorial_Premi[29] = true; }
-            else if (Dati[3] == "31" && !player.Tutorial_Stato[30]) { player.Tutorial_Stato[30] = true; player.Tutorial_Premi[30] = true; }
-            else if (Dati[3] == "32" && !player.Tutorial_Stato[31]) 
+            else if (Dati[3] == "25" && precedenti_Completati) { player.Tutorial_Stato[24] = true; player.Tutorial_Premi[24] = true; }
+            else if (Dati[3] == "26" && precedenti_Completati) { player.Tutorial_Stato[25] = true; player.Tutorial_Premi[25] = true; }
+            else if (Dati[3] == "27" && precedenti_Completati) { player.Tutorial_Stato[26] = true; player.Tutorial_Premi[26] = true; }
+            else if (Dati[3] == "28" && precedenti_Completati) { player.Tutorial_Stato[27] = true; player.Tutorial_Premi[27] = true; }
+            else if (Dati[3] == "29" && precedenti_Completati) { player.Tutorial_Stato[28] = true; player.Tutorial_Premi[28] = true; }
+            else if (Dati[3] == "30" && precedenti_Completati) { player.Tutorial_Stato[29] = true; player.Tutorial_Premi[29] = true; }
+            else if (Dati[3] == "31" && precedenti_Completati) { player.Tutorial_Stato[30] = true; player.Tutorial_Premi[30] = true; }
+            else if (Dati[3] == "32" && precedenti_Completati) 
             { 
                 player.Tutorial_Stato[31] = true;
                 player.Tutorial_Premi[31] = true;
