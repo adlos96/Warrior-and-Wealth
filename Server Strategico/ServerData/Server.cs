@@ -274,7 +274,7 @@ namespace Server_Strategico.Server
             {
                 Console.WriteLine($"Numero Giocatori: {players.Count()}");
                 foreach (var item in players)
-                    Console.WriteLine($"Giocatore: {item.Value.Username} Guid: {item.Value.guid_Player}, Livello: {item.Value.Livello}");
+                    Console.WriteLine($"Giocatore: {item.Value.Username} Guid: {item.Value.guid_Player}, Livello: {item.Value.Livello}, Last: {item.Value.Last_Login}");
             }
             public void AggiornaListaPVP()
             {
