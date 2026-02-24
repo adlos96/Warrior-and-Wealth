@@ -1,16 +1,18 @@
 ﻿
-using CriptoGame_Online.Strumenti;
+using Warrior_and_Wealth.Strumenti;
 using Strategico_V2;
+using System.Diagnostics;
 
-namespace CriptoGame_Online
+namespace Warrior_and_Wealth
 {
     public partial class Login : Form
     {
         public static string login_data = "";
+        static bool avviso_Aggiornamento = false;
         public Login()
         {
             InitializeComponent();
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            //this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
         }
 
@@ -42,19 +44,16 @@ namespace CriptoGame_Online
 
             // txt_Username
             txt_Username_Login.BackColor = Color.FromArgb(229, 208, 181);
-            txt_Username_Login.Text = "Username";
-            txt_Username_Login.ForeColor = Color.Gray;
+            txt_Username_Login.Text = "Inserisci Nome utente";
             txt_Username_Login.Font = new Font("Cinzel Decorative", 9, FontStyle.Regular);
 
             // txt_Password
             txt_Password_Login.BackColor = Color.FromArgb(229, 208, 181);
-            txt_Password_Login.Text = "Password";
-            txt_Password_Login.ForeColor = Color.Gray;
+            txt_Password_Login.Text = "Inserisci Password";
             txt_Password_Login.Font = new Font("Cinzel Decorative", 9, FontStyle.Regular);
 
             txt_Ip.BackColor = Color.FromArgb(229, 208, 181);
             txt_Ip.Text = "IP: AUTO";
-            txt_Ip.ForeColor = Color.Gray;
             txt_Ip.Font = new Font("Cinzel Decorative", 9, FontStyle.Regular);
 
             txt_Log.BackColor = Color.FromArgb(229, 208, 181);
@@ -94,14 +93,37 @@ namespace CriptoGame_Online
 
         private async void Btn_Login_Click(object sender, EventArgs e)
         {
+            txt_Log.Font = new Font("Cinzel Decorative", 8, FontStyle.Regular);
             this.ActiveControl = lbl_Titolo;
             Btn_Login.Enabled = false;
             Btn_New_Game.Enabled = false;
             txt_Log.Text = "Connessione...";
-            await ClientConnection.TestClient.InitializeClient(); // Connessione server
 
-            if (txt_Ip.Text != "IP: AUTO")
-                ClientConnection.TestClient._ServerIp = txt_Ip.Text;
+            if (txt_Ip.Text != "IP: AUTO") ClientConnection.TestClient._ServerIp = txt_Ip.Text;
+            await ClientConnection.TestClient.InitializeClient(); // Connessione server
+            await Sleep(1);
+            if (!await VersioneDisponibile())
+            {
+                Btn_Login.Enabled = true;
+                Btn_New_Game.Enabled = true;
+                return;
+            }
+            if (txt_Username_Login.Text == "Inserisci Nome utente")
+            {
+                txt_Log.Text = "Inserisci un nome utente valido!";
+                Btn_Login.Enabled = true;
+                Btn_New_Game.Enabled = true;
+                txt_Log.Font = new Font("Cinzel Decorative", 8, FontStyle.Bold);
+                return;
+            }
+            else if (txt_Password_Login.Text == "Inserisci Password")
+            {
+                txt_Log.Text = "Inserisci una password valida!";
+                Btn_Login.Enabled = true;
+                Btn_New_Game.Enabled = true;
+                txt_Log.Font = new Font("Cinzel Decorative", 8, FontStyle.Bold);
+                return;
+            }
 
             string username = txt_Username_Login.Text;
             string password = txt_Password_Login.Text;
@@ -129,6 +151,44 @@ namespace CriptoGame_Online
             }
             if (login_data != "") txt_Log.Text = login_data;
         }
+        async Task<bool> VersioneDisponibile()
+        {
+            if (Variabili_Client.versione_Client_Necessario != Variabili_Client.versione_Client_Attuale)
+            {
+                var versioneNecessaria = Variabili_Client.versione_Client_Necessario.Split('.');
+                var versioneAttuale = Variabili_Client.versione_Client_Attuale.Split('.');
+
+                if (versioneNecessaria[0] != versioneAttuale[0] || versioneNecessaria[1] != versioneAttuale[1])
+                {
+                    Btn_Login.Enabled = false;
+                    Btn_New_Game.Enabled = false;
+                    lbl_Aggiornamento_Disponibile.Visible = true;
+                    btn_Aggiorna.Visible = true;
+                    lbl_Versione_Attuale.Visible = true;
+
+                    lbl_Versione_Attuale.Text = "Versione attuale: " + Variabili_Client.versione_Client_Attuale;
+                    lbl_Aggiornamento_Disponibile.Text = "Necessario aggiornamento: " + Variabili_Client.versione_Client_Necessario;
+                    return false;
+                }
+                else if (versioneNecessaria[2] != versioneAttuale[2])
+                {
+                    lbl_Aggiornamento_Disponibile.Visible = true;
+                    btn_Aggiorna.Visible = true;
+                    lbl_Versione_Attuale.Visible = true;
+
+                    lbl_Versione_Attuale.Text = "Versione attuale: " + Variabili_Client.versione_Client_Attuale;
+                    lbl_Aggiornamento_Disponibile.Text = "Disponibile aggiornamento: " + Variabili_Client.versione_Client_Necessario;
+                    if (!avviso_Aggiornamento)
+                    {
+                        avviso_Aggiornamento = true;
+                        return false;
+                    }
+                    return true;
+                }
+            }
+            else if (Variabili_Client.versione_Client_Necessario == Variabili_Client.versione_Client_Attuale) return true;
+            return false;
+        }
 
         public static async Task<bool> Sleep(int secondi)
         {
@@ -153,14 +213,37 @@ namespace CriptoGame_Online
 
         private async void Btn_New_Game_Click(object sender, EventArgs e)
         {
+            txt_Log.Font = new Font("Cinzel Decorative", 8, FontStyle.Regular);
             this.ActiveControl = lbl_Titolo;
             Btn_New_Game.Enabled = false;
             Btn_Login.Enabled = false;
             txt_Log.Text = "Connessione...";
-            await ClientConnection.TestClient.InitializeClient(); // Connessione server
 
-            if (txt_Ip.Text != "IP: AUTO")
-                ClientConnection.TestClient._ServerIp = txt_Ip.Text;
+            if (txt_Ip.Text != "IP: AUTO") ClientConnection.TestClient._ServerIp = txt_Ip.Text;
+            await ClientConnection.TestClient.InitializeClient(); // Connessione server
+            await Sleep(1);
+            if (!await VersioneDisponibile())
+            {
+                Btn_Login.Enabled = true;
+                Btn_New_Game.Enabled = true;
+                return;
+            }
+            if (txt_Username_Login.Text == "Inserisci Nome utente")
+            {
+                txt_Log.Text = "Inserisci un nome utente valido!";
+                Btn_Login.Enabled = true;
+                Btn_New_Game.Enabled = true;
+                txt_Log.Font = new Font("Cinzel Decorative", 8, FontStyle.Bold);
+                return;
+            }
+            else if (txt_Password_Login.Text == "Inserisci Password")
+            {
+                txt_Log.Text = "Inserisci una password valida!";
+                Btn_Login.Enabled = true;
+                Btn_New_Game.Enabled = true;
+                txt_Log.Font = new Font("Cinzel Decorative", 8, FontStyle.Bold);
+                return;
+            }
 
             await Sleep(2);
             txt_Log.Text = "Contattando il server...";
@@ -185,6 +268,18 @@ namespace CriptoGame_Online
         private void Login_FormClosing(object sender, FormClosingEventArgs e)
         {
             MusicManager.Stop();
+        }
+
+        private void btn_Aggiorna_Click(object sender, EventArgs e)
+        {
+
+            // Apre la pagina GitHub Releases nel browser
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = "https://github.com/adlos96/Warrior-and-Wealth/releases/latest",
+                UseShellExecute = true
+            });
+            Close();
         }
     }
 }
