@@ -1,4 +1,4 @@
-﻿namespace CriptoGame_Online.GUI
+﻿namespace Warrior_and_Wealth.GUI
 {
     partial class Velocizza_Diamanti
     {
@@ -34,7 +34,7 @@
             txt_Testo = new TextBox();
             btn_Velocizza = new Button();
             txt_Diamond_Blu = new TextBox();
-            ico_12 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            ico_12 = new Warrior_and_Wealth.Strumenti.DoubleBufferedPanel();
             ((System.ComponentModel.ISupportInitialize)pictureBox_Meno).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox_Più).BeginInit();
             SuspendLayout();

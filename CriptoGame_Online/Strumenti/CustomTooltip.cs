@@ -1,5 +1,5 @@
 ﻿using System.Drawing.Drawing2D;
-using CriptoGame_Online.Strumenti;
+using Warrior_and_Wealth.Strumenti;
 
 public class CustomToolTip
 {

@@ -1,8 +1,7 @@
-﻿using CriptoGame_Online.Strumenti;
-using NAudio.Wave;
+﻿
 using Strategico_V2;
 
-namespace CriptoGame_Online
+namespace Warrior_and_Wealth
 {
     public partial class Costruzione : Form
     {

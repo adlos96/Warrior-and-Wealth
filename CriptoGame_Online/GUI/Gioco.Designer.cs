@@ -1,6 +1,6 @@
-﻿using CriptoGame_Online.Strumenti;
+﻿using Warrior_and_Wealth.Strumenti;
 
-namespace CriptoGame_Online
+namespace Warrior_and_Wealth
 {
     partial class Gioco
     {
@@ -1203,7 +1203,7 @@ namespace CriptoGame_Online
             // ico_6
             // 
             ico_6.BackgroundImage = Properties.Resources.Popolazione_V2;
-            ico_6.BackgroundImageLayout = ImageLayout.Stretch;
+            ico_6.BackgroundImageLayout = ImageLayout.Zoom;
             ico_6.Location = new Point(595, -1);
             ico_6.Name = "ico_6";
             ico_6.Size = new Size(32, 32);
@@ -1212,7 +1212,7 @@ namespace CriptoGame_Online
             // ico_5
             // 
             ico_5.BackgroundImage = Properties.Resources.Oro_V2;
-            ico_5.BackgroundImageLayout = ImageLayout.Stretch;
+            ico_5.BackgroundImageLayout = ImageLayout.Zoom;
             ico_5.Location = new Point(475, -1);
             ico_5.Name = "ico_5";
             ico_5.Size = new Size(32, 32);
@@ -1243,7 +1243,7 @@ namespace CriptoGame_Online
             // ico_1
             // 
             ico_1.BackgroundImage = Properties.Resources.Grano_V2;
-            ico_1.BackgroundImageLayout = ImageLayout.Stretch;
+            ico_1.BackgroundImageLayout = ImageLayout.Zoom;
             ico_1.Location = new Point(0, -1);
             ico_1.Name = "ico_1";
             ico_1.Size = new Size(32, 32);
@@ -1263,7 +1263,7 @@ namespace CriptoGame_Online
             // ico_4
             // 
             ico_4.BackgroundImage = Properties.Resources.Ferro_V2;
-            ico_4.BackgroundImageLayout = ImageLayout.Stretch;
+            ico_4.BackgroundImageLayout = ImageLayout.Zoom;
             ico_4.Location = new Point(356, -1);
             ico_4.Name = "ico_4";
             ico_4.Size = new Size(32, 32);
@@ -1272,7 +1272,7 @@ namespace CriptoGame_Online
             // ico_3
             // 
             ico_3.BackgroundImage = Properties.Resources.Pietra_V2;
-            ico_3.BackgroundImageLayout = ImageLayout.Stretch;
+            ico_3.BackgroundImageLayout = ImageLayout.Zoom;
             ico_3.Location = new Point(238, -1);
             ico_3.Name = "ico_3";
             ico_3.Size = new Size(32, 32);
@@ -1312,7 +1312,7 @@ namespace CriptoGame_Online
             // ico_2
             // 
             ico_2.BackgroundImage = Properties.Resources.Legna_V2;
-            ico_2.BackgroundImageLayout = ImageLayout.Stretch;
+            ico_2.BackgroundImageLayout = ImageLayout.Zoom;
             ico_2.Location = new Point(119, -1);
             ico_2.Name = "ico_2";
             ico_2.Size = new Size(32, 32);
@@ -1430,7 +1430,7 @@ namespace CriptoGame_Online
             // ico_12
             // 
             ico_12.BackgroundImage = Properties.Resources.DiamanteViola_V2;
-            ico_12.BackgroundImageLayout = ImageLayout.Stretch;
+            ico_12.BackgroundImageLayout = ImageLayout.Zoom;
             ico_12.Location = new Point(228, 0);
             ico_12.Name = "ico_12";
             ico_12.Size = new Size(30, 30);
@@ -1450,7 +1450,7 @@ namespace CriptoGame_Online
             // ico_11
             // 
             ico_11.BackgroundImage = Properties.Resources.DiamanteBlu_V2;
-            ico_11.BackgroundImageLayout = ImageLayout.Stretch;
+            ico_11.BackgroundImageLayout = ImageLayout.Zoom;
             ico_11.Location = new Point(112, 0);
             ico_11.Name = "ico_11";
             ico_11.Size = new Size(30, 30);
@@ -1471,7 +1471,7 @@ namespace CriptoGame_Online
             // ico_10
             // 
             ico_10.BackgroundImage = Properties.Resources.user;
-            ico_10.BackgroundImageLayout = ImageLayout.Stretch;
+            ico_10.BackgroundImageLayout = ImageLayout.Zoom;
             ico_10.Location = new Point(0, 0);
             ico_10.Name = "ico_10";
             ico_10.Size = new Size(30, 30);
@@ -1492,7 +1492,7 @@ namespace CriptoGame_Online
             // ico_13
             // 
             ico_13.BackgroundImage = Properties.Resources.Tributi_V2;
-            ico_13.BackgroundImageLayout = ImageLayout.Stretch;
+            ico_13.BackgroundImageLayout = ImageLayout.Zoom;
             ico_13.Location = new Point(345, -5);
             ico_13.Name = "ico_13";
             ico_13.Size = new Size(36, 36);

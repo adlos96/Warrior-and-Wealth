@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CriptoGame_Online.Strumenti
+namespace Warrior_and_Wealth.Strumenti
 {
     internal class DoubleBufferedImage
     {

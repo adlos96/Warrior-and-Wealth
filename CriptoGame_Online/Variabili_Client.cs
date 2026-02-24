@@ -1,4 +1,4 @@
-﻿using CriptoGame_Online.GUI;
+﻿using Warrior_and_Wealth.GUI;
 using System.Collections.Generic;
 
 namespace Strategico_V2
@@ -143,6 +143,9 @@ namespace Strategico_V2
         public static bool[] GamePass_Premi_Completati = new bool[90];
         public static int Giorni_Accessi_Consecutivi = 0;
         public static List<dati> tutorial_dati = new List<dati>();
+
+        public static string versione_Client_Necessario = "0";
+        public static string versione_Client_Attuale = "0.1.0";
 
         public class Dati
         {

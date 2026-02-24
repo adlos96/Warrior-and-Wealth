@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace CriptoGame_Online.GUI
+namespace Warrior_and_Wealth.GUI
 {
     public partial class Scambia_Diamanti : Form
     {

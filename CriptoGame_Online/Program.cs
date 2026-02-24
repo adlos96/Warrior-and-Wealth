@@ -1,6 +1,6 @@
-using CriptoGame_Online.GUI;
+using Warrior_and_Wealth.GUI;
 
-namespace CriptoGame_Online
+namespace Warrior_and_Wealth
 {
     internal static class Program
     {

@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ActiveDebugProfile>CriptoGame_Online</ActiveDebugProfile>
+    <_LastSelectedProfileId>C:\Users\TheCh\source\repos\Online-Cripto-Game\CriptoGame_Online\Properties\PublishProfiles\ClickOnceProfile.pubxml</_LastSelectedProfileId>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Update="GUI\AttaccoCoordinato.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Costruzione.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Citta_V2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Esplorazione.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\GamePassReward.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Log_Battaglie.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Mappa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Notifiche.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Quest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Statistiche.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Ricerca.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\MontlyQuest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Ricerca_1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Scambia_Diamanti.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Spostamento_Truppe.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Tutorial.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Velocizza_Diamanti.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Strumenti\DoubleBufferedPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Strumenti\HealthBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Strumenti\GameTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="GUI\Gioco.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Shop.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GUI\Terreni_Virtuali.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

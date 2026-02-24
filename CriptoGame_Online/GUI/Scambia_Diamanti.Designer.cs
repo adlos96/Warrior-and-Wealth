@@ -1,4 +1,4 @@
-﻿namespace CriptoGame_Online.GUI
+﻿namespace Warrior_and_Wealth.GUI
 {
     partial class Scambia_Diamanti
     {
@@ -30,9 +30,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Scambia_Diamanti));
             txt_Diamond_Viola = new TextBox();
-            ico_12 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            ico_12 = new Warrior_and_Wealth.Strumenti.DoubleBufferedPanel();
             txt_Diamond_Blu = new TextBox();
-            ico_11 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            ico_11 = new Warrior_and_Wealth.Strumenti.DoubleBufferedPanel();
             btn_Scambia = new Button();
             txt_Testo = new TextBox();
             pictureBox_Più = new PictureBox();

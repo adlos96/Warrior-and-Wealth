@@ -1,4 +1,4 @@
-﻿using CriptoGame_Online;
+﻿using Warrior_and_Wealth;
 using System.Globalization;
 using System.Numerics;
 using System.Text;
@@ -34,8 +34,8 @@ namespace Strategico_V2
 
         internal class TestClient
         {
+            //public static string _ServerIp = "warriorandwealth.duckdns.org"; // adly.xed.im 185.229.236.183
             public static string _ServerIp = "localhost"; // adly.xed.im 185.229.236.183
-            //public static string _ServerIp = "79.44.11.166"; // adly.xed.im 185.229.236.183
             private static int _ServerPort = 8443;
             private static bool _Ssl = false;
             private static string _CertFile = "";
@@ -451,6 +451,8 @@ namespace Strategico_V2
                         // non convertibile -> ignoriamo
                     }
                 }
+                //Server
+                SetValue<string>("versione_Client_Necessario", v => Variabili_Client.versione_Client_Necessario = v);
 
                 // Utente
                 SetValue<string>("livello", v => Variabili_Client.Utente.Livello = v);

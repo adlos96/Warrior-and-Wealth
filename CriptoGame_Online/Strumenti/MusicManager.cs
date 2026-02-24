@@ -1,6 +1,6 @@
 ﻿using NAudio.Wave;
 
-namespace CriptoGame_Online.Strumenti
+namespace Warrior_and_Wealth.Strumenti
 {
     /// <summary>
     /// Gestisce la musica di sottofondo con fade, loop e playlist

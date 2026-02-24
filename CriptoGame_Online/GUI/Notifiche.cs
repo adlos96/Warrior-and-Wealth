@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
-namespace CriptoGame_Online.GUI
+namespace Warrior_and_Wealth.GUI
 {
     public partial class Notifiche : Form
     {

@@ -1,4 +1,4 @@
-﻿namespace CriptoGame_Online.GUI
+﻿namespace Warrior_and_Wealth.GUI
 {
     partial class Log_Battaglie
     {
@@ -33,13 +33,13 @@
             label2 = new Label();
             label5 = new Label();
             label6 = new Label();
-            ico_5 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
-            ico_1 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
-            ico_4 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
-            ico_3 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
-            ico_2 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
-            ico_12 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
-            ico_11 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            ico_5 = new Warrior_and_Wealth.Strumenti.DoubleBufferedPanel();
+            ico_1 = new Warrior_and_Wealth.Strumenti.DoubleBufferedPanel();
+            ico_4 = new Warrior_and_Wealth.Strumenti.DoubleBufferedPanel();
+            ico_3 = new Warrior_and_Wealth.Strumenti.DoubleBufferedPanel();
+            ico_2 = new Warrior_and_Wealth.Strumenti.DoubleBufferedPanel();
+            ico_12 = new Warrior_and_Wealth.Strumenti.DoubleBufferedPanel();
+            ico_11 = new Warrior_and_Wealth.Strumenti.DoubleBufferedPanel();
             label7 = new Label();
             label8 = new Label();
             label9 = new Label();
@@ -49,11 +49,11 @@
             label13 = new Label();
             label14 = new Label();
             label15 = new Label();
-            doubleBufferedPanel1 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
-            doubleBufferedPanel2 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
-            doubleBufferedPanel3 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
-            doubleBufferedPanel4 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
-            doubleBufferedPanel5 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            doubleBufferedPanel1 = new Warrior_and_Wealth.Strumenti.DoubleBufferedPanel();
+            doubleBufferedPanel2 = new Warrior_and_Wealth.Strumenti.DoubleBufferedPanel();
+            doubleBufferedPanel3 = new Warrior_and_Wealth.Strumenti.DoubleBufferedPanel();
+            doubleBufferedPanel4 = new Warrior_and_Wealth.Strumenti.DoubleBufferedPanel();
+            doubleBufferedPanel5 = new Warrior_and_Wealth.Strumenti.DoubleBufferedPanel();
             label16 = new Label();
             lbl_Esperienza = new Label();
             label22 = new Label();
@@ -67,8 +67,8 @@
             label31 = new Label();
             label32 = new Label();
             label30 = new Label();
-            doubleBufferedPanel6 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
-            doubleBufferedPanel7 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            doubleBufferedPanel6 = new Warrior_and_Wealth.Strumenti.DoubleBufferedPanel();
+            doubleBufferedPanel7 = new Warrior_and_Wealth.Strumenti.DoubleBufferedPanel();
             label36 = new Label();
             label37 = new Label();
             label38 = new Label();
@@ -77,7 +77,7 @@
             label3 = new Label();
             label35 = new Label();
             label34 = new Label();
-            doubleBufferedPanel8 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            doubleBufferedPanel8 = new Warrior_and_Wealth.Strumenti.DoubleBufferedPanel();
             label44 = new Label();
             label40 = new Label();
             label43 = new Label();
@@ -85,9 +85,9 @@
             label41 = new Label();
             label21 = new Label();
             label20 = new Label();
-            doubleBufferedPanel9 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            doubleBufferedPanel9 = new Warrior_and_Wealth.Strumenti.DoubleBufferedPanel();
             label45 = new Label();
-            doubleBufferedPanel10 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            doubleBufferedPanel10 = new Warrior_and_Wealth.Strumenti.DoubleBufferedPanel();
             progressBar1 = new ProgressBar();
             label46 = new Label();
             label47 = new Label();

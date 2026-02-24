@@ -1,7 +1,7 @@
-﻿using CriptoGame_Online.GUI;
+﻿using Warrior_and_Wealth.GUI;
 using Strategico_V2;
 
-namespace CriptoGame_Online
+namespace Warrior_and_Wealth
 {
     public partial class Ricerca_1 : Form
     {

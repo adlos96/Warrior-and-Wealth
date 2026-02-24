@@ -1,4 +1,4 @@
-﻿namespace CriptoGame_Online.GUI
+﻿namespace Warrior_and_Wealth.GUI
 {
     partial class Spostamento_Truppe
     {
@@ -37,20 +37,20 @@
             lbl_Struttura = new Label();
             panel3 = new Panel();
             label2 = new Label();
-            ico_Unit_3 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            ico_Unit_3 = new Warrior_and_Wealth.Strumenti.DoubleBufferedPanel();
             txt_Arciere_Struttura = new TextBox();
-            doubleBufferedPanel1 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            doubleBufferedPanel1 = new Warrior_and_Wealth.Strumenti.DoubleBufferedPanel();
             btn_V_Struttura = new Button();
             btn_I_Struttura = new Button();
             btn_III_Struttura = new Button();
             btn_IV_Struttura = new Button();
             btn_II_Struttura = new Button();
             panel5 = new Panel();
-            ico_Unit_2 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            ico_Unit_2 = new Warrior_and_Wealth.Strumenti.DoubleBufferedPanel();
             label3 = new Label();
             txt_Lanciere_Struttura = new TextBox();
             panel7 = new Panel();
-            ico_Unit_1 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            ico_Unit_1 = new Warrior_and_Wealth.Strumenti.DoubleBufferedPanel();
             label4 = new Label();
             txt_Guerriero_Struttura = new TextBox();
             groupBox_Esercito = new GroupBox();
@@ -59,22 +59,22 @@
             panel_Catapulta = new Panel();
             txt_Catapulta_Esercito = new TextBox();
             lbl_Esercito = new Label();
-            panel_Sfondo_Bottoni = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            panel_Sfondo_Bottoni = new Warrior_and_Wealth.Strumenti.DoubleBufferedPanel();
             btn_V_Esercito = new Button();
             btn_I_Esercito = new Button();
             btn_III_Esercito = new Button();
             btn_IV_Esercito = new Button();
             btn_II_Esercito = new Button();
             panel43 = new Panel();
-            doubleBufferedPanel2 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            doubleBufferedPanel2 = new Warrior_and_Wealth.Strumenti.DoubleBufferedPanel();
             label86 = new Label();
             txt_Guerriero_Esercito = new TextBox();
             panel39 = new Panel();
-            doubleBufferedPanel10 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            doubleBufferedPanel10 = new Warrior_and_Wealth.Strumenti.DoubleBufferedPanel();
             label76 = new Label();
             txt_Arciere_Esercito = new TextBox();
             panel41 = new Panel();
-            doubleBufferedPanel6 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            doubleBufferedPanel6 = new Warrior_and_Wealth.Strumenti.DoubleBufferedPanel();
             label81 = new Label();
             txt_Lanciere_Esercito = new TextBox();
             lbl_Guerriero = new Label();

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static CriptoGame_Online.Strumenti.GameTextBox;
+using static Warrior_and_Wealth.Strumenti.GameTextBox;
 
-namespace CriptoGame_Online.Strumenti
+namespace Warrior_and_Wealth.Strumenti
 {
     internal class LogSupport
     {

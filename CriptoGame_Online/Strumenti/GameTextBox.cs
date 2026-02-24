@@ -1,4 +1,4 @@
-﻿namespace CriptoGame_Online.Strumenti
+﻿namespace Warrior_and_Wealth.Strumenti
 {
     using System;
     using System.Collections.Generic;

@@ -1,5 +1,5 @@
 ﻿
-namespace CriptoGame_Online
+namespace Warrior_and_Wealth
 {
     public partial class Terreni_Virtuali : Form
     {

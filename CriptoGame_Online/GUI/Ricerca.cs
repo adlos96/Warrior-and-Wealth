@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace CriptoGame_Online
+namespace Warrior_and_Wealth
 {
     public partial class Ricerca : Form
     {

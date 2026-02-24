@@ -1,9 +1,9 @@
-﻿using CriptoGame_Online.GUI;
-using CriptoGame_Online.Strumenti;
+﻿using Warrior_and_Wealth.GUI;
+using Warrior_and_Wealth.Strumenti;
 using Strategico_V2;
 using System.Reflection;
 
-namespace CriptoGame_Online
+namespace Warrior_and_Wealth
 {
     public partial class Gioco : Form
     {

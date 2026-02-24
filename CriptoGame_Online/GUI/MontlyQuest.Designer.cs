@@ -1,4 +1,4 @@
-﻿namespace CriptoGame_Online
+﻿namespace Warrior_and_Wealth
 {
     partial class MontlyQuest
     {

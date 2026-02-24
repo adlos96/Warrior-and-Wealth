@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace CriptoGame_Online
+namespace Warrior_and_Wealth
 {
     public partial class Shop : Form
     {

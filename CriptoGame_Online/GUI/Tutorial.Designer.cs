@@ -1,4 +1,4 @@
-﻿namespace CriptoGame_Online.GUI
+﻿namespace Warrior_and_Wealth.GUI
 {
     partial class Tutorial
     {
@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            panel2 = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            panel2 = new Warrior_and_Wealth.Strumenti.DoubleBufferedPanel();
             textBox1 = new TextBox();
-            panel_Log = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            panel_Log = new Warrior_and_Wealth.Strumenti.DoubleBufferedPanel();
             panel2.SuspendLayout();
             SuspendLayout();
             // 

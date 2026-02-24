@@ -1,6 +1,6 @@
-﻿using CriptoGame_Online.Strumenti;
+﻿using Warrior_and_Wealth.Strumenti;
 
-namespace CriptoGame_Online
+namespace Warrior_and_Wealth
 {
     partial class Costruzione
     {

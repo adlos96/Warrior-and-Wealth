@@ -1,4 +1,4 @@
-﻿namespace CriptoGame_Online.GUI
+﻿namespace Warrior_and_Wealth.GUI
 {
     partial class Mappa
     {
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Panel_Mappa = new CriptoGame_Online.Strumenti.DoubleBufferedPanel();
+            Panel_Mappa = new Warrior_and_Wealth.Strumenti.DoubleBufferedPanel();
             SuspendLayout();
             // 
             // Panel_Mappa

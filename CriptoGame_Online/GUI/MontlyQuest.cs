@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using static Strategico_V2.ClientConnection;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace CriptoGame_Online
+namespace Warrior_and_Wealth
 {
     public partial class MontlyQuest : Form
     {

@@ -1,6 +1,6 @@
 ﻿using Strategico_V2;
 
-namespace CriptoGame_Online.GUI
+namespace Warrior_and_Wealth.GUI
 {
     public partial class Statistiche : Form
     {
