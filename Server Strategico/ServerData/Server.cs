@@ -189,6 +189,7 @@ namespace Server_Strategico.Server
             {
                 Client_Connessi.Add(lastGuid);
             }
+            Send(lastGuid, $"Update_Data|versione_Client_Necessario={Variabili_Server.versione_Client_Necessario}");
         }
         static void ClientDisconnected(object? sender, DisconnectionEventArgs args)
         {
