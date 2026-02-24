@@ -12,7 +12,7 @@ namespace Server_Strategico.ServerData.Moduli
     internal class GameSave
     {
         static bool Saved = false;
-        public static readonly string SavePath = Path.Combine(
+        public static string SavePath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), 
             "Server Strategico",
             "Saves_Test"
