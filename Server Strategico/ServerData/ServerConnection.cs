@@ -1,14 +1,15 @@
 ﻿using Server_Strategico.Gioco;
 using Server_Strategico.Manager;
 using Server_Strategico.ServerData.Moduli;
+using System.Reflection.Emit;
 using System.Text;
 using System.Text.Json;
 using WatsonTcp;
 using static BattaglieV2;
 using static Server_Strategico.Gioco.Barbari;
 using static Server_Strategico.Gioco.Giocatori;
-using static Server_Strategico.Manager.QuestManager;
 using static Server_Strategico.Gioco.Strutture;
+using static Server_Strategico.Manager.QuestManager;
 
 namespace Server_Strategico.Server
 {
@@ -971,6 +972,13 @@ namespace Server_Strategico.Server
         }
         public static void Tutorial(Player player)
         {
+            if (player.Tutorial == true) //Reset tutorial se non completato, causa disconnessione, chiusura, bug o altro...
+                for (int i = 0; i < player.Tutorial_Stato.Count(); i++)
+                {
+                    if (player.Tutorial_Stato[i] == false) break;
+                    player.Tutorial_Stato[i] = false;
+                }
+
             List<Tutorial.dati> tutorial = new List<Tutorial.dati>
             {
                 new Tutorial.dati { StatoTutorial = ServerData.Moduli.Tutorial.Parti.Introduzione_1.StatoTutorial, Obiettivo = ServerData.Moduli.Tutorial.Parti.Introduzione_1.Obiettivo, Descrizione = ServerData.Moduli.Tutorial.Parti.Introduzione_1.Descrizione },
