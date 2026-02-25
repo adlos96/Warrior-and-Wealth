@@ -1,5 +1,6 @@
 ﻿using Server_Strategico.Gioco;
 using Server_Strategico.Manager;
+using System.Globalization;
 using System.Text;
 using static Server_Strategico.Gioco.Giocatori;
 using static Server_Strategico.Gioco.Strutture;
@@ -101,12 +102,12 @@ namespace Server_Strategico.ServerData.Moduli
                 ["popolazione_max"] = Edifici.Case.Limite.ToString("#,0"),
 
                 //Produzione Risorse
-                ["cibo_s"] = (player.Fattoria * (Strutture.Edifici.Fattoria.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Cibo * (1 + player.Bonus_Produzione_Risorse))).ToString("#,0.00"),
-                ["legna_s"] = (player.Segheria * (Strutture.Edifici.Segheria.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Legno * (1 + player.Bonus_Produzione_Risorse))).ToString("#,0.00"),
-                ["pietra_s"] = (player.CavaPietra * (Strutture.Edifici.CavaPietra.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Pietra * (1 + player.Bonus_Produzione_Risorse))).ToString("#,0.00"),
-                ["ferro_s"] = (player.MinieraFerro * (Strutture.Edifici.MinieraFerro.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Ferro * (1 + player.Bonus_Produzione_Risorse))).ToString("#,0.00"),
-                ["oro_s"] = (player.MinieraOro * (Strutture.Edifici.MinieraOro.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Oro * (1 + player.Bonus_Produzione_Risorse))).ToString("#,0.00"),
-                ["popolazione_s"] = (player.Abitazioni * (Strutture.Edifici.Case.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Popolazione)).ToString("#,0.0000"),
+                ["cibo_s"] = (player.Fattoria * (Strutture.Edifici.Fattoria.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Cibo * (1 + player.Bonus_Produzione_Risorse))).ToString("#,0.00", CultureInfo.InvariantCulture),
+                ["legna_s"] = (player.Segheria * (Strutture.Edifici.Segheria.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Legno * (1 + player.Bonus_Produzione_Risorse))).ToString("#,0.00", CultureInfo.InvariantCulture),
+                ["pietra_s"] = (player.CavaPietra * (Strutture.Edifici.CavaPietra.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Pietra * (1 + player.Bonus_Produzione_Risorse))).ToString("#,0.00", CultureInfo.InvariantCulture)),
+                ["ferro_s"] = (player.MinieraFerro * (Strutture.Edifici.MinieraFerro.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Ferro * (1 + player.Bonus_Produzione_Risorse))).ToString("#,0.00", CultureInfo.InvariantCulture),
+                ["oro_s"] = (player.MinieraOro * (Strutture.Edifici.MinieraOro.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Oro * (1 + player.Bonus_Produzione_Risorse))).ToString("#,0.00", CultureInfo.InvariantCulture),
+                ["popolazione_s"] = (player.Abitazioni * (Strutture.Edifici.Case.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Popolazione)).ToString("#,0.0000", CultureInfo.InvariantCulture),
 
                 ["spade_s"] = (player.Workshop_Spade * (Strutture.Edifici.ProduzioneSpade.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Spade)).ToString("#,0.000"),
                 ["lance_s"] = (player.Workshop_Lance * (Strutture.Edifici.ProduzioneLance.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Lance)).ToString("#,0.000"),
