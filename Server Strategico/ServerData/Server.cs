@@ -409,14 +409,16 @@ namespace Server_Strategico.Server
                 await GameSave.Load_Player_Data_Auto();
                 servers_.AggiornaListaPVP();
                 await Gioco.Barbari.Inizializza();
-                CompleteTask(cancellationToken); //Avvolte genera un'eccezione... la collezione è stata modificata.
+                _ = Task.Run(() => CompleteTask(cancellationToken));
                 ScheduleManager.AvvioReset();
                 // ----------------------------------------------
                 int maxConcurrentTasks = Math.Max(1, Environment.ProcessorCount); //Core disponibili
                 var workers = new Task[maxConcurrentTasks]; // N task = N core
+                var queue = new ConcurrentQueue<Player>(players.Values);  // Pool condiviso (consuma molta cpu e tempo...)
                 while (!cancellationToken.IsCancellationRequested)
                 {
-                    var queue = new ConcurrentQueue<Player>(players.Values);  // Pool condiviso (consuma molta cpu e tempo...)
+                    queue.Clear();
+                    foreach (var p in players.Values) queue.Enqueue(p);
 
                     Stopwatch taskStopwatch = Stopwatch.StartNew();
                     saveCounterPlayer++;
@@ -681,9 +683,15 @@ namespace Server_Strategico.Server
                         }
                     }
 
-                    if (saveServer >= 1200) GameSave.SaveServerData();
+                    if (saveServer >= 1200)
+                    {
+                        await GameSave.SaveServerData();
+                        GC.Collect();
+                        GC.WaitForPendingFinalizers();
+                        GC.Collect();
+                    }
                     if (tempo_1 >= 4) Auto_Update_Clients();
-                    if (savePlayer >= 80) SaveSomePlayersAsync(100); //Salva 50 player per volta...
+                    if (savePlayer >= 80) await SaveSomePlayersAsync(100); //Salva 50 player per volta...
                     if (saveServer >= 1200) saveServer = 0;
                     if (tempo_1 >= 4) tempo_1 = 0;
                     if (savePlayer >= 80) savePlayer = 0;

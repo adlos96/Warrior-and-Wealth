@@ -904,7 +904,7 @@ namespace Server_Strategico.Gioco
                 if (Ferro <= 0) Ferro = 0;
                 if (Oro <= 0) Oro = 0;
             }
-            public async Task ServerTimer() //Timers del server
+            public void ServerTimer() //Timers del server
             {
                 if (Vip_Tempo > 0) Vip_Tempo--;
                 if (Vip_Tempo == 0) Vip = false;

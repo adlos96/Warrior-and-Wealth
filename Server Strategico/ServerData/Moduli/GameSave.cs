@@ -355,7 +355,6 @@ namespace Server_Strategico.ServerData.Moduli
                     var villaggiJson = JsonSerializer.Serialize(player.VillaggiPersonali, new JsonSerializerOptions { WriteIndented = true });
                     string fileName1 = Path.Combine(SavePath, $"{player.Username}_Villaggi.json");
                     await File.WriteAllTextAsync(fileName1, villaggiJson);
-                    File.WriteAllText(fileName1, villaggiJson);
                 }
 
                 if (Gioco.Barbari.CittaGlobali != null) // Salvataggio Città Globali
@@ -363,7 +362,6 @@ namespace Server_Strategico.ServerData.Moduli
                     var cittaJson = JsonSerializer.Serialize(Gioco.Barbari.CittaGlobali, new JsonSerializerOptions { WriteIndented = true });
                     string fileName1 = Path.Combine(SavePath, $"{player.Username}_Citta.json");
                     await File.WriteAllTextAsync(fileName1, cittaJson);
-                    File.WriteAllText(fileName1, cittaJson);
                 }
 
                 string fileName = Path.Combine(SavePath, $"{player.Username}.json");
