@@ -1,5 +1,6 @@
 ﻿using Server_Strategico.Gioco;
 using Server_Strategico.Manager;
+using System.Globalization;
 using System.Text;
 using static Server_Strategico.Gioco.Giocatori;
 using static Server_Strategico.Gioco.Strutture;
@@ -101,12 +102,12 @@ namespace Server_Strategico.ServerData.Moduli
                 ["popolazione_max"] = Edifici.Case.Limite.ToString("#,0"),
 
                 //Produzione Risorse
-                ["cibo_s"] = (player.Fattoria * (Strutture.Edifici.Fattoria.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Cibo * (1 + player.Bonus_Produzione_Risorse))).ToString("#,0.00"),
-                ["legna_s"] = (player.Segheria * (Strutture.Edifici.Segheria.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Legno * (1 + player.Bonus_Produzione_Risorse))).ToString("#,0.00"),
-                ["pietra_s"] = (player.CavaPietra * (Strutture.Edifici.CavaPietra.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Pietra * (1 + player.Bonus_Produzione_Risorse))).ToString("#,0.00"),
-                ["ferro_s"] = (player.MinieraFerro * (Strutture.Edifici.MinieraFerro.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Ferro * (1 + player.Bonus_Produzione_Risorse))).ToString("#,0.00"),
-                ["oro_s"] = (player.MinieraOro * (Strutture.Edifici.MinieraOro.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Oro * (1 + player.Bonus_Produzione_Risorse))).ToString("#,0.00"),
-                ["popolazione_s"] = (player.Abitazioni * (Strutture.Edifici.Case.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Popolazione)).ToString("#,0.0000"),
+                ["cibo_s"] = (player.Fattoria * (Strutture.Edifici.Fattoria.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Cibo * (1 + player.Bonus_Produzione_Risorse))).ToString("N2"),
+                ["legna_s"] = (player.Segheria * (Strutture.Edifici.Segheria.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Legno * (1 + player.Bonus_Produzione_Risorse))).ToString("N2"),
+                ["pietra_s"] = (player.CavaPietra * (Strutture.Edifici.CavaPietra.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Pietra * (1 + player.Bonus_Produzione_Risorse))).ToString("N2"),
+                ["ferro_s"] = (player.MinieraFerro * (Strutture.Edifici.MinieraFerro.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Ferro * (1 + player.Bonus_Produzione_Risorse))).ToString("N2"),
+                ["oro_s"] = (player.MinieraOro * (Strutture.Edifici.MinieraOro.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Oro * (1 + player.Bonus_Produzione_Risorse))).ToString("N2"),
+                ["popolazione_s"] = (player.Abitazioni * (Strutture.Edifici.Case.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Popolazione)).ToString("N4"),
 
                 ["spade_s"] = (player.Workshop_Spade * (Strutture.Edifici.ProduzioneSpade.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Spade)).ToString("#,0.000"),
                 ["lance_s"] = (player.Workshop_Lance * (Strutture.Edifici.ProduzioneLance.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Lance)).ToString("#,0.000"),
@@ -115,13 +116,13 @@ namespace Server_Strategico.ServerData.Moduli
                 ["armature_s"] = (player.Workshop_Armature * (Strutture.Edifici.ProduzioneArmature.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Armature)).ToString("#,0.000"),
                 ["frecce_s"] = (player.Workshop_Frecce * (Strutture.Edifici.ProduzioneFrecce.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Popolazione)).ToString("#,0.000"),
 
-                ["consumo_cibo_s"] = Cibo.ToString("#,0.00"), //Esercito
-                ["consumo_oro_s"] = Oro.ToString("#,0.00"), //Esercito
-                ["consumo_cibo_strutture"] = Cibo_Strutture.ToString("#,0.00"), //Strutture
-                ["consumo_legno_strutture"] = Legno_Strutture.ToString("#,0.00"), //Strutture
-                ["consumo_pietra_strutture"] = Pietra_Strutture.ToString("#,0.00"), //Strutture
-                ["consumo_ferro_strutture"] = Ferro_Strutture.ToString("#,0.00"), //Strutture
-                ["consumo_oro_strutture"] = Oro_Strutture.ToString("#,0.00"), //Strutture
+                ["consumo_cibo_s"] = Cibo.ToString("N2"), //Esercito
+                ["consumo_oro_s"] = Oro.ToString("N2"), //Esercito
+                ["consumo_cibo_strutture"] = Cibo_Strutture.ToString("N2"), //Strutture
+                ["consumo_legno_strutture"] = Legno_Strutture.ToString("N2"), //Strutture
+                ["consumo_pietra_strutture"] = Pietra_Strutture.ToString("N2"), //Strutture
+                ["consumo_ferro_strutture"] = Ferro_Strutture.ToString("N2"), //Strutture
+                ["consumo_oro_strutture"] = Oro_Strutture.ToString("N2"), //Strutture
 
                 //Limiti Risorse
                 ["cibo_limite"] = (player.Fattoria * Strutture.Edifici.Fattoria.Limite).ToString("#,0"),
