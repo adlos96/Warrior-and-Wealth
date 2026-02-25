@@ -70,6 +70,10 @@ namespace Server_Strategico.Server
                     if (await Login(msgArgs[1], msgArgs[2], clientGuid))
                     {
                         Server.Send(clientGuid, "Login|true");
+
+                        Server.Client_Connessi_Map.TryRemove(clientGuid, out _);
+                        Server.Client_Connessi_Map.TryAdd(clientGuid, player.Username);
+
                         Descrizioni.DescUpdate(player);
                         QuestManager.QuestUpdate(player);
                         QuestManager.QuestRewardUpdate(player);

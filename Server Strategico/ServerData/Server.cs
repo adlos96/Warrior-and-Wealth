@@ -610,7 +610,7 @@ namespace Server_Strategico.Server
                             if (update_5s >= 5)
                             {
                                 player.ManutenzioneEsercito();
-                                player.SetupVillaggioGiocatore(player);
+                                //player.SetupVillaggioGiocatore(player);
                             }
 
                             lock (player.LockCostruzione)
@@ -694,12 +694,14 @@ namespace Server_Strategico.Server
                         GC.WaitForPendingFinalizers();
                         GC.Collect();
                     }
-                    if (tempo_1 >= 4) await Auto_Update_Clients();
+                    if (tempo_1 >= 4)
+                    {
+                        await Auto_Update_Clients();
+                        tempo_1 = 0;
+                    }
                     if (savePlayer >= 80) await SaveSomePlayersAsync(100); //Salva 50 player per volta...
                     if (saveServer >= 1200) saveServer = 0;
-                    if (tempo_1 >= 4) tempo_1 = 0;
                     if (savePlayer >= 80) savePlayer = 0;
-                    Console.WriteLine("Loop Secondario attivo");
                     tempo_1++;
                     saveServer++;
                     savePlayer++;
