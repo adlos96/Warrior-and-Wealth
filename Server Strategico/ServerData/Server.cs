@@ -694,7 +694,7 @@ namespace Server_Strategico.Server
                         GC.WaitForPendingFinalizers();
                         GC.Collect();
                     }
-                    if (tempo_1 >= 4) Auto_Update_Clients();
+                    if (tempo_1 >= 4) await Auto_Update_Clients();
                     if (savePlayer >= 80) await SaveSomePlayersAsync(100); //Salva 50 player per volta...
                     if (saveServer >= 1200) saveServer = 0;
                     if (tempo_1 >= 4) tempo_1 = 0;
