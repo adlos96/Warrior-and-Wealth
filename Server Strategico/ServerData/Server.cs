@@ -699,6 +699,7 @@ namespace Server_Strategico.Server
                     if (saveServer >= 1200) saveServer = 0;
                     if (tempo_1 >= 4) tempo_1 = 0;
                     if (savePlayer >= 80) savePlayer = 0;
+                    Console.WriteLine("Loop Secondario attivo");
                     tempo_1++;
                     saveServer++;
                     savePlayer++;
