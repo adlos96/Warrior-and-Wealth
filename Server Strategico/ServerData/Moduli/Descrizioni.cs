@@ -293,7 +293,7 @@ namespace Server_Strategico.ServerData.Moduli
 
             //Esercito
             tempoCalcolato = Esercito.CostoReclutamento.Guerriero_1.TempoReclutamento - player.Ricerca_Addestramento * Ricerca.Guerrieri_Riduzione * (player.Bonus_Addestramento + 1);
-            tempoBase = Esercito.Unità.Guerriero_1.TempoReclutamento;
+            tempoBase = Esercito.CostoReclutamento.Guerriero_1.TempoReclutamento;
             Send(player.guid_Player, $"Descrizione|Guerrieri 1|[black]" +
                 $"I guerrieri I sono la spina dorsale dell'esercito, anche se sprovvisti di scudo sono, " +
                 $"sono facili da reclutare e non sono molto dispendiosi in cibo ed oro.\n\n" +
@@ -316,7 +316,7 @@ namespace Server_Strategico.ServerData.Moduli
                 $"Attacco: [rosso]{Esercito.Unità.Guerriero_1.Attacco.ToString("#,0")}[black]{(player.Guerriero_Attacco == 0 ? "" : $" [black]+ [rosso]{player.Guerriero_Attacco}[black]")}\n");
 
             tempoCalcolato = Esercito.CostoReclutamento.Guerriero_2.TempoReclutamento - player.Ricerca_Addestramento * Ricerca.Guerrieri_Riduzione * (player.Bonus_Addestramento + 1);
-            tempoBase = Esercito.Unità.Guerriero_2.TempoReclutamento;
+            tempoBase = Esercito.CostoReclutamento.Guerriero_2.TempoReclutamento;
             Send(player.guid_Player, $"Descrizione|Guerrieri 2|[black]" +
                 $"I guerrieri II sono la spina dorsale dell'esercito, anche se sprovvisti di scudo sono, " +
                 $"sono facili da reclutare e non sono molto dispendiosi in cibo ed oro.\n\n" +
@@ -342,7 +342,7 @@ namespace Server_Strategico.ServerData.Moduli
                 $"Attacco: [rosso]{Esercito.Unità.Guerriero_2.Attacco.ToString("#,0")}[black]{(player.Guerriero_Attacco == 0 ? "" : $" [black]+ [rosso]{player.Guerriero_Attacco}[black]")}\n");
 
             tempoCalcolato = Esercito.CostoReclutamento.Guerriero_3.TempoReclutamento - player.Ricerca_Addestramento * Ricerca.Guerrieri_Riduzione * (player.Bonus_Addestramento + 1);
-            tempoBase = Esercito.Unità.Guerriero_3.TempoReclutamento;
+            tempoBase = Esercito.CostoReclutamento.Guerriero_3.TempoReclutamento;
             Send(player.guid_Player, $"Descrizione|Guerrieri 3|[black]" +
                 $"I guerrieri III sono la spina dorsale dell'esercito, anche se sprovvisti di scudo sono, " +
                 $"sono facili da reclutare e non sono molto dispendiosi in cibo ed oro.\n\n" +
@@ -368,7 +368,7 @@ namespace Server_Strategico.ServerData.Moduli
                 $"Attacco: [rosso]{Esercito.Unità.Guerriero_3.Attacco.ToString("#,0")}[black]{(player.Guerriero_Attacco == 0 ? "" : $" [black]+ [rosso]{player.Guerriero_Attacco}[black]")}\n");
 
             tempoCalcolato = Esercito.CostoReclutamento.Guerriero_4.TempoReclutamento - player.Ricerca_Addestramento * Ricerca.Guerrieri_Riduzione * (player.Bonus_Addestramento + 1);
-            tempoBase = Esercito.Unità.Guerriero_4.TempoReclutamento;
+            tempoBase = Esercito.CostoReclutamento.Guerriero_4.TempoReclutamento;
             Send(player.guid_Player, $"Descrizione|Guerrieri 4|[black]" +
                 $"I guerrieri IV sono la spina dorsale dell'esercito, anche se sprovvisti di scudo sono, " +
                 $"sono facili da reclutare e non sono molto dispendiosi in cibo ed oro.\n\n" +
@@ -394,7 +394,7 @@ namespace Server_Strategico.ServerData.Moduli
                 $"Attacco: [rosso]{Esercito.Unità.Guerriero_4.Attacco.ToString("#,0")}[black]{(player.Guerriero_Attacco == 0 ? "" : $" [black]+ [rosso]{player.Guerriero_Attacco}[black]")}\n");
 
             tempoCalcolato = Esercito.CostoReclutamento.Guerriero_5.TempoReclutamento - player.Ricerca_Addestramento * Ricerca.Guerrieri_Riduzione * (player.Bonus_Addestramento + 1);
-            tempoBase = Esercito.Unità.Guerriero_5.TempoReclutamento;
+            tempoBase = Esercito.CostoReclutamento.Guerriero_5.TempoReclutamento;
             Send(player.guid_Player, $"Descrizione|Guerrieri 5|[black]" +
                 $"I guerrieri V sono la spina dorsale dell'esercito, anche se sprovvisti di scudo sono, " +
                 $"sono facili da reclutare e non sono molto dispendiosi in cibo ed oro.\n\n" +
@@ -420,7 +420,7 @@ namespace Server_Strategico.ServerData.Moduli
                 $"Attacco: [rosso]{Esercito.Unità.Guerriero_5.Attacco.ToString("#,0")}[black]{(player.Guerriero_Attacco == 0 ? "" : $" [black]+ [rosso]{player.Guerriero_Attacco}[black]")}\n");
 
             tempoCalcolato = Esercito.CostoReclutamento.Lancere_1.TempoReclutamento - player.Ricerca_Addestramento * Ricerca.Lanceri_Riduzione * (player.Bonus_Addestramento + 1);
-            tempoBase = Esercito.Unità.Lancere_1.TempoReclutamento;
+            tempoBase = Esercito.CostoReclutamento.Lancere_1.TempoReclutamento;
             Send(player.guid_Player, $"Descrizione|Lanceri 1|[black]" +
                 $"I lancieri I sono la spina dorsale di ogni esercito ben organizzato. Armati di lance, " +
                 $"questi soldati costituiscono un baluardo formidabile contro gli assalti nemici.\n\n" +
@@ -444,7 +444,7 @@ namespace Server_Strategico.ServerData.Moduli
                 $"Attacco: [rosso]{Esercito.Unità.Lancere_1.Attacco.ToString("#,0")}[black]{(player.Lancere_Attacco == 0 ? "" : $" [black]+ [rosso]{player.Lancere_Attacco}[black]")}\n");
 
             tempoCalcolato = Esercito.CostoReclutamento.Lancere_2.TempoReclutamento - player.Ricerca_Addestramento * Ricerca.Lanceri_Riduzione * (player.Bonus_Addestramento + 1);
-            tempoBase = Esercito.Unità.Lancere_2.TempoReclutamento;
+            tempoBase = Esercito.CostoReclutamento.Lancere_2.TempoReclutamento;
             Send(player.guid_Player, $"Descrizione|Lanceri 2|[black]" +
                 $"I lancieri II sono la spina dorsale di ogni esercito ben organizzato. Armati di lancie, " +
                 $"questi soldati costituiscono un baluardo formidabile contro gli assalti nemici.\n\n" +
@@ -470,7 +470,7 @@ namespace Server_Strategico.ServerData.Moduli
                 $"Attacco: [rosso]{Esercito.Unità.Lancere_2.Attacco.ToString("#,0")}[black]{(player.Lancere_Attacco == 0 ? "" : $" [black]+ [rosso]{player.Lancere_Attacco}[black]")}\n");
 
             tempoCalcolato = Esercito.CostoReclutamento.Lancere_3.TempoReclutamento - player.Ricerca_Addestramento * Ricerca.Lanceri_Riduzione * (player.Bonus_Addestramento + 1);
-            tempoBase = Esercito.Unità.Lancere_3.TempoReclutamento;
+            tempoBase = Esercito.CostoReclutamento.Lancere_3.TempoReclutamento;
             Send(player.guid_Player, $"Descrizione|Lanceri 3|[black]" +
                 $"I lancieri III sono la spina dorsale di ogni esercito ben organizzato. Armati di lance, " +
                 $"questi soldati costituiscono un baluardo formidabile contro gli assalti nemici.\n\n" +
@@ -496,7 +496,7 @@ namespace Server_Strategico.ServerData.Moduli
                 $"Attacco: [rosso]{Esercito.Unità.Lancere_3.Attacco.ToString("#,0")}[black]{(player.Lancere_Attacco == 0 ? "" : $" [black]+ [rosso]{player.Lancere_Attacco}[black]")}\n");
 
             tempoCalcolato = Esercito.CostoReclutamento.Lancere_4.TempoReclutamento - player.Ricerca_Addestramento * Ricerca.Lanceri_Riduzione * (player.Bonus_Addestramento + 1);
-            tempoBase = Esercito.Unità.Lancere_4.TempoReclutamento;
+            tempoBase = Esercito.CostoReclutamento.Lancere_4.TempoReclutamento;
             Send(player.guid_Player, $"Descrizione|Lanceri 4|[black]" +
                 $"I lancieri IV sono la spina dorsale di ogni esercito ben organizzato. Armati di lance, " +
                 $"questi soldati costituiscono un baluardo formidabile contro gli assalti nemici.\n\n" +
@@ -522,7 +522,7 @@ namespace Server_Strategico.ServerData.Moduli
                 $"Attacco: [rosso]{Esercito.Unità.Lancere_4.Attacco.ToString("#,0")}[black]{(player.Lancere_Attacco == 0 ? "" : $" [black]+ [rosso]{player.Lancere_Attacco}[black]")}\n");
 
             tempoCalcolato = Esercito.CostoReclutamento.Lancere_5.TempoReclutamento - player.Ricerca_Addestramento * Ricerca.Lanceri_Riduzione * (player.Bonus_Addestramento + 1);
-            tempoBase = Esercito.Unità.Lancere_5.TempoReclutamento;
+            tempoBase = Esercito.CostoReclutamento.Lancere_5.TempoReclutamento;
             Send(player.guid_Player, $"Descrizione|Lanceri 5|[black]" +
                 $"I lancieri V sono la spina dorsale di ogni esercito ben organizzato. Armati di lance, " +
                 $"questi soldati costituiscono un baluardo formidabile contro gli assalti nemici.\n\n" +
@@ -548,7 +548,7 @@ namespace Server_Strategico.ServerData.Moduli
                 $"Attacco: [rosso]{Esercito.Unità.Lancere_5.Attacco.ToString("#,0")}[black]{(player.Lancere_Attacco == 0 ? "" : $" [black]+ [rosso]{player.Lancere_Attacco}[black]")}\n");
 
             tempoCalcolato = Esercito.CostoReclutamento.Arcere_1.TempoReclutamento - player.Ricerca_Addestramento * Ricerca.Arceri_Riduzione * (player.Bonus_Addestramento + 1);
-            tempoBase = Esercito.Unità.Arcere_1.TempoReclutamento;
+            tempoBase = Esercito.CostoReclutamento.Arcere_1.TempoReclutamento;
             Send(player.guid_Player, $"Descrizione|Arceri 1|[black]" +
                 $"Gli arcieri I armati di arco e faretra, sono soldati specializzati, dominano il campo di battaglia dalla distanza, " +
                 $"scagliando frecce mortali sulle linee nemiche, prima che possano avvicinarsi.\n\n" +
@@ -571,7 +571,7 @@ namespace Server_Strategico.ServerData.Moduli
                 $"Attacco: [rosso]{Esercito.Unità.Arcere_1.Attacco.ToString("#,0")}[black]{(player.Arcere_Attacco == 0 ? "" : $" [black]+ [rosso]{player.Arcere_Attacco}[black]")}\n");
 
             tempoCalcolato = Esercito.CostoReclutamento.Arcere_2.TempoReclutamento - player.Ricerca_Addestramento * Ricerca.Arceri_Riduzione * (player.Bonus_Addestramento + 1);
-            tempoBase = Esercito.Unità.Arcere_2.TempoReclutamento;
+            tempoBase = Esercito.CostoReclutamento.Arcere_2.TempoReclutamento;
             Send(player.guid_Player, $"Descrizione|Arceri 2|[black]" +
                 $"Gli arcieri II armati di arco e faretra, sono soldati specializzati, dominano il campo di battaglia dalla distanza, " +
                 $"scagliando frecce mortali sulle linee nemiche, prima che possano avvicinarsi.\n\n" +
@@ -597,7 +597,7 @@ namespace Server_Strategico.ServerData.Moduli
                 $"Attacco: [rosso]{Esercito.Unità.Arcere_2.Attacco.ToString("#,0")}[black]{(player.Arcere_Attacco == 0 ? "" : $" [black]+ [rosso]{player.Arcere_Attacco}[black]")}\n");
 
             tempoCalcolato = Esercito.CostoReclutamento.Arcere_3.TempoReclutamento - player.Ricerca_Addestramento * Ricerca.Arceri_Riduzione * (player.Bonus_Addestramento + 1);
-            tempoBase = Esercito.Unità.Arcere_3.TempoReclutamento;
+            tempoBase = Esercito.CostoReclutamento.Arcere_3.TempoReclutamento;
             Send(player.guid_Player, $"Descrizione|Arceri 3|[black]" +
                 $"Gli arcieri III armati di arco e faretra, sono soldati specializzati, dominano il campo di battaglia dalla distanza, " +
                 $"scagliando frecce mortali sulle linee nemiche, prima che possano avvicinarsi.\n\n" +
@@ -623,7 +623,7 @@ namespace Server_Strategico.ServerData.Moduli
                 $"Attacco: [rosso]{Esercito.Unità.Arcere_3.Attacco.ToString("#,0")}[black]{(player.Arcere_Attacco == 0 ? "" : $" [black]+ [rosso]{player.Arcere_Attacco}[black]")}\n");
 
             tempoCalcolato = Esercito.CostoReclutamento.Arcere_4.TempoReclutamento - player.Ricerca_Addestramento * Ricerca.Arceri_Riduzione * (player.Bonus_Addestramento + 1);
-            tempoBase = Esercito.Unità.Arcere_4.TempoReclutamento;
+            tempoBase = Esercito.CostoReclutamento.Arcere_4.TempoReclutamento;
             Send(player.guid_Player, $"Descrizione|Arceri 4|[black]" +
                 $"Gli arcieri IV armati di arco e faretra, sono soldati specializzati, dominano il campo di battaglia dalla distanza, " +
                 $"scagliando frecce mortali sulle linee nemiche, prima che possano avvicinarsi.\n\n" +
@@ -649,7 +649,7 @@ namespace Server_Strategico.ServerData.Moduli
                 $"Attacco: [rosso]{Esercito.Unità.Arcere_4.Attacco.ToString("#,0")}[black]{(player.Arcere_Attacco == 0 ? "" : $" [black]+ [rosso]{player.Arcere_Attacco}[black]")}\n");
 
             tempoCalcolato = Esercito.CostoReclutamento.Arcere_5.TempoReclutamento - player.Ricerca_Addestramento * Ricerca.Arceri_Riduzione * (player.Bonus_Addestramento + 1);
-            tempoBase = Esercito.Unità.Arcere_5.TempoReclutamento;
+            tempoBase = Esercito.CostoReclutamento.Arcere_5.TempoReclutamento;
             Send(player.guid_Player, $"Descrizione|Arceri 5|[black]" +
                 $"Gli arcieri V armati di arco e faretra, sono soldati specializzati, dominano il campo di battaglia dalla distanza, " +
                 $"scagliando frecce mortali sulle linee nemiche, prima che possano avvicinarsi.\n\n" +
@@ -675,7 +675,7 @@ namespace Server_Strategico.ServerData.Moduli
                 $"Attacco: [rosso]{Esercito.Unità.Arcere_5.Attacco.ToString("#,0")}[black]{(player.Arcere_Attacco == 0 ? "" : $" [black]+ [rosso]{player.Arcere_Attacco}[black]")}\n");
 
             tempoCalcolato = Esercito.CostoReclutamento.Catapulta_1.TempoReclutamento - player.Ricerca_Addestramento * Ricerca.Catapulte_Riduzione * (player.Bonus_Addestramento + 1);
-            tempoBase = Esercito.Unità.Catapulta_1.TempoReclutamento;
+            tempoBase = Esercito.CostoReclutamento.Catapulta_1.TempoReclutamento;
             Send(player.guid_Player, $"Descrizione|Catapulte 1|[black]" +
                 $"Le catapulte I sono potenti macchine d'assedio che cambiano le sorti delle battaglie, " +
                 $"scagliano enormi proiettili distruggendo mura e seminando il terrore tra le fila nemiche\n\n" +
@@ -700,7 +700,7 @@ namespace Server_Strategico.ServerData.Moduli
                 $"Attacco: [rosso]{Esercito.Unità.Catapulta_1.Attacco.ToString("#,0")}[black]{(player.Catapulta_Attacco == 0 ? "" : $" [black]+ [rosso]{player.Catapulta_Attacco}[black]")}\n");
 
             tempoCalcolato = Esercito.CostoReclutamento.Catapulta_2.TempoReclutamento - player.Ricerca_Addestramento * Ricerca.Catapulte_Riduzione * (player.Bonus_Addestramento + 1);
-            tempoBase = Esercito.Unità.Catapulta_2.TempoReclutamento;
+            tempoBase = Esercito.CostoReclutamento.Catapulta_2.TempoReclutamento;
             Send(player.guid_Player, $"Descrizione|Catapulte 2|[black]" +
                 $"Le catapulte II sono potenti macchine d'assedio che cambiano le sorti delle battaglie, " +
                 $"scagliano enormi proiettili distruggendo mura e seminando il terrore tra le fila nemiche\n\n" +
@@ -725,7 +725,7 @@ namespace Server_Strategico.ServerData.Moduli
                 $"Attacco: [rosso]{Esercito.Unità.Catapulta_2.Attacco.ToString("#,0")}[black]{(player.Catapulta_Attacco == 0 ? "" : $" [black]+ [rosso]{player.Catapulta_Attacco}[black]")}\n");
 
             tempoCalcolato = Esercito.CostoReclutamento.Catapulta_3.TempoReclutamento - player.Ricerca_Addestramento * Ricerca.Catapulte_Riduzione * (player.Bonus_Addestramento + 1);
-            tempoBase = Esercito.Unità.Catapulta_3.TempoReclutamento;
+            tempoBase = Esercito.CostoReclutamento.Catapulta_3.TempoReclutamento;
             Send(player.guid_Player, $"Descrizione|Catapulte 3|[black]" +
                 $"Le catapulte III sono potenti macchine d'assedio che cambiano le sorti delle battaglie, " +
                 $"scagliano enormi proiettili distruggendo mura e seminando il terrore tra le fila nemiche\n\n" +
@@ -750,7 +750,7 @@ namespace Server_Strategico.ServerData.Moduli
                 $"Attacco: [rosso]{Esercito.Unità.Catapulta_3.Attacco.ToString("#,0")}[black]{(player.Catapulta_Attacco == 0 ? "" : $" [black]+ [rosso]{player.Catapulta_Attacco}[black]")}\n");
 
             tempoCalcolato = Esercito.CostoReclutamento.Catapulta_4.TempoReclutamento - player.Ricerca_Addestramento * Ricerca.Catapulte_Riduzione * (player.Bonus_Addestramento + 1);
-            tempoBase = Esercito.Unità.Catapulta_4.TempoReclutamento;
+            tempoBase = Esercito.CostoReclutamento.Catapulta_4.TempoReclutamento;
             Send(player.guid_Player, $"Descrizione|Catapulte 4|[black]" +
                 $"Le catapulte IV sono potenti macchine d'assedio che cambiano le sorti delle battaglie, " +
                 $"scagliano enormi proiettili distruggendo mura e seminando il terrore tra le fila nemiche\n\n" +
@@ -775,7 +775,7 @@ namespace Server_Strategico.ServerData.Moduli
                 $"Attacco: [rosso]{Esercito.Unità.Catapulta_4.Attacco.ToString("#,0")}[black]{(player.Catapulta_Attacco == 0 ? "" : $" [black]+ [rosso]{player.Catapulta_Attacco}[black]")}\n");
 
             tempoCalcolato = Esercito.CostoReclutamento.Catapulta_5.TempoReclutamento - player.Ricerca_Addestramento * Ricerca.Catapulte_Riduzione * (player.Bonus_Addestramento + 1);
-            tempoBase = Esercito.Unità.Catapulta_5.TempoReclutamento;
+            tempoBase = Esercito.CostoReclutamento.Catapulta_5.TempoReclutamento;
             Send(player.guid_Player, $"Descrizione|Catapulte 5|[black]" +
                 $"Le catapulte V sono potenti macchine d'assedio che cambiano le sorti delle battaglie, " +
                 $"scagliano enormi proiettili distruggendo mura e seminando il terrore tra le fila nemiche\n\n" +
