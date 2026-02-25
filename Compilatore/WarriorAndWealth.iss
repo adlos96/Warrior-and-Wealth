@@ -1,11 +1,11 @@
 [Setup]
 AppId={{8F5C2C6A-9A6E-4F3B-9D2A-123456789ABC}
 AppName=Warrior and Wealth
-AppVersion=0.1.12.0
+AppVersion=0.1.13.2
 //Cartella Installazione
 DefaultDirName={pf}\Warrior and Wealth
 DefaultGroupName=Warrior and Wealth
-OutputBaseFilename=Warrior_&_Wealth_installer
+OutputBaseFilename=WarriorAndWealth_installer_v0.1.13.2
 UninstallDisplayIcon={app}\Warrior_and_Wealth.exe
 
 //Compressione 
@@ -17,9 +17,13 @@ LZMADictionarySize=65536
 //Architettura
 ArchitecturesAllowed=x64
 ArchitecturesInstallIn64BitMode=x64
-
 WizardStyle=modern
-AppComments=Benvenuto in Warrior and Wealth!
+
+AppComments=Welcome to Warrior and Wealth!
+
+[Languages]
+Name: "english"; MessagesFile: "compiler:Default.isl"
+Name: "italian"; MessagesFile: "compiler:Languages\Italian.isl"
 
 [Files]
 Source: "C:\Users\TheCh\source\repos\Online-Cripto-Game\CriptoGame_Online\bin\Release\net9.0-windows8.0\win-x64\publish\Warrior_and_Wealth.exe"; DestDir: "{app}"

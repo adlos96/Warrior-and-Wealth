@@ -1,0 +1,44 @@
+server ovh
+ip: 135.125.196.121
+KVSD5PccM5zn
+
+Ip da usare client: warriorandwealth.duckdns.org
+
+
+Comandi
+
+elimina la cartella --> rm -rf "Warrior-and-Wealth/"
+git clone https://github.com/adlos96/Warrior-and-Wealth
+
+dentro /opt/warriorandwealth/Warrior-and-Wealth$ --> git pull origin main
+
+cd "Warrior-and-Wealth/Server Strategico"
+dotnet publish -c Release --self-contained false
+
+screen -S warriorandwealth
+dotnet "bin/Release/net8.0/publish/Server Strategico.dll"
+
+screen -r warriorandwealth
+
+
+Build Windows: 
+
+Cartella --> PS C:\Users\TheCh\source\repos\Online-Cripto-Game\CriptoGame_Online>
+dotnet publish "Warrior_and_Wealth.csproj" -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true
+
+
+--------------------------
+
+Invio file .sh al server
+ - Invio File --> scp C:\Users\TheCh\Desktop\update-server.sh ubuntu@135.125.196.121:/opt/warriorandwealth/
+ - Server --> 
+				sudo apt install dos2unix -y       # installa il tool se non ce l'hai
+				dos2unix update-server.sh
+				
+- Rendi eseguibile lo script --> hmod +x update-server.sh
+- Esegui lo script -->./update-server.sh
+
+DEBUG
+
+~/.dotnet/tools/dotnet-trace collect -p 64137 --duration 00:00:30
+genera file su /home/ubuntu - Prelevare il file ed aprire con VS

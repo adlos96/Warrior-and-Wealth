@@ -32,8 +32,9 @@ $version = (Get-Item $exePath).VersionInfo.FileVersion
 # Stampa la versione
 Write-Host "Versione letta dal file exe: $version"
 
-# Aggiorna il .iss
-(Get-Content $innoScript) -replace '^AppVersion=.*', "AppVersion=$version" | Set-Content $innoScript
+# Aggiorna il .iss (AppVersion e Nome dell'Output)
+(Get-Content $innoScript) -replace '^AppVersion=.*', "AppVersion=$version" `
+                          -replace '^OutputBaseFilename=.*', "OutputBaseFilename=WarriorAndWealth_installer_v$version" | Set-Content $innoScript
 
 # 3️⃣ Compila lo script Inno Setup
 Write-Host "Compilo l'installer con Inno Setup..."
