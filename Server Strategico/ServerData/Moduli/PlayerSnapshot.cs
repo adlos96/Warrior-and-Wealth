@@ -108,12 +108,12 @@ namespace Server_Strategico.ServerData.Moduli
                 ["oro_s"] = (player.MinieraOro * (Strutture.Edifici.MinieraOro.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Oro * (1 + player.Bonus_Produzione_Risorse))).ToString("#,0.0000"),
                 ["popolazione_s"] = (player.Abitazioni * (Strutture.Edifici.Case.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Popolazione)).ToString("#,0.00"),
 
-                ["spade_s"] = (player.Workshop_Spade * (Strutture.Edifici.ProduzioneSpade.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Spade)).ToString("#,0.00"),
-                ["lance_s"] = (player.Workshop_Lance * (Strutture.Edifici.ProduzioneLance.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Lance)).ToString("#,0.00"),
-                ["archi_s"] = (player.Workshop_Archi * (Strutture.Edifici.ProduzioneArchi.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Archi)).ToString("#,0.00"),
-                ["scudi_s"] = (player.Workshop_Scudi * (Strutture.Edifici.ProduzioneScudi.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Scudi)).ToString("#,0.00"),
-                ["armature_s"] = (player.Workshop_Armature * (Strutture.Edifici.ProduzioneArmature.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Armature)).ToString("#,0.00"),
-                ["frecce_s"] = (player.Workshop_Frecce * (Strutture.Edifici.ProduzioneFrecce.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Popolazione)).ToString("#,0.00"),
+                ["spade_s"] = (player.Workshop_Spade * (Strutture.Edifici.ProduzioneSpade.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Spade)).ToString("#,0.000"),
+                ["lance_s"] = (player.Workshop_Lance * (Strutture.Edifici.ProduzioneLance.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Lance)).ToString("#,0.000"),
+                ["archi_s"] = (player.Workshop_Archi * (Strutture.Edifici.ProduzioneArchi.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Archi)).ToString("#,0.000"),
+                ["scudi_s"] = (player.Workshop_Scudi * (Strutture.Edifici.ProduzioneScudi.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Scudi)).ToString("#,0.000"),
+                ["armature_s"] = (player.Workshop_Armature * (Strutture.Edifici.ProduzioneArmature.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Armature)).ToString("#,0.000"),
+                ["frecce_s"] = (player.Workshop_Frecce * (Strutture.Edifici.ProduzioneFrecce.Produzione + player.Ricerca_Produzione * Ricerca.Tipi.Incremento.Popolazione)).ToString("#,0.000"),
 
                 ["consumo_cibo_s"] = Cibo.ToString("#,0.00"), //Esercito
                 ["consumo_oro_s"] = Oro.ToString("#,0.00"), //Esercito
