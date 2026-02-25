@@ -83,6 +83,9 @@ namespace Server_Strategico.Server
                         player.SetupCaserme();
                         GamePass_Premi_Send(player);
                         Update_Data_OneTime(clientGuid, player);
+                        player.Snapshot.Reset();
+
+
                         if (player.Stato_Giocatore == false) player.Stato_Giocatore = true;
                         if (player.Last_Login != DateTime.Now.Date) //Accesso giornaliero - Incremento e controllo accessi consecutivi per GamePass
                         {
