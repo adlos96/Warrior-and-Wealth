@@ -1,3 +1,4 @@
+using System.Globalization;
 using Warrior_and_Wealth.GUI;
 
 namespace Warrior_and_Wealth
@@ -10,6 +11,12 @@ namespace Warrior_and_Wealth
         [STAThread]
         static void Main()
         {
+            var culture = new CultureInfo("it-IT");
+            CultureInfo.DefaultThreadCurrentCulture = culture;
+            CultureInfo.DefaultThreadCurrentUICulture = culture;
+            Thread.CurrentThread.CurrentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
+
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();

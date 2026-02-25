@@ -105,11 +105,18 @@ namespace Warrior_and_Wealth
             Btn_New_Game.Enabled = false;
             txt_Log.Text = "Connessione...";
 
+            //Controlla se siamo in locale... 
             if (txt_Ip.Text != "IP: AUTO") ClientConnection.TestClient._ServerIp = txt_Ip.Text;
+            else
+            {
+                string subjectName = Environment.MachineName; //Ottine il nome della macchina (hostname)
+                if (subjectName == "DESKTOP-DOBLVTI" || subjectName == "ADLO") ClientConnection.TestClient._ServerIp = "localhost";
+            }
+
+
             await ClientConnection.TestClient.InitializeClient(); // Connessione server
             await Sleep(1);
-            if (!await VersioneDisponibile())
-                return;
+            if (!await VersioneDisponibile()) return;
             
             if (txt_Username_Login.Text == "Inserisci Nome utente")
             {
@@ -223,12 +230,8 @@ namespace Warrior_and_Wealth
             if (txt_Ip.Text != "IP: AUTO") ClientConnection.TestClient._ServerIp = txt_Ip.Text;
             await ClientConnection.TestClient.InitializeClient(); // Connessione server
             await Sleep(1);
-            if (!await VersioneDisponibile())
-            {
-                Btn_Login.Enabled = true;
-                Btn_New_Game.Enabled = true;
-                return;
-            }
+            if (!await VersioneDisponibile()) return;
+
             if (txt_Username_Login.Text == "Inserisci Nome utente")
             {
                 txt_Log.Text = "Inserisci un nome utente valido!";

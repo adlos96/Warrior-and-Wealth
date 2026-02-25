@@ -312,8 +312,9 @@ namespace Warrior_and_Wealth
                     }
                     else
                     {
+                        double valore = Convert.ToDouble(Variabili_Client.Utente_Risorse.Cibo_s) - Convert.ToDouble(Variabili_Client.Utente_Risorse.Strutture_Cibo) - Convert.ToDouble(Variabili_Client.Utente_Risorse.Mantenimento_Cibo);
                         toolTip1.SetToolTip(this.ico_1, $"{Variabili_Client.Cibo_Desc}" +
-                            $"Produzione: [icon:cibo][arancione]{(Convert.ToDouble(Variabili_Client.Utente_Risorse.Cibo_s) + Convert.ToDouble(Variabili_Client.Utente_Risorse.Strutture_Cibo) + Convert.ToDouble(Variabili_Client.Utente_Risorse.Mantenimento_Cibo)).ToString("0.00")}[black]/[verde]{Variabili_Client.Utente_Risorse.Cibo_s}[/verde][black]s\r\n" +
+                            $"Produzione: [icon:cibo][arancione]{valore.ToString("0.00")}[black]/[verde]{Variabili_Client.Utente_Risorse.Cibo_s}[/verde][black]s\r\n" +
                             $"Edifici: [icon:cibo][rosso]{Variabili_Client.Utente_Risorse.Strutture_Cibo}[/rosso][black]s\r\n" +
                             $"Esercito: [icon:cibo][rosso]{Variabili_Client.Utente_Risorse.Mantenimento_Cibo}[/rosso][black]s\r\n" +
                             $"Limite: [icon:cibo][ferroScuro]{Variabili_Client.Utente_Risorse.Cibo_Limite}\n");

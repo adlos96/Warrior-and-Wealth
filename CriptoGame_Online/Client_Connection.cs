@@ -53,10 +53,6 @@ namespace Strategico_V2
                     Console.WriteLine("Client partito");
                     Console.WriteLine($"Use SSL: {_Ssl}");
 
-                    //Controlla se siamo in locale... 
-                    string subjectName = Environment.MachineName; //Ottine il nome della macchina (hostname)
-                    if (subjectName == "DESKTOP-DOBLVTI" || subjectName == "ADLO") _ServerIp = "localhost";
-
                     if (_Ssl)
                     {
                         bool supplyCert = true;
