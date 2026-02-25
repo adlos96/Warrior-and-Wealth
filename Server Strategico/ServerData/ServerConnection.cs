@@ -459,6 +459,7 @@ namespace Server_Strategico.Server
                 player.Tutorial_Stato[missione] = true;
                 player.Tutorial_Premi[missione] = true;
                 Console.WriteLine($"[Tutorial] >> Giocatore: {player.Username} - Missione {Dati[3]} Completata - Stato: {player.Tutorial_Stato[missione]}");
+                player.SetupVillaggioGiocatore(player);
             }
             else if (Dati[3] == "20" && player.Tutorial_Stato[missione] != true&& precedenti_Completati) { player.Tutorial_Stato[missione] = true; player.Tutorial_Premi[missione] = true; Console.WriteLine($"[Tutorial] >> Giocatore: {player.Username} - Missione {Dati[3]} Completata - Stato: {player.Tutorial_Stato[missione]}"); }
             else if (Dati[3] == "21" && player.Tutorial_Stato[missione] != true&& precedenti_Completati) { player.Tutorial_Stato[missione] = true; player.Tutorial_Premi[missione] = true; Console.WriteLine($"[Tutorial] >> Giocatore: {player.Username} - Missione {Dati[3]} Completata - Stato: {player.Tutorial_Stato[missione]}"); }

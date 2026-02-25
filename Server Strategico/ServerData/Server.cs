@@ -607,7 +607,11 @@ namespace Server_Strategico.Server
                             if (player.task_Attuale_Recutamento.Count > 0) player.Tempo_Addestramento++;
                             if (player.currentTasks_Research.Count > 0) player.Tempo_Ricerca++;
 
-                            if (update_5s >= 5) player.ManutenzioneEsercito();
+                            if (update_5s >= 5)
+                            {
+                                player.ManutenzioneEsercito();
+                                player.SetupVillaggioGiocatore(player);
+                            }
 
                             lock (player.LockCostruzione)
                             {
