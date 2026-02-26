@@ -501,6 +501,7 @@ namespace Server_Strategico.Server
                         Console.WriteLine($"[MONITOR] Client connessi: {Client_Connessi.Count}");
                         Console.WriteLine($"[MONITOR] Client map: {Client_Connessi_Map.Count}");
                         Console.WriteLine($"[MONITOR] Players: {players.Count}");
+                        Console.WriteLine($"[MONITOR] PVP: {Utenti_PVP.Count}");
                         Console.WriteLine($"[MONITOR] GC Gen0: {GC.CollectionCount(0)}");
                         Console.WriteLine($"[MONITOR] GC Gen1: {GC.CollectionCount(1)}");
                         Console.WriteLine($"[MONITOR] GC Gen2: {GC.CollectionCount(2)}");
@@ -621,7 +622,10 @@ namespace Server_Strategico.Server
                         UnitManagerV2.CompleteRecruitment(player.guid_Player, player);
                         if (tempo_1 >= 4)
                         {
-                            //if (execute_2s >= 2) QuestManager.QuestUpdate(player);
+                            if (execute_2s >= 2)
+                            {
+
+                            }
                             ResearchManager.CompleteResearch(player.guid_Player, player);
 
                             if (player.Vip || player.GamePass_Base || player.GamePass_Avanzato) player.BonusPacchetti();
@@ -632,6 +636,8 @@ namespace Server_Strategico.Server
                             if (update_5s >= 5)
                             {
                                 player.ManutenzioneEsercito();
+                                QuestManager.QuestUpdate(player);
+                                QuestManager.QuestRewardUpdate(player);
                                 //player.SetupVillaggioGiocatore(player);
                             }
 
