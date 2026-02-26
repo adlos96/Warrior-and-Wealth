@@ -498,7 +498,6 @@ namespace Server_Strategico.Server
                         Console.WriteLine($"[PERF] D - Max:                    [{max_Stats:F4} ms]");
                         Console.WriteLine($"[PERF] E - X player:               [{(media_Stats / players.Count()):F6} ms]\n");
 
-                        Console.WriteLine($"[MONITOR] Tick: {saveServer}");
                         Console.WriteLine($"[MONITOR] Client connessi: {Client_Connessi.Count}");
                         Console.WriteLine($"[MONITOR] Client map: {Client_Connessi_Map.Count}");
                         Console.WriteLine($"[MONITOR] Players: {players.Count}");
