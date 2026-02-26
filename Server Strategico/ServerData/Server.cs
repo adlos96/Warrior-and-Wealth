@@ -513,6 +513,7 @@ namespace Server_Strategico.Server
 
                         // Quante connessioni WatsonTcp risultano aperte
                         Console.WriteLine($"[MONITOR] WatsonTcp clients: {server.Connections}");
+                        if (server.Connections != Client_Connessi.Count) server.Connections =
 
                         stats = 0;
                     }
@@ -718,9 +719,17 @@ namespace Server_Strategico.Server
                     if (saveServer >= 1200)
                     {
                         await GameSave.SaveServerData();
-                        GC.Collect();
-                        GC.WaitForPendingFinalizers();
-                        GC.Collect();
+                        if (server.Connections > Client_Connessi.Count)
+                        {
+                            Console.WriteLine($"[ALERT] Client fantasma rilevati! Watson:{server.Connections} vs Lista:{Client_Connessi.Count}");
+                            // Disconnetti tutti i client non nella lista
+                            foreach (var clientId in server.ListClients())
+                                if (!Client_Connessi.Contains(clientId.Guid))
+                                {
+                                    Console.WriteLine($"[ALERT] Disconnetto client fantasma: {clientId}");
+                                    server.DisconnectClientAsync(clientId.Guid);
+                                }
+                        }
                     }
                     if (tempo_1 >= 4)
                     {
