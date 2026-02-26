@@ -5,6 +5,7 @@ using System.Collections.Concurrent;
 using System.Diagnostics;
 using WatsonTcp;
 using static Server_Strategico.Gioco.Giocatori;
+using static Server_Strategico.Server.Server;
 
 namespace Server_Strategico.Server
 {
@@ -132,6 +133,7 @@ namespace Server_Strategico.Server
                 server.SendAsync(guid, msg);
                 if (!msg.Contains("Update_Data") && !msg.Contains("QuestRewards") && !msg.Contains("QuestUpdate")) 
                     Console.WriteLine($"[SERVER|LOG] > {msg}");
+                Console.WriteLine($"[SERVER|LOG] > {msg}");
             }
         }
 
@@ -197,20 +199,24 @@ namespace Server_Strategico.Server
 
             // Manteniamo la lista per compatibilità, ma usiamo la mappa per l'aggiornamento
             if (!Client_Connessi.Contains(lastGuid))
-            {
                 Client_Connessi.Add(lastGuid);
-            }
+            
             Send(lastGuid, $"Update_Data|versione_Client_Necessario={Variabili_Server.versione_Client_Necessario}");
         }
-        static void ClientDisconnected(object? sender, DisconnectionEventArgs args)
+        static async void ClientDisconnected(object? sender, DisconnectionEventArgs args)
         {
             lastGuid = args.Client.Guid;
             Console.WriteLine("[SERVER|LOG] > Client disconnesso: " + args.Client.ToString() + ": " + args.Reason.ToString());
 
-            // AGGIUNTA FONDAMENTALE: Rimuovi dalla mappa thread-safe
             Client_Connessi_Map.TryRemove(lastGuid, out _);
-
             Client_Connessi.Remove(lastGuid);
+
+            // Forza pulizia del client su WatsonTcp
+            try
+            {
+                await server.DisconnectClientAsync(lastGuid);
+            }
+            catch { }
         }
         private static void ExceptionEncountered(object sender, ExceptionEventArgs e)
         {
@@ -491,6 +497,15 @@ namespace Server_Strategico.Server
                         Console.WriteLine($"[PERF] C - Med:                    [{media_Stats:F4} ms]");
                         Console.WriteLine($"[PERF] D - Max:                    [{max_Stats:F4} ms]");
                         Console.WriteLine($"[PERF] E - X player:               [{(media_Stats / players.Count()):F6} ms]\n");
+
+                        Console.WriteLine($"[MONITOR] Tick: {saveServer}");
+                        Console.WriteLine($"[MONITOR] Client connessi: {Client_Connessi.Count}");
+                        Console.WriteLine($"[MONITOR] Client map: {Client_Connessi_Map.Count}");
+                        Console.WriteLine($"[MONITOR] Players: {players.Count}");
+                        Console.WriteLine($"[MONITOR] GC Gen0: {GC.CollectionCount(0)}");
+                        Console.WriteLine($"[MONITOR] GC Gen1: {GC.CollectionCount(1)}");
+                        Console.WriteLine($"[MONITOR] GC Gen2: {GC.CollectionCount(2)}");
+
                         stats = 0;
                     }
                     if (numero_Stats < 10) numero_Stats += 1;
