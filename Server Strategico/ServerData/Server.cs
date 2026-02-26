@@ -504,6 +504,14 @@ namespace Server_Strategico.Server
                         Console.WriteLine($"[MONITOR] GC Gen0: {GC.CollectionCount(0)}");
                         Console.WriteLine($"[MONITOR] GC Gen1: {GC.CollectionCount(1)}");
                         Console.WriteLine($"[MONITOR] GC Gen2: {GC.CollectionCount(2)}");
+                        // Memoria gestita da .NET
+                        Console.WriteLine($"[MONITOR] Heap totale: {GC.GetTotalMemory(false) / 1024 / 1024} MB");
+
+                        // Quanti thread sta usando il server
+                        Console.WriteLine($"[MONITOR] Thread attivi: {System.Diagnostics.Process.GetCurrentProcess().Threads.Count}");
+
+                        // Quante connessioni WatsonTcp risultano aperte
+                        Console.WriteLine($"[MONITOR] WatsonTcp clients: {server.Connections}");
 
                         stats = 0;
                     }
@@ -613,7 +621,7 @@ namespace Server_Strategico.Server
                         UnitManagerV2.CompleteRecruitment(player.guid_Player, player);
                         if (tempo_1 >= 4)
                         {
-                            if (execute_2s >= 2) QuestManager.QuestUpdate(player);
+                            //if (execute_2s >= 2) QuestManager.QuestUpdate(player);
                             ResearchManager.CompleteResearch(player.guid_Player, player);
 
                             if (player.Vip || player.GamePass_Base || player.GamePass_Avanzato) player.BonusPacchetti();
