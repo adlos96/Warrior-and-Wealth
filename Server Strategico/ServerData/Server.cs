@@ -513,7 +513,6 @@ namespace Server_Strategico.Server
 
                         // Quante connessioni WatsonTcp risultano aperte
                         Console.WriteLine($"[MONITOR] WatsonTcp clients: {server.Connections}");
-                        if (server.Connections != Client_Connessi.Count) server.Connections =
 
                         stats = 0;
                     }
