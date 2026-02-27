@@ -102,7 +102,10 @@ namespace Warrior_and_Wealth.GUI
             if (Convert.ToInt32(txt_Diamond_Viola.Text) > Convert.ToInt32(Variabili_Client.Utente_Risorse.Diamond_Viola.Replace(".", "")))
                 txt_Diamond_Viola.Text = Variabili_Client.Utente_Risorse.Diamond_Viola;
 
-            txt_Diamond_Blu.Text = (Convert.ToInt32(txt_Diamond_Viola.Text) * Convert.ToInt32(Variabili_Client.D_Viola_D_Blu)).ToString();
+            if (nome_Form == "Scambia_Diamanti")
+                txt_Diamond_Blu.Text = (Convert.ToInt32(txt_Diamond_Viola.Text) * Convert.ToInt32(Variabili_Client.D_Viola_D_Blu)).ToString();
+            if (nome_Form == "Scambia_Tributi")
+                txt_Diamond_Blu.Text = (Convert.ToInt32(txt_Diamond_Viola.Text) * Convert.ToInt32(Variabili_Client.Tributi_D_Viola)).ToString();
         }
 
         private void pictureBox_Meno_Click(object sender, EventArgs e)
@@ -116,8 +119,11 @@ namespace Warrior_and_Wealth.GUI
                     txt_Diamond_Viola.Text = (Convert.ToInt32(txt_Diamond_Viola.Text) - 5).ToString();
                 else
                     txt_Diamond_Viola.Text = (Convert.ToInt32(txt_Diamond_Viola.Text) - 1).ToString();
-            if (Convert.ToInt32(txt_Diamond_Viola.Text) < 0) txt_Diamond_Viola.Text = "0";
-            txt_Diamond_Blu.Text = (Convert.ToInt32(txt_Diamond_Viola.Text) * Convert.ToInt32(Variabili_Client.D_Viola_D_Blu)).ToString();
+
+            if (nome_Form == "Scambia_Diamanti")
+                txt_Diamond_Blu.Text = (Convert.ToInt32(txt_Diamond_Viola.Text) * Convert.ToInt32(Variabili_Client.D_Viola_D_Blu)).ToString();
+            if (nome_Form == "Scambia_Tributi")
+                txt_Diamond_Blu.Text = (Convert.ToInt32(txt_Diamond_Viola.Text) * Convert.ToInt32(Variabili_Client.Tributi_D_Viola)).ToString();
         }
 
         private void Scambia_Diamanti_Load(object sender, EventArgs e)
