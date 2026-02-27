@@ -108,9 +108,11 @@ namespace Server_Strategico.Server
         }
         void ClientConnessi()
         {
+            if (Client_Connessi.Count() == 0) Console.WriteLine("Client connessi: 0");
             foreach (var item in Client_Connessi)
                 Console.WriteLine($"Client: {item}");
         }
+
         private async Task StartGame()
         {
             cts = new CancellationTokenSource();
@@ -131,9 +133,8 @@ namespace Server_Strategico.Server
             if (Client_Connessi.Contains(guid) && guid != Guid.Empty)
             {
                 server.SendAsync(guid, msg);
-                if (!msg.Contains("Update_Data") && !msg.Contains("QuestRewards") && !msg.Contains("QuestUpdate")) 
+                if (!msg.Contains("Update_Data") && !msg.Contains("QuestRewards") && !msg.Contains("QuestUpdate") && !msg.Contains("Descrizione")) 
                     Console.WriteLine($"[SERVER|LOG] > {msg}");
-                Console.WriteLine($"[SERVER|LOG] > {msg}");
             }
         }
 
