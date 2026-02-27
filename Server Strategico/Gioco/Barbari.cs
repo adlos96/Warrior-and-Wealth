@@ -43,9 +43,9 @@ namespace Server_Strategico.Gioco
             public override bool IsGlobal => true;
         }
 
-        public static VillaggioBarbaro GeneraVillaggio(int livello) // 🔹 Generazione villaggio barbaro personale
+        public static VillaggioBarbaro GeneraVillaggio(int livello, int livello_Player) // 🔹 Generazione villaggio barbaro personale
         {
-            int baseTruppe = 50 * livello;
+            int baseTruppe = (int)(20 * livello * livello_Player * 0.5);
             return new VillaggioBarbaro
             {
                 Id = Guid.NewGuid().GetHashCode(),
@@ -99,7 +99,7 @@ namespace Server_Strategico.Gioco
                 player.VillaggiPersonali.Clear();
 
             for (int lv = 1; lv <= 20; lv++)
-                player.VillaggiPersonali.Add(GeneraVillaggio(lv));
+                player.VillaggiPersonali.Add(GeneraVillaggio(lv, player.Livello));
 
             Console.WriteLine($"[Barbari] Generati {player.VillaggiPersonali.Count} villaggi per {player.Username}");
             int diamanti_Viola = 0, diamanti_Blu = 0;
@@ -172,7 +172,7 @@ namespace Server_Strategico.Gioco
                 int villaggi = player.VillaggiPersonali.Count;
                 player.VillaggiPersonali.Clear();
                 for (int lv = 1; lv <= villaggi; lv++)
-                    player.VillaggiPersonali.Add(GeneraVillaggio(lv));
+                    player.VillaggiPersonali.Add(GeneraVillaggio(lv, player.Livello));
             }
             Console.WriteLine($"[Barbari] Rigenerazione completata: {CittaGlobali.Count} città e villaggi per {Server.Server.servers_.players.Count} giocatori.");
         }
