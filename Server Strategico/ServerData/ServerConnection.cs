@@ -220,6 +220,9 @@ namespace Server_Strategico.Server
                 case "Scambia_Diamanti":
                       Scambia_Diamanti(clientGuid, player, msgArgs[3]); //Diamanti viola --> blu
                     break;
+                case "Scambia_Tributi":
+                    Scambia_Tributi(clientGuid, player, msgArgs[3]); //Diamanti viola --> blu
+                    break;
                 case "Shop":
                     Shop.Shop_Call(clientGuid, player, msgArgs[3]); //Shop
                     break;
@@ -761,6 +764,17 @@ namespace Server_Strategico.Server
                     msgArgs[3] = "13";
                     ServerConnection.TutorialUpdate(player, msgArgs);
                 }
+            }
+        }
+        public static void Scambia_Tributi(Guid guid, Player player, string Quantità)
+        {
+            int tributi = Convert.ToInt32(Quantità);
+            if (tributi == 0) return;
+            if (player.Dollari_Virtuali >= tributi)
+            {
+                player.Dollari_Virtuali -= tributi;
+                player.Diamanti_Viola += tributi * Variabili_Server.Tributi_To_D_Viola;
+                Server.Send(player.guid_Player, $"Log_Server|Scambiati [warning][icon:dollariVirtuali]{tributi} Tributi --> [icon:diamanteViola][warning]{tributi * Variabili_Server.D_Viola_To_Blu}[viola] Diamanti Viola");
             }
         }
         public static void Esplora(Player player, int livello_Barbaro, string globale)
