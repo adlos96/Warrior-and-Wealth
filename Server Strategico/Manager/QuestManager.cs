@@ -74,7 +74,7 @@ namespace Server_Strategico.Manager
 
                 //Risorse
                 { 37, new Quest_Template { Id = 37, Quest_Description = "Utilizza cibo", Experience = 4, Require = 100000, Max_Complete = 4 } },
-                { 38, new Quest_Template { Id = 38, Quest_Description = "Utilizza legno", Experience = 4, Require = 840000, Max_Complete = 4 } },
+                { 38, new Quest_Template { Id = 38, Quest_Description = "Utilizza legno", Experience = 4, Require = 84000, Max_Complete = 4 } },
                 { 39, new Quest_Template { Id = 39, Quest_Description = "Utilizza pietra", Experience = 4, Require = 76000, Max_Complete = 4 } },
                 { 40, new Quest_Template { Id = 40, Quest_Description = "Utilizza ferro", Experience = 4, Require = 70000, Max_Complete = 4 } },
                 { 41, new Quest_Template { Id = 41, Quest_Description = "Utilizza oro", Experience = 4, Require = 62000, Max_Complete = 4 } },
@@ -512,7 +512,7 @@ namespace Server_Strategico.Manager
             }
         }
 
-        public static void RigeneraQuest() // 🔁 Rigenera città globali e villaggi personali
+        public static void RigeneraQuest()
         {
             Console.WriteLine($"[QuestMensile] Reset quest mensile iniziata ({DateTime.Now:HH:mm:ss})");
             if (timer_Reset_Quest == 0)
