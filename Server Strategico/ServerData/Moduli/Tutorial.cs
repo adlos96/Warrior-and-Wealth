@@ -28,11 +28,11 @@ namespace Server_Strategico.ServerData.Moduli
             {
                 StatoTutorial = 2,
                 Obiettivo = "Premere click sinistro sul testo",
-                Descrizione = "Benvenuto su “[title]Warrior & Wealth[/title]”! " +
+                Descrizione = "Benvenuto su “[warning]Warrior & Wealth[/warning]”! " +
                 "Vedo che sei un nuovo giocatore… ottimo. Questo tutorial sarà perfetto per te! Prima di iniziare, lasciami dire una cosa… " +
                 "bevi responsabilmente! Non guidare mentre bevi, o potresti rovesciare la tua birra! Forse è meglio passare alle cose serie… " +
                 "Posso finalmente guidarti, passo dopo passo, in questo nuovo mondo. Grandi avventure ti aspettano. " +
-                "“[title]Warrior & Wealth[/title]” è diviso in due modalità. La prima parte ti permetterà di acquistare dei Feudi, che ti faranno ottenere i [icon:dollariVirtuali]Tributi del Feudo." +
+                "“[warning]Warrior & Wealth[/warning]” è diviso in due modalità. La prima parte ti permetterà di acquistare dei Feudi, che ti faranno ottenere i [icon:dollariVirtuali]Tributi del Feudo." +
                 "Grazie all’immensità del regno e alla benevolenza dell’Imperatore, ogni secondo nuove ricchezze finiranno nelle casse del tuo villaggio… " +
                 "Ma questo è un aspetto che vedremo al momento giusto.La seconda parte… come forse avrai capito… riguarda te. E se così non fosse, mi spiego meglio." +
                 "Sei stato scelto. Sì, hai capito bene. Sei stato scelto per gestire questo piccolo villaggio. Mi raccomando… " +
@@ -60,11 +60,11 @@ namespace Server_Strategico.ServerData.Moduli
                 StatoTutorial = 4,
                 Obiettivo = "Premere click sinistro sul testo",
                 Descrizione = "Sempre in alto, sotto alla barra delle risorse puoi vedere che una seconda barra piu in basso è appena apparsa, ti permetterà di visualizzare, per il momento, " +
-                "una sola icona i '[icon:diamanteBlu][viola]Diamanti Viola[/viola]', soffermiamoci un'istante. " +
-                "I [icon:diamanteBlu][viola]Diamanti Viola[/viola] sono fondamentali per la realizzazione di 'feudi', questi li vedremo piu avanti non ti preoccupare, possono essere spesi nello 'Shop', " +
+                "una sola icona i '[icon:diamanteViola][viola]Diamanti Viola[/viola]', soffermiamoci un'istante. " +
+                "I [icon:diamanteViola][viola]Diamanti Viola[/viola] sono fondamentali per la realizzazione di 'feudi', questi li vedremo piu avanti non ti preoccupare, possono essere spesi nello 'Shop', " +
                 "per ottenere vantaggi che accelereranno la progressione in questo regno, lo shop naturalmente sarà presto visibile, possono anche essere scambiati in Diamanti Blu, ma lo vedremo più avanti, " +
                 "questa risorsa è al primo posto epr scarsità, quindi pondera bene la tua decisione prima di spenderli, non è facile ottenerli, ma lo è altrettanto spenderli... " +
-                "Come puoi ottenere dei diamanti viola ti stai domandando? " +
+                "Come puoi ottenere dei [icon:diamanteViola][viola]Diamanti Viola[/viola] ti stai domandando? " +
                 "Bene potrai ottenerli in numerosi modi, attraverso le quest mensili, nello shop, oppure vinti in battaglie contro 'Villaggi' e 'Città' barbare, " +
                 "o addirittura attaccando e depredando le risorse di altri giocatori, ma per questo dovrai ancora aspettare, è troppo presto... " +
                 "Prima concentramoci sul resto. " +
@@ -74,9 +74,9 @@ namespace Server_Strategico.ServerData.Moduli
             {
                 StatoTutorial = 5,
                 Obiettivo = "Premere click sinistro sul testo. ",
-                Descrizione = "Guarda… accanto ai Diamanti Viola è apparsa una nuova icona. " +
-                "Raffigura i Diamanti Blu.Già… stavo quasi per dimenticarmene. Parliamo di loro. " +
-                "I [blu]Diamanti Blu[/blu] [icon:diamanteBlu] sono molto simili alla loro controparte [viola]viola[/viola], ma con una piccola differenza: sono la seconda risorsa più rara del regno. " +
+                Descrizione = "Guarda… accanto ai [icon:diamanteViola][viola]Diamanti Viola[/viola] è apparsa una nuova icona. " +
+                "Raffigura i [icon:diamanteBlu][blu]diamanti blu[/blu].Già… stavo quasi per dimenticarmene. Parliamo di loro. " +
+                "I [icon:diamanteBlu][blu]diamanti blu[/blu] sono molto simili alla loro controparte [icon:diamanteViola][viola]diamanti viola[/viola], ma con una piccola differenza: sono la seconda risorsa più rara del regno. " +
                 "Questi diamanti, però, tendono a portare valore e vantaggi alla tua città.Vengono usati principalmente per accelerare: Costruzioni, l’addestramento delle truppe e le ricerche. " +
                 "Tutte cose fondamentali per far crescere il tuo villaggio… e renderlo più forte. " +
                 "Naturalmente, non sono indispensabili per progredire… ma possono darti un grande aiuto, soprattutto nei momenti più importanti. Inoltre, " +
@@ -113,8 +113,8 @@ namespace Server_Strategico.ServerData.Moduli
                 StatoTutorial = 8,
                 Obiettivo = "Acquista un feudo.",
                 Descrizione = "Perfetto… iniziamo tentando la fortuna! Come puoi vedere, in basso, sotto la casella dei feudi, c’è un bellissimo pulsante: “Acquista”. " +
-                "L’Imperatore ti aiuterà durante questo tutorial, quindi ti sono già stati forniti 150 diamanti. " +
-                "Premi il pulsante “Acquista” per iniziare la tua avventura su “Warrior & Wealth”… ed ottenere così il tuo primo feudo. " +
+                "L’Imperatore ti aiuterà durante questo tutorial, quindi ti sono già stati forniti [icon:diamanteViola][warning]150 [viola]diamanti[/viola]. " +
+                "Premi il pulsante “Acquista” per iniziare la tua avventura su “[warning]Warrior & Wealth[/warning]”… ed ottenere così il tuo primo feudo. " +
                 "E finalmente, dopo tutta questa immensa fatica e dedizione…potrai goderti i guadagni provenienti direttamente dal feudo che hai appena annesso. " +
                 "Noterai che il numero dei tuoi feudi sarà aumentato. E da questo momento, potrai vedere i Tributi crescere con il passare del tempo. " +
                 "Come ti accennavo prima, i tributi possono anche essere spesi all’interno dello Shop, per ottenere vantaggi importanti… e competere contro gli altri villaggi del regno. " +
@@ -148,7 +148,7 @@ namespace Server_Strategico.ServerData.Moduli
             {
                 StatoTutorial = 11,
                 Obiettivo = "Premi il pulsante Costruisci. ",
-                Descrizione = "Finalmente ci siamo.Come puoi vedere, nella parte bassa della schermata di gioco è apparso un nuovo pulsante: “Costruisci”. " +
+                Descrizione = "Finalmente ci siamo. Come puoi vedere, nella parte bassa della schermata di gioco è apparso un nuovo pulsante: “Costruisci”. " +
                 "Per questa impresa ti verranno fornite tutte le risorse necessarie…ma fai attenzione: sarà l’unica volta. Se commetterai errori, le tue azioni saranno irreversibili.Mi raccomando. " +
                 "Ora osserva la schermata principale. Accanto alla struttura “Fattoria”, oltre alla sua icona, puoi notare due indicatori. " +
                 "Il primo mostra il numero di Edifici Disponibili: sono le strutture già costruite e attive. Il secondo indica il numero di Edifici in Coda: ovvero le strutture in attesa di essere costruite. " +
@@ -160,38 +160,38 @@ namespace Server_Strategico.ServerData.Moduli
             {
                 StatoTutorial = 12,
                 Obiettivo = "Costruisci fattoria",
-                Descrizione = "Lascia aperta la schermata “Costruisci”: i prossimi passaggi ti guideranno nella realizzazione di tutte le strutture necessarie. " +
+                Descrizione = "Lascia aperta la schermata “[warning]Costruisci[/warning]”: i prossimi passaggi ti guideranno nella realizzazione di tutte le strutture necessarie. " +
                 "Per comodità, sposta la finestra appena aperta in una posizione dello schermo che ti permetta di tenere tutto sotto controllo e di vedere entrambe le schermate. " +
                 "Accanto a ogni struttura puoi osservare la quantità che stai per costruire. Al momento è disponibile solo la Fattoria, e il valore iniziale è impostato su zero. " +
-                "Vicino a questo numero trovi i comandi che ti permettono di modificarlo. Con un semplice clic sinistro puoi aumentare la quantità di una unità; " +
-                "usando la combinazione Contròl più clic, l’incremento sarà di cinque, mentre con Shift più clic potrai aumentare il valore di dieci. " +
-                "Regola la quantità che desideri… Costruisci una Fattoria. " +
+                "Vicino a questo numero trovi i comandi che ti permettono di modificarlo. Con un semplice clic sinistro puoi aumentare la quantità di [warning]1[/warning] unità; " +
+                "usando la combinazione Contròl più clic, l’incremento sarà di [warning]5[/warning], mentre con Shift più clic potrai aumentare il valore di [warning]10[/warning]. " +
+                "Regola la quantità che desideri… Costruisci una [warning]Fattoria[/warning]. " +
                 "Quando sei pronto, completa l’obiettivo… e andiamo avanti."
             };
             public static dati Scambia = new dati
             {
                 StatoTutorial = 13,
-                Obiettivo = "Scambia diamanti viola per diamanti blu.",
+                Obiettivo = "Scambia [icon:diamanteViola][viola]diamanti viola[/viola] per [icon:diamanteBlu][blu]diamanti blu[/blu].",
                 Descrizione = "Hai appena messo in costruzione la tua prima Fattoria." +
                 "Ricorda che puoi assegnare la costruzione di più strutture contemporaneamente, ma una nuova costruzione potrà iniziare solo quando un costruttore sarà di nuovo libero. " +
                 "Il numero di costruttori disponibili lo puoi vedere in alto, nella schermata “Strutture Civili”, sopra la prima struttura, la Fattoria. " +
                 "Qui è indicato sia il numero massimo di costruttori disponibili… sia quanti di loro sono attualmente liberi. " +
                 "Dato che hai già avviato una costruzione, noterai ora il tempo rimanente, che scorre man mano che il lavoro procede. Prima che la Fattoria sia completata, servirà un po’ di pazienza. " +
-                "In qualsiasi momento, però, puoi velocizzare la costruzione utilizzando i Diamanti Blu. E infatti… utilizziamone qualcuno. Ma prima dobbiamo ottenerli. Vediamo come. " +
+                "In qualsiasi momento, però, puoi velocizzare la costruzione utilizzando i [icon:diamanteBlu][blu]diamanti blu[/blu]. E infatti… utilizziamone qualcuno. Ma prima dobbiamo ottenerli. Vediamo come. " +
                 "Torna alla schermata principale e guarda nella sezione Feudi.Sotto il pulsante “Acquista Feudo” è appena apparso un nuovo pulsante: “Scambia”. " +
-                "Premilo, e potrai convertire alcuni Diamanti Viola in Diamanti Blu. " +
-                "Per questa costruzione, 50 Diamanti Blu dovrebbero essere più che sufficienti." +
+                "Premilo, e potrai convertire alcuni [icon:diamanteViola][viola]diamanti viola[/viola] in [icon:diamanteBlu][blu]diamanti blu[/blu]. " +
+                "Per questa costruzione, [icon:diamanteBlu][warning]50 [blu]diamanti blu[/blu] dovrebbero essere più che sufficienti." +
                 "Quando sei pronto, completa l’obiettivo… e andiamo avanti."
             };
             public static dati Velocizza = new dati
             {
                 StatoTutorial = 14,
-                Obiettivo = "Velocizza la costruzione. Completa la fattoria",
-                Descrizione = "Ottimo, sei riuscito a ottenere i tuoi primi Diamanti Blu tramite lo scambio." +
-                "In questo modo, se dovessi rimanerne sprovvisto e ne avessi bisogno, potrai ottenerli in qualsiasi momento… a patto di avere Diamanti Viola a disposizione. " +
+                Obiettivo = "Velocizza la costruzione. [warning]Completa la fattoria[/warning]",
+                Descrizione = "Ottimo, sei riuscito a ottenere i tuoi primi [icon:diamanteBlu][blu]diamanti blu[/blu] tramite lo scambio." +
+                "In questo modo, se dovessi rimanerne sprovvisto e ne avessi bisogno, potrai ottenerli in qualsiasi momento… a patto di avere [icon:diamanteViola][viola]diamanti viola[/viola] a disposizione. " +
                 "In questo tutorial ti mostrerò solo come velocizzare la costruzione della Fattoria,ma più avanti potrai fare la stessa cosa anche con le altre strutture, con le unità militari in addestramento… " +
                 "e persino con la ricerca. Ora fai clic con il tasto sinistro sull’icona accanto al tempo di costruzione rimanente. " +
-                "Dovrebbe avere l’aspetto di un velocizzatore.Prèmila e aumenta il numero di Diamanti Blu da utilizzare fino a 50. " +
+                "Dovrebbe avere l’aspetto di un velocizzatore.Prèmila e aumenta il numero di [icon:diamanteBlu][blu]diamanti blu[/blu] da utilizzare fino a [warning]50[/warning]. " +
                 "Anche qui valgono le stesse regole di prima: puoi cliccare normalmente, oppure usare le combinazioni di tasti per raggiungere più rapidamente il valore desiderato. " +
                 "E non preoccuparti: non serve chiederti se stai usando troppi diamanti. " +
                 "Verranno consumati solo quelli realmente necessari… tutti gli altri ti verranno restituiti. " +
@@ -202,8 +202,8 @@ namespace Server_Strategico.ServerData.Moduli
                 StatoTutorial = 15,
                 Obiettivo = "Costruisci una segheria.",
                 Descrizione = "Ottimo lavoro, la fattoria è costruita e il tuo insediamento comincia a prendere forma.\n" +
-                "Ora dobbiamo assicurarci di avere i materiali giusti per crescere, il legno è tra questi.\n" +
-                "Costruisci una Segheria e rendi stabile la tua economia.\n\n" +
+                "Ora dobbiamo assicurarci di avere i materiali giusti per crescere, il [warning]legno[/warning] è tra questi.\n" +
+                "[warning]Costruisci una Segheria[/warning] e rendi stabile la tua economia.\n\n" +
                 "Quando sei pronto, completa l'obiettivo ed andiamo avanti."
             };
             public static dati Costruisci_Cava = new dati
@@ -211,7 +211,7 @@ namespace Server_Strategico.ServerData.Moduli
                 StatoTutorial = 16,
                 Obiettivo = "Costruisci una cava di pietra.",
                 Descrizione = "Ottimo lavoro! Vedo che hai costruito la tua prima segheria, e questo ti permetterà di ottenere legno in modo costante.\n" +
-                "Adesso è il momento di assicurarti un’altra risorsa fondamentale per la crescita del tuo insediamento: Costruisci una Cava di pietra per iniziare a estrarre questa risorsa, " +
+                "Adesso è il momento di assicurarti un’altra risorsa fondamentale per la crescita del tuo insediamento: [warning]Costruisci una Cava di pietra[/warning] per iniziare a estrarre questa risorsa, " +
                 "indispensabile per nuove strutture, le riparazioni e la ricerca\n\n. " +
                 "Quando sei pronto, completa l'obiettivo ed andiamo avanti."
             };
@@ -220,8 +220,8 @@ namespace Server_Strategico.ServerData.Moduli
                 StatoTutorial = 17,
                 Obiettivo = "Costruisci una miniera di ferro.",
                 Descrizione = "Perfetto! Vedo che hai costruito la tua prima cava di pietra, ottimo lavoro.\n" +
-                "Ora il tuo insediamento sta iniziando ad avere basi solide, ma per crescere davvero ti serve una risorsa ancora più importante: il ferro.\n" +
-                "Costruisci una Miniera di ferro per avviare l’estrazione e ottenere materiali indispensabili per l'esercito e lo sviluppo futuro.\n\n" +
+                "Ora il tuo insediamento sta iniziando ad avere basi solide, ma per crescere davvero ti serve una risorsa ancora più importante: il [warning]ferro[/warning].\n" +
+                "Costruisci una [warning]Miniera di ferro[/warning] per avviare l’estrazione e ottenere materiali indispensabili per l'esercito e lo sviluppo futuro.\n\n" +
                 "Quando sei pronto, completa l'obiettivo ed andiamo avanti."
             };
             public static dati Costruisci_Miniera_Oro = new dati
@@ -230,9 +230,9 @@ namespace Server_Strategico.ServerData.Moduli
                 Obiettivo = "Costruisci una miniera d'oro.",
                 Descrizione = "Perfetto! Vedo che hai costruito la tua prima miniera di ferro, ottimo lavoro.\n" +
                 "Adesso hai iniziato ad estrarre risorse essenziali per lo sviluppo, ma manca ancora qualcosa di fondamentale: una fonte di ricchezza stabile.\n" +
-                "L'oro è fondamentale anche per il mantenimento di strutture e unità militari, prima di una grande espansione, controlla sempre le tue produzioni, " +
+                "L'[warning]oro[/warning] è fondamentale anche per il mantenimento di strutture e unità militari, prima di una grande espansione, controlla sempre le tue produzioni, " +
                 "i tuoi consumi non dovrebbero mai superare le tue capacità produttive.\n" +
-                "Costruisci una Miniera d’oro per iniziare a estrarre una risorsa preziosa, utile per sostenere l’economia del tuo insediamento.\n\n" +
+                "Costruisci una [warning]Miniera d’oro[/warning] per iniziare a estrarre una risorsa preziosa, utile per sostenere l’economia del tuo insediamento.\n\n" +
                 "Quando sei pronto, completa l'obiettivo ed andiamo avanti."
             };
             public static dati Costruisci_Abitazioni = new dati
@@ -241,8 +241,7 @@ namespace Server_Strategico.ServerData.Moduli
                 Obiettivo = "Costruisci una casa.",
                 Descrizione = "La tua miniera d’oro è pronta e il villaggio comincia a prendere vita.\n" +
                 "Per farlo crescere davvero servono abitanti che possano viverci e lavorare.\n" +
-                "Costruisci una Casa per accogliere nuovi cittadini e dare al tuo insediamento i suoi primi abitanti.\n" +
-                "Costruisci una 'Casa'.\n\n" +
+                "Costruisci una [warning]Casa[warning] per accogliere nuovi cittadini e dare al tuo insediamento i suoi primi abitanti.\n\n" +
                 "Quando sei pronto, completa l'obiettivo ed andiamo avanti."
             };
             public static dati Strutture_Militari = new dati
@@ -250,7 +249,7 @@ namespace Server_Strategico.ServerData.Moduli
                 StatoTutorial = 20,
                 Obiettivo = "Premere click sinistro sul testo.",
                 Descrizione = "Adesso è il momento di presentarti le Strutture Militari." +
-                "Anche per loro vale lo stesso principio delle costruzioni civili, ma queste produrranno risorse indispensabili per le tue unità, come Guerrieri, Lancieri, Arcieri e Catapulte." +
+                "Anche per loro vale lo stesso principio delle costruzioni civili, ma queste produrranno risorse indispensabili per le tue unità, come [warning]Guerrieri[/warning], [warning]Lancieri[/warning], [warning]Arcieri[/warning] e [warning]Catapulte[/warning]." +
                 "Le risorse prodotte servono principalmente ad addestrare l’esercito. In base al tipo di unità e al tier selezionato, le quantità richieste aumenteranno insieme alla qualità delle truppe." +
                 "Approfondiremo questi aspetti più avanti, quando parleremo direttamente delle unità… e del loro addestramento." +
                 "In questo tutorial non costruiremo strutture militari, ma è importante conoscerle fin da subito." +
@@ -299,10 +298,10 @@ namespace Server_Strategico.ServerData.Moduli
                 StatoTutorial = 24,
                 Obiettivo = "Apri la schermata della 'Città'.",
                 Descrizione = "Ottimo, non ci resta che introdurre la mappa del villaggio. Come puoi notare, in basso è appena apparso un nuovo pulsante: “Città”." +
-                "Premilo e lasciati mostrare come sono composti i villaggi di questo regno.Iniziamo da una struttura fondamentale: le Mura." +
+                "Premilo e lasciati mostrare come sono composti i villaggi di questo regno. Iniziamo da una struttura fondamentale: le Mura." +
                 "Come puoi vedere, quasi tutte le strutture condividono la stessa impostazione." +
                 "In cima è presente il nome della struttura; subito alla sua destra trovi un numero tra parentesi quadre, che indica l’ordine delle strutture." +
-                "Accanto è visibile il livello della struttura. Subito sotto sono presenti tre barre: Salute, Difesa e Guarnigione.Queste sono le tue strutture difensive. In totale sono sei." +
+                "Accanto è visibile il livello della struttura. Subito sotto sono presenti tre barre: [warning]Salute[/warning], [warning]Difesa[/warning] e [warning]Guarnigione[/warning]. Queste sono le tue strutture difensive. In totale sono sei." +
                 "Tre di esse, oltre alle Mura — Cancello, Torri e Castello — condividono le stesse statistiche." +
                 "La guarnigione rappresenta il numero massimo di unità che la struttura può ospitare e quante ne sono effettivamente assegnate al suo interno. Le restanti due strutture, Ingresso e Centro, sono simili ma dispongono solo dello spazio per la guarnigione, senza barre di salute e difesa." +
                 "È importante mantenere le strutture in buono stato. In caso di attacco al villaggio, una difesa ben organizzata può fare la differenza e ridurre le perdite." +
@@ -341,7 +340,7 @@ namespace Server_Strategico.ServerData.Moduli
             public static dati Statistiche = new dati
             {
                 StatoTutorial = 27,
-                Obiettivo = "Apri la schermata delle 'Statistiche'.",
+                Obiettivo = "Apri la schermata delle '[warning]Statistiche[/warning]'.",
                 Descrizione = "Puoi chiudere la schermata “Città”, non ci servirà più." +
                 "Nota però che, nella schermata di gioco, accanto ai diamanti viola è comparsa una nuova icona: il tuo personaggio, con il suo nome." +
                 "Cliccando con il tasto sinistro sulla tua icona si aprirà una nuova schermata dedicata alle “Statistiche”.Questa schermata non è fondamentale, ma vale la pena soffermarsi un momento." +
@@ -352,9 +351,9 @@ namespace Server_Strategico.ServerData.Moduli
             public static dati Shop = new dati
             {
                 StatoTutorial = 28,
-                Obiettivo = "Apri la schermata dello 'Shop'.",
+                Obiettivo = "Apri la schermata dello '[warning]Shop[/warning]'.",
                 Descrizione = "Puoi chiudere la schermata “Statistiche”, non ci servirà più." +
-                "Nota però che ora è disponibile un nuovo pulsante: lo “Shop”. È il luogo in cui potrai ottenere diamanti viola e molto altro." +
+                "Nota però che ora è disponibile un nuovo pulsante: lo “[warning]Shop[/warning]”. È il luogo in cui potrai ottenere diamanti viola e molto altro." +
                 "All’interno dello shop potrai aumentare il numero massimo di costruttori e di addestratori, acquistare lo Scudo della Pace per una difesa aggiuntiva delle tue terre, attivare il VIP, " +
                 "che garantisce vantaggi esclusivi e l’accesso a premi extra nelle quest, e scegliere tra due varianti di GamePass, Base e Avanzato." +
                 "Come per le altre interfacce, puoi spostare il puntatore del mouse sulle icone per visualizzare informazioni più dettagliate su ogni elemento disponibile." +
@@ -365,7 +364,7 @@ namespace Server_Strategico.ServerData.Moduli
             {
                 StatoTutorial = 29,
                 Obiettivo = "Apri la schermata della 'Ricerca'.",
-                Descrizione = "Puoi chiudere la schermata “Shop”, non ci servirà più. Nota però che nella schermata principale è comparso un nuovo pulsante: “Ricerca”." +
+                Descrizione = "Puoi chiudere la schermata “Shop”, non ci servirà più. Nota però che nella schermata principale è comparso un nuovo pulsante:  “[warning]Ricerca[/warning]”." +
                 "Questo luogo è fondamentale se vuoi tentare di raggiungere anche solo una minima frazione della potenza dell’Imperatore." +
                 "Le ricerche disponibili sono numerose, e altre potranno essere aggiunte in futuro." +
                 "Come ormai sarai abituato, puoi spostare il puntatore del mouse su ciascuna ricerca per ottenere informazioni dettagliate sui costi e sui tempi necessari al completamento." +
@@ -379,18 +378,18 @@ namespace Server_Strategico.ServerData.Moduli
                 StatoTutorial = 30,
                 Obiettivo = "Apri la schermata delle 'Quest Mensili'.",
                 Descrizione = "Puoi chiudere la schermata “Ricerca”, non ci servirà più." +
-                "Ora, nella schermata principale, è comparso un nuovo pulsante: “Quest Mensili”.Qui in realtà non c’è molto da spiegare." +
+                "Ora, nella schermata principale, è comparso un nuovo pulsante: “[warning]Quest Mensili[/warning]”.Qui in realtà non c’è molto da spiegare." +
                 "Si tratta di una schermata in cui puoi vedere le quest disponibili: il loro requisito per essere completate e l’esperienza che forniranno singolarmente." +
                 "Più in basso troverai un pulsante che ti permette di scorrere tra le quest disponibili. Alcune quest possono essere completate più volte, aumentando progressivamente il loro requisito." +
                 "Infine, potrai osservare la barra del progresso, che mostra quanta esperienza hai accumulato. I premi collegati possono essere reclamati una volta raggiunte le soglie indicate: " +
-                "quelli sopra la barra sono disponibili per tutti, mentre quelli sotto possono essere raccolti solo se possiedi il VIP." +
+                "quelli sopra la barra sono disponibili per tutti, mentre quelli sotto possono essere raccolti solo se possiedi il [warning]Gamepass Silver[/warning]." +
                 "Quando sei pronto, completa l’obiettivo e andiamo avanti."
             };
             public static dati Battaglia = new dati
             {
                 StatoTutorial = 31,
                 Obiettivo = "Apri la schermata battaglie 'PVP/PVE'.",
-                Descrizione = "Puoi chiudere la schermata “Quest Mensili”, non ci servirà più. Ora, nella schermata principale, è comparso un nuovo pulsante: “Battaglie”." +
+                Descrizione = "Puoi chiudere la schermata “Quest Mensili”, non ci servirà più. Ora, nella schermata principale, è comparso un nuovo pulsante: “[warning]Battaglie[/warning]”." +
                 "Qui potrai trovare i Villaggi Barbari, le Città Barbare e anche i villaggi di altri giocatori." +
                 "Al momento potrebbe sembrarti poco rilevante, ma la battaglia è l’unico modo per ottenere esperienza e salire di livello." +
                 "Non sarà il tuo obiettivo principale, perché le cose da fare sono molte, ma non trascurarlo: farlo ti permetterà di progredire nel gioco senza restare indietro." +
