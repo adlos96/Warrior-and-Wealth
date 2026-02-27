@@ -7,10 +7,10 @@ namespace Server_Strategico.Gioco
 {
     internal class Ricerca
     {
-        public static int Guerrieri_Riduzione = 1;
-        public static int Lanceri_Riduzione = 1;
-        public static int Arceri_Riduzione = 2;
-        public static int Catapulte_Riduzione = 3;
+        public static int Guerrieri_Riduzione = 3;
+        public static int Lanceri_Riduzione = 3;
+        public static int Arceri_Riduzione = 6;
+        public static int Catapulte_Riduzione = 9;
         public class dati
         {
             public double Cibo { get; set; }

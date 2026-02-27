@@ -84,7 +84,7 @@ namespace Server_Strategico.Manager
                     $"[oro][icon:oro]-{buildingCost.Oro * count:N0}[/oro]  " +
                     $"[popolazione][icon:popolazione]-{buildingCost.Popolazione * count:N0}[/popolazione]");
 
-                    int tempoCostruzioneInSecondi = Math.Max(1, Convert.ToInt32(buildingCost.TempoCostruzione - player.Ricerca_Costruzione - buildingCost.TempoCostruzione * player.Bonus_Costruzione));
+                    int tempoCostruzioneInSecondi = Math.Max(1, Convert.ToInt32(buildingCost.TempoCostruzione - (player.Ricerca_Costruzione * 5) - buildingCost.TempoCostruzione * player.Bonus_Costruzione));
                     for (int i = 0; i < count; i++)
                         player.task_Coda_Costruzioni.Enqueue(new ConstructionTaskV2(buildingType, tempoCostruzioneInSecondi));
 
