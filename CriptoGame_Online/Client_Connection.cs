@@ -74,38 +74,44 @@ namespace Strategico_V2
             }
             public static Task ConnectClient()
             {
-                return Task.Run(() => //Crea un task e gli assegna un blocco istruzioni da eseguire.
+                return Task.Run(() =>
                 {
-                    if (_Client != null) _Client.Dispose();
-                    if (!_Ssl) _Client = new WatsonTcpClient(_ServerIp, _ServerPort);
-                    else
+                    try
                     {
-                        _Client = new WatsonTcpClient(_ServerIp, _ServerPort, _CertFile, _CertPass);
-                        _Client.Settings.AcceptInvalidCertificates = _AcceptInvalidCerts;
-                        _Client.Settings.MutuallyAuthenticate = _MutualAuth;
+                        if (_Client != null) _Client.Dispose();
+                        if (!_Ssl) _Client = new WatsonTcpClient(_ServerIp, _ServerPort);
+                        else
+                        {
+                            _Client = new WatsonTcpClient(_ServerIp, _ServerPort, _CertFile, _CertPass);
+                            _Client.Settings.AcceptInvalidCertificates = _AcceptInvalidCerts;
+                            _Client.Settings.MutuallyAuthenticate = _MutualAuth;
+                        }
+
+                        _Client.Events.ServerConnected += ServerConnected;
+                        _Client.Events.ServerDisconnected += ServerDisconnected;
+                        _Client.Events.MessageReceived += MessageReceived;
+                        _Client.Events.ExceptionEncountered += ExceptionEncountered;
+                        _Client.Events.AuthenticationFailure += AuthenticationFailure;
+                        _Client.Events.AuthenticationSucceeded += AuthenticationSucceeded;
+                        _Client.Callbacks.AuthenticationRequested = AuthenticationRequested;
+                        _Client.Settings.DebugMessages = _DebugMessages;
+                        _Client.Settings.Logger = Logger;
+                        _Client.Settings.NoDelay = true;
+                        _Client.Keepalive.EnableTcpKeepAlives = true;
+                        _Client.Keepalive.TcpKeepAliveInterval = 1;
+                        _Client.Keepalive.TcpKeepAliveTime = 1;
+                        _Client.Keepalive.TcpKeepAliveRetryCount = 3;
+
+                        _Client.Connect();
+
+                        client_Connesso = true;
+                        Send("Connesso");
                     }
-                    _Client.Events.AuthenticationFailure += AuthenticationFailure;
-                    _Client.Events.AuthenticationSucceeded += AuthenticationSucceeded;
-                    _Client.Events.ServerConnected += ServerConnected;
-                    _Client.Events.ServerDisconnected += ServerDisconnected;
-                    _Client.Events.MessageReceived += MessageReceived;
-                    _Client.Events.ExceptionEncountered += ExceptionEncountered; //???
-
-                    _Client.Callbacks.AuthenticationRequested = AuthenticationRequested;
-
-                    // _Client.Settings.IdleServerTimeoutMs = 5000;
-                    _Client.Settings.DebugMessages = _DebugMessages;
-                    _Client.Settings.Logger = Logger;
-                    _Client.Settings.NoDelay = true;
-
-                    _Client.Keepalive.EnableTcpKeepAlives = true;
-                    _Client.Keepalive.TcpKeepAliveInterval = 1;
-                    _Client.Keepalive.TcpKeepAliveTime = 1;
-                    _Client.Keepalive.TcpKeepAliveRetryCount = 3;
-
-                    _Client.Connect();
-                    client_Connesso = true;
-                    Send("Connesso");
+                    catch (Exception ex)
+                    {
+                        client_Connesso = false;
+                        Console.WriteLine($"Connessione fallita: {ex.Message}");
+                    }
                 });
             }
             public static void Send(string messaggio)
@@ -1034,6 +1040,7 @@ namespace Strategico_V2
                 SetValue<bool>("Ricerca_Attiva", v => Variabili_Client.Utente.Ricerca_Attiva = v);
 
                 SetValue<string>("D_Viola_D_Blu", v => Variabili_Client.D_Viola_D_Blu = v);
+                SetValue<string>("Tributi_D_Viola", v => Variabili_Client.Tributi_D_Viola = v);
                 SetValue<string>("Tempo_D_Blu", v => Variabili_Client.Tempo_D_Blu = v);
             }
             static void Update_Log(string mes)
