@@ -1497,6 +1497,7 @@ namespace Warrior_and_Wealth
             ico_13.Name = "ico_13";
             ico_13.Size = new Size(36, 36);
             ico_13.TabIndex = 6;
+            ico_13.MouseClick += ico_13_MouseClick;
             // 
             // panel1
             // 

@@ -724,7 +724,7 @@ namespace Warrior_and_Wealth
             Shop form_Gioco = new Shop();
             form_Gioco.ShowDialog();
         }
-        private async  void btn_Ricerca_Click(object sender, EventArgs e)
+        private async void btn_Ricerca_Click(object sender, EventArgs e)
         {
             if (Variabili_Client.tutorial_Attivo == true && await Tutorial.TutorialPrecedentiCompletati(29))
                 ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{29}");
@@ -754,6 +754,7 @@ namespace Warrior_and_Wealth
         }
         private void btn_Scambia_Click(object sender, EventArgs e)
         {
+            Scambia_Diamanti.nome_Form = "Scambia_Diamanti";
             Scambia_Diamanti form_Gioco = new Scambia_Diamanti();
             form_Gioco.ShowDialog();
         }
@@ -950,6 +951,13 @@ namespace Warrior_and_Wealth
         private void btn_GamePass_Reward_Click(object sender, EventArgs e)
         {
             GamePassReward form_Gioco = new GamePassReward();
+            form_Gioco.ShowDialog();
+        }
+
+        private void ico_13_MouseClick(object sender, MouseEventArgs e)
+        {
+            Scambia_Diamanti.nome_Form = "Scambia_Tributi";
+            Scambia_Diamanti form_Gioco = new Scambia_Diamanti();
             form_Gioco.ShowDialog();
         }
     }

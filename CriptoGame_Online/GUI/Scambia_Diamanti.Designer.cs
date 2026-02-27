@@ -99,11 +99,11 @@
             // 
             txt_Testo.BorderStyle = BorderStyle.None;
             txt_Testo.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txt_Testo.Location = new Point(12, 12);
+            txt_Testo.Location = new Point(3, 5);
             txt_Testo.Multiline = true;
             txt_Testo.Name = "txt_Testo";
             txt_Testo.ReadOnly = true;
-            txt_Testo.Size = new Size(230, 37);
+            txt_Testo.Size = new Size(248, 44);
             txt_Testo.TabIndex = 33;
             txt_Testo.Text = "Descrizione\r\n1 Diamante Viola = 3 Diamanti Blu";
             txt_Testo.TextAlign = HorizontalAlignment.Center;

@@ -1,18 +1,10 @@
 ﻿using Strategico_V2;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Warrior_and_Wealth.GUI
 {
     public partial class Scambia_Diamanti : Form
     {
+        public static string nome_Form = "Scambia_Diamanti";
         public Scambia_Diamanti()
         {
             InitializeComponent();
@@ -26,14 +18,29 @@ namespace Warrior_and_Wealth.GUI
             txt_Diamond_Viola.BackColor = Color.FromArgb(229, 208, 181);
             ico_11.BackColor = Color.FromArgb(229, 208, 181);
             ico_12.BackColor = Color.FromArgb(229, 208, 181);
+
+            if (nome_Form == "Scambia_Diamanti")
+            {
+                txt_Testo.Text = $"Vuoi scambiare 1 diamante viola per {Variabili_Client.D_Viola_D_Blu} diamanti blu? Inserisci la quantità di diamanti viola che desideri scambiare.";
+                ico_12.BackgroundImage = Properties.Resources.DiamanteViola_V2;
+                ico_11.BackgroundImage = Properties.Resources.DiamanteBlu_V2;
+            }
+            if (nome_Form == "Scambia_Tributi")
+            {
+                txt_Testo.Text = $"Vuoi scambiare 1 tributo per {Variabili_Client.Tributi_D_Viola} diamanti viola? Inserisci la quantità di tributi che desideri scambiare.";
+                ico_12.BackgroundImage = Properties.Resources.Tributi_V2;
+                ico_11.BackgroundImage = Properties.Resources.DiamanteViola_V2;
+            }
+
         }
 
         private  async void btn_Scambia_Click(object sender, EventArgs e)
         {
             this.ActiveControl = ico_12;
 
-            // Messaggio di conferma chiaro
-            var result = MessageBox.Show(
+            if (nome_Form == "Scambia_Diamanti")
+            {
+                var result = MessageBox.Show(
                 $"Sei sicuro di voler scambiare i diamanti viola?\n" +
                 $"Diamanti Viola: {txt_Diamond_Viola.Text}\n" +
                 $"Diamanti Blu: {txt_Diamond_Blu.Text}" +
@@ -41,17 +48,39 @@ namespace Warrior_and_Wealth.GUI
                 "Conferma scambio",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning
-            );
+                );
+                if (result == DialogResult.Yes)
+                {
+                    // Esegui l'acquisto
+                    ClientConnection.TestClient.Send($"Scambia_Diamanti|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{txt_Diamond_Viola.Text}");
+                    btn_Scambia.Enabled = false;
+                    await Sleep();
+                    btn_Scambia.Enabled = true;
+                }
+            }
 
-            if (result == DialogResult.Yes)
+            if (nome_Form == "Scambia_Tributi")
             {
-                // Esegui l'acquisto
-                ClientConnection.TestClient.Send($"Scambia_Diamanti|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{txt_Diamond_Viola.Text}");
-                btn_Scambia.Enabled = false;
-                await Sleep();
-                btn_Scambia.Enabled = true;
+                var result = MessageBox.Show(
+                $"Sei sicuro di voler scambiare i Tributi?\n" +
+                $"Tributi attuali: {Variabili_Client.Utente_Risorse.Virtual_Dolla}",
+                $"Tributi: {txt_Diamond_Viola.Text}\n" +
+                $"Diamanti Viola: {txt_Diamond_Blu.Text}" +
+                "Conferma scambio",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+                );
+                if (result == DialogResult.Yes)
+                {
+                    // Esegui l'acquisto
+                    ClientConnection.TestClient.Send($"Scambia_Tributi|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{txt_Diamond_Viola.Text}");
+                    btn_Scambia.Enabled = false;
+                    await Sleep();
+                    btn_Scambia.Enabled = true;
+                }
             }
         }
+
 
         async Task Sleep()
         {
