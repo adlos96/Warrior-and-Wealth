@@ -11,7 +11,7 @@
     <StartupObject>Warrior_and_Wealth.Program</StartupObject>
     <SignAssembly>False</SignAssembly>
     <ApplicationIcon>Icona_V2.ico</ApplicationIcon>
-    <FileVersion>0.1.13.2</FileVersion> 
+    <FileVersion>0.1.14.5</FileVersion> 
   </PropertyGroup>
 
   <ItemGroup>

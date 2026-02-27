@@ -42,7 +42,7 @@ namespace Strategico_V2
         }
 
         public static string versione_Client_Necessario = "0";
-        public static string versione_Client_Attuale = "0.1.13.2";
+        public static string versione_Client_Attuale = "0.1.14.5";
 
         public static string Ricerca_1_Bottone_Cliccato = "";
         public static string Server = "0";
