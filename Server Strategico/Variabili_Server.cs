@@ -7,6 +7,7 @@
         //ServerData
         public static Int16 moltiplicatore_Esperienza = 10; //Moltiplicatore esperienza (10 + 1 * 10 == 20 -- 10 + 2 * 10 == 30 -- 10 + 3 * 10 == 40)
         public static Int16 D_Viola_To_Blu = 3; // Numero di diamanti blu ottenuti per ogni diamante viola
+        public static Int16 Tributi_To_D_Viola = 45; // Numero di diamanti blu ottenuti per ogni diamante viola
         public static Int16 Velocizzazione_Tempo = 36; // per ogni diamante blu speso quanti secondi vengono velocizzati
         public static decimal prelievo_Minimo = 5.00m;
         public static Int16 numero_Code_Base = 1; // Ogni giocatore parte con questo numero di esecuzioni parallele massime (costruttori, Riclutatori, Ricerca)
@@ -81,12 +82,12 @@
             public static Shop GamePass_Base = new Shop
             {
                 Costo = 20.99, // USDT
-                Reward = 1 //GamePass
+                Reward = 2592000 //GamePass
             };
             public static Shop GamePass_Avanzato = new Shop
             {
                 Costo = 62.99, // USDT
-                Reward = 1 //GamePass
+                Reward = 2592000 //GamePass
             };
 
             public static Shop Vip_1 = new Shop

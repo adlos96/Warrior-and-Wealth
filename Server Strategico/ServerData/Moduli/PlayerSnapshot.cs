@@ -71,6 +71,7 @@ namespace Server_Strategico.ServerData.Moduli
             _currentState["GamePass_Base_Tempo"] = player.FormatTime(player.GamePass_Base_Tempo);
             _currentState["GamePass_Avanzato"] = player.GamePass_Avanzato.ToString();
             _currentState["GamePass_Avanzato_Tempo"] = player.FormatTime(player.GamePass_Avanzato_Tempo);
+            _currentState["Giorni_Consecutivi"] = player.GamePass_Accessi_Consecutivi.ToString();
 
             _currentState["cibo"] = player.Cibo.ToString("#,0");
             _currentState["legna"] = player.Legno.ToString("#,0");

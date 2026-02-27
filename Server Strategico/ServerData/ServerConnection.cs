@@ -74,6 +74,30 @@ namespace Server_Strategico.Server
                         Server.Client_Connessi_Map.TryRemove(clientGuid, out _);
                         Server.Client_Connessi_Map.TryAdd(clientGuid, player.Username);
 
+                        if (player.Stato_Giocatore == false) player.Stato_Giocatore = true; //Riattiva il giocatore se non entra da molto
+                        if (player.Last_Login != DateTime.Now.Date) //Accesso giornaliero - Incremento e controllo accessi consecutivi per GamePass
+                        {
+                            var daysDiff = (DateTime.Now.Date - player.Last_Login.Date).Days;
+                            if (daysDiff == 1 && player.GamePass_Avanzato)
+                            {
+                                player.GamePass_Accessi_Consecutivi += 1;
+                                player.Last_Login = DateTime.Now.Date;
+                                Console.WriteLine("Gamepass: Giorno incrementato");
+                            }
+                            else if (daysDiff > 1)
+                            {
+                                Console.WriteLine("Gamepass: Giorni resettati");
+                                player.GamePass_Accessi_Consecutivi = 0;
+                                player.Last_Login = DateTime.Now.Date;
+                                player.GamePass_Premi = new bool[Variabili_Server.gamePass_DailyReward.Count()]; //Reset premi giornalieri
+                            }
+                            if (!player.GamePass_Avanzato && player.GamePass_Accessi_Consecutivi != 0)
+                            {
+                                player.GamePass_Accessi_Consecutivi = 0;
+                                Console.WriteLine("Gamepass: Gamepass scaduto, reset giorni");
+                            }
+                        } //GamePass Gold
+
                         Descrizioni.DescUpdate(player);
                         QuestManager.QuestUpdate(player);
                         QuestManager.QuestRewardUpdate(player);
@@ -84,23 +108,6 @@ namespace Server_Strategico.Server
                         GamePass_Premi_Send(player);
                         Update_Data_OneTime(clientGuid, player);
                         player.Snapshot.Reset();
-
-
-                        if (player.Stato_Giocatore == false) player.Stato_Giocatore = true;
-                        if (player.Last_Login != DateTime.Now.Date) //Accesso giornaliero - Incremento e controllo accessi consecutivi per GamePass
-                        {
-                            var daysDiff = (DateTime.Now.Date - player.Last_Login.Date).Days; 
-                            if (daysDiff == 1)
-                            {
-                                player.GamePass_Accessi_Consecutivi += 1;
-                                player.Last_Login = DateTime.Now.Date;
-                            }
-                            else if (daysDiff > 1)
-                            {
-                                player.GamePass_Accessi_Consecutivi = 1;
-                                player.Last_Login = DateTime.Now.Date;
-                            }
-                        }
                     }
                     else
                         Server.Send(clientGuid, $"Login|false|Username o password non corrispondono. User: [{msgArgs[1]}] psw: [{msgArgs[2]}]");
@@ -239,7 +246,7 @@ namespace Server_Strategico.Server
         }
         public static void GamePass_Premi(Player player)
         {
-            //if (player.GamePass_Avanzato)
+            if (player.GamePass_Avanzato)
                 for (int i = 0; i < Variabili_Server.gamePass_DailyReward.Count(); i++) //Forse utilizzando il numero dei giorni consecutivi posso evitare il for? da testare
                     if (player.GamePass_Accessi_Consecutivi == i && player.GamePass_Premi[i] == false)
                     {
@@ -1112,6 +1119,7 @@ namespace Server_Strategico.Server
             string data =
             "Update_Data|" +
             $"D_Viola_D_Blu={Variabili_Server.D_Viola_To_Blu}|" +
+            $"Tributi_D_Viola={Variabili_Server.Tributi_To_D_Viola}|" +
             $"Tempo_D_Blu={Variabili_Server.Velocizzazione_Tempo}|" +
 
             $"QuestMensili_Tempo={player.FormatTime(Variabili_Server.timer_Reset_Quest)}|" +

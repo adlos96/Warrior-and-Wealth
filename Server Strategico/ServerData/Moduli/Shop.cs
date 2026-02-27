@@ -60,20 +60,26 @@ namespace Server_Strategico.ServerData.Moduli
                     break;
 
                 case "GamePass_Base":
-                    if (player.GamePass_Base_Tempo + 30 * 24 * 60 * 60 > 6 * 30 * 24 * 60 * 60) //Max 6 mesi di accumolo
+                    if (player.GamePass_Base_Tempo + Variabili_Server.Shop.GamePass_Base.Reward > 6 * Variabili_Server.Shop.GamePass_Base.Reward) //Max 6 mesi di accumolo
                     {
                         Server.Server.Send(player.guid_Player, $"Log_Server|[Shop][error]Tempo [highlight]{player.Vip_Tempo}[/highlight] [highlight]VIP[/highlight] [error]oltre il limite massimo di [highlight]6 mesi[/highlight]... Richiesta annullata..");
                         return;
                     }
+                    Server.Server.Send(player.guid_Player, $"Log_Server|[Shop]Hai acquistato l'accesso al 'GamePass Base' per 30 giorni, fanne buon uso.");
+                    player.GamePass_Base_Tempo += Variabili_Server.Shop.GamePass_Base.Reward;
+                    player.GamePass_Base = true;
                     Descrizioni.DescUpdate(player);
                     player.SetupVillaggioGiocatore(player);
                     break;
                 case "GamePass_Avanzato":
-                    if (player.GamePass_Avanzato_Tempo + 30 * 24 * 60 * 60 > 6 * 30 * 24 * 60 * 60) //Max 6 mesi di accumulo
+                    if (player.GamePass_Avanzato_Tempo + Variabili_Server.Shop.GamePass_Avanzato.Reward > 6 * Variabili_Server.Shop.GamePass_Avanzato.Reward) //Max 6 mesi di accumulo
                     {
                         Server.Server.Send(player.guid_Player, $"Log_Server|[Shop][error]Tempo [highlight]{player.Vip_Tempo}[/highlight] [highlight]VIP[/highlight] [error]oltre il limite massimo di [highlight]6 mesi[/highlight]... Richiesta annullata..");
                         return;
                     }
+                    Server.Server.Send(player.guid_Player, $"Log_Server|[Shop]Hai acquistato l'accesso al 'GamePass Base' per 30 giorni, fanne buon uso.");
+                    player.GamePass_Avanzato_Tempo += Variabili_Server.Shop.GamePass_Avanzato.Reward;
+                    player.GamePass_Avanzato = true;
                     Descrizioni.DescUpdate(player);
                     player.SetupVillaggioGiocatore(player);
                     break;
