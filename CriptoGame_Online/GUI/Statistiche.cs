@@ -26,8 +26,8 @@ namespace Warrior_and_Wealth.GUI
                     {
                         lbl_Giocatore_Testo.Text =
                         $"VIP: \n" +
-                        $"GamepPass A: \n" +
-                        $"GamepPass B: \n" +
+                        $"GamepPass Silver: \n" +
+                        $"GamepPass Gold: \n" +
                         $"Scudo della pace: \n" +
                         $"Costruttori: \n" +
                         $"Reclutatori: \n" +

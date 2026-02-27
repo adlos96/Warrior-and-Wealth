@@ -243,7 +243,7 @@ namespace Warrior_and_Wealth
 
                 panel_Bottone_1.Enabled = true;
                 panel_Bottone_2.Enabled = true;
-                panel_Bottone_3.Enabled = false;
+                panel_Bottone_3.Enabled = true;
                 panel_Bottone_4.Enabled = false;
                 panel_Bottone_5.Enabled = false;
                 panel_Bottone_6.Enabled = false;
@@ -277,8 +277,8 @@ namespace Warrior_and_Wealth
                 txt_Shop_6.Text = "";
 
                 txt_Image_1.Text = Variabili_Client.Shop.Scudo_Pace_72h.Reward.ToString() + " H"; //Reward all'acquisto
-                txt_Image_2.Text = Variabili_Client.Shop.GamePass_Base.Reward.ToString();
-                txt_Image_3.Text = Variabili_Client.Shop.GamePass_Avanzato.Reward.ToString();
+                txt_Image_2.Text = "30 G"; //Gamepass Base
+                txt_Image_3.Text = "30 G"; //Gamepass Avanzato
                 txt_Image_4.Text = "";
                 txt_Image_5.Text = "";
                 txt_Image_6.Text = "";
@@ -334,6 +334,7 @@ namespace Warrior_and_Wealth
             if (pagina == 2 && result == DialogResult.Yes)
                     ClientConnection.TestClient.Send($"Shop|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Costruttori_48H");
             if (pagina == 3)
+                ClientConnection.TestClient.Send($"Shop|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|GamePass_Base");
 
             panel_Bottone_2.Enabled = false;
             await Sleep(2); // meglio di Thread.Sleep
@@ -353,8 +354,9 @@ namespace Warrior_and_Wealth
 
             if (pagina == 2 && result == DialogResult.Yes)
                     ClientConnection.TestClient.Send($"Shop|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Reclutatori_24H");
-            
-            
+            if (pagina == 3)
+                ClientConnection.TestClient.Send($"Shop|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|GamePass_Avanzato");
+
             panel_Bottone_3.Enabled = false;
             await Sleep(2); // meglio di Thread.Sleep
             panel_Bottone_3.Enabled = true;

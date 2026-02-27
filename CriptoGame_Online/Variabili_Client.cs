@@ -42,7 +42,7 @@ namespace Strategico_V2
         }
 
         public static string versione_Client_Necessario = "0";
-        public static string versione_Client_Attuale = "0.1.12.0";
+        public static string versione_Client_Attuale = "0.1.13.2";
 
         public static string Ricerca_1_Bottone_Cliccato = "";
         public static string Server = "0";
@@ -51,6 +51,7 @@ namespace Strategico_V2
         public static string Esperienza_Desc = "";
         public static string Livello_Desc = "";
         public static string D_Viola_D_Blu = "";
+        public static string Tributi_D_Viola = "";
         public static string Tempo_D_Blu = "";
 
         public static string Giocatore_Desc = "";

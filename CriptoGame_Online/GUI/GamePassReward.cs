@@ -80,7 +80,7 @@ namespace Warrior_and_Wealth.GUI
         void Update_Guid()
         {
             if (selezione == 1)
-                if (Variabili_Client.GamePass_Premi_Completati[0] == false)
+                if (Variabili_Client.GamePass_Premi_Completati[0] == false && Variabili_Client.Utente.User_GamePass_Avanzato)
                 {
                     btn_Reward_GamePass_1.Enabled = true;
                     btn_Reward_GamePass_1.BackColor = Color.Purple;
