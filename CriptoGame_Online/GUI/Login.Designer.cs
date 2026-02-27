@@ -30,6 +30,8 @@
         {
             lbl_Username_Login = new Label();
             panel1 = new Panel();
+            panel_Connessione = new Panel();
+            txt_Stato_Server = new TextBox();
             txt_Versione_Attuale = new TextBox();
             txt_Log = new TextBox();
             txt_Ip = new TextBox();
@@ -59,6 +61,8 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(panel_Connessione);
+            panel1.Controls.Add(txt_Stato_Server);
             panel1.Controls.Add(txt_Versione_Attuale);
             panel1.Controls.Add(txt_Log);
             panel1.Controls.Add(txt_Ip);
@@ -75,11 +79,32 @@
             panel1.Size = new Size(193, 276);
             panel1.TabIndex = 1;
             // 
+            // panel_Connessione
+            // 
+            panel_Connessione.BackColor = Color.Transparent;
+            panel_Connessione.BackgroundImage = Properties.Resources.Disconnesso_2_V2;
+            panel_Connessione.BackgroundImageLayout = ImageLayout.Stretch;
+            panel_Connessione.Location = new Point(97, 48);
+            panel_Connessione.Name = "panel_Connessione";
+            panel_Connessione.Size = new Size(18, 18);
+            panel_Connessione.TabIndex = 18;
+            // 
+            // txt_Stato_Server
+            // 
+            txt_Stato_Server.BackColor = Color.White;
+            txt_Stato_Server.BorderStyle = BorderStyle.None;
+            txt_Stato_Server.Location = new Point(13, 50);
+            txt_Stato_Server.Name = "txt_Stato_Server";
+            txt_Stato_Server.Size = new Size(102, 16);
+            txt_Stato_Server.TabIndex = 12;
+            txt_Stato_Server.Text = "Stato Server:";
+            txt_Stato_Server.TextAlign = HorizontalAlignment.Center;
+            // 
             // txt_Versione_Attuale
             // 
             txt_Versione_Attuale.BackColor = Color.White;
             txt_Versione_Attuale.BorderStyle = BorderStyle.None;
-            txt_Versione_Attuale.Location = new Point(21, 29);
+            txt_Versione_Attuale.Location = new Point(21, 25);
             txt_Versione_Attuale.Name = "txt_Versione_Attuale";
             txt_Versione_Attuale.Size = new Size(151, 16);
             txt_Versione_Attuale.TabIndex = 11;
@@ -271,5 +296,7 @@
         private Label lbl_Aggiornamento_Disponibile;
         private Button btn_Aggiorna;
         private TextBox txt_Versione_Attuale;
+        private TextBox txt_Stato_Server;
+        private Panel panel_Connessione;
     }
 }

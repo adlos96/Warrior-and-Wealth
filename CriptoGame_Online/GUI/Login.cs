@@ -67,6 +67,10 @@ namespace Warrior_and_Wealth
             txt_Versione_Attuale.ForeColor = Color.Black;
             txt_Versione_Attuale.Font = new Font("Cinzel Decorative", 8, FontStyle.Regular);
 
+            txt_Stato_Server.BackColor = Color.FromArgb(229, 208, 181);
+            txt_Stato_Server.ForeColor = Color.Black;
+            txt_Stato_Server.Font = new Font("Cinzel Decorative", 8, FontStyle.Regular);
+
         }
 
         private void txt_Username_Login_MouseClick(object sender, MouseEventArgs e)
@@ -163,11 +167,23 @@ namespace Warrior_and_Wealth
         }
         async Task<bool> VersioneDisponibile()
         {
+            if (!ClientConnection.client_Connesso) //Controlla l'avvenuta connessione
+            {
+                panel_Connessione.BackgroundImage = Properties.Resources.Disconnesso_V2;
+                Btn_Login.Enabled = true;
+                Btn_New_Game.Enabled = true;
+                txt_Log.Font = new Font("Cinzel Decorative", 8, FontStyle.Bold);
+                txt_Log.Text = "Impossibile connettersi al server!";
+                return false;
+            }
+            else panel_Connessione.BackgroundImage = Properties.Resources.Connesso_V2;
+
             if (Variabili_Client.versione_Client_Necessario != Variabili_Client.versione_Client_Attuale)
             {
                 var versioneNecessaria = Variabili_Client.versione_Client_Necessario.Split('.');
                 var versioneAttuale = Variabili_Client.versione_Client_Attuale.Split('.');
 
+                if (versioneNecessaria.Count() != 4 || versioneAttuale.Count() != 4) return false;
                 if (versioneNecessaria[0] != versioneAttuale[0] || versioneNecessaria[1] != versioneAttuale[1] || versioneNecessaria[2] != versioneAttuale[2])
                 {
                     Btn_Login.Enabled = false;
@@ -177,6 +193,7 @@ namespace Warrior_and_Wealth
 
                     lbl_Aggiornamento_Disponibile.Text = "Necessario aggiornamento: " + Variabili_Client.versione_Client_Necessario;
                     this.Size = new Size(251, 377);
+                    Aggiornamento();
                     return false;
                 }
                 else if (versioneNecessaria[3] != versioneAttuale[3])
@@ -218,6 +235,19 @@ namespace Warrior_and_Wealth
             else txt_Log.Text = $"Login fallito!";
             return true;
         }
+        public async void Aggiornamento()
+        {
+            int i = 0;
+            while (Variabili_Client.Utente.User_Login == false)
+            {
+                panel_Connessione.BackgroundImage = Properties.Resources.Connesso_V2;
+                if (i >= 10) return;
+                await Task.Delay(500);
+                panel_Connessione.BackgroundImage = Properties.Resources.Disconnesso_V2;
+                await Task.Delay(500);
+                i++;
+            }
+        }
 
         private async void Btn_New_Game_Click(object sender, EventArgs e)
         {
@@ -227,7 +257,14 @@ namespace Warrior_and_Wealth
             Btn_Login.Enabled = false;
             txt_Log.Text = "Connessione...";
 
+            //Controlla se siamo in locale... 
             if (txt_Ip.Text != "IP: AUTO") ClientConnection.TestClient._ServerIp = txt_Ip.Text;
+            else
+            {
+                string subjectName = Environment.MachineName; //Ottine il nome della macchina (hostname)
+                if (subjectName == "DESKTOP-DOBLVTI" || subjectName == "ADLO") ClientConnection.TestClient._ServerIp = "localhost";
+            }
+
             await ClientConnection.TestClient.InitializeClient(); // Connessione server
             await Sleep(1);
             if (!await VersioneDisponibile()) return;
