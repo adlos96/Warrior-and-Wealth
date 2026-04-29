@@ -3,6 +3,7 @@
     internal class Variabili_Server
     {
         public static string versione_Client_Necessario = "0.1.14.5";
+        public static string[] lingue_Supportate = {"ITA", "ENG" };
 
         //ServerData
         public static Int16 moltiplicatore_Esperienza = 10; //Moltiplicatore esperienza (10 + 1 * 10 == 20 -- 10 + 2 * 10 == 30 -- 10 + 3 * 10 == 40)

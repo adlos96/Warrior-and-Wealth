@@ -11,7 +11,6 @@ namespace Server_Strategico.Manager
         public class Quest_Template
         {
             public int Id { get; set; }                     // ID univoco per identificare la quest
-            public string Quest_Description { get; set; }   // Descrizione
             public int Experience { get; set; }             // Exp guadagnata
             public int Require { get; set; }                // Requisito per completare
             public int Max_Complete { get; set; }           // Quante volte può essere completata
@@ -21,86 +20,86 @@ namespace Server_Strategico.Manager
             public static readonly Dictionary<int, Quest_Template> Quests = new()
             {
                 // --- ACQUISTI E GENERALI ---
-                { 0, new Quest_Template { Id = 0, Quest_Description = "Acquista un feudo", Experience = 10, Require = 1, Max_Complete = 5 } },
+                { 0, new Quest_Template { Id = 0, Experience = 10, Require = 1, Max_Complete = 5 } },
 
                 // --- ADDESTRAMENTO TRUPPE ---
-                { 1, new Quest_Template { Id = 1, Quest_Description = "Addestra guerrieri", Experience = 4, Require = 60, Max_Complete = 3 } },
-                { 2, new Quest_Template { Id = 2, Quest_Description = "Addestra lancieri", Experience = 4, Require = 55, Max_Complete = 3 } },
-                { 3, new Quest_Template { Id = 3, Quest_Description = "Addestra arcieri", Experience = 4, Require = 50, Max_Complete = 3 } },
-                { 4, new Quest_Template { Id = 4, Quest_Description = "Addestra catapulte", Experience = 4, Require = 40, Max_Complete = 3 } },
+                { 1, new Quest_Template { Id = 1, Experience = 4, Require = 60, Max_Complete = 3 } },
+                { 2, new Quest_Template { Id = 2, Experience = 4, Require = 55, Max_Complete = 3 } },
+                { 3, new Quest_Template { Id = 3, Experience = 4, Require = 50, Max_Complete = 3 } },
+                { 4, new Quest_Template { Id = 4, Experience = 4, Require = 40, Max_Complete = 3 } },
 
                 // --- ELIMINA TRUPPE --- da fare
-                { 5, new Quest_Template { Id = 5, Quest_Description = "Elimina guerrieri", Experience = 5, Require = 80, Max_Complete = 4 } },
-                { 6, new Quest_Template { Id = 6, Quest_Description = "Elimina lancieri", Experience = 5, Require = 80, Max_Complete = 4 } },
-                { 7, new Quest_Template { Id = 7, Quest_Description = "Elimina arcieri", Experience = 5, Require = 80, Max_Complete = 4 } },
-                { 8, new Quest_Template { Id = 8, Quest_Description = "Elimina catapulte", Experience = 5, Require = 80, Max_Complete = 4 } },
-                { 9, new Quest_Template { Id = 9, Quest_Description = "Elimina qualsiasi unità", Experience = 7, Require = 400, Max_Complete = 5 } },
+                { 5, new Quest_Template { Id = 5, Experience = 5, Require = 80, Max_Complete = 4 } },
+                { 6, new Quest_Template { Id = 6, Experience = 5, Require = 80, Max_Complete = 4 } },
+                { 7, new Quest_Template { Id = 7, Experience = 5, Require = 80, Max_Complete = 4 } },
+                { 8, new Quest_Template { Id = 8, Experience = 5, Require = 80, Max_Complete = 4 } },
+                { 9, new Quest_Template { Id = 9, Experience = 7, Require = 400, Max_Complete = 5 } },
 
                 // --- COSTRUZIONI CIVILI ---
-                { 10, new Quest_Template { Id = 10, Quest_Description = "Costruisci qualsiasi struttura civile", Experience = 10, Require = 50, Max_Complete = 4 } },
-                { 11, new Quest_Template { Id = 11, Quest_Description = "Costruisci fattorie", Experience = 5, Require = 10, Max_Complete = 4 } },
-                { 12, new Quest_Template { Id = 12, Quest_Description = "Costruisci segherie", Experience = 5, Require = 10, Max_Complete = 4 } },
-                { 13, new Quest_Template { Id = 13, Quest_Description = "Costruisci cave di pietra", Experience = 5, Require = 10, Max_Complete = 4 } },
-                { 14, new Quest_Template { Id = 14, Quest_Description = "Costruisci miniere di ferro", Experience = 5, Require = 10, Max_Complete = 4 } },
-                { 15, new Quest_Template { Id = 15, Quest_Description = "Costruisci miniere d'oro", Experience = 5, Require = 10, Max_Complete = 4 } },
-                { 16, new Quest_Template { Id = 16, Quest_Description = "Costruisci case", Experience = 7, Require = 10, Max_Complete = 4 } },
+                { 10, new Quest_Template { Id = 10, Experience = 10, Require = 50, Max_Complete = 4 } },
+                { 11, new Quest_Template { Id = 11, Experience = 5, Require = 10, Max_Complete = 4 } },
+                { 12, new Quest_Template { Id = 12, Experience = 5, Require = 10, Max_Complete = 4 } },
+                { 13, new Quest_Template { Id = 13, Experience = 5, Require = 10, Max_Complete = 4 } },
+                { 14, new Quest_Template { Id = 14, Experience = 5, Require = 10, Max_Complete = 4 } },
+                { 15, new Quest_Template { Id = 15, Experience = 5, Require = 10, Max_Complete = 4 } },
+                { 16, new Quest_Template { Id = 16, Experience = 7, Require = 10, Max_Complete = 4 } },
 
-                { 17, new Quest_Template { Id = 17, Quest_Description = "Costruisci workshop spade", Experience = 5, Require = 5, Max_Complete = 3 } },
-                { 18, new Quest_Template { Id = 18, Quest_Description = "Costruisci workshop lancie", Experience = 5, Require = 5, Max_Complete = 3 } },
-                { 19, new Quest_Template { Id = 19, Quest_Description = "Costruisci workshop archi", Experience = 5, Require = 5, Max_Complete = 3 } },
-                { 20, new Quest_Template { Id = 20, Quest_Description = "Costruisci workshop scudi", Experience = 5, Require = 5, Max_Complete = 3 } },
-                { 21, new Quest_Template { Id = 21, Quest_Description = "Costruisci workshop armature", Experience = 5, Require = 5, Max_Complete = 3 } },
-                { 22, new Quest_Template { Id = 22, Quest_Description = "Costruisci workshop frecce", Experience = 5, Require = 5, Max_Complete = 3 } },
-
-                { 23, new Quest_Template { Id = 23, Quest_Description = "Costruisci caserme guerrieri", Experience = 10, Require = 5, Max_Complete = 3 } },
-                { 24, new Quest_Template { Id = 24, Quest_Description = "Costruisci caserme lancieri", Experience = 10, Require = 5, Max_Complete = 3 } },
-                { 25, new Quest_Template { Id = 25, Quest_Description = "Costruisci caserme arcieri", Experience = 10, Require = 5, Max_Complete = 3 } },
-                { 26, new Quest_Template { Id = 26, Quest_Description = "Costruisci caserme catapulte", Experience = 10, Require = 5, Max_Complete = 3 } },
-
-                { 27, new Quest_Template { Id = 27, Quest_Description = "Utilizza diamanti blu", Experience = 20, Require = 300, Max_Complete = 4 } },
-                { 28, new Quest_Template { Id = 28, Quest_Description = "Utilizza diamanti viola", Experience = 25, Require = 400, Max_Complete = 4 } },
-
-                { 29, new Quest_Template { Id = 29, Quest_Description = "Velocizza costruzioni", Experience = 18, Require = 10800, Max_Complete = 3 } }, //Minuti
-                { 30, new Quest_Template { Id = 30, Quest_Description = "Velocizza addestramento", Experience = 18, Require = 14400, Max_Complete = 3 } },
-                { 31, new Quest_Template { Id = 31, Quest_Description = "Velocizza qualsiasi cosa", Experience = 30, Require = 28800, Max_Complete = 3 } },
-
-                { 32, new Quest_Template { Id = 32, Quest_Description = "Attacca giocatori", Experience = 15, Require = 5, Max_Complete = 4 } },
-                { 33, new Quest_Template { Id = 33, Quest_Description = "Attacca villaggi barbari", Experience = 10, Require = 5, Max_Complete = 4 } },
-                { 34, new Quest_Template { Id = 34, Quest_Description = "Attacca città barbare", Experience = 10, Require = 5, Max_Complete = 4 } },
-
-                // --- COSTRUZIONI MILITARI ---
-                { 35, new Quest_Template { Id = 35, Quest_Description = "Costruisci qualsiasi struttura militare", Experience = 10, Require = 25, Max_Complete = 4 } },
-                { 36, new Quest_Template { Id = 36, Quest_Description = "Addestra qualsiasi unità militare", Experience = 10, Require = 400, Max_Complete = 4 } },
-
-                //Risorse
-                { 37, new Quest_Template { Id = 37, Quest_Description = "Utilizza cibo", Experience = 4, Require = 100000, Max_Complete = 4 } },
-                { 38, new Quest_Template { Id = 38, Quest_Description = "Utilizza legno", Experience = 4, Require = 84000, Max_Complete = 4 } },
-                { 39, new Quest_Template { Id = 39, Quest_Description = "Utilizza pietra", Experience = 4, Require = 76000, Max_Complete = 4 } },
-                { 40, new Quest_Template { Id = 40, Quest_Description = "Utilizza ferro", Experience = 4, Require = 70000, Max_Complete = 4 } },
-                { 41, new Quest_Template { Id = 41, Quest_Description = "Utilizza oro", Experience = 4, Require = 62000, Max_Complete = 4 } },
-                { 42, new Quest_Template { Id = 42, Quest_Description = "Utilizza popolazione", Experience = 5, Require = 420, Max_Complete = 4 } },
-
-                { 43, new Quest_Template { Id = 43, Quest_Description = "Utilizza spade", Experience = 4, Require = 200, Max_Complete = 4 } },
-                { 44, new Quest_Template { Id = 44, Quest_Description = "Utilizza lancie", Experience = 4, Require = 200, Max_Complete = 4 } },
-                { 45, new Quest_Template { Id = 45, Quest_Description = "Utilizza archi", Experience = 4, Require = 200, Max_Complete = 4 } },
-                { 46, new Quest_Template { Id = 46, Quest_Description = "Utilizza scudi", Experience = 4, Require = 200, Max_Complete = 4 } },
-                { 47, new Quest_Template { Id = 47, Quest_Description = "Utilizza armature", Experience = 4, Require = 200, Max_Complete = 4 } },
-                { 48, new Quest_Template { Id = 48, Quest_Description = "Utilizza frecce", Experience = 4, Require = 1250, Max_Complete = 4 } },
+                { 17, new Quest_Template { Id = 17, Experience = 5, Require = 5, Max_Complete = 3 } },
+                { 18, new Quest_Template { Id = 18, Experience = 5, Require = 5, Max_Complete = 3 } },
+                { 19, new Quest_Template { Id = 19, Experience = 5, Require = 5, Max_Complete = 3 } },
+                { 20, new Quest_Template { Id = 20, Experience = 5, Require = 5, Max_Complete = 3 } },
+                { 21, new Quest_Template { Id = 21, Experience = 5, Require = 5, Max_Complete = 3 } },
+                { 22, new Quest_Template { Id = 22, Experience = 5, Require = 5, Max_Complete = 3 } },
+                                                    
+                { 23, new Quest_Template { Id = 23, Experience = 10, Require = 5, Max_Complete = 3 } },
+                { 24, new Quest_Template { Id = 24, Experience = 10, Require = 5, Max_Complete = 3 } },
+                { 25, new Quest_Template { Id = 25, Experience = 10, Require = 5, Max_Complete = 3 } },
+                { 26, new Quest_Template { Id = 26, Experience = 10, Require = 5, Max_Complete = 3 } },
+                                                    
+                { 27, new Quest_Template { Id = 27, Experience = 20, Require = 300, Max_Complete = 4 } },
+                { 28, new Quest_Template { Id = 28, Experience = 25, Require = 400, Max_Complete = 4 } },
+                                                    
+                { 29, new Quest_Template { Id = 29, Experience = 18, Require = 10800, Max_Complete = 3 } }, //Minuti
+                { 30, new Quest_Template { Id = 30, Experience = 18, Require = 14400, Max_Complete = 3 } },
+                { 31, new Quest_Template { Id = 31, Experience = 30, Require = 28800, Max_Complete = 3 } },
+                                                    
+                { 32, new Quest_Template { Id = 32, Experience = 15, Require = 5, Max_Complete = 4 } },
+                { 33, new Quest_Template { Id = 33, Experience = 10, Require = 5, Max_Complete = 4 } },
+                { 34, new Quest_Template { Id = 34, Experience = 10, Require = 5, Max_Complete = 4 } },
+                                                    
+                // --- COSTRUZIONI MILITARI ---     
+                { 35, new Quest_Template { Id = 35, Experience = 10, Require = 25, Max_Complete = 4 } },
+                { 36, new Quest_Template { Id = 36, Experience = 10, Require = 400, Max_Complete = 4 } },
+                                                    
+                //Risorse                           
+                { 37, new Quest_Template { Id = 37, Experience = 4, Require = 100000, Max_Complete = 4 } },
+                { 38, new Quest_Template { Id = 38, Experience = 4, Require = 84000, Max_Complete = 4 } },
+                { 39, new Quest_Template { Id = 39, Experience = 4, Require = 76000, Max_Complete = 4 } },
+                { 40, new Quest_Template { Id = 40, Experience = 4, Require = 70000, Max_Complete = 4 } },
+                { 41, new Quest_Template { Id = 41, Experience = 4, Require = 62000, Max_Complete = 4 } },
+                { 42, new Quest_Template { Id = 42, Experience = 5, Require = 420, Max_Complete = 4 } },
+                                                    
+                { 43, new Quest_Template { Id = 43, Experience = 4, Require = 200, Max_Complete = 4 } },
+                { 44, new Quest_Template { Id = 44, Experience = 4, Require = 200, Max_Complete = 4 } },
+                { 45, new Quest_Template { Id = 45, Experience = 4, Require = 200, Max_Complete = 4 } },
+                { 46, new Quest_Template { Id = 46, Experience = 4, Require = 200, Max_Complete = 4 } },
+                { 47, new Quest_Template { Id = 47, Experience = 4, Require = 200, Max_Complete = 4 } },
+                { 48, new Quest_Template { Id = 48, Experience = 4, Require = 1250, Max_Complete = 4 } },
 
                 // --- COSTRUZIONI AVANZATE / SPECIALI ---
-                { 49, new Quest_Template { Id = 49, Quest_Description = "Completa tutte le quest iniziali", Experience = 75, Require = 59, Max_Complete = 1 } },
-
-                { 50, new Quest_Template { Id = 50, Quest_Description = "Esplora villaggio barbaro", Experience = 5, Require = 5, Max_Complete = 2 } },
-                { 51, new Quest_Template { Id = 51, Quest_Description = "Esplora città barbare", Experience = 5, Require = 5, Max_Complete = 2 } },
-                { 52, new Quest_Template { Id = 52, Quest_Description = "Esplora giocatori", Experience = 5, Require = 5, Max_Complete = 2 } },
-                { 53, new Quest_Template { Id = 53, Quest_Description = "Esegui qualsiasi esplorazione", Experience = 10, Require = 10, Max_Complete = 2 } },
-
-                { 54, new Quest_Template { Id = 54, Quest_Description = "Raggiungi il livello 5", Experience = 10, Require = 5, Max_Complete = 1 } },
-                { 55, new Quest_Template { Id = 55, Quest_Description = "Raggiungi il livello 10", Experience = 15, Require = 10, Max_Complete = 1 } },
-                { 56, new Quest_Template { Id = 56, Quest_Description = "Raggiungi il livello 25", Experience = 20, Require = 25, Max_Complete = 1 } },
-                { 57, new Quest_Template { Id = 57, Quest_Description = "Raggiungi il livello 50", Experience = 30, Require = 50, Max_Complete = 1 } },
-                { 58, new Quest_Template { Id = 58, Quest_Description = "Raggiungi il livello 75", Experience = 40, Require = 75, Max_Complete = 1 } },
-                { 59, new Quest_Template { Id = 59, Quest_Description = "Raggiungi il livello 100", Experience = 50, Require = 100, Max_Complete = 1 } },
+                { 49, new Quest_Template { Id = 49, Experience = 75, Require = 59, Max_Complete = 1 } },
+                                                    
+                { 50, new Quest_Template { Id = 50, Experience = 5, Require = 5, Max_Complete = 2 } },
+                { 51, new Quest_Template { Id = 51, Experience = 5, Require = 5, Max_Complete = 2 } },
+                { 52, new Quest_Template { Id = 52, Experience = 5, Require = 5, Max_Complete = 2 } },
+                { 53, new Quest_Template { Id = 53, Experience = 10, Require = 10, Max_Complete = 2 } },
+                                                    
+                { 54, new Quest_Template { Id = 54, Experience = 10, Require = 5, Max_Complete = 1 } },
+                { 55, new Quest_Template { Id = 55, Experience = 15, Require = 10, Max_Complete = 1 } },
+                { 56, new Quest_Template { Id = 56, Experience = 20, Require = 25, Max_Complete = 1 } },
+                { 57, new Quest_Template { Id = 57, Experience = 30, Require = 50, Max_Complete = 1 } },
+                { 58, new Quest_Template { Id = 58, Experience = 40, Require = 75, Max_Complete = 1 } },
+                { 59, new Quest_Template { Id = 59, Experience = 50, Require = 100, Max_Complete = 1 } },
 
             };
         }
@@ -160,7 +159,8 @@ namespace Server_Strategico.Manager
                     player.Punti_Quest += quest.Experience + completata * moltiplicatore_Esperienza; //Aggiunge i punti guadagnati
                     CurrentProgress[questId] = 0; // Resetta il progresso per la prossima volta
                     Completions[questId]++; // Incrementa il conteggio delle completazioni
-                    Console.WriteLine($"Quest '{quest.Quest_Description}' completata {Completions[questId]} / {quest.Max_Complete} volte.");
+                    string description = LocalizationManager.Get(player).GetQuestDescription(questId);
+                    Console.WriteLine($"Quest '{description}' completata {Completions[questId]} / {quest.Max_Complete} volte.");
 
                     if (Completions[questId] == quest.Max_Complete)
                     {
@@ -458,10 +458,12 @@ namespace Server_Strategico.Manager
                     int experienceBonus = experienceBase + completata * moltiplicatore_Esperienza;
                     int requireDinamico = q.Require + completata * q.Require;
 
+                    string description = LocalizationManager.Get(player).GetQuestDescription(q.Id);
+
                     return new
                     {
                         q.Id,
-                        q.Quest_Description,
+                        Quest_Description = description,
                         Experience = experienceBonus,
                         Require = requireDinamico,
                         Progress = progress,

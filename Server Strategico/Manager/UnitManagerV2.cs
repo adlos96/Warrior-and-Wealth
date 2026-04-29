@@ -119,7 +119,11 @@ namespace Server_Strategico.Manager
                 player.Lance < unitCost.Lance * count ||
                 player.Archi < unitCost.Archi * count ||
                 player.Scudi < unitCost.Scudi * count ||
-                player.Armature < unitCost.Armature * count) return;
+                player.Armature < unitCost.Armature * count)
+            {
+                Server.Server.Send(clientGuid, $"Log_Server|RISORSE INSUFFICIENTI");
+                return;
+            }
 
             // Deduzione risorse
             player.Cibo -= unitCost.Cibo * count;
@@ -164,14 +168,7 @@ namespace Server_Strategico.Manager
             }
 
             StartNextRecruitments(player, clientGuid);
-            Server.Server.Send(clientGuid,
-                $"Log_Server|[info]Risorse utilizzate[/info] per l'ddestramento di [warning]{count} {(unitType + livello).Replace("_", " LV ")}[/warning]:\r\n " +
-                $"[cibo][icon:cibo]-{(unitCost.Cibo * count):N0}[/cibo] " +
-                $"[legno][icon:legno]]-{(unitCost.Legno * count):N0}[/legno] " +
-                $"[pietra][icon:pietra]-{(unitCost.Pietra * count):N0}[/pietra] " +
-                $"[ferro][icon:ferro]-{(unitCost.Ferro * count):N0}[/ferro] " +
-                $"[oro][icon:oro]-{(unitCost.Oro * count):N0}[/oro] " +
-                $"[popolazione][icon:popolazione]-{(unitCost.Popolazione * count):N0}[/oro]");
+            Server.Server.Send(clientGuid, LocalizationManager.Get(player).Addestramento_RisorseUtilizzate(count, (unitType + livello).Replace("_", " LV "), unitCost));
         }
         private static void StartNextRecruitments(Player player, Guid clientGuid)
         {
@@ -193,7 +190,7 @@ namespace Server_Strategico.Manager
                         player.task_Coda_Recutamento.Enqueue(t);
 
                         Console.WriteLine($"Costruzione di {t.Type} messa in pausa (slot ridotto)");
-                        Server.Server.Send(clientGuid, $"Log_Server|[tile]Reclutamento di [warning]{t.Type.Replace("_", " Lv ")} [tile]messa in pausa per riduzione slot.");
+                        Server.Server.Send(clientGuid, LocalizationManager.Get(player).Addestramento_Pausa(t.Type.Replace("_", " Lv ")));
                     }
                     return; // usciamo: prima delle pause non facciamo altro
                 }
@@ -207,7 +204,7 @@ namespace Server_Strategico.Manager
                         player.task_Attuale_Recutamento.Add(nextTask);
 
                         Console.WriteLine($"Reclutamento di {nextTask.Type} iniziata, durata {player.FormatTime(nextTask.TempoInSecondi)}s");
-                        Server.Server.Send(clientGuid, $"Log_Server|[title]Reclutamento di[/title] {nextTask.Type.Replace("_", " Lv ")} [title]iniziata. Durata[/title] [icon:tempo]{player.FormatTime(nextTask.TempoInSecondi)}");
+                        Server.Server.Send(clientGuid, LocalizationManager.Get(player).Addestramento_Avvio(nextTask.Type.Replace("_", " Lv "), player.FormatTime(nextTask.TempoInSecondi))); 
                     }
                     else break;
                 }
@@ -332,8 +329,7 @@ namespace Server_Strategico.Manager
                             OnEvent(player, QuestEventType.Addestramento, "Catapulta", 1);
                             break;
                     }
-
-                    Server.Server.Send(clientGuid, $"Log_Server|[warning]{task.Type.Replace("_", " Lv ")}[/warning] addestrato!");
+                    Server.Server.Send(clientGuid, LocalizationManager.Get(player).Addestramento_Completata(task.Type.Replace("_", " Lv ")));
                 }
             }
             StartNextRecruitments(player, clientGuid);
@@ -408,7 +404,7 @@ namespace Server_Strategico.Manager
         {
             if (diamantiBluDaUsare <= 0 || player.Diamanti_Blu < diamantiBluDaUsare)
             {
-                Server.Server.Send(clientGuid, "Log_Server|[error]Non hai abbastanza [blu]Diamanti Blu[/blu]![icon:diamanteBlu]");
+                Server.Server.Send(clientGuid, LocalizationManager.Get(player).DiamantiInsufficienti());
                 return;
             }
 
@@ -423,7 +419,7 @@ namespace Server_Strategico.Manager
 
                 if (tempoTotale <= 0)
                 {
-                    Server.Server.Send(clientGuid, "Log_Server|[warning]Non ci sono unità da velocizzare.");
+                    Server.Server.Send(clientGuid, LocalizationManager.Get(player).Addestramento_NessunaUnità());
                     return;
                 }
 
@@ -505,7 +501,8 @@ namespace Server_Strategico.Manager
             OnEvent(player, QuestEventType.Velocizzazione, "Qualsiasi", tempoEffettivamenteRidotto);
 
             CompleteRecruitment(clientGuid, player);
-            Server.Server.Send(clientGuid, $"Log_Server|[title]Hai usato [warning][icon:diamanteBlu]{diamantiBluDaUsare} [blu]Diamanti Blu [title]per velocizzare l'addestramento! [icon:tempo]{player.FormatTime(tempoEffettivamenteRidotto)}");
+            Server.Server.Send(clientGuid, LocalizationManager.Get(player).Addestramento_Velocizzazione(diamantiBluDaUsare, player.FormatTime(tempoEffettivamenteRidotto)));
+
         }
 
         public class UnitTaskV2 // Classe per rappresentare un task di costruzione

@@ -1,7 +1,6 @@
 ﻿using Server_Strategico.Gioco;
 using Server_Strategico.Manager;
 using Server_Strategico.ServerData.Moduli;
-using System.Reflection.Emit;
 using System.Text;
 using System.Text.Json;
 using WatsonTcp;
@@ -13,7 +12,7 @@ using static Server_Strategico.Manager.QuestManager;
 
 namespace Server_Strategico.Server
 {
-    internal class ServerConnection
+    public class ServerConnection
     {
         public static async void HandleClientRequest(MessageReceivedEventArgs requestData)
         {
@@ -52,6 +51,9 @@ namespace Server_Strategico.Server
 
                         Server.Client_Connessi_Map.TryRemove(clientGuid, out _);
                         Server.Client_Connessi_Map.TryAdd(clientGuid, player.Username);
+                        if (Variabili_Server.lingue_Supportate.Contains(msgArgs[3])) player.Lingua = msgArgs[3]; //Imposta la lingua preferita del giocatore
+                        else player.Lingua = "ITA"; //Default Italiano
+                        Console.WriteLine($"[Server] Lingua selezionata: {msgArgs[3]}");
 
                         Descrizioni.DescUpdate(player);
                         QuestManager.QuestUpdate(player);
@@ -97,6 +99,9 @@ namespace Server_Strategico.Server
                                 Console.WriteLine("Gamepass: Gamepass scaduto, reset giorni");
                             }
                         } //GamePass Gold
+                        if (Variabili_Server.lingue_Supportate.Contains(msgArgs[3])) player.Lingua = msgArgs[3]; //Imposta la lingua preferita del giocatore
+                        else player.Lingua = "ITA"; //Default Italiano
+                        Console.WriteLine($"[Server] Lingua selezionata: {msgArgs[3]}");
 
                         Descrizioni.DescUpdate(player);
                         QuestManager.QuestUpdate(player);
@@ -937,7 +942,7 @@ namespace Server_Strategico.Server
 
             }
         }
-        static async Task<bool> New_Player(string username, string password, Guid guid)
+        public static async Task<bool> New_Player(string username, string password, Guid guid)
         {
             var existingPlayer = Server.servers_.GetPlayer(username, password);
             if (existingPlayer != null) // Controlla se il giocatore esiste già
@@ -1008,46 +1013,42 @@ namespace Server_Strategico.Server
                     player.Tutorial_Stato[i] = false;
                 }
 
+            var L = LocalizationManager.Get(player); // ← unica riga aggiunta
+
             List<Tutorial.dati> tutorial = new List<Tutorial.dati>
             {
-                new Tutorial.dati { StatoTutorial = ServerData.Moduli.Tutorial.Parti.Introduzione_1.StatoTutorial, Obiettivo = ServerData.Moduli.Tutorial.Parti.Introduzione_1.Obiettivo, Descrizione = ServerData.Moduli.Tutorial.Parti.Introduzione_1.Descrizione },
-                new Tutorial.dati { StatoTutorial = ServerData.Moduli.Tutorial.Parti.Introduzione_2.StatoTutorial, Obiettivo = ServerData.Moduli.Tutorial.Parti.Introduzione_2.Obiettivo, Descrizione = ServerData.Moduli.Tutorial.Parti.Introduzione_2.Descrizione },
-                new Tutorial.dati { StatoTutorial = ServerData.Moduli.Tutorial.Parti.Risorse.StatoTutorial, Obiettivo = ServerData.Moduli.Tutorial.Parti.Risorse.Obiettivo, Descrizione = ServerData.Moduli.Tutorial.Parti.Risorse.Descrizione },
-                new Tutorial.dati { StatoTutorial = ServerData.Moduli.Tutorial.Parti.Diamanti_Viola.StatoTutorial, Obiettivo = ServerData.Moduli.Tutorial.Parti.Diamanti_Viola.Obiettivo, Descrizione = ServerData.Moduli.Tutorial.Parti.Diamanti_Viola.Descrizione },
-                new Tutorial.dati { StatoTutorial = ServerData.Moduli.Tutorial.Parti.Diamanti_Blu.StatoTutorial, Obiettivo = ServerData.Moduli.Tutorial.Parti.Diamanti_Blu.Obiettivo, Descrizione = ServerData.Moduli.Tutorial.Parti.Diamanti_Blu.Descrizione },
-                
-                new Tutorial.dati { StatoTutorial = ServerData.Moduli.Tutorial.Parti.TributiFeudo.StatoTutorial, Obiettivo = ServerData.Moduli.Tutorial.Parti.TributiFeudo.Obiettivo, Descrizione = ServerData.Moduli.Tutorial.Parti.TributiFeudo.Descrizione },
-                new Tutorial.dati { StatoTutorial = ServerData.Moduli.Tutorial.Parti.Feudi.StatoTutorial, Obiettivo = ServerData.Moduli.Tutorial.Parti.Feudi.Obiettivo, Descrizione = ServerData.Moduli.Tutorial.Parti.Feudi.Descrizione },
-                new Tutorial.dati { StatoTutorial = ServerData.Moduli.Tutorial.Parti.AcquistaFeudo.StatoTutorial, Obiettivo = ServerData.Moduli.Tutorial.Parti.AcquistaFeudo.Obiettivo, Descrizione = ServerData.Moduli.Tutorial.Parti.AcquistaFeudo.Descrizione },
-                new Tutorial.dati { StatoTutorial = ServerData.Moduli.Tutorial.Parti.Costruzione_1.StatoTutorial, Obiettivo = ServerData.Moduli.Tutorial.Parti.Costruzione_1.Obiettivo, Descrizione = ServerData.Moduli.Tutorial.Parti.Costruzione_1.Descrizione },
-                new Tutorial.dati { StatoTutorial = ServerData.Moduli.Tutorial.Parti.Civile_Militare.StatoTutorial, Obiettivo = ServerData.Moduli.Tutorial.Parti.Civile_Militare.Obiettivo, Descrizione = ServerData.Moduli.Tutorial.Parti.Civile_Militare.Descrizione },
-
-                new Tutorial.dati { StatoTutorial = ServerData.Moduli.Tutorial.Parti.Costruzione_2.StatoTutorial, Obiettivo = ServerData.Moduli.Tutorial.Parti.Costruzione_2.Obiettivo, Descrizione = ServerData.Moduli.Tutorial.Parti.Costruzione_2.Descrizione },
-                new Tutorial.dati { StatoTutorial = ServerData.Moduli.Tutorial.Parti.Costruisci_Fattoria.StatoTutorial, Obiettivo = ServerData.Moduli.Tutorial.Parti.Costruisci_Fattoria.Obiettivo, Descrizione = ServerData.Moduli.Tutorial.Parti.Costruisci_Fattoria.Descrizione },
-                new Tutorial.dati { StatoTutorial = ServerData.Moduli.Tutorial.Parti.Scambia.StatoTutorial, Obiettivo = ServerData.Moduli.Tutorial.Parti.Scambia.Obiettivo, Descrizione = ServerData.Moduli.Tutorial.Parti.Scambia.Descrizione },
-                new Tutorial.dati { StatoTutorial = ServerData.Moduli.Tutorial.Parti.Velocizza.StatoTutorial, Obiettivo = ServerData.Moduli.Tutorial.Parti.Velocizza.Obiettivo, Descrizione = ServerData.Moduli.Tutorial.Parti.Velocizza.Descrizione },
-                new Tutorial.dati { StatoTutorial = ServerData.Moduli.Tutorial.Parti.Costruisci_Segheria.StatoTutorial, Obiettivo = ServerData.Moduli.Tutorial.Parti.Costruisci_Segheria.Obiettivo, Descrizione = ServerData.Moduli.Tutorial.Parti.Costruisci_Segheria.Descrizione },
-
-                new Tutorial.dati { StatoTutorial = ServerData.Moduli.Tutorial.Parti.Costruisci_Cava.StatoTutorial, Obiettivo = ServerData.Moduli.Tutorial.Parti.Costruisci_Cava.Obiettivo, Descrizione = ServerData.Moduli.Tutorial.Parti.Costruisci_Cava.Descrizione },
-                new Tutorial.dati { StatoTutorial = ServerData.Moduli.Tutorial.Parti.Costruisci_Miniera_Ferro.StatoTutorial, Obiettivo = ServerData.Moduli.Tutorial.Parti.Costruisci_Miniera_Ferro.Obiettivo, Descrizione = ServerData.Moduli.Tutorial.Parti.Costruisci_Miniera_Ferro.Descrizione },
-                new Tutorial.dati { StatoTutorial = ServerData.Moduli.Tutorial.Parti.Costruisci_Miniera_Oro.StatoTutorial, Obiettivo = ServerData.Moduli.Tutorial.Parti.Costruisci_Miniera_Oro.Obiettivo, Descrizione = ServerData.Moduli.Tutorial.Parti.Costruisci_Miniera_Oro.Descrizione },
-                new Tutorial.dati { StatoTutorial = ServerData.Moduli.Tutorial.Parti.Costruisci_Abitazioni.StatoTutorial, Obiettivo = ServerData.Moduli.Tutorial.Parti.Costruisci_Abitazioni.Obiettivo, Descrizione = ServerData.Moduli.Tutorial.Parti.Costruisci_Abitazioni.Descrizione },
-                new Tutorial.dati { StatoTutorial = ServerData.Moduli.Tutorial.Parti.Strutture_Militari.StatoTutorial, Obiettivo = ServerData.Moduli.Tutorial.Parti.Strutture_Militari.Obiettivo, Descrizione = ServerData.Moduli.Tutorial.Parti.Strutture_Militari.Descrizione },
-
-                new Tutorial.dati { StatoTutorial = ServerData.Moduli.Tutorial.Parti.Unita_Militari.StatoTutorial, Obiettivo = ServerData.Moduli.Tutorial.Parti.Unita_Militari.Obiettivo, Descrizione = ServerData.Moduli.Tutorial.Parti.Unita_Militari.Descrizione },
-                new Tutorial.dati { StatoTutorial = ServerData.Moduli.Tutorial.Parti.Caserme.StatoTutorial, Obiettivo = ServerData.Moduli.Tutorial.Parti.Caserme.Obiettivo, Descrizione = ServerData.Moduli.Tutorial.Parti.Caserme.Descrizione },
-                new Tutorial.dati { StatoTutorial = ServerData.Moduli.Tutorial.Parti.Addestramento.StatoTutorial, Obiettivo = ServerData.Moduli.Tutorial.Parti.Addestramento.Obiettivo, Descrizione = ServerData.Moduli.Tutorial.Parti.Addestramento.Descrizione },
-                new Tutorial.dati { StatoTutorial = ServerData.Moduli.Tutorial.Parti.Citta.StatoTutorial, Obiettivo = ServerData.Moduli.Tutorial.Parti.Citta.Obiettivo, Descrizione = ServerData.Moduli.Tutorial.Parti.Citta.Descrizione },
-                new Tutorial.dati { StatoTutorial = ServerData.Moduli.Tutorial.Parti.Riparazione.StatoTutorial, Obiettivo = ServerData.Moduli.Tutorial.Parti.Riparazione.Obiettivo, Descrizione = ServerData.Moduli.Tutorial.Parti.Riparazione.Descrizione },
-
-                new Tutorial.dati { StatoTutorial = ServerData.Moduli.Tutorial.Parti.Guranigione.StatoTutorial, Obiettivo = ServerData.Moduli.Tutorial.Parti.Guranigione.Obiettivo, Descrizione = ServerData.Moduli.Tutorial.Parti.Guranigione.Descrizione },
-                new Tutorial.dati { StatoTutorial = ServerData.Moduli.Tutorial.Parti.Statistiche.StatoTutorial, Obiettivo = ServerData.Moduli.Tutorial.Parti.Statistiche.Obiettivo, Descrizione = ServerData.Moduli.Tutorial.Parti.Statistiche.Descrizione },
-                new Tutorial.dati { StatoTutorial = ServerData.Moduli.Tutorial.Parti.Shop.StatoTutorial, Obiettivo = ServerData.Moduli.Tutorial.Parti.Shop.Obiettivo, Descrizione = ServerData.Moduli.Tutorial.Parti.Shop.Descrizione },
-                new Tutorial.dati { StatoTutorial = ServerData.Moduli.Tutorial.Parti.Ricerca.StatoTutorial, Obiettivo = ServerData.Moduli.Tutorial.Parti.Ricerca.Obiettivo, Descrizione = ServerData.Moduli.Tutorial.Parti.Ricerca.Descrizione },
-                new Tutorial.dati { StatoTutorial = ServerData.Moduli.Tutorial.Parti.Quest_Mensili.StatoTutorial, Obiettivo = ServerData.Moduli.Tutorial.Parti.Quest_Mensili.Obiettivo, Descrizione = ServerData.Moduli.Tutorial.Parti.Quest_Mensili.Descrizione },
-
-                new Tutorial.dati { StatoTutorial = ServerData.Moduli.Tutorial.Parti.Battaglia.StatoTutorial, Obiettivo = ServerData.Moduli.Tutorial.Parti.Battaglia.Obiettivo, Descrizione = ServerData.Moduli.Tutorial.Parti.Battaglia.Descrizione },
-                new Tutorial.dati { StatoTutorial = ServerData.Moduli.Tutorial.Parti.Finale.StatoTutorial, Obiettivo = ServerData.Moduli.Tutorial.Parti.Finale.Obiettivo, Descrizione = ServerData.Moduli.Tutorial.Parti.Finale.Descrizione },
+                new Tutorial.dati { StatoTutorial = 1,  Obiettivo = L.GetTutorialObiettivo(1),  Descrizione = L.GetTutorialDescrizione(1)  },
+                new Tutorial.dati { StatoTutorial = 2,  Obiettivo = L.GetTutorialObiettivo(2),  Descrizione = L.GetTutorialDescrizione(2)  },
+                new Tutorial.dati { StatoTutorial = 3,  Obiettivo = L.GetTutorialObiettivo(3),  Descrizione = L.GetTutorialDescrizione(3)  },
+                new Tutorial.dati { StatoTutorial = 4,  Obiettivo = L.GetTutorialObiettivo(4),  Descrizione = L.GetTutorialDescrizione(4)  },
+                new Tutorial.dati { StatoTutorial = 5,  Obiettivo = L.GetTutorialObiettivo(5),  Descrizione = L.GetTutorialDescrizione(5)  },
+                new Tutorial.dati { StatoTutorial = 6,  Obiettivo = L.GetTutorialObiettivo(6),  Descrizione = L.GetTutorialDescrizione(6)  },
+                new Tutorial.dati { StatoTutorial = 7,  Obiettivo = L.GetTutorialObiettivo(7),  Descrizione = L.GetTutorialDescrizione(7)  },
+                new Tutorial.dati { StatoTutorial = 8,  Obiettivo = L.GetTutorialObiettivo(8),  Descrizione = L.GetTutorialDescrizione(8)  },
+                new Tutorial.dati { StatoTutorial = 9,  Obiettivo = L.GetTutorialObiettivo(9),  Descrizione = L.GetTutorialDescrizione(9)  },
+                new Tutorial.dati { StatoTutorial = 10, Obiettivo = L.GetTutorialObiettivo(10), Descrizione = L.GetTutorialDescrizione(10) },
+                new Tutorial.dati { StatoTutorial = 11, Obiettivo = L.GetTutorialObiettivo(11), Descrizione = L.GetTutorialDescrizione(11) },
+                new Tutorial.dati { StatoTutorial = 12, Obiettivo = L.GetTutorialObiettivo(12), Descrizione = L.GetTutorialDescrizione(12) },
+                new Tutorial.dati { StatoTutorial = 13, Obiettivo = L.GetTutorialObiettivo(13), Descrizione = L.GetTutorialDescrizione(13) },
+                new Tutorial.dati { StatoTutorial = 14, Obiettivo = L.GetTutorialObiettivo(14), Descrizione = L.GetTutorialDescrizione(14) },
+                new Tutorial.dati { StatoTutorial = 15, Obiettivo = L.GetTutorialObiettivo(15), Descrizione = L.GetTutorialDescrizione(15) },
+                new Tutorial.dati { StatoTutorial = 16, Obiettivo = L.GetTutorialObiettivo(16), Descrizione = L.GetTutorialDescrizione(16) },
+                new Tutorial.dati { StatoTutorial = 17, Obiettivo = L.GetTutorialObiettivo(17), Descrizione = L.GetTutorialDescrizione(17) },
+                new Tutorial.dati { StatoTutorial = 18, Obiettivo = L.GetTutorialObiettivo(18), Descrizione = L.GetTutorialDescrizione(18) },
+                new Tutorial.dati { StatoTutorial = 19, Obiettivo = L.GetTutorialObiettivo(19), Descrizione = L.GetTutorialDescrizione(19) },
+                new Tutorial.dati { StatoTutorial = 20, Obiettivo = L.GetTutorialObiettivo(20), Descrizione = L.GetTutorialDescrizione(20) },
+                new Tutorial.dati { StatoTutorial = 21, Obiettivo = L.GetTutorialObiettivo(21), Descrizione = L.GetTutorialDescrizione(21) },
+                new Tutorial.dati { StatoTutorial = 22, Obiettivo = L.GetTutorialObiettivo(22), Descrizione = L.GetTutorialDescrizione(22) },
+                new Tutorial.dati { StatoTutorial = 23, Obiettivo = L.GetTutorialObiettivo(23), Descrizione = L.GetTutorialDescrizione(23) },
+                new Tutorial.dati { StatoTutorial = 24, Obiettivo = L.GetTutorialObiettivo(24), Descrizione = L.GetTutorialDescrizione(24) },
+                new Tutorial.dati { StatoTutorial = 25, Obiettivo = L.GetTutorialObiettivo(25), Descrizione = L.GetTutorialDescrizione(25) },
+                new Tutorial.dati { StatoTutorial = 26, Obiettivo = L.GetTutorialObiettivo(26), Descrizione = L.GetTutorialDescrizione(26) },
+                new Tutorial.dati { StatoTutorial = 27, Obiettivo = L.GetTutorialObiettivo(27), Descrizione = L.GetTutorialDescrizione(27) },
+                new Tutorial.dati { StatoTutorial = 28, Obiettivo = L.GetTutorialObiettivo(28), Descrizione = L.GetTutorialDescrizione(28) },
+                new Tutorial.dati { StatoTutorial = 29, Obiettivo = L.GetTutorialObiettivo(29), Descrizione = L.GetTutorialDescrizione(29) },
+                new Tutorial.dati { StatoTutorial = 30, Obiettivo = L.GetTutorialObiettivo(30), Descrizione = L.GetTutorialDescrizione(30) },
+                new Tutorial.dati { StatoTutorial = 31, Obiettivo = L.GetTutorialObiettivo(31), Descrizione = L.GetTutorialDescrizione(31) },
+                new Tutorial.dati { StatoTutorial = 32, Obiettivo = L.GetTutorialObiettivo(32), Descrizione = L.GetTutorialDescrizione(32) },
             };
             Server.Send(player.guid_Player, "Tutorial|Dati|" + JsonSerializer.Serialize(tutorial));
         }

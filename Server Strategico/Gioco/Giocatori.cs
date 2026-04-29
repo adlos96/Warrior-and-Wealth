@@ -1,9 +1,5 @@
-﻿using Microsoft.VisualBasic;
-using Server_Strategico.Manager;
+﻿using Server_Strategico.Manager;
 using Server_Strategico.ServerData.Moduli;
-using System;
-using System.Runtime.CompilerServices;
-using System.Text.Json;
 using static Server_Strategico.Gioco.Giocatori;
 using static Server_Strategico.Gioco.Variabili_Server;
 using static Server_Strategico.Manager.QuestManager;
@@ -19,6 +15,7 @@ namespace Server_Strategico.Gioco
             // Giocatori
             public string Username { get; set; }
             public string Password { get; set; }
+            public string Lingua { get; set; }
             public Guid guid_Player { get; set; }
             public bool Tutorial { get; set; }
             public bool Stato_Giocatore { get; set; } //Giocatore attivo?
@@ -339,6 +336,9 @@ namespace Server_Strategico.Gioco
             public List<ResearchManager.ResearchTask> currentTasks_Research = new(); // Lista dei task attualmente in costruzione (slot globali, max = 1)
             public Queue<ResearchManager.ResearchTask> research_Queue = new(); // Coda globale di attesa (quando tutti gli slot sono occupati)
 
+            //Report Battaglie e Spionaggio
+            public List<BattaglieV2.Report> Report = new(); // Lista dei task attualmente in costruzione (slot globali, max = 1)
+
             public PlayerSnapshot Snapshot = new PlayerSnapshot();
 
             public readonly object LockCostruzione = new object();
@@ -371,6 +371,7 @@ namespace Server_Strategico.Gioco
                 Username = username;
                 Password = password;
                 guid_Player = guid_Client;
+                Lingua = "ITA";
                 ScudoDellaPace = 0;
                 Costruttori = 0;
                 Reclutatori = 0;

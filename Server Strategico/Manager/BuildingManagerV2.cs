@@ -1,5 +1,4 @@
 ﻿using Server_Strategico.Gioco;
-using Server_Strategico.Server;
 using static Server_Strategico.Gioco.Giocatori;
 using static Server_Strategico.Gioco.Giocatori.Player;
 using static Server_Strategico.Manager.QuestManager;
@@ -38,7 +37,7 @@ namespace Server_Strategico.Manager
                 var buildingCost = GetBuildingCost(buildingType);
                 if (buildingCost == null)
                 {
-                    Server.Server.Send(clientGuid, $"Log_Server|[error]Tipo edificio [title]{buildingType}[icon:{buildingType}] [error]non valido!");
+                    Server.Server.Send(clientGuid, LocalizationManager.Get(player).Costruzione_EdificioNonValido(buildingType));
                     return;
                 }
                 //!!!!! limite strutture !!!!! - I terreni ampliano il limite delle strutture costruibili
@@ -75,14 +74,7 @@ namespace Server_Strategico.Manager
                     OnEvent(player, QuestEventType.Risorse, "Oro", buildingCost.Oro * count);
                     OnEvent(player, QuestEventType.Risorse, "Popolazione", buildingCost.Popolazione * count);
 
-                    Server.Server.Send(clientGuid,
-                    $"Log_Server|[info]Risorse utilizzate[/info] per la costruzione di [warning]{count} {buildingType}[/warning]:\r\n " +
-                    $"[cibo][icon:cibo]-{buildingCost.Cibo * count:N0}[/cibo]  " +
-                    $"[legno][icon:legno]-{buildingCost.Legno * count:N0}[/legno]  " +
-                    $"[pietra][icon:pietra]-{buildingCost.Pietra * count:N0}[/pietra]   " +
-                    $"[ferro][icon:ferro]-{buildingCost.Ferro * count:N0}[/ferro] " +
-                    $"[oro][icon:oro]-{buildingCost.Oro * count:N0}[/oro]  " +
-                    $"[popolazione][icon:popolazione]-{buildingCost.Popolazione * count:N0}[/popolazione]");
+                    Server.Server.Send(clientGuid, LocalizationManager.Get(player).Costruzione_RisorseUtilizzate(count, buildingType, buildingCost));
 
                     int tempoCostruzioneInSecondi = Math.Max(1, Convert.ToInt32(buildingCost.TempoCostruzione - (player.Ricerca_Costruzione * 5) - buildingCost.TempoCostruzione * player.Bonus_Costruzione));
                     for (int i = 0; i < count; i++)
@@ -91,9 +83,7 @@ namespace Server_Strategico.Manager
                     StartNextConstructions(player, clientGuid);
                 }
                 else
-                {
-                    Server.Server.Send(clientGuid, $"Log_Server|[error]Risorse insufficienti per costruire [title]{count} {buildingType}.");
-                }
+                    Server.Server.Send(clientGuid, LocalizationManager.Get(player).Costruzione_RisorseInsufficienti(count, buildingType));
             }
         }
         private static void StartNextConstructions(Player player, Guid clientGuid)
@@ -114,7 +104,7 @@ namespace Server_Strategico.Manager
                     player.task_Coda_Costruzioni.Enqueue(t);
 
                     Console.WriteLine($"Costruzione di {t.Type} messa in pausa (slot ridotto)");
-                    Server.Server.Send(clientGuid, $"Log_Server|[warning]Costruzione di [title]{t.Type} [warning]messa in pausa per riduzione slot.");
+                    Server.Server.Send(clientGuid, LocalizationManager.Get(player).Costruzione_Pausa(t.Type));
                 }
             }
 
@@ -128,7 +118,7 @@ namespace Server_Strategico.Manager
                     player.task_Attuale_Costruzioni.Add(nextTask);
 
                     Console.WriteLine($"Costruzione di {nextTask.Type} iniziata, durata {nextTask.TempoInSecondi}s");
-                    Server.Server.Send(clientGuid, $"Log_Server|[title]Costruzione di [info]{nextTask.Type} [title]iniziata, durata: [icon:tempo]{player.FormatTime(nextTask.TempoInSecondi)}");
+                    Server.Server.Send(clientGuid, LocalizationManager.Get(player).Costruzione_Avvio(nextTask.Type, player.FormatTime(nextTask.TempoInSecondi)));
                 }
                 else break;
             }
@@ -295,7 +285,7 @@ namespace Server_Strategico.Manager
                     }
 
                     Console.WriteLine($"Costruzione completata: {task.Type}");
-                    Server.Server.Send(clientGuid, $"Log_Server|[success]Costruzione completata: [title]{task.Type}[icon:{task.Type}]");
+                    Server.Server.Send(clientGuid, LocalizationManager.Get(player).Costruzione_Completata(task.Type));
                 }
                 StartNextConstructions(player, clientGuid);
             }
@@ -306,13 +296,13 @@ namespace Server_Strategico.Manager
             {
                 if (diamantiBluDaUsare <= 0)
                 {
-                    Server.Server.Send(clientGuid, "Log_Server|[error]Numero [blu][icon:diamanteBlu]diamanti [error]non valido.");
+                    Server.Server.Send(clientGuid, LocalizationManager.Get(player).NumeroDiamantiNonValido());
                     return;
                 }
 
                 if (player.Diamanti_Blu < diamantiBluDaUsare)
                 {
-                    Server.Server.Send(clientGuid, "Log_Server|[error]Non hai abbastanza [blu]Diamanti Blu![icon:diamanteBlu]");
+                    Server.Server.Send(clientGuid, LocalizationManager.Get(player).DiamantiInsufficienti());
                     return;
                 }
 
@@ -329,7 +319,7 @@ namespace Server_Strategico.Manager
 
                 if (tempoTotale <= 0)
                 {
-                    Server.Server.Send(clientGuid, "Log_Server|[warning]Non ci sono costruzioni da velocizzare.");
+                    Server.Server.Send(clientGuid, LocalizationManager.Get(player).Costruzione_NessunaCostruzione());
                     return;
                 }
 
@@ -416,7 +406,7 @@ namespace Server_Strategico.Manager
                 OnEvent(player, QuestEventType.Velocizzazione, "Costruzione", tempoEffettivamenteRidotto);
                 OnEvent(player, QuestEventType.Velocizzazione, "Qualsiasi", tempoEffettivamenteRidotto);
 
-                Server.Server.Send(clientGuid, $"Log_Server|[title]Hai usato [blu][icon:diamanteBlu][warning]{diamantiBluDaUsare} [blu]Diamanti Blu [title]per velocizzare le costruzioni! [icon:tempo]{player.FormatTime(tempoEffettivamenteRidotto)}");
+                Server.Server.Send(clientGuid, LocalizationManager.Get(player).Costruzione_Velocizzazione(diamantiBluDaUsare, player.FormatTime(tempoEffettivamenteRidotto)));
             }
         }
         public static Dictionary<string, int> GetQueuedBuildings(Player player)
@@ -502,12 +492,12 @@ namespace Server_Strategico.Manager
                 player.Diamanti_Viola_Utilizzati += Strutture.Edifici.Terreni_Virtuali.Diamanti_Viola; //Aggiunge la spesa al totale dei diamanti viola spesi
                 OnEvent(player, QuestEventType.Costruzione, "Terreno", 1); //Aggiungi terreno quest
                 Console.WriteLine($"Diamanti Viola utilizzati per un terreno virtuale...");
-                Server.Server.Send(clientGuid, $"Log_Server|[warning][icon:diamanteViola]{Strutture.Edifici.Terreni_Virtuali.Diamanti_Viola}[viola] Diamanti Viola[/viola] [title]utilizzati per un terreno virtuale...[/title]");
+                Server.Server.Send(clientGuid, LocalizationManager.Get(player).Terreni_DiamantiInsufficienti());
             }
             else
             {
                 Console.WriteLine($"Non hai abbastanza Diamanti Viola per un terreno virtuale.");
-                Server.Server.Send(clientGuid, $"Log_Server|[title]Non hai abbastanza[/title] [viola]Diamanti Viola[/viola][icon:diamanteViola] [title]per un terreno virtuale.[/title]");
+                Server.Server.Send(clientGuid, LocalizationManager.Get(player).Terreni_DiamantiUtilizzati());
                 return;
             }
 
@@ -559,7 +549,7 @@ namespace Server_Strategico.Manager
                     break;
             }
             Console.WriteLine($"Terreno generato: {terrenoOttenuto}");
-            Server.Server.Send(clientGuid, $"Log_Server|[warning]Terreno ottenuto:[/warning] [{terrenoOttenuto.Replace(" ", "")}]{terrenoOttenuto}[/{terrenoOttenuto.Replace(" ", "")}][icon:{terrenoOttenuto.Replace(" ", "")}]");
+            Server.Server.Send(clientGuid, LocalizationManager.Get(player).Terreni_Ottenuto(terrenoOttenuto));
         }
 
         public class ConstructionTaskV2 // Classe per rappresentare un task di costruzione
