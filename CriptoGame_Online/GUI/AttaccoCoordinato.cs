@@ -19,12 +19,17 @@ namespace Warrior_and_Wealth.GUI
         public AttaccoCoordinato()
         {
             InitializeComponent();
-            this.Size = new Size(794, 293);
+
+            using (Graphics g = this.CreateGraphics())
+            {
+                float scaleFactor = g.DpiX / 96f; // Se lo zoom è 125%, scaleFactor sarà 1.25
+
+                int newWidth = (int)(794 * scaleFactor);
+                int newHeight = (int)(293 * scaleFactor);
+
+                this.Size = new Size(newWidth, newHeight);
+            }
             groupBox_Raduno.Visible = false;
-
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-
             groupBox4.Text = tipo_Barbaro;
 
             btn_I_Spedizione.Enabled = true;
@@ -254,7 +259,7 @@ namespace Warrior_and_Wealth.GUI
             {
                 if (groupBox1.IsHandleCreated && !groupBox1.IsDisposed)
                 {
-                    groupBox1.Invoke(new Action(() =>
+                    groupBox1.BeginInvoke(new Action(() =>
                     {
                         int index_Villaggi_Città = 0;
                         if (comboBox_Villaggi.SelectedIndex < 0)
@@ -475,7 +480,16 @@ namespace Warrior_and_Wealth.GUI
         {
             this.ActiveControl = lbl_Arciere;
             btn_Attacco_PVP.Enabled = false;
-            this.Size = new Size(794, 550); //1178, 454
+
+            using (Graphics g = this.CreateGraphics())
+            {
+                float scaleFactor = g.DpiX / 96f; // Se lo zoom è 125%, scaleFactor sarà 1.25
+
+                int newWidth = (int)(794 * scaleFactor);
+                int newHeight = (int)(550 * scaleFactor);
+
+                this.Size = new Size(newWidth, newHeight);
+            }
             groupBox_Raduno.Visible = true;
             btn_Sposta.Enabled = true;
             btn_Attacca.Enabled = false;
@@ -491,7 +505,15 @@ namespace Warrior_and_Wealth.GUI
 
                 if (btn_Esplora_PVE_Villaggio_B.Text == "Attacco") //Attacco con truppe
                 {
-                    this.Size = new Size(794, 550); //1178, 454
+                    using (Graphics g = this.CreateGraphics())
+                    {
+                        float scaleFactor = g.DpiX / 96f; // Se lo zoom è 125%, scaleFactor sarà 1.25
+
+                        int newWidth = (int)(794 * scaleFactor);
+                        int newHeight = (int)(550 * scaleFactor);
+
+                        this.Size = new Size(newWidth, newHeight);
+                    }
                     tipo_Attacco = "Città Barbaro";
                     btn_Sposta.Visible = true;
                     btn_Attacca.Visible = true;
@@ -533,7 +555,15 @@ namespace Warrior_and_Wealth.GUI
                 }
                 if (btn_Attacco_PVE_Villaggio_B.Text == "Raduno")
                 {
-                    this.Size = new Size(794, 655);
+                    using (Graphics g = this.CreateGraphics())
+                    {
+                        float scaleFactor = g.DpiX / 96f; // Se lo zoom è 125%, scaleFactor sarà 1.25
+
+                        int newWidth = (int)(794 * scaleFactor);
+                        int newHeight = (int)(655 * scaleFactor);
+
+                        this.Size = new Size(newWidth, newHeight);
+                    }
                     tipo_Attacco = "Città Barbaro";
                     btn_Attacca.Visible = false;
                     btn_Sposta.Visible = false;
@@ -553,7 +583,15 @@ namespace Warrior_and_Wealth.GUI
                 btn_Attacco_PVE_Villaggio_B.Enabled = false;
 
                 groupBox_Raduno.Visible = true;
-                this.Size = new Size(794, 550);
+                using (Graphics g = this.CreateGraphics())
+                {
+                    float scaleFactor = g.DpiX / 96f; // Se lo zoom è 125%, scaleFactor sarà 1.25
+
+                    int newWidth = (int)(794 * scaleFactor);
+                    int newHeight = (int)(550 * scaleFactor);
+
+                    this.Size = new Size(newWidth, newHeight);
+                }
                 await Login.Sleep(5);
                 if (txt_Guerriero_Villaggio.Text == "????")
                     btn_Esplora_PVE_Villaggio_B.Enabled = true;
@@ -655,7 +693,15 @@ namespace Warrior_and_Wealth.GUI
             await Load_Guid();
             UpdateCombobox();
             btn_Attacco_PVE_Villaggio_B.Enabled = false;
-            this.Size = new Size(794, 293);
+            using (Graphics g = this.CreateGraphics())
+            {
+                float scaleFactor = g.DpiX / 96f; // Se lo zoom è 125%, scaleFactor sarà 1.25
+
+                int newWidth = (int)(794 * scaleFactor);
+                int newHeight = (int)(293 * scaleFactor);
+
+                this.Size = new Size(newWidth, newHeight);
+            }
             btn_Sposta.Enabled = true;
             MostraCountdownAttacco();
         }

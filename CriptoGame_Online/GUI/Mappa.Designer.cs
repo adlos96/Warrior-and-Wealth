@@ -35,16 +35,20 @@
             // 
             Panel_Mappa.Dock = DockStyle.Fill;
             Panel_Mappa.Location = new Point(0, 0);
+            Panel_Mappa.Margin = new Padding(3, 4, 3, 4);
             Panel_Mappa.Name = "Panel_Mappa";
-            Panel_Mappa.Size = new Size(800, 450);
+            Panel_Mappa.Size = new Size(914, 600);
             Panel_Mappa.TabIndex = 0;
             // 
             // Mappa
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            AutoScaleDimensions = new SizeF(120F, 120F);
+            AutoScaleMode = AutoScaleMode.Dpi;
+            AutoSize = true;
+            AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            ClientSize = new Size(914, 600);
             Controls.Add(Panel_Mappa);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "Mappa";
             Text = "Mappa";
             Load += Mappa_Load;

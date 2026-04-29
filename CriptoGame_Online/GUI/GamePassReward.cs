@@ -44,6 +44,8 @@ namespace Warrior_and_Wealth.GUI
             lbl_Giorno_29.Text = "29";
             lbl_Giorno_30.Text = "30";
 
+            if (Variabili_Client.GamePass_Premi[0] == null) return;
+
             lbl_Reward_1.Text = Variabili_Client.GamePass_Premi[0].ToString();
             lbl_Reward_2.Text = Variabili_Client.GamePass_Premi[1].ToString();
             lbl_Reward_3.Text = Variabili_Client.GamePass_Premi[2].ToString();

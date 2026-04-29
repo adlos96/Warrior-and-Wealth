@@ -29,6 +29,7 @@ namespace Warrior_and_Wealth.GUI
         private Dictionary<StatBar, int> lastValues = new Dictionary<StatBar, int>();
         private Dictionary<StatBar, int> lastValuesMax = new Dictionary<StatBar, int>();
         private List<(StatBar bar, Panel panel)> barreCitta;
+        public static CustomToolTip toolTip1;
 
         private CancellationTokenSource cts = new CancellationTokenSource();
 
@@ -41,8 +42,10 @@ namespace Warrior_and_Wealth.GUI
             txt_Testo.BackColor = Color.FromArgb(235, 221, 192);
             txt_Testo.Font = new Font("Cinzel Decorative", 8, FontStyle.Bold);
 
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
+            //this.MaximizeBox = false;
+
+            //this.Size = new Size(674, 759);
+            //pictureBox_Castello_Salute.BackgroundImageLayout = ImageLayout.Stretch;
 
             barravitaCancello = new StatBar()
             {
@@ -296,10 +299,11 @@ namespace Warrior_and_Wealth.GUI
 
         private void Citta_Load(object sender, EventArgs e)
         {
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-            pictureBox_Castello_Salute.BackgroundImageLayout = ImageLayout.Stretch;
-            
+            toolTip1 = new CustomToolTip();
+
+            // Imposta qualche proprietà opzionale
+            toolTip1.InitialDelay = 150;
+            toolTip1.AutoPopDelay = 15000;
             Task.Run(() => Gui_Update(cts.Token), cts.Token);
         }
         async void Gui_Update(CancellationToken token)
@@ -309,20 +313,20 @@ namespace Warrior_and_Wealth.GUI
                 if (panel1.IsHandleCreated && !panel1.IsDisposed)
                 {
                     int daRiparare = 0;
-                    panel1.BeginInvoke((Action)(async() =>
+                    panel1.BeginInvoke((Action)(async () =>
                     {
-                        if (await Tutorial.TutorialPrecedentiCompletati(23) && Variabili_Client.tutorial[22] == false) ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{23}");
-                        Gioco.toolTip1.SetToolTip(this.pictureBox_Cancello_Salute, $"{Variabili_Client.Citta.Cancello.Descrizione}");
-                        Gioco.toolTip1.SetToolTip(this.pictureBox_Cancello_Difesa, $"{Variabili_Client.Citta.Cancello.DescrizioneB}");
+                        if (await Main.TutorialPrecedentiCompletati(23) && Variabili_Client.tutorial[22] == false) ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{23}");
+                        toolTip1.SetToolTip(this.pictureBox_Cancello_Salute, $"{Variabili_Client.Citta.Cancello.Descrizione}");
+                        toolTip1.SetToolTip(this.pictureBox_Cancello_Difesa, $"{Variabili_Client.Citta.Cancello.DescrizioneB}");
 
-                        Gioco.toolTip1.SetToolTip(this.pictureBox_Mura_Salute, $"{Variabili_Client.Citta.Mura.Descrizione}");
-                        Gioco.toolTip1.SetToolTip(this.pictureBox_Mura_Difesa, $"{Variabili_Client.Citta.Mura.DescrizioneB}");
+                        toolTip1.SetToolTip(this.pictureBox_Mura_Salute, $"{Variabili_Client.Citta.Mura.Descrizione}");
+                        toolTip1.SetToolTip(this.pictureBox_Mura_Difesa, $"{Variabili_Client.Citta.Mura.DescrizioneB}");
 
-                        Gioco.toolTip1.SetToolTip(this.pictureBox_Torri_Salute, $"{Variabili_Client.Citta.Torri.Descrizione}");
-                        Gioco.toolTip1.SetToolTip(this.pictureBox_Torri_Difesa, $"{Variabili_Client.Citta.Torri.DescrizioneB}");
+                        toolTip1.SetToolTip(this.pictureBox_Torri_Salute, $"{Variabili_Client.Citta.Torri.Descrizione}");
+                        toolTip1.SetToolTip(this.pictureBox_Torri_Difesa, $"{Variabili_Client.Citta.Torri.DescrizioneB}");
 
-                        Gioco.toolTip1.SetToolTip(this.pictureBox_Castello_Salute, $"{Variabili_Client.Citta.Castello.Descrizione}");
-                        Gioco.toolTip1.SetToolTip(this.pictureBox_Castello_Difesa, $"{Variabili_Client.Citta.Castello.DescrizioneB}");
+                        toolTip1.SetToolTip(this.pictureBox_Castello_Salute, $"{Variabili_Client.Citta.Castello.Descrizione}");
+                        toolTip1.SetToolTip(this.pictureBox_Castello_Difesa, $"{Variabili_Client.Citta.Castello.DescrizioneB}");
 
                         soldierBarCancello.MaxValue = Variabili_Client.Citta.Cancello.Guarnigione_Max;
                         soldierBarCancello.Value = Variabili_Client.Citta.Cancello.Guarnigione;
@@ -590,7 +594,7 @@ namespace Warrior_and_Wealth.GUI
         private async void btn_Castello_Click(object sender, EventArgs e)
         {
             Spostamento_Truppe.struttura = "Castello";
-            if (Variabili_Client.tutorial_Attivo == true && await Tutorial.TutorialPrecedentiCompletati(26))
+            if (Variabili_Client.tutorial_Attivo == true && await Main.TutorialPrecedentiCompletati(26))
                 ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{26}");
             Spostamento_Truppe form_Gioco = new Spostamento_Truppe();
             form_Gioco.ShowDialog();
@@ -599,7 +603,7 @@ namespace Warrior_and_Wealth.GUI
         private async void pictureBox_Mura_Salute_Click(object sender, EventArgs e)
         {
             tutorial[0] = true;
-            if (Variabili_Client.tutorial_Attivo == true && await Tutorial.TutorialPrecedentiCompletati(25) && tutorial[0] && tutorial[1])
+            if (Variabili_Client.tutorial_Attivo == true && await Main.TutorialPrecedentiCompletati(25) && tutorial[0] && tutorial[1])
                 ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{25}");
             ClientConnection.TestClient.Send($"Ripara|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Mura|Salute");
         }
@@ -607,7 +611,7 @@ namespace Warrior_and_Wealth.GUI
         private async void pictureBox_Mura_Difesa_Click(object sender, EventArgs e)
         {
             tutorial[1] = true;
-            if (Variabili_Client.tutorial_Attivo == true && await Tutorial.TutorialPrecedentiCompletati(25) && tutorial[0] && tutorial[1])
+            if (Variabili_Client.tutorial_Attivo == true && await Main.TutorialPrecedentiCompletati(25) && tutorial[0] && tutorial[1])
                 ClientConnection.TestClient.Send($"Tutorial Update|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|{25}");
             ClientConnection.TestClient.Send($"Ripara|{Variabili_Client.Utente.Username}|{Variabili_Client.Utente.Password}|Mura|Difesa");
         }

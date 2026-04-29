@@ -16,6 +16,7 @@ namespace Warrior_and_Wealth.Strumenti
         private static int currentTrackIndex = 0;
         private static Random random = new Random();
         private static bool isStopping = false;
+        private static readonly object _lock = new object();
 
         /// Riproduce un file audio una sola volta
         public static void Play(string file)
@@ -156,25 +157,33 @@ namespace Warrior_and_Wealth.Strumenti
 
             var track = currentPlaylist[currentTrackIndex];
 
-            Stop(); // versione interna senza Task.Delay
-
-            try
+            lock (_lock)
             {
-                audioFile = new AudioFileReader(track);
-                audioFile.Volume = globalVolume;
+                Stop();
 
-                outputDevice = new WaveOutEvent();
-                outputDevice.Init(audioFile);
-                outputDevice.PlaybackStopped += OnPlaybackStopped;
+                try
+                {
+                    if (!File.Exists(track))
+                    {
+                        NextTrack();
+                        return;
+                    }
 
-                currentTrack = track;
+                    audioFile = new AudioFileReader(track);
+                    audioFile.Volume = globalVolume;
 
-                outputDevice?.Play(); // safe call
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Errore riproduzione: {ex.Message}");
-                NextTrack();
+                    outputDevice = new WaveOutEvent();
+                    outputDevice.Init(audioFile);
+                    outputDevice.PlaybackStopped += OnPlaybackStopped;
+                    currentTrack = track;
+
+                    outputDevice.Play(); // dentro il lock, non può essere null
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Errore riproduzione: {ex.Message}");
+                    NextTrack();
+                }
             }
         }
 
@@ -211,29 +220,32 @@ namespace Warrior_and_Wealth.Strumenti
 
         private static void OnPlaybackStopped(object? sender, StoppedEventArgs e)
         {
-            // Se stiamo stoppando intenzionalmente, ignora
-            if (isStopping)
-                return;
+            if (isStopping) return;
 
-            // Esegui il cambio traccia sul thread principale per evitare race conditions
+            // Cattura snapshot locale PRIMA del Task
+            var localAudioFile = audioFile;
+            var localOutputDevice = outputDevice;
+            var localPlaylist = currentPlaylist;
+
             Task.Run(() =>
             {
-                // Se c'è una playlist attiva, passa alla traccia successiva
-                if (currentPlaylist != null && currentPlaylist.Count > 0)
+                if (isStopping) return; // doppio check dentro il task
+
+                if (localPlaylist != null && localPlaylist.Count > 0)
                 {
                     NextTrack();
                     return;
                 }
 
-                // Altrimenti loop normale
-                if (!loop || audioFile == null || outputDevice == null)
+                if (!loop || localAudioFile == null || localOutputDevice == null)
                     return;
 
                 try
                 {
-                    audioFile.Position = 0;
-                    outputDevice.Play();
+                    localAudioFile.Position = 0;
+                    localOutputDevice.Play();
                 }
+                catch (ObjectDisposedException) { } // già disposto, ignoralo
                 catch (Exception ex)
                 {
                     Console.WriteLine($"Errore nel loop: {ex.Message}");
@@ -320,32 +332,33 @@ namespace Warrior_and_Wealth.Strumenti
         /// </summary>
         public static void Stop()
         {
-            isStopping = true;
-
-            if (outputDevice != null)
+            lock (_lock)
             {
-                try
+                isStopping = true;
+
+                if (outputDevice != null)
                 {
-                    outputDevice.PlaybackStopped -= OnPlaybackStopped;
-                    outputDevice.Stop();
-                    outputDevice.Dispose();
+                    try
+                    {
+                        outputDevice.PlaybackStopped -= OnPlaybackStopped;
+                        outputDevice.Stop();
+                        outputDevice.Dispose();
+                    }
+                    catch { }
+                    outputDevice = null;
                 }
-                catch { }
 
-                outputDevice = null;
+                if (audioFile != null)
+                {
+                    try { audioFile.Dispose(); }
+                    catch { }
+                    audioFile = null;
+                }
+
+                loop = false;
+                currentTrack = null;
+                isStopping = false;
             }
-
-            if (audioFile != null)
-            {
-                try { audioFile.Dispose(); }
-                catch { }
-
-                audioFile = null;
-            }
-
-            loop = false;
-            currentTrack = null;
-            isStopping = false;
         }
 
         public static bool IsPlaying => outputDevice?.PlaybackState == PlaybackState.Playing;

@@ -8,8 +8,6 @@ namespace Warrior_and_Wealth.GUI
         public Statistiche()
         {
             InitializeComponent();
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
         }
 
         private void Giocatore_Load(object sender, EventArgs e)

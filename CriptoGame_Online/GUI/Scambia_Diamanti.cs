@@ -10,9 +10,6 @@ namespace Warrior_and_Wealth.GUI
             InitializeComponent();
             this.ActiveControl = btn_Scambia; // assegna il focus al bottone
 
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-
             txt_Testo.BackColor = Color.FromArgb(229, 208, 181);
             txt_Diamond_Blu.BackColor = Color.FromArgb(229, 208, 181);
             txt_Diamond_Viola.BackColor = Color.FromArgb(229, 208, 181);

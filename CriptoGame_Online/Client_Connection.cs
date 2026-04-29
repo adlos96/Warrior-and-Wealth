@@ -34,7 +34,7 @@ namespace Strategico_V2
 
         internal class TestClient
         {
-            public static string _ServerIp = "warriorandwealth.duckdns.org"; // adly.xed.im 185.229.236.183
+            public static string _ServerIp = "warriorandwealth.duckdns.org";
             private static int _ServerPort = 8443;
             private static bool _Ssl = false;
             private static string _CertFile = "";
@@ -48,7 +48,7 @@ namespace Strategico_V2
 
             public static Task InitializeClient()
             {
-                return Task.Run(async () => //Crea un task e gli assegna un blocco istruzioni da eseguire.
+                return Task.Run(async () =>
                 {
                     Console.WriteLine("Client partito");
                     Console.WriteLine($"Use SSL: {_Ssl}");
@@ -133,9 +133,9 @@ namespace Strategico_V2
                 if (String.IsNullOrEmpty(_PresharedKey)) _PresharedKey = _CertPass;
                 return _PresharedKey;
             }
-            private static void ServerConnected(object sender, ConnectionEventArgs args)
+            private static void ServerConnected(object sender, ConnectionEventArgs args) // Controlla se c'è una connessione col server
             {
-                Console.WriteLine("Server connected"); // Controlla se c'è una connessione col server
+                Console.WriteLine("Server connected");
                 client_Connesso = true;
             }
             private static void ServerDisconnected(object sender, DisconnectionEventArgs args)

@@ -13,8 +13,7 @@ namespace Warrior_and_Wealth.GUI
         public Spostamento_Truppe()
         {
             InitializeComponent();
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
+
             lbl_Struttura.Text = struttura;
             btn_I_Struttura.Enabled = true;
             btn_II_Struttura.Enabled = false;

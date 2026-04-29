@@ -26,9 +26,6 @@ namespace Warrior_and_Wealth
             toolTip1.InitialDelay = 150;
             toolTip1.AutoPopDelay = 15000;
 
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-
             txt_Image_1.ForeColor = Color.FromArgb(205, 175, 0);
             txt_Image_2.ForeColor = Color.FromArgb(205, 175, 0);
             txt_Image_3.ForeColor = Color.FromArgb(205, 175, 0);
@@ -136,12 +133,12 @@ namespace Warrior_and_Wealth
 
                 panel_Image_1.BackgroundImage = Properties.Resources.Vip_Photoroom_1_; //Immagine principale
                 panel_Image_2.BackgroundImage = Properties.Resources.Vip_Photoroom_1_;
-                panel_Image_3.BackgroundImage = Properties.Resources.diamond_2;
-                panel_Image_4.BackgroundImage = Properties.Resources.diamond_2;
-                panel_Image_5.BackgroundImage = Properties.Resources.diamond_2;
-                panel_Image_6.BackgroundImage = Properties.Resources.diamond_2;
+                panel_Image_3.BackgroundImage = Properties.Resources.DiamanteViola_V2;
+                panel_Image_4.BackgroundImage = Properties.Resources.DiamanteViola_V2;
+                panel_Image_5.BackgroundImage = Properties.Resources.DiamanteViola_V2;
+                panel_Image_6.BackgroundImage = Properties.Resources.DiamanteViola_V2;
 
-                panel_Diamond_Image_1.BackgroundImage = Properties.Resources.diamond_2; //Immagine costo
+                panel_Diamond_Image_1.BackgroundImage = Properties.Resources.DiamanteViola_V2; //Immagine costo
                 panel_Diamond_Image_2.BackgroundImage = Properties.Resources.USDT_Logo_removebg_preview;
                 panel_Diamond_Image_3.BackgroundImage = Properties.Resources.USDT_Logo_removebg_preview;
                 panel_Diamond_Image_4.BackgroundImage = Properties.Resources.USDT_Logo_removebg_preview;
@@ -198,12 +195,12 @@ namespace Warrior_and_Wealth
                 panel_Image_5.BackgroundImageLayout = ImageLayout.Zoom;
                 panel_Image_6.BackgroundImageLayout = ImageLayout.Zoom;
 
-                panel_Diamond_Image_1.BackgroundImage = Properties.Resources.diamond_1;
-                panel_Diamond_Image_2.BackgroundImage = Properties.Resources.diamond_1;
-                panel_Diamond_Image_3.BackgroundImage = Properties.Resources.diamond_1;
-                panel_Diamond_Image_4.BackgroundImage = Properties.Resources.diamond_1;
-                panel_Diamond_Image_5.BackgroundImage = Properties.Resources.diamond_1;
-                panel_Diamond_Image_6.BackgroundImage = Properties.Resources.diamond_1;
+                panel_Diamond_Image_1.BackgroundImage = Properties.Resources.DiamanteBlu_V2;
+                panel_Diamond_Image_2.BackgroundImage = Properties.Resources.DiamanteBlu_V2;
+                panel_Diamond_Image_3.BackgroundImage = Properties.Resources.DiamanteBlu_V2;
+                panel_Diamond_Image_4.BackgroundImage = Properties.Resources.DiamanteBlu_V2;
+                panel_Diamond_Image_5.BackgroundImage = Properties.Resources.DiamanteBlu_V2;
+                panel_Diamond_Image_6.BackgroundImage = Properties.Resources.DiamanteBlu_V2;
 
                 txt_Shop_1.Text = Variabili_Client.Shop.Costruttore_24h.Costo.ToString(); //Costo effettivo
                 txt_Shop_2.Text = Variabili_Client.Shop.Costruttore_48h.Costo.ToString();
@@ -262,10 +259,10 @@ namespace Warrior_and_Wealth
                 panel_Image_5.BackgroundImageLayout = ImageLayout.Zoom;
                 panel_Image_6.BackgroundImageLayout = ImageLayout.Zoom;
 
-                panel_Diamond_Image_1.BackgroundImage = Properties.Resources.diamond_1;
+                panel_Diamond_Image_1.BackgroundImage = Properties.Resources.DiamanteBlu_V2;
                 panel_Diamond_Image_2.BackgroundImage = Properties.Resources.USDT_Logo_removebg_preview;
                 panel_Diamond_Image_3.BackgroundImage = Properties.Resources.USDT_Logo_removebg_preview;
-                panel_Diamond_Image_4.BackgroundImage = Properties.Resources.diamond_1;
+                panel_Diamond_Image_4.BackgroundImage = Properties.Resources.DiamanteBlu_V2;
                 panel_Diamond_Image_5.BackgroundImage = null;
                 panel_Diamond_Image_6.BackgroundImage = null;
 

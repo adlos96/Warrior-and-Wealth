@@ -27,9 +27,6 @@ namespace Warrior_and_Wealth
 
         private void MontlyQuest_Load(object sender, EventArgs e)
         {
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-
             AggiornaInterfacciaRewards();
             AggiornaInterfacciaQuest();
             Task.Run(() => Gui_Update(cts.Token), cts.Token);

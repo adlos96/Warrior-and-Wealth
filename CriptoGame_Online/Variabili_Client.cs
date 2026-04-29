@@ -73,6 +73,18 @@ namespace Strategico_V2
         public static string Armature_Desc = "";
         public static string Frecce_Desc = "";
 
+        //Terreni
+        public static string Feudi_Desc = "";
+        public static string Feudo_Comune_Desc = "";
+        public static string Feudo_NonComune_Desc = "";
+        public static string Feudo_Raro_Desc = "";
+        public static string Feudo_Epico_Desc = "";
+        public static string Feudo_Leggendario_Desc = "";
+
+        //Città
+        public static string Città_Desc = "";
+        public static string Ricerca_Desc = "";
+
         public static string Ricerca_Addestramento_Desc = "";
         public static string Ricerca_Produzione_Desc = "";
         public static string Ricerca_Costruzione_Desc = "";

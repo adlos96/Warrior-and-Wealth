@@ -30,6 +30,7 @@
         {
             lbl_Username_Login = new Label();
             panel1 = new Panel();
+            comboBox_Lingua = new ComboBox();
             panel_Connessione = new Panel();
             txt_Stato_Server = new TextBox();
             txt_Versione_Attuale = new TextBox();
@@ -61,6 +62,7 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(comboBox_Lingua);
             panel1.Controls.Add(panel_Connessione);
             panel1.Controls.Add(txt_Stato_Server);
             panel1.Controls.Add(txt_Versione_Attuale);
@@ -79,6 +81,15 @@
             panel1.Size = new Size(193, 276);
             panel1.TabIndex = 1;
             // 
+            // comboBox_Lingua
+            // 
+            comboBox_Lingua.FormattingEnabled = true;
+            comboBox_Lingua.Location = new Point(127, 46);
+            comboBox_Lingua.Name = "comboBox_Lingua";
+            comboBox_Lingua.Size = new Size(56, 23);
+            comboBox_Lingua.TabIndex = 19;
+            comboBox_Lingua.TextChanged += comboBox_Lingua_TextChanged;
+            // 
             // panel_Connessione
             // 
             panel_Connessione.BackColor = Color.Transparent;
@@ -95,6 +106,7 @@
             txt_Stato_Server.BorderStyle = BorderStyle.None;
             txt_Stato_Server.Location = new Point(13, 50);
             txt_Stato_Server.Name = "txt_Stato_Server";
+            txt_Stato_Server.ReadOnly = true;
             txt_Stato_Server.Size = new Size(102, 16);
             txt_Stato_Server.TabIndex = 12;
             txt_Stato_Server.Text = "Stato Server:";
@@ -256,8 +268,10 @@
             // 
             // Login
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleDimensions = new SizeF(96F, 96F);
+            AutoScaleMode = AutoScaleMode.Dpi;
+            AutoSize = true;
+            AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BackgroundImage = Properties.Resources.freepik__upload__73441_AAA;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(235, 338);
@@ -298,5 +312,6 @@
         private TextBox txt_Versione_Attuale;
         private TextBox txt_Stato_Server;
         private Panel panel_Connessione;
+        private ComboBox comboBox_Lingua;
     }
 }

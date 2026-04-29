@@ -151,6 +151,9 @@
   <data name="freepik__retouch_400x538" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\freepik__retouch_400x538.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="MinieraFerro_V2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MinieraFerro_V2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Sfondo_Chat_V2-removebg-preview" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Sfondo_Chat_V2-removebg-preview.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -181,6 +184,9 @@
   <data name="Oro_V2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Oro_V2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="GamePass_Base" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GamePass_Base1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="acceleration" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\acceleration.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -193,14 +199,14 @@
   <data name="wood-log_6" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\wood-log_6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="GamePass_Base" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\GamePass_Base1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Workshop_Lance_V2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Workshop_Lance_V2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="3_Banner-removebg-preview" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\3_Banner-removebg-preview.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Connesso_V2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Connesso_V2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Scudo_Pace_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Scudo_Pace_11.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -271,6 +277,9 @@
   <data name="Workshop_Armature_V2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Workshop_Armature_V2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Disconnesso_V2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Disconnesso_V2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="USDT_Logo-removebg-preview" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\USDT_Logo-removebg-preview.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -285,6 +294,9 @@
   </data>
   <data name="dollars(1)" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\dollars(1).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Disconnesso_2_V2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Disconnesso_2_V2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Leggendario" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Leggendario.jpeg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -325,8 +337,8 @@
   <data name="Bottone_+_Sfondo_2_A-removebg-preview" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Bottone_+_Sfondo_2_A-removebg-preview.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MinieraFerro_V2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MinieraFerro_V2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Popolazione_V2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Popolazione_V2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="CavaDiPietra_V2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CavaDiPietra_V2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -345,9 +357,6 @@
   </data>
   <data name="level-up(1)" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\level-up(1).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="v37-wit-34-Edit(2)" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\v37-wit-34-Edit(2).jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Guerriero_V2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Guerriero_V2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -430,7 +439,7 @@
   <data name="MinieraOro_V2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MinieraOro_V2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Popolazione_V2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Popolazione_V2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Sfondo_Gioco" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Sfondo_Gioco.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

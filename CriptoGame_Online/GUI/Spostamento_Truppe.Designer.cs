@@ -114,9 +114,11 @@
             groupBox9.Controls.Add(doubleBufferedPanel1);
             groupBox9.Controls.Add(panel5);
             groupBox9.Controls.Add(panel7);
-            groupBox9.Location = new Point(431, 12);
+            groupBox9.Location = new Point(394, 13);
+            groupBox9.Margin = new Padding(2, 3, 2, 3);
             groupBox9.Name = "groupBox9";
-            groupBox9.Size = new Size(155, 242);
+            groupBox9.Padding = new Padding(2, 3, 2, 3);
+            groupBox9.Size = new Size(142, 258);
             groupBox9.TabIndex = 153;
             groupBox9.TabStop = false;
             // 
@@ -125,7 +127,7 @@
             lbl_Truppe_Massime.AutoSize = true;
             lbl_Truppe_Massime.Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Truppe_Massime.ForeColor = SystemColors.ControlLight;
-            lbl_Truppe_Massime.Location = new Point(14, 222);
+            lbl_Truppe_Massime.Location = new Point(13, 237);
             lbl_Truppe_Massime.Margin = new Padding(4, 0, 4, 0);
             lbl_Truppe_Massime.Name = "lbl_Truppe_Massime";
             lbl_Truppe_Massime.Size = new Size(117, 13);
@@ -138,10 +140,10 @@
             panel1.Controls.Add(label1);
             panel1.Controls.Add(panel2);
             panel1.Controls.Add(txt_Catapulta_Struttura);
-            panel1.Location = new Point(10, 174);
+            panel1.Location = new Point(9, 186);
             panel1.Margin = new Padding(4, 3, 4, 3);
             panel1.Name = "panel1";
-            panel1.Size = new Size(133, 43);
+            panel1.Size = new Size(122, 46);
             panel1.TabIndex = 31;
             // 
             // label1
@@ -149,7 +151,7 @@
             label1.AutoSize = true;
             label1.ForeColor = SystemColors.Control;
             label1.ImeMode = ImeMode.NoControl;
-            label1.Location = new Point(48, 1);
+            label1.Location = new Point(44, 1);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
             label1.Size = new Size(58, 15);
@@ -166,7 +168,7 @@
             panel2.Location = new Point(4, 3);
             panel2.Margin = new Padding(4, 3, 4, 3);
             panel2.Name = "panel2";
-            panel2.Size = new Size(37, 35);
+            panel2.Size = new Size(34, 37);
             panel2.TabIndex = 24;
             // 
             // txt_Catapulta_Struttura
@@ -174,11 +176,11 @@
             txt_Catapulta_Struttura.BackColor = Color.FromArgb(32, 36, 47);
             txt_Catapulta_Struttura.Font = new Font("Microsoft Sans Serif", 9.25F);
             txt_Catapulta_Struttura.ForeColor = SystemColors.Control;
-            txt_Catapulta_Struttura.Location = new Point(48, 18);
+            txt_Catapulta_Struttura.Location = new Point(44, 19);
             txt_Catapulta_Struttura.Margin = new Padding(4, 3, 4, 3);
             txt_Catapulta_Struttura.Name = "txt_Catapulta_Struttura";
             txt_Catapulta_Struttura.ReadOnly = true;
-            txt_Catapulta_Struttura.Size = new Size(78, 21);
+            txt_Catapulta_Struttura.Size = new Size(72, 21);
             txt_Catapulta_Struttura.TabIndex = 25;
             txt_Catapulta_Struttura.Text = "0";
             txt_Catapulta_Struttura.TextAlign = HorizontalAlignment.Center;
@@ -188,7 +190,8 @@
             lbl_Struttura.AutoSize = true;
             lbl_Struttura.Font = new Font("Segoe UI", 9F);
             lbl_Struttura.ForeColor = SystemColors.Control;
-            lbl_Struttura.Location = new Point(7, 0);
+            lbl_Struttura.Location = new Point(6, 0);
+            lbl_Struttura.Margin = new Padding(2, 0, 2, 0);
             lbl_Struttura.Name = "lbl_Struttura";
             lbl_Struttura.Size = new Size(51, 15);
             lbl_Struttura.TabIndex = 30;
@@ -200,10 +203,10 @@
             panel3.Controls.Add(label2);
             panel3.Controls.Add(ico_Unit_3);
             panel3.Controls.Add(txt_Arciere_Struttura);
-            panel3.Location = new Point(10, 133);
+            panel3.Location = new Point(9, 142);
             panel3.Margin = new Padding(4, 3, 4, 3);
             panel3.Name = "panel3";
-            panel3.Size = new Size(133, 42);
+            panel3.Size = new Size(122, 45);
             panel3.TabIndex = 30;
             // 
             // label2
@@ -211,7 +214,7 @@
             label2.AutoSize = true;
             label2.ForeColor = SystemColors.Control;
             label2.ImeMode = ImeMode.NoControl;
-            label2.Location = new Point(48, 1);
+            label2.Location = new Point(44, 1);
             label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
             label2.Size = new Size(41, 15);
@@ -223,8 +226,9 @@
             ico_Unit_3.BackgroundImage = Properties.Resources.Arciere_V2;
             ico_Unit_3.BackgroundImageLayout = ImageLayout.Zoom;
             ico_Unit_3.Location = new Point(4, 4);
+            ico_Unit_3.Margin = new Padding(2, 3, 2, 3);
             ico_Unit_3.Name = "ico_Unit_3";
-            ico_Unit_3.Size = new Size(37, 35);
+            ico_Unit_3.Size = new Size(34, 38);
             ico_Unit_3.TabIndex = 146;
             // 
             // txt_Arciere_Struttura
@@ -232,11 +236,11 @@
             txt_Arciere_Struttura.BackColor = Color.FromArgb(32, 36, 47);
             txt_Arciere_Struttura.Font = new Font("Microsoft Sans Serif", 9.25F);
             txt_Arciere_Struttura.ForeColor = SystemColors.Control;
-            txt_Arciere_Struttura.Location = new Point(48, 18);
+            txt_Arciere_Struttura.Location = new Point(44, 19);
             txt_Arciere_Struttura.Margin = new Padding(4, 3, 4, 3);
             txt_Arciere_Struttura.Name = "txt_Arciere_Struttura";
             txt_Arciere_Struttura.ReadOnly = true;
-            txt_Arciere_Struttura.Size = new Size(78, 21);
+            txt_Arciere_Struttura.Size = new Size(72, 21);
             txt_Arciere_Struttura.TabIndex = 25;
             txt_Arciere_Struttura.Text = "0";
             txt_Arciere_Struttura.TextAlign = HorizontalAlignment.Center;
@@ -248,9 +252,10 @@
             doubleBufferedPanel1.Controls.Add(btn_III_Struttura);
             doubleBufferedPanel1.Controls.Add(btn_IV_Struttura);
             doubleBufferedPanel1.Controls.Add(btn_II_Struttura);
-            doubleBufferedPanel1.Location = new Point(3, 17);
+            doubleBufferedPanel1.Location = new Point(2, 18);
+            doubleBufferedPanel1.Margin = new Padding(2, 3, 2, 3);
             doubleBufferedPanel1.Name = "doubleBufferedPanel1";
-            doubleBufferedPanel1.Size = new Size(147, 36);
+            doubleBufferedPanel1.Size = new Size(134, 38);
             doubleBufferedPanel1.TabIndex = 29;
             // 
             // btn_V_Struttura
@@ -259,9 +264,10 @@
             btn_V_Struttura.FlatStyle = FlatStyle.Popup;
             btn_V_Struttura.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_V_Struttura.ForeColor = SystemColors.Control;
-            btn_V_Struttura.Location = new Point(115, 4);
+            btn_V_Struttura.Location = new Point(105, 4);
+            btn_V_Struttura.Margin = new Padding(2, 3, 2, 3);
             btn_V_Struttura.Name = "btn_V_Struttura";
-            btn_V_Struttura.Size = new Size(28, 28);
+            btn_V_Struttura.Size = new Size(26, 30);
             btn_V_Struttura.TabIndex = 33;
             btn_V_Struttura.Text = "V";
             btn_V_Struttura.UseVisualStyleBackColor = true;
@@ -274,9 +280,10 @@
             btn_I_Struttura.FlatStyle = FlatStyle.Popup;
             btn_I_Struttura.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_I_Struttura.ForeColor = SystemColors.Control;
-            btn_I_Struttura.Location = new Point(3, 4);
+            btn_I_Struttura.Location = new Point(2, 4);
+            btn_I_Struttura.Margin = new Padding(2, 3, 2, 3);
             btn_I_Struttura.Name = "btn_I_Struttura";
-            btn_I_Struttura.Size = new Size(28, 28);
+            btn_I_Struttura.Size = new Size(26, 30);
             btn_I_Struttura.TabIndex = 29;
             btn_I_Struttura.Text = "I";
             btn_I_Struttura.UseVisualStyleBackColor = false;
@@ -287,9 +294,10 @@
             btn_III_Struttura.FlatStyle = FlatStyle.Popup;
             btn_III_Struttura.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_III_Struttura.ForeColor = SystemColors.Control;
-            btn_III_Struttura.Location = new Point(59, 4);
+            btn_III_Struttura.Location = new Point(54, 4);
+            btn_III_Struttura.Margin = new Padding(2, 3, 2, 3);
             btn_III_Struttura.Name = "btn_III_Struttura";
-            btn_III_Struttura.Size = new Size(28, 28);
+            btn_III_Struttura.Size = new Size(26, 30);
             btn_III_Struttura.TabIndex = 31;
             btn_III_Struttura.Text = "III";
             btn_III_Struttura.UseVisualStyleBackColor = true;
@@ -300,9 +308,10 @@
             btn_IV_Struttura.FlatStyle = FlatStyle.Popup;
             btn_IV_Struttura.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_IV_Struttura.ForeColor = SystemColors.Control;
-            btn_IV_Struttura.Location = new Point(87, 4);
+            btn_IV_Struttura.Location = new Point(79, 4);
+            btn_IV_Struttura.Margin = new Padding(2, 3, 2, 3);
             btn_IV_Struttura.Name = "btn_IV_Struttura";
-            btn_IV_Struttura.Size = new Size(28, 28);
+            btn_IV_Struttura.Size = new Size(26, 30);
             btn_IV_Struttura.TabIndex = 32;
             btn_IV_Struttura.Text = "IV";
             btn_IV_Struttura.UseVisualStyleBackColor = true;
@@ -313,9 +322,10 @@
             btn_II_Struttura.FlatStyle = FlatStyle.Popup;
             btn_II_Struttura.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_II_Struttura.ForeColor = SystemColors.Control;
-            btn_II_Struttura.Location = new Point(31, 4);
+            btn_II_Struttura.Location = new Point(28, 4);
+            btn_II_Struttura.Margin = new Padding(2, 3, 2, 3);
             btn_II_Struttura.Name = "btn_II_Struttura";
-            btn_II_Struttura.Size = new Size(28, 28);
+            btn_II_Struttura.Size = new Size(26, 30);
             btn_II_Struttura.TabIndex = 30;
             btn_II_Struttura.Text = "II";
             btn_II_Struttura.UseVisualStyleBackColor = true;
@@ -326,10 +336,10 @@
             panel5.Controls.Add(ico_Unit_2);
             panel5.Controls.Add(label3);
             panel5.Controls.Add(txt_Lanciere_Struttura);
-            panel5.Location = new Point(10, 92);
+            panel5.Location = new Point(9, 98);
             panel5.Margin = new Padding(4, 3, 4, 3);
             panel5.Name = "panel5";
-            panel5.Size = new Size(133, 42);
+            panel5.Size = new Size(122, 45);
             panel5.TabIndex = 3;
             // 
             // ico_Unit_2
@@ -337,8 +347,9 @@
             ico_Unit_2.BackgroundImage = Properties.Resources.Lanciere_V2;
             ico_Unit_2.BackgroundImageLayout = ImageLayout.Zoom;
             ico_Unit_2.Location = new Point(4, 4);
+            ico_Unit_2.Margin = new Padding(2, 3, 2, 3);
             ico_Unit_2.Name = "ico_Unit_2";
-            ico_Unit_2.Size = new Size(37, 35);
+            ico_Unit_2.Size = new Size(34, 38);
             ico_Unit_2.TabIndex = 145;
             // 
             // label3
@@ -346,7 +357,7 @@
             label3.AutoSize = true;
             label3.ForeColor = SystemColors.Control;
             label3.ImeMode = ImeMode.NoControl;
-            label3.Location = new Point(48, 1);
+            label3.Location = new Point(44, 1);
             label3.Margin = new Padding(4, 0, 4, 0);
             label3.Name = "label3";
             label3.Size = new Size(48, 15);
@@ -358,11 +369,11 @@
             txt_Lanciere_Struttura.BackColor = Color.FromArgb(32, 36, 47);
             txt_Lanciere_Struttura.Font = new Font("Microsoft Sans Serif", 9.25F);
             txt_Lanciere_Struttura.ForeColor = SystemColors.Control;
-            txt_Lanciere_Struttura.Location = new Point(48, 18);
+            txt_Lanciere_Struttura.Location = new Point(44, 19);
             txt_Lanciere_Struttura.Margin = new Padding(4, 3, 4, 3);
             txt_Lanciere_Struttura.Name = "txt_Lanciere_Struttura";
             txt_Lanciere_Struttura.ReadOnly = true;
-            txt_Lanciere_Struttura.Size = new Size(78, 21);
+            txt_Lanciere_Struttura.Size = new Size(72, 21);
             txt_Lanciere_Struttura.TabIndex = 25;
             txt_Lanciere_Struttura.Text = "0";
             txt_Lanciere_Struttura.TextAlign = HorizontalAlignment.Center;
@@ -373,10 +384,10 @@
             panel7.Controls.Add(ico_Unit_1);
             panel7.Controls.Add(label4);
             panel7.Controls.Add(txt_Guerriero_Struttura);
-            panel7.Location = new Point(10, 52);
+            panel7.Location = new Point(9, 55);
             panel7.Margin = new Padding(4, 3, 4, 3);
             panel7.Name = "panel7";
-            panel7.Size = new Size(133, 41);
+            panel7.Size = new Size(122, 44);
             panel7.TabIndex = 2;
             // 
             // ico_Unit_1
@@ -384,8 +395,9 @@
             ico_Unit_1.BackgroundImage = Properties.Resources.Guerriero_V2;
             ico_Unit_1.BackgroundImageLayout = ImageLayout.Zoom;
             ico_Unit_1.Location = new Point(4, 3);
+            ico_Unit_1.Margin = new Padding(2, 3, 2, 3);
             ico_Unit_1.Name = "ico_Unit_1";
-            ico_Unit_1.Size = new Size(37, 35);
+            ico_Unit_1.Size = new Size(34, 38);
             ico_Unit_1.TabIndex = 144;
             // 
             // label4
@@ -393,7 +405,7 @@
             label4.AutoSize = true;
             label4.ForeColor = SystemColors.Control;
             label4.ImeMode = ImeMode.NoControl;
-            label4.Location = new Point(48, 1);
+            label4.Location = new Point(44, 1);
             label4.Margin = new Padding(4, 0, 4, 0);
             label4.Name = "label4";
             label4.Size = new Size(56, 15);
@@ -405,11 +417,11 @@
             txt_Guerriero_Struttura.BackColor = Color.FromArgb(32, 36, 47);
             txt_Guerriero_Struttura.Font = new Font("Microsoft Sans Serif", 9.25F);
             txt_Guerriero_Struttura.ForeColor = SystemColors.Control;
-            txt_Guerriero_Struttura.Location = new Point(48, 17);
+            txt_Guerriero_Struttura.Location = new Point(44, 18);
             txt_Guerriero_Struttura.Margin = new Padding(4, 3, 4, 3);
             txt_Guerriero_Struttura.Name = "txt_Guerriero_Struttura";
             txt_Guerriero_Struttura.ReadOnly = true;
-            txt_Guerriero_Struttura.Size = new Size(78, 21);
+            txt_Guerriero_Struttura.Size = new Size(72, 21);
             txt_Guerriero_Struttura.TabIndex = 25;
             txt_Guerriero_Struttura.Text = "0";
             txt_Guerriero_Struttura.TextAlign = HorizontalAlignment.Center;
@@ -422,9 +434,11 @@
             groupBox_Esercito.Controls.Add(panel43);
             groupBox_Esercito.Controls.Add(panel39);
             groupBox_Esercito.Controls.Add(panel41);
-            groupBox_Esercito.Location = new Point(12, 12);
+            groupBox_Esercito.Location = new Point(11, 13);
+            groupBox_Esercito.Margin = new Padding(2, 3, 2, 3);
             groupBox_Esercito.Name = "groupBox_Esercito";
-            groupBox_Esercito.Size = new Size(155, 222);
+            groupBox_Esercito.Padding = new Padding(2, 3, 2, 3);
+            groupBox_Esercito.Size = new Size(142, 237);
             groupBox_Esercito.TabIndex = 152;
             groupBox_Esercito.TabStop = false;
             // 
@@ -434,10 +448,10 @@
             panel37.Controls.Add(label71);
             panel37.Controls.Add(panel_Catapulta);
             panel37.Controls.Add(txt_Catapulta_Esercito);
-            panel37.Location = new Point(10, 175);
+            panel37.Location = new Point(9, 186);
             panel37.Margin = new Padding(4, 3, 4, 3);
             panel37.Name = "panel37";
-            panel37.Size = new Size(133, 42);
+            panel37.Size = new Size(122, 45);
             panel37.TabIndex = 31;
             // 
             // label71
@@ -445,7 +459,7 @@
             label71.AutoSize = true;
             label71.ForeColor = SystemColors.Control;
             label71.ImeMode = ImeMode.NoControl;
-            label71.Location = new Point(48, 1);
+            label71.Location = new Point(44, 1);
             label71.Margin = new Padding(4, 0, 4, 0);
             label71.Name = "label71";
             label71.Size = new Size(58, 15);
@@ -462,7 +476,7 @@
             panel_Catapulta.Location = new Point(4, 3);
             panel_Catapulta.Margin = new Padding(4, 3, 4, 3);
             panel_Catapulta.Name = "panel_Catapulta";
-            panel_Catapulta.Size = new Size(37, 35);
+            panel_Catapulta.Size = new Size(34, 37);
             panel_Catapulta.TabIndex = 24;
             // 
             // txt_Catapulta_Esercito
@@ -470,11 +484,11 @@
             txt_Catapulta_Esercito.BackColor = Color.FromArgb(32, 36, 47);
             txt_Catapulta_Esercito.Font = new Font("Microsoft Sans Serif", 9.25F);
             txt_Catapulta_Esercito.ForeColor = SystemColors.Control;
-            txt_Catapulta_Esercito.Location = new Point(48, 18);
+            txt_Catapulta_Esercito.Location = new Point(44, 19);
             txt_Catapulta_Esercito.Margin = new Padding(4, 3, 4, 3);
             txt_Catapulta_Esercito.Name = "txt_Catapulta_Esercito";
             txt_Catapulta_Esercito.ReadOnly = true;
-            txt_Catapulta_Esercito.Size = new Size(78, 21);
+            txt_Catapulta_Esercito.Size = new Size(72, 21);
             txt_Catapulta_Esercito.TabIndex = 25;
             txt_Catapulta_Esercito.Text = "0";
             txt_Catapulta_Esercito.TextAlign = HorizontalAlignment.Center;
@@ -484,7 +498,8 @@
             lbl_Esercito.AutoSize = true;
             lbl_Esercito.Font = new Font("Segoe UI", 9F);
             lbl_Esercito.ForeColor = SystemColors.Control;
-            lbl_Esercito.Location = new Point(7, 0);
+            lbl_Esercito.Location = new Point(6, 0);
+            lbl_Esercito.Margin = new Padding(2, 0, 2, 0);
             lbl_Esercito.Name = "lbl_Esercito";
             lbl_Esercito.Size = new Size(97, 15);
             lbl_Esercito.TabIndex = 30;
@@ -497,9 +512,10 @@
             panel_Sfondo_Bottoni.Controls.Add(btn_III_Esercito);
             panel_Sfondo_Bottoni.Controls.Add(btn_IV_Esercito);
             panel_Sfondo_Bottoni.Controls.Add(btn_II_Esercito);
-            panel_Sfondo_Bottoni.Location = new Point(3, 17);
+            panel_Sfondo_Bottoni.Location = new Point(2, 18);
+            panel_Sfondo_Bottoni.Margin = new Padding(2, 3, 2, 3);
             panel_Sfondo_Bottoni.Name = "panel_Sfondo_Bottoni";
-            panel_Sfondo_Bottoni.Size = new Size(147, 36);
+            panel_Sfondo_Bottoni.Size = new Size(134, 38);
             panel_Sfondo_Bottoni.TabIndex = 29;
             // 
             // btn_V_Esercito
@@ -508,9 +524,10 @@
             btn_V_Esercito.FlatStyle = FlatStyle.Popup;
             btn_V_Esercito.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_V_Esercito.ForeColor = SystemColors.Control;
-            btn_V_Esercito.Location = new Point(115, 4);
+            btn_V_Esercito.Location = new Point(105, 4);
+            btn_V_Esercito.Margin = new Padding(2, 3, 2, 3);
             btn_V_Esercito.Name = "btn_V_Esercito";
-            btn_V_Esercito.Size = new Size(28, 28);
+            btn_V_Esercito.Size = new Size(26, 30);
             btn_V_Esercito.TabIndex = 33;
             btn_V_Esercito.Text = "V";
             btn_V_Esercito.UseVisualStyleBackColor = true;
@@ -524,9 +541,10 @@
             btn_I_Esercito.FlatStyle = FlatStyle.Popup;
             btn_I_Esercito.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_I_Esercito.ForeColor = SystemColors.Control;
-            btn_I_Esercito.Location = new Point(3, 4);
+            btn_I_Esercito.Location = new Point(2, 4);
+            btn_I_Esercito.Margin = new Padding(2, 3, 2, 3);
             btn_I_Esercito.Name = "btn_I_Esercito";
-            btn_I_Esercito.Size = new Size(28, 28);
+            btn_I_Esercito.Size = new Size(26, 30);
             btn_I_Esercito.TabIndex = 29;
             btn_I_Esercito.Text = "I";
             btn_I_Esercito.UseVisualStyleBackColor = false;
@@ -538,9 +556,10 @@
             btn_III_Esercito.FlatStyle = FlatStyle.Popup;
             btn_III_Esercito.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_III_Esercito.ForeColor = SystemColors.Control;
-            btn_III_Esercito.Location = new Point(59, 4);
+            btn_III_Esercito.Location = new Point(54, 4);
+            btn_III_Esercito.Margin = new Padding(2, 3, 2, 3);
             btn_III_Esercito.Name = "btn_III_Esercito";
-            btn_III_Esercito.Size = new Size(28, 28);
+            btn_III_Esercito.Size = new Size(26, 30);
             btn_III_Esercito.TabIndex = 31;
             btn_III_Esercito.Text = "III";
             btn_III_Esercito.UseVisualStyleBackColor = true;
@@ -552,9 +571,10 @@
             btn_IV_Esercito.FlatStyle = FlatStyle.Popup;
             btn_IV_Esercito.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_IV_Esercito.ForeColor = SystemColors.Control;
-            btn_IV_Esercito.Location = new Point(87, 4);
+            btn_IV_Esercito.Location = new Point(79, 4);
+            btn_IV_Esercito.Margin = new Padding(2, 3, 2, 3);
             btn_IV_Esercito.Name = "btn_IV_Esercito";
-            btn_IV_Esercito.Size = new Size(28, 28);
+            btn_IV_Esercito.Size = new Size(26, 30);
             btn_IV_Esercito.TabIndex = 32;
             btn_IV_Esercito.Text = "IV";
             btn_IV_Esercito.UseVisualStyleBackColor = true;
@@ -566,9 +586,10 @@
             btn_II_Esercito.FlatStyle = FlatStyle.Popup;
             btn_II_Esercito.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btn_II_Esercito.ForeColor = SystemColors.Control;
-            btn_II_Esercito.Location = new Point(31, 4);
+            btn_II_Esercito.Location = new Point(28, 4);
+            btn_II_Esercito.Margin = new Padding(2, 3, 2, 3);
             btn_II_Esercito.Name = "btn_II_Esercito";
-            btn_II_Esercito.Size = new Size(28, 28);
+            btn_II_Esercito.Size = new Size(26, 30);
             btn_II_Esercito.TabIndex = 30;
             btn_II_Esercito.Text = "II";
             btn_II_Esercito.UseVisualStyleBackColor = true;
@@ -580,10 +601,10 @@
             panel43.Controls.Add(doubleBufferedPanel2);
             panel43.Controls.Add(label86);
             panel43.Controls.Add(txt_Guerriero_Esercito);
-            panel43.Location = new Point(10, 52);
+            panel43.Location = new Point(9, 55);
             panel43.Margin = new Padding(4, 3, 4, 3);
             panel43.Name = "panel43";
-            panel43.Size = new Size(133, 42);
+            panel43.Size = new Size(122, 45);
             panel43.TabIndex = 2;
             // 
             // doubleBufferedPanel2
@@ -591,8 +612,9 @@
             doubleBufferedPanel2.BackgroundImage = Properties.Resources.Guerriero_V2;
             doubleBufferedPanel2.BackgroundImageLayout = ImageLayout.Zoom;
             doubleBufferedPanel2.Location = new Point(4, 3);
+            doubleBufferedPanel2.Margin = new Padding(2, 3, 2, 3);
             doubleBufferedPanel2.Name = "doubleBufferedPanel2";
-            doubleBufferedPanel2.Size = new Size(37, 35);
+            doubleBufferedPanel2.Size = new Size(34, 38);
             doubleBufferedPanel2.TabIndex = 145;
             // 
             // label86
@@ -600,7 +622,7 @@
             label86.AutoSize = true;
             label86.ForeColor = SystemColors.Control;
             label86.ImeMode = ImeMode.NoControl;
-            label86.Location = new Point(48, 1);
+            label86.Location = new Point(44, 1);
             label86.Margin = new Padding(4, 0, 4, 0);
             label86.Name = "label86";
             label86.Size = new Size(56, 15);
@@ -612,11 +634,11 @@
             txt_Guerriero_Esercito.BackColor = Color.FromArgb(32, 36, 47);
             txt_Guerriero_Esercito.Font = new Font("Microsoft Sans Serif", 9.25F);
             txt_Guerriero_Esercito.ForeColor = SystemColors.Control;
-            txt_Guerriero_Esercito.Location = new Point(48, 15);
+            txt_Guerriero_Esercito.Location = new Point(44, 16);
             txt_Guerriero_Esercito.Margin = new Padding(4, 3, 4, 3);
             txt_Guerriero_Esercito.Name = "txt_Guerriero_Esercito";
             txt_Guerriero_Esercito.ReadOnly = true;
-            txt_Guerriero_Esercito.Size = new Size(78, 21);
+            txt_Guerriero_Esercito.Size = new Size(72, 21);
             txt_Guerriero_Esercito.TabIndex = 25;
             txt_Guerriero_Esercito.Text = "0";
             txt_Guerriero_Esercito.TextAlign = HorizontalAlignment.Center;
@@ -627,10 +649,10 @@
             panel39.Controls.Add(doubleBufferedPanel10);
             panel39.Controls.Add(label76);
             panel39.Controls.Add(txt_Arciere_Esercito);
-            panel39.Location = new Point(10, 134);
+            panel39.Location = new Point(9, 143);
             panel39.Margin = new Padding(4, 3, 4, 3);
             panel39.Name = "panel39";
-            panel39.Size = new Size(133, 42);
+            panel39.Size = new Size(122, 45);
             panel39.TabIndex = 30;
             // 
             // doubleBufferedPanel10
@@ -638,8 +660,9 @@
             doubleBufferedPanel10.BackgroundImage = Properties.Resources.Arciere_V2;
             doubleBufferedPanel10.BackgroundImageLayout = ImageLayout.Zoom;
             doubleBufferedPanel10.Location = new Point(4, 3);
+            doubleBufferedPanel10.Margin = new Padding(2, 3, 2, 3);
             doubleBufferedPanel10.Name = "doubleBufferedPanel10";
-            doubleBufferedPanel10.Size = new Size(37, 35);
+            doubleBufferedPanel10.Size = new Size(34, 38);
             doubleBufferedPanel10.TabIndex = 147;
             // 
             // label76
@@ -647,7 +670,7 @@
             label76.AutoSize = true;
             label76.ForeColor = SystemColors.Control;
             label76.ImeMode = ImeMode.NoControl;
-            label76.Location = new Point(48, 1);
+            label76.Location = new Point(44, 1);
             label76.Margin = new Padding(4, 0, 4, 0);
             label76.Name = "label76";
             label76.Size = new Size(41, 15);
@@ -659,11 +682,11 @@
             txt_Arciere_Esercito.BackColor = Color.FromArgb(32, 36, 47);
             txt_Arciere_Esercito.Font = new Font("Microsoft Sans Serif", 9.25F);
             txt_Arciere_Esercito.ForeColor = SystemColors.Control;
-            txt_Arciere_Esercito.Location = new Point(48, 16);
+            txt_Arciere_Esercito.Location = new Point(44, 17);
             txt_Arciere_Esercito.Margin = new Padding(4, 3, 4, 3);
             txt_Arciere_Esercito.Name = "txt_Arciere_Esercito";
             txt_Arciere_Esercito.ReadOnly = true;
-            txt_Arciere_Esercito.Size = new Size(78, 21);
+            txt_Arciere_Esercito.Size = new Size(72, 21);
             txt_Arciere_Esercito.TabIndex = 25;
             txt_Arciere_Esercito.Text = "0";
             txt_Arciere_Esercito.TextAlign = HorizontalAlignment.Center;
@@ -674,10 +697,10 @@
             panel41.Controls.Add(doubleBufferedPanel6);
             panel41.Controls.Add(label81);
             panel41.Controls.Add(txt_Lanciere_Esercito);
-            panel41.Location = new Point(10, 93);
+            panel41.Location = new Point(9, 99);
             panel41.Margin = new Padding(4, 3, 4, 3);
             panel41.Name = "panel41";
-            panel41.Size = new Size(133, 42);
+            panel41.Size = new Size(122, 45);
             panel41.TabIndex = 3;
             // 
             // doubleBufferedPanel6
@@ -685,8 +708,9 @@
             doubleBufferedPanel6.BackgroundImage = Properties.Resources.Lanciere_V2;
             doubleBufferedPanel6.BackgroundImageLayout = ImageLayout.Zoom;
             doubleBufferedPanel6.Location = new Point(4, 3);
+            doubleBufferedPanel6.Margin = new Padding(2, 3, 2, 3);
             doubleBufferedPanel6.Name = "doubleBufferedPanel6";
-            doubleBufferedPanel6.Size = new Size(37, 35);
+            doubleBufferedPanel6.Size = new Size(34, 38);
             doubleBufferedPanel6.TabIndex = 146;
             // 
             // label81
@@ -694,7 +718,7 @@
             label81.AutoSize = true;
             label81.ForeColor = SystemColors.Control;
             label81.ImeMode = ImeMode.NoControl;
-            label81.Location = new Point(48, 1);
+            label81.Location = new Point(44, 1);
             label81.Margin = new Padding(4, 0, 4, 0);
             label81.Name = "label81";
             label81.Size = new Size(48, 15);
@@ -706,11 +730,11 @@
             txt_Lanciere_Esercito.BackColor = Color.FromArgb(32, 36, 47);
             txt_Lanciere_Esercito.Font = new Font("Microsoft Sans Serif", 9.25F);
             txt_Lanciere_Esercito.ForeColor = SystemColors.Control;
-            txt_Lanciere_Esercito.Location = new Point(48, 16);
+            txt_Lanciere_Esercito.Location = new Point(44, 17);
             txt_Lanciere_Esercito.Margin = new Padding(4, 3, 4, 3);
             txt_Lanciere_Esercito.Name = "txt_Lanciere_Esercito";
             txt_Lanciere_Esercito.ReadOnly = true;
-            txt_Lanciere_Esercito.Size = new Size(78, 21);
+            txt_Lanciere_Esercito.Size = new Size(72, 21);
             txt_Lanciere_Esercito.TabIndex = 25;
             txt_Lanciere_Esercito.Text = "0";
             txt_Lanciere_Esercito.TextAlign = HorizontalAlignment.Center;
@@ -720,7 +744,7 @@
             lbl_Guerriero.AutoSize = true;
             lbl_Guerriero.Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Guerriero.ForeColor = SystemColors.ControlLight;
-            lbl_Guerriero.Location = new Point(171, 68);
+            lbl_Guerriero.Location = new Point(156, 73);
             lbl_Guerriero.Margin = new Padding(4, 0, 4, 0);
             lbl_Guerriero.Name = "lbl_Guerriero";
             lbl_Guerriero.Size = new Size(14, 13);
@@ -732,7 +756,7 @@
             lbl_Catapulta.AutoSize = true;
             lbl_Catapulta.Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Catapulta.ForeColor = SystemColors.ControlLight;
-            lbl_Catapulta.Location = new Point(171, 197);
+            lbl_Catapulta.Location = new Point(156, 210);
             lbl_Catapulta.Margin = new Padding(4, 0, 4, 0);
             lbl_Catapulta.Name = "lbl_Catapulta";
             lbl_Catapulta.Size = new Size(14, 13);
@@ -744,7 +768,7 @@
             lbl_Arciere.AutoSize = true;
             lbl_Arciere.Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Arciere.ForeColor = SystemColors.ControlLight;
-            lbl_Arciere.Location = new Point(171, 154);
+            lbl_Arciere.Location = new Point(156, 164);
             lbl_Arciere.Margin = new Padding(4, 0, 4, 0);
             lbl_Arciere.Name = "lbl_Arciere";
             lbl_Arciere.Size = new Size(14, 13);
@@ -753,10 +777,10 @@
             // 
             // trackBar_Guerriero
             // 
-            trackBar_Guerriero.Location = new Point(164, 37);
+            trackBar_Guerriero.Location = new Point(150, 39);
             trackBar_Guerriero.Margin = new Padding(4, 3, 4, 3);
             trackBar_Guerriero.Name = "trackBar_Guerriero";
-            trackBar_Guerriero.Size = new Size(270, 45);
+            trackBar_Guerriero.Size = new Size(247, 45);
             trackBar_Guerriero.TabIndex = 144;
             trackBar_Guerriero.Scroll += trackBar_Guerriero_Scroll;
             // 
@@ -765,7 +789,7 @@
             lbl_Lanciere.AutoSize = true;
             lbl_Lanciere.Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Lanciere.ForeColor = SystemColors.ControlLight;
-            lbl_Lanciere.Location = new Point(171, 111);
+            lbl_Lanciere.Location = new Point(156, 118);
             lbl_Lanciere.Margin = new Padding(4, 0, 4, 0);
             lbl_Lanciere.Name = "lbl_Lanciere";
             lbl_Lanciere.Size = new Size(14, 13);
@@ -774,28 +798,28 @@
             // 
             // trackBar_Lanciere
             // 
-            trackBar_Lanciere.Location = new Point(164, 80);
+            trackBar_Lanciere.Location = new Point(150, 86);
             trackBar_Lanciere.Margin = new Padding(4, 3, 4, 3);
             trackBar_Lanciere.Name = "trackBar_Lanciere";
-            trackBar_Lanciere.Size = new Size(270, 45);
+            trackBar_Lanciere.Size = new Size(247, 45);
             trackBar_Lanciere.TabIndex = 145;
             trackBar_Lanciere.Scroll += trackBar_Lanciere_Scroll;
             // 
             // trackBar_Arciere
             // 
-            trackBar_Arciere.Location = new Point(164, 123);
+            trackBar_Arciere.Location = new Point(150, 131);
             trackBar_Arciere.Margin = new Padding(4, 3, 4, 3);
             trackBar_Arciere.Name = "trackBar_Arciere";
-            trackBar_Arciere.Size = new Size(270, 45);
+            trackBar_Arciere.Size = new Size(247, 45);
             trackBar_Arciere.TabIndex = 146;
             trackBar_Arciere.Scroll += trackBar_Arciere_Scroll;
             // 
             // trackBar_Catapulta
             // 
-            trackBar_Catapulta.Location = new Point(164, 166);
+            trackBar_Catapulta.Location = new Point(150, 177);
             trackBar_Catapulta.Margin = new Padding(4, 3, 4, 3);
             trackBar_Catapulta.Name = "trackBar_Catapulta";
-            trackBar_Catapulta.Size = new Size(270, 45);
+            trackBar_Catapulta.Size = new Size(247, 45);
             trackBar_Catapulta.TabIndex = 147;
             trackBar_Catapulta.Scroll += trackBar_Catapulta_Scroll;
             // 
@@ -803,10 +827,10 @@
             // 
             btn_Spostamento_Truppe.BackColor = Color.FromArgb(32, 36, 47);
             btn_Spostamento_Truppe.ForeColor = SystemColors.Control;
-            btn_Spostamento_Truppe.Location = new Point(300, 217);
+            btn_Spostamento_Truppe.Location = new Point(274, 231);
             btn_Spostamento_Truppe.Margin = new Padding(4, 3, 4, 3);
             btn_Spostamento_Truppe.Name = "btn_Spostamento_Truppe";
-            btn_Spostamento_Truppe.Size = new Size(91, 37);
+            btn_Spostamento_Truppe.Size = new Size(83, 39);
             btn_Spostamento_Truppe.TabIndex = 154;
             btn_Spostamento_Truppe.Text = "Sposta";
             btn_Spostamento_Truppe.UseVisualStyleBackColor = false;
@@ -816,10 +840,10 @@
             // 
             btn_Scambia.BackColor = Color.FromArgb(32, 36, 47);
             btn_Scambia.ForeColor = SystemColors.Control;
-            btn_Scambia.Location = new Point(204, 217);
+            btn_Scambia.Location = new Point(186, 231);
             btn_Scambia.Margin = new Padding(4, 3, 4, 3);
             btn_Scambia.Name = "btn_Scambia";
-            btn_Scambia.Size = new Size(91, 37);
+            btn_Scambia.Size = new Size(83, 39);
             btn_Scambia.TabIndex = 155;
             btn_Scambia.Text = "Scambia";
             btn_Scambia.UseVisualStyleBackColor = false;
@@ -827,10 +851,11 @@
             // 
             // Spostamento_Truppe
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleDimensions = new SizeF(96F, 96F);
+            AutoScaleMode = AutoScaleMode.Dpi;
+            AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BackColor = Color.FromArgb(32, 36, 47);
-            ClientSize = new Size(597, 259);
+            ClientSize = new Size(546, 276);
             Controls.Add(btn_Scambia);
             Controls.Add(btn_Spostamento_Truppe);
             Controls.Add(groupBox9);
@@ -843,6 +868,7 @@
             Controls.Add(trackBar_Lanciere);
             Controls.Add(trackBar_Arciere);
             Controls.Add(trackBar_Catapulta);
+            Margin = new Padding(2, 3, 2, 3);
             Name = "Spostamento_Truppe";
             Text = "Spostamento Truppe";
             FormClosing += Spostamento_Truppe_FormClosing;

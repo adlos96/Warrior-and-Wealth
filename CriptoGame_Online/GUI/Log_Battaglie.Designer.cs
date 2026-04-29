@@ -78,6 +78,7 @@
             label35 = new Label();
             label34 = new Label();
             doubleBufferedPanel8 = new Warrior_and_Wealth.Strumenti.DoubleBufferedPanel();
+            label17 = new Label();
             label44 = new Label();
             label40 = new Label();
             label43 = new Label();
@@ -86,13 +87,12 @@
             label21 = new Label();
             label20 = new Label();
             doubleBufferedPanel9 = new Warrior_and_Wealth.Strumenti.DoubleBufferedPanel();
+            progressBar2 = new ProgressBar();
+            label47 = new Label();
+            label46 = new Label();
+            progressBar1 = new ProgressBar();
             label45 = new Label();
             doubleBufferedPanel10 = new Warrior_and_Wealth.Strumenti.DoubleBufferedPanel();
-            progressBar1 = new ProgressBar();
-            label46 = new Label();
-            label47 = new Label();
-            progressBar2 = new ProgressBar();
-            label17 = new Label();
             doubleBufferedPanel6.SuspendLayout();
             doubleBufferedPanel7.SuspendLayout();
             doubleBufferedPanel8.SuspendLayout();
@@ -106,9 +106,9 @@
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = SystemColors.Control;
-            label1.Location = new Point(373, 49);
+            label1.Location = new Point(426, 65);
             label1.Name = "label1";
-            label1.Size = new Size(189, 25);
+            label1.Size = new Size(242, 32);
             label1.TabIndex = 0;
             label1.Text = "Resoconto Battaglia";
             // 
@@ -118,9 +118,9 @@
             label2.BackColor = Color.Transparent;
             label2.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.ForeColor = SystemColors.Control;
-            label2.Location = new Point(413, 596);
+            label2.Location = new Point(472, 795);
             label2.Name = "label2";
-            label2.Size = new Size(98, 25);
+            label2.Size = new Size(124, 32);
             label2.TabIndex = 1;
             label2.Text = "Sconfitta!";
             // 
@@ -130,9 +130,9 @@
             label5.BackColor = Color.Transparent;
             label5.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label5.ForeColor = SystemColors.ActiveCaptionText;
-            label5.Location = new Point(376, 3);
+            label5.Location = new Point(430, 4);
             label5.Name = "label5";
-            label5.Size = new Size(157, 25);
+            label5.Size = new Size(206, 32);
             label5.TabIndex = 4;
             label5.Text = "Risorse Razziate:";
             // 
@@ -142,9 +142,9 @@
             label6.BackColor = Color.Transparent;
             label6.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             label6.ForeColor = SystemColors.Control;
-            label6.Location = new Point(83, 42);
+            label6.Location = new Point(95, 56);
             label6.Name = "label6";
-            label6.Size = new Size(99, 21);
+            label6.Size = new Size(130, 28);
             label6.TabIndex = 5;
             label6.Text = "800.000.000";
             // 
@@ -153,9 +153,10 @@
             ico_5.BackColor = Color.Transparent;
             ico_5.BackgroundImage = Properties.Resources.Gold_Ingot_icon_icon;
             ico_5.BackgroundImageLayout = ImageLayout.Stretch;
-            ico_5.Location = new Point(618, 36);
+            ico_5.Location = new Point(706, 48);
+            ico_5.Margin = new Padding(3, 4, 3, 4);
             ico_5.Name = "ico_5";
-            ico_5.Size = new Size(36, 36);
+            ico_5.Size = new Size(41, 48);
             ico_5.TabIndex = 25;
             // 
             // ico_1
@@ -163,9 +164,10 @@
             ico_1.BackColor = Color.Transparent;
             ico_1.BackgroundImage = Properties.Resources.wheat_sack;
             ico_1.BackgroundImageLayout = ImageLayout.Stretch;
-            ico_1.Location = new Point(45, 36);
+            ico_1.Location = new Point(51, 48);
+            ico_1.Margin = new Padding(3, 4, 3, 4);
             ico_1.Name = "ico_1";
-            ico_1.Size = new Size(36, 36);
+            ico_1.Size = new Size(41, 48);
             ico_1.TabIndex = 21;
             // 
             // ico_4
@@ -173,9 +175,10 @@
             ico_4.BackColor = Color.Transparent;
             ico_4.BackgroundImage = Properties.Resources.Ingot__Iron_icon_icon;
             ico_4.BackgroundImageLayout = ImageLayout.Stretch;
-            ico_4.Location = new Point(475, 36);
+            ico_4.Location = new Point(543, 48);
+            ico_4.Margin = new Padding(3, 4, 3, 4);
             ico_4.Name = "ico_4";
-            ico_4.Size = new Size(36, 36);
+            ico_4.Size = new Size(41, 48);
             ico_4.TabIndex = 22;
             // 
             // ico_3
@@ -183,9 +186,10 @@
             ico_3.BackColor = Color.Transparent;
             ico_3.BackgroundImage = Properties.Resources.Stone_2;
             ico_3.BackgroundImageLayout = ImageLayout.Stretch;
-            ico_3.Location = new Point(332, 36);
+            ico_3.Location = new Point(379, 48);
+            ico_3.Margin = new Padding(3, 4, 3, 4);
             ico_3.Name = "ico_3";
-            ico_3.Size = new Size(36, 36);
+            ico_3.Size = new Size(41, 48);
             ico_3.TabIndex = 24;
             // 
             // ico_2
@@ -193,9 +197,10 @@
             ico_2.BackColor = Color.Transparent;
             ico_2.BackgroundImage = Properties.Resources.wood_log_6;
             ico_2.BackgroundImageLayout = ImageLayout.Stretch;
-            ico_2.Location = new Point(188, 36);
+            ico_2.Location = new Point(215, 48);
+            ico_2.Margin = new Padding(3, 4, 3, 4);
             ico_2.Name = "ico_2";
-            ico_2.Size = new Size(36, 36);
+            ico_2.Size = new Size(41, 48);
             ico_2.TabIndex = 19;
             // 
             // ico_12
@@ -203,9 +208,10 @@
             ico_12.BackColor = Color.Transparent;
             ico_12.BackgroundImage = Properties.Resources.diamond_2;
             ico_12.BackgroundImageLayout = ImageLayout.Stretch;
-            ico_12.Location = new Point(765, 36);
+            ico_12.Location = new Point(874, 48);
+            ico_12.Margin = new Padding(3, 4, 3, 4);
             ico_12.Name = "ico_12";
-            ico_12.Size = new Size(36, 36);
+            ico_12.Size = new Size(41, 48);
             ico_12.TabIndex = 23;
             // 
             // ico_11
@@ -213,9 +219,10 @@
             ico_11.BackColor = Color.Transparent;
             ico_11.BackgroundImage = Properties.Resources.diamond_1;
             ico_11.BackgroundImageLayout = ImageLayout.Stretch;
-            ico_11.Location = new Point(765, 78);
+            ico_11.Location = new Point(874, 104);
+            ico_11.Margin = new Padding(3, 4, 3, 4);
             ico_11.Name = "ico_11";
-            ico_11.Size = new Size(36, 36);
+            ico_11.Size = new Size(41, 48);
             ico_11.TabIndex = 20;
             // 
             // label7
@@ -224,9 +231,9 @@
             label7.BackColor = Color.Transparent;
             label7.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             label7.ForeColor = SystemColors.Control;
-            label7.Location = new Point(227, 42);
+            label7.Location = new Point(259, 56);
             label7.Name = "label7";
-            label7.Size = new Size(99, 21);
+            label7.Size = new Size(130, 28);
             label7.TabIndex = 26;
             label7.Text = "800.000.000";
             // 
@@ -236,9 +243,9 @@
             label8.BackColor = Color.Transparent;
             label8.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             label8.ForeColor = SystemColors.Control;
-            label8.Location = new Point(370, 42);
+            label8.Location = new Point(423, 56);
             label8.Name = "label8";
-            label8.Size = new Size(99, 21);
+            label8.Size = new Size(130, 28);
             label8.TabIndex = 27;
             label8.Text = "800.000.000";
             // 
@@ -248,9 +255,9 @@
             label9.BackColor = Color.Transparent;
             label9.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             label9.ForeColor = SystemColors.Control;
-            label9.Location = new Point(513, 42);
+            label9.Location = new Point(586, 56);
             label9.Name = "label9";
-            label9.Size = new Size(99, 21);
+            label9.Size = new Size(130, 28);
             label9.TabIndex = 28;
             label9.Text = "800.000.000";
             // 
@@ -260,9 +267,9 @@
             label10.BackColor = Color.Transparent;
             label10.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             label10.ForeColor = SystemColors.Control;
-            label10.Location = new Point(660, 42);
+            label10.Location = new Point(754, 56);
             label10.Name = "label10";
-            label10.Size = new Size(99, 21);
+            label10.Size = new Size(130, 28);
             label10.TabIndex = 29;
             label10.Text = "800.000.000";
             // 
@@ -272,9 +279,9 @@
             label11.BackColor = Color.Transparent;
             label11.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             label11.ForeColor = SystemColors.Control;
-            label11.Location = new Point(807, 42);
+            label11.Location = new Point(922, 56);
             label11.Name = "label11";
-            label11.Size = new Size(50, 21);
+            label11.Size = new Size(65, 28);
             label11.TabIndex = 30;
             label11.Text = "1.000";
             // 
@@ -284,9 +291,9 @@
             label12.BackColor = Color.Transparent;
             label12.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             label12.ForeColor = SystemColors.Control;
-            label12.Location = new Point(660, 84);
+            label12.Location = new Point(754, 112);
             label12.Name = "label12";
-            label12.Size = new Size(99, 21);
+            label12.Size = new Size(130, 28);
             label12.TabIndex = 40;
             label12.Text = "800.000.000";
             // 
@@ -296,9 +303,9 @@
             label13.BackColor = Color.Transparent;
             label13.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             label13.ForeColor = SystemColors.Control;
-            label13.Location = new Point(513, 84);
+            label13.Location = new Point(586, 112);
             label13.Name = "label13";
-            label13.Size = new Size(99, 21);
+            label13.Size = new Size(130, 28);
             label13.TabIndex = 39;
             label13.Text = "800.000.000";
             // 
@@ -308,9 +315,9 @@
             label14.BackColor = Color.Transparent;
             label14.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             label14.ForeColor = SystemColors.Control;
-            label14.Location = new Point(370, 84);
+            label14.Location = new Point(423, 112);
             label14.Name = "label14";
-            label14.Size = new Size(99, 21);
+            label14.Size = new Size(130, 28);
             label14.TabIndex = 38;
             label14.Text = "800.000.000";
             // 
@@ -320,9 +327,9 @@
             label15.BackColor = Color.Transparent;
             label15.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             label15.ForeColor = SystemColors.Control;
-            label15.Location = new Point(227, 84);
+            label15.Location = new Point(259, 112);
             label15.Name = "label15";
-            label15.Size = new Size(99, 21);
+            label15.Size = new Size(130, 28);
             label15.TabIndex = 37;
             label15.Text = "800.000.000";
             // 
@@ -331,9 +338,10 @@
             doubleBufferedPanel1.BackColor = Color.Transparent;
             doubleBufferedPanel1.BackgroundImage = Properties.Resources.Gold_Ingot_icon_icon;
             doubleBufferedPanel1.BackgroundImageLayout = ImageLayout.Stretch;
-            doubleBufferedPanel1.Location = new Point(618, 78);
+            doubleBufferedPanel1.Location = new Point(706, 104);
+            doubleBufferedPanel1.Margin = new Padding(3, 4, 3, 4);
             doubleBufferedPanel1.Name = "doubleBufferedPanel1";
-            doubleBufferedPanel1.Size = new Size(36, 36);
+            doubleBufferedPanel1.Size = new Size(41, 48);
             doubleBufferedPanel1.TabIndex = 36;
             // 
             // doubleBufferedPanel2
@@ -341,9 +349,10 @@
             doubleBufferedPanel2.BackColor = Color.Transparent;
             doubleBufferedPanel2.BackgroundImage = Properties.Resources.wheat_sack;
             doubleBufferedPanel2.BackgroundImageLayout = ImageLayout.Stretch;
-            doubleBufferedPanel2.Location = new Point(45, 78);
+            doubleBufferedPanel2.Location = new Point(51, 104);
+            doubleBufferedPanel2.Margin = new Padding(3, 4, 3, 4);
             doubleBufferedPanel2.Name = "doubleBufferedPanel2";
-            doubleBufferedPanel2.Size = new Size(36, 36);
+            doubleBufferedPanel2.Size = new Size(41, 48);
             doubleBufferedPanel2.TabIndex = 33;
             // 
             // doubleBufferedPanel3
@@ -351,9 +360,10 @@
             doubleBufferedPanel3.BackColor = Color.Transparent;
             doubleBufferedPanel3.BackgroundImage = Properties.Resources.Ingot__Iron_icon_icon;
             doubleBufferedPanel3.BackgroundImageLayout = ImageLayout.Stretch;
-            doubleBufferedPanel3.Location = new Point(475, 78);
+            doubleBufferedPanel3.Location = new Point(543, 104);
+            doubleBufferedPanel3.Margin = new Padding(3, 4, 3, 4);
             doubleBufferedPanel3.Name = "doubleBufferedPanel3";
-            doubleBufferedPanel3.Size = new Size(36, 36);
+            doubleBufferedPanel3.Size = new Size(41, 48);
             doubleBufferedPanel3.TabIndex = 34;
             // 
             // doubleBufferedPanel4
@@ -361,9 +371,10 @@
             doubleBufferedPanel4.BackColor = Color.Transparent;
             doubleBufferedPanel4.BackgroundImage = Properties.Resources.Stone_2;
             doubleBufferedPanel4.BackgroundImageLayout = ImageLayout.Stretch;
-            doubleBufferedPanel4.Location = new Point(332, 78);
+            doubleBufferedPanel4.Location = new Point(379, 104);
+            doubleBufferedPanel4.Margin = new Padding(3, 4, 3, 4);
             doubleBufferedPanel4.Name = "doubleBufferedPanel4";
-            doubleBufferedPanel4.Size = new Size(36, 36);
+            doubleBufferedPanel4.Size = new Size(41, 48);
             doubleBufferedPanel4.TabIndex = 35;
             // 
             // doubleBufferedPanel5
@@ -371,9 +382,10 @@
             doubleBufferedPanel5.BackColor = Color.Transparent;
             doubleBufferedPanel5.BackgroundImage = Properties.Resources.wood_log_6;
             doubleBufferedPanel5.BackgroundImageLayout = ImageLayout.Stretch;
-            doubleBufferedPanel5.Location = new Point(188, 78);
+            doubleBufferedPanel5.Location = new Point(215, 104);
+            doubleBufferedPanel5.Margin = new Padding(3, 4, 3, 4);
             doubleBufferedPanel5.Name = "doubleBufferedPanel5";
-            doubleBufferedPanel5.Size = new Size(36, 36);
+            doubleBufferedPanel5.Size = new Size(41, 48);
             doubleBufferedPanel5.TabIndex = 32;
             // 
             // label16
@@ -382,9 +394,9 @@
             label16.BackColor = Color.Transparent;
             label16.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             label16.ForeColor = SystemColors.Control;
-            label16.Location = new Point(83, 84);
+            label16.Location = new Point(95, 112);
             label16.Name = "label16";
-            label16.Size = new Size(99, 21);
+            label16.Size = new Size(130, 28);
             label16.TabIndex = 31;
             label16.Text = "800.000.000";
             // 
@@ -394,9 +406,9 @@
             lbl_Esperienza.BackColor = Color.Transparent;
             lbl_Esperienza.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Esperienza.ForeColor = SystemColors.Control;
-            lbl_Esperienza.Location = new Point(308, 567);
+            lbl_Esperienza.Location = new Point(352, 756);
             lbl_Esperienza.Name = "lbl_Esperienza";
-            lbl_Esperienza.Size = new Size(291, 25);
+            lbl_Esperienza.Size = new Size(372, 32);
             lbl_Esperienza.TabIndex = 46;
             lbl_Esperienza.Text = "Esperienza Guadagnata: 500 xp";
             // 
@@ -406,9 +418,9 @@
             label22.BackColor = Color.Transparent;
             label22.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label22.ForeColor = SystemColors.Control;
-            label22.Location = new Point(9, 10);
+            label22.Location = new Point(10, 13);
             label22.Name = "label22";
-            label22.Size = new Size(54, 25);
+            label22.Size = new Size(69, 32);
             label22.TabIndex = 48;
             label22.Text = "Fase:";
             // 
@@ -418,9 +430,9 @@
             label23.BackColor = Color.Transparent;
             label23.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label23.ForeColor = Color.Turquoise;
-            label23.Location = new Point(79, 10);
+            label23.Location = new Point(90, 13);
             label23.Name = "label23";
-            label23.Size = new Size(88, 25);
+            label23.Size = new Size(112, 32);
             label23.TabIndex = 49;
             label23.Text = "Ingresso";
             // 
@@ -430,9 +442,9 @@
             label24.BackColor = Color.Transparent;
             label24.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label24.ForeColor = Color.Yellow;
-            label24.Location = new Point(175, 10);
+            label24.Location = new Point(200, 13);
             label24.Name = "label24";
-            label24.Size = new Size(60, 25);
+            label24.Size = new Size(75, 32);
             label24.TabIndex = 50;
             label24.Text = "Mura";
             // 
@@ -442,9 +454,9 @@
             label25.BackColor = Color.Transparent;
             label25.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label25.ForeColor = Color.Yellow;
-            label25.Location = new Point(241, 10);
+            label25.Location = new Point(275, 13);
             label25.Name = "label25";
-            label25.Size = new Size(87, 25);
+            label25.Size = new Size(111, 32);
             label25.TabIndex = 51;
             label25.Text = "Cancello";
             // 
@@ -454,9 +466,9 @@
             label26.BackColor = Color.Transparent;
             label26.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label26.ForeColor = Color.Yellow;
-            label26.Location = new Point(334, 10);
+            label26.Location = new Point(382, 13);
             label26.Name = "label26";
-            label26.Size = new Size(54, 25);
+            label26.Size = new Size(68, 32);
             label26.TabIndex = 52;
             label26.Text = "Torri";
             // 
@@ -466,9 +478,9 @@
             label27.BackColor = Color.Transparent;
             label27.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label27.ForeColor = Color.Yellow;
-            label27.Location = new Point(394, 10);
+            label27.Location = new Point(450, 13);
             label27.Name = "label27";
-            label27.Size = new Size(73, 25);
+            label27.Size = new Size(91, 32);
             label27.TabIndex = 53;
             label27.Text = "Centro";
             // 
@@ -478,9 +490,9 @@
             label28.BackColor = Color.Transparent;
             label28.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label28.ForeColor = Color.Yellow;
-            label28.Location = new Point(473, 10);
+            label28.Location = new Point(541, 13);
             label28.Name = "label28";
-            label28.Size = new Size(81, 25);
+            label28.Size = new Size(104, 32);
             label28.TabIndex = 54;
             label28.Text = "Castello";
             // 
@@ -490,9 +502,9 @@
             label29.BackColor = Color.Transparent;
             label29.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label29.ForeColor = Color.Yellow;
-            label29.Location = new Point(560, 10);
+            label29.Location = new Point(640, 13);
             label29.Name = "label29";
-            label29.Size = new Size(67, 25);
+            label29.Size = new Size(85, 32);
             label29.TabIndex = 55;
             label29.Text = "Player";
             // 
@@ -502,9 +514,9 @@
             label31.BackColor = Color.Transparent;
             label31.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label31.ForeColor = SystemColors.Control;
-            label31.Location = new Point(29, 77);
+            label31.Location = new Point(33, 103);
             label31.Name = "label31";
-            label31.Size = new Size(182, 25);
+            label31.Size = new Size(235, 32);
             label31.TabIndex = 57;
             label31.Text = "Attaccante: Player1";
             // 
@@ -514,9 +526,9 @@
             label32.BackColor = Color.Transparent;
             label32.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label32.ForeColor = SystemColors.Control;
-            label32.Location = new Point(679, 77);
+            label32.Location = new Point(776, 103);
             label32.Name = "label32";
-            label32.Size = new Size(174, 25);
+            label32.Size = new Size(224, 32);
             label32.TabIndex = 58;
             label32.Text = "Difensore: Player2";
             // 
@@ -526,9 +538,9 @@
             label30.BackColor = Color.Transparent;
             label30.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             label30.ForeColor = SystemColors.Control;
-            label30.Location = new Point(807, 84);
+            label30.Location = new Point(922, 112);
             label30.Name = "label30";
-            label30.Size = new Size(50, 21);
+            label30.Size = new Size(65, 28);
             label30.TabIndex = 59;
             label30.Text = "1.000";
             // 
@@ -561,9 +573,10 @@
             doubleBufferedPanel6.Controls.Add(label13);
             doubleBufferedPanel6.Controls.Add(doubleBufferedPanel1);
             doubleBufferedPanel6.Controls.Add(label15);
-            doubleBufferedPanel6.Location = new Point(12, 173);
+            doubleBufferedPanel6.Location = new Point(14, 231);
+            doubleBufferedPanel6.Margin = new Padding(3, 4, 3, 4);
             doubleBufferedPanel6.Name = "doubleBufferedPanel6";
-            doubleBufferedPanel6.Size = new Size(935, 121);
+            doubleBufferedPanel6.Size = new Size(1069, 161);
             doubleBufferedPanel6.TabIndex = 60;
             // 
             // doubleBufferedPanel7
@@ -577,9 +590,10 @@
             doubleBufferedPanel7.Controls.Add(label26);
             doubleBufferedPanel7.Controls.Add(label28);
             doubleBufferedPanel7.Controls.Add(label27);
-            doubleBufferedPanel7.Location = new Point(142, 114);
+            doubleBufferedPanel7.Location = new Point(162, 152);
+            doubleBufferedPanel7.Margin = new Padding(3, 4, 3, 4);
             doubleBufferedPanel7.Name = "doubleBufferedPanel7";
-            doubleBufferedPanel7.Size = new Size(635, 47);
+            doubleBufferedPanel7.Size = new Size(726, 63);
             doubleBufferedPanel7.TabIndex = 61;
             // 
             // label36
@@ -588,9 +602,9 @@
             label36.BackColor = Color.Transparent;
             label36.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label36.ForeColor = SystemColors.Control;
-            label36.Location = new Point(3, 5);
+            label36.Location = new Point(3, 7);
             label36.Name = "label36";
-            label36.Size = new Size(18, 25);
+            label36.Size = new Size(22, 32);
             label36.TabIndex = 46;
             label36.Text = "I";
             // 
@@ -600,9 +614,9 @@
             label37.BackColor = Color.Transparent;
             label37.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label37.ForeColor = SystemColors.Control;
-            label37.Location = new Point(28, 5);
+            label37.Location = new Point(32, 7);
             label37.Name = "label37";
-            label37.Size = new Size(24, 25);
+            label37.Size = new Size(30, 32);
             label37.TabIndex = 47;
             label37.Text = "II";
             // 
@@ -612,9 +626,9 @@
             label38.BackColor = Color.Transparent;
             label38.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label38.ForeColor = SystemColors.Control;
-            label38.Location = new Point(58, 5);
+            label38.Location = new Point(66, 7);
             label38.Name = "label38";
-            label38.Size = new Size(30, 25);
+            label38.Size = new Size(38, 32);
             label38.TabIndex = 48;
             label38.Text = "III";
             // 
@@ -624,9 +638,9 @@
             label39.BackColor = Color.Transparent;
             label39.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label39.ForeColor = SystemColors.Control;
-            label39.Location = new Point(94, 5);
+            label39.Location = new Point(107, 7);
             label39.Name = "label39";
-            label39.Size = new Size(31, 25);
+            label39.Size = new Size(38, 32);
             label39.TabIndex = 49;
             label39.Text = "IV";
             // 
@@ -636,9 +650,9 @@
             label18.BackColor = Color.Transparent;
             label18.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label18.ForeColor = Color.Red;
-            label18.Location = new Point(135, 42);
+            label18.Location = new Point(154, 56);
             label18.Name = "label18";
-            label18.Size = new Size(45, 100);
+            label18.Size = new Size(56, 128);
             label18.TabIndex = 42;
             label18.Text = "800\r\n600\r\n400\r\n100";
             // 
@@ -648,9 +662,9 @@
             label3.BackColor = Color.Transparent;
             label3.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.ForeColor = SystemColors.Control;
-            label3.Location = new Point(27, 42);
+            label3.Location = new Point(31, 56);
             label3.Name = "label3";
-            label3.Size = new Size(102, 100);
+            label3.Size = new Size(130, 128);
             label3.TabIndex = 2;
             label3.Text = "Guerrieri:\r\nLancieri:\r\nArceri:\r\nCatapulte:";
             // 
@@ -660,9 +674,9 @@
             label35.BackColor = Color.Transparent;
             label35.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label35.ForeColor = Color.LimeGreen;
-            label35.Location = new Point(330, 42);
+            label35.Location = new Point(377, 56);
             label35.Name = "label35";
-            label35.Size = new Size(45, 100);
+            label35.Size = new Size(56, 128);
             label35.TabIndex = 45;
             label35.Text = "800\r\n600\r\n400\r\n100";
             // 
@@ -672,9 +686,9 @@
             label34.BackColor = Color.Transparent;
             label34.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label34.ForeColor = SystemColors.Control;
-            label34.Location = new Point(222, 42);
+            label34.Location = new Point(254, 56);
             label34.Name = "label34";
-            label34.Size = new Size(102, 100);
+            label34.Size = new Size(130, 128);
             label34.TabIndex = 43;
             label34.Text = "Guerrieri:\r\nLancieri:\r\nArceri:\r\nCatapulte:";
             // 
@@ -687,10 +701,23 @@
             doubleBufferedPanel8.Controls.Add(label35);
             doubleBufferedPanel8.Controls.Add(label3);
             doubleBufferedPanel8.Controls.Add(label18);
-            doubleBufferedPanel8.Location = new Point(54, 348);
+            doubleBufferedPanel8.Location = new Point(62, 464);
+            doubleBufferedPanel8.Margin = new Padding(3, 4, 3, 4);
             doubleBufferedPanel8.Name = "doubleBufferedPanel8";
-            doubleBufferedPanel8.Size = new Size(405, 191);
+            doubleBufferedPanel8.Size = new Size(463, 255);
             doubleBufferedPanel8.TabIndex = 62;
+            // 
+            // label17
+            // 
+            label17.AutoSize = true;
+            label17.BackColor = Color.Transparent;
+            label17.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label17.ForeColor = SystemColors.Control;
+            label17.Location = new Point(64, 4);
+            label17.Name = "label17";
+            label17.Size = new Size(379, 32);
+            label17.TabIndex = 48;
+            label17.Text = "Truppe Perse - Truppe Eliminate";
             // 
             // label44
             // 
@@ -698,9 +725,9 @@
             label44.BackColor = Color.Transparent;
             label44.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label44.ForeColor = SystemColors.Control;
-            label44.Location = new Point(66, 153);
+            label44.Location = new Point(75, 204);
             label44.Name = "label44";
-            label44.Size = new Size(219, 25);
+            label44.Size = new Size(282, 32);
             label44.TabIndex = 47;
             label44.Text = "Esperienza Fase: 500 xp";
             // 
@@ -710,9 +737,9 @@
             label40.BackColor = Color.Transparent;
             label40.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label40.ForeColor = SystemColors.Control;
-            label40.Location = new Point(131, 5);
+            label40.Location = new Point(150, 7);
             label40.Name = "label40";
-            label40.Size = new Size(25, 25);
+            label40.Size = new Size(30, 32);
             label40.TabIndex = 50;
             label40.Text = "V";
             // 
@@ -722,9 +749,9 @@
             label43.BackColor = Color.Transparent;
             label43.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label43.ForeColor = Color.Red;
-            label43.Location = new Point(135, 42);
+            label43.Location = new Point(154, 56);
             label43.Name = "label43";
-            label43.Size = new Size(45, 100);
+            label43.Size = new Size(56, 128);
             label43.TabIndex = 42;
             label43.Text = "800\r\n600\r\n400\r\n100";
             // 
@@ -734,9 +761,9 @@
             label42.BackColor = Color.Transparent;
             label42.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label42.ForeColor = SystemColors.Control;
-            label42.Location = new Point(27, 42);
+            label42.Location = new Point(31, 56);
             label42.Name = "label42";
-            label42.Size = new Size(102, 100);
+            label42.Size = new Size(130, 128);
             label42.TabIndex = 2;
             label42.Text = "Guerrieri:\r\nLancieri:\r\nArceri:\r\nCatapulte:";
             // 
@@ -746,9 +773,9 @@
             label41.BackColor = Color.Transparent;
             label41.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label41.ForeColor = SystemColors.Control;
-            label41.Location = new Point(55, 3);
+            label41.Location = new Point(63, 4);
             label41.Name = "label41";
-            label41.Size = new Size(296, 25);
+            label41.Size = new Size(379, 32);
             label41.TabIndex = 41;
             label41.Text = "Truppe Perse - Truppe Eliminate";
             // 
@@ -758,9 +785,9 @@
             label21.BackColor = Color.Transparent;
             label21.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label21.ForeColor = Color.LimeGreen;
-            label21.Location = new Point(330, 42);
+            label21.Location = new Point(377, 56);
             label21.Name = "label21";
-            label21.Size = new Size(45, 100);
+            label21.Size = new Size(56, 128);
             label21.TabIndex = 45;
             label21.Text = "800\r\n600\r\n400\r\n100";
             // 
@@ -770,9 +797,9 @@
             label20.BackColor = Color.Transparent;
             label20.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label20.ForeColor = SystemColors.Control;
-            label20.Location = new Point(222, 42);
+            label20.Location = new Point(254, 56);
             label20.Name = "label20";
-            label20.Size = new Size(102, 100);
+            label20.Size = new Size(130, 128);
             label20.TabIndex = 43;
             label20.Text = "Guerrieri:\r\nLancieri:\r\nArceri:\r\nCatapulte:";
             // 
@@ -789,10 +816,53 @@
             doubleBufferedPanel9.Controls.Add(label41);
             doubleBufferedPanel9.Controls.Add(label42);
             doubleBufferedPanel9.Controls.Add(label43);
-            doubleBufferedPanel9.Location = new Point(468, 348);
+            doubleBufferedPanel9.Location = new Point(535, 464);
+            doubleBufferedPanel9.Margin = new Padding(3, 4, 3, 4);
             doubleBufferedPanel9.Name = "doubleBufferedPanel9";
-            doubleBufferedPanel9.Size = new Size(405, 216);
+            doubleBufferedPanel9.Size = new Size(463, 288);
             doubleBufferedPanel9.TabIndex = 63;
+            // 
+            // progressBar2
+            // 
+            progressBar2.Location = new Point(314, 207);
+            progressBar2.Margin = new Padding(3, 4, 3, 4);
+            progressBar2.Name = "progressBar2";
+            progressBar2.Size = new Size(114, 28);
+            progressBar2.TabIndex = 54;
+            progressBar2.Value = 50;
+            // 
+            // label47
+            // 
+            label47.AutoSize = true;
+            label47.BackColor = Color.Transparent;
+            label47.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label47.ForeColor = SystemColors.Control;
+            label47.Location = new Point(235, 201);
+            label47.Name = "label47";
+            label47.Size = new Size(84, 32);
+            label47.TabIndex = 53;
+            label47.Text = "Salute";
+            // 
+            // label46
+            // 
+            label46.AutoSize = true;
+            label46.BackColor = Color.Transparent;
+            label46.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label46.ForeColor = SystemColors.Control;
+            label46.Location = new Point(13, 201);
+            label46.Name = "label46";
+            label46.Size = new Size(85, 32);
+            label46.TabIndex = 51;
+            label46.Text = "Difesa";
+            // 
+            // progressBar1
+            // 
+            progressBar1.Location = new Point(90, 207);
+            progressBar1.Margin = new Padding(3, 4, 3, 4);
+            progressBar1.Name = "progressBar1";
+            progressBar1.Size = new Size(114, 28);
+            progressBar1.TabIndex = 49;
+            progressBar1.Value = 50;
             // 
             // label45
             // 
@@ -801,9 +871,9 @@
             label45.BackColor = Color.Transparent;
             label45.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label45.ForeColor = SystemColors.Control;
-            label45.Location = new Point(74, 182);
+            label45.Location = new Point(85, 243);
             label45.Name = "label45";
-            label45.Size = new Size(219, 25);
+            label45.Size = new Size(282, 32);
             label45.TabIndex = 48;
             label45.Text = "Esperienza Fase: 500 xp";
             // 
@@ -815,70 +885,21 @@
             doubleBufferedPanel10.Controls.Add(label40);
             doubleBufferedPanel10.Controls.Add(label38);
             doubleBufferedPanel10.Controls.Add(label39);
-            doubleBufferedPanel10.Location = new Point(389, 303);
+            doubleBufferedPanel10.Location = new Point(445, 404);
+            doubleBufferedPanel10.Margin = new Padding(3, 4, 3, 4);
             doubleBufferedPanel10.Name = "doubleBufferedPanel10";
-            doubleBufferedPanel10.Size = new Size(166, 37);
+            doubleBufferedPanel10.Size = new Size(190, 49);
             doubleBufferedPanel10.TabIndex = 64;
-            // 
-            // progressBar1
-            // 
-            progressBar1.Location = new Point(79, 155);
-            progressBar1.Name = "progressBar1";
-            progressBar1.Size = new Size(100, 21);
-            progressBar1.TabIndex = 49;
-            progressBar1.Value = 50;
-            // 
-            // label46
-            // 
-            label46.AutoSize = true;
-            label46.BackColor = Color.Transparent;
-            label46.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label46.ForeColor = SystemColors.Control;
-            label46.Location = new Point(11, 151);
-            label46.Name = "label46";
-            label46.Size = new Size(66, 25);
-            label46.TabIndex = 51;
-            label46.Text = "Difesa";
-            // 
-            // label47
-            // 
-            label47.AutoSize = true;
-            label47.BackColor = Color.Transparent;
-            label47.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label47.ForeColor = SystemColors.Control;
-            label47.Location = new Point(206, 151);
-            label47.Name = "label47";
-            label47.Size = new Size(67, 25);
-            label47.TabIndex = 53;
-            label47.Text = "Salute";
-            // 
-            // progressBar2
-            // 
-            progressBar2.Location = new Point(275, 155);
-            progressBar2.Name = "progressBar2";
-            progressBar2.Size = new Size(100, 21);
-            progressBar2.TabIndex = 54;
-            progressBar2.Value = 50;
-            // 
-            // label17
-            // 
-            label17.AutoSize = true;
-            label17.BackColor = Color.Transparent;
-            label17.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label17.ForeColor = SystemColors.Control;
-            label17.Location = new Point(56, 3);
-            label17.Name = "label17";
-            label17.Size = new Size(296, 25);
-            label17.TabIndex = 48;
-            label17.Text = "Truppe Perse - Truppe Eliminate";
             // 
             // Log_Battaglie
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleDimensions = new SizeF(120F, 120F);
+            AutoScaleMode = AutoScaleMode.Dpi;
+            AutoSize = true;
+            AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(959, 629);
+            ClientSize = new Size(1096, 839);
             Controls.Add(doubleBufferedPanel10);
             Controls.Add(doubleBufferedPanel9);
             Controls.Add(doubleBufferedPanel8);
@@ -889,6 +910,7 @@
             Controls.Add(lbl_Esperienza);
             Controls.Add(label2);
             Controls.Add(label1);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "Log_Battaglie";
             Text = "Log_Battaglie";
             doubleBufferedPanel6.ResumeLayout(false);

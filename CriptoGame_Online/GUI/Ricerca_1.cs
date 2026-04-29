@@ -6,13 +6,17 @@ namespace Warrior_and_Wealth
     public partial class Ricerca_1 : Form
     {
         private CancellationTokenSource cts = new CancellationTokenSource();
+        public static CustomToolTip toolTip1;
 
         public Ricerca_1()
         {
             InitializeComponent();
-
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
+            toolTip1 = new CustomToolTip();
+
+            // Imposta qualche proprietà opzionale
+            toolTip1.InitialDelay = 150;
+            toolTip1.AutoPopDelay = 15000;
         }
         private void Ricerca_1_Load(object sender, EventArgs e)
         {
@@ -70,55 +74,55 @@ namespace Warrior_and_Wealth
             btn_Guarnigione_Ingresso.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
             btn_Guarnigione_Citta.Font = new Font("Cinzel Decorative", 6.75f, FontStyle.Bold);
 
-            Gioco.toolTip1.SetToolTip(this.btn_Costruzione, Variabili_Client.Ricerca_Costruzione_Desc);
-            Gioco.toolTip1.SetToolTip(this.btn_Risorse, Variabili_Client.Ricerca_Produzione_Desc);
-            Gioco.toolTip1.SetToolTip(this.btn_Addestramento, Variabili_Client.Ricerca_Addestramento_Desc);
-            Gioco.toolTip1.SetToolTip(this.btn_Popolazione, Variabili_Client.Ricerca_Popolazione_Desc);
-            Gioco.toolTip1.SetToolTip(this.btn_Trasporto, Variabili_Client.Ricerca_Trasporto_Desc);
-            Gioco.toolTip1.SetToolTip(this.btn_Riparazione, Variabili_Client.Ricerca_Riparazione_Desc);
+            toolTip1.SetToolTip(this.btn_Costruzione, Variabili_Client.Ricerca_Costruzione_Desc);
+            toolTip1.SetToolTip(this.btn_Risorse, Variabili_Client.Ricerca_Produzione_Desc);
+            toolTip1.SetToolTip(this.btn_Addestramento, Variabili_Client.Ricerca_Addestramento_Desc);
+            toolTip1.SetToolTip(this.btn_Popolazione, Variabili_Client.Ricerca_Popolazione_Desc);
+            toolTip1.SetToolTip(this.btn_Trasporto, Variabili_Client.Ricerca_Trasporto_Desc);
+            toolTip1.SetToolTip(this.btn_Riparazione, Variabili_Client.Ricerca_Riparazione_Desc);
 
-            Gioco.toolTip1.SetToolTip(this.btn_Livello_Guerrieri, Variabili_Client.Ricerca_Guerrieri_Livello_Desc);
-            Gioco.toolTip1.SetToolTip(this.btn_Salute_Guerrieri, Variabili_Client.Ricerca_Guerrieri_Salute_Desc);
-            Gioco.toolTip1.SetToolTip(this.btn_Attacco_Guerrieri, Variabili_Client.Ricerca_Guerrieri_Attacco_Desc);
-            Gioco.toolTip1.SetToolTip(this.btn_Difesa_Guerrieri, Variabili_Client.Ricerca_Guerrieri_Difesa_Desc);
+            toolTip1.SetToolTip(this.btn_Livello_Guerrieri, Variabili_Client.Ricerca_Guerrieri_Livello_Desc);
+            toolTip1.SetToolTip(this.btn_Salute_Guerrieri, Variabili_Client.Ricerca_Guerrieri_Salute_Desc);
+            toolTip1.SetToolTip(this.btn_Attacco_Guerrieri, Variabili_Client.Ricerca_Guerrieri_Attacco_Desc);
+            toolTip1.SetToolTip(this.btn_Difesa_Guerrieri, Variabili_Client.Ricerca_Guerrieri_Difesa_Desc);
 
-            Gioco.toolTip1.SetToolTip(this.btn_Livello_Lanceri, Variabili_Client.Ricerca_Lanceri_Livello_Desc);
-            Gioco.toolTip1.SetToolTip(this.btn_Salute_Lanceri, Variabili_Client.Ricerca_Lanceri_Salute_Desc);
-            Gioco.toolTip1.SetToolTip(this.btn_Attacco_Lanceri, Variabili_Client.Ricerca_Lanceri_Attacco_Desc);
-            Gioco.toolTip1.SetToolTip(this.btn_Difesa_Lanceri, Variabili_Client.Ricerca_Lanceri_Difesa_Desc);
+            toolTip1.SetToolTip(this.btn_Livello_Lanceri, Variabili_Client.Ricerca_Lanceri_Livello_Desc);
+            toolTip1.SetToolTip(this.btn_Salute_Lanceri, Variabili_Client.Ricerca_Lanceri_Salute_Desc);
+            toolTip1.SetToolTip(this.btn_Attacco_Lanceri, Variabili_Client.Ricerca_Lanceri_Attacco_Desc);
+            toolTip1.SetToolTip(this.btn_Difesa_Lanceri, Variabili_Client.Ricerca_Lanceri_Difesa_Desc);
 
-            Gioco.toolTip1.SetToolTip(this.btn_Livello_Arceri, Variabili_Client.Ricerca_Arceri_Livello_Desc);
-            Gioco.toolTip1.SetToolTip(this.btn_Salute_Arceri, Variabili_Client.Ricerca_Arceri_Salute_Desc);
-            Gioco.toolTip1.SetToolTip(this.btn_Attacco_Arceri, Variabili_Client.Ricerca_Arceri_Attacco_Desc);
-            Gioco.toolTip1.SetToolTip(this.btn_Difesa_Arceri, Variabili_Client.Ricerca_Arceri_Difesa_Desc);
+            toolTip1.SetToolTip(this.btn_Livello_Arceri, Variabili_Client.Ricerca_Arceri_Livello_Desc);
+            toolTip1.SetToolTip(this.btn_Salute_Arceri, Variabili_Client.Ricerca_Arceri_Salute_Desc);
+            toolTip1.SetToolTip(this.btn_Attacco_Arceri, Variabili_Client.Ricerca_Arceri_Attacco_Desc);
+            toolTip1.SetToolTip(this.btn_Difesa_Arceri, Variabili_Client.Ricerca_Arceri_Difesa_Desc);
 
-            Gioco.toolTip1.SetToolTip(this.btn_Livello_Catapulte, Variabili_Client.Ricerca_Catapulte_Livello_Desc);
-            Gioco.toolTip1.SetToolTip(this.btn_Salute_Catapulte, Variabili_Client.Ricerca_Catapulte_Salute_Desc);
-            Gioco.toolTip1.SetToolTip(this.btn_Attacco_Catapulte, Variabili_Client.Ricerca_Catapulte_Attacco_Desc);
-            Gioco.toolTip1.SetToolTip(this.btn_Difesa_Catapulte, Variabili_Client.Ricerca_Catapulte_Difesa_Desc);
+            toolTip1.SetToolTip(this.btn_Livello_Catapulte, Variabili_Client.Ricerca_Catapulte_Livello_Desc);
+            toolTip1.SetToolTip(this.btn_Salute_Catapulte, Variabili_Client.Ricerca_Catapulte_Salute_Desc);
+            toolTip1.SetToolTip(this.btn_Attacco_Catapulte, Variabili_Client.Ricerca_Catapulte_Attacco_Desc);
+            toolTip1.SetToolTip(this.btn_Difesa_Catapulte, Variabili_Client.Ricerca_Catapulte_Difesa_Desc);
 
-            Gioco.toolTip1.SetToolTip(this.btn_Guarnigione_Citta, Variabili_Client.Ricerca_Citta_Guarnigione_Desc);
-            Gioco.toolTip1.SetToolTip(this.btn_Guarnigione_Ingresso, Variabili_Client.Ricerca_Ingresso_Guarnigione_Desc);
+            toolTip1.SetToolTip(this.btn_Guarnigione_Citta, Variabili_Client.Ricerca_Citta_Guarnigione_Desc);
+            toolTip1.SetToolTip(this.btn_Guarnigione_Ingresso, Variabili_Client.Ricerca_Ingresso_Guarnigione_Desc);
 
-            Gioco.toolTip1.SetToolTip(this.btn_Livello_Mura, Variabili_Client.Ricerca_Mura_Livello_Desc);
-            Gioco.toolTip1.SetToolTip(this.btn_Salute_Mura, Variabili_Client.Ricerca_Mura_Salute_Desc);
-            Gioco.toolTip1.SetToolTip(this.btn_Difesa_Mura, Variabili_Client.Ricerca_Mura_Difesa_Desc);
-            Gioco.toolTip1.SetToolTip(this.btn_Guarnigione_Mura, Variabili_Client.Ricerca_Mura_Guarnigione_Desc);
+            toolTip1.SetToolTip(this.btn_Livello_Mura, Variabili_Client.Ricerca_Mura_Livello_Desc);
+            toolTip1.SetToolTip(this.btn_Salute_Mura, Variabili_Client.Ricerca_Mura_Salute_Desc);
+            toolTip1.SetToolTip(this.btn_Difesa_Mura, Variabili_Client.Ricerca_Mura_Difesa_Desc);
+            toolTip1.SetToolTip(this.btn_Guarnigione_Mura, Variabili_Client.Ricerca_Mura_Guarnigione_Desc);
 
-            Gioco.toolTip1.SetToolTip(this.btn_Livello_Cancello, Variabili_Client.Ricerca_Cancello_Livello_Desc);
-            Gioco.toolTip1.SetToolTip(this.btn_Salute_Cancello, Variabili_Client.Ricerca_Cancello_Salute_Desc);
-            Gioco.toolTip1.SetToolTip(this.btn_Difesa_Cancello, Variabili_Client.Ricerca_Cancello_Difesa_Desc);
-            Gioco.toolTip1.SetToolTip(this.btn_Guarnigione_Cancello, Variabili_Client.Ricerca_Cancello_Guarnigione_Desc);
+            toolTip1.SetToolTip(this.btn_Livello_Cancello, Variabili_Client.Ricerca_Cancello_Livello_Desc);
+            toolTip1.SetToolTip(this.btn_Salute_Cancello, Variabili_Client.Ricerca_Cancello_Salute_Desc);
+            toolTip1.SetToolTip(this.btn_Difesa_Cancello, Variabili_Client.Ricerca_Cancello_Difesa_Desc);
+            toolTip1.SetToolTip(this.btn_Guarnigione_Cancello, Variabili_Client.Ricerca_Cancello_Guarnigione_Desc);
 
-            Gioco.toolTip1.SetToolTip(this.btn_Livello_Torri, Variabili_Client.Ricerca_Torri_Livello_Desc);
-            Gioco.toolTip1.SetToolTip(this.btn_Salute_Torri, Variabili_Client.Ricerca_Torri_Salute_Desc);
-            Gioco.toolTip1.SetToolTip(this.btn_Difesa_Torri, Variabili_Client.Ricerca_Torri_Difesa_Desc);
-            Gioco.toolTip1.SetToolTip(this.btn_Guarnigione_Torri, Variabili_Client.Ricerca_Torri_Guarnigione_Desc);
+            toolTip1.SetToolTip(this.btn_Livello_Torri, Variabili_Client.Ricerca_Torri_Livello_Desc);
+            toolTip1.SetToolTip(this.btn_Salute_Torri, Variabili_Client.Ricerca_Torri_Salute_Desc);
+            toolTip1.SetToolTip(this.btn_Difesa_Torri, Variabili_Client.Ricerca_Torri_Difesa_Desc);
+            toolTip1.SetToolTip(this.btn_Guarnigione_Torri, Variabili_Client.Ricerca_Torri_Guarnigione_Desc);
 
-            Gioco.toolTip1.SetToolTip(this.btn_Livello_Castello, Variabili_Client.Ricerca_Castello_Livello_Desc);
-            Gioco.toolTip1.SetToolTip(this.btn_Salute_Castello, Variabili_Client.Ricerca_Castello_Salute_Desc);
-            Gioco.toolTip1.SetToolTip(this.btn_Difesa_Castello, Variabili_Client.Ricerca_Castello_Difesa_Desc);
-            Gioco.toolTip1.SetToolTip(this.btn_Guarnigione_Castello, Variabili_Client.Ricerca_Castello_Guarnigione_Desc);
+            toolTip1.SetToolTip(this.btn_Livello_Castello, Variabili_Client.Ricerca_Castello_Livello_Desc);
+            toolTip1.SetToolTip(this.btn_Salute_Castello, Variabili_Client.Ricerca_Castello_Salute_Desc);
+            toolTip1.SetToolTip(this.btn_Difesa_Castello, Variabili_Client.Ricerca_Castello_Difesa_Desc);
+            toolTip1.SetToolTip(this.btn_Guarnigione_Castello, Variabili_Client.Ricerca_Castello_Guarnigione_Desc);
 
             this.ActiveControl = panel_Sfondo;
 

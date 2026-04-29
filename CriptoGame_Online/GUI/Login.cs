@@ -1,7 +1,6 @@
-﻿
+﻿using Strategico_V2;
 using Warrior_and_Wealth.Strumenti;
-using Strategico_V2;
-using System.Diagnostics;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace Warrior_and_Wealth
 {
@@ -9,12 +8,10 @@ namespace Warrior_and_Wealth
     {
         public static string login_data = "";
         static bool avviso_Aggiornamento = false;
+        string lingua_Selezionata = "ITA";
         public Login()
         {
             InitializeComponent();
-            //this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-            this.Size = new Size(251, 331);
         }
 
         private void Gioco_Load(object sender, EventArgs e)
@@ -22,7 +19,6 @@ namespace Warrior_and_Wealth
             GameAudio.PlayMenuMusic("Login");
             MusicManager.SetVolume(0.3f);
 
-            // Resto
             this.ActiveControl = Btn_Login; // assegna il focus al bottone
             panel1.BackColor = Color.FromArgb(100, 229, 208, 181);
             banner_1.BackColor = Color.FromArgb(100, 229, 208, 181);
@@ -53,24 +49,32 @@ namespace Warrior_and_Wealth
             txt_Password_Login.Text = "Inserisci Password";
             txt_Password_Login.Font = new Font("Cinzel Decorative", 9, FontStyle.Regular);
 
+            //Lingua
+            comboBox_Lingua.Items.AddRange(new string[] { "ITA", "ENG" });
+            comboBox_Lingua.Text = "ITA";
+            comboBox_Lingua.BackColor = Color.FromArgb(229, 208, 181);
+
+            //Ip
             txt_Ip.BackColor = Color.FromArgb(229, 208, 181);
             txt_Ip.Text = "IP: AUTO";
             txt_Ip.Font = new Font("Cinzel Decorative", 9, FontStyle.Regular);
 
+            //Log
             txt_Log.BackColor = Color.FromArgb(229, 208, 181);
             txt_Log.Text = "LOG";
             txt_Log.ForeColor = Color.Black;
             txt_Log.Font = new Font("Cinzel Decorative", 8, FontStyle.Regular);
 
+            //Versione Client
             txt_Versione_Attuale.BackColor = Color.FromArgb(229, 208, 181);
             txt_Versione_Attuale.Text = "Versione attuale: " + Variabili_Client.versione_Client_Attuale;
             txt_Versione_Attuale.ForeColor = Color.Black;
             txt_Versione_Attuale.Font = new Font("Cinzel Decorative", 8, FontStyle.Regular);
 
+            //Versione Necessaria
             txt_Stato_Server.BackColor = Color.FromArgb(229, 208, 181);
             txt_Stato_Server.ForeColor = Color.Black;
             txt_Stato_Server.Font = new Font("Cinzel Decorative", 8, FontStyle.Regular);
-
         }
 
         private void txt_Username_Login_MouseClick(object sender, MouseEventArgs e)
@@ -121,7 +125,7 @@ namespace Warrior_and_Wealth
             await ClientConnection.TestClient.InitializeClient(); // Connessione server
             await Sleep(1);
             if (!await VersioneDisponibile()) return;
-            
+
             if (txt_Username_Login.Text == "Inserisci Nome utente")
             {
                 txt_Log.Text = "Inserisci un nome utente valido!";
@@ -148,7 +152,7 @@ namespace Warrior_and_Wealth
             await Sleep(2);
             txt_Log.Text = "Login...";
             await Sleep(2);
-            ClientConnection.TestClient.Send($"Login|{username}|{password}");
+            ClientConnection.TestClient.Send($"Login|{username}|{password}|{lingua_Selezionata}");
             await Loop_Login(4);
             await Sleep(2);
 
@@ -192,7 +196,15 @@ namespace Warrior_and_Wealth
                     btn_Aggiorna.Visible = true;
 
                     lbl_Aggiornamento_Disponibile.Text = "Necessario aggiornamento: " + Variabili_Client.versione_Client_Necessario;
-                    this.Size = new Size(251, 377);
+                    using (Graphics g = this.CreateGraphics())
+                    {
+                        float scaleFactor = g.DpiX / 96f; // Se lo zoom è 125%, scaleFactor sarà 1.25
+
+                        int newWidth = (int)(251 * scaleFactor);
+                        int newHeight = (int)(377 * scaleFactor);
+
+                        this.Size = new Size(newWidth, newHeight);
+                    }
                     Aggiornamento();
                     return false;
                 }
@@ -202,7 +214,15 @@ namespace Warrior_and_Wealth
                     btn_Aggiorna.Visible = true;
 
                     lbl_Aggiornamento_Disponibile.Text = "Disponibile aggiornamento: " + Variabili_Client.versione_Client_Necessario;
-                    this.Size = new Size(251, 377);
+                    using (Graphics g = this.CreateGraphics())
+                    {
+                        float scaleFactor = g.DpiX / 96f; // Se lo zoom è 125%, scaleFactor sarà 1.25
+
+                        int newWidth = (int)(251 * scaleFactor);
+                        int newHeight = (int)(377 * scaleFactor);
+
+                        this.Size = new Size(newWidth, newHeight);
+                    }
                     if (!avviso_Aggiornamento)
                     {
                         avviso_Aggiornamento = true;
@@ -289,7 +309,7 @@ namespace Warrior_and_Wealth
             await Sleep(2);
             txt_Log.Text = "Contattando il server...";
             await Sleep(2);
-            ClientConnection.TestClient.Send($"New Player|{txt_Username_Login.Text}|{txt_Password_Login.Text}");
+            ClientConnection.TestClient.Send($"New Player|{txt_Username_Login.Text}|{txt_Password_Login.Text}|{lingua_Selezionata}");
             await Sleep(2);
 
             if (Variabili_Client.Utente.User_Login == true)
@@ -321,6 +341,11 @@ namespace Warrior_and_Wealth
                 UseShellExecute = true
             });
             Close();
+        }
+
+        private void comboBox_Lingua_TextChanged(object sender, EventArgs e)
+        {
+            lingua_Selezionata = comboBox_Lingua.Text;
         }
     }
 }

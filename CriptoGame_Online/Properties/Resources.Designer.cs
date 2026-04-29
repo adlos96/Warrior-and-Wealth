@@ -283,6 +283,16 @@ namespace Warrior_and_Wealth.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Connesso_V2 {
+            get {
+                object obj = ResourceManager.GetObject("Connesso_V2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Costruttori_24H {
             get {
                 object obj = ResourceManager.GetObject("Costruttori_24H", resourceCulture);
@@ -366,6 +376,26 @@ namespace Warrior_and_Wealth.Properties {
         internal static System.Drawing.Bitmap diamond_2 {
             get {
                 object obj = ResourceManager.GetObject("diamond_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Disconnesso_2_V2 {
+            get {
+                object obj = ResourceManager.GetObject("Disconnesso_2_V2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Disconnesso_V2 {
+            get {
+                object obj = ResourceManager.GetObject("Disconnesso_V2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -893,6 +923,16 @@ namespace Warrior_and_Wealth.Properties {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Sfondo_Gioco {
+            get {
+                object obj = ResourceManager.GetObject("Sfondo_Gioco", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Shop_2_Photoroom_1_ {
             get {
                 object obj = ResourceManager.GetObject("Shop_2-Photoroom(1)", resourceCulture);
@@ -966,16 +1006,6 @@ namespace Warrior_and_Wealth.Properties {
         internal static System.Drawing.Bitmap user {
             get {
                 object obj = ResourceManager.GetObject("user", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap v37_wit_34_Edit_2_ {
-            get {
-                object obj = ResourceManager.GetObject("v37-wit-34-Edit(2)", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

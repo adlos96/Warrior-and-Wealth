@@ -1,5 +1,4 @@
 using System.Globalization;
-using Warrior_and_Wealth.GUI;
 
 namespace Warrior_and_Wealth
 {
@@ -23,7 +22,7 @@ namespace Warrior_and_Wealth
             Login login = new Login();
 
             if (login.ShowDialog() == DialogResult.OK) // login riuscito
-                Application.Run(new Gioco());
+                Application.Run(new Main());
             else
                 Application.Exit(); // chiudi tutto se login non completato
 

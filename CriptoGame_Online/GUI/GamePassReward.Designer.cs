@@ -126,28 +126,32 @@
             // 
             // btn_Reward_GamePass_1
             // 
+            btn_Reward_GamePass_1.Anchor = AnchorStyles.None;
             btn_Reward_GamePass_1.BackColor = Color.Purple;
             btn_Reward_GamePass_1.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_GamePass_1.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_GamePass_1.FlatAppearance.BorderSize = 0;
             btn_Reward_GamePass_1.FlatStyle = FlatStyle.Flat;
             btn_Reward_GamePass_1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_GamePass_1.Location = new Point(198, 178);
+            btn_Reward_GamePass_1.Location = new Point(181, 190);
+            btn_Reward_GamePass_1.Margin = new Padding(2, 3, 2, 3);
             btn_Reward_GamePass_1.Name = "btn_Reward_GamePass_1";
-            btn_Reward_GamePass_1.Size = new Size(64, 63);
+            btn_Reward_GamePass_1.Size = new Size(58, 67);
             btn_Reward_GamePass_1.TabIndex = 80;
             btn_Reward_GamePass_1.UseVisualStyleBackColor = false;
             btn_Reward_GamePass_1.Click += btn_Reward_GamePass_1_Click;
             // 
             // Btn_1_30
             // 
+            Btn_1_30.Anchor = AnchorStyles.None;
             Btn_1_30.BackgroundImage = Properties.Resources.Texture_Wood_2;
             Btn_1_30.FlatAppearance.BorderSize = 0;
             Btn_1_30.FlatStyle = FlatStyle.Popup;
             Btn_1_30.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            Btn_1_30.Location = new Point(205, 606);
+            Btn_1_30.Location = new Point(187, 646);
+            Btn_1_30.Margin = new Padding(2, 3, 2, 3);
             Btn_1_30.Name = "Btn_1_30";
-            Btn_1_30.Size = new Size(113, 32);
+            Btn_1_30.Size = new Size(103, 34);
             Btn_1_30.TabIndex = 110;
             Btn_1_30.Text = "1 - 30";
             Btn_1_30.UseVisualStyleBackColor = true;
@@ -155,13 +159,15 @@
             // 
             // Btn_31_60
             // 
+            Btn_31_60.Anchor = AnchorStyles.None;
             Btn_31_60.BackgroundImage = Properties.Resources.Texture_Wood_2;
             Btn_31_60.FlatAppearance.BorderSize = 0;
             Btn_31_60.FlatStyle = FlatStyle.Popup;
             Btn_31_60.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            Btn_31_60.Location = new Point(324, 606);
+            Btn_31_60.Location = new Point(296, 646);
+            Btn_31_60.Margin = new Padding(2, 3, 2, 3);
             Btn_31_60.Name = "Btn_31_60";
-            Btn_31_60.Size = new Size(110, 32);
+            Btn_31_60.Size = new Size(101, 34);
             Btn_31_60.TabIndex = 111;
             Btn_31_60.Text = "31 - 60";
             Btn_31_60.UseVisualStyleBackColor = true;
@@ -169,13 +175,15 @@
             // 
             // Btn_61_90
             // 
+            Btn_61_90.Anchor = AnchorStyles.None;
             Btn_61_90.BackgroundImage = Properties.Resources.Texture_Wood_2;
             Btn_61_90.FlatAppearance.BorderSize = 0;
             Btn_61_90.FlatStyle = FlatStyle.Popup;
             Btn_61_90.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            Btn_61_90.Location = new Point(440, 606);
+            Btn_61_90.Location = new Point(402, 646);
+            Btn_61_90.Margin = new Padding(2, 3, 2, 3);
             Btn_61_90.Name = "Btn_61_90";
-            Btn_61_90.Size = new Size(113, 32);
+            Btn_61_90.Size = new Size(103, 34);
             Btn_61_90.TabIndex = 112;
             Btn_61_90.Text = "61 - 90";
             Btn_61_90.UseVisualStyleBackColor = true;
@@ -183,11 +191,13 @@
             // 
             // lbl_Giorno_1
             // 
+            lbl_Giorno_1.Anchor = AnchorStyles.None;
             lbl_Giorno_1.AutoSize = true;
             lbl_Giorno_1.BackColor = Color.Transparent;
             lbl_Giorno_1.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
             lbl_Giorno_1.ForeColor = SystemColors.ButtonHighlight;
-            lbl_Giorno_1.Location = new Point(196, 177);
+            lbl_Giorno_1.Location = new Point(179, 189);
+            lbl_Giorno_1.Margin = new Padding(2, 0, 2, 0);
             lbl_Giorno_1.Name = "lbl_Giorno_1";
             lbl_Giorno_1.Size = new Size(18, 20);
             lbl_Giorno_1.TabIndex = 113;
@@ -195,11 +205,13 @@
             // 
             // lbl_Giorno_2
             // 
+            lbl_Giorno_2.Anchor = AnchorStyles.None;
             lbl_Giorno_2.AutoSize = true;
             lbl_Giorno_2.BackColor = Color.Transparent;
             lbl_Giorno_2.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
             lbl_Giorno_2.ForeColor = SystemColors.ButtonHighlight;
-            lbl_Giorno_2.Location = new Point(269, 177);
+            lbl_Giorno_2.Location = new Point(246, 189);
+            lbl_Giorno_2.Margin = new Padding(2, 0, 2, 0);
             lbl_Giorno_2.Name = "lbl_Giorno_2";
             lbl_Giorno_2.Size = new Size(18, 20);
             lbl_Giorno_2.TabIndex = 115;
@@ -207,26 +219,30 @@
             // 
             // btn_Reward_GamePass_2
             // 
+            btn_Reward_GamePass_2.Anchor = AnchorStyles.None;
             btn_Reward_GamePass_2.BackColor = Color.FromArgb(50, 50, 50);
             btn_Reward_GamePass_2.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_GamePass_2.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_GamePass_2.FlatAppearance.BorderSize = 0;
             btn_Reward_GamePass_2.FlatStyle = FlatStyle.Flat;
             btn_Reward_GamePass_2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_GamePass_2.Location = new Point(269, 178);
+            btn_Reward_GamePass_2.Location = new Point(246, 190);
+            btn_Reward_GamePass_2.Margin = new Padding(2, 3, 2, 3);
             btn_Reward_GamePass_2.Name = "btn_Reward_GamePass_2";
-            btn_Reward_GamePass_2.Size = new Size(69, 63);
+            btn_Reward_GamePass_2.Size = new Size(63, 67);
             btn_Reward_GamePass_2.TabIndex = 80;
             btn_Reward_GamePass_2.UseVisualStyleBackColor = false;
             btn_Reward_GamePass_2.Click += btn_Reward_GamePass_2_Click;
             // 
             // lbl_Giorno_4
             // 
+            lbl_Giorno_4.Anchor = AnchorStyles.None;
             lbl_Giorno_4.AutoSize = true;
             lbl_Giorno_4.BackColor = Color.Transparent;
             lbl_Giorno_4.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
             lbl_Giorno_4.ForeColor = SystemColors.ButtonHighlight;
-            lbl_Giorno_4.Location = new Point(419, 177);
+            lbl_Giorno_4.Location = new Point(383, 189);
+            lbl_Giorno_4.Margin = new Padding(2, 0, 2, 0);
             lbl_Giorno_4.Name = "lbl_Giorno_4";
             lbl_Giorno_4.Size = new Size(18, 20);
             lbl_Giorno_4.TabIndex = 119;
@@ -234,26 +250,30 @@
             // 
             // btn_Reward_GamePass_4
             // 
+            btn_Reward_GamePass_4.Anchor = AnchorStyles.None;
             btn_Reward_GamePass_4.BackColor = Color.Transparent;
             btn_Reward_GamePass_4.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_GamePass_4.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_GamePass_4.FlatAppearance.BorderSize = 0;
             btn_Reward_GamePass_4.FlatStyle = FlatStyle.Flat;
             btn_Reward_GamePass_4.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_GamePass_4.Location = new Point(422, 178);
+            btn_Reward_GamePass_4.Location = new Point(386, 190);
+            btn_Reward_GamePass_4.Margin = new Padding(2, 3, 2, 3);
             btn_Reward_GamePass_4.Name = "btn_Reward_GamePass_4";
-            btn_Reward_GamePass_4.Size = new Size(64, 63);
+            btn_Reward_GamePass_4.Size = new Size(58, 67);
             btn_Reward_GamePass_4.TabIndex = 80;
             btn_Reward_GamePass_4.UseVisualStyleBackColor = false;
             btn_Reward_GamePass_4.Click += btn_Reward_GamePass_4_Click;
             // 
             // lbl_Giorno_3
             // 
+            lbl_Giorno_3.Anchor = AnchorStyles.None;
             lbl_Giorno_3.AutoSize = true;
             lbl_Giorno_3.BackColor = Color.Transparent;
             lbl_Giorno_3.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
             lbl_Giorno_3.ForeColor = SystemColors.ButtonHighlight;
-            lbl_Giorno_3.Location = new Point(345, 177);
+            lbl_Giorno_3.Location = new Point(315, 189);
+            lbl_Giorno_3.Margin = new Padding(2, 0, 2, 0);
             lbl_Giorno_3.Name = "lbl_Giorno_3";
             lbl_Giorno_3.Size = new Size(18, 20);
             lbl_Giorno_3.TabIndex = 117;
@@ -261,26 +281,30 @@
             // 
             // btn_Reward_GamePass_3
             // 
+            btn_Reward_GamePass_3.Anchor = AnchorStyles.None;
             btn_Reward_GamePass_3.BackColor = Color.Transparent;
             btn_Reward_GamePass_3.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_GamePass_3.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_GamePass_3.FlatAppearance.BorderSize = 0;
             btn_Reward_GamePass_3.FlatStyle = FlatStyle.Flat;
             btn_Reward_GamePass_3.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_GamePass_3.Location = new Point(346, 178);
+            btn_Reward_GamePass_3.Location = new Point(316, 190);
+            btn_Reward_GamePass_3.Margin = new Padding(2, 3, 2, 3);
             btn_Reward_GamePass_3.Name = "btn_Reward_GamePass_3";
-            btn_Reward_GamePass_3.Size = new Size(66, 63);
+            btn_Reward_GamePass_3.Size = new Size(60, 67);
             btn_Reward_GamePass_3.TabIndex = 80;
             btn_Reward_GamePass_3.UseVisualStyleBackColor = false;
             btn_Reward_GamePass_3.Click += btn_Reward_GamePass_3_Click;
             // 
             // lbl_Giorno_6
             // 
+            lbl_Giorno_6.Anchor = AnchorStyles.None;
             lbl_Giorno_6.AutoSize = true;
             lbl_Giorno_6.BackColor = Color.Transparent;
             lbl_Giorno_6.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
             lbl_Giorno_6.ForeColor = SystemColors.ButtonHighlight;
-            lbl_Giorno_6.Location = new Point(196, 246);
+            lbl_Giorno_6.Location = new Point(179, 262);
+            lbl_Giorno_6.Margin = new Padding(2, 0, 2, 0);
             lbl_Giorno_6.Name = "lbl_Giorno_6";
             lbl_Giorno_6.Size = new Size(18, 20);
             lbl_Giorno_6.TabIndex = 119;
@@ -288,26 +312,30 @@
             // 
             // btn_Reward_GamePass_6
             // 
+            btn_Reward_GamePass_6.Anchor = AnchorStyles.None;
             btn_Reward_GamePass_6.BackColor = Color.Transparent;
             btn_Reward_GamePass_6.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_GamePass_6.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_GamePass_6.FlatAppearance.BorderSize = 0;
             btn_Reward_GamePass_6.FlatStyle = FlatStyle.Flat;
             btn_Reward_GamePass_6.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_GamePass_6.Location = new Point(198, 247);
+            btn_Reward_GamePass_6.Location = new Point(181, 263);
+            btn_Reward_GamePass_6.Margin = new Padding(2, 3, 2, 3);
             btn_Reward_GamePass_6.Name = "btn_Reward_GamePass_6";
-            btn_Reward_GamePass_6.Size = new Size(64, 61);
+            btn_Reward_GamePass_6.Size = new Size(58, 65);
             btn_Reward_GamePass_6.TabIndex = 80;
             btn_Reward_GamePass_6.UseVisualStyleBackColor = false;
             btn_Reward_GamePass_6.Click += btn_Reward_GamePass_6_Click;
             // 
             // lbl_Giorno_5
             // 
+            lbl_Giorno_5.Anchor = AnchorStyles.None;
             lbl_Giorno_5.AutoSize = true;
             lbl_Giorno_5.BackColor = Color.Transparent;
             lbl_Giorno_5.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
             lbl_Giorno_5.ForeColor = SystemColors.ButtonHighlight;
-            lbl_Giorno_5.Location = new Point(494, 177);
+            lbl_Giorno_5.Location = new Point(452, 189);
+            lbl_Giorno_5.Margin = new Padding(2, 0, 2, 0);
             lbl_Giorno_5.Name = "lbl_Giorno_5";
             lbl_Giorno_5.Size = new Size(18, 20);
             lbl_Giorno_5.TabIndex = 117;
@@ -315,26 +343,30 @@
             // 
             // btn_Reward_GamePass_5
             // 
+            btn_Reward_GamePass_5.Anchor = AnchorStyles.None;
             btn_Reward_GamePass_5.BackColor = Color.Transparent;
             btn_Reward_GamePass_5.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_GamePass_5.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_GamePass_5.FlatAppearance.BorderSize = 0;
             btn_Reward_GamePass_5.FlatStyle = FlatStyle.Flat;
             btn_Reward_GamePass_5.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_GamePass_5.Location = new Point(495, 178);
+            btn_Reward_GamePass_5.Location = new Point(453, 190);
+            btn_Reward_GamePass_5.Margin = new Padding(2, 3, 2, 3);
             btn_Reward_GamePass_5.Name = "btn_Reward_GamePass_5";
-            btn_Reward_GamePass_5.Size = new Size(67, 63);
+            btn_Reward_GamePass_5.Size = new Size(62, 67);
             btn_Reward_GamePass_5.TabIndex = 80;
             btn_Reward_GamePass_5.UseVisualStyleBackColor = false;
             btn_Reward_GamePass_5.Click += btn_Reward_GamePass_5_Click;
             // 
             // lbl_Giorno_12
             // 
+            lbl_Giorno_12.Anchor = AnchorStyles.None;
             lbl_Giorno_12.AutoSize = true;
             lbl_Giorno_12.BackColor = Color.Transparent;
             lbl_Giorno_12.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Giorno_12.ForeColor = SystemColors.ButtonHighlight;
-            lbl_Giorno_12.Location = new Point(269, 313);
+            lbl_Giorno_12.Location = new Point(246, 334);
+            lbl_Giorno_12.Margin = new Padding(2, 0, 2, 0);
             lbl_Giorno_12.Name = "lbl_Giorno_12";
             lbl_Giorno_12.Size = new Size(28, 21);
             lbl_Giorno_12.TabIndex = 129;
@@ -342,11 +374,13 @@
             // 
             // lbl_Giorno_10
             // 
+            lbl_Giorno_10.Anchor = AnchorStyles.None;
             lbl_Giorno_10.AutoSize = true;
             lbl_Giorno_10.BackColor = Color.Transparent;
             lbl_Giorno_10.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
             lbl_Giorno_10.ForeColor = SystemColors.ButtonHighlight;
-            lbl_Giorno_10.Location = new Point(494, 246);
+            lbl_Giorno_10.Location = new Point(452, 262);
+            lbl_Giorno_10.Margin = new Padding(2, 0, 2, 0);
             lbl_Giorno_10.Name = "lbl_Giorno_10";
             lbl_Giorno_10.Size = new Size(27, 20);
             lbl_Giorno_10.TabIndex = 130;
@@ -354,11 +388,13 @@
             // 
             // lbl_Reward_12
             // 
+            lbl_Reward_12.Anchor = AnchorStyles.None;
             lbl_Reward_12.AutoSize = true;
             lbl_Reward_12.BackColor = Color.Transparent;
             lbl_Reward_12.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lbl_Reward_12.ForeColor = Color.Violet;
-            lbl_Reward_12.Location = new Point(269, 359);
+            lbl_Reward_12.Location = new Point(246, 383);
+            lbl_Reward_12.Margin = new Padding(2, 0, 2, 0);
             lbl_Reward_12.Name = "lbl_Reward_12";
             lbl_Reward_12.Size = new Size(33, 19);
             lbl_Reward_12.TabIndex = 157;
@@ -366,26 +402,30 @@
             // 
             // btn_Reward_GamePass_12
             // 
+            btn_Reward_GamePass_12.Anchor = AnchorStyles.None;
             btn_Reward_GamePass_12.BackColor = Color.Transparent;
             btn_Reward_GamePass_12.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_GamePass_12.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_GamePass_12.FlatAppearance.BorderSize = 0;
             btn_Reward_GamePass_12.FlatStyle = FlatStyle.Flat;
             btn_Reward_GamePass_12.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_GamePass_12.Location = new Point(271, 316);
+            btn_Reward_GamePass_12.Location = new Point(248, 337);
+            btn_Reward_GamePass_12.Margin = new Padding(2, 3, 2, 3);
             btn_Reward_GamePass_12.Name = "btn_Reward_GamePass_12";
-            btn_Reward_GamePass_12.Size = new Size(67, 62);
+            btn_Reward_GamePass_12.Size = new Size(62, 66);
             btn_Reward_GamePass_12.TabIndex = 80;
             btn_Reward_GamePass_12.UseVisualStyleBackColor = false;
             btn_Reward_GamePass_12.Click += btn_Reward_GamePass_12_Click;
             // 
             // lbl_Reward_10
             // 
+            lbl_Reward_10.Anchor = AnchorStyles.None;
             lbl_Reward_10.AutoSize = true;
             lbl_Reward_10.BackColor = Color.Transparent;
             lbl_Reward_10.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lbl_Reward_10.ForeColor = Color.Violet;
-            lbl_Reward_10.Location = new Point(494, 290);
+            lbl_Reward_10.Location = new Point(452, 310);
+            lbl_Reward_10.Margin = new Padding(2, 0, 2, 0);
             lbl_Reward_10.Name = "lbl_Reward_10";
             lbl_Reward_10.Size = new Size(33, 19);
             lbl_Reward_10.TabIndex = 149;
@@ -393,26 +433,30 @@
             // 
             // btn_Reward_GamePass_10
             // 
+            btn_Reward_GamePass_10.Anchor = AnchorStyles.None;
             btn_Reward_GamePass_10.BackColor = Color.Transparent;
             btn_Reward_GamePass_10.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_GamePass_10.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_GamePass_10.FlatAppearance.BorderSize = 0;
             btn_Reward_GamePass_10.FlatStyle = FlatStyle.Flat;
             btn_Reward_GamePass_10.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_GamePass_10.Location = new Point(497, 247);
+            btn_Reward_GamePass_10.Location = new Point(454, 263);
+            btn_Reward_GamePass_10.Margin = new Padding(2, 3, 2, 3);
             btn_Reward_GamePass_10.Name = "btn_Reward_GamePass_10";
-            btn_Reward_GamePass_10.Size = new Size(64, 61);
+            btn_Reward_GamePass_10.Size = new Size(58, 65);
             btn_Reward_GamePass_10.TabIndex = 80;
             btn_Reward_GamePass_10.UseVisualStyleBackColor = false;
             btn_Reward_GamePass_10.Click += btn_Reward_GamePass_10_Click;
             // 
             // lbl_Giorno_11
             // 
+            lbl_Giorno_11.Anchor = AnchorStyles.None;
             lbl_Giorno_11.AutoSize = true;
             lbl_Giorno_11.BackColor = Color.Transparent;
             lbl_Giorno_11.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Giorno_11.ForeColor = SystemColors.ButtonHighlight;
-            lbl_Giorno_11.Location = new Point(197, 314);
+            lbl_Giorno_11.Location = new Point(180, 335);
+            lbl_Giorno_11.Margin = new Padding(2, 0, 2, 0);
             lbl_Giorno_11.Name = "lbl_Giorno_11";
             lbl_Giorno_11.Size = new Size(28, 21);
             lbl_Giorno_11.TabIndex = 125;
@@ -420,11 +464,13 @@
             // 
             // lbl_Giorno_9
             // 
+            lbl_Giorno_9.Anchor = AnchorStyles.None;
             lbl_Giorno_9.AutoSize = true;
             lbl_Giorno_9.BackColor = Color.Transparent;
             lbl_Giorno_9.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
             lbl_Giorno_9.ForeColor = SystemColors.ButtonHighlight;
-            lbl_Giorno_9.Location = new Point(419, 246);
+            lbl_Giorno_9.Location = new Point(383, 262);
+            lbl_Giorno_9.Margin = new Padding(2, 0, 2, 0);
             lbl_Giorno_9.Name = "lbl_Giorno_9";
             lbl_Giorno_9.Size = new Size(18, 20);
             lbl_Giorno_9.TabIndex = 126;
@@ -432,11 +478,13 @@
             // 
             // lbl_Reward_11
             // 
+            lbl_Reward_11.Anchor = AnchorStyles.None;
             lbl_Reward_11.AutoSize = true;
             lbl_Reward_11.BackColor = Color.Transparent;
             lbl_Reward_11.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lbl_Reward_11.ForeColor = Color.Violet;
-            lbl_Reward_11.Location = new Point(196, 359);
+            lbl_Reward_11.Location = new Point(179, 383);
+            lbl_Reward_11.Margin = new Padding(2, 0, 2, 0);
             lbl_Reward_11.Name = "lbl_Reward_11";
             lbl_Reward_11.Size = new Size(33, 19);
             lbl_Reward_11.TabIndex = 150;
@@ -444,26 +492,30 @@
             // 
             // btn_Reward_GamePass_11
             // 
+            btn_Reward_GamePass_11.Anchor = AnchorStyles.None;
             btn_Reward_GamePass_11.BackColor = Color.Transparent;
             btn_Reward_GamePass_11.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_GamePass_11.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_GamePass_11.FlatAppearance.BorderSize = 0;
             btn_Reward_GamePass_11.FlatStyle = FlatStyle.Flat;
             btn_Reward_GamePass_11.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_GamePass_11.Location = new Point(198, 316);
+            btn_Reward_GamePass_11.Location = new Point(181, 337);
+            btn_Reward_GamePass_11.Margin = new Padding(2, 3, 2, 3);
             btn_Reward_GamePass_11.Name = "btn_Reward_GamePass_11";
-            btn_Reward_GamePass_11.Size = new Size(64, 62);
+            btn_Reward_GamePass_11.Size = new Size(58, 66);
             btn_Reward_GamePass_11.TabIndex = 80;
             btn_Reward_GamePass_11.UseVisualStyleBackColor = false;
             btn_Reward_GamePass_11.Click += btn_Reward_GamePass_11_Click;
             // 
             // lbl_Reward_9
             // 
+            lbl_Reward_9.Anchor = AnchorStyles.None;
             lbl_Reward_9.AutoSize = true;
             lbl_Reward_9.BackColor = Color.Transparent;
             lbl_Reward_9.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lbl_Reward_9.ForeColor = Color.Violet;
-            lbl_Reward_9.Location = new Point(420, 290);
+            lbl_Reward_9.Location = new Point(384, 310);
+            lbl_Reward_9.Margin = new Padding(2, 0, 2, 0);
             lbl_Reward_9.Name = "lbl_Reward_9";
             lbl_Reward_9.Size = new Size(33, 19);
             lbl_Reward_9.TabIndex = 148;
@@ -471,26 +523,30 @@
             // 
             // btn_Reward_GamePass_9
             // 
+            btn_Reward_GamePass_9.Anchor = AnchorStyles.None;
             btn_Reward_GamePass_9.BackColor = Color.Transparent;
             btn_Reward_GamePass_9.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_GamePass_9.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_GamePass_9.FlatAppearance.BorderSize = 0;
             btn_Reward_GamePass_9.FlatStyle = FlatStyle.Flat;
             btn_Reward_GamePass_9.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_GamePass_9.Location = new Point(422, 247);
+            btn_Reward_GamePass_9.Location = new Point(386, 263);
+            btn_Reward_GamePass_9.Margin = new Padding(2, 3, 2, 3);
             btn_Reward_GamePass_9.Name = "btn_Reward_GamePass_9";
-            btn_Reward_GamePass_9.Size = new Size(64, 61);
+            btn_Reward_GamePass_9.Size = new Size(58, 65);
             btn_Reward_GamePass_9.TabIndex = 80;
             btn_Reward_GamePass_9.UseVisualStyleBackColor = false;
             btn_Reward_GamePass_9.Click += btn_Reward_GamePass_9_Click;
             // 
             // lbl_Giorno_8
             // 
+            lbl_Giorno_8.Anchor = AnchorStyles.None;
             lbl_Giorno_8.AutoSize = true;
             lbl_Giorno_8.BackColor = Color.Transparent;
             lbl_Giorno_8.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
             lbl_Giorno_8.ForeColor = SystemColors.ButtonHighlight;
-            lbl_Giorno_8.Location = new Point(345, 246);
+            lbl_Giorno_8.Location = new Point(315, 262);
+            lbl_Giorno_8.Margin = new Padding(2, 0, 2, 0);
             lbl_Giorno_8.Name = "lbl_Giorno_8";
             lbl_Giorno_8.Size = new Size(18, 20);
             lbl_Giorno_8.TabIndex = 123;
@@ -498,11 +554,13 @@
             // 
             // lbl_Reward_8
             // 
+            lbl_Reward_8.Anchor = AnchorStyles.None;
             lbl_Reward_8.AutoSize = true;
             lbl_Reward_8.BackColor = Color.Transparent;
             lbl_Reward_8.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lbl_Reward_8.ForeColor = Color.Violet;
-            lbl_Reward_8.Location = new Point(345, 290);
+            lbl_Reward_8.Location = new Point(315, 310);
+            lbl_Reward_8.Margin = new Padding(2, 0, 2, 0);
             lbl_Reward_8.Name = "lbl_Reward_8";
             lbl_Reward_8.Size = new Size(33, 19);
             lbl_Reward_8.TabIndex = 147;
@@ -510,26 +568,30 @@
             // 
             // btn_Reward_GamePass_8
             // 
+            btn_Reward_GamePass_8.Anchor = AnchorStyles.None;
             btn_Reward_GamePass_8.BackColor = Color.Transparent;
             btn_Reward_GamePass_8.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_GamePass_8.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_GamePass_8.FlatAppearance.BorderSize = 0;
             btn_Reward_GamePass_8.FlatStyle = FlatStyle.Flat;
             btn_Reward_GamePass_8.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_GamePass_8.Location = new Point(347, 247);
+            btn_Reward_GamePass_8.Location = new Point(318, 263);
+            btn_Reward_GamePass_8.Margin = new Padding(2, 3, 2, 3);
             btn_Reward_GamePass_8.Name = "btn_Reward_GamePass_8";
-            btn_Reward_GamePass_8.Size = new Size(65, 61);
+            btn_Reward_GamePass_8.Size = new Size(59, 65);
             btn_Reward_GamePass_8.TabIndex = 80;
             btn_Reward_GamePass_8.UseVisualStyleBackColor = false;
             btn_Reward_GamePass_8.Click += btn_Reward_GamePass_8_Click;
             // 
             // lbl_Giorno_7
             // 
+            lbl_Giorno_7.Anchor = AnchorStyles.None;
             lbl_Giorno_7.AutoSize = true;
             lbl_Giorno_7.BackColor = Color.Transparent;
             lbl_Giorno_7.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
             lbl_Giorno_7.ForeColor = SystemColors.ButtonHighlight;
-            lbl_Giorno_7.Location = new Point(269, 246);
+            lbl_Giorno_7.Location = new Point(246, 262);
+            lbl_Giorno_7.Margin = new Padding(2, 0, 2, 0);
             lbl_Giorno_7.Name = "lbl_Giorno_7";
             lbl_Giorno_7.Size = new Size(18, 20);
             lbl_Giorno_7.TabIndex = 121;
@@ -537,11 +599,13 @@
             // 
             // lbl_Reward_7
             // 
+            lbl_Reward_7.Anchor = AnchorStyles.None;
             lbl_Reward_7.AutoSize = true;
             lbl_Reward_7.BackColor = Color.Transparent;
             lbl_Reward_7.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lbl_Reward_7.ForeColor = Color.Violet;
-            lbl_Reward_7.Location = new Point(270, 290);
+            lbl_Reward_7.Location = new Point(247, 310);
+            lbl_Reward_7.Margin = new Padding(2, 0, 2, 0);
             lbl_Reward_7.Name = "lbl_Reward_7";
             lbl_Reward_7.Size = new Size(33, 19);
             lbl_Reward_7.TabIndex = 146;
@@ -549,26 +613,30 @@
             // 
             // btn_Reward_GamePass_7
             // 
+            btn_Reward_GamePass_7.Anchor = AnchorStyles.None;
             btn_Reward_GamePass_7.BackColor = Color.Transparent;
             btn_Reward_GamePass_7.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_GamePass_7.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_GamePass_7.FlatAppearance.BorderSize = 0;
             btn_Reward_GamePass_7.FlatStyle = FlatStyle.Flat;
             btn_Reward_GamePass_7.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_GamePass_7.Location = new Point(272, 247);
+            btn_Reward_GamePass_7.Location = new Point(249, 263);
+            btn_Reward_GamePass_7.Margin = new Padding(2, 3, 2, 3);
             btn_Reward_GamePass_7.Name = "btn_Reward_GamePass_7";
-            btn_Reward_GamePass_7.Size = new Size(66, 61);
+            btn_Reward_GamePass_7.Size = new Size(60, 65);
             btn_Reward_GamePass_7.TabIndex = 80;
             btn_Reward_GamePass_7.UseVisualStyleBackColor = false;
             btn_Reward_GamePass_7.Click += btn_Reward_GamePass_7_Click;
             // 
             // lbl_Giorno_18
             // 
+            lbl_Giorno_18.Anchor = AnchorStyles.None;
             lbl_Giorno_18.AutoSize = true;
             lbl_Giorno_18.BackColor = Color.Transparent;
             lbl_Giorno_18.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Giorno_18.ForeColor = SystemColors.ButtonHighlight;
-            lbl_Giorno_18.Location = new Point(345, 383);
+            lbl_Giorno_18.Location = new Point(315, 409);
+            lbl_Giorno_18.Margin = new Padding(2, 0, 2, 0);
             lbl_Giorno_18.Name = "lbl_Giorno_18";
             lbl_Giorno_18.Size = new Size(28, 21);
             lbl_Giorno_18.TabIndex = 129;
@@ -576,11 +644,13 @@
             // 
             // lbl_Giorno_16
             // 
+            lbl_Giorno_16.Anchor = AnchorStyles.None;
             lbl_Giorno_16.AutoSize = true;
             lbl_Giorno_16.BackColor = Color.Transparent;
             lbl_Giorno_16.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Giorno_16.ForeColor = SystemColors.ButtonHighlight;
-            lbl_Giorno_16.Location = new Point(196, 383);
+            lbl_Giorno_16.Location = new Point(179, 409);
+            lbl_Giorno_16.Margin = new Padding(2, 0, 2, 0);
             lbl_Giorno_16.Name = "lbl_Giorno_16";
             lbl_Giorno_16.Size = new Size(28, 21);
             lbl_Giorno_16.TabIndex = 130;
@@ -588,11 +658,13 @@
             // 
             // lbl_Reward_18
             // 
+            lbl_Reward_18.Anchor = AnchorStyles.None;
             lbl_Reward_18.AutoSize = true;
             lbl_Reward_18.BackColor = Color.Transparent;
             lbl_Reward_18.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lbl_Reward_18.ForeColor = Color.Violet;
-            lbl_Reward_18.Location = new Point(345, 429);
+            lbl_Reward_18.Location = new Point(315, 458);
+            lbl_Reward_18.Margin = new Padding(2, 0, 2, 0);
             lbl_Reward_18.Name = "lbl_Reward_18";
             lbl_Reward_18.Size = new Size(33, 19);
             lbl_Reward_18.TabIndex = 155;
@@ -600,26 +672,30 @@
             // 
             // btn_Reward_GamePass_18
             // 
+            btn_Reward_GamePass_18.Anchor = AnchorStyles.None;
             btn_Reward_GamePass_18.BackColor = Color.Transparent;
             btn_Reward_GamePass_18.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_GamePass_18.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_GamePass_18.FlatAppearance.BorderSize = 0;
             btn_Reward_GamePass_18.FlatStyle = FlatStyle.Flat;
             btn_Reward_GamePass_18.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_GamePass_18.Location = new Point(347, 384);
+            btn_Reward_GamePass_18.Location = new Point(318, 410);
+            btn_Reward_GamePass_18.Margin = new Padding(2, 3, 2, 3);
             btn_Reward_GamePass_18.Name = "btn_Reward_GamePass_18";
-            btn_Reward_GamePass_18.Size = new Size(65, 63);
+            btn_Reward_GamePass_18.Size = new Size(59, 67);
             btn_Reward_GamePass_18.TabIndex = 80;
             btn_Reward_GamePass_18.UseVisualStyleBackColor = false;
             btn_Reward_GamePass_18.Click += btn_Reward_GamePass_18_Click;
             // 
             // lbl_Reward_16
             // 
+            lbl_Reward_16.Anchor = AnchorStyles.None;
             lbl_Reward_16.AutoSize = true;
             lbl_Reward_16.BackColor = Color.Transparent;
             lbl_Reward_16.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lbl_Reward_16.ForeColor = Color.Violet;
-            lbl_Reward_16.Location = new Point(196, 429);
+            lbl_Reward_16.Location = new Point(179, 458);
+            lbl_Reward_16.Margin = new Padding(2, 0, 2, 0);
             lbl_Reward_16.Name = "lbl_Reward_16";
             lbl_Reward_16.Size = new Size(33, 19);
             lbl_Reward_16.TabIndex = 153;
@@ -627,26 +703,30 @@
             // 
             // btn_Reward_GamePass_16
             // 
+            btn_Reward_GamePass_16.Anchor = AnchorStyles.None;
             btn_Reward_GamePass_16.BackColor = Color.Transparent;
             btn_Reward_GamePass_16.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_GamePass_16.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_GamePass_16.FlatAppearance.BorderSize = 0;
             btn_Reward_GamePass_16.FlatStyle = FlatStyle.Flat;
             btn_Reward_GamePass_16.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_GamePass_16.Location = new Point(198, 384);
+            btn_Reward_GamePass_16.Location = new Point(181, 410);
+            btn_Reward_GamePass_16.Margin = new Padding(2, 3, 2, 3);
             btn_Reward_GamePass_16.Name = "btn_Reward_GamePass_16";
-            btn_Reward_GamePass_16.Size = new Size(64, 63);
+            btn_Reward_GamePass_16.Size = new Size(58, 67);
             btn_Reward_GamePass_16.TabIndex = 80;
             btn_Reward_GamePass_16.UseVisualStyleBackColor = false;
             btn_Reward_GamePass_16.Click += btn_Reward_GamePass_16_Click;
             // 
             // lbl_Giorno_17
             // 
+            lbl_Giorno_17.Anchor = AnchorStyles.None;
             lbl_Giorno_17.AutoSize = true;
             lbl_Giorno_17.BackColor = Color.Transparent;
             lbl_Giorno_17.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Giorno_17.ForeColor = SystemColors.ButtonHighlight;
-            lbl_Giorno_17.Location = new Point(269, 383);
+            lbl_Giorno_17.Location = new Point(246, 409);
+            lbl_Giorno_17.Margin = new Padding(2, 0, 2, 0);
             lbl_Giorno_17.Name = "lbl_Giorno_17";
             lbl_Giorno_17.Size = new Size(28, 21);
             lbl_Giorno_17.TabIndex = 125;
@@ -654,11 +734,13 @@
             // 
             // lbl_Giorno_15
             // 
+            lbl_Giorno_15.Anchor = AnchorStyles.None;
             lbl_Giorno_15.AutoSize = true;
             lbl_Giorno_15.BackColor = Color.Transparent;
             lbl_Giorno_15.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Giorno_15.ForeColor = SystemColors.ButtonHighlight;
-            lbl_Giorno_15.Location = new Point(494, 313);
+            lbl_Giorno_15.Location = new Point(452, 334);
+            lbl_Giorno_15.Margin = new Padding(2, 0, 2, 0);
             lbl_Giorno_15.Name = "lbl_Giorno_15";
             lbl_Giorno_15.Size = new Size(28, 21);
             lbl_Giorno_15.TabIndex = 126;
@@ -666,11 +748,13 @@
             // 
             // lbl_Reward_17
             // 
+            lbl_Reward_17.Anchor = AnchorStyles.None;
             lbl_Reward_17.AutoSize = true;
             lbl_Reward_17.BackColor = Color.Transparent;
             lbl_Reward_17.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lbl_Reward_17.ForeColor = Color.Violet;
-            lbl_Reward_17.Location = new Point(269, 429);
+            lbl_Reward_17.Location = new Point(246, 458);
+            lbl_Reward_17.Margin = new Padding(2, 0, 2, 0);
             lbl_Reward_17.Name = "lbl_Reward_17";
             lbl_Reward_17.Size = new Size(33, 19);
             lbl_Reward_17.TabIndex = 154;
@@ -678,26 +762,30 @@
             // 
             // btn_Reward_GamePass_17
             // 
+            btn_Reward_GamePass_17.Anchor = AnchorStyles.None;
             btn_Reward_GamePass_17.BackColor = Color.Transparent;
             btn_Reward_GamePass_17.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_GamePass_17.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_GamePass_17.FlatAppearance.BorderSize = 0;
             btn_Reward_GamePass_17.FlatStyle = FlatStyle.Flat;
             btn_Reward_GamePass_17.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_GamePass_17.Location = new Point(272, 385);
+            btn_Reward_GamePass_17.Location = new Point(249, 410);
+            btn_Reward_GamePass_17.Margin = new Padding(2, 3, 2, 3);
             btn_Reward_GamePass_17.Name = "btn_Reward_GamePass_17";
-            btn_Reward_GamePass_17.Size = new Size(66, 63);
+            btn_Reward_GamePass_17.Size = new Size(60, 67);
             btn_Reward_GamePass_17.TabIndex = 80;
             btn_Reward_GamePass_17.UseVisualStyleBackColor = false;
             btn_Reward_GamePass_17.Click += btn_Reward_GamePass_17_Click;
             // 
             // lbl_Reward_15
             // 
+            lbl_Reward_15.Anchor = AnchorStyles.None;
             lbl_Reward_15.AutoSize = true;
             lbl_Reward_15.BackColor = Color.Transparent;
             lbl_Reward_15.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lbl_Reward_15.ForeColor = Color.Violet;
-            lbl_Reward_15.Location = new Point(494, 359);
+            lbl_Reward_15.Location = new Point(452, 383);
+            lbl_Reward_15.Margin = new Padding(2, 0, 2, 0);
             lbl_Reward_15.Name = "lbl_Reward_15";
             lbl_Reward_15.Size = new Size(33, 19);
             lbl_Reward_15.TabIndex = 152;
@@ -705,26 +793,30 @@
             // 
             // btn_Reward_GamePass_15
             // 
+            btn_Reward_GamePass_15.Anchor = AnchorStyles.None;
             btn_Reward_GamePass_15.BackColor = Color.Transparent;
             btn_Reward_GamePass_15.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_GamePass_15.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_GamePass_15.FlatAppearance.BorderSize = 0;
             btn_Reward_GamePass_15.FlatStyle = FlatStyle.Flat;
             btn_Reward_GamePass_15.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_GamePass_15.Location = new Point(498, 316);
+            btn_Reward_GamePass_15.Location = new Point(455, 337);
+            btn_Reward_GamePass_15.Margin = new Padding(2, 3, 2, 3);
             btn_Reward_GamePass_15.Name = "btn_Reward_GamePass_15";
-            btn_Reward_GamePass_15.Size = new Size(64, 62);
+            btn_Reward_GamePass_15.Size = new Size(58, 66);
             btn_Reward_GamePass_15.TabIndex = 80;
             btn_Reward_GamePass_15.UseVisualStyleBackColor = false;
             btn_Reward_GamePass_15.Click += btn_Reward_GamePass_15_Click;
             // 
             // lbl_Giorno_14
             // 
+            lbl_Giorno_14.Anchor = AnchorStyles.None;
             lbl_Giorno_14.AutoSize = true;
             lbl_Giorno_14.BackColor = Color.Transparent;
             lbl_Giorno_14.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Giorno_14.ForeColor = SystemColors.ButtonHighlight;
-            lbl_Giorno_14.Location = new Point(420, 313);
+            lbl_Giorno_14.Location = new Point(384, 334);
+            lbl_Giorno_14.Margin = new Padding(2, 0, 2, 0);
             lbl_Giorno_14.Name = "lbl_Giorno_14";
             lbl_Giorno_14.Size = new Size(28, 21);
             lbl_Giorno_14.TabIndex = 123;
@@ -732,11 +824,13 @@
             // 
             // lbl_Reward_14
             // 
+            lbl_Reward_14.Anchor = AnchorStyles.None;
             lbl_Reward_14.AutoSize = true;
             lbl_Reward_14.BackColor = Color.Transparent;
             lbl_Reward_14.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lbl_Reward_14.ForeColor = Color.Violet;
-            lbl_Reward_14.Location = new Point(419, 359);
+            lbl_Reward_14.Location = new Point(383, 383);
+            lbl_Reward_14.Margin = new Padding(2, 0, 2, 0);
             lbl_Reward_14.Name = "lbl_Reward_14";
             lbl_Reward_14.Size = new Size(33, 19);
             lbl_Reward_14.TabIndex = 151;
@@ -744,26 +838,30 @@
             // 
             // btn_Reward_GamePass_14
             // 
+            btn_Reward_GamePass_14.Anchor = AnchorStyles.None;
             btn_Reward_GamePass_14.BackColor = Color.Transparent;
             btn_Reward_GamePass_14.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_GamePass_14.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_GamePass_14.FlatAppearance.BorderSize = 0;
             btn_Reward_GamePass_14.FlatStyle = FlatStyle.Flat;
             btn_Reward_GamePass_14.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_GamePass_14.Location = new Point(422, 316);
+            btn_Reward_GamePass_14.Location = new Point(386, 337);
+            btn_Reward_GamePass_14.Margin = new Padding(2, 3, 2, 3);
             btn_Reward_GamePass_14.Name = "btn_Reward_GamePass_14";
-            btn_Reward_GamePass_14.Size = new Size(64, 62);
+            btn_Reward_GamePass_14.Size = new Size(58, 66);
             btn_Reward_GamePass_14.TabIndex = 80;
             btn_Reward_GamePass_14.UseVisualStyleBackColor = false;
             btn_Reward_GamePass_14.Click += btn_Reward_GamePass_14_Click;
             // 
             // lbl_Giorno_13
             // 
+            lbl_Giorno_13.Anchor = AnchorStyles.None;
             lbl_Giorno_13.AutoSize = true;
             lbl_Giorno_13.BackColor = Color.Transparent;
             lbl_Giorno_13.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Giorno_13.ForeColor = SystemColors.ButtonHighlight;
-            lbl_Giorno_13.Location = new Point(345, 313);
+            lbl_Giorno_13.Location = new Point(315, 334);
+            lbl_Giorno_13.Margin = new Padding(2, 0, 2, 0);
             lbl_Giorno_13.Name = "lbl_Giorno_13";
             lbl_Giorno_13.Size = new Size(28, 21);
             lbl_Giorno_13.TabIndex = 121;
@@ -771,11 +869,13 @@
             // 
             // lbl_Reward_13
             // 
+            lbl_Reward_13.Anchor = AnchorStyles.None;
             lbl_Reward_13.AutoSize = true;
             lbl_Reward_13.BackColor = Color.Transparent;
             lbl_Reward_13.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lbl_Reward_13.ForeColor = Color.Violet;
-            lbl_Reward_13.Location = new Point(345, 359);
+            lbl_Reward_13.Location = new Point(315, 383);
+            lbl_Reward_13.Margin = new Padding(2, 0, 2, 0);
             lbl_Reward_13.Name = "lbl_Reward_13";
             lbl_Reward_13.Size = new Size(33, 19);
             lbl_Reward_13.TabIndex = 147;
@@ -783,26 +883,30 @@
             // 
             // btn_Reward_GamePass_13
             // 
+            btn_Reward_GamePass_13.Anchor = AnchorStyles.None;
             btn_Reward_GamePass_13.BackColor = Color.Transparent;
             btn_Reward_GamePass_13.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_GamePass_13.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_GamePass_13.FlatAppearance.BorderSize = 0;
             btn_Reward_GamePass_13.FlatStyle = FlatStyle.Flat;
             btn_Reward_GamePass_13.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_GamePass_13.Location = new Point(347, 316);
+            btn_Reward_GamePass_13.Location = new Point(318, 337);
+            btn_Reward_GamePass_13.Margin = new Padding(2, 3, 2, 3);
             btn_Reward_GamePass_13.Name = "btn_Reward_GamePass_13";
-            btn_Reward_GamePass_13.Size = new Size(65, 62);
+            btn_Reward_GamePass_13.Size = new Size(59, 66);
             btn_Reward_GamePass_13.TabIndex = 80;
             btn_Reward_GamePass_13.UseVisualStyleBackColor = false;
             btn_Reward_GamePass_13.Click += btn_Reward_GamePass_13_Click;
             // 
             // lbl_Giorno_24
             // 
+            lbl_Giorno_24.Anchor = AnchorStyles.None;
             lbl_Giorno_24.AutoSize = true;
             lbl_Giorno_24.BackColor = Color.Transparent;
             lbl_Giorno_24.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Giorno_24.ForeColor = SystemColors.ButtonHighlight;
-            lbl_Giorno_24.Location = new Point(420, 455);
+            lbl_Giorno_24.Location = new Point(384, 486);
+            lbl_Giorno_24.Margin = new Padding(2, 0, 2, 0);
             lbl_Giorno_24.Name = "lbl_Giorno_24";
             lbl_Giorno_24.Size = new Size(28, 21);
             lbl_Giorno_24.TabIndex = 129;
@@ -810,11 +914,13 @@
             // 
             // lbl_Giorno_22
             // 
+            lbl_Giorno_22.Anchor = AnchorStyles.None;
             lbl_Giorno_22.AutoSize = true;
             lbl_Giorno_22.BackColor = Color.Transparent;
             lbl_Giorno_22.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Giorno_22.ForeColor = SystemColors.ButtonHighlight;
-            lbl_Giorno_22.Location = new Point(269, 455);
+            lbl_Giorno_22.Location = new Point(246, 486);
+            lbl_Giorno_22.Margin = new Padding(2, 0, 2, 0);
             lbl_Giorno_22.Name = "lbl_Giorno_22";
             lbl_Giorno_22.Size = new Size(28, 21);
             lbl_Giorno_22.TabIndex = 130;
@@ -822,11 +928,13 @@
             // 
             // lbl_Reward_24
             // 
+            lbl_Reward_24.Anchor = AnchorStyles.None;
             lbl_Reward_24.AutoSize = true;
             lbl_Reward_24.BackColor = Color.Transparent;
             lbl_Reward_24.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lbl_Reward_24.ForeColor = Color.Violet;
-            lbl_Reward_24.Location = new Point(420, 498);
+            lbl_Reward_24.Location = new Point(384, 531);
+            lbl_Reward_24.Margin = new Padding(2, 0, 2, 0);
             lbl_Reward_24.Name = "lbl_Reward_24";
             lbl_Reward_24.Size = new Size(33, 19);
             lbl_Reward_24.TabIndex = 160;
@@ -834,26 +942,30 @@
             // 
             // btn_Reward_GamePass_24
             // 
+            btn_Reward_GamePass_24.Anchor = AnchorStyles.None;
             btn_Reward_GamePass_24.BackColor = Color.Transparent;
             btn_Reward_GamePass_24.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_GamePass_24.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_GamePass_24.FlatAppearance.BorderSize = 0;
             btn_Reward_GamePass_24.FlatStyle = FlatStyle.Flat;
             btn_Reward_GamePass_24.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_GamePass_24.Location = new Point(422, 455);
+            btn_Reward_GamePass_24.Location = new Point(386, 486);
+            btn_Reward_GamePass_24.Margin = new Padding(2, 3, 2, 3);
             btn_Reward_GamePass_24.Name = "btn_Reward_GamePass_24";
-            btn_Reward_GamePass_24.Size = new Size(64, 62);
+            btn_Reward_GamePass_24.Size = new Size(58, 66);
             btn_Reward_GamePass_24.TabIndex = 80;
             btn_Reward_GamePass_24.UseVisualStyleBackColor = false;
             btn_Reward_GamePass_24.Click += btn_Reward_GamePass_24_Click;
             // 
             // lbl_Reward_22
             // 
+            lbl_Reward_22.Anchor = AnchorStyles.None;
             lbl_Reward_22.AutoSize = true;
             lbl_Reward_22.BackColor = Color.Transparent;
             lbl_Reward_22.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lbl_Reward_22.ForeColor = Color.Violet;
-            lbl_Reward_22.Location = new Point(269, 498);
+            lbl_Reward_22.Location = new Point(246, 531);
+            lbl_Reward_22.Margin = new Padding(2, 0, 2, 0);
             lbl_Reward_22.Name = "lbl_Reward_22";
             lbl_Reward_22.Size = new Size(33, 19);
             lbl_Reward_22.TabIndex = 158;
@@ -861,26 +973,30 @@
             // 
             // btn_Reward_GamePass_22
             // 
+            btn_Reward_GamePass_22.Anchor = AnchorStyles.None;
             btn_Reward_GamePass_22.BackColor = Color.Transparent;
             btn_Reward_GamePass_22.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_GamePass_22.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_GamePass_22.FlatAppearance.BorderSize = 0;
             btn_Reward_GamePass_22.FlatStyle = FlatStyle.Flat;
             btn_Reward_GamePass_22.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_GamePass_22.Location = new Point(272, 455);
+            btn_Reward_GamePass_22.Location = new Point(249, 486);
+            btn_Reward_GamePass_22.Margin = new Padding(2, 3, 2, 3);
             btn_Reward_GamePass_22.Name = "btn_Reward_GamePass_22";
-            btn_Reward_GamePass_22.Size = new Size(66, 62);
+            btn_Reward_GamePass_22.Size = new Size(60, 66);
             btn_Reward_GamePass_22.TabIndex = 80;
             btn_Reward_GamePass_22.UseVisualStyleBackColor = false;
             btn_Reward_GamePass_22.Click += btn_Reward_GamePass_22_Click;
             // 
             // lbl_Giorno_23
             // 
+            lbl_Giorno_23.Anchor = AnchorStyles.None;
             lbl_Giorno_23.AutoSize = true;
             lbl_Giorno_23.BackColor = Color.Transparent;
             lbl_Giorno_23.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Giorno_23.ForeColor = SystemColors.ButtonHighlight;
-            lbl_Giorno_23.Location = new Point(345, 455);
+            lbl_Giorno_23.Location = new Point(315, 486);
+            lbl_Giorno_23.Margin = new Padding(2, 0, 2, 0);
             lbl_Giorno_23.Name = "lbl_Giorno_23";
             lbl_Giorno_23.Size = new Size(28, 21);
             lbl_Giorno_23.TabIndex = 125;
@@ -888,11 +1004,13 @@
             // 
             // lbl_Giorno_21
             // 
+            lbl_Giorno_21.Anchor = AnchorStyles.None;
             lbl_Giorno_21.AutoSize = true;
             lbl_Giorno_21.BackColor = Color.Transparent;
             lbl_Giorno_21.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Giorno_21.ForeColor = SystemColors.ButtonHighlight;
-            lbl_Giorno_21.Location = new Point(196, 455);
+            lbl_Giorno_21.Location = new Point(179, 486);
+            lbl_Giorno_21.Margin = new Padding(2, 0, 2, 0);
             lbl_Giorno_21.Name = "lbl_Giorno_21";
             lbl_Giorno_21.Size = new Size(28, 21);
             lbl_Giorno_21.TabIndex = 126;
@@ -900,11 +1018,13 @@
             // 
             // lbl_Reward_23
             // 
+            lbl_Reward_23.Anchor = AnchorStyles.None;
             lbl_Reward_23.AutoSize = true;
             lbl_Reward_23.BackColor = Color.Transparent;
             lbl_Reward_23.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lbl_Reward_23.ForeColor = Color.Violet;
-            lbl_Reward_23.Location = new Point(345, 498);
+            lbl_Reward_23.Location = new Point(315, 531);
+            lbl_Reward_23.Margin = new Padding(2, 0, 2, 0);
             lbl_Reward_23.Name = "lbl_Reward_23";
             lbl_Reward_23.Size = new Size(33, 19);
             lbl_Reward_23.TabIndex = 159;
@@ -912,26 +1032,30 @@
             // 
             // btn_Reward_GamePass_23
             // 
+            btn_Reward_GamePass_23.Anchor = AnchorStyles.None;
             btn_Reward_GamePass_23.BackColor = Color.Transparent;
             btn_Reward_GamePass_23.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_GamePass_23.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_GamePass_23.FlatAppearance.BorderSize = 0;
             btn_Reward_GamePass_23.FlatStyle = FlatStyle.Flat;
             btn_Reward_GamePass_23.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_GamePass_23.Location = new Point(347, 455);
+            btn_Reward_GamePass_23.Location = new Point(318, 486);
+            btn_Reward_GamePass_23.Margin = new Padding(2, 3, 2, 3);
             btn_Reward_GamePass_23.Name = "btn_Reward_GamePass_23";
-            btn_Reward_GamePass_23.Size = new Size(65, 62);
+            btn_Reward_GamePass_23.Size = new Size(59, 66);
             btn_Reward_GamePass_23.TabIndex = 80;
             btn_Reward_GamePass_23.UseVisualStyleBackColor = false;
             btn_Reward_GamePass_23.Click += btn_Reward_GamePass_23_Click;
             // 
             // lbl_Reward_21
             // 
+            lbl_Reward_21.Anchor = AnchorStyles.None;
             lbl_Reward_21.AutoSize = true;
             lbl_Reward_21.BackColor = Color.Transparent;
             lbl_Reward_21.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lbl_Reward_21.ForeColor = Color.Violet;
-            lbl_Reward_21.Location = new Point(196, 498);
+            lbl_Reward_21.Location = new Point(179, 531);
+            lbl_Reward_21.Margin = new Padding(2, 0, 2, 0);
             lbl_Reward_21.Name = "lbl_Reward_21";
             lbl_Reward_21.Size = new Size(33, 19);
             lbl_Reward_21.TabIndex = 157;
@@ -939,26 +1063,30 @@
             // 
             // btn_Reward_GamePass_21
             // 
+            btn_Reward_GamePass_21.Anchor = AnchorStyles.None;
             btn_Reward_GamePass_21.BackColor = Color.Transparent;
             btn_Reward_GamePass_21.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_GamePass_21.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_GamePass_21.FlatAppearance.BorderSize = 0;
             btn_Reward_GamePass_21.FlatStyle = FlatStyle.Flat;
             btn_Reward_GamePass_21.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_GamePass_21.Location = new Point(198, 455);
+            btn_Reward_GamePass_21.Location = new Point(181, 486);
+            btn_Reward_GamePass_21.Margin = new Padding(2, 3, 2, 3);
             btn_Reward_GamePass_21.Name = "btn_Reward_GamePass_21";
-            btn_Reward_GamePass_21.Size = new Size(64, 62);
+            btn_Reward_GamePass_21.Size = new Size(58, 66);
             btn_Reward_GamePass_21.TabIndex = 80;
             btn_Reward_GamePass_21.UseVisualStyleBackColor = false;
             btn_Reward_GamePass_21.Click += btn_Reward_GamePass_21_Click;
             // 
             // lbl_Giorno_20
             // 
+            lbl_Giorno_20.Anchor = AnchorStyles.None;
             lbl_Giorno_20.AutoSize = true;
             lbl_Giorno_20.BackColor = Color.Transparent;
             lbl_Giorno_20.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Giorno_20.ForeColor = SystemColors.ButtonHighlight;
-            lbl_Giorno_20.Location = new Point(494, 383);
+            lbl_Giorno_20.Location = new Point(452, 409);
+            lbl_Giorno_20.Margin = new Padding(2, 0, 2, 0);
             lbl_Giorno_20.Name = "lbl_Giorno_20";
             lbl_Giorno_20.Size = new Size(28, 21);
             lbl_Giorno_20.TabIndex = 123;
@@ -966,11 +1094,13 @@
             // 
             // lbl_Reward_20
             // 
+            lbl_Reward_20.Anchor = AnchorStyles.None;
             lbl_Reward_20.AutoSize = true;
             lbl_Reward_20.BackColor = Color.Transparent;
             lbl_Reward_20.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lbl_Reward_20.ForeColor = Color.Violet;
-            lbl_Reward_20.Location = new Point(494, 429);
+            lbl_Reward_20.Location = new Point(452, 458);
+            lbl_Reward_20.Margin = new Padding(2, 0, 2, 0);
             lbl_Reward_20.Name = "lbl_Reward_20";
             lbl_Reward_20.Size = new Size(33, 19);
             lbl_Reward_20.TabIndex = 156;
@@ -978,26 +1108,30 @@
             // 
             // btn_Reward_GamePass_20
             // 
+            btn_Reward_GamePass_20.Anchor = AnchorStyles.None;
             btn_Reward_GamePass_20.BackColor = Color.Transparent;
             btn_Reward_GamePass_20.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_GamePass_20.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_GamePass_20.FlatAppearance.BorderSize = 0;
             btn_Reward_GamePass_20.FlatStyle = FlatStyle.Flat;
             btn_Reward_GamePass_20.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_GamePass_20.Location = new Point(498, 384);
+            btn_Reward_GamePass_20.Location = new Point(455, 410);
+            btn_Reward_GamePass_20.Margin = new Padding(2, 3, 2, 3);
             btn_Reward_GamePass_20.Name = "btn_Reward_GamePass_20";
-            btn_Reward_GamePass_20.Size = new Size(64, 63);
+            btn_Reward_GamePass_20.Size = new Size(58, 67);
             btn_Reward_GamePass_20.TabIndex = 80;
             btn_Reward_GamePass_20.UseVisualStyleBackColor = false;
             btn_Reward_GamePass_20.Click += btn_Reward_GamePass_20_Click;
             // 
             // lbl_Giorno_19
             // 
+            lbl_Giorno_19.Anchor = AnchorStyles.None;
             lbl_Giorno_19.AutoSize = true;
             lbl_Giorno_19.BackColor = Color.Transparent;
             lbl_Giorno_19.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Giorno_19.ForeColor = SystemColors.ButtonHighlight;
-            lbl_Giorno_19.Location = new Point(419, 384);
+            lbl_Giorno_19.Location = new Point(383, 410);
+            lbl_Giorno_19.Margin = new Padding(2, 0, 2, 0);
             lbl_Giorno_19.Name = "lbl_Giorno_19";
             lbl_Giorno_19.Size = new Size(28, 21);
             lbl_Giorno_19.TabIndex = 121;
@@ -1005,11 +1139,13 @@
             // 
             // lbl_Reward_19
             // 
+            lbl_Reward_19.Anchor = AnchorStyles.None;
             lbl_Reward_19.AutoSize = true;
             lbl_Reward_19.BackColor = Color.Transparent;
             lbl_Reward_19.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lbl_Reward_19.ForeColor = Color.Violet;
-            lbl_Reward_19.Location = new Point(419, 429);
+            lbl_Reward_19.Location = new Point(383, 458);
+            lbl_Reward_19.Margin = new Padding(2, 0, 2, 0);
             lbl_Reward_19.Name = "lbl_Reward_19";
             lbl_Reward_19.Size = new Size(33, 19);
             lbl_Reward_19.TabIndex = 148;
@@ -1017,26 +1153,30 @@
             // 
             // btn_Reward_GamePass_19
             // 
+            btn_Reward_GamePass_19.Anchor = AnchorStyles.None;
             btn_Reward_GamePass_19.BackColor = Color.Transparent;
             btn_Reward_GamePass_19.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_GamePass_19.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_GamePass_19.FlatAppearance.BorderSize = 0;
             btn_Reward_GamePass_19.FlatStyle = FlatStyle.Flat;
             btn_Reward_GamePass_19.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_GamePass_19.Location = new Point(422, 384);
+            btn_Reward_GamePass_19.Location = new Point(386, 410);
+            btn_Reward_GamePass_19.Margin = new Padding(2, 3, 2, 3);
             btn_Reward_GamePass_19.Name = "btn_Reward_GamePass_19";
-            btn_Reward_GamePass_19.Size = new Size(64, 63);
+            btn_Reward_GamePass_19.Size = new Size(58, 67);
             btn_Reward_GamePass_19.TabIndex = 80;
             btn_Reward_GamePass_19.UseVisualStyleBackColor = false;
             btn_Reward_GamePass_19.Click += btn_Reward_GamePass_19_Click;
             // 
             // lbl_Giorno_30
             // 
+            lbl_Giorno_30.Anchor = AnchorStyles.None;
             lbl_Giorno_30.AutoSize = true;
             lbl_Giorno_30.BackColor = Color.Transparent;
             lbl_Giorno_30.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Giorno_30.ForeColor = SystemColors.ButtonHighlight;
-            lbl_Giorno_30.Location = new Point(494, 522);
+            lbl_Giorno_30.Location = new Point(452, 557);
+            lbl_Giorno_30.Margin = new Padding(2, 0, 2, 0);
             lbl_Giorno_30.Name = "lbl_Giorno_30";
             lbl_Giorno_30.Size = new Size(28, 21);
             lbl_Giorno_30.TabIndex = 141;
@@ -1044,11 +1184,13 @@
             // 
             // lbl_Giorno_28
             // 
+            lbl_Giorno_28.Anchor = AnchorStyles.None;
             lbl_Giorno_28.AutoSize = true;
             lbl_Giorno_28.BackColor = Color.Transparent;
             lbl_Giorno_28.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Giorno_28.ForeColor = SystemColors.ButtonHighlight;
-            lbl_Giorno_28.Location = new Point(345, 522);
+            lbl_Giorno_28.Location = new Point(315, 557);
+            lbl_Giorno_28.Margin = new Padding(2, 0, 2, 0);
             lbl_Giorno_28.Name = "lbl_Giorno_28";
             lbl_Giorno_28.Size = new Size(28, 21);
             lbl_Giorno_28.TabIndex = 142;
@@ -1056,11 +1198,13 @@
             // 
             // lbl_Reward_30
             // 
+            lbl_Reward_30.Anchor = AnchorStyles.None;
             lbl_Reward_30.AutoSize = true;
             lbl_Reward_30.BackColor = Color.Transparent;
             lbl_Reward_30.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lbl_Reward_30.ForeColor = Color.Violet;
-            lbl_Reward_30.Location = new Point(494, 567);
+            lbl_Reward_30.Location = new Point(452, 605);
+            lbl_Reward_30.Margin = new Padding(2, 0, 2, 0);
             lbl_Reward_30.Name = "lbl_Reward_30";
             lbl_Reward_30.Size = new Size(33, 19);
             lbl_Reward_30.TabIndex = 165;
@@ -1068,26 +1212,30 @@
             // 
             // btn_Reward_GamePass_30
             // 
+            btn_Reward_GamePass_30.Anchor = AnchorStyles.None;
             btn_Reward_GamePass_30.BackColor = Color.Transparent;
             btn_Reward_GamePass_30.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_GamePass_30.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_GamePass_30.FlatAppearance.BorderSize = 0;
             btn_Reward_GamePass_30.FlatStyle = FlatStyle.Flat;
             btn_Reward_GamePass_30.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_GamePass_30.Location = new Point(497, 523);
+            btn_Reward_GamePass_30.Location = new Point(454, 558);
+            btn_Reward_GamePass_30.Margin = new Padding(2, 3, 2, 3);
             btn_Reward_GamePass_30.Name = "btn_Reward_GamePass_30";
-            btn_Reward_GamePass_30.Size = new Size(64, 63);
+            btn_Reward_GamePass_30.Size = new Size(58, 67);
             btn_Reward_GamePass_30.TabIndex = 80;
             btn_Reward_GamePass_30.UseVisualStyleBackColor = false;
             btn_Reward_GamePass_30.Click += btn_Reward_GamePass_30_Click;
             // 
             // lbl_Reward_28
             // 
+            lbl_Reward_28.Anchor = AnchorStyles.None;
             lbl_Reward_28.AutoSize = true;
             lbl_Reward_28.BackColor = Color.Transparent;
             lbl_Reward_28.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lbl_Reward_28.ForeColor = Color.Violet;
-            lbl_Reward_28.Location = new Point(345, 567);
+            lbl_Reward_28.Location = new Point(315, 605);
+            lbl_Reward_28.Margin = new Padding(2, 0, 2, 0);
             lbl_Reward_28.Name = "lbl_Reward_28";
             lbl_Reward_28.Size = new Size(33, 19);
             lbl_Reward_28.TabIndex = 163;
@@ -1095,26 +1243,30 @@
             // 
             // btn_Reward_GamePass_28
             // 
+            btn_Reward_GamePass_28.Anchor = AnchorStyles.None;
             btn_Reward_GamePass_28.BackColor = Color.Transparent;
             btn_Reward_GamePass_28.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_GamePass_28.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_GamePass_28.FlatAppearance.BorderSize = 0;
             btn_Reward_GamePass_28.FlatStyle = FlatStyle.Flat;
             btn_Reward_GamePass_28.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_GamePass_28.Location = new Point(346, 523);
+            btn_Reward_GamePass_28.Location = new Point(316, 558);
+            btn_Reward_GamePass_28.Margin = new Padding(2, 3, 2, 3);
             btn_Reward_GamePass_28.Name = "btn_Reward_GamePass_28";
-            btn_Reward_GamePass_28.Size = new Size(66, 63);
+            btn_Reward_GamePass_28.Size = new Size(60, 67);
             btn_Reward_GamePass_28.TabIndex = 80;
             btn_Reward_GamePass_28.UseVisualStyleBackColor = false;
             btn_Reward_GamePass_28.Click += btn_Reward_GamePass_28_Click;
             // 
             // lbl_Giorno_29
             // 
+            lbl_Giorno_29.Anchor = AnchorStyles.None;
             lbl_Giorno_29.AutoSize = true;
             lbl_Giorno_29.BackColor = Color.Transparent;
             lbl_Giorno_29.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Giorno_29.ForeColor = SystemColors.ButtonHighlight;
-            lbl_Giorno_29.Location = new Point(420, 522);
+            lbl_Giorno_29.Location = new Point(384, 557);
+            lbl_Giorno_29.Margin = new Padding(2, 0, 2, 0);
             lbl_Giorno_29.Name = "lbl_Giorno_29";
             lbl_Giorno_29.Size = new Size(28, 21);
             lbl_Giorno_29.TabIndex = 137;
@@ -1122,11 +1274,13 @@
             // 
             // lbl_Giorno_27
             // 
+            lbl_Giorno_27.Anchor = AnchorStyles.None;
             lbl_Giorno_27.AutoSize = true;
             lbl_Giorno_27.BackColor = Color.Transparent;
             lbl_Giorno_27.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Giorno_27.ForeColor = SystemColors.ButtonHighlight;
-            lbl_Giorno_27.Location = new Point(269, 522);
+            lbl_Giorno_27.Location = new Point(246, 557);
+            lbl_Giorno_27.Margin = new Padding(2, 0, 2, 0);
             lbl_Giorno_27.Name = "lbl_Giorno_27";
             lbl_Giorno_27.Size = new Size(28, 21);
             lbl_Giorno_27.TabIndex = 138;
@@ -1134,11 +1288,13 @@
             // 
             // lbl_Reward_29
             // 
+            lbl_Reward_29.Anchor = AnchorStyles.None;
             lbl_Reward_29.AutoSize = true;
             lbl_Reward_29.BackColor = Color.Transparent;
             lbl_Reward_29.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lbl_Reward_29.ForeColor = Color.Violet;
-            lbl_Reward_29.Location = new Point(420, 567);
+            lbl_Reward_29.Location = new Point(384, 605);
+            lbl_Reward_29.Margin = new Padding(2, 0, 2, 0);
             lbl_Reward_29.Name = "lbl_Reward_29";
             lbl_Reward_29.Size = new Size(33, 19);
             lbl_Reward_29.TabIndex = 164;
@@ -1146,26 +1302,30 @@
             // 
             // btn_Reward_GamePass_29
             // 
+            btn_Reward_GamePass_29.Anchor = AnchorStyles.None;
             btn_Reward_GamePass_29.BackColor = Color.Transparent;
             btn_Reward_GamePass_29.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_GamePass_29.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_GamePass_29.FlatAppearance.BorderSize = 0;
             btn_Reward_GamePass_29.FlatStyle = FlatStyle.Flat;
             btn_Reward_GamePass_29.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_GamePass_29.Location = new Point(422, 523);
+            btn_Reward_GamePass_29.Location = new Point(386, 558);
+            btn_Reward_GamePass_29.Margin = new Padding(2, 3, 2, 3);
             btn_Reward_GamePass_29.Name = "btn_Reward_GamePass_29";
-            btn_Reward_GamePass_29.Size = new Size(64, 63);
+            btn_Reward_GamePass_29.Size = new Size(58, 67);
             btn_Reward_GamePass_29.TabIndex = 80;
             btn_Reward_GamePass_29.UseVisualStyleBackColor = false;
             btn_Reward_GamePass_29.Click += btn_Reward_GamePass_29_Click;
             // 
             // lbl_Reward_27
             // 
+            lbl_Reward_27.Anchor = AnchorStyles.None;
             lbl_Reward_27.AutoSize = true;
             lbl_Reward_27.BackColor = Color.Transparent;
             lbl_Reward_27.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lbl_Reward_27.ForeColor = Color.Violet;
-            lbl_Reward_27.Location = new Point(269, 567);
+            lbl_Reward_27.Location = new Point(246, 605);
+            lbl_Reward_27.Margin = new Padding(2, 0, 2, 0);
             lbl_Reward_27.Name = "lbl_Reward_27";
             lbl_Reward_27.Size = new Size(33, 19);
             lbl_Reward_27.TabIndex = 162;
@@ -1173,26 +1333,30 @@
             // 
             // btn_Reward_GamePass_27
             // 
+            btn_Reward_GamePass_27.Anchor = AnchorStyles.None;
             btn_Reward_GamePass_27.BackColor = Color.Transparent;
             btn_Reward_GamePass_27.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_GamePass_27.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_GamePass_27.FlatAppearance.BorderSize = 0;
             btn_Reward_GamePass_27.FlatStyle = FlatStyle.Flat;
             btn_Reward_GamePass_27.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_GamePass_27.Location = new Point(272, 523);
+            btn_Reward_GamePass_27.Location = new Point(249, 558);
+            btn_Reward_GamePass_27.Margin = new Padding(2, 3, 2, 3);
             btn_Reward_GamePass_27.Name = "btn_Reward_GamePass_27";
-            btn_Reward_GamePass_27.Size = new Size(66, 63);
+            btn_Reward_GamePass_27.Size = new Size(60, 67);
             btn_Reward_GamePass_27.TabIndex = 80;
             btn_Reward_GamePass_27.UseVisualStyleBackColor = false;
             btn_Reward_GamePass_27.Click += btn_Reward_GamePass_27_Click;
             // 
             // lbl_Giorno_26
             // 
+            lbl_Giorno_26.Anchor = AnchorStyles.None;
             lbl_Giorno_26.AutoSize = true;
             lbl_Giorno_26.BackColor = Color.Transparent;
             lbl_Giorno_26.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Giorno_26.ForeColor = SystemColors.ButtonHighlight;
-            lbl_Giorno_26.Location = new Point(196, 522);
+            lbl_Giorno_26.Location = new Point(179, 557);
+            lbl_Giorno_26.Margin = new Padding(2, 0, 2, 0);
             lbl_Giorno_26.Name = "lbl_Giorno_26";
             lbl_Giorno_26.Size = new Size(28, 21);
             lbl_Giorno_26.TabIndex = 135;
@@ -1200,11 +1364,13 @@
             // 
             // lbl_Reward_26
             // 
+            lbl_Reward_26.Anchor = AnchorStyles.None;
             lbl_Reward_26.AutoSize = true;
             lbl_Reward_26.BackColor = Color.Transparent;
             lbl_Reward_26.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lbl_Reward_26.ForeColor = Color.Violet;
-            lbl_Reward_26.Location = new Point(196, 567);
+            lbl_Reward_26.Location = new Point(179, 605);
+            lbl_Reward_26.Margin = new Padding(2, 0, 2, 0);
             lbl_Reward_26.Name = "lbl_Reward_26";
             lbl_Reward_26.Size = new Size(33, 19);
             lbl_Reward_26.TabIndex = 161;
@@ -1212,26 +1378,30 @@
             // 
             // btn_Reward_GamePass_26
             // 
+            btn_Reward_GamePass_26.Anchor = AnchorStyles.None;
             btn_Reward_GamePass_26.BackColor = Color.Transparent;
             btn_Reward_GamePass_26.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_GamePass_26.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_GamePass_26.FlatAppearance.BorderSize = 0;
             btn_Reward_GamePass_26.FlatStyle = FlatStyle.Flat;
             btn_Reward_GamePass_26.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_GamePass_26.Location = new Point(198, 523);
+            btn_Reward_GamePass_26.Location = new Point(181, 558);
+            btn_Reward_GamePass_26.Margin = new Padding(2, 3, 2, 3);
             btn_Reward_GamePass_26.Name = "btn_Reward_GamePass_26";
-            btn_Reward_GamePass_26.Size = new Size(64, 63);
+            btn_Reward_GamePass_26.Size = new Size(58, 67);
             btn_Reward_GamePass_26.TabIndex = 80;
             btn_Reward_GamePass_26.UseVisualStyleBackColor = false;
             btn_Reward_GamePass_26.Click += btn_Reward_GamePass_26_Click;
             // 
             // lbl_Giorno_25
             // 
+            lbl_Giorno_25.Anchor = AnchorStyles.None;
             lbl_Giorno_25.AutoSize = true;
             lbl_Giorno_25.BackColor = Color.Transparent;
             lbl_Giorno_25.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbl_Giorno_25.ForeColor = SystemColors.ButtonHighlight;
-            lbl_Giorno_25.Location = new Point(494, 455);
+            lbl_Giorno_25.Location = new Point(452, 486);
+            lbl_Giorno_25.Margin = new Padding(2, 0, 2, 0);
             lbl_Giorno_25.Name = "lbl_Giorno_25";
             lbl_Giorno_25.Size = new Size(28, 21);
             lbl_Giorno_25.TabIndex = 133;
@@ -1239,11 +1409,13 @@
             // 
             // lbl_Reward_25
             // 
+            lbl_Reward_25.Anchor = AnchorStyles.None;
             lbl_Reward_25.AutoSize = true;
             lbl_Reward_25.BackColor = Color.Transparent;
             lbl_Reward_25.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lbl_Reward_25.ForeColor = Color.Violet;
-            lbl_Reward_25.Location = new Point(495, 498);
+            lbl_Reward_25.Location = new Point(453, 531);
+            lbl_Reward_25.Margin = new Padding(2, 0, 2, 0);
             lbl_Reward_25.Name = "lbl_Reward_25";
             lbl_Reward_25.Size = new Size(33, 19);
             lbl_Reward_25.TabIndex = 149;
@@ -1251,26 +1423,30 @@
             // 
             // btn_Reward_GamePass_25
             // 
+            btn_Reward_GamePass_25.Anchor = AnchorStyles.None;
             btn_Reward_GamePass_25.BackColor = Color.Transparent;
             btn_Reward_GamePass_25.BackgroundImage = Properties.Resources.DiamanteViola_V2;
             btn_Reward_GamePass_25.BackgroundImageLayout = ImageLayout.Stretch;
             btn_Reward_GamePass_25.FlatAppearance.BorderSize = 0;
             btn_Reward_GamePass_25.FlatStyle = FlatStyle.Flat;
             btn_Reward_GamePass_25.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btn_Reward_GamePass_25.Location = new Point(497, 455);
+            btn_Reward_GamePass_25.Location = new Point(454, 486);
+            btn_Reward_GamePass_25.Margin = new Padding(2, 3, 2, 3);
             btn_Reward_GamePass_25.Name = "btn_Reward_GamePass_25";
-            btn_Reward_GamePass_25.Size = new Size(64, 62);
+            btn_Reward_GamePass_25.Size = new Size(58, 66);
             btn_Reward_GamePass_25.TabIndex = 80;
             btn_Reward_GamePass_25.UseVisualStyleBackColor = false;
             btn_Reward_GamePass_25.Click += btn_Reward_GamePass_25_Click;
             // 
             // lbl_Reward_6
             // 
+            lbl_Reward_6.Anchor = AnchorStyles.None;
             lbl_Reward_6.AutoSize = true;
             lbl_Reward_6.BackColor = Color.Transparent;
             lbl_Reward_6.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lbl_Reward_6.ForeColor = Color.Violet;
-            lbl_Reward_6.Location = new Point(196, 289);
+            lbl_Reward_6.Location = new Point(179, 308);
+            lbl_Reward_6.Margin = new Padding(2, 0, 2, 0);
             lbl_Reward_6.Name = "lbl_Reward_6";
             lbl_Reward_6.Size = new Size(33, 19);
             lbl_Reward_6.TabIndex = 149;
@@ -1278,11 +1454,13 @@
             // 
             // lbl_Reward_4
             // 
+            lbl_Reward_4.Anchor = AnchorStyles.None;
             lbl_Reward_4.AutoSize = true;
             lbl_Reward_4.BackColor = Color.Transparent;
             lbl_Reward_4.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lbl_Reward_4.ForeColor = Color.Violet;
-            lbl_Reward_4.Location = new Point(421, 222);
+            lbl_Reward_4.Location = new Point(385, 237);
+            lbl_Reward_4.Margin = new Padding(2, 0, 2, 0);
             lbl_Reward_4.Name = "lbl_Reward_4";
             lbl_Reward_4.Size = new Size(33, 19);
             lbl_Reward_4.TabIndex = 150;
@@ -1290,11 +1468,13 @@
             // 
             // lbl_Reward_5
             // 
+            lbl_Reward_5.Anchor = AnchorStyles.None;
             lbl_Reward_5.AutoSize = true;
             lbl_Reward_5.BackColor = Color.Transparent;
             lbl_Reward_5.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lbl_Reward_5.ForeColor = Color.Violet;
-            lbl_Reward_5.Location = new Point(496, 222);
+            lbl_Reward_5.Location = new Point(454, 237);
+            lbl_Reward_5.Margin = new Padding(2, 0, 2, 0);
             lbl_Reward_5.Name = "lbl_Reward_5";
             lbl_Reward_5.Size = new Size(33, 19);
             lbl_Reward_5.TabIndex = 147;
@@ -1302,11 +1482,13 @@
             // 
             // lbl_Reward_3
             // 
+            lbl_Reward_3.Anchor = AnchorStyles.None;
             lbl_Reward_3.AutoSize = true;
             lbl_Reward_3.BackColor = Color.Transparent;
             lbl_Reward_3.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lbl_Reward_3.ForeColor = Color.Violet;
-            lbl_Reward_3.Location = new Point(346, 222);
+            lbl_Reward_3.Location = new Point(316, 237);
+            lbl_Reward_3.Margin = new Padding(2, 0, 2, 0);
             lbl_Reward_3.Name = "lbl_Reward_3";
             lbl_Reward_3.Size = new Size(33, 19);
             lbl_Reward_3.TabIndex = 148;
@@ -1314,11 +1496,13 @@
             // 
             // lbl_Reward_2
             // 
+            lbl_Reward_2.Anchor = AnchorStyles.None;
             lbl_Reward_2.AutoSize = true;
             lbl_Reward_2.BackColor = Color.FromArgb(50, 50, 50);
             lbl_Reward_2.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lbl_Reward_2.ForeColor = Color.DarkGray;
-            lbl_Reward_2.Location = new Point(271, 222);
+            lbl_Reward_2.Location = new Point(248, 237);
+            lbl_Reward_2.Margin = new Padding(2, 0, 2, 0);
             lbl_Reward_2.Name = "lbl_Reward_2";
             lbl_Reward_2.Size = new Size(33, 19);
             lbl_Reward_2.TabIndex = 146;
@@ -1326,11 +1510,13 @@
             // 
             // lbl_Reward_1
             // 
+            lbl_Reward_1.Anchor = AnchorStyles.None;
             lbl_Reward_1.AutoSize = true;
             lbl_Reward_1.BackColor = Color.Purple;
             lbl_Reward_1.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lbl_Reward_1.ForeColor = Color.Chartreuse;
-            lbl_Reward_1.Location = new Point(197, 222);
+            lbl_Reward_1.Location = new Point(180, 237);
+            lbl_Reward_1.Margin = new Padding(2, 0, 2, 0);
             lbl_Reward_1.Name = "lbl_Reward_1";
             lbl_Reward_1.Size = new Size(33, 19);
             lbl_Reward_1.TabIndex = 145;
@@ -1338,11 +1524,13 @@
             // 
             // label1
             // 
+            label1.Anchor = AnchorStyles.None;
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = SystemColors.ButtonHighlight;
-            label1.Location = new Point(291, 132);
+            label1.Location = new Point(271, 141);
+            label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
             label1.Size = new Size(162, 25);
             label1.TabIndex = 163;
@@ -1350,11 +1538,12 @@
             // 
             // GamePassReward
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleDimensions = new SizeF(96F, 96F);
+            AutoScaleMode = AutoScaleMode.Dpi;
+            AutoSizeMode = AutoSizeMode.GrowAndShrink;
             BackgroundImage = Properties.Resources.Gamepass_Reward_V2;
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(760, 734);
+            ClientSize = new Size(695, 783);
             Controls.Add(lbl_Reward_30);
             Controls.Add(lbl_Reward_24);
             Controls.Add(lbl_Reward_18);
@@ -1450,8 +1639,9 @@
             Controls.Add(btn_Reward_GamePass_18);
             Controls.Add(btn_Reward_GamePass_30);
             DoubleBuffered = true;
+            Margin = new Padding(2, 3, 2, 3);
             Name = "GamePassReward";
-            Text = "Mucchietto di diamanti";
+            Text = "GamePass";
             Load += GamePassReward_Load;
             ResumeLayout(false);
             PerformLayout();
