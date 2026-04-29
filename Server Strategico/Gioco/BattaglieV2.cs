@@ -1,11 +1,6 @@
 ﻿using Server_Strategico.Gioco;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using static Server_Strategico.Gioco.Esercito;
 using static Server_Strategico.Gioco.Giocatori;
 using static Server_Strategico.Manager.QuestManager;
-using static Server_Strategico.Gioco.Ricerca;
 
 public class BattaglieV2
 {
@@ -23,7 +18,6 @@ public class BattaglieV2
             Arcieri = new int[5];
             Catapulte = new int[5];
         }
-
         public UnitGroup Clone()
         {
             return new UnitGroup
@@ -34,12 +28,10 @@ public class BattaglieV2
                 Catapulte = (int[])Catapulte.Clone()
             };
         }
-
         public int TotalUnits()
         {
             return Guerrieri.Sum() + Lancieri.Sum() + Arcieri.Sum() + Catapulte.Sum();
         }
-
         public int CountUnitTypes()
         {
             int count = 0;
@@ -49,7 +41,89 @@ public class BattaglieV2
             if (Catapulte.Any(c => c > 0)) count++;
             return Math.Max(count, 1); // Evita divisione per zero
         }
-    } // Classe per rappresentare le unità militari
+    }
+    // Test nuova classe per i risultati della battaglia, con dettagli sulla fase a distanza e corpo a corpo, oltre a statistiche e logistica per il giocatore
+    public class Report
+    {
+        public string Tipo { get; set; } //Battaglia, Spionaggio
+        public string Data { get; set; }
+        public bool Aperto { get; set; }
+        public RisultatoBattaglia Battaglia { get; set; }
+    }
+    public class RisultatoBattaglia // Classe per i risultati della battaglia
+    {
+        public string Tipo_Battaglia { get; set; } //PVP-PVE
+        public string Nome_Attaccante { get; set; }
+        public string Nome_Difensore { get; set; }
+
+        public double Forza_Attaccante { get; set; }
+        public double Forza_Difensore { get; set; }
+        public bool Vittoria_Attaccante { get; set; }
+
+        public int Xp_Attaccante { get; set; }      //Totale
+        public int Xp_Difensore { get; set; }       //Totale
+        public int Freccce_Attaccante { get; set; } //Totale
+        public int Freccce_Difensore { get; set; }  //Totale
+        public int Frecce_Necessarie_Attaccante { get; set; } 
+        public int Frecce_Necessarie_Difensore { get; set; }
+
+        public List<RisultatoFase> Fasi { get; set; }  // Dettagli per ogni fase della battaglia
+        public BonusRicerca Bonus_Ricerca_Difesa { get; set; }  // Bonus VIP, ricerche, eventi, ecc.
+        public BonusRicerca Bonus_Ricerca_Attacco { get; set; }  // Bonus VIP, ricerche, eventi, ecc.
+    }
+    public class RisultatoFase
+    {
+        public bool Vittoria_Attaccante { get; set; }
+        public bool Unità_Presenti_Difensore { get; set; }
+        public bool Struttura_Crollata { get; set; }
+        public int Xp_Attaccante { get; set; }
+        public int Xp_Difensore { get; set; }
+        public int Freccce_Attaccante { get; set; }
+        public int Freccce_Difensore { get; set; }
+        public int Frecce_Necessarie_Attaccante { get; set; }
+        public int Frecce_Necessarie_Difensore { get; set; }
+
+        public Edificio Struttura { get; set; }
+
+        public RangedBattleResult Fase_Distanza { get; set; }  // Battaglia a distanza (se applicabile)
+        public UnitGroup Attaccante_Schierati { get; set; }
+        public UnitGroup Attaccante_Sopravvisuti { get; set; }
+        public UnitGroup Attaccante_Perdite { get; set; }
+        public UnitGroup Difensore_Schierati { get; set; }
+        public UnitGroup Difensore_Sopravvisuti { get; set; }
+        public UnitGroup Difensore_Perdite { get; set; }
+        public UnitGroup Perdite_Crollo { get; set; }
+    }
+    public class Edificio
+    {
+        public string Nome { get; set; }
+        public int Salute { get; set; }
+        public int Difesa { get; set; }
+        public int Guarnigione { get; set; }
+    }
+    public class BonusRicerca
+    {
+        public string Bonus_Salute_Unità { get; set; }
+        public string Bonus_Difesa_Unità { get; set; }
+        public string Bonus_Attacco_Unità { get; set; }
+
+        public string Bonus_Salute_Strutture { get; set; }
+        public string Bonus_Difesa_Strutture { get; set; }
+        public string Bonus_Guarnigione_Strutture { get; set; }
+    }
+    public class RisorseRazziateV2
+    {
+        public int Cibo { get; set; }
+        public int Legno { get; set; }
+        public int Pietra { get; set; }
+        public int Ferro { get; set; }
+        public int Oro { get; set; }
+
+        public int Diamanti_Viola { get; set; }
+        public int Diamanti_Blu { get; set; }
+    }
+
+
     public class BattleResult // Classe per i risultati della battaglia
     {
         public RangedBattleResult FaseDistanza { get; set; }  // ✨ Risultati pre-battaglia
@@ -110,7 +184,7 @@ public class BattaglieV2
         public int DannoGuerrieri { get; set; }
         public int DannoLancieri { get; set; }
 
-        // ✨ NUOVO: Traccia morti per livello
+        // Traccia morti per livello
         public int[] MortiGuerrieri { get; set; }  // Array di 5 elementi
         public int[] MortiLancieri { get; set; }   // Array di 5 elementi
 
@@ -143,21 +217,21 @@ public class BattaglieV2
         };
 
         return ( // Applica i bonus delle ricerche
-            baseStats.Item1.Attacco + Ricerca.Soldati.Incremento.Attacco * player.Guerriero_Attacco * (1 + player.Bonus_Attacco_Guerrieri),
-            baseStats.Item1.Difesa + Ricerca.Soldati.Incremento.Difesa * player.Guerriero_Difesa * (1 + player.Bonus_Difesa_Guerrieri),
-            baseStats.Item1.Salute + Ricerca.Soldati.Incremento.Salute * player.Guerriero_Salute * (1 + player.Bonus_Salute_Guerrieri),
+            baseStats.Item1.Attacco + Ricerca.Soldati.Incremento.Attacco + (baseStats.Item1.Attacco * (1 + player.Bonus_Attacco_Guerrieri)), //Siamo siguri Incremento.Attacco * ? dovrebbe essere + ....
+            baseStats.Item1.Difesa + Ricerca.Soldati.Incremento.Difesa + (baseStats.Item1.Difesa * (1 + player.Bonus_Difesa_Guerrieri)),
+            baseStats.Item1.Salute + Ricerca.Soldati.Incremento.Salute + (baseStats.Item1.Salute * (1 + player.Bonus_Salute_Guerrieri)),
 
-            baseStats.Item2.Attacco + Ricerca.Soldati.Incremento.Attacco * player.Lancere_Attacco * (1 + player.Bonus_Attacco_Lanceri),
-            baseStats.Item2.Difesa + Ricerca.Soldati.Incremento.Difesa * player.Lancere_Difesa * (1 + player.Bonus_Difesa_Lanceri),
-            baseStats.Item2.Salute + Ricerca.Soldati.Incremento.Salute * player.Lancere_Salute * (1 + player.Bonus_Salute_Lanceri),
+            baseStats.Item2.Attacco + Ricerca.Soldati.Incremento.Attacco + (baseStats.Item2.Attacco * (1 + player.Bonus_Attacco_Lanceri)),
+            baseStats.Item2.Difesa + Ricerca.Soldati.Incremento.Difesa + (baseStats.Item2.Difesa * (1 + player.Bonus_Difesa_Lanceri)),
+            baseStats.Item2.Salute + Ricerca.Soldati.Incremento.Salute + (baseStats.Item2.Salute * (1 + player.Bonus_Salute_Lanceri)),
 
-            baseStats.Item3.Attacco + Ricerca.Soldati.Incremento.Attacco * player.Arcere_Attacco * (1 + player.Bonus_Attacco_Arceri),
-            baseStats.Item3.Difesa + Ricerca.Soldati.Incremento.Difesa * player.Arcere_Difesa * (1 + player.Bonus_Difesa_Arceri),
-            baseStats.Item3.Salute + Ricerca.Soldati.Incremento.Salute * player.Arcere_Salute * (1 + player.Bonus_Salute_Arceri),
+            baseStats.Item3.Attacco + Ricerca.Soldati.Incremento.Attacco + (baseStats.Item3.Attacco * (1 + player.Bonus_Attacco_Arceri)),
+            baseStats.Item3.Difesa + Ricerca.Soldati.Incremento.Difesa + (baseStats.Item3.Difesa * (1 + player.Bonus_Difesa_Arceri)),
+            baseStats.Item3.Salute + Ricerca.Soldati.Incremento.Salute + (baseStats.Item3.Salute * (1 + player.Bonus_Salute_Arceri)),
 
-            baseStats.Item4.Attacco + Ricerca.Soldati.Incremento.Attacco * player.Catapulta_Attacco * (1 + player.Bonus_Attacco_Catapulte),
-            baseStats.Item4.Difesa + Ricerca.Soldati.Incremento.Difesa * player.Catapulta_Difesa * (1 + player.Bonus_Difesa_Catapulte),
-            baseStats.Item4.Salute + Ricerca.Soldati.Incremento.Salute * player.Catapulta_Salute * (1 + player.Bonus_Salute_Catapulte)
+            baseStats.Item4.Attacco + Ricerca.Soldati.Incremento.Attacco + (baseStats.Item4.Attacco * (1 + player.Bonus_Attacco_Catapulte)),
+            baseStats.Item4.Difesa + Ricerca.Soldati.Incremento.Difesa + (baseStats.Item4.Difesa * (1 + player.Bonus_Difesa_Catapulte)),
+            baseStats.Item4.Salute + Ricerca.Soldati.Incremento.Salute + (baseStats.Item4.Salute * (1 + player.Bonus_Salute_Catapulte))
         );
     }
     private static (double GuerrieriAttacco, double GuerrieriDifesa, double GuerrieriSalute, int GuerrieriEsperienza,
@@ -1436,6 +1510,7 @@ public class BattaglieV2
     bool includiPreBattaglia = true)
     {
         int perdite_Attaccante = 0, perdite_Difensore = 0;
+
         var attackerUnits = new UnitGroup // Assegna unità attaccante
         {
             Guerrieri = guerriero,
@@ -1543,11 +1618,20 @@ public class BattaglieV2
         BattleResult result = null;
         OnEvent(attaccante, QuestEventType.Battaglie, "Attacca Giocatore", 1);
 
+        var report = new Report();
+        report.Aperto = true;
+        report.Data = DateTime.Now.ToString();
+
         for (int struttura = 1; struttura <= 6; struttura++)
         {
             int perdite_Attaccante = 0, perdite_Difensore = 0;
-            double salute = 0, difesa = 0;
-            bool valido = false;
+            int salute = 0, difesa = 0;
+            bool vittoria = false;
+
+            if (struttura == 2) { salute = difensore.Salute_Mura; difesa = difensore.Difesa_Mura; }
+            if (struttura == 3) { salute = difensore.Salute_Cancello; difesa = difensore.Difesa_Cancello; }
+            if (struttura == 4) { salute = difensore.Salute_Torri; difesa = difensore.Difesa_Torri; }
+            if (struttura == 6) { salute = difensore.Salute_Castello; difesa = difensore.Difesa_Castello; }
 
             var defenderUnits = new UnitGroup
             {
@@ -1557,13 +1641,30 @@ public class BattaglieV2
                 Catapulte = [0, 0, 0, 0, 0]
             };
             defenderUnits = CaricaDatiStruttureDifensore(defenderUnits, difensore, struttura);
+            if (salute == 0 && difesa == 0 || defenderUnits.TotalUnits() == 0) vittoria = true;
+            var fase = new RisultatoFase
+            {
+                Struttura = struttura switch
+                {
+                    1 => new Edificio { Nome = "Ingresso", Salute = salute, Difesa = difesa , Guarnigione = defenderUnits.TotalUnits() },
+                    2 => new Edificio { Nome = "Mura", Salute = salute, Difesa = difesa , Guarnigione = defenderUnits.TotalUnits() },
+                    3 => new Edificio { Nome = "Cancello", Salute = salute, Difesa = difesa , Guarnigione = defenderUnits.TotalUnits() },
+                    4 => new Edificio { Nome = "Torri", Salute = salute, Difesa = difesa , Guarnigione = defenderUnits.TotalUnits() },
+                    5 => new Edificio { Nome = "Centro Villaggio", Guarnigione = defenderUnits.TotalUnits() },
+                    6 => new Edificio { Nome = "Castello", Salute = salute, Difesa = difesa , Guarnigione = defenderUnits.TotalUnits() }
+                }
+            };
 
-            if (struttura == 2) { salute = difensore.Salute_Mura; difesa = difensore.Difesa_Mura; }
-            if (struttura == 3) { salute = difensore.Salute_Cancello; difesa = difensore.Difesa_Cancello; }
-            if (struttura == 4) { salute = difensore.Salute_Torri; difesa = difensore.Difesa_Torri; }
-            if (struttura == 6) { salute = difensore.Salute_Castello; difesa = difensore.Difesa_Castello; }
+            report.Battaglia.Nome_Attaccante = attaccante.Username;
+            report.Battaglia.Forza_Attaccante = attaccante.forza_Esercito;
+            report.Battaglia.Nome_Difensore = difensore.Username;
+            report.Battaglia.Forza_Difensore = difensore.forza_Esercito;
 
-            if (salute == 0 && difesa == 0 || defenderUnits.TotalUnits() == 0) valido = true;
+            fase.Attaccante_Schierati = attackerUnits.Clone();
+            fase.Difensore_Schierati = defenderUnits.Clone();
+
+            report.Battaglia.Fasi.Add(fase);
+
 
             // Salva unità originali per i log
             var attackerUnitsOriginali = attackerUnits.Clone();
@@ -1646,9 +1747,13 @@ public class BattaglieV2
             attaccante.Esperienza += CalcolaEsperienzaPVP(result.DifensorePerdite);
             difensore.Esperienza += CalcolaEsperienzaPVP(result.AttaccantePerdite);
 
-            if (perdite_Difensore > perdite_Attaccante || (perdite_Difensore == 0 && perdite_Attaccante == 0) || valido == true) // Determina vittoria (l'attaccante vince se causa più perdite del difensore)
+            if (perdite_Difensore > perdite_Attaccante || (perdite_Difensore == 0 && perdite_Attaccante == 0) || vittoria == true) // Determina vittoria (l'attaccante vince se causa più perdite del difensore)
                 result.Victory = true;
             else  result.Victory = false;
+
+
+
+            report.Battaglia.Fasi.Add(fase);
 
             InviaLogBattaglia_PvP(attackerGuid, defenderGuid, attaccante, difensore, result, attackerUnitsOriginali, defenderUnitsOriginali);
             if (result.Victory == true && struttura == 6) //Se la battaglia "fallisce" ritira le truppe.

@@ -2,8 +2,9 @@
 using static Server_Strategico.Gioco.Giocatori;
 using static Server_Strategico.Manager.QuestManager;
 using static Server_Strategico.Gioco.Ricerca;
+using Server_Strategico.Gioco;
 
-namespace Server_Strategico.Gioco
+namespace Server_Strategico.Manager
 {
     public class ResearchManager
     {
@@ -196,7 +197,7 @@ namespace Server_Strategico.Gioco
             if (ricerca == "Castello Guarnigione" && player.Ricerca_Castello_Livello * 2 == player.Ricerca_Castello_Guarnigione) {returnValue = true; richiesto = (player.Ricerca_Castello_Guarnigione + 1) * 4; msg = "castello"; }
 
             if (returnValue == true)
-                Server.Server.Send(player.guid_Player, $"Log_Server|[error]La ricerca [title]{ricerca} {livelloRicerca} [error]richiede che il livello del [title]{msg}[error] sia almeno lv [title]{richiesto}");
+                Server.Server.Send(player.guid_Player, LocalizationManager.Get(player).Ricerca_LivelloRichiesto(ricerca, livelloRicerca, msg, richiesto));
 
             return returnValue;
         }
@@ -215,7 +216,7 @@ namespace Server_Strategico.Gioco
                 player.currentTasks_Research.Add(nextTask);
 
                 Console.WriteLine($"Ricerca di {nextTask.Type} iniziata, durata {player.FormatTime(nextTask.DurationInSeconds)}s");
-                Server.Server.Send(clientGuid, $"Log_Server|[info]Ricerca di [title]{nextTask.Type} [title]iniziata. Durata [icon:tempo]{player.FormatTime(nextTask.DurationInSeconds)}");
+                Server.Server.Send(clientGuid, LocalizationManager.Get(player).Ricerca_Start(nextTask.Type, player.FormatTime(nextTask.DurationInSeconds)));
             }
         }
         public static void CompleteResearch(Guid clientGuid, Player player)
@@ -234,7 +235,7 @@ namespace Server_Strategico.Gioco
                 player.Ricerca_Attiva = false; // sblocca i pulsanti ricerca del client
 
                 Console.WriteLine($"Ricerca completata: {task.Type}");
-                Server.Server.Send(clientGuid, $"Log_Server|[success]Ricerca completata: [title]{task.Type}");
+                Server.Server.Send(clientGuid, LocalizationManager.Get(player).Ricerca_Completata(task.Type));
                 player.currentTasks_Research.Remove(task); // Rimozione sicura
             }
             StartNextResearch(player, clientGuid);
@@ -761,13 +762,13 @@ namespace Server_Strategico.Gioco
         {
             if (diamantiBluDaUsare <= 0)
             {
-                Server.Server.Send(clientGuid, "Log_Server|[error]Numero [blu][icon:diamanteBlu]diamanti [error]non valido.");
+                Server.Server.Send(clientGuid, LocalizationManager.Get(player).NumeroDiamantiNonValido());
                 return;
             }
 
             if (player.Diamanti_Blu < diamantiBluDaUsare)
             {
-                Server.Server.Send(clientGuid, "Log_Server|[error]Non hai abbastanza [blu][icon:diamanteBlu]Diamanti Blu[error]!");
+                Server.Server.Send(clientGuid, LocalizationManager.Get(player).DiamantiInsufficienti());
                 return;
             }
 
@@ -781,7 +782,7 @@ namespace Server_Strategico.Gioco
 
             if (tempoTotaleRimanente <= 0)
             {
-                Server.Server.Send(clientGuid, "Log_Server|[warning]Non ci sono ricerche da velocizzare.");
+                Server.Server.Send(clientGuid, LocalizationManager.Get(player).Ricerca_NessunaRicerca());
                 return;
             }
 
@@ -837,7 +838,7 @@ namespace Server_Strategico.Gioco
             int tempoEffettivamenteRidotto = riduzioneTotaleOriginale - riduzioneResidua;
             OnEvent(player, QuestEventType.Velocizzazione, "Qualsiasi", tempoEffettivamenteRidotto);
 
-            Server.Server.Send(clientGuid, $"Log_Server|[title]Hai usato [icon:diamanteBlu][warning]{diamantiBluDaUsare} [blu]Diamanti Blu [title]per velocizzare la ricerca! [icon:tempo]{player.FormatTime(tempoEffettivamenteRidotto)}");
+            Server.Server.Send(clientGuid, LocalizationManager.Get(player).Costruzione_Velocizzazione(diamantiBluDaUsare, player.FormatTime(tempoEffettivamenteRidotto)));
         }
         public class ResearchCost
         {

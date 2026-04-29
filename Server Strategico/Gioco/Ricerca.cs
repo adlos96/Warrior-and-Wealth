@@ -1,7 +1,4 @@
 ﻿using static Server_Strategico.Gioco.Esercito;
-using static Server_Strategico.Gioco.Ricerca;
-using static Server_Strategico.Gioco.Strutture;
-using static Server_Strategico.Server.Server;
 
 namespace Server_Strategico.Gioco
 {

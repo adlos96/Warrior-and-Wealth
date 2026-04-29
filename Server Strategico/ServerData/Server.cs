@@ -1,6 +1,7 @@
 ﻿using Server_Strategico.Gioco;
 using Server_Strategico.Manager;
 using Server_Strategico.ServerData.Moduli;
+using Server_Strategico.ServerData.Moduli.Battaglie;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using WatsonTcp;
@@ -92,6 +93,7 @@ namespace Server_Strategico.Server
                         Console.WriteLine("----------------------------------------------------------------------");
                         Console.WriteLine("Comando vuoto:                 [player]");                      // 
                         Console.WriteLine("Comando vuoto:                 [client]");                      // 
+                        Console.WriteLine("Comando vuoto:                 [battaglia]");                      // 
 
                         Console.WriteLine("----------------------------------------------------------------------");
                         break;
@@ -100,6 +102,9 @@ namespace Server_Strategico.Server
                         break;
                     case "client":
                         ClientConnessi();
+                        break;
+                    case "battaglia":
+                        BattagliaPVP.TestBattaglia();
                         break;
 
                     default: Console.WriteLine("[Server] >> Comando sconosciuto"); break;
@@ -736,7 +741,7 @@ namespace Server_Strategico.Server
                         await Auto_Update_Clients();
                         tempo_1 = 0;
                     }
-                    if (savePlayer >= 80) await SaveSomePlayersAsync(100); //Salva 50 player per volta...
+                    //if (savePlayer >= 80) await SaveSomePlayersAsync(100); //Salva 50 player per volta...
                     if (saveServer >= 1200) saveServer = 0;
                     if (savePlayer >= 80) savePlayer = 0;
                     tempo_1++;
