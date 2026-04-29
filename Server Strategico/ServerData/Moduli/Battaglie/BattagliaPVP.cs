@@ -1,8 +1,6 @@
 ﻿using Server_Strategico.Gioco;
-using static Server_Strategico.Gioco.Giocatori;
 using static Server_Strategico.Manager.QuestManager;
 using static Server_Strategico.ServerData.Moduli.Battaglie.Battaglia;
-using static Server_Strategico.ServerData.Moduli.Esplorazioni;
 
 namespace Server_Strategico.ServerData.Moduli.Battaglie
 {
@@ -13,7 +11,7 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
             Server_Strategico.Server.Server.Send(clientGuid, message);
             Console.WriteLine(message.Replace("Log_Server|", ""));
         }
-        static UnitGroup CaricaDatiStruttureDifensore(Player difensore, int struttura)
+        static UnitGroup CaricaDatiStruttureDifensore(Giocatori.Player difensore, int struttura)
         {
             var defenderUnits = new UnitGroup
             {
@@ -73,7 +71,7 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
             }
             return defenderUnits;
         }
-        static void AggiornaDatiStruttureDifensore(int struttura, Player difensore, RisultatoFase result)
+        static void AggiornaDatiStruttureDifensore(int struttura, Giocatori.Player difensore, RisultatoFase result)
         {
             if (struttura == 1)
             {
@@ -268,7 +266,7 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
                   double LancieriAttacco, double LancieriDifesa, double LancieriSalute,
                   double ArcieriAttacco, double ArcieriDifesa, double ArcieriSalute,
                   double CatapulteAttacco, double CatapulteDifesa, double CatapulteSalute)
-        GetPlayerUnitStats(int level, Player player)
+        GetPlayerUnitStats(int level, Giocatori.Player player)
         {
 
             var baseStats = level switch // Ottieni le statistiche base in base al livello
@@ -299,22 +297,6 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
                 baseStats.Item4.Salute + Ricerca.Soldati.Incremento.Salute + (baseStats.Item4.Salute * (1 + player.Bonus_Salute_Catapulte))
             );
         }
-        public static double CalcolaForza(UnitGroup units, double pesoAttacco = 1.0, double pesoDifesa = 0.8, double pesoSalute = 0.5)
-        {
-            double forza = 0;
-
-            for (int i = 0; i < 5; i++)
-            {
-                var stats = GetUnitStats(i);
-
-                forza += units.Guerrieri[i] * (stats.GuerrieriAttacco * pesoAttacco + stats.GuerrieriDifesa * pesoDifesa + stats.GuerrieriSalute * pesoSalute);
-                forza += units.Lancieri[i] * (stats.LancieriAttacco * pesoAttacco + stats.LancieriDifesa * pesoDifesa + stats.LancieriSalute * pesoSalute);
-                forza += units.Arcieri[i] * (stats.ArcieriAttacco * pesoAttacco + stats.ArcieriDifesa * pesoDifesa + stats.ArcieriSalute * pesoSalute);
-                forza += units.Catapulte[i] * (stats.CatapulteAttacco * pesoAttacco + stats.CatapulteDifesa * pesoDifesa + stats.CatapulteSalute * pesoSalute);
-            }
-
-            return Math.Round(forza);
-        }
         static int CalcoloFrecce(UnitGroup unità)
         {
             int frecce = unità.Arcieri[0] * Esercito.Unità.Arcere_1.Componente_Lancio + unità.Catapulte[0] * Esercito.Unità.Catapulta_1.Componente_Lancio;
@@ -331,7 +313,7 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
             int soldatiPersi = (int)Math.Ceiling(dannoEffettivo / salutePerSoldato);
             return Math.Max(0, numeroSoldati - soldatiPersi);
         }
-        private static BattagliaDistanza CalcolaAttaccoDistanza_(UnitGroup units, Player player, BattagliaDistanza result, bool difensore)
+        private static BattagliaDistanza CalcolaAttaccoDistanza_(UnitGroup units, Giocatori.Player player, BattagliaDistanza result, bool difensore)
         {
             int totaleArceri = units.Arcieri.Sum();
             int totaleCatapulte = units.Catapulte.Sum();
@@ -413,7 +395,7 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
             ApplicaDanni(units.Lancieri, dannoLancieri, morti.Lancieri);
             return morti;
         }
-        private static double CalcolaDannoGiocatore(UnitGroup units, Player player, bool usaFrecce, bool attaccante, RisultatoFase result)
+        private static double CalcolaDannoGiocatore(UnitGroup units, Giocatori.Player player, bool usaFrecce, bool attaccante, RisultatoFase result)
         {
             double dannoTotale = 0, moltiplicatoreDistanza = 1.0;
             int frecceNecessarie = CalcoloFrecce(units);
@@ -452,7 +434,7 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
             }
             return dannoTotale;
         }
-        private static RisultatoFase ApplicaDanniGiocatore(RisultatoFase battle, UnitGroup units, Player player, double dannoPerTipo, double bonusUnità, bool attacco)
+        private static RisultatoFase ApplicaDanniGiocatore(RisultatoFase battle, UnitGroup units, Giocatori.Player player, double dannoPerTipo, double bonusUnità, bool attacco)
         {
             for (int i = 0; i < 5; i++)
             {
@@ -516,7 +498,7 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
             }
             return battle;
         }
-        private static void AssegnaRisorseVittoria_PvP(Player attaccante, Player difensore, Guid attackerGuid, UnitGroup sopravvissuti)
+        private static void AssegnaRisorseVittoria_PvP(Giocatori.Player attaccante, Giocatori.Player difensore, Guid attackerGuid, UnitGroup sopravvissuti)
         {
             int capacitàCarico = CapacitàCarico(sopravvissuti, attaccante);
             int capacitàOriginale = capacitàCarico;
@@ -603,7 +585,7 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
             if (raccolte.Diamanti_Viola > 0) SendClient(attackerGuid, $"Log_Server|Diamanti Viola:    +[viola][icon:diamanteViola]{raccolte.Diamanti_Viola:N0}[/viola]");
             SendClient(attackerGuid, "Log_Server|════════════════════════════════════════════════════\n");
         }
-        static int CapacitàCarico(UnitGroup playerUnits, Player player)
+        static int CapacitàCarico(UnitGroup playerUnits, Giocatori.Player player)
         {
             int capacitàCarico = 0;
             capacitàCarico += (int)(playerUnits.Guerrieri[0] * Esercito.Unità.Guerriero_1.Trasporto * ((1 + player.Ricerca_Trasporto) * Ricerca.Tipi.Incremento.Trasporto));
@@ -630,6 +612,23 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
             capacitàCarico += (int)(playerUnits.Catapulte[3] * Esercito.Unità.Catapulta_4.Trasporto * ((1 + player.Ricerca_Trasporto) * Ricerca.Tipi.Incremento.Trasporto));
             capacitàCarico += (int)(playerUnits.Catapulte[4] * Esercito.Unità.Catapulta_5.Trasporto * ((1 + player.Ricerca_Trasporto) * Ricerca.Tipi.Incremento.Trasporto));
             return (int)(capacitàCarico * (1 + player.Bonus_Capacità_Trasporto));//Aggiunge bonus trasporto
+        }
+        public static double CalcolaForza(UnitGroup units, double pesoAttacco = 0.8, double pesoDifesa = 0.5, double pesoSalute = 0.3)
+        {
+            double forza = 0;
+
+            for (int i = 0; i < 5; i++)
+            {
+                var stats = GetUnitStats(i);
+
+                forza += units.Guerrieri[i] * (stats.GuerrieriAttacco * pesoAttacco + stats.GuerrieriDifesa * pesoDifesa + stats.GuerrieriSalute * pesoSalute);
+                forza += units.Lancieri[i] * (stats.LancieriAttacco * pesoAttacco + stats.LancieriDifesa * pesoDifesa + stats.LancieriSalute * pesoSalute);
+                forza += units.Arcieri[i] * (stats.ArcieriAttacco * pesoAttacco + stats.ArcieriDifesa * pesoDifesa + stats.ArcieriSalute * pesoSalute);
+                forza += units.Catapulte[i] * (stats.CatapulteAttacco * pesoAttacco + stats.CatapulteDifesa * pesoDifesa + stats.CatapulteSalute * pesoSalute);
+            }
+            //Aggiungere altri parametri come ricerca, bonus, etc...
+
+            return Math.Round(forza);
         }
         private static RisorseRaccolte RaccoliRisorseEquamente(double capacitàCarico, double cibo, double legno, double pietra, double ferro, double oro, 
             int exp, int diamBlu, int diamViola)
@@ -764,10 +763,8 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
         } // Distribuzione equa
 
 
-        static async Task<bool> Battaglia(Player attaccante, Player difensore, UnitGroup attackerUnits)
+        static async Task<bool> Battaglia(Giocatori.Player attaccante, Giocatori.Player difensore, UnitGroup attackerUnits)
         {
-            OnEvent(attaccante, QuestEventType.Battaglie, "Attacco Giocatore", 1); //Quest
-
             var report = new Battaglia.Report();
             RisultatoFase fase = null;
 
@@ -788,6 +785,9 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
                 if (numeroFasi > 0) attackerUnits = report.Battaglia.Fasi[numeroFasi - 1].Attaccante.Sopravvisuti;
 
                 fase = await Battaglia_Fase(attaccante, difensore, attackerUnits, fase, struttura);
+                //Calcolo esperienza dal report...
+                report.Battaglia.Xp_Attaccante += fase.Xp_Attaccante + fase.Fase_Distanza.Attaccante_XP;
+                report.Battaglia.Xp_Difensore += fase.Xp_Difensore + fase.Fase_Distanza.Difensore_XP;
                 report.Battaglia.Fasi.Add(fase);
             }
 
@@ -799,32 +799,33 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
 
             //Calcolo forza attaccante/difensore...
             report.Battaglia.Forza_Attaccante = CalcolaForza(attackerUnits);
-            //report.Battaglia.Forza_Difensore = CalcolaForza(fase.);
-
-            //Calcolo esperienza dal report...
-            foreach (var item in report.Battaglia.Fasi)
-            {
-                report.Battaglia.Xp_Attaccante += item.Xp_Attaccante + item.Fase_Distanza.Attaccante_XP;
-                report.Battaglia.Xp_Difensore += item.Xp_Difensore + item.Fase_Distanza.Difensore_XP;
-            }
+            foreach (var f in report.Battaglia.Fasi)
+                report.Battaglia.Forza_Difensore += CalcolaForza(f.Difensore.Schierati);
 
             //3: Risorse Battaglia
             if (report.Battaglia.Vittoria_Attaccante) AssegnaRisorseVittoria_PvP(attaccante, difensore, attaccante.guid_Player, fase.Attaccante.Sopravvisuti);
 
             //Aggiornamento dati attaccante
-
             numeroFasi = report.Battaglia.Fasi.Count;
-            for (int i = 0; i < 5; i++)// Aggiorna stato
+            for (int i = 0; i < 5; i++)// aggiorna unità attaccante sottraendo le perdite totali (schierati - sopravvissuti) (Schierati inizio - Sopravvissuti finale)
             {
-                attaccante.Guerrieri[i] -= report.Battaglia.Fasi[numeroFasi - 1].Attaccante.Schierati.Subtract(report.Battaglia.Fasi[numeroFasi - 1].Attaccante.Sopravvisuti).Guerrieri[i];
-                attaccante.Lanceri[i] -= report.Battaglia.Fasi[numeroFasi - 1].Attaccante.Schierati.Subtract(report.Battaglia.Fasi[numeroFasi - 1].Attaccante.Sopravvisuti).Lancieri[i];
-                attaccante.Arceri[i] -= report.Battaglia.Fasi[numeroFasi - 1].Attaccante.Schierati.Subtract(report.Battaglia.Fasi[numeroFasi - 1].Attaccante.Sopravvisuti).Arcieri[i];
-                attaccante.Catapulte[i] -= report.Battaglia.Fasi[numeroFasi - 1].Attaccante.Schierati.Subtract(report.Battaglia.Fasi[numeroFasi - 1].Attaccante.Sopravvisuti).Catapulte[i];
+                attaccante.Guerrieri[i] -= report.Battaglia.Fasi[0].Attaccante.Schierati.Subtract(report.Battaglia.Fasi[numeroFasi - 1].Attaccante.Sopravvisuti).Guerrieri[i];
+                attaccante.Lanceri[i] -= report.Battaglia.Fasi[0].Attaccante.Schierati.Subtract(report.Battaglia.Fasi[numeroFasi - 1].Attaccante.Sopravvisuti).Lancieri[i];
+                attaccante.Arceri[i] -= report.Battaglia.Fasi[0].Attaccante.Schierati.Subtract(report.Battaglia.Fasi[numeroFasi - 1].Attaccante.Sopravvisuti).Arcieri[i];
+                attaccante.Catapulte[i] -= report.Battaglia.Fasi[0].Attaccante.Schierati.Subtract(report.Battaglia.Fasi[numeroFasi - 1].Attaccante.Sopravvisuti).Catapulte[i];
             }
             int frecceAttaccante = report.Battaglia.Fasi.Sum(f => f.Fase_Distanza.Attaccante_Frecce_Usate);
             int frecceDifensore = report.Battaglia.Fasi.Sum(f => f.Fase_Distanza.Difensore_Frecce_Usate);
 
+            //Salvare report dei giocatori interessati
+            attaccante.Report.Add(report);
+            difensore.Report.Add(report);
+
+            AggiornaDatiGiocatori(attaccante, difensore, report);//Statistiche 
+
             //Quest
+            OnEvent(attaccante, QuestEventType.Battaglie, "Attacco Giocatore", 1); //Quest
+
             OnEvent(attaccante, QuestEventType.Uccisioni, "Guerrieri", fase.Difensore.Perdite.Guerrieri.Sum());
             OnEvent(attaccante, QuestEventType.Uccisioni, "Lanceri", fase.Difensore.Perdite.Lancieri.Sum());
             OnEvent(attaccante, QuestEventType.Uccisioni, "Arceri", fase.Difensore.Perdite.Arcieri.Sum());
@@ -835,10 +836,53 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
             OnEvent(difensore, QuestEventType.Uccisioni, "Arceri", fase.Attaccante.Perdite.Arcieri.Sum());
             OnEvent(difensore, QuestEventType.Uccisioni, "Catapulte", fase.Attaccante.Perdite.Catapulte.Sum());
             OnEvent(difensore, QuestEventType.Risorse, "Frecce", frecceDifensore);
+
             return true;
         }
+        static async void AggiornaDatiGiocatori(Giocatori.Player attaccante, Giocatori.Player difensore, Battaglia.Report report)
+        {
+            if (report.Battaglia.Vittoria_Attaccante)
+            {
+                attaccante.Battaglie_Vinte++; 
+                difensore.Battaglie_Perse++;
+            }
+            else
+            {
+                attaccante.Battaglie_Perse++;
+                difensore.Battaglie_Vinte++;
+            }
 
-        static async Task<Battaglia.RisultatoFase> Battaglia_Fase(Player attaccante, Player difensore, UnitGroup attackerUnits, Battaglia.RisultatoFase fase, int struttura)
+            foreach (var item in report.Battaglia.Fasi) //Corpo a corpo + Distanza
+            {
+                attaccante.Guerrieri_Eliminati += item.Difensore.Perdite.Guerrieri.Sum() + item.Fase_Distanza.Difensore_Morti.Guerrieri.Sum();
+                attaccante.Lanceri_Eliminati += item.Difensore.Perdite.Lancieri.Sum() + item.Fase_Distanza.Difensore_Morti.Lancieri.Sum();
+                attaccante.Arceri_Eliminati += item.Difensore.Perdite.Arcieri.Sum() + item.Fase_Distanza.Difensore_Morti.Arcieri.Sum();
+                attaccante.Catapulte_Eliminate += item.Difensore.Perdite.Catapulte.Sum() + item.Fase_Distanza.Difensore_Morti.Catapulte.Sum();
+                attaccante.Guerrieri_Persi += item.Attaccante.Perdite.Guerrieri.Sum() + item.Fase_Distanza.Attaccante_Morti.Guerrieri.Sum();
+                attaccante.Lanceri_Persi += item.Attaccante.Perdite.Lancieri.Sum() + item.Fase_Distanza.Attaccante_Morti.Lancieri.Sum();
+                attaccante.Arceri_Persi += item.Attaccante.Perdite.Arcieri.Sum() + item.Fase_Distanza.Attaccante_Morti.Arcieri.Sum();
+                attaccante.Catapulte_Perse += item.Attaccante.Perdite.Catapulte.Sum() + item.Fase_Distanza.Attaccante_Morti.Catapulte.Sum();
+                attaccante.Unità_Eliminate += item.Difensore.Perdite.TotalUnits() + item.Fase_Distanza.Difensore_Morti.TotalUnits();
+                attaccante.Unità_Perse += item.Attaccante.Perdite.TotalUnits() + item.Fase_Distanza.Attaccante_Morti.TotalUnits();
+                attaccante.Frecce_Utilizzate += item.Fase_Distanza.Attaccante_Frecce_Usate;
+
+                difensore.Guerrieri_Eliminati += item.Attaccante.Perdite.Guerrieri.Sum() + item.Fase_Distanza.Attaccante_Morti.Guerrieri.Sum();
+                difensore.Lanceri_Eliminati += item.Attaccante.Perdite.Lancieri.Sum() + item.Fase_Distanza.Attaccante_Morti.Lancieri.Sum();
+                difensore.Arceri_Eliminati += item.Attaccante.Perdite.Arcieri.Sum() + item.Fase_Distanza.Attaccante_Morti.Arcieri.Sum();
+                difensore.Catapulte_Eliminate += item.Attaccante.Perdite.Catapulte.Sum() + item.Fase_Distanza.Attaccante_Morti.Catapulte.Sum();
+                difensore.Guerrieri_Persi += item.Difensore.Perdite.Guerrieri.Sum() + item.Fase_Distanza.Difensore_Schierati.Guerrieri.Sum();
+                difensore.Lanceri_Persi += item.Difensore.Perdite.Lancieri.Sum() + item.Fase_Distanza.Difensore_Schierati.Lancieri.Sum();
+                difensore.Arceri_Persi += item.Difensore.Perdite.Arcieri.Sum() + item.Fase_Distanza.Difensore_Schierati.Arcieri.Sum();
+                difensore.Catapulte_Perse += item.Difensore.Perdite.Catapulte.Sum() + item.Fase_Distanza.Difensore_Schierati.Catapulte.Sum();
+                difensore.Unità_Eliminate += item.Attaccante.Perdite.TotalUnits() + item.Fase_Distanza.Attaccante_Morti.TotalUnits();
+                difensore.Unità_Perse += item.Difensore.Perdite.TotalUnits() + item.Fase_Distanza.Difensore_Morti.TotalUnits();
+                difensore.Frecce_Utilizzate += item.Fase_Distanza.Difensore_Frecce_Usate;
+            }
+
+            attaccante.Attacchi_Effettuati_PVP++;
+            difensore.Attacchi_Subiti_PVP++;
+        }
+        static async Task<Battaglia.RisultatoFase> Battaglia_Fase(Giocatori.Player attaccante, Giocatori.Player difensore, UnitGroup attackerUnits, Battaglia.RisultatoFase fase, int struttura)
         {
             var defenderUnits = CaricaDatiStruttureDifensore(difensore, struttura);
             fase = new RisultatoFase
@@ -871,7 +915,7 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
 
             return fase;
         }
-        private static BattagliaDistanza BattagliaDistanza(UnitGroup attackerUnits, UnitGroup defenderUnits, Player attaccante, Player difensore)
+        private static BattagliaDistanza BattagliaDistanza(UnitGroup attackerUnits, UnitGroup defenderUnits, Giocatori.Player attaccante, Giocatori.Player difensore)
         {
             var result = new BattagliaDistanza();
             result.Attaccante_Schierati = attackerUnits;
@@ -908,7 +952,7 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
 
             return result;
         }
-        private static RisultatoFase Battaglia_corpo_a_Corpo(UnitGroup attackerUnits, UnitGroup defenderUnits, Player attaccante, Player difensore, int struttura,
+        private static RisultatoFase Battaglia_corpo_a_Corpo(UnitGroup attackerUnits, UnitGroup defenderUnits, Giocatori.Player attaccante, Giocatori.Player difensore, int struttura,
         RisultatoFase fase)
         {
             if (defenderUnits.TotalUnits() == 0) fase.Unità_Presenti_Difensore = false;
@@ -991,12 +1035,13 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
             };
             var unitàDifensore = new UnitGroup
             {
-                Guerrieri = new int[] { 15, 0, 0, 0, 0 },
-                Lancieri = new int[] { 10, 0, 0, 0, 0 },
-                Arcieri = new int[] { 5, 0, 0, 0, 0 },
-                Catapulte = new int[] { 5, 0, 0, 0, 0 }
+                Guerrieri = new int[] { 25, 0, 0, 0, 0 },
+                Lancieri = new int[] { 20, 0, 0, 0, 0 },
+                Arcieri = new int[] { 15, 0, 0, 0, 0 },
+                Catapulte = new int[] { 10, 0, 0, 0, 0 }
             };
 
+            bool test1 = await Server.ServerConnection.New_Player("adly", "123", Guid.Empty);
             var difensore = Server.Server.servers_.GetPlayer_Data("adly");
             difensore.Guerrieri_Ingresso = unitàStrutture.Guerrieri;
             difensore.Lanceri_Ingresso = unitàStrutture.Lancieri;
@@ -1029,7 +1074,7 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
             difensore.Frecce = 5000;
 
             //Aggiungere giocatore x test
-            bool test = await Server.ServerConnection.New_Player("TEST", "123", Guid.Empty);
+            bool test2 = await Server.ServerConnection.New_Player("TEST", "123", Guid.Empty);
 
             var attaccante = Server.Server.servers_.GetPlayer_Data("TEST");
             attaccante.Frecce = 5000;
