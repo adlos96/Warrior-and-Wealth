@@ -78,6 +78,18 @@ namespace Server_Strategico.Server
 
             Console.WriteLine("[SERVER|LOG] (Info) > [WatsonTcpServer] Server Inizializzato");
             Console.WriteLine("");
+
+            // Gateway WebSocket: processo/porta separati, avviato solo se
+            // abilitato (Variabili_Server.WebGatewayEnabled) o a runtime col
+            // comando "webstart". Il try/catch isola qualsiasi problema del
+            // layer web (porta occupata, ecc.) dal resto del server: se
+            // fallisce, il gioco e le connessioni WatsonTcp non ne risentono.
+            if (Variabili_Server.WebGatewayEnabled)
+            {
+                try { WebSocketGateway.Start(Variabili_Server.WebGatewayPort); }
+                catch (Exception ex) { Console.WriteLine($"[SERVER|LOG] (Errore) > WebSocketGateway non avviato: {ex.Message}"); }
+            }
+
             Task task = StartGame();
 
             while (true)
@@ -96,9 +108,13 @@ namespace Server_Strategico.Server
                         Console.WriteLine("Comando vuoto:                 [client]");                      // 
                         Console.WriteLine("Comando vuoto:                 [battaglia]");                      // 
                         Console.WriteLine("Comando vuoto:                 [spionaggio]");                      // 
-                        Console.WriteLine("Comando vuoto:                 [disconnetti]");                      // 
+                        Console.WriteLine("Comando vuoto:                 [disconnetti]");                      //
 
-                        Console.WriteLine(" --------------------- Server Stats ---------------------");                      // 
+                        Console.WriteLine(" --------------------- Web Client (WebSocket) ---------------------");                      //
+                        Console.WriteLine("Comando vuoto:                 [webstart]  (avvia il gateway WebSocket per il client web)");
+                        Console.WriteLine("Comando vuoto:                 [webstop]   (ferma il gateway WebSocket)");
+
+                        Console.WriteLine(" --------------------- Server Stats ---------------------");                      //
                         Console.WriteLine("Comando vuoto:                 [clear stats]");                      // 
                         Console.WriteLine("Comando vuoto:                 [clear stats max]");                      //
 
@@ -120,6 +136,14 @@ namespace Server_Strategico.Server
                         Console.Write("Username del giocatore da disconnettere: ");
                         string usernameTarget = Console.ReadLine() ?? string.Empty;
                         _ = DisconnettiGiocatore(usernameTarget); // fire-and-forget, dato che siamo in un metodo sync
+                        break;
+                    case "webstart":
+                        try { WebSocketGateway.Start(Variabili_Server.WebGatewayPort); }
+                        catch (Exception ex) { Console.WriteLine($"[Server] Errore avvio WebSocketGateway: {ex.Message}"); }
+                        break;
+                    case "webstop":
+                        try { WebSocketGateway.Stop(); }
+                        catch (Exception ex) { Console.WriteLine($"[Server] Errore arresto WebSocketGateway: {ex.Message}"); }
                         break;
 
                     case "clear stats": max_Stats = 0; break;
@@ -159,12 +183,28 @@ namespace Server_Strategico.Server
         }
         public static void Send(Guid guid, string msg)
         {
-            if (Client_Connessi.Contains(guid) && guid != Guid.Empty)
+            if (guid == Guid.Empty) return;
+
+            // Instradamento per trasporto: i client del gateway web (vedi
+            // WebSocketGateway.cs) non sono client WatsonTcp, quindi vanno
+            // inviati con il loro socket. Nessuna modifica alla logica di
+            // gioco: da qui in giù il resto del server continua a chiamare
+            // solo Server.Send(guid, msg) senza sapere quale trasporto c'è
+            // dietro al guid.
+            bool inviato = false;
+            if (WebSocketGateway.IsWebSocketClient(guid))
+            {
+                WebSocketGateway.Send(guid, msg);
+                inviato = true;
+            }
+            else if (Client_Connessi.Contains(guid))
             {
                 server.SendAsync(guid, msg);
-                if (!msg.Contains("Update_Data") && !msg.Contains("QuestRewards") && !msg.Contains("QuestUpdate") && !msg.Contains("Descrizione")) 
-                    Console.WriteLine($"[SERVER|LOG] > {msg}");
+                inviato = true;
             }
+
+            if (inviato && !msg.Contains("Update_Data") && !msg.Contains("QuestRewards") && !msg.Contains("QuestUpdate") && !msg.Contains("Descrizione"))
+                Console.WriteLine($"[SERVER|LOG] > {msg}");
         }
 
         public static async Task NewPlayer(string player, string password)
@@ -246,7 +286,10 @@ namespace Server_Strategico.Server
             try
             {
                 Console.WriteLine($"[SERVER|LOG] > Disconnessione forzata di '{username}' (GUID: {player.guid_Player})");
-                await server.DisconnectClientAsync(player.guid_Player);
+                if (WebSocketGateway.IsWebSocketClient(player.guid_Player))
+                    WebSocketGateway.Disconnect(player.guid_Player);
+                else
+                    await server.DisconnectClientAsync(player.guid_Player);
                 return true;
             }
             catch (Exception ex)
@@ -302,20 +345,59 @@ namespace Server_Strategico.Server
                 players.TryGetValue(username, out Player player);
                 return player;
             }
+            // Riformattato (14/09/2026, su richiesta dell'utente: "visivamente è
+            // molto brutto") in una tabella allineata a colonne fisse, invece
+            // di una riga di testo libero per giocatore: prima ogni riga aveva
+            // lunghezza diversa (username di lunghezza variabile) e conteneva
+            // anche il Guid, che per la stragrande maggioranza dei giocatori è
+            // sempre 00000000-0000-0000-0000-000000000000 (nessun client mai
+            // connesso con quell'account) — pura confusione visiva senza alcuna
+            // informazione utile, quindi rimosso dalla stampa.
             public void Player_Creati()
             {
-                Console.WriteLine($"Numero Giocatori: {players.Count()}");
+                const int larghUsername = 22;
+                const int larghLivello = 9;
+                const int larghPotenza = 10;
+
+                string intestazione =
+                    "   " +
+                    "Username".PadRight(larghUsername) +
+                    "Livello".PadRight(larghLivello) +
+                    "Potenza".PadRight(larghPotenza) +
+                    "Ultimo accesso";
+                string separatore = new string('─', intestazione.Length);
+
+                Console.WriteLine();
+                Console.WriteLine($"Giocatori registrati: {players.Count()}");
+                Console.WriteLine(separatore);
+                Console.WriteLine(intestazione);
+                Console.WriteLine(separatore);
+
                 foreach (var item in players)
                 {
                     var player = item.Value;
                     bool connesso = player.guid_Player != Guid.Empty && Client_Connessi.Contains(player.guid_Player);
 
-                    Console.ForegroundColor = connesso ? ConsoleColor.Green : ConsoleColor.Red;
-                    Console.Write("● ");
+                    Console.ForegroundColor = connesso ? ConsoleColor.Green : ConsoleColor.DarkGray;
+                    Console.Write(connesso ? " ● " : " ○ ");
                     Console.ResetColor();
 
-                    Console.WriteLine($"Giocatore: {player.Username} Guid: {player.guid_Player}, Livello: {player.Livello}, Last: {player.Last_Login}");
+                    string username = string.IsNullOrWhiteSpace(player.Username) ? "(senza nome)" : player.Username;
+                    if (username.Length > larghUsername - 1) username = username.Substring(0, larghUsername - 4) + "...";
+
+                    string ultimoAccesso = player.Last_Login == DateTime.MinValue
+                        ? "mai"
+                        : player.Last_Login.ToString("dd/MM/yyyy");
+
+                    Console.WriteLine(
+                        username.PadRight(larghUsername) +
+                        player.Livello.ToString().PadRight(larghLivello) +
+                        player.Potenza_Totale.ToString("#,0").PadRight(larghPotenza) +
+                        ultimoAccesso);
                 }
+
+                Console.WriteLine(separatore);
+                Console.WriteLine();
             }
             public void AggiornaListaPVP()
             {
@@ -423,7 +505,7 @@ namespace Server_Strategico.Server
             }
             public async Task RunGameLoopAsync(CancellationToken cancellationToken)
             {
-                int saveCounterPlayer = 0, _firstStart = 0, stats = 0, update_5s = 0;
+                int _firstStart = 0, stats = 0;
 
                 if (Variabili_Server._Server_Consumo_RAM == 0)
                 {
@@ -431,7 +513,7 @@ namespace Server_Strategico.Server
                     Variabili_Server._Server_Consumo_RAM = (int)(proc.WorkingSet64 / 1024.0 / 1024.0);
                     Console.WriteLine($"[Server] Baseline RAM impostata: {Variabili_Server._Server_Consumo_RAM:F2} MB");
                 }
-                await addBOT(500000);
+                //await addBOT(500000);
 
                 await GameSave.LoadServerData();
                 await GameSave.Load_Player_Data_Auto();
@@ -473,7 +555,6 @@ namespace Server_Strategico.Server
                         })
                     );
 
-                    if (update_5s >= 5) update_5s = 0;
                     if (Variabili_Server.timer_Reset_Quest > 0) Variabili_Server.timer_Reset_Quest--;
                     if (Variabili_Server.timer_Reset_Quest == 0) QuestManager.RigeneraQuest();
                     if (Variabili_Server.timer_Reset_Barbari > 0) Variabili_Server.timer_Reset_Barbari--;
@@ -522,9 +603,7 @@ namespace Server_Strategico.Server
                     if (tempoRimanente <= 0) tempoRimanente = 50;
                     if (tempoRimanente > 0) await Task.Delay((int)tempoRimanente);
 
-                    saveCounterPlayer++;
                     stats++;
-                    update_5s++;
                 }
             }
             public async Task SaveSomePlayersAsync(int count)
@@ -626,7 +705,7 @@ namespace Server_Strategico.Server
                             {
                                 player.ManutenzioneEsercito();
                                 QuestManager.QuestUpdate(player);
-                                QuestManager.QuestRewardUpdate(player);
+                                //QuestManager.QuestRewardUpdate(player);
                                 player.SetupVillaggioGiocatore(player);
                             }
 

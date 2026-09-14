@@ -15,12 +15,26 @@ namespace Server_Strategico.Server
 {
     public class ServerConnection
     {
-        public static async void HandleClientRequest(MessageReceivedEventArgs requestData)
+        // Punto di ingresso storico per i client WatsonTcp: estrae dal
+        // MessageReceivedEventArgs (tipo specifico di WatsonTcp) i tre dati
+        // che contano davvero — guid, stringa del messaggio, descrizione
+        // del client — e li passa al core condiviso qui sotto. In questo
+        // modo qualsiasi altro trasporto (es. il gateway WebSocket) può
+        // richiamare la stessa logica di gioco senza dipendere da WatsonTcp.
+        public static void HandleClientRequest(MessageReceivedEventArgs requestData)
         {
-            var client = requestData.Client.ToString();
+            var clientDescription = requestData.Client.ToString();
             var clientGuid = requestData.Client.Guid;
             var messaggioRicevuto = Encoding.UTF8.GetString(requestData.Data);
+            HandleClientMessage(clientGuid, messaggioRicevuto, clientDescription);
+        }
 
+        // Core condiviso, agnostico rispetto al trasporto (WatsonTcp o
+        // WebSocket): stesso protocollo testuale "comando|arg1|arg2|...",
+        // stessa logica di gioco. Nessuna modifica qui sotto rispetto al
+        // comportamento originale.
+        public static async void HandleClientMessage(Guid clientGuid, string messaggioRicevuto, string client)
+        {
             //Variabili.server_Log.Add()
            Console.WriteLine("             ** Comunicazione Client **  ");
            Console.WriteLine("-----------------------------", "standard");
@@ -41,13 +55,25 @@ namespace Server_Strategico.Server
             string[] msgArgs;
             Player player = null;
 
-            if (comando == "Login" || comando == "New Player")
+            // "AutoLogin" deve passare senza il controllo generico qui sotto
+            // per lo stesso motivo di Login/New Player: il suo intero scopo è
+            // autenticare (o ri-autenticare) il client, quindi non può essere
+            // già bloccato da un pre-controllo che si aspetta un access token
+            // GIA' valido. Prima di questa correzione, un access token scaduto
+            // (caso normalissimo: il client riapre l'app dopo ore) veniva
+            // intercettato qui con TOKEN_SCADUTO/TOKEN_NON_VALIDO e la logica
+            // di fallback sul refresh token nel case "AutoLogin" più sotto non
+            // veniva mai raggiunta.
+            if (comando == "Login" || comando == "New Player" || comando == "AutoLogin")
             {
                 msgArgs = msgArgsRicevuti;
-                user = msgArgsRicevuti[2];
-                password = msgArgsRicevuti[3];
-                lang = msgArgsRicevuti[4];
-                email = msgArgsRicevuti[5];
+                if (comando != "AutoLogin")
+                {
+                    user = msgArgsRicevuti[2];
+                    password = msgArgsRicevuti[3];
+                    lang = msgArgsRicevuti[4];
+                    email = msgArgsRicevuti[5];
+                }
             }
             else
             {
@@ -180,44 +206,56 @@ namespace Server_Strategico.Server
                         Server.Send(clientGuid, $"Login|false|Username o password non corrispondono. User: [{msgArgs[1]}] psw: [{msgArgs[2]}]");
                     break;
                 case "AutoLogin":
-                    string accessToken_A = msgArgs[2];
-                    string refreshToken_A = msgArgs[3];
+                    // Formato: "AutoLogin|accessToken|refreshToken|lingua" (msgArgs
+                    // qui è l'array grezzo, vedi il bypass del pre-controllo sopra:
+                    // [0]=comando, [1]=accessToken, [2]=refreshToken, [3]=lingua).
+                    string accessToken_A = msgArgs[1];
+                    string refreshToken_A = msgArgs[2];
+                    string lang_A = msgArgs.Length > 3 ? msgArgs[3] : "it";
 
-                    if (!TokenManager.ValidateAccessToken(accessToken_A, out string username, out bool isExpired))
+                    string usernameAutoLogin = null;
+
+                    if (TokenManager.ValidateAccessToken(accessToken_A, out string usernameDaAccessToken, out bool accessTokenScaduto))
                     {
-                        if (isExpired)
-                        {
-                            Server.Send(clientGuid, "TOKEN_SCADUTO"); //Invio per triggherare il refresh del token da parte del client
-                            Console.WriteLine("[ServerConnection] >> Access Token - TOKEN_SCADUTO");
-                        }
-                        else
-                        {
-                            Server.Send(clientGuid, "TOKEN_NON_VALIDO"); //Non serve a nulla... il client lo vede ma non c'è il codice
-                            Console.WriteLine("[ServerConnection] >> Access Token - TOKEN_NON_VALIDO");
-                        }
+                        // Access token ancora valido: nessun bisogno di toccare il refresh token.
+                        usernameAutoLogin = usernameDaAccessToken;
                     }
-                    if (!TokenManager.ValidateRefreshToken(refreshToken_A, out username, out isExpired))
+                    else
                     {
-                        if (isExpired)
+                        // Access token scaduto o non valido: è il caso normale per cui
+                        // esiste l'AutoLogin, quindi si prova col refresh token invece
+                        // di arrendersi subito.
+                        if (!TokenManager.ValidateRefreshToken(refreshToken_A, out string usernameDaRefreshToken, out bool refreshTokenScaduto))
                         {
-                            Server.Send(clientGuid, "TOKEN_SCADUTO"); //Invio per triggherare il refresh del token da parte del client
-                            Console.WriteLine("[ServerConnection] >> Access Token - TOKEN_SCADUTO");
+                            Server.Send(clientGuid, refreshTokenScaduto ? "TOKEN_SCADUTO" : "TOKEN_NON_VALIDO");
+                            Console.WriteLine($"[ServerConnection] >> AutoLogin - Refresh Token {(refreshTokenScaduto ? "scaduto" : "non valido")}");
+                            return;
                         }
-                        else
-                        {
-                            Server.Send(clientGuid, "TOKEN_NON_VALIDO"); //Non serve a nulla... il client lo vede ma non c'è il codice
-                            Console.WriteLine("[ServerConnection] >> Access Token - TOKEN_NON_VALIDO");
-                        }
+                        usernameAutoLogin = usernameDaRefreshToken;
                     }
 
-                    player = Server.servers_.GetPlayer(username);
+                    player = Server.servers_.GetPlayer(usernameAutoLogin);
                     if (player == null)
                     {
                         Console.WriteLine("[AutoLogin] Player risulta null");
+                        Server.Send(clientGuid, "TOKEN_NON_VALIDO_PLAYER_NON_TROVATO");
                         return;
                     }
-                    // Genero i token qui, subito dopo l'auth con username/password
+
+                    // FONDAMENTALE (mancava): senza aggiornare guid_Player, il game
+                    // loop (GameServer.Auto_Update_Clients, che manda gli Update_Data
+                    // ad ogni tick) continua a usare il guid della sessione precedente
+                    // — quindi il client che ha appena fatto AutoLogin non riceve mai
+                    // aggiornamenti, pur senza errori lato server. Login/New Player lo
+                    // fanno già (vedi ServerConnection.Login/New_Player).
+                    player.guid_Player = clientGuid;
+
+                    // Rotazione token (come su Login/New Player): il refresh token
+                    // usato viene revocato e se ne genera uno nuovo insieme al nuovo
+                    // access token, invece di continuare a riusare lo stesso all'infinito.
+                    TokenManager.RevokeRefreshToken(refreshToken_A);
                     accessToken_A = TokenManager.GenerateAccessToken(player.Email, player.Username, TimeSpan.FromHours(8));
+                    refreshToken_A = TokenManager.GenerateRefreshToken(player.Email, player.Username, TimeSpan.FromDays(10));
                     Server.Send(clientGuid, $"Login|true|{accessToken_A}|{refreshToken_A}");
 
                     Server.Client_Connessi_Map.TryRemove(clientGuid, out _);
@@ -247,7 +285,7 @@ namespace Server_Strategico.Server
                         }
                     }
                     Accesso_Giornaliero(player);//GamePass Gold
-                    Lingua(player, msgArgs[4]);
+                    Lingua(player, lang_A);
 
                     Descrizioni.DescUpdate(player);
                     QuestManager.QuestUpdate(player);
@@ -441,16 +479,45 @@ namespace Server_Strategico.Server
             catapulte[3] = Convert.ToInt32(dati[23]);
             catapulte[4] = Convert.ToInt32(dati[24]);
 
-            if (dati[3] == "Villaggio Barbaro")
-                await BattaglieV2.Battaglia_Barbari(player, clientGuid, "Villaggio Barbaro", dati[4], guerrieri, picchieri, arcieri, catapulte);
-            if (dati[3] == "Città Barbaro")
-                await BattaglieV2.Battaglia_Barbari(player, clientGuid, "Città Barbaro", dati[4], guerrieri, picchieri, arcieri, catapulte);
+            if (dati[3] == "Villaggio Barbaro" || dati[3] == "Città Barbaro")
+            {
+                // --- PERCORSO ATTIVO (2026-09-14): BattagliaPVE.cs, con i bugfix applicati (vedi audit-battaglie.md) ---
+                var attackerUnitsPVE = new Server_Strategico.ServerData.Moduli.Battaglie.Battaglia.UnitGroup
+                {
+                    Guerrieri = guerrieri,
+                    Lancieri = picchieri,
+                    Arcieri = arcieri,
+                    Catapulte = catapulte
+                };
+                await Server_Strategico.ServerData.Moduli.Battaglie.BattagliaPVE.Battaglia(player, clientGuid, dati[3], Convert.ToInt32(dati[4]), attackerUnitsPVE);
+
+                /* --- PERCORSO LEGACY (disattivato il 2026-09-14, tenuto come riferimento finché i test sul nuovo percorso
+                   non danno l'ok — poi va eliminato insieme a BattaglieV2.Battaglia_Barbari e i suoi helper) ---
+                if (dati[3] == "Villaggio Barbaro")
+                    await BattaglieV2.Battaglia_Barbari(player, clientGuid, "Villaggio Barbaro", dati[4], guerrieri, picchieri, arcieri, catapulte);
+                if (dati[3] == "Città Barbaro")
+                    await BattaglieV2.Battaglia_Barbari(player, clientGuid, "Città Barbaro", dati[4], guerrieri, picchieri, arcieri, catapulte);
+                */
+            }
 
             AggiornaVillaggiClient(player);
             if (dati[3] == "PVP")
             {
                 var datisss = dati[4].Split(',');
                 var difensore = Server.servers_.GetPlayer(datisss[0]);
+
+                // --- PERCORSO ATTIVO (2026-09-14): BattagliaPVP.cs, con i bugfix applicati (vedi audit-battaglie.md) ---
+                var attackerUnitsNuovo = new Server_Strategico.ServerData.Moduli.Battaglie.Battaglia.UnitGroup
+                {
+                    Guerrieri = guerrieri,
+                    Lancieri = picchieri,
+                    Arcieri = arcieri,
+                    Catapulte = catapulte
+                };
+                await Server_Strategico.ServerData.Moduli.Battaglie.BattagliaPVP.Battaglia(player, difensore, attackerUnitsNuovo);
+
+                /* --- PERCORSO LEGACY (disattivato il 2026-09-14, tenuto come riferimento finché i test sul nuovo percorso
+                   non danno l'ok — poi va eliminato insieme a BattaglieV2.Battaglia_Strutture_PvP/Battaglia_PvP) ---
                 var attackerUnits = new BattaglieV2.UnitGroup
                 {
                     Guerrieri = guerrieri,
@@ -461,6 +528,7 @@ namespace Server_Strategico.Server
                 BattaglieV2.BattleResult result = await BattaglieV2.Battaglia_Strutture_PvP(player, difensore, clientGuid, difensore.guid_Player, attackerUnits);
                 if (result.Struttura == "Castello" && result.Victory == true)
                     BattaglieV2.Battaglia_PvP(player, difensore, clientGuid, difensore.guid_Player, result.AttaccantePerdite.Guerrieri, result.AttaccantePerdite.Lancieri, result.AttaccantePerdite.Arcieri, result.AttaccantePerdite.Catapulte);
+                */
 
                 Server.GameServer.GuerrieriCitta(player);
             }
@@ -1108,6 +1176,7 @@ namespace Server_Strategico.Server
         }
         static async void Quest_Reward(string[] msgArgs, Player player, Guid guid)
         {
+            bool premioRaccolto = false;
             int quest = Convert.ToInt32(msgArgs[4]);
             int reward = Convert.ToInt32(msgArgs[4]) - 1;
             switch (msgArgs[3])
@@ -1127,6 +1196,7 @@ namespace Server_Strategico.Server
                             player.PremiNormali[reward] = true;
                             player.Diamanti_Viola += QuestManager.QuestRewardSet.Normali_Monthly.Rewards[reward];
                         }
+                        premioRaccolto = true;
                     }
                     break;
                 case "Vip":
@@ -1148,11 +1218,18 @@ namespace Server_Strategico.Server
                             player.PremiVIP[reward] = true;
                             player.Diamanti_Viola += QuestManager.QuestRewardSet.Vip_Monthly.Rewards[reward];
                         }
+                        premioRaccolto = true;
                         QuestManager.QuestRewardUpdate(player);
                         QuestManager.QuestUpdate(player);
                     }
                     break;
 
+            }
+            if (premioRaccolto)
+            {
+                QuestManager.QuestRewardUpdate(player);
+                QuestManager.QuestUpdate(player);
+                premioRaccolto = false;
             }
         }
         public static async Task<bool> New_Player(string username, string password, string email, Guid guid)
@@ -1438,7 +1515,9 @@ namespace Server_Strategico.Server
                             if (player.Username == item)
                                 foreach (var items in attacco.GiocatoriPartecipanti.Values)
                                     if (items.Player == player.Username)
-                                        raduno_Player += $"{item}|{idAttacco}|{attacco.TempoRimanente / 60}|{items.Guerrieri[0]}|{items.Lanceri[0]}|{items.Arceri[0]}|{items.Catapulte[0]}-";
+                                        // BUGFIX (2026-09-14): Raduni.cs ora supporta truppe su tutti e 5 i tier, non solo il tier 1 —
+                                        // qui si invia la somma di tutti i tier per non "perdere" dalla vista client le truppe di livello > 1.
+                                        raduno_Player += $"{item}|{idAttacco}|{attacco.TempoRimanente / 60}|{items.Guerrieri.Sum()}|{items.Lanceri.Sum()}|{items.Arceri.Sum()}|{items.Catapulte.Sum()}-";
                         }
                     }
                 else raduno_Player = "";
