@@ -29,6 +29,12 @@ namespace Server_Strategico.ServerData.Moduli
             var spy = report.Spionaggio;
             report.Spionaggio.Forza_Spionaggio = forza; // era attaccante.Ricerca_Spionaggio: mostrava la ricerca grezza invece della forza netta (già scontato il Contro-Spionaggio del difensore), la stessa usata per calcolare precisione e stadio
             report.Spionaggio.Stadio = livello;
+            // 14/09/2026, richiesto dall'utente: quando lo stadio è sufficiente a mostrare una categoria (es.
+            // Caserme) ma la precisione non basta a dare il valore esatto (quindi "????"/range al posto del
+            // numero), il client deve poter avvisare "aumenta la forza per migliorare la precisione" — una
+            // volta sola per report, non per ogni singolo valore. Calcolato qui (unica fonte di verità sulla
+            // soglia 900), il client si limita a leggere questo bool.
+            report.Spionaggio.Precisione_Insufficiente = precisione < 900;
 
             for (int i = 0; i <= 6; i++) spy.Fasi.Add(new SpionaggioFase()); //Aggiunge le fasi vuote da popolare
 

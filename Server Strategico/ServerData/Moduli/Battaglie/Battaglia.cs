@@ -477,6 +477,10 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
             public bool Spionaggio_Riuscito { get; set; }
             public int Forza_Spionaggio { get; set; }
             public int Stadio { get; set; }
+            // true quando la Precisione (derivata dalla Forza, soglia 900) non basta a dare valori esatti
+            // in almeno una categoria già sbloccata dallo Stadio — il client la usa per mostrare un'unica
+            // nota "aumenta la forza per migliorare la precisione" nel report (14/09/2026).
+            public bool Precisione_Insufficiente { get; set; }
             public DatiGiocatore Giocatore { get; set; } = new DatiGiocatore();
             public RisorseCivili Risorse_Civili { get; set; } = new RisorseCivili();
             public RisorseMilitari Risorse_Militari { get; set; } = new RisorseMilitari();

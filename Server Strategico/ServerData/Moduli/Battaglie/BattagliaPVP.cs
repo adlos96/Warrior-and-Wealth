@@ -374,9 +374,9 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
         }
         private static async Task<Report> AssegnaRisorseVittoria_PvP(Giocatori.Player attaccante, Giocatori.Player difensore, Guid attackerGuid, UnitGroup sopravvissuti, Report report)
         {
-            // Bilanciamento: nel saccheggio PVP le truppe sopravvissute trasportano solo 1/5 della loro capacità di carico
+            // Bilanciamento: nel saccheggio PVP le truppe sopravvissute trasportano solo 1/3 della loro capacità di carico
             // totale (a differenza del PVE, dove presumibilmente si sfrutta la capacità piena). Nerf intenzionale.
-            int capacitàCarico = CapacitàCarico(sopravvissuti, attaccante) / 5;
+            int capacitàCarico = CapacitàCarico(sopravvissuti, attaccante) / 3;
             int capacitàOriginale = capacitàCarico;
 
             // Il 50% delle risorse del difensore può essere rubato

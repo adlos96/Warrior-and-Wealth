@@ -418,7 +418,7 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
         private static Report AssegnaRisorseVittoria_PVE(Giocatori.Player player, Guid clientGuid, string tipo, int livello, UnitGroup sopravvissuti, Report report)
         {
             // Bilanciamento: stesso nerf /5 applicato al saccheggio PVP, per coerenza tra le due modalità (confermato dall'utente).
-            int capacitàCarico = CapacitàCarico(sopravvissuti, player) / 5;
+            int capacitàCarico = CapacitàCarico(sopravvissuti, player) / 3;
             int capacitàOriginale = capacitàCarico;
 
             int cibo = 0, legno = 0, pietra = 0, ferro = 0, oro = 0, exp = 0, diamBlu = 0, diamViola = 0;
