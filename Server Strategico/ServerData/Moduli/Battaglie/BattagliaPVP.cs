@@ -6,11 +6,10 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
 {
     public class BattagliaPVP
     {
-        private static void SendClient(Guid clientGuid, string message)
-        {
-            Server_Strategico.Server.Server.Send(clientGuid, message);
-            Console.WriteLine(message.Replace("Log_Server|", ""));
-        }
+        // SendClient, GetPlayerUnitStats, GetUnitStats, CalcoloFrecce, CapacitàCarico, RidurreNumeroSoldati,
+        // ApplicaDanni, ApplicaDanniDistanza_, CalcolaForza e RaccoliRisorseEquamente sono stati spostati in
+        // Battaglia.cs il 2026-09-14 (erano duplicati letteralmente identici tra BattagliaPVP.cs e BattagliaPVE.cs).
+        // Restano richiamabili qui senza prefisso grazie a "using static ...Battaglia;" in cima al file.
         public static UnitGroup CaricaDatiStruttureDifensore(Giocatori.Player difensore, int struttura)
         {
             var defenderUnits = new UnitGroup
@@ -206,113 +205,6 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
             }
             return esperienza;
         }
-        public static (double GuerrieriAttacco, double GuerrieriDifesa, double GuerrieriSalute, int GuerrieriEsperienza,
-                   double LancieriAttacco, double LancieriDifesa, double LancieriSalute, int LancieriEsperienza,
-                   double ArcieriAttacco, double ArcieriDifesa, double ArcieriSalute, int ArcieriEsperienza,
-                   double CatapulteAttacco, double CatapulteDifesa, double CatapulteSalute, int CatapulteEsperienza)
-        GetUnitStats(int level)
-        {
-            return level switch
-            {
-                0 => (Esercito.Unità.Guerriero_1.Attacco, Esercito.Unità.Guerriero_1.Difesa,
-                      Esercito.Unità.Guerriero_1.Salute, Esercito.Unità.Guerriero_1.Esperienza,
-                      Esercito.Unità.Lancere_1.Attacco, Esercito.Unità.Lancere_1.Difesa,
-                      Esercito.Unità.Lancere_1.Salute, Esercito.Unità.Lancere_1.Esperienza,
-                      Esercito.Unità.Arcere_1.Attacco, Esercito.Unità.Arcere_1.Difesa,
-                      Esercito.Unità.Arcere_1.Salute, Esercito.Unità.Arcere_1.Esperienza,
-                      Esercito.Unità.Catapulta_1.Attacco, Esercito.Unità.Catapulta_1.Difesa,
-                      Esercito.Unità.Catapulta_1.Salute, Esercito.Unità.Catapulta_1.Esperienza),
-
-                1 => (Esercito.Unità.Guerriero_2.Attacco, Esercito.Unità.Guerriero_2.Difesa,
-                      Esercito.Unità.Guerriero_2.Salute, Esercito.Unità.Guerriero_2.Esperienza,
-                      Esercito.Unità.Lancere_2.Attacco, Esercito.Unità.Lancere_2.Difesa,
-                      Esercito.Unità.Lancere_2.Salute, Esercito.Unità.Lancere_2.Esperienza,
-                      Esercito.Unità.Arcere_2.Attacco, Esercito.Unità.Arcere_2.Difesa,
-                      Esercito.Unità.Arcere_2.Salute, Esercito.Unità.Arcere_2.Esperienza,
-                      Esercito.Unità.Catapulta_2.Attacco, Esercito.Unità.Catapulta_2.Difesa,
-                      Esercito.Unità.Catapulta_2.Salute, Esercito.Unità.Catapulta_2.Esperienza),
-
-                2 => (Esercito.Unità.Guerriero_3.Attacco, Esercito.Unità.Guerriero_3.Difesa,
-                      Esercito.Unità.Guerriero_3.Salute, Esercito.Unità.Guerriero_3.Esperienza,
-                      Esercito.Unità.Lancere_3.Attacco, Esercito.Unità.Lancere_3.Difesa,
-                      Esercito.Unità.Lancere_3.Salute, Esercito.Unità.Lancere_3.Esperienza,
-                      Esercito.Unità.Arcere_3.Attacco, Esercito.Unità.Arcere_3.Difesa,
-                      Esercito.Unità.Arcere_3.Salute, Esercito.Unità.Arcere_3.Esperienza,
-                      Esercito.Unità.Catapulta_3.Attacco, Esercito.Unità.Catapulta_3.Difesa,
-                      Esercito.Unità.Catapulta_3.Salute, Esercito.Unità.Catapulta_3.Esperienza),
-
-                3 => (Esercito.Unità.Guerriero_4.Attacco, Esercito.Unità.Guerriero_4.Difesa,
-                      Esercito.Unità.Guerriero_4.Salute, Esercito.Unità.Guerriero_4.Esperienza,
-                      Esercito.Unità.Lancere_4.Attacco, Esercito.Unità.Lancere_4.Difesa,
-                      Esercito.Unità.Lancere_4.Salute, Esercito.Unità.Lancere_4.Esperienza,
-                      Esercito.Unità.Arcere_4.Attacco, Esercito.Unità.Arcere_4.Difesa,
-                      Esercito.Unità.Arcere_4.Salute, Esercito.Unità.Arcere_4.Esperienza,
-                      Esercito.Unità.Catapulta_4.Attacco, Esercito.Unità.Catapulta_4.Difesa,
-                      Esercito.Unità.Catapulta_4.Salute, Esercito.Unità.Catapulta_4.Esperienza),
-
-                4 => (Esercito.Unità.Guerriero_5.Attacco, Esercito.Unità.Guerriero_5.Difesa,
-                      Esercito.Unità.Guerriero_5.Salute, Esercito.Unità.Guerriero_5.Esperienza,
-                      Esercito.Unità.Lancere_5.Attacco, Esercito.Unità.Lancere_5.Difesa,
-                      Esercito.Unità.Lancere_5.Salute, Esercito.Unità.Lancere_5.Esperienza,
-                      Esercito.Unità.Arcere_5.Attacco, Esercito.Unità.Arcere_5.Difesa,
-                      Esercito.Unità.Arcere_5.Salute, Esercito.Unità.Arcere_5.Esperienza,
-                      Esercito.Unità.Catapulta_5.Attacco, Esercito.Unità.Catapulta_5.Difesa,
-                      Esercito.Unità.Catapulta_5.Salute, Esercito.Unità.Catapulta_5.Esperienza),
-
-                _ => (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-            };
-        }
-        public static (double GuerrieriAttacco, double GuerrieriDifesa, double GuerrieriSalute,
-                  double LancieriAttacco, double LancieriDifesa, double LancieriSalute,
-                  double ArcieriAttacco, double ArcieriDifesa, double ArcieriSalute,
-                  double CatapulteAttacco, double CatapulteDifesa, double CatapulteSalute)
-        GetPlayerUnitStats(int level, Giocatori.Player player)
-        {
-
-            var baseStats = level switch // Ottieni le statistiche base in base al livello
-            {
-                0 => (Esercito.Unità.Guerriero_1, Esercito.Unità.Lancere_1, Esercito.Unità.Arcere_1, Esercito.Unità.Catapulta_1),
-                1 => (Esercito.Unità.Guerriero_2, Esercito.Unità.Lancere_2, Esercito.Unità.Arcere_2, Esercito.Unità.Catapulta_2),
-                2 => (Esercito.Unità.Guerriero_3, Esercito.Unità.Lancere_3, Esercito.Unità.Arcere_3, Esercito.Unità.Catapulta_3),
-                3 => (Esercito.Unità.Guerriero_4, Esercito.Unità.Lancere_4, Esercito.Unità.Arcere_4, Esercito.Unità.Catapulta_4),
-                4 => (Esercito.Unità.Guerriero_5, Esercito.Unità.Lancere_5, Esercito.Unità.Arcere_5, Esercito.Unità.Catapulta_5),
-                _ => (Esercito.Unità.Guerriero_1, Esercito.Unità.Lancere_1, Esercito.Unità.Arcere_1, Esercito.Unità.Catapulta_1)
-            };
-
-            return ( // Applica i bonus delle ricerche
-                baseStats.Item1.Attacco + Ricerca.Soldati.Incremento.Attacco + (baseStats.Item1.Attacco * player.Bonus_Attacco_Guerrieri), //Siamo siguri Incremento.Attacco * ? dovrebbe essere + ....
-                baseStats.Item1.Difesa + Ricerca.Soldati.Incremento.Difesa + (baseStats.Item1.Difesa * player.Bonus_Difesa_Guerrieri),
-                baseStats.Item1.Salute + Ricerca.Soldati.Incremento.Salute + (baseStats.Item1.Salute * player.Bonus_Salute_Guerrieri),
-
-                baseStats.Item2.Attacco + Ricerca.Soldati.Incremento.Attacco + (baseStats.Item2.Attacco * player.Bonus_Attacco_Lanceri),
-                baseStats.Item2.Difesa + Ricerca.Soldati.Incremento.Difesa + (baseStats.Item2.Difesa * player.Bonus_Difesa_Lanceri),
-                baseStats.Item2.Salute + Ricerca.Soldati.Incremento.Salute + (baseStats.Item2.Salute * player.Bonus_Salute_Lanceri),
-
-                baseStats.Item3.Attacco + Ricerca.Soldati.Incremento.Attacco + (baseStats.Item3.Attacco * player.Bonus_Attacco_Arceri),
-                baseStats.Item3.Difesa + Ricerca.Soldati.Incremento.Difesa + (baseStats.Item3.Difesa * player.Bonus_Difesa_Arceri),
-                baseStats.Item3.Salute + Ricerca.Soldati.Incremento.Salute + (baseStats.Item3.Salute * player.Bonus_Salute_Arceri),
-
-                baseStats.Item4.Attacco + Ricerca.Soldati.Incremento.Attacco + (baseStats.Item4.Attacco * player.Bonus_Attacco_Catapulte),
-                baseStats.Item4.Difesa + Ricerca.Soldati.Incremento.Difesa + (baseStats.Item4.Difesa * player.Bonus_Difesa_Catapulte),
-                baseStats.Item4.Salute + Ricerca.Soldati.Incremento.Salute + (baseStats.Item4.Salute * player.Bonus_Salute_Catapulte)
-            );
-        }
-        static int CalcoloFrecce(UnitGroup unità)
-        {
-            int frecce = unità.Arcieri[0] * Esercito.Unità.Arcere_1.Componente_Lancio + unità.Catapulte[0] * Esercito.Unità.Catapulta_1.Componente_Lancio;
-            frecce += unità.Arcieri[1] * Esercito.Unità.Arcere_2.Componente_Lancio + unità.Catapulte[1] * Esercito.Unità.Catapulta_2.Componente_Lancio;
-            frecce += unità.Arcieri[2] * Esercito.Unità.Arcere_3.Componente_Lancio + unità.Catapulte[2] * Esercito.Unità.Catapulta_3.Componente_Lancio;
-            frecce += unità.Arcieri[3] * Esercito.Unità.Arcere_4.Componente_Lancio + unità.Catapulte[3] * Esercito.Unità.Catapulta_4.Componente_Lancio;
-            frecce += unità.Arcieri[4] * Esercito.Unità.Arcere_5.Componente_Lancio + unità.Catapulte[4] * Esercito.Unità.Catapulta_5.Componente_Lancio;
-            return frecce;
-        }
-        private static int RidurreNumeroSoldati(int numeroSoldati, double danno, double difesa, double salutePerSoldato)
-        {
-            if (numeroSoldati == 0 || salutePerSoldato == 0) return 0;
-            double dannoEffettivo = Math.Max(0, danno - difesa);
-            int soldatiPersi = (int)Math.Ceiling(dannoEffettivo / salutePerSoldato);
-            return Math.Max(0, numeroSoldati - soldatiPersi);
-        }
         private static BattagliaDistanza CalcolaAttaccoDistanza_(UnitGroup units, Giocatori.Player player, BattagliaDistanza result, bool difensore)
         {
             int totaleArceri = units.Arcieri.Sum();
@@ -376,24 +268,6 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
                 result.Attaccante_Frecce_Usate = frecceUsate;
             }
             return result;
-        }
-        private static void ApplicaDanni(int[] unita, int danno, int[] morti)
-        {
-            for (int i = 0; i < 5 && danno > 0; i++)
-            {
-                if (unita[i] <= 0) continue;
-                int uccisi = Math.Min(unita[i], danno);
-                unita[i] -= uccisi;
-                morti[i] = uccisi;
-                danno -= uccisi;
-            }
-        }
-        private static UnitGroup ApplicaDanniDistanza_(UnitGroup units, int dannoGuerrieri, int dannoLancieri)
-        {
-            var morti = new UnitGroup();
-            ApplicaDanni(units.Guerrieri, dannoGuerrieri, morti.Guerrieri);
-            ApplicaDanni(units.Lancieri, dannoLancieri, morti.Lancieri);
-            return morti;
         }
         private static double CalcolaDannoGiocatore(UnitGroup units, Giocatori.Player player, bool usaFrecce, bool attaccante, RisultatoFase result)
         {
@@ -500,6 +374,8 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
         }
         private static async Task<Report> AssegnaRisorseVittoria_PvP(Giocatori.Player attaccante, Giocatori.Player difensore, Guid attackerGuid, UnitGroup sopravvissuti, Report report)
         {
+            // Bilanciamento: nel saccheggio PVP le truppe sopravvissute trasportano solo 1/5 della loro capacità di carico
+            // totale (a differenza del PVE, dove presumibilmente si sfrutta la capacità piena). Nerf intenzionale.
             int capacitàCarico = CapacitàCarico(sopravvissuti, attaccante) / 5;
             int capacitàOriginale = capacitàCarico;
 
@@ -509,8 +385,15 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
             double pietra = difensore.Pietra / 2;
             double ferro = difensore.Ferro / 2;
             double oro = difensore.Oro / 2;
-            int diamantiViola = Variabili_Server.Max_Diamanti_Viola_PVP_Giocatore - difensore.Diamanti_Viola_PVP_Persi;
-            int diamantiBlu = Variabili_Server.Max_Diamanti_Blu_PVP_Giocatore - difensore.Diamanti_Blu_PVP_Persi;
+            // BUGFIX: il margine va calcolato come minimo tra il residuo del bersaglio E il residuo giornaliero dell'attaccante,
+            // altrimenti un attaccante vicino al tetto giornaliero può comunque superarlo in un singolo raid.
+            int diamantiVioleResiduiBersaglio = Math.Max(0, Variabili_Server.Max_Diamanti_Viola_PVP_Giocatore - difensore.Diamanti_Viola_PVP_Persi);
+            int diamantiVioleResiduiAttaccante = Math.Max(0, Variabili_Server.Max_Diamanti_Viola_PVP - attaccante.Diamanti_Viola_PVP_Ottenuti);
+            int diamantiViola = Math.Min(diamantiVioleResiduiBersaglio, diamantiVioleResiduiAttaccante);
+
+            int diamantiBluResiduiBersaglio = Math.Max(0, Variabili_Server.Max_Diamanti_Blu_PVP_Giocatore - difensore.Diamanti_Blu_PVP_Persi);
+            int diamantiBluResiduiAttaccante = Math.Max(0, Variabili_Server.max_Diamanti_Blu_PVP - attaccante.Diamanti_Blu_PVP_Ottenuti);
+            int diamantiBlu = Math.Min(diamantiBluResiduiBersaglio, diamantiBluResiduiAttaccante);
 
             var raccolte = RaccoliRisorseEquamente(capacitàCarico, cibo, legno, pietra, ferro, oro, 0, diamantiBlu, diamantiViola); // Raccogli risorse
 
@@ -590,191 +473,13 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
             report.Battaglia.Risorse_Raccolte.Capacità_Carico_Usata = pesoUtilizzato;
             return report;
         }
-        static int CapacitàCarico(UnitGroup playerUnits, Giocatori.Player player)
-        {
-            int capacitàCarico = 0;
-            capacitàCarico += (int)(playerUnits.Guerrieri[0] * Esercito.Unità.Guerriero_1.Trasporto * ((player.Ricerca_Trasporto) * Ricerca.Tipi.Incremento.Trasporto));
-            capacitàCarico += (int)(playerUnits.Guerrieri[1] * Esercito.Unità.Guerriero_2.Trasporto * ((player.Ricerca_Trasporto) * Ricerca.Tipi.Incremento.Trasporto));
-            capacitàCarico += (int)(playerUnits.Guerrieri[2] * Esercito.Unità.Guerriero_3.Trasporto * ((player.Ricerca_Trasporto) * Ricerca.Tipi.Incremento.Trasporto));
-            capacitàCarico += (int)(playerUnits.Guerrieri[3] * Esercito.Unità.Guerriero_4.Trasporto * ((player.Ricerca_Trasporto) * Ricerca.Tipi.Incremento.Trasporto));
-            capacitàCarico += (int)(playerUnits.Guerrieri[4] * Esercito.Unità.Guerriero_5.Trasporto * ((player.Ricerca_Trasporto) * Ricerca.Tipi.Incremento.Trasporto));
-
-            capacitàCarico += (int)(playerUnits.Lancieri[0] * Esercito.Unità.Lancere_1.Trasporto * ((player.Ricerca_Trasporto) * Ricerca.Tipi.Incremento.Trasporto));
-            capacitàCarico += (int)(playerUnits.Lancieri[1] * Esercito.Unità.Lancere_2.Trasporto * ((player.Ricerca_Trasporto) * Ricerca.Tipi.Incremento.Trasporto));
-            capacitàCarico += (int)(playerUnits.Lancieri[2] * Esercito.Unità.Lancere_3.Trasporto * ((player.Ricerca_Trasporto) * Ricerca.Tipi.Incremento.Trasporto));
-            capacitàCarico += (int)(playerUnits.Lancieri[3] * Esercito.Unità.Lancere_4.Trasporto * ((player.Ricerca_Trasporto) * Ricerca.Tipi.Incremento.Trasporto));
-            capacitàCarico += (int)(playerUnits.Lancieri[4] * Esercito.Unità.Lancere_5.Trasporto * ((player.Ricerca_Trasporto) * Ricerca.Tipi.Incremento.Trasporto));
-
-            capacitàCarico += (int)(playerUnits.Arcieri[0] * Esercito.Unità.Arcere_1.Trasporto * ((player.Ricerca_Trasporto) * Ricerca.Tipi.Incremento.Trasporto));
-            capacitàCarico += (int)(playerUnits.Arcieri[1] * Esercito.Unità.Arcere_2.Trasporto * ((player.Ricerca_Trasporto) * Ricerca.Tipi.Incremento.Trasporto));
-            capacitàCarico += (int)(playerUnits.Arcieri[2] * Esercito.Unità.Arcere_3.Trasporto * ((player.Ricerca_Trasporto) * Ricerca.Tipi.Incremento.Trasporto));
-            capacitàCarico += (int)(playerUnits.Arcieri[3] * Esercito.Unità.Arcere_4.Trasporto * ((player.Ricerca_Trasporto) * Ricerca.Tipi.Incremento.Trasporto));
-            capacitàCarico += (int)(playerUnits.Arcieri[4] * Esercito.Unità.Arcere_5.Trasporto * ((player.Ricerca_Trasporto) * Ricerca.Tipi.Incremento.Trasporto));
-
-            capacitàCarico += (int)(playerUnits.Catapulte[0] * Esercito.Unità.Catapulta_1.Trasporto * ((player.Ricerca_Trasporto) * Ricerca.Tipi.Incremento.Trasporto));
-            capacitàCarico += (int)(playerUnits.Catapulte[1] * Esercito.Unità.Catapulta_2.Trasporto * ((player.Ricerca_Trasporto) * Ricerca.Tipi.Incremento.Trasporto));
-            capacitàCarico += (int)(playerUnits.Catapulte[2] * Esercito.Unità.Catapulta_3.Trasporto * ((player.Ricerca_Trasporto) * Ricerca.Tipi.Incremento.Trasporto));
-            capacitàCarico += (int)(playerUnits.Catapulte[3] * Esercito.Unità.Catapulta_4.Trasporto * ((player.Ricerca_Trasporto) * Ricerca.Tipi.Incremento.Trasporto));
-            capacitàCarico += (int)(playerUnits.Catapulte[4] * Esercito.Unità.Catapulta_5.Trasporto * ((player.Ricerca_Trasporto) * Ricerca.Tipi.Incremento.Trasporto));
-            return (int)(capacitàCarico * (1 + player.Bonus_Capacità_Trasporto));//Aggiunge bonus trasporto
-        }
-        public static double CalcolaForza(UnitGroup units, double pesoAttacco = 0.8, double pesoDifesa = 0.5, double pesoSalute = 0.3)
-        {
-            double forza = 0;
-
-            for (int i = 0; i < 5; i++)
-            {
-                var stats = GetUnitStats(i);
-
-                forza += units.Guerrieri[i] * (stats.GuerrieriAttacco * pesoAttacco + stats.GuerrieriDifesa * pesoDifesa + stats.GuerrieriSalute * pesoSalute);
-                forza += units.Lancieri[i] * (stats.LancieriAttacco * pesoAttacco + stats.LancieriDifesa * pesoDifesa + stats.LancieriSalute * pesoSalute);
-                forza += units.Arcieri[i] * (stats.ArcieriAttacco * pesoAttacco + stats.ArcieriDifesa * pesoDifesa + stats.ArcieriSalute * pesoSalute);
-                forza += units.Catapulte[i] * (stats.CatapulteAttacco * pesoAttacco + stats.CatapulteDifesa * pesoDifesa + stats.CatapulteSalute * pesoSalute);
-            }
-            //Aggiungere altri parametri come ricerca, bonus, etc...
-
-            return Math.Round(forza);
-        }
-        private static RisorseRaccolte RaccoliRisorseEquamente(double capacitàCarico, double cibo, double legno, double pietra, double ferro, double oro, 
-            int exp, int diamBlu, int diamViola)
-        {
-            var risultato = new RisorseRaccolte();
-            int tipiRisorse = 0; // Conta quante risorse sono disponibili
-            if (cibo > 0) tipiRisorse++;
-            if (legno > 0) tipiRisorse++;
-            if (pietra > 0) tipiRisorse++;
-            if (ferro > 0) tipiRisorse++;
-            if (oro > 0) tipiRisorse++;
-            if (diamBlu > 0) tipiRisorse++;
-            if (diamViola > 0) tipiRisorse++;
-            if (tipiRisorse == 0) return risultato;
-            double capacitàPerRisorsa = capacitàCarico / tipiRisorse; // Dividi equamente la capacità tra i tipi di risorse disponibili
-
-            // FASE 1: Distribuisci equamente (dalle più leggere alle più pesanti)
-            if (cibo > 0)
-            {
-                risultato.Cibo = (int)Math.Min(cibo, capacitàPerRisorsa / Variabili_Server.peso_Risorse_Cibo);
-                capacitàCarico -= risultato.Cibo * Variabili_Server.peso_Risorse_Cibo;
-            }
-            if (legno > 0)
-            {
-                risultato.Legno = (int)Math.Min(legno, capacitàPerRisorsa / Variabili_Server.peso_Risorse_Legno);
-                capacitàCarico -= risultato.Legno * Variabili_Server.peso_Risorse_Legno;
-            }
-            if (pietra > 0)
-            {
-                risultato.Pietra = (int)Math.Min(pietra, capacitàPerRisorsa / Variabili_Server.peso_Risorse_Pietra);
-                capacitàCarico -= risultato.Pietra * Variabili_Server.peso_Risorse_Pietra;
-            }
-            if (ferro > 0)
-            {
-                risultato.Ferro = (int)Math.Min(ferro, capacitàPerRisorsa / Variabili_Server.peso_Risorse_Ferro);
-                capacitàCarico -= risultato.Ferro * Variabili_Server.peso_Risorse_Ferro;
-            }
-            if (exp > 0) risultato.Esperienza = (int)Math.Min(exp, 0);
-            if (oro > 0)
-            {
-                risultato.Oro = (int)Math.Min(oro, capacitàPerRisorsa / Variabili_Server.peso_Risorse_Oro);
-                capacitàCarico -= risultato.Oro * Variabili_Server.peso_Risorse_Oro;
-            }
-            if (diamBlu > 0)
-            {
-                risultato.Diamanti_Blu = (int)Math.Min(diamBlu, capacitàPerRisorsa / Variabili_Server.peso_Risorse_Diamante_Blu);
-                capacitàCarico -= risultato.Diamanti_Blu * Variabili_Server.peso_Risorse_Diamante_Blu;
-            }
-            if (diamViola > 0)
-            {
-                risultato.Diamanti_Viola = (int)Math.Min(diamViola, capacitàPerRisorsa / Variabili_Server.peso_Risorse_Diamante_Viola);
-                capacitàCarico -= risultato.Diamanti_Viola * Variabili_Server.peso_Risorse_Diamante_Viola;
-            }
-            // FASE 2: Cicla finché c'è spazio disponibile e risorse da raccogliere
-            bool haRaccolto = true;
-            while (capacitàCarico >= Variabili_Server.peso_Risorse_Cibo && haRaccolto) // Minimo peso è 3
-            {
-                haRaccolto = false;
-
-                if (cibo > risultato.Cibo && capacitàCarico >= Variabili_Server.peso_Risorse_Cibo)
-                {
-                    int extra = (int)Math.Min(cibo - risultato.Cibo, capacitàCarico / Variabili_Server.peso_Risorse_Cibo);
-                    if (extra > 0)
-                    {
-                        risultato.Cibo += extra;
-                        capacitàCarico -= extra * Variabili_Server.peso_Risorse_Cibo;
-                        haRaccolto = true;
-                    }
-                }
-                if (legno > risultato.Legno && capacitàCarico >= Variabili_Server.peso_Risorse_Legno)
-                {
-                    int extra = (int)Math.Min(legno - risultato.Legno, capacitàCarico / Variabili_Server.peso_Risorse_Legno);
-                    if (extra > 0)
-                    {
-                        risultato.Legno += extra;
-                        capacitàCarico -= extra * Variabili_Server.peso_Risorse_Legno;
-                        haRaccolto = true;
-                    }
-                }
-                if (pietra > risultato.Pietra && capacitàCarico >= Variabili_Server.peso_Risorse_Pietra)
-                {
-                    int extra = (int)Math.Min(pietra - risultato.Pietra, capacitàCarico / Variabili_Server.peso_Risorse_Pietra);
-                    if (extra > 0)
-                    {
-                        risultato.Pietra += extra;
-                        capacitàCarico -= extra * Variabili_Server.peso_Risorse_Pietra;
-                        haRaccolto = true;
-                    }
-                }
-                if (ferro > risultato.Ferro && capacitàCarico >= Variabili_Server.peso_Risorse_Ferro)
-                {
-                    int extra = (int)Math.Min(ferro - risultato.Ferro, capacitàCarico / Variabili_Server.peso_Risorse_Ferro);
-                    if (extra > 0)
-                    {
-                        risultato.Ferro += extra;
-                        capacitàCarico -= extra * Variabili_Server.peso_Risorse_Ferro;
-                        haRaccolto = true;
-                    }
-                }
-                if (oro > risultato.Oro && capacitàCarico >= Variabili_Server.peso_Risorse_Oro)
-                {
-                    int extra = (int)Math.Min(oro - risultato.Oro, capacitàCarico / Variabili_Server.peso_Risorse_Oro);
-                    if (extra > 0)
-                    {
-                        risultato.Oro += extra;
-                        capacitàCarico -= extra * Variabili_Server.peso_Risorse_Oro;
-                        haRaccolto = true;
-                    }
-                }
-                if (diamBlu > risultato.Diamanti_Blu && capacitàCarico >= Variabili_Server.peso_Risorse_Diamante_Blu)
-                {
-                    int extra = (int)Math.Min(diamBlu - risultato.Diamanti_Blu, capacitàCarico / Variabili_Server.peso_Risorse_Diamante_Blu);
-                    if (extra > 0)
-                    {
-                        risultato.Diamanti_Blu += extra;
-                        capacitàCarico -= extra * Variabili_Server.peso_Risorse_Diamante_Blu;
-                        haRaccolto = true;
-                    }
-                }
-                if (diamViola > risultato.Diamanti_Viola && capacitàCarico >= Variabili_Server.peso_Risorse_Diamante_Viola)
-                {
-                    int extra = (int)Math.Min(diamViola - risultato.Diamanti_Viola, capacitàCarico / Variabili_Server.peso_Risorse_Diamante_Viola);
-                    if (extra > 0)
-                    {
-                        risultato.Diamanti_Viola += extra;
-                        capacitàCarico -= extra * Variabili_Server.peso_Risorse_Diamante_Viola;
-                        haRaccolto = true;
-                    }
-                }
-            }
-            return risultato;
-        } // Distribuzione equa
-
-
-        static async Task<bool> Battaglia(Giocatori.Player attaccante, Giocatori.Player difensore, UnitGroup attackerUnits)
+        public static async Task<bool> Battaglia(Giocatori.Player attaccante, Giocatori.Player difensore, UnitGroup attackerUnits)
         {
             var report = new Battaglia.Report();
             RisultatoFase fase = null;
 
             report.Tipo = "Battaglia";
-            report.Data = DateTime.UtcNow.ToString();
+            report.Data = DateTime.UtcNow.ToString("o"); // formato ISO 8601 ("o"), vedi Spionaggio.cs: senza formato new Date(...) in JS non riesce a interpretare la data
             report.Aperto = false;
             report.Battaglia = new RisultatoBattaglia();
             report.Battaglia.Nome_Attaccante = attaccante.Username;
@@ -829,6 +534,13 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
             //Salvare report dei giocatori interessati
             attaccante.Report.Add(report);
             difensore.Report.Add(report);
+
+            // Invio live del report aggiornato (2026-09-14): prima veniva mandato solo una volta al login
+            // (Update_Data_OneTime in ServerConnection.cs), quindi un client web/desktop aperto durante la
+            // battaglia non vedeva mai il nuovo referto senza riconnettersi. Stesso formato già in uso lì
+            // ("Update_Data|Report_Lista|<json>"), solo inviato anche subito dopo la battaglia.
+            Server_Strategico.Server.Server.Send(attaccante.guid_Player, $"Update_Data|Report_Lista|{Newtonsoft.Json.JsonConvert.SerializeObject(attaccante.Report)}");
+            Server_Strategico.Server.Server.Send(difensore.guid_Player, $"Update_Data|Report_Lista|{Newtonsoft.Json.JsonConvert.SerializeObject(difensore.Report)}");
 
             AggiornaDatiGiocatori(attaccante, difensore, report); //Statistiche 
 
@@ -899,11 +611,11 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
                 Struttura = struttura switch
                 {
                     1 => new Villaggio { Nome = "Ingresso", Guarnigione = defenderUnits.TotalUnits() },
-                    2 => new Villaggio { Nome = "Mura", Salute = difensore.Salute_Mura, SaluteMax = difensore.Salute_MuraMax, Difesa = difensore.Difesa_Mura, DifesaMax = difensore.Difesa_MuraMax, Guarnigione = defenderUnits.TotalUnits() },
-                    3 => new Villaggio { Nome = "Cancello", Salute = difensore.Salute_Cancello, SaluteMax = difensore.Difesa_CancelloMax, Difesa = difensore.Difesa_Cancello, DifesaMax = difensore.Difesa_CancelloMax, Guarnigione = defenderUnits.TotalUnits() },
-                    4 => new Villaggio { Nome = "Torri", Salute = difensore.Salute_Torri, SaluteMax = difensore.Salute_TorriMax, Difesa = difensore.Difesa_Torri, DifesaMax = difensore.Difesa_TorriMax, Guarnigione = defenderUnits.TotalUnits() },
+                    2 => new Villaggio { Nome = "Mura", Salute = difensore.Salute_Mura, SaluteMax = difensore.Salute_MuraMax, Difesa = difensore.Difesa_Mura, DifesaMax = difensore.Difesa_MuraMax, SaluteIniziale = difensore.Salute_Mura, DifesaIniziale = difensore.Difesa_Mura, Guarnigione = defenderUnits.TotalUnits() },
+                    3 => new Villaggio { Nome = "Cancello", Salute = difensore.Salute_Cancello, SaluteMax = difensore.Salute_CancelloMax, Difesa = difensore.Difesa_Cancello, DifesaMax = difensore.Difesa_CancelloMax, SaluteIniziale = difensore.Salute_Cancello, DifesaIniziale = difensore.Difesa_Cancello, Guarnigione = defenderUnits.TotalUnits() }, // BUGFIX: SaluteMax puntava erroneamente a Difesa_CancelloMax
+                    4 => new Villaggio { Nome = "Torri", Salute = difensore.Salute_Torri, SaluteMax = difensore.Salute_TorriMax, Difesa = difensore.Difesa_Torri, DifesaMax = difensore.Difesa_TorriMax, SaluteIniziale = difensore.Salute_Torri, DifesaIniziale = difensore.Difesa_Torri, Guarnigione = defenderUnits.TotalUnits() },
                     5 => new Villaggio { Nome = "Centro Villaggio", Guarnigione = defenderUnits.TotalUnits() },
-                    6 => new Villaggio { Nome = "Castello", Salute = difensore.Salute_Castello, SaluteMax = difensore.Salute_CastelloMax, Difesa = difensore.Difesa_Castello, DifesaMax = difensore.Difesa_CastelloMax, Guarnigione = defenderUnits.TotalUnits() },
+                    6 => new Villaggio { Nome = "Castello", Salute = difensore.Salute_Castello, SaluteMax = difensore.Salute_CastelloMax, Difesa = difensore.Difesa_Castello, DifesaMax = difensore.Difesa_CastelloMax, SaluteIniziale = difensore.Salute_Castello, DifesaIniziale = difensore.Difesa_Castello, Guarnigione = defenderUnits.TotalUnits() },
                     7 => new Villaggio { Nome = "Villaggio", Guarnigione = defenderUnits.TotalUnits() }
                 }
             };
@@ -937,14 +649,18 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
             result = CalcolaAttaccoDistanza_(attackerUnits, attaccante, result, false);
             result = CalcolaAttaccoDistanza_(defenderUnits, difensore, result, true);
 
-            // Applica danni con tracciamento livelli
-            var defenderMorti = ApplicaDanniDistanza_(defenderUnits.Clone(), result.Difensore_Danno_Guerrieri, result.Difensore_Danno_Lancieri);
+            // BUGFIX (parte 2, trovato durante il porting PVE del 2026-09-14): "Difensore_Danno_*" è il danno INFLITTO
+            // dal difensore (con le sue unità a distanza) e deve colpire le unità dell'ATTACCANTE, non le proprie;
+            // simmetricamente "Attaccante_Danno_*" deve colpire il DIFENSORE. La versione precedente applicava a
+            // ciascun lato il proprio danno inflitto sulle proprie unità (autolesionismo), azzerando di fatto
+            // l'effetto reale del tiro con l'arco/catapulte sull'avversario.
+            var defenderMorti = ApplicaDanniDistanza_(defenderUnits.Clone(), result.Attaccante_Danno_Guerrieri, result.Attaccante_Danno_Lancieri);
             result.Difensore_Morti.Guerrieri = defenderMorti.Guerrieri;
             result.Difensore_Morti.Lancieri = defenderMorti.Lancieri;
 
-            var attackerMorti = ApplicaDanniDistanza_(attackerUnits.Clone(), result.Attaccante_Danno_Guerrieri, result.Attaccante_Danno_Lancieri);
-            result.Attaccante_Morti.Guerrieri = defenderMorti.Guerrieri;
-            result.Attaccante_Morti.Lancieri = defenderMorti.Lancieri;
+            var attackerMorti = ApplicaDanniDistanza_(attackerUnits.Clone(), result.Difensore_Danno_Guerrieri, result.Difensore_Danno_Lancieri);
+            result.Attaccante_Morti.Guerrieri = attackerMorti.Guerrieri;
+            result.Attaccante_Morti.Lancieri = attackerMorti.Lancieri;
 
             for (int i = 0; i < 5; i++)
             {
@@ -976,7 +692,12 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
             int truppeDifensore = defenderUnits.TotalUnits();
             bool Frecce = false;
 
-            if (truppeDifensore > 0 && fase.Struttura.Salute > 5) Frecce = true;
+            // BUGFIX: Ingresso (1) e Centro Villaggio (5) non hanno Salute/Difesa proprie, quindi fase.Struttura.Salute
+            // resta sempre a 0 per costruzione. La condizione "Salute > 5" li escludeva sempre dal consumo di frecce,
+            // permettendo danno a distanza gratuito (senza frecce) solo su quei due strati. Ora il requisito di
+            // "struttura non ancora crollata" si applica solo agli strati che hanno davvero Salute/Difesa.
+            bool struttura_Con_Salute = struttura == 2 || struttura == 3 || struttura == 4 || struttura == 6;
+            if (truppeDifensore > 0 && (!struttura_Con_Salute || fase.Struttura.Salute > 5)) Frecce = true;
             double dannoAttaccante = CalcolaDannoGiocatore(attackerUnits, attaccante, Frecce, true, fase); // Calcola danno
             Frecce = false; //reset, per riutilizzo
 
@@ -984,6 +705,7 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
             else Frecce = false;
             double dannoDifensore = CalcolaDannoGiocatore(defenderUnits, difensore, Frecce, false, fase); // Calcola danno
 
+            //Circa il 60% del danno dell'attaccante viene assorbito dalla struttura (difesa e salute), il resto va alle unità difensive.
             double dannotempDifesa = dannoAttaccante * 0.30; //Se struttura == 0, non serve a nulla questa variabile.  
             double dannotempSalute = 0; //Se struttura == 0, non serve a nulla questa variabile.
             double bonusUnità = 1;
@@ -1013,11 +735,11 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
                     dannoAttaccante -= dannotempSalute;
                 }
             }
-            if (struttura == 1)
+            if (struttura == 1) //Bonus guarnigione ingresso in base alle truppe presenti in Cancello e Mura
             {
-                if (difensore.Guarnigione_Cancello >= difensore.Guarnigione_CancelloMax * 0.40 || difensore.Guarnigione_Mura >= difensore.Guarnigione_MuraMax * 0.40) bonusUnità += 0.10;
-                if (difensore.Guarnigione_Cancello >= difensore.Guarnigione_CancelloMax * 0.80 && difensore.Guarnigione_Mura > difensore.Guarnigione_MuraMax * 0.80) bonusUnità += 0.15;
-                if (difensore.Guarnigione_Cancello == difensore.Guarnigione_CancelloMax && difensore.Guarnigione_Mura == difensore.Guarnigione_MuraMax) bonusUnità += 0.20;
+                if (difensore.Guarnigione_Cancello >= difensore.Guarnigione_CancelloMax * 0.40 || difensore.Guarnigione_Mura >= difensore.Guarnigione_MuraMax * 0.40) bonusUnità += 0.10; //10% con almeno il 40% della guarnigione occupata in Cancello o Mura
+                if (difensore.Guarnigione_Cancello >= difensore.Guarnigione_CancelloMax * 0.80 && difensore.Guarnigione_Mura > difensore.Guarnigione_MuraMax * 0.80) bonusUnità += 0.15; //15% con almeno l'80% della guarnigione occupata in Cancello e Mura
+                if (difensore.Guarnigione_Cancello == difensore.Guarnigione_CancelloMax && difensore.Guarnigione_Mura == difensore.Guarnigione_MuraMax) bonusUnità += 0.20; //20% con guarnigione piena in Cancello e Mura
             }
 
             double dannoPerTipoAttacker = dannoDifensore / attackerUnits.CountUnitTypes();
@@ -1039,8 +761,8 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
             bool test2 = await Server.ServerConnection.New_Player("TEST", "123", "test@example.com", Guid.Empty);
             var attaccante = Server.Server.servers_.GetPlayer("TEST");
 
-            bool test1 = await Server.ServerConnection.New_Player("adly", "123", "adly@example.com", Guid.Empty);
-            var difensore = Server.Server.servers_.GetPlayer("adly");
+            bool test1 = await Server.ServerConnection.New_Player("adlos", "123", "adly@example.com", Guid.Empty);
+            var difensore = Server.Server.servers_.GetPlayer("adlos");
 
             int[] guerrieri = new int[] { 60, 0, 0, 0, 0 };
             int[] picchieri = new int[] { 50, 0, 0, 0, 0 };

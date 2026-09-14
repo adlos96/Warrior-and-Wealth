@@ -1,3 +1,9 @@
+///Deprecato (2026-09-14): non più usato da nessuna parte del codice. Era l'ultimo chiamante rimasto
+/// (Gioco/AttacchiCooperativi.cs, ora rinominato in Raduni.cs) — la nuova EseguiBattagliaCooperativa in
+/// Raduni.cs riusa invece gli helper "internal" di ServerData/Moduli/Battaglie/BattagliaPVE.cs, con le
+/// stesse formule già corrette lì (vedi anche BattagliaPVP.cs). Lasciato come residuo su richiesta
+/// dell'utente, non eliminato. Se non ci sono altri riferimenti puoi cancellarlo manualmente quando vuoi.
+
 ﻿using System;
 using static Server_Strategico.Gioco.Giocatori;
 using static Server_Strategico.Server.Server;

@@ -16,6 +16,15 @@
         public static int timer_Reset_Barbari = 0;
         public static int timer_Reset_Quest = 0;
 
+        // Gateway WebSocket per il client web (vedi ServerData/WebSocketGateway.cs).
+        // Stesso protocollo testuale del client WinForms, solo trasporto diverso:
+        // porta separata da quella WatsonTcp (8443) cosi' i due listener non si
+        // toccano. Con WebGatewayEnabled=false il server si comporta esattamente
+        // come prima; si puo' comunque avviarlo/fermarlo a runtime dalla console
+        // del server coi comandi "webstart"/"webstop".
+        public static bool WebGatewayEnabled = false;
+        public static int WebGatewayPort = 8444;
+
         //PVP
         public static Int16 Max_Diamanti_Viola_PVP = 150; //massimo diamanti viola che un giocatore può guadagnare in un giorno tramite PVP
         public static Int16 max_Diamanti_Blu_PVP = 300; //massimo diamanti blu che un giocatore può guadagnare in un giorno tramite PVP
