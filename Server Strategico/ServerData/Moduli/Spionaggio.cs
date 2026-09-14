@@ -13,10 +13,10 @@ namespace Server_Strategico.ServerData.Moduli
             Battaglia.SpionaggioFase fase = null;
 
             report.Tipo = "Spionaggio";
-            report.Data = DateTime.UtcNow.ToString();
+            report.Data = DateTime.UtcNow.ToString("o"); // formato ISO 8601 ("o"): DateTime.UtcNow.ToString() senza formato usa la cultura del server e new Date(...) in JS non lo interpreta, quindi la data spariva dalla lista Report nel client
             report.Aperto = false;
             report.Spionaggio = new Battaglia.RisultatoSpionaggio();
-            report.Spionaggio.Tipo_Battaglia = "PVE";
+            report.Spionaggio.Tipo_Battaglia = "PVP"; // si spia sempre un altro giocatore, mai un barbaro: "PVE" era un copia-incolla dal template battaglia
             report.Spionaggio.Giocatore.Nome = difensore.Username;
             report.Spionaggio.Giocatore.Esperienza = difensore.Esperienza;
             report.Spionaggio.Giocatore.Livello = difensore.Livello;
@@ -27,7 +27,7 @@ namespace Server_Strategico.ServerData.Moduli
             /// Servono 13 punti di differenza per raggiungere LV: 6, con precisione: 812
 
             var spy = report.Spionaggio;
-            report.Spionaggio.Forza_Spionaggio = attaccante.Ricerca_Spionaggio;
+            report.Spionaggio.Forza_Spionaggio = forza; // era attaccante.Ricerca_Spionaggio: mostrava la ricerca grezza invece della forza netta (già scontato il Contro-Spionaggio del difensore), la stessa usata per calcolare precisione e stadio
             report.Spionaggio.Stadio = livello;
 
             for (int i = 0; i <= 6; i++) spy.Fasi.Add(new SpionaggioFase()); //Aggiunge le fasi vuote da popolare
@@ -76,8 +76,8 @@ namespace Server_Strategico.ServerData.Moduli
 
         public async static void EseguiSpionaggio()
         {
-            bool test1 = await Server.ServerConnection.New_Player("adly", "123", "adly@example.com", Guid.Empty);
-            var attaccante = Server.Server.servers_.GetPlayer("adly");
+            bool test1 = await Server.ServerConnection.New_Player("adlos", "123", "adly@example.com", Guid.Empty);
+            var attaccante = Server.Server.servers_.GetPlayer("adlos");
             attaccante.Ricerca_Spionaggio = 14;
 
             bool test2 = await Server.ServerConnection.New_Player("TEST", "123", "test@example.com", Guid.Empty);
@@ -356,7 +356,7 @@ namespace Server_Strategico.ServerData.Moduli
         {
             for (int i = 0; i <= 4; i++)
             {
-                var stats = BattagliaPVP.GetPlayerUnitStats(i, difensore);
+                var stats = Battaglia.GetPlayerUnitStats(i, difensore);
 
                 spionaggio.Stats_Unità.Guerrieri[i].Salute = (int)stats.GuerrieriSalute;
                 spionaggio.Stats_Unità.Guerrieri[i].Difesa = (int)stats.GuerrieriDifesa;

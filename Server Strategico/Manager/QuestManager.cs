@@ -93,7 +93,8 @@ namespace Server_Strategico.Manager
                 { 51, new Quest_Template { Id = 51, Experience = 5, Require = 5, Max_Complete = 2 } },
                 { 52, new Quest_Template { Id = 52, Experience = 5, Require = 5, Max_Complete = 2 } },
                 { 53, new Quest_Template { Id = 53, Experience = 10, Require = 10, Max_Complete = 2 } },
-                                                    
+
+                // --- LIVELLI ---                                    
                 { 54, new Quest_Template { Id = 54, Experience = 10, Require = 5, Max_Complete = 1 } },
                 { 55, new Quest_Template { Id = 55, Experience = 15, Require = 10, Max_Complete = 1 } },
                 { 56, new Quest_Template { Id = 56, Experience = 20, Require = 25, Max_Complete = 1 } },
@@ -163,11 +164,11 @@ namespace Server_Strategico.Manager
                     Console.WriteLine($"Quest '{description}' completata {Completions[questId]} / {quest.Max_Complete} volte.");
 
                     if (Completions[questId] == quest.Max_Complete)
-                    {
-                        OnEvent(player, QuestEventType.Miglioramento, "", 1); // Per ogni quest completata, aggiorna la quest
-                        player.Quest_Completate++;
-                        QuestRewardUpdate(player);
-                    }
+                        if (questId < 54 || questId > 59)
+                            OnEvent(player, QuestEventType.Miglioramento, "", 1); // Per ogni quest maxxata, incrementa la quest "Miglioramento" (ID 49) di 1
+
+                    player.Quest_Completate++;
+                    QuestRewardUpdate(player);
                     return true; // Quest completata
                 }
                 return false;
@@ -523,10 +524,23 @@ namespace Server_Strategico.Manager
             foreach (var player in Server.Server.servers_.players.Values) // Rigenera quest mensili per ogni giocatore
             {
                 for (int i = 0; i < player.QuestProgress.Completions.Length; i++) // Resetta il numero di completamenti delle quest mensili
+                {
+                    // 14/09/2026: le quest con Max_Complete == 1 sono obiettivi "una tantum"
+                    // (es. quest 54-59 "raggiungi il livello X" e la meta-quest 49
+                    // "Miglioramento"), non vanno azzerate ad ogni reset mensile.
+                    if (QuestDatabase.Quests.TryGetValue(i, out var quest) && quest.Max_Complete == 1)
+                        continue;
+
                     player.QuestProgress.Completions[i] = 0;
+                }
 
                 for (int i = 0; i < player.QuestProgress.CurrentProgress.Length; i++) // Resetta i progressi delle quest mensili
+                {
+                    if (QuestDatabase.Quests.TryGetValue(i, out var quest) && quest.Max_Complete == 1)
+                        continue;
+
                     player.QuestProgress.CurrentProgress[i] = 0;
+                }
 
                 for (int i = 0; i < player.PremiNormali.Length; i++) // Resetta la raccolta dei premi normali
                     player.PremiNormali[i] = false;

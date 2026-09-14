@@ -71,6 +71,8 @@ namespace Server_Strategico.ServerData.Moduli
             _currentState["GamePass_Base_Tempo"] = player.FormatTime(player.GamePass_Base_Tempo);
             _currentState["GamePass_Avanzato"] = player.GamePass_Avanzato.ToString();
             _currentState["GamePass_Avanzato_Tempo"] = player.FormatTime(player.GamePass_Avanzato_Tempo);
+            _currentState["QuestMensili_Tempo"] = player.FormatTime(Variabili_Server.timer_Reset_Quest);
+            _currentState["Barbari_Tempo"] = player.FormatTime(Variabili_Server.timer_Reset_Barbari);
             _currentState["Giorni_Consecutivi"] = player.GamePass_Accessi_Consecutivi.ToString();
 
             _currentState["cibo"] = player.Cibo.ToString("#,0");
@@ -240,20 +242,24 @@ namespace Server_Strategico.ServerData.Moduli
             _currentState["ricerca_Spionaggio"] = player.Ricerca_Spionaggio.ToString();
             _currentState["ricerca_Contro_Spionaggio"] = player.Ricerca_Contro_Spionaggio.ToString();
 
-            _currentState["ricerca_ingresso_livello"] = player.Ricerca_Ingresso_Guarnigione.ToString();
+            _currentState["ricerca_ingresso_livello"] = player.Ricerca_Ingresso_Livello.ToString();
             _currentState["ricerca_ingresso_guarnigione"] = player.Ricerca_Ingresso_Guarnigione.ToString();
-            _currentState["ricerca_citta_livello"] = player.Ricerca_Citta_Guarnigione.ToString();
+            _currentState["ricerca_citta_livello"] = player.Ricerca_Citta_Livello.ToString();
             _currentState["ricerca_citta_guarnigione"] = player.Ricerca_Citta_Guarnigione.ToString();
 
+            _currentState["ricerca_cancello_livello"] = player.Ricerca_Cancello_Livello.ToString();
             _currentState["ricerca_cancello_salute"] = player.Ricerca_Cancello_Salute.ToString();
             _currentState["ricerca_cancello_difesa"] = player.Ricerca_Cancello_Difesa.ToString();
             _currentState["ricerca_cancello_guarnigione"] = player.Ricerca_Cancello_Guarnigione.ToString();
+            _currentState["ricerca_mura_livello"] = player.Ricerca_Mura_Livello.ToString();
             _currentState["ricerca_mura_salute"] = player.Ricerca_Mura_Salute.ToString();
             _currentState["ricerca_mura_difesa"] = player.Ricerca_Mura_Difesa.ToString();
             _currentState["ricerca_mura_guarnigione"] = player.Ricerca_Mura_Guarnigione.ToString();
+            _currentState["ricerca_torri_livello"] = player.Ricerca_Torri_Livello.ToString();
             _currentState["ricerca_torri_salute"] = player.Ricerca_Torri_Salute.ToString();
             _currentState["ricerca_torri_difesa"] = player.Ricerca_Torri_Difesa.ToString();
             _currentState["ricerca_torri_guarnigione"] = player.Ricerca_Torri_Guarnigione.ToString();
+            _currentState["ricerca_castello_livello"] = player.Ricerca_Castello_Livello.ToString();
             _currentState["ricerca_castello_salute"] = player.Ricerca_Castello_Salute.ToString();
             _currentState["ricerca_castello_difesa"] = player.Ricerca_Castello_Difesa.ToString();
             _currentState["ricerca_castello_guarnigione"] = player.Ricerca_Castello_Guarnigione.ToString();

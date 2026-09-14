@@ -240,20 +240,20 @@ namespace Server_Strategico.Manager
 
                 case "Ingresso Livello":
                     richiesto = player.Livello * 2;
-                    if (player.Ricerca_Cancello_Livello >= richiesto) { returnValue = true; msg = "giocatore"; }  ///Da implementare
+                    if (player.Ricerca_Ingresso_Livello >= richiesto) { returnValue = true; msg = "giocatore"; }
                     break;
                 case "Ingresso Guarnigione":
-                    richiesto = player.Ricerca_Cancello_Livello * 2;
-                    if (player.Ricerca_Cancello_Salute >= richiesto) { returnValue = true; msg = "cancello"; }
+                    richiesto = player.Ricerca_Ingresso_Livello * 2;
+                    if (player.Ricerca_Ingresso_Guarnigione >= richiesto) { returnValue = true; msg = "ingresso"; }
                     break;
 
                 case "Citta Livello":
                     richiesto = player.Livello * 2;
-                    if (player.Ricerca_Cancello_Livello >= richiesto) { returnValue = true; msg = "giocatore"; }
+                    if (player.Ricerca_Citta_Livello >= richiesto) { returnValue = true; msg = "giocatore"; }
                     break;
                 case "Citta Guarnigione":
-                    richiesto = player.Ricerca_Cancello_Livello * 2;
-                    if (player.Ricerca_Citta_Guarnigione >= richiesto) { returnValue = true; msg = "cancello"; } ///Da implementare
+                    richiesto = player.Ricerca_Citta_Livello * 2;
+                    if (player.Ricerca_Citta_Guarnigione >= richiesto) { returnValue = true; msg = "centro"; }
                     break;
 
                 case "Cancello Livello":
@@ -451,8 +451,14 @@ namespace Server_Strategico.Manager
                     player.Catapulta_Livello++;
                     break;
 
+                case "Ingresso Livello":
+                    player.Ricerca_Ingresso_Livello++;
+                    break;
                 case "Ingresso Guarnigione":
                     player.Ricerca_Ingresso_Guarnigione++;
+                    break;
+                case "Citta Livello":
+                    player.Ricerca_Citta_Livello++;
                     break;
                 case "Citta Guarnigione":
                     player.Ricerca_Citta_Guarnigione++;
