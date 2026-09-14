@@ -262,6 +262,44 @@ window.WW = window.WW || {};
     resGroupMilitari.hidden = !showingCivili;
   });
 
+  /* ---------- Menu giocatore (14/09/2026, su richiesta dell'utente) ----------
+     Cliccando su nome/avatar nella barra risorse si apre un popup:
+     "Cambio giocatore" riporta alla schermata di login/registrazione
+     riusando AUTH.logout() (stessa funzione già chiamata per
+     TOKEN_NON_VALIDO — pulisce i token salvati e mostra di nuovo il form di
+     login, coerente col resto del client). "Cambio immagine profilo" è per
+     ora solo un segnaposto disabilitato in HTML: la funzione non esiste
+     ancora lato server.
+     Prima era un dropdown ancorato al pulsante (position:absolute dentro
+     .resource-bar__player-wrap), ma dentro alla barra risorse — sticky, con
+     overflow-x:auto — compariva schiacciato lì sotto invece che sopra a
+     tutto (segnalato dall'utente: "compare sotto... nella stessa barra").
+     Ora è #player-menu-overlay, lo stesso overlay generico .modal-overlay/
+     .modal-box già usato per Feudi/Info Risorsa/Resoconto (vedi
+     04-game-main.js/14-battaglia.js per lo stesso identico pattern
+     apri/chiudi/click-fuori/Escape). */
+  const btnPlayerMenu = document.getElementById("btn-player-menu");
+  const playerMenuOverlay = document.getElementById("player-menu-overlay");
+  const btnChiudiPlayerMenu = document.getElementById("btn-chiudi-player-menu");
+  const btnCambioGiocatore = document.getElementById("player-menu-cambio-giocatore");
+
+  if (btnPlayerMenu && playerMenuOverlay) {
+    btnPlayerMenu.addEventListener("click", () => { playerMenuOverlay.hidden = false; });
+    btnChiudiPlayerMenu.addEventListener("click", () => { playerMenuOverlay.hidden = true; });
+    // Click sullo sfondo scuro (non sul box) chiude il popup, come un normale modale.
+    playerMenuOverlay.addEventListener("click", (e) => {
+      if (e.target === playerMenuOverlay) playerMenuOverlay.hidden = true;
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !playerMenuOverlay.hidden) playerMenuOverlay.hidden = true;
+    });
+
+    btnCambioGiocatore.addEventListener("click", () => {
+      playerMenuOverlay.hidden = true;
+      AUTH.logout();
+    });
+  }
+
   WW.AUTH = AUTH;
   WW.t = t;
   WW.screenLogin = screenLogin;

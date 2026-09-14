@@ -221,8 +221,50 @@ button{ font-family: inherit; cursor: pointer; }
   overflow-x: auto;
 }
 
-.resource-bar__player{ display: flex; align-items: center; gap: .4rem; flex: none; font-weight: 700; }
+/* Menu giocatore (14/09/2026, su richiesta dell'utente): il nome/avatar
+   diventa un pulsante che apre #player-menu-overlay (popup centrato a tutto
+   schermo, stesso .modal-overlay/.modal-box di Feudi/Info Risorsa/Resoconto
+   — vedi collegaMenuGiocatore() in js/02-auth.js). Prima era un dropdown
+   ancorato qui sotto, ma dentro alla barra risorse (sticky, overflow-x:
+   auto) compariva schiacciato lì dentro invece che sopra a tutto — da qui
+   il cambio richiesto dall'utente. */
+.resource-bar__player{
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  font-weight: 700;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  flex: none;
+}
 .avatar{ font-size: 1.3rem; }
+
+.modal-box--player-menu{ max-width: 300px; }
+.player-menu{
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+.player-menu__voce{
+  display: block;
+  width: 100%;
+  padding: .7rem .9rem;
+  border: 2px solid var(--wood);
+  border-radius: 8px;
+  background: var(--parchment);
+  color: var(--ink);
+  font-size: .88rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+.player-menu__voce:not(:disabled):hover{ background: rgba(0,0,0,.06); }
+.player-menu__voce:disabled{ color: var(--ink-soft); opacity: .55; cursor: default; border-color: var(--parchment-dark); }
 
 .resource-bar__scroll{
   display: flex;
@@ -1354,16 +1396,21 @@ button{ font-family: inherit; cursor: pointer; }
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
-  /* Spazio per: marker (36px) + margine dalla barra (8px) + un po' di
-     margine per il badge del valore che sporge dall'angolo dell'icona. */
-  padding: 3.15rem 0 4.65rem;
+  /* Spazio per: marker (48px) + margine dalla barra (8px) + margine per il
+     badge del valore/della spunta che sporgono dall'icona + la corsa verso
+     l'alto/il basso del popup "+N" alla riscossione (vedi
+     .quest-reward-popup). Aggiornato in proporzione ogni volta che il
+     marker viene ingrandito (14/09/2026, ultimo passaggio: icone più grandi
+     e più distanziate, "sistemata la barra e la posizione dei punti di
+     conseguenza" su richiesta dell'utente). */
+  padding: 4.2rem 0 6.2rem;
 }
 .quest-track{
   position: relative;
 }
 .quest-track__bar{
   position: relative;
-  height: 16px;
+  height: 18px;
   border-radius: 999px;
   background: rgba(0,0,0,.12);
   box-shadow: inset 0 1px 3px rgba(0,0,0,.25);
@@ -1390,12 +1437,15 @@ button{ font-family: inherit; cursor: pointer; }
 .quest-marker{
   position: absolute;
   transform: translateX(-50%);
-  /* Leggermente più grandi (14/09/2026, su richiesta dell'utente, insieme
-     a più distanza tra un marker e l'altro — vedi DISTANZA_MARKER_PX in
-     js/12-quest.js, che deve restare in sincro con METÀ_MARKER_PX qui
-     sotto per il calcolo della posizione). */
-  width: 36px;
-  height: 36px;
+  /* Ingranditi più volte su richiesta dell'utente (14/09/2026): 36px →
+     42px → ora 48px, con distanza tra un marker e il successivo aumentata
+     di pari passo (DISTANZA_MARKER_PX in js/12-quest.js). Deve restare in
+     sincro con META_MARKER_PX (sempre in js/12-quest.js, usato anche per
+     posizionare le etichette del punteggio richiesto sulla barra) e con il
+     padding verticale di .quest-track-scroll qui sotto, che deve lasciare
+     spazio a sufficienza per non tagliare icone/badge/popup più grandi. */
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   border: 3px solid var(--wood);
   background: var(--parchment);
@@ -1424,16 +1474,30 @@ button{ font-family: inherit; cursor: pointer; }
 .quest-marker--locked{ opacity: .55; }
 .quest-marker--locked img{ filter: grayscale(1); }
 .quest-marker--claimed{ opacity: .55; border-color: var(--ink-soft); }
+/* Prima il "✓" copriva l'intera icona (inset:0), nascondendola del tutto —
+   su richiesta dell'utente (14/09/2026) diventa un badge piccolo, prima in
+   basso a sinistra e infine (sempre su richiesta) spostato in alto al
+   centro: si vede subito che il premio è stato riscosso senza coprire
+   l'icona, ed è consultabile direttamente dal dato del server
+   (stato.claimNormal/claimVip, popolato da Completo/Completo_Vip in
+   QuestRewards — vedi creaMarker() in js/12-quest.js), non da una
+   supposizione lato client. */
 .quest-marker--claimed::after{
   content: "✓";
   position: absolute;
-  inset: 0;
+  left: -5px;
+  bottom: -5px;
+  width: 14px;
+  height: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
+  font-size: .55rem;
   font-weight: 700;
-  background: rgba(15,123,15,.65);
+  line-height: 1;
+  background: #2e7d32;
+  border: 1px solid var(--parchment);
   border-radius: 50%;
 }
 .quest-marker--ready{
@@ -1442,26 +1506,30 @@ button{ font-family: inherit; cursor: pointer; }
      bagliore "pronto da riscattare" resta un indizio in più, non cancella
      più la distinzione grigio/oro tra le due file. */
   cursor: pointer;
-  box-shadow: 0 0 0 3px rgba(232,197,101,.55), 0 2px 4px rgba(0,0,0,.25);
-  animation: quest-marker-pulse 1.4s ease-in-out infinite;
+  box-shadow: 0 0 0 5px rgba(232,197,101,.55), 0 2px 4px rgba(0,0,0,.25);
+  /* Animazione dedicata (non la .quest-marker-pulse condivisa col Gamepass,
+     vedi sotto) così il raggio del bagliore, allargato di qualche pixel su
+     richiesta dell'utente (14/09/2026), riguarda solo i premi Quest e non
+     tocca i riquadri del Gamepass. */
+  animation: quest-marker-pulse-glow 1.4s ease-in-out infinite;
 }
-@keyframes quest-marker-pulse{
-  0%, 100%{ box-shadow: 0 0 0 3px rgba(232,197,101,.55), 0 2px 4px rgba(0,0,0,.25); }
-  50%{ box-shadow: 0 0 0 6px rgba(232,197,101,.25), 0 2px 4px rgba(0,0,0,.25); }
+@keyframes quest-marker-pulse-glow{
+  0%, 100%{ box-shadow: 0 0 0 5px rgba(232,197,101,.55), 0 2px 4px rgba(0,0,0,.25); }
+  50%{ box-shadow: 0 0 0 9px rgba(232,197,101,.25), 0 2px 4px rgba(0,0,0,.25); }
 }
 /* Badge del valore: attaccato all'angolo dell'icona invece che su una riga
    sotto ogni marker — con 20 marker vicini le etichette su una riga a parte
    si sovrapponevano l'una con l'altra (segnalato dall'utente). */
 .quest-marker__valore{
   position: absolute;
-  right: -6px;
-  bottom: -6px;
+  right: -7px;
+  bottom: -7px;
   min-width: 1.1em;
-  padding: 0 .2rem;
+  padding: 0 .25rem;
   border-radius: 999px;
   background: var(--wood-dark);
   color: #fff;
-  font-size: .58rem;
+  font-size: .64rem;
   font-weight: 700;
   line-height: 1.3;
   text-align: center;
@@ -1479,7 +1547,7 @@ button{ font-family: inherit; cursor: pointer; }
   top: 50%;
   transform: translate(-50%, -50%);
   z-index: 2;
-  font-size: .62rem;
+  font-size: .68rem;
   font-weight: 700;
   color: var(--ink);
   white-space: nowrap;
@@ -1504,6 +1572,64 @@ button{ font-family: inherit; cursor: pointer; }
   border: 2px solid #8a8a8a;
 }
 .quest-track__legenda i.legenda-vip{ border-color: var(--gold); }
+
+/* Feedback grafico alla riscossione di una ricompensa (14/09/2026, su
+   richiesta dell'utente: "quando un premio viene raccolto, dovremmo
+   mostrarlo graficamente in qualche modo... così è più gradevole per il
+   giocatore e inoltre possiamo osservare eventuali bug"). Innescato da
+   segnalaRiscossione() in js/12-quest.js quando un marker passa da "non
+   riscosso" a "riscosso": scatto sul marker + valore che sale e sfuma +
+   toast in cima al pannello. */
+.quest-marker--collected{
+  animation: quest-marker-collected .6s ease-out;
+  z-index: 3;
+}
+@keyframes quest-marker-collected{
+  0%{ transform: translateX(-50%) scale(1); }
+  35%{ transform: translateX(-50%) scale(1.35); box-shadow: 0 0 0 8px rgba(232,197,101,.5); }
+  100%{ transform: translateX(-50%) scale(1); }
+}
+
+.quest-reward-popup{
+  position: absolute;
+  transform: translateX(-50%);
+  z-index: 4;
+  font-size: .84rem;
+  font-weight: 700;
+  color: var(--gold);
+  text-shadow: 0 1px 2px rgba(0,0,0,.6), 0 0 3px rgba(0,0,0,.4);
+  pointer-events: none;
+  white-space: nowrap;
+  animation: quest-reward-popup-sali 1.1s ease-out forwards;
+}
+/* Parte da dove il marker corrispondente è già posizionato (bottom/top
+   calc(100% + 8px), 48px di diametro dopo l'ultimo ingrandimento) e sale
+   ancora un po' oltre. */
+.quest-reward-popup--normale{ bottom: calc(100% + 64px); }
+.quest-reward-popup--vip{ top: calc(100% + 64px); }
+@keyframes quest-reward-popup-sali{
+  0%{ opacity: 0; transform: translate(-50%, 6px) scale(.85); }
+  20%{ opacity: 1; transform: translate(-50%, 0) scale(1); }
+  100%{ opacity: 0; transform: translate(-50%, -22px) scale(1); }
+}
+
+.quest-toast{
+  margin: 0 auto .6rem;
+  max-width: 90%;
+  width: fit-content;
+  padding: .45rem .9rem;
+  border-radius: 999px;
+  background: rgba(30,20,10,.85);
+  color: #fff;
+  font-size: .78rem;
+  font-weight: 600;
+  text-align: center;
+}
+.quest-toast--anim{ animation: quest-toast-comparsa .25s ease-out; }
+@keyframes quest-toast-comparsa{
+  from{ opacity: 0; transform: translateY(-6px); }
+  to{ opacity: 1; transform: translateY(0); }
+}
 
 /* ============================================================
    SCHERMATA GAMEPASS — premi giornalieri (14/09/2026, su richiesta

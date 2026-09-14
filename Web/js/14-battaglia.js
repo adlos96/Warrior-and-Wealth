@@ -365,7 +365,7 @@ window.WW = window.WW || {};
     return `<table class="report-table"><thead><tr><th>Unità</th><th>Schierati</th><th>Caduti</th><th>Superstiti</th></tr></thead><tbody>${righe || '<tr><td colspan="4">Nessuna unità</td></tr>'}</tbody></table>`;
   }
 
-  function templateRisorseRaccolte(r) {
+  function templateRisorseRaccolte(r, lato) {
     if (!r) return "";
     const righe = [
       ["Cibo", r.Cibo, "Grano_V2.png"],
@@ -379,11 +379,22 @@ window.WW = window.WW || {};
     if (righe.length === 0) return "";
     // Stessa pillola di Magazzino/Scorta Militare (Spionaggio) invece del vecchio testo
     // libero "Nome: +Valore" — coerenza visiva tra i due tipi di referto (14/09/2026).
+    // Titolo E segno/colore dipendenti dal LATO SELEZIONATO col toggle Attaccante/Difensore
+    // (non da chi sta guardando il report — richiesto dall'utente 14/09/2026: "a prescindere
+    // che io sia difensore o attaccante, questo solo per vedere risorse saccheggiate o
+    // perse"): lato "attaccante" le ha saccheggiate (verde, "+"), lato "difensore" se le è
+    // viste portare via (rosso, "-") — stesso .report-res-item__value--negativo già usato per
+    // l'HP/DEF struttura scesi durante la fase. Per questo va ri-renderizzata a ogni click del
+    // toggle (vedi renderBattagliaRisorseContent), non più costruita una sola volta in
+    // apriReportDettaglio.
+    const attaccante = lato !== "difensore";
+    const segno = attaccante ? "+" : "-";
+    const classeValore = attaccante ? "report-res-item__value--positivo" : "report-res-item__value--negativo";
     return `
     <div class="report-risorse">
-      <h3>Risorse Raccolte</h3>
+      <h3>${attaccante ? "Risorse Saccheggiate" : "Risorse Perse"}</h3>
       <div class="report-risorse__grid">
-        ${righe.map(([nome, valore, icona]) => rigaChip(nome, `+${WW.fmtInt(valore)}`, icona, "report-res-item__value--positivo")).join("")}
+        ${righe.map(([nome, valore, icona]) => rigaChip(nome, `${segno}${WW.fmtInt(valore)}`, icona, classeValore)).join("")}
       </div>
     </div>`;
   }
@@ -475,6 +486,15 @@ window.WW = window.WW || {};
     const el = document.getElementById("battaglia-fasi-content");
     if (!el || !battagliaAttiva) return;
     el.innerHTML = (battagliaAttiva.Fasi || []).map((fase, i) => templateFase(fase, i, battagliaLato)).join("");
+  }
+
+  // "Risorse Saccheggiate"/"Risorse Perse" segue anche lei il toggle Attaccante/Difensore
+  // (non è fissa in base a chi guarda, vedi nota in templateRisorseRaccolte) quindi va
+  // ricostruita a ogni click del toggle esattamente come le Fasi.
+  function renderBattagliaRisorseContent() {
+    const el = document.getElementById("battaglia-risorse-content");
+    if (!el || !battagliaAttiva) return;
+    el.innerHTML = templateRisorseRaccolte(battagliaAttiva.Risorse_Raccolte, battagliaLato);
   }
 
   // Dettaglio Spionaggio (RisultatoSpionaggio in Battaglia.cs). Restyling del 14/09/2026
@@ -746,6 +766,7 @@ window.WW = window.WW || {};
       ${bonusVillaggioHtml ? `<div class="report-risorse"><h3>Bonus Villaggio</h3><div class="report-risorse__grid">${bonusVillaggioHtml}</div></div>` : ""}
 
       ${stadio < 6 ? `<p class="target-info">Incrementa la forza dello spionaggio per rivelare i valori "????" e sbloccare maggiori dettagli.</p>` : ""}
+      ${s.Precisione_Insufficiente ? `<p class="target-info">Aumenta la forza dello spionaggio per migliorare la precisione dei valori mostrati.</p>` : ""}
 
       <div class="report-esito ${s.Spionaggio_Riuscito ? "report-esito--vittoria" : "report-esito--sconfitta"}">
         ${s.Spionaggio_Riuscito ? "SPIONAGGIO RIUSCITO" : "SPIONAGGIO FALLITO"}
@@ -798,11 +819,12 @@ window.WW = window.WW || {};
       </div>
       ${templateBattagliaFasiToggle()}
       <div id="battaglia-fasi-content"></div>
-      ${templateRisorseRaccolte(b.Risorse_Raccolte)}
+      <div id="battaglia-risorse-content"></div>
       <div class="report-esito ${vittoriaMia ? "report-esito--vittoria" : "report-esito--sconfitta"}">
         Esperienza totale guadagnata: ${WW.fmtInt(xpMio)} — ${vittoriaMia ? "VITTORIA!" : "SCONFITTA"}
       </div>`;
     renderBattagliaFasiContent();
+    renderBattagliaRisorseContent();
     overlay.hidden = false;
   }
 
@@ -884,6 +906,7 @@ window.WW = window.WW || {};
           battagliaLato = latoBtn.dataset.battagliaLato === "difensore" ? "difensore" : "attaccante";
           reportContent.querySelectorAll("[data-battaglia-lato]").forEach((b) => b.classList.toggle("is-active", b === latoBtn));
           renderBattagliaFasiContent();
+          renderBattagliaRisorseContent();
         }
       });
     }

@@ -102,7 +102,7 @@ window.WW = window.WW || {};
     WW.renderShop();
     WW.renderRicerca();
     WW.renderStatistiche();
-    WW.renderQuestBarra(); // barra punti Quest (12-quest.js): i marker si aggiornano solo su un nuovo QuestRewards, ma i punti cambiano ad ogni tick
+    WW.renderQuestBarra(); // barra punti + marker Quest (12-quest.js): ricalcolati ad ogni tick, non solo su un nuovo QuestRewards (bugfix 14/09/2026)
     if (WW.renderGamepass) WW.renderGamepass(); // griglia premi GamePass (13-gamepass.js)
     if (WW.renderBattaglia) WW.renderBattaglia(); // schermata PVP/PVE (14-battaglia.js)
   }

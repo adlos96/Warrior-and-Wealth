@@ -63,24 +63,37 @@ window.WW = window.WW || {};
   const elPagerPrev = document.getElementById("quest-pager-prev");
   const elPagerNext = document.getElementById("quest-pager-next");
   const elPagerPagina = document.getElementById("quest-pager-pagina");
+  const elToast = document.getElementById("quest-toast");
 
   if (!elTrack) return; // pannello non presente (non dovrebbe succedere)
+
+  // Diventa true dopo il primo "QuestRewards" ricevuto (vedi sotto): serve a
+  // non far scattare l'animazione di riscossione per le ricompense che
+  // arrivano GIÀ segnate come riscosse al primo caricamento della schermata
+  // (altrimenti al login si vedrebbero "esplodere" tutte quelle prese nei
+  // mesi/giorni precedenti).
+  let rewardsCaricate = false;
+  let toastTimeout = null;
 
   /* ---------- Ricompense (barra + marker) ---------- */
 
   // Metà larghezza del cerchietto marker (vedi .quest-marker in style.css,
-  // width: 36px) — serve per tenere i marker agli estremi (0%/100%)
-  // completamente dentro alla barra invece di uscire a metà dal bordo.
-  const META_MARKER_PX = 18;
+  // width: 48px dopo l'ultimo ingrandimento) — serve per tenere i marker
+  // agli estremi (0%/100%) completamente dentro alla barra invece di
+  // uscire a metà dal bordo, e per posizionare le etichette del punteggio
+  // richiesto (creaTickPunti) alla stessa distanza dal bordo dei marker.
+  const META_MARKER_PX = 24;
 
   // Distanza minima FISSA (in px, non in %) tra un marker e il successivo
-  // (14/09/2026, su richiesta dell'utente: prima 38px/30px di diametro, ora
-  // marker più grandi e più distanziati). Dando a #quest-track una
-  // larghezza minima calcolata su questo valore, il pannello mostra una
-  // decina abbondante di ricompense alla volta e il resto si raggiunge
-  // scorrendo (vedi .quest-track-scroll in style.css) invece di stringere
-  // tutto per farcelo stare.
-  const DISTANZA_MARKER_PX = 48;
+  // (14/09/2026, su richiesta dell'utente: prima 38px/30px di diametro, poi
+  // via via più grandi e più distanziati ad ogni richiesta — icone, scritte
+  // e bagliore — quindi anche la distanza è salita di pari passo per non
+  // farli sovrapporre). Dando a #quest-track una larghezza minima calcolata
+  // su questo valore, il pannello mostra una decina abbondante di
+  // ricompense alla volta e il resto si raggiunge scorrendo (vedi
+  // .quest-track-scroll in style.css) invece di stringere tutto per
+  // farcelo stare.
+  const DISTANZA_MARKER_PX = 62;
 
   // Icone delle ricompense (14/09/2026, su richiesta dell'utente): la
   // traccia mostrava SEMPRE l'icona Diamante Viola per ogni ricompensa,
@@ -161,6 +174,11 @@ window.WW = window.WW || {};
     const el = document.createElement("button");
     el.type = "button";
     el.className = `quest-marker quest-marker--${tipo}`;
+    // Attributi usati da segnalaRiscossione() per ritrovare il marker giusto
+    // dopo un rebuild di renderMarkers() e far partire l'animazione su di
+    // esso (14/09/2026, su richiesta dell'utente).
+    el.dataset.markerTipo = tipo;
+    el.dataset.markerIndice = String(indice);
     if (info.terreno) el.classList.add("quest-marker--terreno");
     if (!raggiunta) el.classList.add("quest-marker--locked");
     else if (riscossa) el.classList.add("quest-marker--claimed");
@@ -266,6 +284,60 @@ window.WW = window.WW || {};
     renderQuestList();
   });
 
+  /* ---------- Feedback grafico alla riscossione di una ricompensa ----------
+     (14/09/2026, su richiesta dell'utente: "quando un premio viene raccolto,
+     dovremmo mostrarlo graficamente in qualche modo... così è più gradevole
+     per il giocatore e inoltre possiamo osservare eventuali bug"). Tre
+     elementi, tutti innescati da segnalaRiscossione() quando un marker passa
+     da "non riscosso" a "riscosso" tra un QuestRewards e il successivo:
+       1) un piccolo "scatto" sul marker stesso (scala + bagliore);
+       2) il valore che sale e sfuma sopra/sotto il marker;
+       3) un toast in cima al pannello con tipo e valore riscosso — utile
+          apposta per accorgersi a colpo d'occhio se il valore o il tipo
+          (Normale/VIP) non sono quelli attesi. */
+
+  function trovaIndiciAppenaRiscossi(vecchio, nuovo) {
+    const risultato = [];
+    for (let i = 0; i < nuovo.length; i++) {
+      if (nuovo[i] && !(vecchio && vecchio[i])) risultato.push(i);
+    }
+    return risultato;
+  }
+
+  function mostraToastQuest(testo) {
+    if (!elToast) return;
+    elToast.textContent = testo;
+    elToast.hidden = false;
+    // Riavvia l'animazione di comparsa anche se il toast è già visibile
+    // (riscossioni multiple ravvicinate, es. "Ripara Tutto"-style multi-click).
+    elToast.classList.remove("quest-toast--anim");
+    void elToast.offsetWidth;
+    elToast.classList.add("quest-toast--anim");
+    clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => { elToast.hidden = true; }, 2200);
+  }
+
+  function segnalaRiscossione(tipo, indiceZeroBased) {
+    const valore = tipo === "vip" ? stato.rewardsVip[indiceZeroBased] : stato.rewardsNormali[indiceZeroBased];
+    const info = infoIconaRicompensa(tipo, indiceZeroBased + 1);
+    const testoValore = info.terreno ? info.etichetta : `+${WW.fmtInt(valore || 0)} 💎`;
+
+    const marker = elTrack.querySelector(`.quest-marker[data-marker-tipo="${tipo}"][data-marker-indice="${indiceZeroBased}"]`);
+    if (marker) {
+      marker.classList.add("quest-marker--collected");
+      marker.addEventListener("animationend", () => marker.classList.remove("quest-marker--collected"), { once: true });
+
+      const popup = document.createElement("span");
+      popup.className = `quest-reward-popup quest-reward-popup--${tipo}`;
+      popup.style.left = marker.style.left;
+      popup.textContent = testoValore;
+      elTrack.appendChild(popup);
+      popup.addEventListener("animationend", () => popup.remove(), { once: true });
+    }
+
+    mostraToastQuest(`Ricompensa ${tipo === "vip" ? "VIP" : "Normale"} riscossa: ${testoValore}`);
+  }
+
   /* ---------- Ricezione dati dal server ---------- */
 
   WW.NET.onJson("QuestUpdate", (msg) => {
@@ -274,17 +346,40 @@ window.WW = window.WW || {};
   });
 
   WW.NET.onJson("QuestRewards", (msg) => {
+    const nuoviClaimNormal = msg.Completo || [];
+    const nuoviClaimVip = msg.Completo_Vip || [];
+
+    // Confronto PRIMA di sovrascrivere stato.claimNormal/claimVip: un
+    // indice passato da false a true è una ricompensa riscossa in questo
+    // preciso aggiornamento (sia perché il giocatore l'ha appena cliccata,
+    // sia se arrivasse "già riscossa" da un altro client/sessione).
+    const appenaRiscosseNormali = rewardsCaricate ? trovaIndiciAppenaRiscossi(stato.claimNormal, nuoviClaimNormal) : [];
+    const appenaRiscosseVip = rewardsCaricate ? trovaIndiciAppenaRiscossi(stato.claimVip, nuoviClaimVip) : [];
+
     stato.rewardsNormali = msg.Rewards_Normali || [];
     stato.rewardsVip = msg.Rewards_VIP || [];
     stato.points = msg.Points || [];
-    stato.claimNormal = msg.Completo || [];
-    stato.claimVip = msg.Completo_Vip || [];
+    stato.claimNormal = nuoviClaimNormal;
+    stato.claimVip = nuoviClaimVip;
     renderRicompense();
+
+    appenaRiscosseNormali.forEach((i) => segnalaRiscossione("normale", i));
+    appenaRiscosseVip.forEach((i) => segnalaRiscossione("vip", i));
+    rewardsCaricate = true;
   });
 
-  // La barra dei punti va ricalcolata anche ad ogni "tick" generico
-  // (Update_Data aggiorna punti_quest periodicamente, non solo quando
-  // arriva un nuovo QuestRewards): la si riaggancia al ciclo generale
-  // di refresh dell'app tramite WW.renderAllFromServer, se già definito.
-  WW.renderQuestBarra = renderBarra;
+  // BUGFIX (14/09/2026, segnalato dall'utente: "ho 222 punti ed il primo
+  // premio non l'ho mai raccolto ma risulta non raccoglibile"): questo hook
+  // prima richiamava solo renderBarra(). punti_quest cambia ad ogni "tick"
+  // generico (Update_Data), ma lo stato raggiunta/bloccata di OGNI marker
+  // viene deciso in creaMarker() solo quando i marker vengono ricreati da
+  // renderMarkers() — cosa che accadeva solo all'arrivo di un nuovo
+  // "QuestRewards" dal server. Risultato: se il punteggio superava la
+  // soglia di un premio DOPO l'ultimo QuestRewards ricevuto, il marker
+  // restava visivamente bloccato (e quindi non cliccabile) anche se il
+  // giocatore aveva già i punti necessari, finché non arrivava un altro
+  // QuestRewards (es. completando un'altra quest) a "sbloccarlo" di
+  // riflesso. Ora l'hook richiama renderRicompense() (barra + marker),
+  // così anche i marker restano aggiornati ad ogni tick, non solo la barra.
+  WW.renderQuestBarra = renderRicompense;
 })(window.WW);

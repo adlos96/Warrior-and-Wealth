@@ -107,10 +107,23 @@
 
     <!-- Barra risorse: stessi valori/icone del client desktop -->
     <header class="resource-bar" id="resource-bar">
-      <div class="resource-bar__player">
+      <!-- Menu giocatore (14/09/2026, su richiesta dell'utente): cliccando
+           sul proprio nome si apre un popup con "Cambio giocatore" (torna
+           alla schermata di login/registrazione, riusando lo stesso
+           AUTH.logout() già usato per un TOKEN_NON_VALIDO — vedi
+           collegaMenuGiocatore() in js/02-auth.js) e "Cambio immagine
+           profilo" (per ora solo un segnaposto grigio, non cliccabile: la
+           funzione non esiste ancora lato server/client). Prima era un
+           piccolo dropdown ancorato al pulsante, ma dentro alla barra
+           risorse (sticky, con overflow-x:auto) compariva schiacciato lì
+           sotto — su richiesta dell'utente ("puoi fare un menù a comparsa
+           come fai per i report?") è diventato un overlay centrato a tutto
+           schermo, lo stesso .modal-overlay/.modal-box già usato per Feudi/
+           Info Risorsa/Resoconto qui sotto, invece di un pattern nuovo. -->
+      <button type="button" class="resource-bar__player" id="btn-player-menu">
         <span class="avatar">👤</span>
         <span id="res-username" class="player-name">adly</span>
-      </div>
+      </button>
 
       <div class="resource-bar__scroll">
         <!-- Gruppo risorse CIVILI: visibile di default. Il pulsante
@@ -676,6 +689,11 @@
           <div class="panel wood-panel">
             <h2 class="panel__title">Ricompense Mensili</h2>
             <p class="panel__hint">La barra si riempie con i punti guadagnati completando le quest. Clicca su una ricompensa raggiunta per riscattarla. Scorri per vedere tutte le ricompense.</p>
+            <!-- Toast di conferma riscossione (14/09/2026, su richiesta
+                 dell'utente: feedback grafico + utile per notare bug — vedi
+                 segnalaRiscossione() in js/12-quest.js). Popolato/mostrato
+                 solo via JS, resta hidden finché non c'è nulla da dire. -->
+            <div class="quest-toast" id="quest-toast" hidden></div>
             <!-- Striscia scorrevole (14/09/2026, su richiesta dell'utente:
                  da telefono, con 20 marker per fila, erano troppo vicini —
                  vedi renderMarkers() in js/12-quest.js, che dà a #quest-track
@@ -825,6 +843,23 @@
           <button type="button" class="modal-close-btn" id="btn-chiudi-report" aria-label="Chiudi">✕</button>
         </div>
         <div id="report-content"><!-- popolata da js/14-battaglia.js --></div>
+      </div>
+    </div>
+
+    <!-- Popup "Menu giocatore" (14/09/2026, su richiesta dell'utente): stesso
+         overlay generico usato per Feudi/Info Risorsa/Resoconto, aperto
+         cliccando su nome/avatar nella barra risorse — vedi
+         collegaMenuGiocatore() in js/02-auth.js. -->
+    <div class="modal-overlay" id="player-menu-overlay" hidden>
+      <div class="modal-box panel wood-panel modal-box--player-menu">
+        <div class="panel__header">
+          <h2 class="panel__title">Giocatore</h2>
+          <button type="button" class="modal-close-btn" id="btn-chiudi-player-menu" aria-label="Chiudi">✕</button>
+        </div>
+        <div class="player-menu">
+          <button type="button" class="player-menu__voce" id="player-menu-cambio-giocatore">Cambio giocatore</button>
+          <button type="button" class="player-menu__voce" disabled title="Non ancora disponibile">Cambio immagine profilo</button>
+        </div>
       </div>
     </div>
   </section>
