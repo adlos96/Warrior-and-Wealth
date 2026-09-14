@@ -1,0 +1,8 @@
+# Gli script di deploy vengono eseguiti su Linux (la VPS) ma modificati su
+# Windows con Visual Studio. Senza questa riga Visual Studio puo' salvarli con
+# terminatori di riga CRLF: bash non riesce nemmeno a leggerli e il deploy
+# fallisce con "syntax error: unexpected end of file".
+# Dopo aver aggiunto questo file, esegui una volta:
+#     git add --renormalize .
+#     git commit -m "Normalizza i terminatori di riga degli script"
+*.sh text eol=lf

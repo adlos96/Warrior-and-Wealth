@@ -1,2 +1,8 @@
 /CriptoGame_Online/.vs
 /Server Strategico/Properties/PublishProfiles
+
+# Output di compilazione: non deve finire nel repository.
+# Se ci finisse, sulla VPS il "git pull" andrebbe in conflitto con i file
+# generati li' da "dotnet publish" e ogni deploy successivo fallirebbe.
+bin/
+obj/
