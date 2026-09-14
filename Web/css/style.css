@@ -1,0 +1,1918 @@
+/* ==========================================================
+   Warrior & Wealth — Web Client — Design tokens & layout
+   ----------------------------------------------------------
+   Palette e texture ricalcano gli asset del client desktop
+   (CriptoGame_Online/Resources) per continuità visiva:
+   pergamena per gli sfondi, legno per bordi/pannelli,
+   oro/viola per i diamanti, verde/rosso per HP/DEF.
+   ========================================================== */
+
+:root{
+  --parchment: #ead9b8;
+  --parchment-dark: #d9c298;
+  --wood: #5a3a22;
+  --wood-dark: #3c2515;
+  --ink: #2c1c10;
+  --ink-soft: #5a4632;
+  --gold: #caa23a;
+  --gold-bright: #e8c565;
+  --purple: #8a5cd6;
+  --hp-green: #3f8f3f;
+  --def-blue: #3f6f9f;
+  --danger: #a33f3f;
+  --panel-radius: 10px;
+  /* Niente font esterni (niente Google Fonts): dipendevano da una rete
+     che può essere bloccata (proxy aziendali, VPN, restrizioni su
+     file://), causando un aspetto diverso da un PC all'altro. Usiamo solo
+     font già presenti su ogni sistema: un serif classico per i titoli
+     (in maiuscolo + letter-spacing per un effetto "incisione" simile a
+     Cinzel, vedi .panel__title/.game-title) e lo stack di sistema per il
+     testo normale. */
+  --font-title: Georgia, "Times New Roman", serif;
+  --font-body: -apple-system, "Segoe UI", Roboto, system-ui, sans-serif;
+}
+
+*{ box-sizing: border-box; }
+
+/* L'attributo [hidden] va sempre rispettato: senza questa regola,
+   alcune classi con "display: flex/grid" più specifiche o successive
+   nel foglio di stile lo sovrascriverebbero silenziosamente. */
+[hidden]{ display: none !important; }
+
+html, body{
+  margin: 0;
+  min-height: 100%;
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--parchment-dark);
+}
+
+img{ max-width: 100%; display: block; }
+
+button{ font-family: inherit; cursor: pointer; }
+
+/* ---------- Pannelli in stile "legno + pergamena" ---------- */
+
+.panel{
+  background: var(--parchment);
+  border: 6px solid var(--wood);
+  border-radius: var(--panel-radius);
+  box-shadow: 0 4px 14px rgba(0,0,0,.35), inset 0 0 40px rgba(90,58,34,.15);
+  padding: 1rem;
+}
+
+.wood-panel{
+  background-image: linear-gradient(rgba(234,217,184,.94), rgba(234,217,184,.94)), url("../assets/Sfondo_Gioco.png");
+  background-size: cover;
+  background-position: center;
+}
+
+.panel__title{
+  font-family: var(--font-title);
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  margin: 0 0 .6rem;
+  color: var(--wood-dark);
+  border-bottom: 2px solid var(--gold);
+  padding-bottom: .35rem;
+}
+
+.panel__hint{ font-size: .82rem; color: var(--ink-soft); margin: 0 0 .5rem; }
+
+/* ---------- Bottoni ---------- */
+
+.btn{
+  border: none;
+  border-radius: 6px;
+  padding: .6rem 1rem;
+  font-weight: 600;
+  font-size: .9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  justify-content: center;
+}
+
+.btn--primary{ background: var(--wood); color: #fff; }
+.btn--primary:hover{ background: var(--wood-dark); }
+
+.btn--gold{ background: linear-gradient(var(--gold-bright), var(--gold)); color: var(--ink); }
+
+.btn--ghost{ background: transparent; color: var(--wood-dark); border: 2px solid var(--wood); }
+
+/* La regola globale "img{display:block}" (sopra) serve per le immagini a
+   sé stanti (icone di riga, avatar, ...), ma un'icona pensata per stare
+   IN MEZZO al testo (bottoni, titoli come ".panel__subtitle" in Esercito/
+   Addestramento) con "display:block" va a capo da sola invece di
+   allinearsi accanto alla scritta — da cui l'icona "sopra" il nome
+   dell'unità invece che "affianco" segnalato dall'utente (13/09/2026).
+   inline-block + vertical-align la rimette in riga col testo; nei
+   pulsanti (già flex) questo non cambia nulla, perché lì l'allineamento
+   in riga lo dava comunque il flex del contenitore. */
+.icon-inline{ width: 18px; height: 18px; object-fit: contain; display: inline-block; vertical-align: middle; }
+
+/* ==========================================================
+   Schermata Login
+   ========================================================== */
+
+.screen--login{
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: radial-gradient(circle at top, #6b4a2c, var(--wood-dark) 70%);
+}
+
+.login-card{
+  width: 100%;
+  max-width: 360px;
+  text-align: center;
+}
+
+.login-card__logo{ width: 140px; margin: 0 auto .5rem; }
+
+.game-title{
+  font-family: var(--font-title);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--wood-dark);
+  font-size: 1.5rem;
+  margin: 0 0 1rem;
+}
+
+.login-form{ display: flex; flex-direction: column; gap: .75rem; }
+
+.field{ display: flex; flex-direction: column; gap: .25rem; text-align: left; font-size: .82rem; color: var(--ink-soft); }
+
+.field input{
+  padding: .6rem .7rem;
+  border-radius: 6px;
+  border: 2px solid var(--wood);
+  background: #fffdf7;
+  font-size: 1rem;
+}
+
+.login-status{ font-size: .85rem; color: var(--danger); }
+.login-status--ok{ color: var(--hp-green); }
+
+/* Selettore lingua, in alto nella card di login */
+.lang-switch{ display: flex; justify-content: flex-end; margin-bottom: .5rem; }
+
+.lang-switch select{
+  border: 2px solid var(--wood);
+  border-radius: 6px;
+  background: #fffdf7;
+  color: var(--ink);
+  font-size: .82rem;
+  font-weight: 600;
+  padding: .3rem .5rem;
+}
+
+/* Riga con checkbox (es. "Ricordami"): stesso stile dei .field ma in
+   orizzontale, con la checkbox a sinistra dell'etichetta. */
+.field--checkbox{
+  flex-direction: row;
+  align-items: center;
+  gap: .5rem;
+  font-size: .82rem;
+}
+.field--checkbox input{ width: 16px; height: 16px; accent-color: var(--wood); flex: none; }
+
+/* Link testuale (es. "Password dimenticata?"): un bottone senza
+   contorno/sfondo, per non competere visivamente con i btn principali. */
+.btn-link{
+  background: none;
+  border: none;
+  color: var(--wood-dark);
+  font-size: .8rem;
+  font-weight: 600;
+  text-decoration: underline;
+  padding: .2rem;
+}
+.btn-link:hover{ color: var(--wood); }
+
+/* ==========================================================
+   Schermata di gioco
+   ========================================================== */
+
+.screen--game{
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--parchment-dark);
+}
+
+/* --- Barra risorse (sticky top) --- */
+
+.resource-bar{
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  background: var(--wood-dark);
+  color: #f4e9d2;
+  padding: .7rem .75rem; /* 14/09/2026: barra leggermente più alta su richiesta dell'utente (era .5rem) */
+  overflow-x: auto;
+}
+
+.resource-bar__player{ display: flex; align-items: center; gap: .4rem; flex: none; font-weight: 700; }
+.avatar{ font-size: 1.3rem; }
+
+.resource-bar__scroll{
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.res-group{ display: flex; align-items: center; gap: .6rem; flex: none; }
+
+.res{
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+  background: #fffdf7;
+  color: var(--ink);
+  border-radius: 6px;
+  padding: .25rem .5rem;
+  font-size: .82rem;
+  font-weight: 600;
+  flex: none;
+  white-space: nowrap;
+}
+
+.res img{ width: 18px; height: 18px; object-fit: contain; }
+
+.res--pill{
+  background: var(--gold-bright);
+  border: none;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.res--pill:hover{ background: var(--gold); }
+.res--level{ background: var(--purple); color: #fff; }
+
+/* Risorse cliccabili (14/09/2026, su richiesta dell'utente): aprono il
+   popup con descrizione/statistiche (#risorsa-info-overlay). */
+.res--clickable{ cursor: pointer; }
+.res--clickable:hover{ background: var(--parchment); }
+
+/* --- Contenuto --- */
+
+.content{ flex: 1; padding: .9rem; padding-bottom: 6rem; } /* 14/09/2026: aumentato insieme all'altezza della .tab-bar */
+
+/* Ogni schermata (Main, Costruzione, Città, Negozio, Ricerca, ...) senza
+   un tetto alla larghezza si allargava fino al bordo della finestra su
+   schermi larghi — quasi invisibile per pannelli fatti di righe di testo,
+   ma la panoramica del villaggio in Città (.city-map, aspect-ratio fissa)
+   cresceva insieme alla larghezza e diventava enorme anche in altezza da
+   PC (segnalato dall'utente 13/09/2026; da telefono, sotto i 760px, non
+   si notava perché la larghezza è già stretta di suo). ".placeholder-panel"
+   aveva già questo stesso freno (max-width:520px) ma solo per sé: qui lo
+   applichiamo a TUTTE le schermate, centrandole invece di lasciarle
+   sbordare — nessun'altra regola dipende dalla larghezza piena della
+   finestra, quindi è un cambiamento sicuro anche per main-grid/ricerca. */
+.tab-panel{ max-width: 840px; margin: 0 auto; }
+
+/* Città ha bisogno di più spazio del solito 840px SOLO da PC, per stare
+   comoda accanto alla lista quando .city-layout diventa a due colonne (vedi
+   più sotto) — non tocca il layout mobile, dove .city-layout resta un
+   semplice blocco impilato e questo max-width più largo semplicemente non
+   viene mai raggiunto dalla larghezza dello schermo. */
+.tab-panel[data-tab-panel="citta"]{ max-width: 1040px; }
+
+/* Quest: più largo del solito 840px (14/09/2026, su richiesta dell'utente)
+   per dare più respiro ai marker delle ricompense — su schermi stretti
+   questo max-width più largo semplicemente non viene mai raggiunto. */
+.tab-panel[data-tab-panel="quest"]{ max-width: 1040px; }
+
+.section-toggle{
+  display: none; /* visibile solo sotto la breakpoint mobile, vedi media query */
+  gap: .4rem;
+  margin-bottom: .75rem;
+  overflow-x: auto;
+}
+
+.section-toggle__btn{
+  flex: none;
+  border: 2px solid var(--wood);
+  background: var(--parchment);
+  color: var(--wood-dark);
+  border-radius: 999px;
+  padding: .4rem .9rem;
+  font-size: .8rem;
+  font-weight: 600;
+}
+
+.section-toggle__btn.is-active{ background: var(--wood); color: #fff; }
+
+/* Variante "inline": usata dentro un pannello (es. Civili/Militari/
+   Caserme) per un toggle a più stati. A differenza di .section-toggle
+   "esterno" (visibile solo su mobile), questa resta sempre visibile:
+   non è legata alla breakpoint mobile, è un controllo del pannello. */
+.section-toggle--inline{
+  display: flex;
+  flex-wrap: wrap;
+  overflow-x: visible; /* niente scrollbar: eredita overflow-x:auto da .section-toggle,
+                           ma questa variante deve sempre restare interamente visibile */
+  margin-bottom: .6rem;
+}
+.section-toggle--inline .section-toggle__btn{ font-size: .75rem; padding: .35rem .7rem; }
+
+.main-grid{
+  display: grid;
+  grid-template-columns: 1.1fr 1.3fr 1.3fr;
+  grid-template-rows: auto auto;
+  gap: .9rem;
+}
+
+.main-grid [data-panel="feudi"]{ grid-column: 1; grid-row: 1 / span 2; }
+.main-grid [data-panel="civili"]{ grid-column: 2; grid-row: 1; }
+.main-grid [data-panel="esercito"]{ grid-column: 3; grid-row: 1; }
+/* Cronologia e Messaggi condivisi in questo stesso pannello con un toggle
+   interno (13/09/2026, su richiesta dell'utente) — non più due [data-panel]
+   separati, quindi via anche la terza riga che serviva solo per Messaggi. */
+.main-grid [data-panel="cronologia"]{ grid-column: 2 / span 2; grid-row: 2; }
+
+.panel--log{ min-height: 220px; }
+
+/* Barra laterale di scorrimento per la Cronologia (14/09/2026, su richiesta
+   dell'utente: "vorrei che ci fosse una barra laterale per scorrere tutti i
+   messaggi in arrivo") — prima il box cresceva senza limiti insieme alla
+   pagina; ora ha un'altezza fissa con scroll verticale interno, così il
+   pannello resta compatto e si scorre SOLO la lista messaggi. Il tetto di
+   messaggi tenuti in memoria (appendLog, più sotto in questo file) è stato
+   alzato di pari passo, altrimenti lo scroll avrebbe avuto ben poco da
+   mostrare. */
+.log-box{
+  font-size: .85rem;
+  color: var(--ink-soft);
+  max-height: 65vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  padding-right: .3rem;
+}
+.log-empty{ opacity: .7; font-style: italic; }
+
+/* Righe di Cronologia: ogni riga arriva dal server con tag di colore/icona
+   (stessa sintassi del client desktop, vedi LogSupport.cs) già interpretati
+   in JS in span colorati + icone inline. Ogni messaggio è un box a sé
+   stante (bordo + sfondo, come .city-card) invece del solo divisorio
+   tratteggiato — più "spessore e contorno", su richiesta dell'utente
+   (13/09/2026: i messaggi si confondevano troppo tra loro). */
+.log-entry{
+  margin: 0 0 .5rem;
+  padding: .55rem .7rem;
+  background: rgba(255,253,247,.6);
+  border: 1px solid var(--parchment-dark);
+  border-radius: 6px;
+  line-height: 1.5;
+}
+.log-entry:last-child{ margin-bottom: 0; }
+
+.log-icon{
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  vertical-align: -3px;
+  object-fit: contain;
+  margin: 0 1px;
+}
+
+/* Icona "clessidra" per [icon:tempo]: stesso SVG incorporato usato per
+   .row-item__queue, qui come icona a sé stante invece che ::before. */
+.log-icon--tempo{
+  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 30'%3E%3Cpath d='M4 2h16' stroke='%233c2515' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M4 28h16' stroke='%233c2515' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M5.5 3 L18.5 3 L18.5 8 Q18.5 12 12 15 Q5.5 18 5.5 22 L5.5 27 L18.5 27 L18.5 22 Q18.5 18 12 15 Q5.5 12 5.5 8 Z' fill='%23fffdf7' stroke='%233c2515' stroke-width='1.6' stroke-linejoin='round'/%3E%3Cpath d='M8 5.2 L16 5.2 Q15.6 9 12 11.5 Q8.4 9 8 5.2 Z' fill='%23e8c565'/%3E%3Cpath d='M12 15 Q7.5 18.3 7.2 22.5 L16.8 22.5 Q16.5 18.3 12 15 Z' fill='%23caa23a'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* --- Liste Feudi / Strutture / Unità --- */
+
+.feudi-list, .building-list, .unit-list{ list-style: none; margin: 0 0 .75rem; padding: 0; display: flex; flex-direction: column; gap: .4rem; }
+
+.feudi-actions{ display: flex; gap: .9rem; flex-wrap: wrap; }
+
+/* Gruppo "Scambia"/"Scambia Tributi" separato da "Acquista" (13/09/2026, su
+   richiesta dell'utente): un filo dorato sopra + una piccola etichetta
+   fanno capire a colpo d'occhio che questi due pulsanti servono a
+   un'azione diversa (scambiare una valuta per un'altra) e non a comprare
+   Feudi come "Acquista" appena sopra. */
+.feudi-exchange-actions{
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+  margin-top: .9rem;
+  padding-top: .8rem;
+  border-top: 2px solid var(--gold);
+}
+.feudi-exchange-actions__label{
+  margin: 0;
+  font-size: .72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--ink-soft);
+}
+
+.row-item{
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  background: rgba(255,253,247,.7);
+  border: 1px solid var(--parchment-dark);
+  border-radius: 6px;
+  padding: .4rem .5rem;
+  font-size: .85rem;
+}
+
+.row-item img{ width: 30px; height: 30px; object-fit: contain; flex: none; }
+
+/* Icone Feudi nella panoramica (14/09/2026, su richiesta dell'utente): a
+   differenza delle icone risorse/edifici (PNG con sfondo trasparente, ok con
+   "contain"), le immagini dei feudi sono foto/JPEG rettangolari (stesse del
+   popup "Feudi Info" — vedi .feudi-info-item img) quindi vogliono "cover" +
+   angoli arrotondati per non risultare schiacciate/con bordi bianchi. */
+#feudi-list img{ width: 34px; height: 34px; object-fit: cover; border-radius: 6px; }
+
+.row-item__label{ flex: 1; font-weight: 600; }
+
+.row-item__value{
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-soft);
+  font-weight: 600;
+  background: rgba(255,255,255,.6);
+  border: 1px solid var(--parchment-dark);
+  border-radius: 5px;
+  padding: .1rem .45rem;
+  min-width: 2.2em;
+  text-align: center;
+}
+
+/* Secondo valore ("in coda"): più piccolo e discreto del valore
+   principale, staccato visivamente ma sempre leggibile — stessa idea
+   dei due rettangoli affiancati nella schermata Main del client. */
+.row-item__queue{
+  display: inline-flex;
+  align-items: center;
+  gap: .25rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--wood-dark);
+  font-weight: 600;
+  font-size: .72rem;
+  background: var(--parchment-dark);
+  border: 1px dashed var(--wood);
+  border-radius: 999px;
+  padding: .05rem .45rem;
+  flex: none;
+  white-space: nowrap;
+}
+
+/* Icona "clessidra" come SVG incorporato (nessun emoji): l'emoji ⏳
+   dipende dal set installato sul sistema/browser e appare diversa (o in
+   bianco/nero) a seconda della piattaforma. Questa, invece, è identica
+   ovunque — e più simile all'emoji originale: cornice legno + sabbia
+   oro, come richiesto. */
+.row-item__queue::before{
+  content: "";
+  flex: none;
+  width: 11px;
+  height: 14px;
+  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 30'%3E%3Cpath d='M4 2h16' stroke='%233c2515' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M4 28h16' stroke='%233c2515' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M5.5 3 L18.5 3 L18.5 8 Q18.5 12 12 15 Q5.5 18 5.5 22 L5.5 27 L18.5 27 L18.5 22 Q18.5 18 12 15 Q5.5 12 5.5 8 Z' fill='%23fffdf7' stroke='%233c2515' stroke-width='1.6' stroke-linejoin='round'/%3E%3Cpath d='M8 5.2 L16 5.2 Q15.6 9 12 11.5 Q8.4 9 8 5.2 Z' fill='%23e8c565'/%3E%3Cpath d='M12 15 Q7.5 18.3 7.2 22.5 L16.8 22.5 Q16.5 18.3 12 15 Z' fill='%23caa23a'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* --- Schermata Costruzione: righe con input quantità + un solo
+       pulsante di invio in fondo (vedi screenshot di riferimento) --- */
+
+.panel__subtitle{
+  font-family: var(--font-title);
+  font-size: .78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--wood-dark);
+  margin: .7rem 0 .35rem;
+}
+.panel__subtitle:first-of-type{ margin-top: 0; }
+
+.row-item--form .row-item__label{ flex: 1; }
+
+/* Colonna nomi a larghezza fissa nelle liste unità con stepper (Reclutamento,
+   Guarnigione, Esercito da Inviare in PVP/PVE): sono sempre le stesse 4 unità
+   (Guerriero/Lanciere/Arciere/Catapulta), quindi qui "flex:1" da solo non basta
+   a tenere allineate le colonne "disponibili"/−/valore/+ tra una riga e l'altra
+   (la label si allarga in base al proprio testo invece che restare fissa —
+   bug segnalato dall'utente il 14/09/2026). Una larghezza minima fissa risolve
+   l'allineamento indipendentemente da quanto è largo il nome dell'unità. */
+.unit-list--form .row-item__label{ flex: 0 0 6.2em; }
+
+/* Stepper −/+ al posto di un campo di testo libero: si "guarda" solo il
+   numero che si vuole costruire/addestrare, più comodo da toccare su
+   telefono e in linea con lo stile dei pulsanti circolari del gioco. */
+.qty-stepper{
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  flex: none;
+}
+
+/* Aspetto rifinito su richiesta dell'utente (13/09/2026: "un pochino
+   bruttini"): un filo di rilievo (sfumatura + ombra) invece del cerchio
+   piatto di prima, per farli sembrare davvero premibili. */
+.qty-btn{
+  width: 28px;
+  height: 28px;
+  flex: none;
+  border-radius: 50%;
+  border: 2px solid var(--wood);
+  background: linear-gradient(180deg, #fffdf7, var(--parchment-dark));
+  color: var(--wood-dark);
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  box-shadow: 0 1px 2px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.6);
+  transition: transform .1s ease, box-shadow .1s ease;
+}
+.qty-btn:hover{ background: linear-gradient(180deg, var(--gold-bright), var(--gold)); }
+.qty-btn:active{
+  background: var(--gold);
+  transform: translateY(1px);
+  box-shadow: inset 0 2px 3px rgba(0,0,0,.3);
+}
+
+.qty-btn--plus{ background: linear-gradient(180deg, var(--gold-bright), var(--gold)); }
+.qty-btn--plus:hover{ background: linear-gradient(180deg, #f0d385, var(--gold)); }
+
+.qty-stepper__value{
+  min-width: 1.6em;
+  text-align: center;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.btn--block{ display: flex; width: 100%; margin-top: .5rem; }
+
+/* Mini-form "a comparsa" per scambio/velocizza: si apre sotto al pulsante
+   che lo attiva (stesso contenuto delle finestre dedicate del client
+   desktop, ma inline invece che in una finestra separata). */
+.mini-form{
+  margin-top: .6rem;
+  padding: .6rem .7rem;
+  background: rgba(255,253,247,.7);
+  border: 1px solid var(--parchment-dark);
+  border-radius: 6px;
+}
+
+.mini-form__row{
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin-bottom: .5rem;
+  flex-wrap: wrap;
+}
+
+/* Testo introduttivo ("Scambia X per ogni Y") reso più leggibile
+   (13/09/2026, su richiesta dell'utente): il tasso di cambio in risalto
+   con lo stesso "chip" dorato usato altrove per i valori in evidenza
+   (vedi .res--pill), non solo in grassetto dentro il colore smorto di
+   .panel__hint. */
+.mini-form > .panel__hint{ font-size: .85rem; }
+.mini-form > .panel__hint strong{
+  display: inline-block;
+  background: var(--gold-bright);
+  color: var(--ink);
+  padding: .05rem .45rem;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.mini-form__arrow{ font-size: 1.1rem; font-weight: 700; color: var(--wood-dark); }
+
+/* Icona della valuta ottenuta + badge risultato tenuti insieme in un unico
+   blocco (13/09/2026, su richiesta dell'utente): prima erano due elementi
+   separati nella riga e, quando lo spazio non bastava, .mini-form__row
+   li mandava a capo indipendentemente — l'icona restava su una riga e il
+   numero risultato ("45" ecc.) da solo su quella dopo. Raggruppandoli in
+   un solo inline-flex, se non c'è spazio vanno a capo INSIEME. */
+.mini-form__result{ display: inline-flex; align-items: center; gap: .3rem; }
+.mini-form__result .icon-inline{ margin: 0; }
+
+/* Numero risultato ("30" ecc.) reso un vero e proprio "risultato" invece di
+   un numero perso in mezzo alla riga: badge scuro a contrasto, più grande,
+   così si legge a colpo d'occhio quanto si otterrà dallo scambio. */
+.mini-form__preview{
+  font-variant-numeric: tabular-nums;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--wood-dark);
+  padding: .2rem .6rem;
+  border-radius: 6px;
+  line-height: 1.3;
+}
+
+/* ==========================================================
+   Schermata Città: una card per struttura (Ingresso, Cancello, Mura,
+   Torri, Castello, Centro), con barre HP/DEF dove presenti e il
+   mini-form "Sposta Truppe" per la guarnigione.
+   ========================================================== */
+
+/* Panoramica del villaggio: stessa immagine e stesse proporzioni del
+   pannello del client desktop (658x611, vedi Citta_V2.Designer.cs), così
+   le percentuali usate per posizionare i marker (calcolate da lì) restano
+   valide a qualsiasi larghezza — l'aspect-ratio tiene ferma la forma del
+   riquadro, l'immagine si adatta dentro con lo stesso "stretch" del
+   desktop (object-fit: fill). Solo indicatori, non interattiva: su
+   schermi piccoli un form sopra l'immagine sarebbe illeggibile — si tocca
+   un marker per scorrere alla card vera nella lista sotto. */
+/* .city-layout: wrapper di .city-map + .city-list. Di default (mobile, e
+   qualsiasi larghezza senza la media query sotto) è "trasparente" al
+   layout a blocco normale — mappa sopra, lista sotto, esattamente come
+   prima di questo wrapper. SOLO da PC (>760px, stessa soglia usata in
+   tutta l'app) diventa un layout a due colonne, mappa a sinistra e
+   lista a destra (richiesto dall'utente 13/09/2026). */
+@media (min-width: 761px){
+  .city-layout{
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .city-layout .city-map{
+    /* Portata a 450px su richiesta dell'utente (13/09/2026, dopo un primo
+       +20% a 384px). Solo da PC (dentro questa stessa media query) — la
+       vista da telefono, dove .city-map resta larga il 100% del blocco,
+       non cambia. */
+    flex: 0 0 450px;
+    margin-bottom: 0;
+  }
+  .city-layout .city-list{
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+.city-map{
+  position: relative;
+  width: 100%;
+  aspect-ratio: 658 / 611;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--parchment-dark);
+  margin-bottom: .9rem;
+}
+.city-map__img{ position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; }
+.city-map__markers{ position: absolute; inset: 0; }
+
+/* Marker minimale: un puntino con solo nome + numero di strato (niente
+   HP/DEF/Guarnigione, quelli si leggono nella card sotto). "pos" in
+   STRUTTURE_CITTA è il centro del riquadro che il pannello desktop
+   assegna alla struttura — qui il marker viene centrato su quel punto
+   con translate(-50%,-50%) invece di occuparne l'intero riquadro,
+   molto più grande di quanto serva per un'etichetta così piccola. */
+.city-map__marker{
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 6px 2px 2px;
+  background: rgba(30,22,12,.68);
+  border: 1px solid rgba(255,253,247,.35);
+  border-radius: 999px;
+  cursor: pointer;
+  white-space: nowrap;
+  color: #fff;
+}
+.city-map__marker:hover, .city-map__marker:focus-visible{ background: rgba(30,22,12,.85); }
+
+/* Numeretto con lo "strato" difensivo ufficiale (Wiki/Game/Componenti/
+   Citta.md, 1→6): fa capire a colpo d'occhio in che ordine un attaccante
+   deve superare le strutture per arrivare al giocatore. */
+.city-map__strato{
+  flex: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--ink);
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: .55rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.city-map__nome{
+  font-family: var(--font-title);
+  font-size: clamp(.5rem, 1.8vw, .68rem);
+  letter-spacing: .02em;
+}
+
+/* Evidenzia per un attimo la card nella lista sotto quando si tocca il
+   marker corrispondente sulla mappa, per far capire dove si è "atterrati". */
+.city-card--evidenziata{ outline: 2px solid var(--gold); outline-offset: 2px; }
+
+.city-list{ list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .8rem; }
+
+.city-card{
+  background: rgba(255,253,247,.7);
+  border: 1px solid var(--parchment-dark);
+  border-radius: 8px;
+  padding: .7rem .8rem;
+}
+
+.city-card__header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .6rem;
+  margin-bottom: .5rem;
+  font-family: var(--font-title);
+  color: var(--wood-dark);
+  letter-spacing: .03em;
+}
+
+.city-card__header .row-item__value{ font-family: var(--font-body); letter-spacing: normal; }
+
+/* Stesso "strato" difensivo (1→6) mostrato accanto al nome, per chi guarda
+   solo la lista senza usare la mappa. */
+.city-card__strato{ font-size: .7em; font-weight: 400; color: var(--ink-soft); }
+
+/* Barre HP/DEF: stesso colore verde/blu usato altrove nel gioco per
+   salute/difesa (vedi --hp-green/--def-blue in cima al foglio di stile).
+   Aspetto "più curato" su richiesta dell'utente (13/09/2026): forma a
+   pillola, riempimento sfumato invece di colore piatto, incavo sul fondo
+   (come una vera health bar) e una transizione morbida quando il valore
+   cambia — stesso ingombro/leggibilità di prima, solo più belle da vedere. */
+.stat-bar{
+  position: relative;
+  height: 18px;
+  border-radius: 999px;
+  background: rgba(0,0,0,.12);
+  box-shadow: inset 0 1px 3px rgba(0,0,0,.25);
+  border: 1px solid var(--parchment-dark);
+  overflow: hidden;
+  font-size: .68rem;
+  margin-bottom: .35rem;
+}
+.stat-bar__fill{
+  position: absolute;
+  inset: 0;
+  width: 0%;
+  border-radius: 999px;
+  transition: width .4s ease;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.35), inset 0 -2px 3px rgba(0,0,0,.2);
+}
+.stat-bar--hp .stat-bar__fill{ background: linear-gradient(180deg, #5cb85c, var(--hp-green)); }
+.stat-bar--def .stat-bar__fill{ background: linear-gradient(180deg, #5a91c4, var(--def-blue)); }
+.stat-bar__label{
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: .02em;
+  text-shadow: 0 1px 2px rgba(0,0,0,.55);
+}
+
+/* Pulsante "Ripara" accanto a ciascuna barra HP/DEF (Città, 14/09/2026):
+   replica il comportamento del client desktop (Citta_V2.cs), dove
+   un'icona di riparazione compare accanto alla barra solo quando quella
+   statistica è sotto il massimo. Qui è un piccolo pulsante testuale invece
+   di un'icona (coerente con lo stile "ghost" già usato altrove), la barra
+   si allarga per riempire lo spazio rimanente. */
+.stat-bar-row{
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+}
+.stat-bar-row .stat-bar{ flex: 1 1 auto; margin-bottom: 0; }
+.stat-bar-row{ margin-bottom: .35rem; }
+.btn-ripara{
+  flex: 0 0 auto;
+  border: 1px solid var(--parchment-dark);
+  background: #fffdf7;
+  color: var(--ink-soft);
+  border-radius: 6px;
+  padding: .15rem .5rem;
+  font-size: .68rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.btn-ripara:hover{ background: var(--parchment-dark); color: var(--ink); }
+
+/* "Ripara Tutto" (Città): un avviso compatto invece di un bottone a piena
+   larghezza — bordo dorato a sinistra come un cartello "attenzione", icona
+   a chiave inglese, conteggio di quante statistiche sono da riparare, e il
+   bottone d'azione vero e proprio compresso a destra. Ridisegnato il
+   14/09/2026 su richiesta dell'utente ("il pulsante ripara tutto non mi
+   piace"): il vecchio .btn--primary.btn--block occupava tutta la
+   larghezza come un'azione principale, mentre qui è solo un promemoria
+   opzionale, non ha senso competa visivamente con "Sposta"/"Attacca". */
+.ripara-tutto-banner{
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  background: var(--parchment-dark);
+  border-left: 4px solid var(--gold);
+  border-radius: 8px;
+  padding: .55rem .7rem;
+  margin-bottom: .6rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,.15);
+}
+.ripara-tutto-banner__icon{
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  fill: var(--gold);
+}
+.ripara-tutto-banner__testo{
+  flex: 1 1 auto;
+  font-size: .82rem;
+  color: var(--ink-soft);
+  line-height: 1.3;
+}
+.ripara-tutto-banner .btn{ flex: 0 0 auto; }
+
+.direzione-toggle{ margin-top: .6rem; }
+
+.pendenti-hint{ font-style: italic; }
+
+/* ==========================================================
+   Schermata Negozio: card a griglia per ogni acquisto (VIP,
+   Costruttori, Reclutatori, Scudo della Pace, e i pacchetti a
+   pagamento reale non ancora attivi lato server).
+   ========================================================== */
+
+.shop-list{
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  /* align-items:start (13/09/2026, aggiunta del box descrizione): senza
+     questo, aprire la descrizione di UNA card ne allunga la riga della
+     griglia e "stira" (stretch, il default) anche le card vicine che sono
+     rimaste chiuse — restano invece della loro altezza naturale. */
+  align-items: start;
+  gap: .8rem;
+}
+
+/* Più "spessore" e grafica più curata su richiesta dell'utente (13/09/2026):
+   bordo più marcato, sfondo leggermente sfumato invece di piatto, ombra con
+   un filo di rilievo (come le altre card rifinite in questa sessione — vedi
+   .qty-btn/.stat-bar), e un filo colorato in cima che cambia in base alla
+   valuta del pacchetto (viola/blu/USDT — .shop-card[data-valuta]) così i
+   pacchetti si distinguono a colpo d'occhio anche prima di leggere il testo. */
+.shop-card{
+  position: relative;
+  background: linear-gradient(165deg, rgba(255,253,247,.92), rgba(255,253,247,.6));
+  border: 2px solid var(--parchment-dark);
+  border-radius: 10px;
+  padding: 1rem .7rem .85rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: .3rem;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0,0,0,.15), inset 0 1px 0 rgba(255,255,255,.5);
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+
+/* Filo colorato in cima, un po' come un "nastro" di qualità del pacchetto. */
+.shop-card::before{
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 5px;
+  background: var(--gold);
+}
+.shop-card[data-valuta="viola"]::before{ background: linear-gradient(90deg, var(--purple), #b48ef0); }
+.shop-card[data-valuta="blu"]::before{ background: linear-gradient(90deg, var(--def-blue), #6fa8d8); }
+.shop-card[data-valuta="usdt"]::before{ background: linear-gradient(90deg, #1e8f4e, #4cbf7d); }
+
+/* Solo le card attive "rispondono" al passaggio del mouse — quelle
+   disattivate (USDT non ancora collegato) restano ferme, coerente con
+   l'opacità ridotta già usata per segnalarle come non cliccabili. */
+.shop-card:not(.shop-card--disabled):hover{
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.5);
+  border-color: var(--gold);
+}
+
+/* Badge rotondo con l'icona della valuta (stessa immagine già usata nel
+   prezzo, solo più grande) — assets/USDT_Logo.png è il logo ufficiale
+   fornito dall'utente (13/09/2026), stesso trattamento delle altre due. */
+.shop-card__icon{
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 35% 30%, #fffdf7, var(--parchment-dark) 75%);
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,.5), 0 1px 3px rgba(0,0,0,.25);
+  margin-bottom: .1rem;
+}
+.shop-card__icon img{ width: 28px; height: 28px; object-fit: contain; }
+.shop-card__icon--usdt img{ width: 32px; height: 32px; }
+
+/* Pulsante "ⓘ" discreto (13/09/2026, su richiesta dell'utente: mostrare la
+   descrizione mandata dal server "senza rovinare l'estetica pulita") —
+   angolo in alto a destra, sotto il filo colorato, semitrasparente finché
+   non ci si passa sopra o non è aperto: non deve competere visivamente con
+   il resto della card. Stesso principio di .research-info-btn, adattato
+   al posizionamento assoluto sulla card invece che in riga con un valore. */
+.shop-card__info-btn{
+  position: absolute;
+  top: 10px;
+  right: 8px;
+  z-index: 1;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.shop-card__info-btn img{ width: 15px; height: 15px; object-fit: contain; display: block; opacity: .55; }
+.shop-card__info-btn:hover img{ opacity: .85; }
+.shop-card__info-btn.is-active{ box-shadow: 0 0 0 2px var(--gold); }
+.shop-card__info-btn.is-active img{ opacity: 1; }
+
+/* Box descrizione: stesso trattamento grafico di .research-desc (Ricerca/
+   Costruzione) ma testo a sinistra e un filo più piccolo, per stare comodo
+   nella card stretta invece che in una riga a piena larghezza del pannello. */
+.shop-card__desc.research-desc{
+  width: 100%;
+  margin-top: .3rem;
+  padding: .5rem .55rem;
+  text-align: left;
+  font-size: .72rem;
+}
+
+.shop-card__nome{ font-weight: 700; font-size: .85rem; }
+
+.shop-card__durata{ font-size: .78rem; color: var(--ink-soft); }
+
+/* Prezzo come "cartellino" invece di semplice testo in linea, stesso
+   principio del badge risultato aggiunto agli scambi di Feudi. */
+.shop-card__prezzo{
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--gold-bright);
+  padding: .15rem .55rem;
+  border-radius: 999px;
+  margin: .15rem 0;
+}
+
+.shop-card__prezzo--usdt{ background: rgba(30,143,78,.16); color: #1e8f4e; }
+
+.shop-card .btn{ margin-top: .3rem; }
+
+/* Pacchetti con pagamento reale (USDT) non ancora collegati lato server:
+   card visibile ma disattivata, niente pulsante "Acquista" cliccabile. */
+.shop-card--disabled{ opacity: .65; }
+.shop-card__prossimamente{ font-size: .72rem; font-style: italic; color: var(--ink-soft); }
+
+.main-grid--costruzione{
+  grid-template-columns: 1.3fr 1fr;
+  grid-template-rows: auto;
+}
+.main-grid--costruzione [data-panel="costruzione-edifici"]{ grid-column: 1; grid-row: 1; }
+.main-grid--costruzione [data-panel="costruzione-esercito"]{ grid-column: 2; grid-row: 1; }
+
+/* --- Schermata Ricerca --- */
+
+.main-grid--ricerca{
+  grid-template-columns: 1fr 1.6fr;
+  grid-template-rows: auto auto auto;
+  align-items: start;
+  column-gap: .9rem;
+  row-gap: .9rem;
+}
+.main-grid--ricerca [data-panel="ricerca-generali"]{ grid-column: 1; grid-row: 1 / span 3; }
+.main-grid--ricerca #ricerca-destra-toggle{ grid-column: 2; grid-row: 1; margin-bottom: 0; }
+.main-grid--ricerca [data-panel="ricerca-esercito"]{ grid-column: 2; grid-row: 2; }
+.main-grid--ricerca [data-panel="ricerca-citta"]{ grid-column: 2; grid-row: 3; }
+
+/* Da PC (>760px) Esercito e Città condividono la colonna di destra ma, su
+   richiesta esplicita dell'utente (13/09/2026: "esteticamente è brutto
+   avere sulla destra tutte quelle ricerche, il lato sinistro rimane
+   vuoto"), se ne mostra uno alla volta anche qui — non più impilati
+   entrambi. #ricerca-destra-toggle (sempre visibile da PC, vedi
+   .section-toggle--inline) sceglie quale; JS in 09-ricerca.js aggiunge/
+   toglie ".is-visible" esattamente come già fa il toggle mobile a 3 vie
+   qui sotto, ma SOLO su questi due pannelli — Generali non è mai toccato
+   da questa regola e resta sempre visibile a sinistra. Sotto i 761px
+   questa regola non esiste: sotto quella soglia il toggle mobile mostra/
+   nasconde tutti e tre i pannelli con lo stesso schema (vedi @media
+   max-width:760px più sotto), e #ricerca-destra-toggle è nascosto lì. */
+@media (min-width: 761px){
+  .main-grid--ricerca [data-panel="ricerca-esercito"],
+  .main-grid--ricerca [data-panel="ricerca-citta"]{ display: none; }
+  .main-grid--ricerca [data-panel="ricerca-esercito"].is-visible,
+  .main-grid--ricerca [data-panel="ricerca-citta"].is-visible{ display: block; }
+}
+
+/* Schermata PVP/PVE (14/09/2026): stesso schema a griglia della schermata
+   Main — Barbari a sinistra (alta due righe, come Feudi), Esercito e PVP
+   affiancati in alto, Referti in basso a destra (come Cronologia). Sotto i
+   760px vale la regola generica ".main-grid > [data-panel]{display:none}"
+   già vista sopra (attivata/spenta da #battaglia-panel-toggle, vedi
+   js/14-battaglia.js), nessuna regola aggiuntiva necessaria qui. */
+.main-grid--pvppve{
+  grid-template-columns: 1.1fr 1.3fr 1.3fr;
+  grid-template-rows: auto auto;
+}
+.main-grid--pvppve [data-panel="pvp-barbari"]{ grid-column: 1; grid-row: 1 / span 2; }
+.main-grid--pvppve [data-panel="pvp-esercito"]{ grid-column: 2; grid-row: 1; }
+.main-grid--pvppve [data-panel="pvp-pvp"]{ grid-column: 3; grid-row: 1; }
+.main-grid--pvppve [data-panel="pvp-referti"]{ grid-column: 2 / span 2; grid-row: 2; }
+
+.research-list{ list-style: none; margin: 0 0 .9rem; padding: 0; display: flex; flex-direction: column; gap: .4rem; }
+
+/* Nonostante il nome "research-*" (nato nella schermata Ricerca), queste
+   classi sono generiche e riusate anche in Costruzione/Addestramento
+   (06-costruzione.js) per lo stesso box "ⓘ" — vedi WW.descrizioni/
+   WW.onDescrizione/WW.renderDescrizioneRicca in 04-game-main.js. Non
+   rinominate senza aggiornare entrambi i file JS. */
+.research-item{ display: flex; flex-direction: column; }
+
+.research-row .row-item__value{ min-width: 3.4em; }
+
+.btn--sm{ padding: .3rem .6rem; font-size: .78rem; }
+
+/* Pulsante descrizione: icona info.png (stessa del client desktop, vedi
+   CriptoGame_Online/Resources), piccola, accanto al valore/stepper della
+   riga — non invia nulla, apre/chiude solo .research-desc sotto la riga.
+   Nessun bordo proprio: l'icona è già un cerchio pieno, un secondo bordo
+   attorno sarebbe ridondante; lo stato aperto si segnala con un anello
+   dorato invece di riempire lo sfondo (coprirebbe l'icona). */
+.research-info-btn{
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.research-info-btn img{ width: 18px; height: 18px; object-fit: contain; display: block; }
+.research-info-btn.is-active{ box-shadow: 0 0 0 2px var(--gold); }
+
+/* Testo mandato dal server ("Descrizione|Ricerca <tipo>|<testo>"), stessa
+   sintassi BBCode-like della Cronologia. Invece di scaricarlo come blocco
+   piatto (vecchia versione: white-space:pre-line + testo grezzo), WW.
+   renderDescrizioneRicca (04-game-main.js) lo spezza in paragrafi (intro,
+   etichette) e "chip" per le righe icona+valore (costo/effetto) — qui
+   diamo al box un minimo di rilievo (leggero gradiente, bordo dorato a
+   sinistra, ombra interna) così da non sembrare un semplice tooltip di
+   testo. */
+.research-desc{
+  margin-top: .35rem;
+  padding: .55rem .7rem;
+  background: linear-gradient(180deg, rgba(255,253,247,.95), rgba(248,240,222,.9));
+  border: 1px solid var(--parchment-dark);
+  border-left: 3px solid var(--gold);
+  border-radius: 4px 8px 8px 4px;
+  box-shadow: inset 0 1px 3px rgba(74,42,20,.08);
+  font-size: .78rem;
+  line-height: 1.55;
+}
+.research-desc__testo{ margin: 0 0 .35rem; overflow-wrap: anywhere; }
+.research-desc__testo:last-child{ margin-bottom: 0; }
+/* Era una CSS grid a colonne di larghezza UGUALE (auto-fit/minmax): andava
+   bene per chip corti tipo "Cibo: 700", ma un chip più lungo (es. "Limite
+   magazzino:" con due icone) finiva schiacciato nella stessa colonna
+   stretta degli altri e il valore veniva tagliato fuori dal bordo. Con
+   flexbox invece ogni chip si allarga quanto gli serve (flex: 0 1 auto) e
+   va a capo sulla riga successiva solo se non c'è più posto — niente
+   colonne fisse da rispettare. */
+.research-desc__grid{
+  display: flex;
+  flex-wrap: wrap;
+  gap: .3rem .5rem;
+  margin: .3rem 0 .5rem;
+}
+.research-desc__grid:last-child{ margin-bottom: 0; }
+/* flex-shrink:0 (non 1): un chip non si restringe MAI dentro la sua riga —
+   se non ci sta, l'intera riga di flex-wrap lo sposta a capo sulla riga
+   sotto (comportamento normale del wrap). Prima, con lo shrink abilitato,
+   un'etichetta lunga come "Addestramento:" veniva compressa e spezzata a
+   metà parola ("Addestram"/"ento:") invece di scendere in blocco. max-width
+   + overflow-wrap restano come rete di sicurezza per il solo caso limite in
+   cui un chip, da solo sulla sua riga, sia comunque più largo del box. */
+.research-desc__chip{
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: .3rem;
+  padding: .25rem .5rem;
+  background: rgba(255,255,255,.55);
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  border: 1px solid var(--parchment-dark);
+  border-radius: 6px;
+  line-height: 1.3;
+}
+.research-desc__vuoto{ font-style: italic; opacity: .75; }
+
+/* Pulsante di ricerca disattivato mentre Ricerca_Attiva=True (una
+   ricerca già in corso, salvo code extra — vedi 09-ricerca.js) o
+   mentre il costo non è ancora noto/risorse insufficienti: stesso
+   trattamento visivo di uno stato "non disponibile" invece di
+   nasconderlo, così il giocatore capisce perché non parte. */
+.research-btn:disabled{ opacity: .5; cursor: not-allowed; }
+
+.research-esercito-unit, .research-citta-struttura{ margin-bottom: 1rem; }
+.research-esercito-unit:last-child, .research-citta-struttura:last-child{ margin-bottom: 0; }
+
+.tier-tabs{ display: flex; gap: .3rem; margin-bottom: .5rem; }
+
+.tier-btn{
+  border: 2px solid var(--wood);
+  background: var(--parchment);
+  border-radius: 6px;
+  width: 30px;
+  height: 30px;
+  font-weight: 700;
+  font-size: .8rem;
+}
+
+.tier-btn.is-active{ background: var(--gold); }
+
+.placeholder-panel{ max-width: 520px; margin: 0 auto; text-align: center; }
+
+/* ==========================================================
+   Schermata Statistiche: pannelli impilati (non main-grid, come Ricerca/
+   Costruzione) — troppi valori per stare comodi affiancati in colonne,
+   più leggibili uno sotto l'altro sia da PC che da telefono.
+   ========================================================== */
+.stat-panels{ display: flex; flex-direction: column; gap: .9rem; }
+
+/* --- Barra di navigazione (sticky bottom) --- */
+
+.tab-bar{
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 10;
+  display: flex;
+  overflow-x: auto;
+  background: var(--wood-dark);
+  border-top: 3px solid var(--gold);
+}
+
+.tab-bar__btn{
+  flex: 1 0 auto;
+  min-width: 92px;
+  background: transparent;
+  color: #f4e9d2;
+  border: none;
+  padding: .95rem .5rem; /* 14/09/2026: barra leggermente più alta su richiesta dell'utente (era .7rem) */
+  font-size: .78rem;
+  font-weight: 600;
+  border-right: 1px solid rgba(255,255,255,.08);
+}
+
+.tab-bar__btn.is-active{ background: var(--gold); color: var(--ink); }
+
+/* ==========================================================
+   Responsive: sotto ~760px passiamo da colonne affiancate a
+   un pannello alla volta, selezionato dai pulsanti "toggle" —
+   stesso pattern che il client desktop usa per risorse/unità
+   civili vs militari, qui applicato ai pannelli della schermata.
+   ========================================================== */
+
+@media (max-width: 760px){
+  .section-toggle{ display: flex; }
+
+  .main-grid{ display: block; }
+
+  .main-grid > [data-panel]{ display: none; margin-bottom: .75rem; }
+  .main-grid > [data-panel].is-visible{ display: block; }
+
+  /* Su mobile il toggle a 3 vie (#ricerca-panel-toggle) sopra copre già
+     Generali/Esercito/Città uno alla volta: il secondo toggle desktop-only
+     sarebbe ridondante (e romperebbe il layout a blocco) qui sotto. */
+  #ricerca-destra-toggle{ display: none; }
+
+  /* Stesso discorso per Cronologia/Messaggi (14/09/2026, su richiesta
+     dell'utente): il pulsante "Messaggi" è stato aggiunto direttamente al
+     toggle Feudi/Strutture/Esercito/Cronologia qui sopra, quindi il toggle
+     interno del pannello (utile solo su desktop, dove quel pulsante non
+     c'è) diventerebbe un secondo controllo ridondante per la stessa cosa. */
+  #cronologia-messaggi-toggle{ display: none; }
+
+  .tab-bar__btn{ min-width: 76px; font-size: .72rem; }
+}
+
+/* ==========================================================
+   Popup informativi generici (overlay a schermo intero + box
+   centrato) — nato per "Feudi" (screenshot Feudi_Info.JPG del
+   client desktop, GUI/Terreni_Virtuali.cs), pensato per essere
+   riusato per altri popup dello stesso tipo in futuro.
+   ========================================================== */
+
+.modal-overlay{
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: rgba(20,12,4,.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.modal-overlay[hidden]{ display: none; }
+
+.modal-box{
+  width: 100%;
+  max-width: 420px;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+/* Riga titolo + pulsante (usata sia dai pannelli normali con l'aggiunta
+   dell'"ⓘ" tipo Feudi, sia dall'intestazione dei popup con la "x" di
+   chiusura): il bordo dorato sotto il titolo si sposta sulla riga intera
+   invece che sul solo <h2>, così il pulsante resta allineato senza dover
+   toccare .panel__title (riusato ovunque nell'app). */
+.panel__header{
+  display: flex;
+  flex-wrap: wrap; /* se titolo + controllo non ci stanno sulla stessa riga (es. "Villaggi
+                       Barbari" + toggle Città/Villaggio in colonne strette), il controllo
+                       va a capo invece di essere schiacciato/tagliato con una scrollbar */
+  align-items: center;
+  justify-content: space-between;
+  gap: .3rem .5rem;
+  border-bottom: 2px solid var(--gold);
+  padding-bottom: .35rem;
+  margin: 0 0 .6rem;
+}
+.panel__header .panel__title{ margin: 0; border-bottom: none; padding-bottom: 0; }
+
+.modal-close-btn{
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--wood);
+  background: transparent;
+  color: var(--wood-dark);
+  font-size: .85rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.feudi-info__intro{ margin: 0 0 .8rem; font-size: .85rem; line-height: 1.5; }
+
+.feudi-info-list{ list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .5rem; }
+
+.feudi-info-item{
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .4rem .55rem;
+  background: rgba(255,253,247,.75);
+  border: 1px solid var(--parchment-dark);
+  border-radius: 8px;
+}
+.feudi-info-item img{ width: 46px; height: 46px; object-fit: cover; border-radius: 6px; flex: none; }
+.feudi-info-item__mid{ flex: 1; min-width: 0; display: flex; flex-direction: column; gap: .1rem; }
+.feudi-info-item__tasso{ font-weight: 700; font-size: .82rem; font-variant-numeric: tabular-nums; }
+.feudi-info-item__nome{ font-weight: 700; font-size: .82rem; }
+.feudi-info-item__prob{ flex: none; font-weight: 700; font-size: .9rem; }
+
+/* Stessi colori per rarità del form desktop (Terreni_Virtuali.cs). */
+.feudi-info-item--comune .feudi-info-item__nome, .feudi-info-item--comune .feudi-info-item__prob{ color: #808080; }
+.feudi-info-item--non-comune .feudi-info-item__nome, .feudi-info-item--non-comune .feudi-info-item__prob{ color: #00c800; }
+.feudi-info-item--raro .feudi-info-item__nome, .feudi-info-item--raro .feudi-info-item__prob{ color: #0070ff; }
+.feudi-info-item--epico .feudi-info-item__nome, .feudi-info-item--epico .feudi-info-item__prob{ color: #a020f0; }
+.feudi-info-item--leggendario .feudi-info-item__nome, .feudi-info-item--leggendario .feudi-info-item__prob{ color: #cdaf00; }
+
+/* ==========================================================
+   Schermata Quest Mensili (13/09/2026, su richiesta dell'utente).
+   Due blocchi: "Ricompense" (una sola barra punti-esperienza con le
+   20 ricompense posizionate sopra di essa, riscattabili con un click
+   appena la barra le raggiunge — invece delle due liste testuali
+   separate Normali/VIP del client desktop) e "Quest" (elenco a
+   pagine da 10 alla volta, essendo fino a 60 quest in totale — invece
+   di mostrarle tutte assieme). Vedi QuestManager.cs lato server per
+   il protocollo (messaggi JSON "QuestUpdate"/"QuestRewards", comando
+   "Quest_Reward|<token>|Normale|Vip|<indice 1-based>"). */
+
+/* Spazio tra il pannello "Ricompense Mensili" e quello "Quest" sotto
+   (13/09/2026, su richiesta dell'utente: erano attaccati). */
+.quest-panels{ display: flex; flex-direction: column; gap: 1rem; }
+
+/* Striscia scorrevole orizzontalmente (14/09/2026, su richiesta
+   dell'utente: da telefono, con 20 marker distribuiti su tutta la
+   larghezza, erano troppo ravvicinati). #quest-track riceve da
+   renderMarkers() (js/12-quest.js) una larghezza minima fissa in px,
+   proporzionata al numero di ricompense: se il pannello è più stretto di
+   così, invece di stringere i marker si scorre orizzontalmente.
+   Il padding (non margin) qui è quello che prima stava su .quest-track:
+   siccome i marker sono position:absolute e "escono" dal bordo di
+   .quest-track senza allargarne la scatola, lo spazio per non tagliarli
+   (con overflow-x:auto che clippa anche in verticale) deve essere un
+   padding vero e proprio di questo contenitore, non un margine. */
+.quest-track-scroll{
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  /* Spazio per: marker (36px) + margine dalla barra (8px) + un po' di
+     margine per il badge del valore che sporge dall'angolo dell'icona. */
+  padding: 3.15rem 0 4.65rem;
+}
+.quest-track{
+  position: relative;
+}
+.quest-track__bar{
+  position: relative;
+  height: 16px;
+  border-radius: 999px;
+  background: rgba(0,0,0,.12);
+  box-shadow: inset 0 1px 3px rgba(0,0,0,.25);
+  border: 1px solid var(--parchment-dark);
+  overflow: hidden;
+}
+.quest-track__fill{
+  position: absolute;
+  inset: 0;
+  width: 0%;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #e8c565, var(--gold));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.4), inset 0 -2px 3px rgba(0,0,0,.2);
+  transition: width .5s ease;
+}
+.quest-track__points{
+  text-align: center;
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  margin-top: 0;
+}
+
+.quest-marker{
+  position: absolute;
+  transform: translateX(-50%);
+  /* Leggermente più grandi (14/09/2026, su richiesta dell'utente, insieme
+     a più distanza tra un marker e l'altro — vedi DISTANZA_MARKER_PX in
+     js/12-quest.js, che deve restare in sincro con METÀ_MARKER_PX qui
+     sotto per il calcolo della posizione). */
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 3px solid var(--wood);
+  background: var(--parchment);
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+}
+.quest-marker img{ width: 100%; height: 100%; object-fit: contain; }
+/* Colori distinti per le due file (13/09/2026, su richiesta dell'utente:
+   il viola VIP si confondeva troppo col marrone di default). */
+.quest-marker--normale{ bottom: calc(100% + 8px); border-color: #8a8a8a; }
+.quest-marker--vip{ top: calc(100% + 8px); border-color: var(--gold); }
+/* Ricompensa "Feudo Leggendario" (14/09/2026, su richiesta dell'utente):
+   a differenza delle icone diamante (PNG trasparenti, ok con "contain"),
+   l'immagine è una foto rettangolare (stessa dei Feudi — vedi #feudi-list
+   img) quindi vuole "cover" per non risultare schiacciata. */
+.quest-marker--terreno img{ object-fit: cover; border-radius: 3px; }
+
+/* Prima "filter: grayscale(1)" desaturava anche il bordo (grigio/oro),
+   quindi finché una ricompensa non è raggiunta le due file sembravano
+   identiche (segnalato dall'utente: essendo quasi tutte bloccate a inizio
+   mese, il grigio/oro spariva quasi ovunque). Ora il grigiore riguarda solo
+   l'icona dentro al cerchio, il bordo colorato resta sempre visibile. */
+.quest-marker--locked{ opacity: .55; }
+.quest-marker--locked img{ filter: grayscale(1); }
+.quest-marker--claimed{ opacity: .55; border-color: var(--ink-soft); }
+.quest-marker--claimed::after{
+  content: "✓";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  background: rgba(15,123,15,.65);
+  border-radius: 50%;
+}
+.quest-marker--ready{
+  /* Non tocca più border-color: prima sovrascriveva sempre in oro, che
+     ora è invece il colore identificativo della sola fila VIP — così il
+     bagliore "pronto da riscattare" resta un indizio in più, non cancella
+     più la distinzione grigio/oro tra le due file. */
+  cursor: pointer;
+  box-shadow: 0 0 0 3px rgba(232,197,101,.55), 0 2px 4px rgba(0,0,0,.25);
+  animation: quest-marker-pulse 1.4s ease-in-out infinite;
+}
+@keyframes quest-marker-pulse{
+  0%, 100%{ box-shadow: 0 0 0 3px rgba(232,197,101,.55), 0 2px 4px rgba(0,0,0,.25); }
+  50%{ box-shadow: 0 0 0 6px rgba(232,197,101,.25), 0 2px 4px rgba(0,0,0,.25); }
+}
+/* Badge del valore: attaccato all'angolo dell'icona invece che su una riga
+   sotto ogni marker — con 20 marker vicini le etichette su una riga a parte
+   si sovrapponevano l'una con l'altra (segnalato dall'utente). */
+.quest-marker__valore{
+  position: absolute;
+  right: -6px;
+  bottom: -6px;
+  min-width: 1.1em;
+  padding: 0 .2rem;
+  border-radius: 999px;
+  background: var(--wood-dark);
+  color: #fff;
+  font-size: .58rem;
+  font-weight: 700;
+  line-height: 1.3;
+  text-align: center;
+  white-space: nowrap;
+  border: 1px solid var(--parchment);
+}
+
+/* Punteggio necessario per sbloccare la ricompensa (14/09/2026, su
+   richiesta dell'utente: prima si vedeva solo passandoci sopra col mouse).
+   Un'UNICA etichetta per coppia, sulla barra stessa — non sopra E sotto —
+   perché Normale e VIP della stessa coppia condividono sempre la stessa
+   soglia (fatto notare dall'utente): ripeterla due volte era ridondante. */
+.quest-track__tick{
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  font-size: .62rem;
+  font-weight: 700;
+  color: var(--ink);
+  white-space: nowrap;
+  text-shadow: 0 1px 1px rgba(255,255,255,.65), 0 -1px 1px rgba(255,255,255,.65);
+  pointer-events: none;
+}
+
+.quest-track__legenda{
+  display: flex;
+  gap: 1rem;
+  font-size: .72rem;
+  color: var(--ink-soft);
+  justify-content: center;
+  margin-top: .5rem;
+}
+.quest-track__legenda span{ display: inline-flex; align-items: center; gap: .3rem; }
+.quest-track__legenda i{
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid #8a8a8a;
+}
+.quest-track__legenda i.legenda-vip{ border-color: var(--gold); }
+
+/* ============================================================
+   SCHERMATA GAMEPASS — premi giornalieri (14/09/2026, su richiesta
+   dell'utente: prima l'estetica, dati REALI ma da confermare col
+   test lato server/client — vedi js/13-gamepass.js). Griglia invece
+   della barra orizzontale di Quest: 90 giorni non ci starebbero
+   leggibili su una riga sola nemmeno scorrendo.
+   ============================================================ */
+.gamepass-streak{
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: .4rem;
+  margin-top: .5rem;
+  padding: .5rem;
+  background: rgba(255,253,247,.6);
+  border: 1px solid var(--parchment-dark);
+  border-radius: 8px;
+}
+.gamepass-streak__testo{ font-size: .85rem; color: var(--ink-soft); }
+.gamepass-streak__valore{ font-size: 1.4rem; font-weight: 700; color: var(--gold); }
+
+.gamepass-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+  gap: .7rem;
+  max-height: 60vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  padding: .3rem .3rem .3rem 0;
+}
+
+/* Riquadri "più carini, un po' più grandi, con più profondità e spessore"
+   (14/09/2026, su richiesta dell'utente): prima erano piatti (bordo sottile
+   + sfondo a tinta unita, stesso "peso" visivo indipendentemente dallo
+   stato). Ora hanno un rilievo tipo "gettone"/pulsante fisico — sfondo a
+   leggero gradiente, doppia ombra (una esterna per il distacco dal fondo,
+   una interna chiara in alto e scura in basso per dare volume alla
+   superficie) e bordo più spesso — coerente con lo stile "legno/pergamena"
+   già usato altrove (.shop-card, .city-card, .quest-item). */
+.gamepass-day{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .2rem;
+  aspect-ratio: 1;
+  padding: .4rem;
+  border: 3px solid var(--parchment-dark);
+  border-radius: 12px;
+  background: linear-gradient(165deg, rgba(255,253,247,.97), rgba(240,231,209,.75));
+  box-shadow:
+    0 4px 8px rgba(0,0,0,.22),
+    inset 0 2px 0 rgba(255,255,255,.75),
+    inset 0 -3px 5px rgba(0,0,0,.12);
+  cursor: default;
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.gamepass-day__giorno{
+  position: absolute;
+  top: 5px;
+  left: 7px;
+  font-size: .68rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+  text-shadow: 0 1px 0 rgba(255,255,255,.7);
+}
+.gamepass-day img{ width: 58%; height: 58%; object-fit: contain; filter: drop-shadow(0 2px 2px rgba(0,0,0,.2)); }
+.gamepass-day__valore{ font-size: .7rem; font-weight: 700; color: var(--ink); }
+
+.gamepass-day--locked{ opacity: .5; box-shadow: 0 2px 4px rgba(0,0,0,.14), inset 0 -2px 4px rgba(0,0,0,.08); }
+.gamepass-day--locked img{ filter: grayscale(1); }
+
+.gamepass-day--ready{
+  cursor: pointer;
+  border-color: var(--gold);
+  box-shadow:
+    0 0 0 3px rgba(232,197,101,.55),
+    0 5px 10px rgba(0,0,0,.28),
+    inset 0 2px 0 rgba(255,255,255,.8),
+    inset 0 -3px 5px rgba(0,0,0,.1);
+  animation: quest-marker-pulse 1.4s ease-in-out infinite;
+}
+.gamepass-day--ready:hover{ transform: translateY(-2px); }
+
+.gamepass-day--claimed{
+  opacity: .65;
+  border-color: #2e7d32;
+  box-shadow: 0 2px 4px rgba(0,0,0,.14), inset 0 -2px 4px rgba(0,0,0,.08);
+}
+.gamepass-day--claimed::after{
+  content: "✓";
+  position: absolute;
+  top: 3px;
+  right: 5px;
+  font-size: .78rem;
+  font-weight: 700;
+  color: #2e7d32;
+  text-shadow: 0 1px 0 rgba(255,255,255,.7);
+}
+
+/* Elenco Quest, a pagine da 10 (invece di mostrare tutte le fino a 60
+   assieme — su richiesta dell'utente). */
+/* Card Quest ridisegnata (13/09/2026, su richiesta dell'utente: la vecchia
+   barra sottile col progresso scritto sotto in piccolo era poco leggibile,
+   il riquadro nel complesso troppo spoglio). Ora: cornice più marcata con
+   un filo dorato in cima (stesso family-look di .shop-card/.city-card),
+   barra "a pillola" con incavo e testo del progresso scritto DENTRO come
+   le barre HP/DEF, e il numero di volte completata come badge a parte
+   invece che infilato nella stessa riga di testo del progresso. */
+.quest-list{ list-style: none; margin: 0 0 .8rem; padding: 0; display: flex; flex-direction: column; gap: .6rem; }
+.quest-item{
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  padding: .65rem .8rem;
+  background: linear-gradient(165deg, rgba(255,253,247,.92), rgba(255,253,247,.6));
+  border: 2px solid var(--parchment-dark);
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.5);
+  overflow: hidden;
+}
+.quest-item::before{
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--def-blue), #8fb8e0);
+}
+.quest-item--completa{ opacity: .6; }
+.quest-item__main{ flex: 1; min-width: 0; }
+.quest-item__desc{ font-weight: 700; font-size: .85rem; margin-bottom: .4rem; }
+.quest-item__bar{
+  position: relative;
+  height: 20px;
+  border-radius: 999px;
+  background: rgba(0,0,0,.12);
+  box-shadow: inset 0 1px 3px rgba(0,0,0,.25);
+  border: 1px solid var(--parchment-dark);
+  overflow: hidden;
+  font-size: .68rem;
+}
+.quest-item__bar-fill{
+  position: absolute;
+  inset: 0;
+  width: 0%;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #8fb8e0, var(--def-blue));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.35), inset 0 -2px 3px rgba(0,0,0,.2);
+  transition: width .4s ease;
+}
+.quest-item__bar-label{
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--ink);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .02em;
+  /* Alone chiaro invece che scuro (13/09/2026, su richiesta dell'utente:
+     testo nero al posto di bianco) — serve a restare leggibile sia sopra
+     al riempimento blu sia sopra al tratto ancora scoperto della barra. */
+  text-shadow: 0 1px 1px rgba(255,255,255,.65), 0 -1px 1px rgba(255,255,255,.65);
+}
+.quest-item__completate{
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  margin-top: .35rem;
+  font-size: .68rem;
+  font-weight: 700;
+  color: var(--wood-dark);
+  background: var(--parchment-dark);
+  border: 1px dashed var(--wood);
+  border-radius: 999px;
+  padding: .05rem .5rem;
+}
+.quest-item__exp{
+  flex: none;
+  font-weight: 700;
+  font-size: .8rem;
+  color: var(--wood-dark);
+  background: var(--parchment-dark);
+  border: 1px solid var(--wood);
+  border-radius: 999px;
+  padding: .25rem .6rem;
+  white-space: nowrap;
+}
+
+.quest-pager{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .8rem;
+  margin-top: .3rem;
+}
+
+/* ==========================================================
+   Schermata PVP/PVE (14/09/2026) — vedi js/14-battaglia.js.
+   ========================================================== */
+
+.pvp-select{
+  width: 100%;
+  padding: .5rem .6rem;
+  margin-bottom: .5rem;
+  border: 2px solid var(--wood);
+  border-radius: 8px;
+  background: var(--parchment);
+  color: var(--ink);
+  font: inherit;
+  /* Placeholder più lunghi ("Esplora per vedere i bersagli", "Nessun giocatore di
+     potenza simile disponibile") venivano tagliati a metà parola nella colonna
+     stretta, senza nessun segnale visivo (bug segnalato dall'utente il 14/09/2026)
+     — un <select> chiuso non va a capo, quindi qui almeno si taglia con "…" invece
+     che a metà lettera. */
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.pvp-select:disabled{ opacity: .6; }
+
+.target-info{
+  font-size: .82rem;
+  color: var(--ink-soft);
+  background: var(--parchment-dark);
+  border: 1px dashed var(--wood);
+  border-radius: 8px;
+  padding: .5rem .6rem;
+  margin-bottom: .6rem;
+  line-height: 1.5;
+}
+
+.pvp-actions{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .5rem;
+}
+.pvp-actions .btn{ flex: 1; }
+
+.pvp-livello-label{
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--wood-dark);
+  flex: none;
+}
+.pvp-livello-label input{
+  width: 3.4em;
+  padding: .3rem .4rem;
+  border: 2px solid var(--wood);
+  border-radius: 6px;
+  background: var(--parchment);
+  color: var(--ink);
+  font: inherit;
+}
+
+#pvp-panel.is-locked .pvp-select,
+#pvp-panel.is-locked .pvp-actions{ opacity: .5; pointer-events: none; }
+#pvp-locked-msg{ display: none; }
+#pvp-panel.is-locked #pvp-locked-msg{ display: block; }
+
+.testo-errore{ color: var(--error, #b23a3a); font-weight: 600; }
+
+/* flex-wrap: wrap SOLO su questa riga (non sul .row-item generico, condiviso da mezza
+   app): serve a mandare .report-row__data a capo su una seconda riga sotto
+   tipo/avversario/esito invece di stringere tutto su una riga sola o tagliare la data
+   (segnalato dall'utente il 14/09/2026 — le righe erano indistinguibili senza data). */
+.report-row{ cursor: pointer; flex-wrap: wrap; }
+.report-row:hover{ background: var(--parchment-dark); }
+.report-row__tipo{
+  flex: none;
+  font-size: .7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--wood-dark);
+  background: var(--parchment-dark);
+  border: 1px solid var(--wood);
+  border-radius: 999px;
+  padding: .1rem .5rem;
+}
+.report-row__vs{ flex: 1; }
+.report-row__esito{ flex: none; font-weight: 700; font-size: .82rem; }
+.report-row__esito--vittoria{ color: #2f7d3a; }
+.report-row__esito--sconfitta{ color: var(--error, #b23a3a); }
+.report-row__data{ flex: 0 0 100%; text-align: right; font-size: .72rem; color: var(--ink-soft); }
+
+.modal-box--report{ max-width: 640px; }
+
+.report-header{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-bottom: .75rem;
+  padding-bottom: .5rem;
+  border-bottom: 2px solid var(--gold);
+  font-size: .85rem;
+}
+
+/* Intestazione del Resoconto Spionaggio: righe etichetta/valore a tutta larghezza
+   (Giocatore spiato, Livello, Forza di spionaggio, ...) invece delle due colonne di
+   testo libero del resoconto Battaglia (.report-header semplice, sopra) o delle pillole
+   usate per Magazzino/Scorta Militare, che troncavano le etichette più lunghe qui
+   (segnalato dall'utente il 14/09/2026). */
+.report-header--spia{ flex-direction: column; align-items: stretch; gap: 0; }
+.report-header__stat{
+  display: flex;
+  justify-content: space-between;
+  gap: .75rem;
+  padding: .3rem 0;
+  border-bottom: 1px dashed var(--parchment-dark);
+}
+.report-header__stat:last-child{ border-bottom: none; }
+.report-header__stat span{ color: var(--ink-soft); }
+.report-header__stat strong{ text-align: right; }
+
+.report-fase{
+  margin-bottom: .9rem;
+  padding-bottom: .7rem;
+  border-bottom: 1px dashed var(--wood);
+}
+.report-fase h3{ margin: 0 0 .4rem; font-size: .95rem; color: var(--wood-dark); }
+.report-sottofase{ margin-bottom: .5rem; }
+.report-sottofase h4{ margin: 0 0 .3rem; font-size: .8rem; color: var(--ink-soft); text-transform: uppercase; letter-spacing: .03em; }
+
+.report-table{
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .82rem;
+  margin-bottom: .3rem;
+}
+.report-table th, .report-table td{
+  padding: .25rem .4rem;
+  text-align: right;
+  border-bottom: 1px solid var(--parchment-dark);
+}
+.report-table th:first-child, .report-table td:first-child{ text-align: left; }
+/* Icona voce nella prima colonna (Strutture Civili/Workshop/Caserme nel dettaglio
+   Spionaggio — tabellaTripleValue in 14-battaglia.js): senza margine l'icona
+   tocca il testo, dato che <td> non è un flex container come .report-risorse__grid. */
+.report-table td:first-child .icon-inline{ margin-right: .35rem; }
+.report-table__caduti{ color: var(--error, #b23a3a); }
+.report-table__superstiti{ color: #2f7d3a; }
+
+/* Intervallo min–max stimato nel dettaglio Spionaggio (tv() in 14-battaglia.js):
+   più tenue del valore reale, per non confondersi con esso a colpo d'occhio. */
+.report-tv-range{ color: var(--ink-soft, #8a7a63); font-weight: 400; font-size: .85em; }
+
+.report-risorse{ margin-bottom: .75rem; }
+.report-risorse h3{ margin: 0 0 .4rem; font-size: .95rem; color: var(--wood-dark); }
+.report-risorse__grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9.5em, 1fr));
+  gap: .4rem;
+}
+
+/* Pillola Magazzino/Scorta Militare/Ricerca Civile/Bonus Villaggio nel dettaglio
+   Spionaggio (rigaChip in 14-battaglia.js) — stesso linguaggio visivo della pillola
+   risorse in alto (.res) ma con etichetta ed valore separati e il valore allineato a
+   destra, per restare leggibile in griglia invece che come testo libero "Nome: Valore"
+   che andava a capo disordinatamente (segnalato dall'utente il 14/09/2026). */
+.report-res-item{
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  background: #fffdf7;
+  border: 1px solid var(--parchment-dark);
+  border-radius: 6px;
+  padding: .3rem .5rem;
+  font-size: .82rem;
+}
+.report-res-item__label{ color: var(--ink-soft); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.report-res-item__value{ margin-left: auto; padding-left: .4rem; font-weight: 700; white-space: nowrap; }
+/* Bottino/esperienza guadagnata (Resoconto Battaglia): verde per segnalare a colpo
+   d'occhio che è un guadagno, coerente con .report-table__superstiti. */
+.report-res-item__value--positivo{ color: #2f7d3a; }
+/* HP/DEF struttura scesi durante la fase (Resoconto Battaglia, 14/09/2026):
+   rosso coerente con .report-tv-range/--danger, per segnalare a colpo
+   d'occhio un danno subito invece di un guadagno. */
+.report-res-item__value--negativo{ color: var(--danger); }
+
+/* Riga di statistiche compatta sotto una tabella Schierati/Caduti/Superstiti (Frecce
+   usate, Esperienza fase, ...) — poche pillole strette invece della griglia piena usata
+   per Magazzino/Risorse Raccolte. */
+.report-risorse__grid--compact{ grid-template-columns: repeat(auto-fit, minmax(7.5em, auto)); margin-bottom: .5rem; }
+
+/* Fase a Distanza / Corpo a Corpo affiancate su schermi larghi (replica avvicinata al
+   Log_Battaglie desktop, dove le due tabelle stanno una accanto all'altra), impilate su
+   mobile dove non c'è spazio per due colonne leggibili (14/09/2026). */
+.report-fase__sottofasi{ display: grid; grid-template-columns: 1fr; gap: 0 1rem; }
+@media (min-width: 560px){
+  .report-fase__sottofasi{ grid-template-columns: 1fr 1fr; }
+}
+
+.report-esito{
+  text-align: center;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: .6rem;
+  border-radius: 8px;
+}
+.report-esito--vittoria{ background: rgba(47,125,58,.15); color: #2f7d3a; }
+.report-esito--sconfitta{ background: rgba(178,58,58,.15); color: var(--error, #b23a3a); }
+.quest-pager__pagina{ font-size: .82rem; font-weight: 600; color: var(--ink-soft); min-width: 5em; text-align: center; }

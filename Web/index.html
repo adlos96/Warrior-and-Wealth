@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Warrior &amp; Wealth — Web Client</title>
+<!-- Nessun font esterno (Google Fonts): il file:// e reti/VPN aziendali
+     spesso bloccano fonts.googleapis.com, rendendo il font incoerente o
+     assente. Usiamo solo font già presenti sul sistema (vedi style.css). -->
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ============================================================
+       SCHERMATA LOGIN
+       Prima schermata mostrata. "Entra" passa alla schermata di gioco
+       (per ora con dati finti, in attesa del collegamento WebSocket
+       al server). "Registrati" mostra il form di creazione account.
+  ============================================================ -->
+  <section id="screen-login" class="screen screen--login">
+    <div class="login-card panel">
+
+      <!-- Selettore lingua: cambia le stringhe della sola schermata di
+           login (vedi js/app.js, dizionario I18N). La scelta viene
+           salvata in localStorage così resta impostata al prossimo
+           accesso. Le altre schermate restano in italiano per ora: la
+           localizzazione completa arriverà quando il client sarà
+           collegato al server vero. -->
+      <div class="lang-switch">
+        <select id="lang-select" aria-label="Lingua / Language">
+          <option value="it">🇮🇹 Italiano</option>
+          <option value="en">🇬🇧 English</option>
+        </select>
+      </div>
+
+      <img class="login-card__logo" src="assets/3_Banner-removebg-preview.png" alt="">
+      <h1 class="game-title">Warrior &amp; Wealth</h1>
+
+      <form id="form-login" class="login-form">
+        <label class="field">
+          <span data-i18n="username">Nome utente</span>
+          <input type="text" name="username" autocomplete="username" required>
+        </label>
+        <label class="field">
+          <span data-i18n="password">Password</span>
+          <input type="password" name="password" autocomplete="current-password" required>
+        </label>
+
+        <!-- "Ricordami": se selezionato, salva le credenziali in locale
+             e la prossima volta che si apre la pagina esegue l'accesso
+             in automatico (vedi checkAutoLogin() in app.js). Puramente
+             lato client per ora: quando ci sarà il server vero andrà
+             sostituito con un vero token di sessione. -->
+        <label class="field field--checkbox">
+          <input type="checkbox" id="chk-remember" name="remember">
+          <span data-i18n="remember">Ricordami (accesso automatico)</span>
+        </label>
+
+        <button type="submit" class="btn btn--primary" data-i18n="enter">Entra</button>
+        <button type="button" id="btn-show-register" class="btn btn--ghost" data-i18n="createAccount">Crea un nuovo account</button>
+        <button type="button" id="btn-show-recover" class="btn-link" data-i18n="forgotPassword">Password dimenticata?</button>
+        <p id="login-status" class="login-status" hidden></p>
+      </form>
+
+      <form id="form-register" class="login-form" hidden>
+        <label class="field">
+          <span data-i18n="username">Nome utente</span>
+          <input type="text" name="username" required>
+        </label>
+        <label class="field">
+          <span data-i18n="email">Email</span>
+          <input type="email" name="email" required>
+        </label>
+        <label class="field">
+          <span data-i18n="password">Password</span>
+          <input type="password" name="password" required>
+        </label>
+        <button type="submit" class="btn btn--primary" data-i18n="createAccountBtn">Crea account</button>
+        <button type="button" id="btn-show-login" class="btn btn--ghost" data-i18n="backToLogin">Torna al login</button>
+      </form>
+
+      <!-- Recupero password: per ora solo UI, nessun invio reale.
+           TODO: comando protocollo "Reset Password|email" quando sarà
+           definito lato server (vedi game-design-overview.md). -->
+      <form id="form-recover" class="login-form" hidden>
+        <p class="panel__hint" data-i18n="recoverHint">Inserisci l'email associata al tuo account: ti invieremo un link per reimpostare la password.</p>
+        <label class="field">
+          <span data-i18n="email">Email</span>
+          <input type="email" name="email" required>
+        </label>
+        <button type="submit" class="btn btn--primary" data-i18n="sendLink">Invia link di recupero</button>
+        <button type="button" id="btn-show-login-from-recover" class="btn btn--ghost" data-i18n="backToLogin">Torna al login</button>
+        <p id="recover-status" class="login-status login-status--ok" hidden></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SCHERMATA DI GIOCO
+       Barra risorse (sticky in alto), area contenuto (tab Main),
+       barra di navigazione principale (sticky in basso).
+       Struttura pensata per ospitare in futuro le altre schermate
+       (Costruzione, Città, Ricerca, ecc.) come ulteriori <section
+       class="tab-panel"> selezionate dalla stessa barra in basso.
+  ============================================================ -->
+  <section id="screen-game" class="screen screen--game" hidden>
+
+    <!-- Barra risorse: stessi valori/icone del client desktop -->
+    <header class="resource-bar" id="resource-bar">
+      <div class="resource-bar__player">
+        <span class="avatar">👤</span>
+        <span id="res-username" class="player-name">adly</span>
+      </div>
+
+      <div class="resource-bar__scroll">
+        <!-- Gruppo risorse CIVILI: visibile di default. Il pulsante
+             "Civile"/"Militare" alterna questo gruppo con quello
+             militare qui sotto, per risparmiare spazio in barra
+             (stesso pattern di toggle usato altrove nel gioco). -->
+        <!-- "res--clickable" (14/09/2026, su richiesta dell'utente): apre
+             il popup con descrizione + statistiche di produzione della
+             risorsa (vedi #risorsa-info-overlay più sotto e
+             popolaRisorsaInfo() in js/04-game-main.js). -->
+        <div class="res-group" id="res-group-civili">
+          <div class="res res--clickable" data-res="cibo"><img src="assets/Grano_V2.png" alt="Cibo"><span data-value="cibo">30.000</span></div>
+          <div class="res res--clickable" data-res="legno"><img src="assets/Legna_V2.png" alt="Legno"><span data-value="legno">30.000</span></div>
+          <div class="res res--clickable" data-res="pietra"><img src="assets/Pietra_V2.png" alt="Pietra"><span data-value="pietra">30.000</span></div>
+          <div class="res res--clickable" data-res="ferro"><img src="assets/Ferro_V2.png" alt="Ferro"><span data-value="ferro">30.000</span></div>
+          <div class="res res--clickable" data-res="oro"><img src="assets/Oro_V2.png" alt="Oro"><span data-value="oro">30.000</span></div>
+          <div class="res res--clickable" data-res="popolazione"><img src="assets/Popolazione_V2.png" alt="Popolazione"><span data-value="popolazione">1.200</span></div>
+        </div>
+
+        <!-- Gruppo risorse MILITARI: nascosto finché non si clicca il
+             pulsante di stato. Valori finti in attesa del server. -->
+        <div class="res-group" id="res-group-militari" hidden>
+          <div class="res res--clickable" data-res="spade"><img src="assets/Spade_V2.png" alt="Spade"><span data-value="spade">2.000</span></div>
+          <div class="res res--clickable" data-res="lance"><img src="assets/Lance_V2.png" alt="Lance"><span data-value="lance">2.000</span></div>
+          <div class="res res--clickable" data-res="archi"><img src="assets/Archi_V2.png" alt="Archi"><span data-value="archi">2.000</span></div>
+          <div class="res res--clickable" data-res="scudi"><img src="assets/Scudi_V2.png" alt="Scudi"><span data-value="scudi">2.000</span></div>
+          <div class="res res--clickable" data-res="armature"><img src="assets/Armature_V2.png" alt="Armature"><span data-value="armature">2.000</span></div>
+          <div class="res res--clickable" data-res="frecce"><img src="assets/Frecce_V2.png" alt="Frecce"><span data-value="frecce">200</span></div>
+        </div>
+
+        <!-- Pulsante di stato: alterna la vista civile/militare qui sopra.
+             Non è (per ora) lo stato "Civile/In guerra" del giocatore:
+             è solo il selettore di quale gruppo di risorse mostrare. -->
+        <button type="button" class="res res--pill" id="btn-toggle-risorse" data-view="civili">Civile</button>
+
+        <div class="res res--clickable" data-res="diamantiBlu"><img src="assets/DiamanteBlu_V2.png" alt="Diamanti Blu"><span data-value="diamantiBlu">58.300</span></div>
+        <div class="res res--clickable" data-res="diamantiViola"><img src="assets/DiamanteViola_V2.png" alt="Diamanti Viola"><span data-value="diamantiViola">45.000</span></div>
+        <div class="res res--clickable" data-res="tributi"><img src="assets/Tributi_V2.png" alt="Tributi"><span data-value="tributi">0,0000000000</span></div>
+        <!-- Icone reali del client desktop (ico_Esperienza / ico_Livello
+             in Main.Designer.cs: Properties.Resources.Exp_1 e
+             .level_up_1_) al posto delle emoji, per coerenza visiva. -->
+        <div class="res" data-res="xp"><img src="assets/Exp_1.png" alt="Esperienza"><span data-value="xp">0</span> XP</div>
+        <div class="res res--level" data-res="livello"><img src="assets/Livello_V2.png" alt="Livello"><span data-value="livello">1</span></div>
+      </div>
+    </header>
+
+    <!-- Area contenuto: un tab-panel per schermata. Solo "Main" è
+         implementato con dati finti; gli altri sono placeholder
+         così la navigazione/tab-bar è già completa e pronta per
+         essere riempita mano a mano che arriva il protocollo. -->
+    <main class="content">
+
+      <section class="tab-panel" data-tab-panel="main">
+        <!-- Su schermi stretti, questi pulsanti diventano il modo
+             per passare da un pannello all'altro (uno alla volta)
+             invece di vederli affiancati: stesso pattern del client
+             desktop per risorse civili/militari, qui applicato ai
+             pannelli della schermata Main. "Messaggi" (14/09/2026, su
+             richiesta dell'utente: da telefono preferisce raggiungerlo
+             direttamente da qui, non entrando prima in "Cronologia" e
+             poi usando il toggle interno di quel pannello — che infatti
+             su mobile viene nascosto, vedi style.css) non è un [data-
+             panel] a sé: vive dentro "cronologia", showPanel() in
+             03-nav.js lo gestisce come caso speciale. -->
+        <div class="section-toggle" id="main-panel-toggle" role="tablist" aria-label="Pannelli Main">
+          <button class="section-toggle__btn is-active" data-panel-target="feudi">Feudi</button>
+          <button class="section-toggle__btn" data-panel-target="civili">Strutture</button>
+          <button class="section-toggle__btn" data-panel-target="esercito">Esercito</button>
+          <button class="section-toggle__btn" data-panel-target="cronologia">Cronologia</button>
+          <button class="section-toggle__btn" data-panel-target="messaggi">Messaggi</button>
+        </div>
+
+        <div class="main-grid">
+          <div class="panel wood-panel" data-panel="feudi">
+            <div class="panel__header">
+              <h2 class="panel__title">Feudi</h2>
+              <button type="button" class="research-info-btn" id="btn-feudi-info" title="Informazioni sui Feudi" aria-label="Informazioni sui Feudi"><img src="assets/info.png" alt=""></button>
+            </div>
+            <ul class="feudi-list" id="feudi-list"><!-- popolata da app.js --></ul>
+            <div class="feudi-actions">
+              <button class="btn btn--gold" id="btn-acquista-feudo">Acquista <img class="icon-inline" src="assets/DiamanteViola_V2.png" alt=""><span data-value="costo-feudo">…</span></button>
+            </div>
+
+            <!-- Gruppo separato da "Acquista" (13/09/2026, su richiesta
+                 dell'utente: "Acquista" spende Diamanti Viola per comprare
+                 Feudi, mentre questi due SCAMBIANO una valuta per un'altra —
+                 azioni diverse, prima si confondevano visivamente perché
+                 impilate una sopra l'altra senza nessuna separazione). Vedi
+                 .feudi-exchange-actions in style.css per il divisorio. -->
+            <div class="feudi-exchange-actions">
+              <p class="feudi-exchange-actions__label">Scambio valute</p>
+              <button class="btn btn--ghost" id="btn-scambia-viola-blu">Scambia <img class="icon-inline" src="assets/DiamanteViola_V2.png" alt=""></button>
+              <button class="btn btn--ghost" id="btn-scambia-tributi-viola">Scambia Tributi <img class="icon-inline" src="assets/Tributi_V2.png" alt=""></button>
+            </div>
+
+            <!-- Scambio Diamanti Viola -> Diamanti Blu (comando "Scambia_Diamanti"),
+                 stesso rapporto mostrato dal server in "D_Viola_D_Blu". -->
+            <div class="mini-form" id="form-scambia-viola-blu" hidden>
+              <p class="panel__hint">Scambia <strong data-value="ratio-viola-blu">…</strong> diamanti blu per ogni diamante viola.</p>
+              <div class="mini-form__row">
+                <img class="icon-inline" src="assets/DiamanteViola_V2.png" alt="">
+                <div class="qty-stepper" id="stepper-scambia-viola-blu">
+                  <button type="button" class="qty-btn qty-btn--minus" aria-label="Diminuisci">−</button>
+                  <span class="qty-stepper__value">0</span>
+                  <button type="button" class="qty-btn qty-btn--plus" aria-label="Aumenta">+</button>
+                </div>
+                <span class="mini-form__arrow">→</span>
+                <span class="mini-form__result">
+                  <img class="icon-inline" src="assets/DiamanteBlu_V2.png" alt="">
+                  <strong class="mini-form__preview" data-preview="scambia-viola-blu">0</strong>
+                </span>
+              </div>
+              <button type="button" class="btn btn--primary btn--block" id="btn-conferma-scambia-viola-blu">Scambia</button>
+            </div>
+
+            <!-- Scambio Tributi -> Diamanti Viola (comando "Scambia_Tributi"),
+                 rapporto mostrato dal server in "Tributi_D_Viola". -->
+            <div class="mini-form" id="form-scambia-tributi-viola" hidden>
+              <p class="panel__hint">Scambia <strong data-value="ratio-tributi-viola">…</strong> diamanti viola per ogni tributo.</p>
+              <div class="mini-form__row">
+                <img class="icon-inline" src="assets/Tributi_V2.png" alt="">
+                <div class="qty-stepper" id="stepper-scambia-tributi-viola">
+                  <button type="button" class="qty-btn qty-btn--minus" aria-label="Diminuisci">−</button>
+                  <span class="qty-stepper__value">0</span>
+                  <button type="button" class="qty-btn qty-btn--plus" aria-label="Aumenta">+</button>
+                </div>
+                <span class="mini-form__arrow">→</span>
+                <span class="mini-form__result">
+                  <img class="icon-inline" src="assets/DiamanteViola_V2.png" alt="">
+                  <strong class="mini-form__preview" data-preview="scambia-tributi-viola">0</strong>
+                </span>
+              </div>
+              <button type="button" class="btn btn--primary btn--block" id="btn-conferma-scambia-tributi-viola">Scambia</button>
+            </div>
+          </div>
+
+          <div class="panel wood-panel" data-panel="civili">
+            <h2 class="panel__title" id="strutture-title">Strutture Civili</h2>
+
+            <!-- Toggle a 3 stati: Civili / Militari / Caserme. Stesso
+                 pattern del toggle risorse in barra, qui con 3 opzioni
+                 invece di 2 (segmented control anziché singolo pulsante
+                 che alterna testo). -->
+            <div class="section-toggle section-toggle--inline" role="tablist" aria-label="Categoria strutture">
+              <button class="section-toggle__btn is-active" data-strutture-view="civili">Civili</button>
+              <button class="section-toggle__btn" data-strutture-view="militari">Militari</button>
+              <button class="section-toggle__btn" data-strutture-view="caserme">Caserme</button>
+            </div>
+
+            <p class="panel__hint">Costruttori: <strong data-value="code-costruzioni">…</strong></p>
+            <!-- Visibile solo se c'è davvero qualcosa in coda (vedi app.js,
+                 renderVarie): niente "Tempo rimanente: 0h 0m 0s" quando non
+                 si sta costruendo nulla. -->
+            <p class="panel__hint" data-tempo-costruzione-row hidden>Tempo rimanente: <strong data-value="tempo-costruzione">…</strong></p>
+
+            <ul class="building-list" id="civili-list" data-strutture-list="civili"><!-- popolata da app.js --></ul>
+            <ul class="building-list" id="militari-list" data-strutture-list="militari" hidden><!-- popolata da app.js --></ul>
+            <ul class="building-list" id="caserme-list" data-strutture-list="caserme" hidden><!-- popolata da app.js --></ul>
+
+            <!-- Velocizza con Diamanti Blu (comando "Velocizza_Diamanti|...|Costruzione|n"):
+                 pulsante + mini-form nascosti finché non c'è tempo da velocizzare. -->
+            <button type="button" class="btn btn--ghost btn--block" id="btn-toggle-velocizza-costruzione" hidden>Velocizza <img class="icon-inline" src="assets/DiamanteBlu_V2.png" alt=""></button>
+            <div class="mini-form" id="form-velocizza-costruzione" hidden>
+              <p class="panel__hint">Ogni diamante blu riduce il tempo di <strong data-value="ratio-velocizza-tempo">…</strong>.</p>
+              <div class="mini-form__row">
+                <div class="qty-stepper" id="stepper-velocizza-costruzione">
+                  <button type="button" class="qty-btn qty-btn--minus" aria-label="Diminuisci">−</button>
+                  <span class="qty-stepper__value">0</span>
+                  <button type="button" class="qty-btn qty-btn--plus" aria-label="Aumenta">+</button>
+                </div>
+                <img class="icon-inline" src="assets/DiamanteBlu_V2.png" alt="">
+              </div>
+              <button type="button" class="btn btn--primary btn--block" id="btn-conferma-velocizza-costruzione">Velocizza Costruzione</button>
+            </div>
+          </div>
+
+          <div class="panel wood-panel" data-panel="esercito">
+            <h2 class="panel__title">Esercito</h2>
+            <div class="tier-tabs" id="tier-tabs">
+              <button class="tier-btn is-active" data-tier="1">I</button>
+              <button class="tier-btn" data-tier="2">II</button>
+              <button class="tier-btn" data-tier="3">III</button>
+              <button class="tier-btn" data-tier="4">IV</button>
+              <button class="tier-btn" data-tier="5">V</button>
+            </div>
+            <p class="panel__hint">Reclutatori: <strong data-value="code-reclutamenti">…</strong></p>
+            <p class="panel__hint" data-tempo-reclutamento-row hidden>Tempo rimanente: <strong data-value="tempo-reclutamento">…</strong></p>
+            <ul class="unit-list" id="unit-list"><!-- popolata da app.js --></ul>
+            <p class="panel__hint" data-sblocco-unita></p>
+
+            <button type="button" class="btn btn--ghost btn--block" id="btn-toggle-velocizza-reclutamento" hidden>Velocizza <img class="icon-inline" src="assets/DiamanteBlu_V2.png" alt=""></button>
+            <div class="mini-form" id="form-velocizza-reclutamento" hidden>
+              <p class="panel__hint">Ogni diamante blu riduce il tempo di <strong data-value="ratio-velocizza-tempo-2">…</strong>.</p>
+              <div class="mini-form__row">
+                <div class="qty-stepper" id="stepper-velocizza-reclutamento">
+                  <button type="button" class="qty-btn qty-btn--minus" aria-label="Diminuisci">−</button>
+                  <span class="qty-stepper__value">0</span>
+                  <button type="button" class="qty-btn qty-btn--plus" aria-label="Aumenta">+</button>
+                </div>
+                <img class="icon-inline" src="assets/DiamanteBlu_V2.png" alt="">
+              </div>
+              <button type="button" class="btn btn--primary btn--block" id="btn-conferma-velocizza-reclutamento">Velocizza Addestramento</button>
+            </div>
+          </div>
+
+          <!-- Cronologia e Messaggi condivisi in UN SOLO pannello con due
+               pulsanti per passare dall'uno all'altro (13/09/2026, su
+               richiesta dell'utente: prima erano due box separati, uno
+               spesso vuoto sotto l'altro). Toggle sempre visibile
+               (.section-toggle--inline, stesso usato per Esercito/Città
+               in Ricerca) — funziona identico su PC e telefono, quindi
+               niente pulsante dedicato nel toggle mobile qui sopra.
+               "Messaggi" resta un placeholder statico: nessuna schermata
+               né protocollo dedicato nel client desktop. -->
+          <div class="panel wood-panel panel--log" data-panel="cronologia">
+            <div class="section-toggle section-toggle--inline" id="cronologia-messaggi-toggle" role="tablist" aria-label="Cronologia o Messaggi">
+              <button class="section-toggle__btn is-active" data-view-target="cronologia">Cronologia</button>
+              <button class="section-toggle__btn" data-view-target="messaggi">Messaggi</button>
+            </div>
+
+            <div data-cronologia-messaggi-view="cronologia">
+              <div class="log-box" id="log-box">
+                <p class="log-empty">Nessun evento recente.</p>
+              </div>
+            </div>
+            <div data-cronologia-messaggi-view="messaggi" hidden>
+              <h2 class="panel__title">Messaggi</h2>
+              <p class="panel__hint">Questa schermata sarà completata quando saranno definiti i comandi del protocollo lato server.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           SCHERMATA COSTRUZIONE
+           Rispecchia la schermata desktop "Costruzione/Reclutamento"
+           (vedi screenshot di riferimento): una lista di righe con
+           un input quantità ciascuna, e UN SOLO pulsante in fondo che
+           invia tutte le quantità in un colpo solo — esattamente come
+           i comandi "Costruzione" (16 campi) e "Reclutamento" (4 campi
+           per il livello selezionato) accettati dal server.
+           Su schermi stretti il toggle in alto passa da Edifici ad
+           Addestramento (stesso pattern usato nel tab Main).
+      ============================================================ -->
+      <section class="tab-panel" data-tab-panel="costruzione" hidden>
+        <div class="section-toggle" id="costruzione-panel-toggle" role="tablist" aria-label="Pannelli Costruzione">
+          <button class="section-toggle__btn is-active" data-panel-target="costruzione-edifici">Edifici</button>
+          <button class="section-toggle__btn" data-panel-target="costruzione-esercito">Addestramento</button>
+        </div>
+
+        <div class="main-grid main-grid--costruzione">
+          <div class="panel wood-panel" data-panel="costruzione-edifici">
+            <h2 class="panel__title">Costruzione</h2>
+
+            <h3 class="panel__subtitle">Strutture Civili</h3>
+            <ul class="building-list building-list--form" id="costruzione-civili-list"><!-- popolata da app.js --></ul>
+
+            <h3 class="panel__subtitle">Strutture Militari</h3>
+            <ul class="building-list building-list--form" id="costruzione-militari-list"><!-- popolata da app.js --></ul>
+
+            <h3 class="panel__subtitle">Caserme</h3>
+            <ul class="building-list building-list--form" id="costruzione-caserme-list"><!-- popolata da app.js --></ul>
+
+            <button type="button" class="btn btn--primary btn--block" id="btn-invia-costruzione">Costruisci</button>
+          </div>
+
+          <div class="panel wood-panel" data-panel="costruzione-esercito">
+            <h2 class="panel__title">Addestramento</h2>
+            <div class="tier-tabs" id="costruzione-tier-tabs">
+              <button class="tier-btn is-active" data-tier="1">I</button>
+              <button class="tier-btn" data-tier="2">II</button>
+              <button class="tier-btn" data-tier="3">III</button>
+              <button class="tier-btn" data-tier="4">IV</button>
+              <button class="tier-btn" data-tier="5">V</button>
+            </div>
+            <ul class="unit-list unit-list--form" id="costruzione-unit-list"><!-- popolata da app.js --></ul>
+            <p class="panel__hint" data-sblocco-unita></p>
+            <button type="button" class="btn btn--primary btn--block" id="btn-invia-reclutamento">Recluta</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           SCHERMATA CITTÀ
+           Una card per struttura (Ingresso, Cancello, Mura, Torri,
+           Castello, Centro) con HP/DEF (dove presenti) e Guarnigione,
+           costruite interamente da app.js (vedi renderCittaList) perché
+           ogni card include anche il mini-form "Sposta Truppe" con tab
+           tier e stepper — troppa logica per scriverla a mano qui.
+      ============================================================ -->
+      <section class="tab-panel" data-tab-panel="citta" hidden>
+        <div class="panel wood-panel">
+          <h2 class="panel__title">Città</h2>
+          <p class="panel__hint">Sposta le truppe tra il Villaggio e ogni struttura per rinforzarne la guarnigione.</p>
+
+          <!-- "Ripara Tutto": mostrato solo quando almeno 2 statistiche (HP o
+               DEF, su qualsiasi struttura) sono sotto il massimo — stessa
+               soglia usata dal client desktop (Citta_V2.cs, daRiparare >= 2).
+               Nascosto di default: renderCittaList (07-citta.js) lo scopre
+               ad ogni tick in base ai dati reali. Restyling del 14/09/2026
+               (era un semplice .btn--primary.btn--block, "non piaceva"):
+               ora è un avviso compatto con icona a chiave inglese e conteggio,
+               non un bottone a piena larghezza che compete con le azioni
+               principali della schermata. -->
+          <div class="ripara-tutto-banner" id="ripara-tutto-banner" hidden>
+            <svg class="ripara-tutto-banner__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M22.7 19.4 14.2 11c1-2.4.5-5.3-1.6-7.3-2.1-2.1-5.2-2.6-7.8-1.4-.3.1-.4.5-.1.7l4 4-3 3-4-4c-.2-.2-.6-.2-.7.1-1.2 2.6-.6 5.7 1.4 7.8 2 2 4.9 2.5 7.3 1.6l8.4 8.4c.4.4 1 .4 1.4 0l2.6-2.6c.4-.4.4-1 0-1.4z"/>
+            </svg>
+            <span class="ripara-tutto-banner__testo" id="ripara-tutto-testo"></span>
+            <button type="button" class="btn btn--gold btn--sm" id="btn-ripara-tutto">Ripara Tutto</button>
+          </div>
+
+          <!-- Panoramica del villaggio: stessa immagine di sfondo e stesse
+               posizioni (in percentuale) usate dal client desktop
+               (GUI/Citta_V2.Designer.cs). Solo a colpo d'occhio — HP/DEF/
+               Guarnigione, niente pulsanti qui sopra: su schermi piccoli un
+               form di spostamento truppe sopra l'immagine sarebbe troppo
+               piccolo per essere usabile. Toccare un indicatore scorre alla
+               card corrispondente nella lista sotto, dove si spostano
+               davvero le truppe. -->
+          <!-- .city-layout: su schermi larghi mappa a sinistra e lista
+               (statistiche/guarnigione) a destra (richiesto dall'utente
+               13/09/2026); su mobile resta impilata come prima (nessuna
+               regola per schermi stretti, il wrapper è "trasparente" al
+               layout a blocco di default). Vedi .city-layout in style.css. -->
+          <div class="city-layout">
+            <div class="city-map" id="city-map">
+              <img src="assets/Village_1.jpg" alt="Panoramica del villaggio" class="city-map__img">
+              <div class="city-map__markers" id="city-map-markers"><!-- popolata da app.js --></div>
+            </div>
+
+            <ul class="city-list" id="city-list"><!-- popolata da app.js --></ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           SCHERMATA NEGOZIO
+           Card per ogni acquisto (VIP, Costruttori, Reclutatori, Scudo
+           della Pace — funzionanti, pagati in Diamanti) e per i
+           pacchetti a pagamento reale (USDT) non ancora attivi lato
+           server, mostrati disattivati. Tutto costruito da app.js
+           (vedi renderShop in js/08-shop.js).
+      ============================================================ -->
+      <section class="tab-panel" data-tab-panel="negozio" hidden>
+        <div class="panel wood-panel">
+          <h2 class="panel__title">Negozio</h2>
+          <p class="panel__hint">Gli acquisti in Diamanti sono attivi da subito. I pacchetti con pagamento reale (USDT) sono mostrati ma non ancora disponibili.</p>
+          <div id="shop-container"><!-- popolato da app.js --></div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           SCHERMATA RICERCA
+           Rispecchia la schermata desktop "Ricerca" (screenshot
+           Ricerca.JPG): colonna "Generali" con le 8 ricerche di base
+           (un pulsante ciascuna: un click = un livello, comando
+           "Ricerca|token|<tipo>" — vedi ResearchManager.cs) e colonna
+           "Esercito" (4 unità x Attacco/Salute/Difesa/Livello) e
+           "Città" (6 strutture: Ingresso e Centro hanno solo Livello/
+           Guarnigione — niente Salute/Difesa, vedi Wiki/Game/
+           Componenti/Citta.md — le altre quattro hanno tutte e 4 le
+           statistiche). "Ripara" = tipo server "Riparazione", "Centro"
+           = tipo server "Citta". Su schermi stretti il toggle in alto
+           passa tra i tre pannelli (Generali/Esercito/Città sono tre
+           pulsanti separati, su richiesta esplicita dell'utente — non
+           più "Esercito e Città" insieme in un unico pulsante); su
+           schermi larghi Generali resta sempre visibile a sinistra,
+           mentre Esercito/Città condividono la colonna di destra con
+           un secondo toggle indipendente (#ricerca-destra-toggle, uno
+           alla volta anche da PC — richiesto dall'utente 13/09/2026,
+           prima restavano impilati e lasciavano un vuoto sotto
+           Generali), vedi .main-grid--ricerca in style.css.
+      ============================================================ -->
+      <section class="tab-panel" data-tab-panel="ricerca" hidden>
+        <p class="panel__hint">La Ricerca rappresenta il progresso delle conoscenze del tuo regno. Investendo tempo e risorse potrai sbloccare nuove possibilità, migliorare strutture, eserciti e strategie.</p>
+        <p class="panel__hint" data-tempo-ricerca-row>Tempo Ricerca: <strong data-value="tempo-ricerca">…</strong></p>
+
+        <div class="section-toggle" id="ricerca-panel-toggle" role="tablist" aria-label="Pannelli Ricerca">
+          <button class="section-toggle__btn is-active" data-panel-target="ricerca-generali">Generali</button>
+          <button class="section-toggle__btn" data-panel-target="ricerca-esercito">Esercito</button>
+          <button class="section-toggle__btn" data-panel-target="ricerca-citta">Città</button>
+        </div>
+
+        <div class="main-grid main-grid--ricerca">
+          <div class="panel wood-panel" data-panel="ricerca-generali">
+            <h2 class="panel__title">Strutture Civili</h2>
+            <ul class="research-list" id="ricerca-generali-list"><!-- popolata da js --></ul>
+
+            <!-- Velocizza con Diamanti Blu (comando "Velocizza_Diamanti|...|Ricerca|n",
+                 già supportato lato server — ResearchManager.UsaDiamantiPerVelocizzareRicerca). -->
+            <button type="button" class="btn btn--ghost btn--block" id="btn-toggle-velocizza-ricerca" hidden>Velocizza <img class="icon-inline" src="assets/DiamanteBlu_V2.png" alt=""></button>
+            <div class="mini-form" id="form-velocizza-ricerca" hidden>
+              <p class="panel__hint">Ogni diamante blu riduce il tempo di <strong data-value="ratio-velocizza-tempo-ricerca">…</strong>.</p>
+              <div class="mini-form__row">
+                <div class="qty-stepper" id="stepper-velocizza-ricerca">
+                  <button type="button" class="qty-btn qty-btn--minus" aria-label="Diminuisci">−</button>
+                  <span class="qty-stepper__value">0</span>
+                  <button type="button" class="qty-btn qty-btn--plus" aria-label="Aumenta">+</button>
+                </div>
+                <img class="icon-inline" src="assets/DiamanteBlu_V2.png" alt="">
+              </div>
+              <button type="button" class="btn btn--primary btn--block" id="btn-conferma-velocizza-ricerca">Velocizza Ricerca</button>
+            </div>
+          </div>
+
+          <!-- Toggle SOLO desktop (>760px): Esercito e Città erano sempre
+               entrambi visibili impilati a destra, con la colonna Generali
+               (più corta) che lasciava un vuoto sotto — richiesto
+               dall'utente (13/09/2026) di vederne uno alla volta anche da
+               PC, non solo su mobile. Figlio diretto di .main-grid--ricerca
+               (occupa la riga 1 della colonna 2, sopra Esercito/Città) e
+               indipendente dal toggle mobile qui sopra (#ricerca-panel-toggle):
+               non lo tocca, vedi 09-ricerca.js. -->
+          <div class="section-toggle section-toggle--inline" id="ricerca-destra-toggle" role="tablist" aria-label="Esercito o Città">
+            <button class="section-toggle__btn is-active" data-panel-target="ricerca-esercito">Esercito</button>
+            <button class="section-toggle__btn" data-panel-target="ricerca-citta">Città</button>
+          </div>
+
+          <div class="panel wood-panel" data-panel="ricerca-esercito">
+            <h2 class="panel__title">Esercito</h2>
+            <div id="ricerca-esercito-container"><!-- popolata da js --></div>
+          </div>
+
+          <div class="panel wood-panel" data-panel="ricerca-citta">
+            <h2 class="panel__title">Città</h2>
+            <div id="ricerca-citta-container"><!-- popolata da js --></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           SCHERMATA STATISTICHE
+           Rispecchia la schermata desktop "Statistiche" (GUI/
+           Statistiche.cs): stato dei potenziamenti temporanei attivi,
+           Potenza (Edifici/Ricerca/Esercito/Totale), Bonus percentuali
+           (generali + per struttura/unità), statistiche di produzione/
+           costruzione e statistiche di guerra/unità. Tutti valori reali
+           mandati dal server via Update_Data — nessun comando da inviare,
+           arrivano già con lo stesso "tick" di tutte le altre schermate
+           (vedi js/11-statistiche.js per l'elenco esatto delle chiavi).
+           Un solo elenco a colonna (non main-grid): troppi valori per
+           stare comodi affiancati, meglio pannelli impilati e leggibili
+           sia da PC che da telefono.
+      ============================================================ -->
+      <section class="tab-panel" data-tab-panel="statistiche" hidden>
+        <div class="stat-panels">
+          <div class="panel wood-panel">
+            <h2 class="panel__title">Stato Attivi</h2>
+            <p class="panel__hint">Tempo rimanente dei potenziamenti temporanei in corso.</p>
+            <ul class="research-list" id="statistiche-attivi-list"><!-- popolata da js --></ul>
+          </div>
+
+          <div class="panel wood-panel">
+            <h2 class="panel__title">Potenza</h2>
+            <ul class="research-list" id="statistiche-potenza-list"><!-- popolata da js --></ul>
+          </div>
+
+          <div class="panel wood-panel">
+            <h2 class="panel__title">Bonus</h2>
+            <p class="panel__hint">Percentuali di bonus attive su produzione, costruzione e combattimento.</p>
+            <div id="statistiche-bonus-container"><!-- popolata da js --></div>
+          </div>
+
+          <div class="panel wood-panel">
+            <h2 class="panel__title">Statistiche Generali</h2>
+            <ul class="research-list" id="statistiche-generali-list"><!-- popolata da js --></ul>
+          </div>
+
+          <div class="panel wood-panel">
+            <h2 class="panel__title">Guerra e Razzie</h2>
+            <ul class="research-list" id="statistiche-guerra-list"><!-- popolata da js --></ul>
+          </div>
+
+          <div class="panel wood-panel">
+            <h2 class="panel__title">Unità</h2>
+            <div id="statistiche-unita-container"><!-- popolata da js --></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           SCHERMATA PVP/PVE (14/09/2026)
+           Rispecchia la schermata desktop "PVE-PVP" (screenshot
+           PVP_PVE.JPG/PVP_PVE 2.JPG in WW/) — solo la parte Villaggi
+           Barbari + PVP, senza i Raduni (sezione separata dello
+           screenshot più recente, rimandata su scelta esplicita
+           dell'utente: il backend dei Raduni è stato riscritto lo
+           stesso giorno e non ancora compilato/testato). Un solo
+           pannello "Esercito da Inviare" (tier I-V, quantità
+           persistenti tra i tab come in Città/Guarnigione) condiviso
+           tra l'attacco ai Barbari e il PVP: il comando "Battaglia"
+           accetta sempre le stesse 20 quantità qualunque sia il tipo
+           di bersaglio (vedi js/14-battaglia.js). Layout a griglia
+           identico a quello della schermata Main (.main-grid--pvppve
+           in style.css): Barbari a sinistra (righe 1-2), Esercito e
+           PVP affiancati in alto, Referti in basso a destra.
+      ============================================================ -->
+      <section class="tab-panel" data-tab-panel="pvppve" hidden>
+        <p class="panel__hint">Esplora i Villaggi/Città Barbare per stimare le loro truppe, oppure sfida un altro giocatore in PVP. Le truppe da inviare si scelgono a tier (I-V) come nello Spostamento Truppe — restano impostate finché non lanci l'attacco.</p>
+
+        <div class="section-toggle" id="battaglia-panel-toggle" role="tablist" aria-label="Pannelli PVP/PVE">
+          <button class="section-toggle__btn is-active" data-panel-target="pvp-barbari">Barbari</button>
+          <button class="section-toggle__btn" data-panel-target="pvp-esercito">Esercito</button>
+          <button class="section-toggle__btn" data-panel-target="pvp-pvp">PVP</button>
+          <button class="section-toggle__btn" data-panel-target="pvp-referti">Report</button>
+        </div>
+
+        <div class="main-grid main-grid--pvppve">
+          <div class="panel wood-panel" data-panel="pvp-barbari">
+            <div class="panel__header">
+              <h2 class="panel__title">Barbari</h2>
+              <div class="section-toggle section-toggle--inline" id="barbari-tipo-toggle">
+                <button type="button" class="section-toggle__btn is-active" data-tipo="Città Barbaro">Città</button>
+                <button type="button" class="section-toggle__btn" data-tipo="Villaggio Barbaro">Villaggio</button>
+              </div>
+            </div>
+            <select id="barbari-target-select" class="pvp-select" disabled><option value="">Nessun bersaglio</option></select>
+            <div class="target-info" id="barbari-target-info">Esplora il barbaro per avere una stima delle sue truppe.</div>
+            <div class="pvp-actions">
+              <label class="pvp-livello-label">Livello <input type="number" id="barbari-livello-input" min="1" max="20" value="1"></label>
+              <button type="button" class="btn btn--ghost" id="btn-esplora-barbari">Esplora</button>
+              <button type="button" class="btn btn--primary btn--block" id="btn-attacca-barbari">Attacca</button>
+            </div>
+          </div>
+
+          <div class="panel wood-panel" data-panel="pvp-esercito">
+            <h2 class="panel__title">Esercito da Inviare</h2>
+            <p class="panel__hint">Comune ai Barbari e al PVP: imposta le quantità qui, poi premi "Attacca" nel pannello del bersaglio scelto.</p>
+            <div class="tier-tabs" id="battaglia-tier-tabs"><!-- popolata da js --></div>
+            <ul class="unit-list unit-list--form" id="battaglia-esercito-list"><!-- popolata da js --></ul>
+            <p class="panel__hint pendenti-hint" id="battaglia-pendenti-hint"></p>
+          </div>
+
+          <div class="panel wood-panel" data-panel="pvp-pvp" id="pvp-panel">
+            <h2 class="panel__title">PVP</h2>
+            <p class="panel__hint" id="pvp-locked-msg">Raggiungi il livello richiesto per sbloccare le battaglie PVP.</p>
+            <select id="pvp-target-select" class="pvp-select" disabled><option value="">Nessun giocatore disponibile</option></select>
+            <div class="target-info" id="pvp-target-info"></div>
+            <div class="pvp-actions">
+              <button type="button" class="btn btn--primary btn--block" id="btn-attacca-pvp">Attacca</button>
+            </div>
+          </div>
+
+          <div class="panel wood-panel panel--log" data-panel="pvp-referti">
+            <h2 class="panel__title">Report</h2>
+            <p class="panel__hint">Report di battaglia e di spionaggio. Tocca una riga per il dettaglio.</p>
+            <ul class="research-list" id="battaglia-report-list"><!-- popolata da js --></ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quest Mensili (13/09/2026, su richiesta dell'utente): costruita
+           da QuestManager.cs lato server (protocollo JSON "QuestUpdate"/
+           "QuestRewards" + comando "Quest_Reward"). Le 20 ricompense
+           Normali/VIP condividono la stessa barra punti-esperienza (stessa
+           soglia "Points"): un solo binario invece di due liste separate,
+           con le ricompense posizionate sopra/sotto la barra e riscattabili
+           con un click appena la barra le raggiunge. Le quest (fino a 60)
+           sono mostrate 10 alla volta con un pulsante avanti/indietro. -->
+      <section class="tab-panel" data-tab-panel="quest" hidden>
+        <div class="quest-panels">
+          <div class="panel wood-panel">
+            <h2 class="panel__title">Ricompense Mensili</h2>
+            <p class="panel__hint">La barra si riempie con i punti guadagnati completando le quest. Clicca su una ricompensa raggiunta per riscattarla. Scorri per vedere tutte le ricompense.</p>
+            <!-- Striscia scorrevole (14/09/2026, su richiesta dell'utente:
+                 da telefono, con 20 marker per fila, erano troppo vicini —
+                 vedi renderMarkers() in js/12-quest.js, che dà a #quest-track
+                 una larghezza minima fissa così i marker restano ben
+                 distanziati e la parte che non ci sta si scorre invece di
+                 restringersi). -->
+            <div class="quest-track-scroll">
+              <div class="quest-track" id="quest-track">
+                <div class="quest-track__bar">
+                  <div class="quest-track__fill" id="quest-track-fill"></div>
+                </div>
+                <!-- Marker Normali/VIP aggiunti da js/12-quest.js -->
+              </div>
+            </div>
+            <p class="quest-track__points" id="quest-track-points">0 / 0 punti</p>
+            <div class="quest-track__legenda">
+              <span><i></i> Normale</span>
+              <span id="quest-legenda-vip" hidden><i class="legenda-vip"></i> VIP</span>
+            </div>
+          </div>
+
+          <div class="panel wood-panel">
+            <h2 class="panel__title">Quest</h2>
+            <ul class="quest-list" id="quest-list"><!-- popolata da js --></ul>
+            <div class="quest-pager" id="quest-pager" hidden>
+              <button type="button" class="btn btn--primary btn--sm" id="quest-pager-prev">◀ Precedenti</button>
+              <span class="quest-pager__pagina" id="quest-pager-pagina">1 / 1</span>
+              <button type="button" class="btn btn--primary btn--sm" id="quest-pager-next">Successive ▶</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           SCHERMATA GAMEPASS (14/09/2026, su richiesta dell'utente: prima
+           dell'aspetto grafico, iniziamo con la sola estetica dei premi
+           giornalieri del GamePass Gold — vedi commento in cima a
+           js/13-gamepass.js per il protocollo e per cosa resta da
+           verificare lato server prima di considerarla definitiva).
+           Un solo premio al giorno per 90 giorni consecutivi: saltando un
+           giorno si riparte dal Giorno 1 (vedi ServerConnection.cs,
+           Accesso_Giornaliero()). A differenza della traccia Quest (20+20
+           ricompense) qui i 90 giorni sono mostrati in una griglia
+           scorrevole invece che su una singola barra orizzontale.
+      ============================================================ -->
+      <section class="tab-panel" data-tab-panel="gamepass" hidden>
+        <div class="panel wood-panel">
+          <h2 class="panel__title">GamePass Gold</h2>
+          <p class="panel__hint" id="gamepass-stato-hint">Stato non ancora ricevuto dal server.</p>
+          <div class="gamepass-streak">
+            <span class="gamepass-streak__testo">Giorno</span>
+            <span class="gamepass-streak__valore" id="gamepass-streak-valore">–</span>
+            <span class="gamepass-streak__testo">di 90</span>
+          </div>
+        </div>
+
+        <div class="panel wood-panel">
+          <h2 class="panel__title">Premi Giornalieri</h2>
+          <p class="panel__hint">Accedi ogni giorno per riscattare un premio, fino al 90° giorno consecutivo con il GamePass Gold attivo. Attenzione: se salti anche un solo giorno, i premi ripartono dal Giorno 1.</p>
+          <div class="gamepass-grid" id="gamepass-grid"><!-- popolata da js/13-gamepass.js --></div>
+        </div>
+      </section>
+
+      <section class="tab-panel" data-tab-panel="placeholder" hidden>
+        <div class="panel wood-panel placeholder-panel">
+          <h2 class="panel__title" id="placeholder-title">Sezione</h2>
+          <p>Questa schermata sarà completata quando saranno definiti i comandi del protocollo lato server.</p>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Barra di navigazione principale, stessa struttura del client
+         desktop (Main, Costruzione, Città, ...). -->
+    <nav class="tab-bar" id="tab-bar">
+      <!-- "Main" → "Panoramica" (13/09/2026, su richiesta dell'utente):
+           nome più chiaro visto che ospita più pannelli (Feudi, Strutture,
+           Esercito, Cronologia e ora anche Messaggi) — data-tab="main"
+           NON cambia, resta l'id interno usato da 03-nav.js/04-game-main.js. -->
+      <button class="tab-bar__btn is-active" data-tab="main">Panoramica</button>
+      <button class="tab-bar__btn" data-tab="costruzione">Costruzione</button>
+      <button class="tab-bar__btn" data-tab="citta">Città</button>
+      <button class="tab-bar__btn" data-tab="negozio">Negozio</button>
+      <button class="tab-bar__btn" data-tab="ricerca">Ricerca</button>
+      <button class="tab-bar__btn" data-tab="statistiche">Statistiche</button>
+      <!-- "Mercato": nessuna schermata nel client desktop da cui prendere
+           riferimento (a differenza di "Statistiche"/"Quest Mensili", vedi
+           GUI/Statistiche.cs e Manager/QuestManager.cs) — placeholder come
+           Mappa/PVP/GamePass qui sotto, su richiesta esplicita dell'utente
+           (13/09/2026), finché non ci sarà uno screenshot/protocollo da cui
+           costruirla davvero. -->
+      <button class="tab-bar__btn" data-tab="mercato">Mercato</button>
+      <button class="tab-bar__btn" data-tab="pvppve">PVP/PVE</button>
+      <button class="tab-bar__btn" data-tab="gamepass">GamePass</button>
+      <button class="tab-bar__btn" data-tab="quest">Quest Mensili</button>
+      <button class="tab-bar__btn" data-tab="mappa">Mappa</button>
+    </nav>
+
+    <!-- Popup "Feudi" (stesso screenshot Feudi_Info.JPG del client desktop,
+         GUI/Terreni_Virtuali.cs): intro + le 5 rarità con icona/tasso di
+         generazione/probabilità. I dati delle rarità sono costanti fisse
+         lato client (le stesse del form desktop, non cambiano mai), tranne
+         il testo introduttivo che arriva dal server e viene letto dalla
+         cache condivisa delle Descrizioni (04-game-main.js) — vedi lì per i
+         dettagli. Overlay generico (.modal-overlay/.modal-box in style.css),
+         pensato per essere riusato per altri popup informativi in futuro. -->
+    <div class="modal-overlay" id="feudi-info-overlay" hidden>
+      <div class="modal-box panel wood-panel">
+        <div class="panel__header">
+          <h2 class="panel__title">Feudi</h2>
+          <button type="button" class="modal-close-btn" id="btn-chiudi-feudi-info" aria-label="Chiudi">✕</button>
+        </div>
+        <p class="feudi-info__intro" id="feudi-info-intro"></p>
+        <ul class="feudi-info-list" id="feudi-info-list"><!-- popolata da 04-game-main.js --></ul>
+      </div>
+    </div>
+
+    <!-- Popup "Info Risorsa" (14/09/2026, su richiesta dell'utente): stesso
+         overlay generico usato per Feudi, aperto cliccando una risorsa nella
+         barra in alto (Cibo/Legno/Pietra/Ferro/Oro/Popolazione/Diamanti
+         Blu/Diamanti Viola/Tributi). Contenuto e titolo cambiano in base
+         alla risorsa cliccata — vedi RISORSA_INFO_CONFIG e
+         popolaRisorsaInfo() in js/04-game-main.js — quindi un solo popup
+         condiviso invece di nove marcature quasi identiche. -->
+    <div class="modal-overlay" id="risorsa-info-overlay" hidden>
+      <div class="modal-box panel wood-panel">
+        <div class="panel__header">
+          <h2 class="panel__title" id="risorsa-info-title">Risorsa</h2>
+          <button type="button" class="modal-close-btn" id="btn-chiudi-risorsa-info" aria-label="Chiudi">✕</button>
+        </div>
+        <div id="risorsa-info-content"><!-- popolata da 04-game-main.js --></div>
+      </div>
+    </div>
+
+    <!-- Resoconto (14/09/2026, rinominato da "Resoconto Battaglia" il 14/09/2026 su
+         richiesta dell'utente: lo stesso overlay ora copre sia i report di battaglia
+         che quelli di spionaggio — vedi Report.Tipo in Battaglia.cs). Aperto toccando
+         una riga nel pannello "Report" della schermata PVP/PVE — per il tipo Battaglia
+         replica la finestra desktop "Log_Battaglie" (screenshot Report Battaglia.JPG):
+         fasi, tabelle Schierati/Caduti/Superstiti, risorse raccolte, esperienza ed esito
+         finale. Il titolo (h2) e il contenuto sono popolati dinamicamente in base al tipo
+         da js/14-battaglia.js. -->
+    <div class="modal-overlay" id="report-overlay" hidden>
+      <div class="modal-box panel wood-panel modal-box--report">
+        <div class="panel__header">
+          <h2 class="panel__title" id="report-title">Resoconto</h2>
+          <button type="button" class="modal-close-btn" id="btn-chiudi-report" aria-label="Chiudi">✕</button>
+        </div>
+        <div id="report-content"><!-- popolata da js/14-battaglia.js --></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- app.js è stato suddiviso in più file per sezione (Main, Costruzione,
+       Città, ecc.) — vedi il commento in cima a ciascuno. L'ORDINE conta:
+       00-core.js e 01-net.js/02-auth.js/03-nav.js vanno caricati per primi
+       (mettono NET/AUTH/le utility su window.WW), 08-main.js va caricato
+       per ultimo (avvia la connessione e il primo render). -->
+  <script src="js/00-core.js"></script>
+  <script src="js/01-net.js"></script>
+  <script src="js/02-auth.js"></script>
+  <script src="js/03-nav.js"></script>
+  <script src="js/04-game-main.js"></script>
+  <script src="js/05-scambio.js"></script>
+  <script src="js/06-costruzione.js"></script>
+  <script src="js/07-citta.js"></script>
+  <script src="js/08-shop.js"></script>
+  <script src="js/09-ricerca.js"></script>
+  <script src="js/11-statistiche.js"></script>
+  <script src="js/12-quest.js"></script>
+  <script src="js/13-gamepass.js"></script>
+  <script src="js/14-battaglia.js"></script>
+  <script src="js/10-main.js"></script>
+</body>
+</html>
