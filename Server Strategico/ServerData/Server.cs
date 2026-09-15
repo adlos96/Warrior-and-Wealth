@@ -131,7 +131,7 @@ namespace Server_Strategico.Server
                         BattagliaPVP.TestBattaglia();
                         break;
                     case "spionaggio":
-                        Spionaggio.EseguiSpionaggio();
+                        Spionaggio.EseguiSpionaggioTEST();
                         break;
                     case "disconnetti":
                         Console.Write("Username del giocatore da disconnettere: ");

@@ -1,4 +1,5 @@
-﻿using Server_Strategico.Gioco;
+﻿using Newtonsoft.Json;
+using Server_Strategico.Gioco;
 using Server_Strategico.Manager;
 using System.Text;
 using static Server_Strategico.Gioco.Giocatori;
@@ -16,6 +17,7 @@ namespace Server_Strategico.ServerData.Moduli
         {
             var buildingsQueue = BuildingManagerV2.GetQueuedBuildings(player);
             var unitsQueue = UnitManagerV2.GetQueuedUnits(player);
+            string payloadX = JsonConvert.SerializeObject(player.Report);
 
             double Cibo = 0, Oro = 0;
             double Cibo_Strutture = 0, Legno_Strutture = 0, Ferro_Strutture = 0, Pietra_Strutture = 0, Oro_Strutture = 0;
@@ -74,6 +76,8 @@ namespace Server_Strategico.ServerData.Moduli
             _currentState["QuestMensili_Tempo"] = player.FormatTime(Variabili_Server.timer_Reset_Quest);
             _currentState["Barbari_Tempo"] = player.FormatTime(Variabili_Server.timer_Reset_Barbari);
             _currentState["Giorni_Consecutivi"] = player.GamePass_Accessi_Consecutivi.ToString();
+
+            _currentState["Report"] = payloadX;
 
             _currentState["cibo"] = player.Cibo.ToString("#,0");
             _currentState["legna"] = player.Legno.ToString("#,0");

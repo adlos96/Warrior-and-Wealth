@@ -187,7 +187,8 @@ namespace Server_Strategico.Server
                 return;
             }
 
-            string clientDescription = $"WS:{context.Request.RemoteEndPoint}";
+            //string realIp = context.Request.Headers["X-Real-IP"]; //Per nginx
+            string clientDescription = $"WS:{context.Request.RemoteEndPoint}"; //
             RegisterClient(clientGuid, socket, clientDescription);
 
             var buffer = new byte[8192];

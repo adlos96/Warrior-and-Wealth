@@ -8,7 +8,7 @@ namespace Server_Strategico.ServerData.Moduli
     internal class Spionaggio
     {
         static float valForza = 45f;
-        public async static void Spionaggioo(Giocatori.Player difensore, Giocatori.Player attaccante)
+        public async static void SpionaggioPVP(Giocatori.Player difensore, Giocatori.Player attaccante)
         {
             var report = new Battaglia.Report();
             Battaglia.SpionaggioFase fase = null;
@@ -81,7 +81,19 @@ namespace Server_Strategico.ServerData.Moduli
             attaccante.Report.Add(report);
         }
 
-        public async static void EseguiSpionaggio()
+        public async static void EseguiSpionaggio(Giocatori.Player difensore, Giocatori.Player attaccante, string modalità)
+        {
+            //Aggiornare valore guarnigione... farlo sempre non conviene...
+            Server.Server.GameServer.GuerrieriCitta(difensore);
+            Server.Server.GameServer.GuerrieriCitta(attaccante);
+            if (modalità == "PVP")
+                SpionaggioPVP(difensore, attaccante);
+            else
+            {
+                // PVE
+            }
+        }
+        public async static void EseguiSpionaggioTEST()
         {
             bool test1 = await Server.ServerConnection.New_Player("adlos", "123", "adly@example.com", Guid.Empty);
             var attaccante = Server.Server.servers_.GetPlayer("adlos");
@@ -98,7 +110,7 @@ namespace Server_Strategico.ServerData.Moduli
             Server.Server.GameServer.GuerrieriCitta(difensore);
             Server.Server.GameServer.GuerrieriCitta(attaccante);
 
-            Spionaggioo(difensore, attaccante);
+            SpionaggioPVP(difensore, attaccante);
         }
 
         // ─── Calcoli ────────────────────────────────────────────────────────────────

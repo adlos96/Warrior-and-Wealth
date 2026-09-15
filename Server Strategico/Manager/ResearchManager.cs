@@ -821,6 +821,17 @@ namespace Server_Strategico.Manager
                     Popolazione = Citta.Città_Guarnigione.Popolazione * livello,
                     TempoRicerca = Citta.Città_Guarnigione.TempoRicerca * livello // più tempo per livelli più alti
                 },
+
+                "Cancello Livello" => new ResearchCost
+                {
+                    Cibo = Citta.Cancello_Livello.Cibo * livello,
+                    Legno = Citta.Cancello_Livello.Legno * livello,
+                    Pietra = Citta.Cancello_Livello.Pietra * livello,
+                    Ferro = Citta.Cancello_Livello.Ferro * livello,
+                    Oro = Citta.Cancello_Livello.Oro * livello,
+                    Popolazione = Citta.Cancello_Livello.Popolazione * livello,
+                    TempoRicerca = Citta.Cancello_Livello.TempoRicerca * livello // più tempo per livelli più alti
+                },
                 "Cancello Salute" => new ResearchCost
                 {
                     Cibo = Citta.Cancello_Salute.Cibo * livello,
@@ -850,6 +861,17 @@ namespace Server_Strategico.Manager
                     Oro = Citta.Cancello_Guarnigione.Oro * livello,
                     Popolazione = Citta.Cancello_Guarnigione.Popolazione * livello,
                     TempoRicerca = Citta.Cancello_Guarnigione.TempoRicerca * livello // più tempo per livelli più alti
+                },
+
+                "Mura Livello" => new ResearchCost
+                {
+                    Cibo = Citta.Mura_Livello.Cibo * livello,
+                    Legno = Citta.Mura_Livello.Legno * livello,
+                    Pietra = Citta.Mura_Livello.Pietra * livello,
+                    Ferro = Citta.Mura_Livello.Ferro * livello,
+                    Oro = Citta.Mura_Livello.Oro * livello,
+                    Popolazione = Citta.Mura_Livello.Popolazione * livello,
+                    TempoRicerca = Citta.Mura_Livello.TempoRicerca * livello // più tempo per livelli più alti
                 },
                 "Mura Salute" => new ResearchCost
                 {
@@ -881,6 +903,17 @@ namespace Server_Strategico.Manager
                     Popolazione = Citta.Mura_Guarnigione.Popolazione * livello,
                     TempoRicerca = Citta.Mura_Guarnigione.TempoRicerca * livello // più tempo per livelli più alti
                 },
+
+                "Torri Livello" => new ResearchCost
+                {
+                    Cibo = Citta.Torri_Livello.Cibo * livello,
+                    Legno = Citta.Torri_Livello.Legno * livello,
+                    Pietra = Citta.Torri_Livello.Pietra * livello,
+                    Ferro = Citta.Torri_Livello.Ferro * livello,
+                    Oro = Citta.Torri_Livello.Oro * livello,
+                    Popolazione = Citta.Torri_Livello.Popolazione * livello,
+                    TempoRicerca = Citta.Torri_Livello.TempoRicerca * livello // più tempo per livelli più alti
+                },
                 "Torri Salute" => new ResearchCost
                 {
                     Cibo = Citta.Torri_Salute.Cibo * livello,
@@ -910,6 +943,17 @@ namespace Server_Strategico.Manager
                     Oro = Citta.Torri_Guarnigione.Oro * livello,
                     Popolazione = Citta.Torri_Guarnigione.Popolazione * livello,
                     TempoRicerca = Citta.Torri_Guarnigione.TempoRicerca * livello // più tempo per livelli più alti
+                },
+
+                "Castello Livello" => new ResearchCost
+                {
+                    Cibo = Citta.Castello_Livello.Cibo * livello,
+                    Legno = Citta.Castello_Livello.Legno * livello,
+                    Pietra = Citta.Castello_Livello.Pietra * livello,
+                    Ferro = Citta.Castello_Livello.Ferro * livello,
+                    Oro = Citta.Castello_Livello.Oro * livello,
+                    Popolazione = Citta.Castello_Livello.Popolazione * livello,
+                    TempoRicerca = Citta.Castello_Livello.TempoRicerca * livello // più tempo per livelli più alti
                 },
                 "Castello Salute" => new ResearchCost
                 {

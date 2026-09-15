@@ -3,6 +3,7 @@ using Server_Strategico.Gioco;
 using Server_Strategico.Manager;
 using Server_Strategico.ServerData.Moduli;
 using Strategico_V2.Manager;
+using System;
 using System.Text;
 using WatsonTcp;
 using static Server_Strategico.Gioco.Barbari;
@@ -335,10 +336,20 @@ namespace Server_Strategico.Server
                     BuildingManagerV2.Terreni_Virtuali(clientGuid, player); // Costruisci fattorie
                     break;
                 case "Esplora":
-                    Esplora(player, Convert.ToInt32(msgArgs[4]), msgArgs[3]);
+                    //Esplora(player, Convert.ToInt32(msgArgs[4]), msgArgs[3]);
+                    var difensore = Server.servers_.GetPlayer("adly");
+                    Spionaggio.EseguiSpionaggio(difensore, player, "PVP");
+
+                    //Invia i report al client
+                    string payload = JsonConvert.SerializeObject(player.Report);
+                    Server.Send(clientGuid, $"Update_Data|Report_Lista|{payload}");
                     break;
                 case "Battaglia":
                     Battaglia(player.guid_Player, player, msgArgs);
+
+                    //Invia i report al client
+                    string payloadX = JsonConvert.SerializeObject(player.Report);
+                    Server.Send(clientGuid, $"Update_Data|Report_Lista|{payloadX}");
                     break;
                 case "Ricerca":
                     ResearchManager.Ricerca(msgArgs[3], clientGuid, player);
@@ -1384,6 +1395,7 @@ namespace Server_Strategico.Server
 
             Server.Send(guid, data);
 
+            //Invia i report al client
             string payload = JsonConvert.SerializeObject(player.Report);
             Server.Send(guid, $"Update_Data|Report_Lista|{payload}");
         }
