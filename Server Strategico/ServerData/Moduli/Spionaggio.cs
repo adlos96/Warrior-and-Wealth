@@ -7,6 +7,7 @@ namespace Server_Strategico.ServerData.Moduli
 {
     internal class Spionaggio
     {
+        static float valForza = 45f;
         public async static void Spionaggioo(Giocatori.Player difensore, Giocatori.Player attaccante)
         {
             var report = new Battaglia.Report();
@@ -114,7 +115,7 @@ namespace Server_Strategico.ServerData.Moduli
         public static int CalcolaPrecisioneSpionaggio(int forza)
         {
             if (forza <= 0) return 0;
-            return Math.Min((int)(forza * 45f), 1000);
+            return Math.Min((int)(forza * valForza), 1000);
         }
 
         /// <summary>
