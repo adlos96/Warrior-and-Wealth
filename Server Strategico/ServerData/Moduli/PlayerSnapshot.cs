@@ -366,6 +366,13 @@ namespace Server_Strategico.ServerData.Moduli
             _currentState["Salute_CancelloMax"] = player.Salute_CancelloMax.ToString();
             _currentState["Difesa_Cancello"] = player.Difesa_Cancello.ToString();
             _currentState["Difesa_CancelloMax"] = player.Difesa_CancelloMax.ToString();
+            // 15/09/2026, su richiesta dell'utente: il client Web vuole distinguere
+            // "danneggiata" da "in riparazione" (pallino della mappa Città che
+            // lampeggia di colore diverso) — Riparazioni[] esisteva già lato server
+            // (Set_Riparazioni/Server.Ripara) ma non veniva mai esposto al client.
+            // Indici 0/1 = Cancello Salute/Difesa (vedi Server.cs, il loop Ripara()).
+            _currentState["Riparazione_Cancello_Salute"] = player.Riparazioni[0].ToString();
+            _currentState["Riparazione_Cancello_Difesa"] = player.Riparazioni[1].ToString();
             _currentState["Guarnigione_Cancello"] = player.Guarnigione_Cancello.ToString();
             _currentState["Guarnigione_CancelloMax"] = player.Guarnigione_CancelloMax.ToString();
             for (int i = 0; i < 5; i++)
@@ -380,6 +387,9 @@ namespace Server_Strategico.ServerData.Moduli
             _currentState["Salute_MuraMax"] = player.Salute_MuraMax.ToString();
             _currentState["Difesa_Mura"] = player.Difesa_Mura.ToString();
             _currentState["Difesa_MuraMax"] = player.Difesa_MuraMax.ToString();
+            // Indici 2/3 = Mura Salute/Difesa (vedi commento su Riparazione_Cancello_*).
+            _currentState["Riparazione_Mura_Salute"] = player.Riparazioni[2].ToString();
+            _currentState["Riparazione_Mura_Difesa"] = player.Riparazioni[3].ToString();
             _currentState["Guarnigione_Mura"] = player.Guarnigione_Mura.ToString();
             _currentState["Guarnigione_MuraMax"] = player.Guarnigione_MuraMax.ToString();
             for (int i = 0; i < 5; i++)
@@ -394,6 +404,9 @@ namespace Server_Strategico.ServerData.Moduli
             _currentState["Salute_TorriMax"] = player.Salute_TorriMax.ToString();
             _currentState["Difesa_Torri"] = player.Difesa_Torri.ToString();
             _currentState["Difesa_TorriMax"] = player.Difesa_TorriMax.ToString();
+            // Indici 4/5 = Torri Salute/Difesa (vedi commento su Riparazione_Cancello_*).
+            _currentState["Riparazione_Torri_Salute"] = player.Riparazioni[4].ToString();
+            _currentState["Riparazione_Torri_Difesa"] = player.Riparazioni[5].ToString();
             _currentState["Guarnigione_Torri"] = player.Guarnigione_Torri.ToString();
             _currentState["Guarnigione_TorriMax"] = player.Guarnigione_TorriMax.ToString();
             for (int i = 0; i < 5; i++)
@@ -408,6 +421,9 @@ namespace Server_Strategico.ServerData.Moduli
             _currentState["Salute_CastelloMax"] = player.Salute_CastelloMax.ToString();
             _currentState["Difesa_Castello"] = player.Difesa_Castello.ToString();
             _currentState["Difesa_CastelloMax"] = player.Difesa_CastelloMax.ToString();
+            // Indici 6/7 = Castello Salute/Difesa (vedi commento su Riparazione_Cancello_*).
+            _currentState["Riparazione_Castello_Salute"] = player.Riparazioni[6].ToString();
+            _currentState["Riparazione_Castello_Difesa"] = player.Riparazioni[7].ToString();
             _currentState["Guarnigione_Castello"] = player.Guarnigione_Castello.ToString();
             _currentState["Guarnigione_CastelloMax"] = player.Guarnigione_CastelloMax.ToString();
             for (int i = 0; i < 5; i++)
