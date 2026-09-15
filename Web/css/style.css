@@ -995,6 +995,12 @@ button{ font-family: inherit; cursor: pointer; }
 
 .pendenti-hint{ font-style: italic; }
 
+/* Avviso "truppe non disponibili" (15/09/2026, su richiesta dell'utente,
+   fix exploit spawn truppe — vedi inviaSpostamentoTruppe in 07-citta.js):
+   colore rosso per distinguerlo dal .pendenti-hint informativo, nascosto
+   di default e mostrato solo per qualche secondo. */
+.avviso-truppe{ color: #b3261e; font-weight: 600; font-style: normal; }
+
 /* Ingrandimento generale del resto della schermata Città (15/09/2026, su
    richiesta dell'utente, dopo lo stesso trattamento già fatto sulla mappa)
    — TRANNE il pulsante "Guarnigione" (.btn-toggle-guarnigione), escluso di

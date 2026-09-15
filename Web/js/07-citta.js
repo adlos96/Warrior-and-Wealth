@@ -149,6 +149,13 @@ window.WW = window.WW || {};
         <div class="tier-tabs">${tierBtns}</div>
         <ul class="unit-list unit-list--form">${unitRows}</ul>
         <p class="panel__hint pendenti-hint"></p>
+        <!-- 15/09/2026, su richiesta dell'utente: avviso quando il
+             giocatore prova a spostare più truppe di quelle disponibili
+             (bug segnalato: "spawnano delle truppe dal nulla"). Nascosto
+             di default, mostrato per qualche secondo da
+             mostraAvvisoTruppeInsufficienti() — vedi inviaSpostamentoTruppe
+             più sotto. -->
+        <p class="panel__hint avviso-truppe" hidden>Truppe non disponibili: la quantità è stata corretta.</p>
         <button type="button" class="btn btn--primary btn--block btn-conferma-sposta">Sposta</button>
       </div>
     </li>`;
@@ -355,11 +362,21 @@ window.WW = window.WW || {};
       if (btnQty) {
         const stepperEl = btnQty.closest("[data-unit-stepper]");
         const chiaveUnita = stepperEl.dataset.unitStepper;
+        const u = UNITA_CITTA.find((x) => x.chiave === chiaveUnita);
         const q = stato.quantita[stato.tier];
         // Shift/Ctrl+click = passo più grande (WW.qtyStepDelta, 00-core.js) —
         // richiesto dall'utente 13/09/2026, uguale per tutti gli stepper.
         const passo = WW.qtyStepDelta(e);
-        q[chiaveUnita] = Math.max(0, q[chiaveUnita] + (btnQty.classList.contains("qty-btn--plus") ? passo : -passo));
+        const nuovoValore = Math.max(0, q[chiaveUnita] + (btnQty.classList.contains("qty-btn--plus") ? passo : -passo));
+        // 15/09/2026, su richiesta dell'utente: non permettere di impostare
+        // con lo stepper più truppe di quelle realmente disponibili (nel
+        // villaggio o nella struttura, a seconda della direzione) — prima
+        // non c'era nessun limite, ed era possibile chiedere lo spostamento
+        // di truppe inesistenti ("spawnano dal nulla" lato server, ora
+        // corretto anche in SpostamentoTruppe). disponibiliCitta() gestisce
+        // già entrambe le direzioni e tutte le 6 strutture.
+        const disponibili = disponibiliCitta(u, s, stato.direzione, stato.tier);
+        q[chiaveUnita] = Math.min(nuovoValore, disponibili);
         stepperEl.querySelector(".qty-stepper__value").textContent = String(q[chiaveUnita]);
         aggiornaPendentiHint(s);
         return;
@@ -400,6 +417,18 @@ window.WW = window.WW || {};
     });
   }
 
+  // Mostra per qualche secondo l'avviso "truppe non disponibili" nella card
+  // indicata, poi lo nasconde da solo (15/09/2026, su richiesta dell'utente).
+  function mostraAvvisoTruppeInsufficienti(card) {
+    const avvisoEl = card && card.querySelector(".avviso-truppe");
+    if (!avvisoEl) return;
+    avvisoEl.hidden = false;
+    clearTimeout(avvisoEl._timeoutAvviso);
+    avvisoEl._timeoutAvviso = setTimeout(() => {
+      avvisoEl.hidden = true;
+    }, 4000);
+  }
+
   // Invia UN comando "SpostamentoTruppe" per ogni tier che ha almeno una
   // quantità diversa da zero (così più tier vengono spostati "in un colpo
   // solo" dal punto di vista dell'utente, anche se il protocollo accetta un
@@ -408,16 +437,38 @@ window.WW = window.WW || {};
     const from = stato.direzione === "in" ? "Esercito Villaggio" : s.chiave;
     const to = stato.direzione === "in" ? s.chiave : "Esercito Villaggio";
     let inviato = false;
+    let insufficiente = false;
     TIER_LABELS.forEach((_, i) => {
       const tier = i + 1;
       const q = stato.quantita[tier];
+      if (q.g + q.l + q.a + q.c === 0) return;
+      // 15/09/2026, su richiesta dell'utente ("avvisare lato client il
+      // giocatore in caso di mancanza di truppe, tale azione non è
+      // possibile"): ricontrolliamo qui le disponibilità reali invece di
+      // fidarci ciecamente delle quantità impostate con lo stepper. Lo
+      // stepper stesso ormai non permette più di superare il disponibile al
+      // momento del click, ma tra quel momento e la pressione di "Sposta"
+      // può passare del tempo (un tick del server, un'altra azione altrove)
+      // durante il quale le truppe disponibili possono diminuire — in quel
+      // caso correggiamo la quantità invece di inviare un valore non più
+      // valido, e avvisiamo il giocatore. Vale per entrambe le direzioni
+      // (Villaggio->struttura e viceversa) e per tutte e 6 le strutture,
+      // dato che disponibiliCitta() le gestisce già tutte.
+      UNITA_CITTA.forEach((u) => {
+        const disponibili = disponibiliCitta(u, s, stato.direzione, tier);
+        if (q[u.chiave] > disponibili) {
+          q[u.chiave] = disponibili;
+          insufficiente = true;
+        }
+      });
       if (q.g + q.l + q.a + q.c === 0) return;
       WW.NET.send("SpostamentoTruppe", WW.AUTH.accessToken, from, to, q.g, q.l, q.a, q.c, tier);
       inviato = true;
       stato.quantita[tier] = { g: 0, l: 0, a: 0, c: 0 };
     });
-    if (!inviato) return;
     const card = document.querySelector(`#city-list [data-struttura="${s.chiave}"]`);
+    if (insufficiente) mostraAvvisoTruppeInsufficienti(card);
+    if (!inviato) return;
     if (card) {
       aggiornaStepperVisibili(card, s, stato);
       card.querySelector(".form-guarnigione").hidden = true;
