@@ -848,6 +848,7 @@ namespace Server_Strategico.Server
                 if (Dati[4] == "Difesa" && player.Difesa_Castello < player.Difesa_CastelloMax) player.Riparazioni[7] = true;
             }
         }
+
         public static void SpostamentoTruppe(Guid guid, Player player, string[] dati)
         {
             string edificio_From = dati[3];
@@ -857,179 +858,69 @@ namespace Server_Strategico.Server
             int a = Convert.ToInt32(dati[7]);
             int c = Convert.ToInt32(dati[8]);
             int livello = Convert.ToInt32(dati[9]) - 1;
-            int cas_G_Max = 0, cas_L_Max = 0, cas_A_Max = 0, cas_C_Max = 0;
 
             if (g + l + a + c == 0) return;
+            if (livello < 0 || livello > 4) return; // tier fuori dai 5 validi (0-4): dato non attendibile, non si tocca nulla.
 
-            cas_G_Max = player.Caserma_Guerrieri * Edifici.CasermaGuerrieri.Limite;
-            cas_L_Max = player.Caserma_Lancieri * Edifici.CasermaLanceri.Limite;
-            cas_A_Max = player.Caserma_Arceri * Edifici.CasermaArceri.Limite;
-            cas_C_Max = player.Caserma_Catapulte * Edifici.CasermaCatapulte.Limite;
+            bool fromVillaggio = edificio_From == "Esercito Villaggio";
+            bool toVillaggio = edificio_To == "Esercito Villaggio";
+            if (fromVillaggio && toVillaggio) return; // il client non lo invia mai: nessuna struttura reale coinvolta.
 
-            if (edificio_From == "Esercito Villaggio") //Aggiunge o rimuove le unita dal giocatore.
-            {
-                if (player.Guerrieri[livello] >= g) player.Guerrieri[livello] -= g;
-                if (player.Lanceri[livello] >= l) player.Lanceri[livello] -= l;
-                if (player.Arceri[livello] >= a) player.Arceri[livello] -= a;
-                if (player.Catapulte[livello] >= c) player.Catapulte[livello] -= c;
-            }else
-            {
-                player.Guerrieri[livello] += g;
-                player.Lanceri[livello] += l;
-                player.Arceri[livello] += a;
-                player.Catapulte[livello] += c;
-            }
+            int[] srcG, srcL, srcA, srcC;
+            if (fromVillaggio) { srcG = player.Guerrieri; srcL = player.Lanceri; srcA = player.Arceri; srcC = player.Catapulte; }
+            else if (!TruppeStruttura(player, edificio_From, out srcG, out srcL, out srcA, out srcC, out _)) return; // nome struttura sconosciuto
 
-            //Aggiunge o rimuove le unità dalle strutture del giocatore
-            if (edificio_From == "Esercito Villaggio" && edificio_To == "Ingresso")
-            {
-                if (g + l + a + c > player.Guarnigione_IngressoMax)
-                {
-                    player.Guerrieri_Citta[livello] += g;
-                    player.Lanceri_Citta[livello] += l;
-                    player.Arceri_Citta[livello] += a;
-                    player.Catapulte_Citta[livello] += c;
-                    return;
-                }
+            int[] destG, destL, destA, destC;
+            int guarnigioneMax = 0;
+            if (toVillaggio) { destG = player.Guerrieri; destL = player.Lanceri; destA = player.Arceri; destC = player.Catapulte; }
+            else if (!TruppeStruttura(player, edificio_To, out destG, out destL, out destA, out destC, out guarnigioneMax)) return;
 
-                player.Guerrieri_Ingresso[livello] += g;
-                player.Lanceri_Ingresso[livello] += l;
-                player.Arceri_Ingresso[livello] += a;
-                player.Catapulte_Ingresso[livello] += c;
-                return;
-            }
-            if (edificio_From == "Ingresso" && edificio_To == "Esercito Villaggio")
-            {
-                if (player.Guerrieri_Ingresso[livello] >= g) player.Guerrieri_Ingresso[livello] -= g;
-                if (player.Lanceri_Ingresso[livello] >= l)   player.Lanceri_Ingresso[livello] -= l;
-                if (player.Arceri_Ingresso[livello] >= a)    player.Arceri_Ingresso[livello] -= a;
-                if (player.Catapulte_Ingresso[livello] >= c) player.Catapulte_Ingresso[livello] -= c;
-                return;
-            }
-            if (edificio_From == "Esercito Villaggio" && edificio_To == "Citta")
-            {
-                if (g + l + a + c > player.Guarnigione_IngressoMax) //Se maggiore annulla e ripristina le truppe spostate.
-                {
-                    player.Guerrieri_Citta[livello] += g;
-                    player.Lanceri_Citta[livello] += l;
-                    player.Arceri_Citta[livello] += a;
-                    player.Catapulte_Citta[livello] += c;
-                    return;
-                }
+            int mg = srcG[livello] >= g ? g : 0;
+            int ml = srcL[livello] >= l ? l : 0;
+            int ma = srcA[livello] >= a ? a : 0;
+            int mc = srcC[livello] >= c ? c : 0;
+            if (mg + ml + ma + mc == 0) return; // niente da spostare: la sorgente non ha nulla di richiesto
 
-                if (player.Guerrieri[livello] >= g) player.Guerrieri_Citta[livello] += g;
-                if (player.Lanceri[livello] >= l)   player.Lanceri_Citta[livello] += l;
-                if (player.Arceri[livello] >= a)    player.Arceri_Citta[livello] += a;
-                if (player.Catapulte[livello] >= c) player.Catapulte_Citta[livello] += c;
-                return;
-            }
-            if (edificio_From == "Citta" && edificio_To == "Esercito Villaggio")
-            {
-                if (player.Guerrieri_Citta[livello] >= g) player.Guerrieri_Citta[livello] -= g;
-                if (player.Lanceri_Citta[livello] >= l)   player.Lanceri_Citta[livello] -= l;
-                if (player.Arceri_Citta[livello] >= a)    player.Arceri_Citta[livello] -= a;
-                if (player.Catapulte_Citta[livello] >= c) player.Catapulte_Citta[livello] -= c;
-                return;
-            }
-            if (edificio_From == "Esercito Villaggio" && edificio_To == "Cancello")
-            {
-                if (g + l + a + c > player.Guarnigione_CancelloMax)
-                {
-                    player.Guerrieri_Citta[livello] += g;
-                    player.Lanceri_Citta[livello] += l;
-                    player.Arceri_Citta[livello] += a;
-                    player.Catapulte_Citta[livello] += c;
-                    return;
-                }
+            if (!toVillaggio && mg + ml + ma + mc > guarnigioneMax) return;
 
-                if (player.Guerrieri[livello] >= g) player.Guerrieri_Cancello[livello] += g;
-                if (player.Lanceri[livello] >= l)   player.Lanceri_Cancello[livello] += l;
-                if (player.Arceri[livello] >= a)    player.Arceri_Cancello[livello] += a;
-                if (player.Catapulte[livello] >= c) player.Catapulte_Cancello[livello] += c;
-                return;
-            }
-            if (edificio_From == "Cancello" && edificio_To == "Esercito Villaggio")
-            {
-                if (player.Guerrieri_Cancello[livello] >= g) player.Guerrieri_Cancello[livello] -= g;
-                if (player.Lanceri_Cancello[livello] >= l)   player.Lanceri_Cancello[livello] -= l;
-                if (player.Arceri_Cancello[livello] >= a)    player.Arceri_Cancello[livello] -= a;
-                if (player.Catapulte_Cancello[livello] >= c) player.Catapulte_Cancello[livello] -= c;
-                return;
-            }
-            if (edificio_From == "Esercito Villaggio" && edificio_To == "Mura")
-            {
-                if (g + l + a + c > player.Guarnigione_MuraMax)
-                {
-                    player.Guerrieri_Citta[livello] += g;
-                    player.Lanceri_Citta[livello] += l;
-                    player.Arceri_Citta[livello] += a;
-                    player.Catapulte_Citta[livello] += c;
-                    return;
-                }
+            srcG[livello] -= mg; destG[livello] += mg;
+            srcL[livello] -= ml; destL[livello] += ml;
+            srcA[livello] -= ma; destA[livello] += ma;
+            srcC[livello] -= mc; destC[livello] += mc;
+        }
 
-                if (player.Guerrieri[livello] >= g) player.Guerrieri_Mura[livello] += g;
-                if (player.Lanceri[livello] >= l)   player.Lanceri_Mura[livello] += l;
-                if (player.Arceri[livello] >= a)    player.Arceri_Mura[livello] += a;
-                if (player.Catapulte[livello] >= c) player.Catapulte_Mura[livello] += c;
-                return;
-            }
-            if (edificio_From == "Mura" && edificio_To == "Esercito Villaggio")
+        private static bool TruppeStruttura(Player player, string struttura, out int[] guerrieri, out int[] lanceri, out int[] arceri, out int[] catapulte, out int guarnigioneMax)
+        {
+            switch (struttura)
             {
-                if (player.Guerrieri_Mura[livello] >= g) player.Guerrieri_Mura[livello] -= g;
-                if (player.Lanceri_Mura[livello] >= l)   player.Lanceri_Mura[livello] -= l;
-                if (player.Arceri_Mura[livello] >= a)    player.Arceri_Mura[livello] -= a;
-                if (player.Catapulte_Mura[livello] >= c) player.Catapulte_Mura[livello] -= c;
-                return;
-            }
-            if (edificio_From == "Esercito Villaggio" &&  edificio_To == "Torri")
-            {
-                if (g + l + a + c > player.Guarnigione_TorriMax)
-                {
-                    player.Guerrieri_Citta[livello] += g;
-                    player.Lanceri_Citta[livello] += l;
-                    player.Arceri_Citta[livello] += a;
-                    player.Catapulte_Citta[livello] += c;
-                    return;
-                }
-
-                if (player.Guerrieri[livello] >= g) player.Guerrieri_Torri[livello] += g;
-                if (player.Lanceri[livello] >= l)   player.Lanceri_Torri[livello] += l;
-                if (player.Arceri[livello] >= a)    player.Arceri_Torri[livello] += a;
-                if (player.Catapulte[livello] >= c) player.Catapulte_Torri[livello] += c;
-                return;
-            }
-            if (edificio_From == "Torri" && edificio_To == "Esercito Villaggio")
-            {
-                if (player.Guerrieri_Torri[livello] >= g) player.Guerrieri_Torri[livello] -= g;
-                if (player.Lanceri_Torri[livello] >= l)   player.Lanceri_Torri[livello] -= l;
-                if (player.Arceri_Torri[livello] >= a)    player.Arceri_Torri[livello] -= a;
-                if (player.Catapulte_Torri[livello] >= c) player.Catapulte_Torri[livello] -= c;
-                return;
-            }
-            if (edificio_From == "Esercito Villaggio" &&  edificio_To == "Castello")
-            {
-                if (g + l + a + c > player.Guarnigione_CastelloMax)
-                {
-                    player.Guerrieri_Citta[livello] += g;
-                    player.Lanceri_Citta[livello] += l;
-                    player.Arceri_Citta[livello] += a;
-                    player.Catapulte_Citta[livello] += c;
-                    return;
-                }
-
-                if (player.Guerrieri[livello] >= g) player.Guerrieri_Castello[livello] += g;
-                if (player.Lanceri[livello] >= l)   player.Lanceri_Castello[livello] += l;
-                if (player.Arceri[livello] >= a)    player.Arceri_Castello[livello] += a;
-                if (player.Catapulte[livello] >= c) player.Catapulte_Castello[livello] += c;
-                return;
-            }
-            if (edificio_From == "Esercito Villaggio" &&  edificio_To == "Esercito Villaggio")
-            {
-                if (player.Guerrieri_Castello[livello] >= g) player.Guerrieri_Castello[livello] -= g;
-                if (player.Lanceri_Castello[livello] >= l)   player.Lanceri_Castello[livello] -= l;
-                if (player.Arceri_Castello[livello] >= a)    player.Arceri_Castello[livello] -= a;
-                if (player.Catapulte_Castello[livello] >= c) player.Catapulte_Castello[livello] -= c;
-                return;
+                case "Ingresso":
+                    guerrieri = player.Guerrieri_Ingresso; lanceri = player.Lanceri_Ingresso; arceri = player.Arceri_Ingresso; catapulte = player.Catapulte_Ingresso;
+                    guarnigioneMax = player.Guarnigione_IngressoMax;
+                    return true;
+                case "Cancello":
+                    guerrieri = player.Guerrieri_Cancello; lanceri = player.Lanceri_Cancello; arceri = player.Arceri_Cancello; catapulte = player.Catapulte_Cancello;
+                    guarnigioneMax = player.Guarnigione_CancelloMax;
+                    return true;
+                case "Mura":
+                    guerrieri = player.Guerrieri_Mura; lanceri = player.Lanceri_Mura; arceri = player.Arceri_Mura; catapulte = player.Catapulte_Mura;
+                    guarnigioneMax = player.Guarnigione_MuraMax;
+                    return true;
+                case "Torri":
+                    guerrieri = player.Guerrieri_Torri; lanceri = player.Lanceri_Torri; arceri = player.Arceri_Torri; catapulte = player.Catapulte_Torri;
+                    guarnigioneMax = player.Guarnigione_TorriMax;
+                    return true;
+                case "Castello":
+                    guerrieri = player.Guerrieri_Castello; lanceri = player.Lanceri_Castello; arceri = player.Arceri_Castello; catapulte = player.Catapulte_Castello;
+                    guarnigioneMax = player.Guarnigione_CastelloMax;
+                    return true;
+                case "Citta":
+                    guerrieri = player.Guerrieri_Citta; lanceri = player.Lanceri_Citta; arceri = player.Arceri_Citta; catapulte = player.Catapulte_Citta;
+                    guarnigioneMax = player.Guarnigione_CittaMax; // prima, per un bug copia-incolla, veniva sempre confrontata con Guarnigione_IngressoMax
+                    return true;
+                default:
+                    guerrieri = lanceri = arceri = catapulte = null;
+                    guarnigioneMax = 0;
+                    return false;
             }
         }
         public static void Scambia_Diamanti(Guid guid, Player player, string Quantità)
