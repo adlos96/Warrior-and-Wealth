@@ -10,11 +10,24 @@
 
    Configurazione dell'indirizzo: di default si connette allo
    stesso host da cui è servita la pagina (così funziona sia in
-   locale sia una volta pubblicato sul VPS), sulla porta indicata
-   qui sotto. Se il server gira altrove durante lo sviluppo, si
-   può forzare l'indirizzo con:
+   locale sia una volta pubblicato sul VPS). Due casi (15/09/2026,
+   su richiesta dell'utente: passaggio da WS/HTTP a WSS/HTTPS):
+   - pagina servita in HTTP (sviluppo locale, o VPS senza ancora un
+     dominio/certificato): si continua a parlare DIRETTAMENTE con
+     WebSocketGateway.cs sulla sua porta (WS_DEFAULT_PORT), come
+     prima — in locale non c'è nginx davanti;
+   - pagina servita in HTTPS (VPS con dominio+certificato, vedi
+     setup-web.sh): WebSocketGateway.cs su Linux NON sa fare TLS
+     (HttpListener managed, nessun supporto SSL), quindi si passa
+     dal proxy WebSocket già pronto in nginx sulla stessa porta 443
+     (location "/ws", vedi setup-web.sh) invece che dalla porta
+     8444 diretta. nginx fa da terminazione TLS e inoltra in locale
+     (127.0.0.1:8444) in WS in chiaro — nessuna modifica lato
+     server serve per questo, il proxy c'era già.
+   Se il server gira altrove durante lo sviluppo, si può comunque
+   forzare l'indirizzo con:
        localStorage.setItem('ww_ws_url', 'ws://IP:PORTA/')
-   dalla console del browser.
+   dalla console del browser (ha sempre la precedenza su entrambi i casi).
 
    Dipende da: WW.storage (00-core.js). Usa WW.t / WW.screenLogin /
    WW.loginStatus (02-auth.js) e WW.AUTH / WW.GAME solo dentro
@@ -34,11 +47,15 @@ window.WW = window.WW || {};
     const override = WW.storage.get("ww_ws_url");
     if (override) return override;
 
-    const proto = window.location.protocol === "https:" ? "wss:" : "ws:";
+    const isHttps = window.location.protocol === "https:";
     // Da file:// (mockup aperto direttamente) non c'è un host valido:
     // in quel caso si assume che il server giri in locale.
     const host = window.location.hostname || "localhost";
-    return `${proto}//${host}:${WS_DEFAULT_PORT}/`;
+    // HTTPS -> passa dal proxy WebSocket di nginx (path "/ws", porta 443
+    // implicita, stessa origine della pagina): la porta 8444 diretta non fa
+    // TLS su Linux (vedi commento in cima al file). HTTP -> parla ancora
+    // direttamente con WebSocketGateway.cs sulla sua porta, come prima.
+    return isHttps ? `wss://${host}/ws` : `ws://${host}:${WS_DEFAULT_PORT}/`;
   }
 
   const NET = {

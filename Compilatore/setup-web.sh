@@ -156,9 +156,12 @@ write_site_body() {
     gzip_types text/plain text/css application/javascript application/json image/svg+xml;
 
     # Gateway WebSocket del server di gioco, raggiungibile anche su /ws.
-    # La porta 8444 resta comunque aperta: il client attuale continua a
-    # funzionare senza modifiche. Quando il JavaScript passera' a /ws si
-    # potra' chiudere la 8444 dall'esterno con: ufw delete allow 8444/tcp
+    # 15/09/2026: il client web (01-net.js) ora passa da qui in automatico
+    # quando la pagina e' servita in HTTPS (WebSocketGateway.cs non sa fare
+    # TLS su Linux). La porta 8444 resta comunque aperta per compatibilita'
+    # con lo sviluppo locale (pagina in HTTP, senza nginx davanti): una
+    # volta verificato che WSS funziona in produzione, si puo' chiuderla
+    # dall'esterno con: ufw delete allow 8444/tcp
     location /ws {
         proxy_pass http://$WS_BACKEND/;
         proxy_http_version 1.1;
@@ -373,5 +376,10 @@ if [ "$HAS_CERT" -eq 1 ]; then
 else
     echo "[OK] Client web raggiungibile su http://<IP-DELLA-VPS>:$HTTP_PORT/"
 fi
-echo "     WebSocket: porta 8444 come prima (client invariato),"
-echo "     e da ora anche tramite nginx all'indirizzo /ws."
+if [ "$HAS_CERT" -eq 1 ]; then
+    echo "     WebSocket: il client passa ora da nginx (wss:// su /ws);"
+    echo "     la porta 8444 diretta resta aperta solo per compatibilita'"
+    echo "     con lo sviluppo locale (vedi commento in questo script)."
+else
+    echo "     WebSocket: porta 8444 diretta (nessun certificato ancora)."
+fi
