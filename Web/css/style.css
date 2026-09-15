@@ -622,6 +622,46 @@ button{ font-family: inherit; cursor: pointer; }
   border-radius: 6px;
 }
 
+/* Pulsante "Guarnigione" della card struttura (Città, 15/09/2026, su
+   richiesta dell'utente: "possiamo migliorare i bottoni Guarnigione?") —
+   prima era un .btn--ghost generico, indistinguibile da un bottone
+   qualunque e senza alcun indizio che aprisse/chiudesse un pannello. Ora è
+   un vero e proprio "cassetto": etichetta a sinistra, freccetta a destra
+   che si capovolge, e uno stato aperto ben distinto (sfondo pieno color
+   legno) invece che identico allo stato chiuso. */
+.btn-toggle-guarnigione{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: .15rem;
+  padding: .5rem .75rem;
+  background: rgba(255,253,247,.55);
+  border: 1px solid var(--parchment-dark);
+  border-radius: 6px;
+  color: var(--wood-dark);
+  font-family: inherit;
+  font-weight: 700;
+  font-size: .85rem;
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease, color .15s ease;
+}
+.btn-toggle-guarnigione:hover{ background: rgba(255,253,247,.9); border-color: var(--wood); }
+.btn-toggle-guarnigione__chevron{
+  color: var(--ink-soft);
+  font-size: .8rem;
+  transition: transform .2s ease, color .15s ease;
+}
+.btn-toggle-guarnigione[aria-expanded="true"]{
+  background: var(--wood);
+  border-color: var(--wood);
+  color: #fff;
+}
+.btn-toggle-guarnigione[aria-expanded="true"] .btn-toggle-guarnigione__chevron{
+  transform: rotate(180deg);
+  color: #fff;
+}
+
 .mini-form__row{
   display: flex;
   align-items: center;
@@ -733,8 +773,8 @@ button{ font-family: inherit; cursor: pointer; }
   transform: translate(-50%, -50%);
   display: flex;
   align-items: center;
-  gap: 3px;
-  padding: 2px 6px 2px 2px;
+  gap: 4px;
+  padding: 3px 8px 3px 3px;
   background: rgba(30,22,12,.68);
   border: 1px solid rgba(255,253,247,.35);
   border-radius: 999px;
@@ -749,23 +789,51 @@ button{ font-family: inherit; cursor: pointer; }
    deve superare le strutture per arrivare al giocatore. */
 .city-map__strato{
   flex: none;
-  width: 14px;
-  height: 14px;
+  /* +50% circa (15/09/2026, su richiesta dell'utente) — da 14px/.55rem a
+     21px/.82rem. */
+  width: 21px;
+  height: 21px;
   border-radius: 50%;
   background: var(--gold);
   color: var(--ink);
   font-family: var(--font-title);
   font-weight: 700;
-  font-size: .55rem;
+  font-size: .82rem;
   line-height: 1;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+/* Il pallino lampeggia quando la struttura ha bisogno di attenzione
+   (15/09/2026, su richiesta dell'utente) — tre stati mutuamente esclusivi,
+   assegnati da aggiornaMarkerCitta() in js/07-citta.js con questa priorità:
+   "critica" (HP o DEF a 0) vince sempre anche se è già in riparazione,
+   perché resta comunque vulnerabile adesso; altrimenti "riparazione" se una
+   riparazione è già in corso (nessuna azione richiesta, solo da tenere
+   d'occhio); altrimenti "danneggiata" se sotto al massimo ma la riparazione
+   non è ancora partita. */
+.city-map__strato--danneggiata{ animation: strato-lampeggio-danneggiata 1.2s ease-in-out infinite; }
+@keyframes strato-lampeggio-danneggiata{
+  0%, 100%{ background: var(--gold); }
+  50%{ background: #ff9800; }
+}
+.city-map__strato--critica{ animation: strato-lampeggio-critica 1s ease-in-out infinite; }
+@keyframes strato-lampeggio-critica{
+  0%, 100%{ background: var(--gold); }
+  50%{ background: #d9463c; }
+}
+.city-map__strato--riparazione{ animation: strato-lampeggio-riparazione 1.4s ease-in-out infinite; }
+@keyframes strato-lampeggio-riparazione{
+  0%, 100%{ background: var(--gold); }
+  50%{ background: #3fa34d; }
+}
+
 .city-map__nome{
   font-family: var(--font-title);
-  font-size: clamp(.5rem, 1.8vw, .68rem);
+  /* +50% circa (15/09/2026, su richiesta dell'utente, insieme al pallino
+     qui sopra) — da clamp(.5rem, 1.8vw, .68rem) a clamp(.75rem, 2.7vw, 1rem). */
+  font-size: clamp(.75rem, 2.7vw, 1rem);
   letter-spacing: .02em;
 }
 
@@ -775,11 +843,18 @@ button{ font-family: inherit; cursor: pointer; }
 
 .city-list{ list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .8rem; }
 
+/* Più curata (15/09/2026, su richiesta dell'utente: "migliora anche le
+   singole schede delle strutture") — stessa famiglia "legno/pergamena a
+   rilievo" già usata per .shop-card/.gamepass-day invece del rettangolo
+   piatto di prima: sfondo leggermente sfumato, bordo un po' più marcato,
+   doppia ombra (esterna per il distacco dal fondo, interna chiara in alto
+   per dare volume). */
 .city-card{
-  background: rgba(255,253,247,.7);
-  border: 1px solid var(--parchment-dark);
-  border-radius: 8px;
-  padding: .7rem .8rem;
+  background: linear-gradient(165deg, rgba(255,253,247,.92), rgba(255,253,247,.68));
+  border: 2px solid var(--parchment-dark);
+  border-radius: 10px;
+  padding: .8rem .9rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.5);
 }
 
 .city-card__header{
@@ -787,13 +862,27 @@ button{ font-family: inherit; cursor: pointer; }
   align-items: center;
   justify-content: space-between;
   gap: .6rem;
-  margin-bottom: .5rem;
+  margin-bottom: .55rem;
   font-family: var(--font-title);
   color: var(--wood-dark);
   letter-spacing: .03em;
 }
 
-.city-card__header .row-item__value{ font-family: var(--font-body); letter-spacing: normal; }
+/* Guarnigione attuale/max: prima un testo semplice come un altro valore di
+   riga qualunque, ora un badge — coerente con .quest-marker__valore/
+   .gamepass-day__valore, stesso family-look "etichetta su sfondo scuro"
+   già usato per i valori in evidenza altrove nel client. */
+.city-card__guarnigione{
+  font-family: var(--font-body);
+  letter-spacing: normal;
+  font-size: .74rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--wood-dark);
+  padding: .2rem .55rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
 
 /* Stesso "strato" difensivo (1→6) mostrato accanto al nome, per chi guarda
    solo la lista senza usare la mappa. */
@@ -833,7 +922,7 @@ button{ font-family: inherit; cursor: pointer; }
   align-items: center;
   justify-content: center;
   height: 100%;
-  color: #fff;
+  color: #000; /* 15/09/2026, su richiesta dell'utente: testo nero, nessun'altra modifica */
   font-weight: 700;
   letter-spacing: .02em;
   text-shadow: 0 1px 2px rgba(0,0,0,.55);
@@ -842,9 +931,12 @@ button{ font-family: inherit; cursor: pointer; }
 /* Pulsante "Ripara" accanto a ciascuna barra HP/DEF (Città, 14/09/2026):
    replica il comportamento del client desktop (Citta_V2.cs), dove
    un'icona di riparazione compare accanto alla barra solo quando quella
-   statistica è sotto il massimo. Qui è un piccolo pulsante testuale invece
-   di un'icona (coerente con lo stile "ghost" già usato altrove), la barra
-   si allarga per riempire lo spazio rimanente. */
+   statistica è sotto il massimo. La barra si allarga per riempire lo
+   spazio rimanente. Estetica allineata al pulsante "Ripara Tutto" (15/09/2026,
+   su richiesta dell'utente, corretta due volte: prima un bordo dorato a
+   sinistra su sfondo chiaro — troppo diverso dal dorato pieno di "Ripara
+   Tutto", segnalato dall'utente — ora la STESSA identica sfumatura dorata
+   di .btn--gold, non solo un accenno di colore). */
 .stat-bar-row{
   display: flex;
   align-items: center;
@@ -854,16 +946,17 @@ button{ font-family: inherit; cursor: pointer; }
 .stat-bar-row{ margin-bottom: .35rem; }
 .btn-ripara{
   flex: 0 0 auto;
-  border: 1px solid var(--parchment-dark);
-  background: #fffdf7;
-  color: var(--ink-soft);
+  border: none;
+  background: linear-gradient(var(--gold-bright), var(--gold));
+  color: var(--ink);
   border-radius: 6px;
-  padding: .15rem .5rem;
+  padding: .2rem .6rem;
   font-size: .68rem;
   font-weight: 700;
   cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0,0,0,.2);
 }
-.btn-ripara:hover{ background: var(--parchment-dark); color: var(--ink); }
+.btn-ripara:hover{ filter: brightness(1.05); }
 
 /* "Ripara Tutto" (Città): un avviso compatto invece di un bottone a piena
    larghezza — bordo dorato a sinistra come un cartello "attenzione", icona

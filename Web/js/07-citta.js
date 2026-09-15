@@ -92,6 +92,11 @@ window.WW = window.WW || {};
   // client desktop — nessuna anteprima costi, il client originale non la
   // mostrava.
   function templateCittaCard(s) {
+    // Stesso bordo dorato a sinistra/sfondo del banner "Ripara Tutto"
+    // (15/09/2026, su richiesta dell'utente: "riproporre l'estetica del
+    // pulsante Ripara Tutto anche per i singoli bottoni Ripara" — poi
+    // corretto: solo lo stile del bottone, senza l'icona a chiave inglese,
+    // tolta su richiesta) — vedi .btn-ripara in style.css.
     const barre = s.salute
       ? `
       <div class="stat-bar-row">
@@ -122,10 +127,20 @@ window.WW = window.WW || {};
     <li class="city-card" data-struttura="${s.chiave}">
       <div class="city-card__header">
         <strong>${s.nome} <span class="city-card__strato" title="Strato difensivo ${s.strato} di 6">[${s.strato}]</span></strong>
-        <span class="row-item__value" data-campo="guarnigione">…</span>
+        <span class="city-card__guarnigione" data-campo="guarnigione">…</span>
       </div>
       ${barre}
-      <button type="button" class="btn btn--ghost btn--block btn-toggle-guarnigione">Guarnigione</button>
+      <!-- Ridisegnato il 15/09/2026, su richiesta dell'utente ("possiamo
+           migliorare i bottoni Guarnigione?"): prima era un .btn--ghost
+           generico, uguale a un bottone qualunque e senza nessun indizio
+           che aprisse/chiudesse qualcosa. Ora ha un layout dedicato
+           (etichetta a sinistra, freccetta a destra che si capovolge) e
+           uno stato "aperto" ben distinto (sfondo pieno) — vedi
+           collegaEventiCitta() più sotto per l'aria-expanded. -->
+      <button type="button" class="btn-toggle-guarnigione" aria-expanded="false">
+        <span>Guarnigione</span>
+        <span class="btn-toggle-guarnigione__chevron" aria-hidden="true">▾</span>
+      </button>
       <div class="mini-form form-guarnigione" hidden>
         <div class="section-toggle section-toggle--inline direzione-toggle">
           <button type="button" class="section-toggle__btn is-active" data-direzione="in">Verso ${s.nome}</button>
@@ -180,6 +195,17 @@ window.WW = window.WW || {};
     });
   }
 
+  // Fa lampeggiare il "pallino" numerato del marker sulla mappa quando la
+  // struttura ha bisogno di attenzione (15/09/2026, su richiesta
+  // dell'utente) — chiamata da aggiornaCittaCard() ad ogni tick con lo
+  // stato calcolato lì ("critica"/"riparazione"/"danneggiata"/null).
+  const STATI_MARKER = ["danneggiata", "critica", "riparazione"];
+  function aggiornaMarkerCitta(s, stato) {
+    const pallino = document.querySelector(`#city-map-markers [data-struttura="${s.chiave}"] .city-map__strato`);
+    if (!pallino) return;
+    STATI_MARKER.forEach((nome) => pallino.classList.toggle(`city-map__strato--${nome}`, nome === stato));
+  }
+
   // Aggiorna i valori mostrati in una card: guarnigione, barre HP/DEF, e —
   // se il mini-form è aperto — gli stepper/disponibili del tier corrente.
   function aggiornaCittaCard(s) {
@@ -191,6 +217,16 @@ window.WW = window.WW || {};
     if (guarnEl) guarnEl.textContent = `Guarnigione: ${WW.fmtInt(WW.GAME.num(`Guarnigione_${s.chiave}`))}/${WW.fmtInt(WW.GAME.num(`Guarnigione_${s.chiave}Max`))}`;
 
     let daRiparare = 0;
+    // Stato del "pallino" numerato sulla mappa (15/09/2026, su richiesta
+    // dell'utente: farlo lampeggiare quando la struttura ha bisogno di
+    // attenzione) — tre stati possibili, in ordine di priorità: "critica"
+    // (HP o DEF arrivati a 0 — vince sempre, resta urgente anche se la
+    // riparazione è già partita), "riparazione" (danneggiata ma già in
+    // riparazione — nessuna azione richiesta, vedi Riparazione_X_Salute/
+    // Difesa in PlayerSnapshot.cs, prima non esposta al client), oppure
+    // "danneggiata" (sotto al massimo ma riparazione non ancora avviata).
+    // null = nessun problema, il pallino resta il solito colore fisso.
+    let statoMarker = null;
     if (s.salute) {
       const salute = WW.GAME.num(`Salute_${s.chiave}`);
       const saluteMax = WW.GAME.num(`Salute_${s.chiave}Max`);
@@ -200,6 +236,12 @@ window.WW = window.WW || {};
       const difesaDaRiparare = difesaMax > 0 && difesa < difesaMax;
       if (saluteDaRiparare) daRiparare++;
       if (difesaDaRiparare) daRiparare++;
+
+      const critica = (saluteMax > 0 && salute <= 0) || (difesaMax > 0 && difesa <= 0);
+      const riparando = WW.GAME.raw[`Riparazione_${s.chiave}_Salute`] === "True" || WW.GAME.raw[`Riparazione_${s.chiave}_Difesa`] === "True";
+      if (critica) statoMarker = "critica";
+      else if (riparando) statoMarker = "riparazione";
+      else if (saluteDaRiparare || difesaDaRiparare) statoMarker = "danneggiata";
 
       const barraHp = li.querySelector('[data-campo="salute"]');
       if (barraHp) {
@@ -216,6 +258,7 @@ window.WW = window.WW || {};
       const btnRiparaDifesa = li.querySelector('[data-ripara="Difesa"]');
       if (btnRiparaDifesa) btnRiparaDifesa.hidden = !difesaDaRiparare;
     }
+    aggiornaMarkerCitta(s, statoMarker);
 
     UNITA_CITTA.forEach((u) => {
       const el = li.querySelector(`[data-disponibili="${u.chiave}"]`);
@@ -278,9 +321,11 @@ window.WW = window.WW || {};
       const s = STRUTTURE_CITTA.find((x) => x.chiave === chiave);
       const stato = cittaStato[chiave];
 
-      if (e.target.closest(".btn-toggle-guarnigione")) {
+      const btnToggleGuarnigione = e.target.closest(".btn-toggle-guarnigione");
+      if (btnToggleGuarnigione) {
         const form = card.querySelector(".form-guarnigione");
         form.hidden = !form.hidden;
+        btnToggleGuarnigione.setAttribute("aria-expanded", String(!form.hidden));
         return;
       }
 
@@ -376,6 +421,8 @@ window.WW = window.WW || {};
     if (card) {
       aggiornaStepperVisibili(card, s, stato);
       card.querySelector(".form-guarnigione").hidden = true;
+      const btnToggle = card.querySelector(".btn-toggle-guarnigione");
+      if (btnToggle) btnToggle.setAttribute("aria-expanded", "false");
     }
     aggiornaCittaCard(s);
   }
