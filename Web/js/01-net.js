@@ -42,6 +42,7 @@ window.WW = window.WW || {};
   "use strict";
 
   const WS_DEFAULT_PORT = 8444;
+  const WS_SERVER_PORT = 8448;
 
   function resolveWsUrl() {
     const override = WW.storage.get("ww_ws_url");
@@ -55,7 +56,7 @@ window.WW = window.WW || {};
     // implicita, stessa origine della pagina): la porta 8444 diretta non fa
     // TLS su Linux (vedi commento in cima al file). HTTP -> parla ancora
     // direttamente con WebSocketGateway.cs sulla sua porta, come prima.
-    return isHttps ? `wss://${host}/ws` : `ws://${host}:${WS_DEFAULT_PORT}/`;
+    return isHttps ? `wss://${host}:${WS_SERVER_PORT}/ws` : `ws://${host}:${WS_DEFAULT_PORT}/`;
   }
 
   const NET = {
