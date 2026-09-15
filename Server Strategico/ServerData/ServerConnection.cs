@@ -376,6 +376,9 @@ namespace Server_Strategico.Server
                 case "Ripara Tutto":
                     Set_Riparazioni(player, msgArgs);
                     break;
+                case "Ripara Stop":
+                    Stop_Riparazione(player);
+                    break;
                 case "Tutorial Update":
                     TutorialUpdate(player, msgArgs);
                     break;
@@ -847,6 +850,16 @@ namespace Server_Strategico.Server
                 if (Dati[4] == "Salute" && player.Salute_Castello < player.Salute_CastelloMax) player.Riparazioni[6] = true;
                 if (Dati[4] == "Difesa" && player.Difesa_Castello < player.Difesa_CastelloMax) player.Riparazioni[7] = true;
             }
+        }
+        public static void Stop_Riparazione (Player player)
+        {
+            int i = 0;
+            foreach (var strutture in player.Riparazioni)
+            {
+                player.Riparazioni[i] = false;
+                i++;
+            }
+
         }
 
         public static void SpostamentoTruppe(Guid guid, Player player, string[] dati)
