@@ -436,6 +436,19 @@
             <button type="button" class="btn btn--gold btn--sm" id="btn-ripara-tutto">Ripara Tutto</button>
           </div>
 
+          <!-- "Ferma Riparazioni" (15/09/2026, su richiesta dell'utente,
+               nuovo comando server "Ripara Stop" -> Stop_Riparazione,
+               riporta le 8 variabili bool di Player.Riparazioni a false):
+               a differenza del banner sopra, non dipende dalla soglia delle
+               2 statistiche — compare ogni volta che almeno una struttura ha
+               una riparazione realmente avviata (Riparazione_X_Salute/Difesa
+               = true), anche se una sola. Nascosto di default: aggiornato ad
+               ogni tick da aggiornaBtnRiparaStop() in 07-citta.js. -->
+          <div class="ripara-stop-wrap" id="ripara-stop-wrap" hidden>
+            <p class="panel__hint">Riparazione in corso su una o più strutture.</p>
+            <button type="button" class="btn btn--verde btn--sm" id="btn-ripara-stop">Ferma tutte le riparazioni</button>
+          </div>
+
           <!-- Panoramica del villaggio: stessa immagine di sfondo e stesse
                posizioni (in percentuale) usate dal client desktop
                (GUI/Citta_V2.Designer.cs). Solo a colpo d'occhio — HP/DEF/

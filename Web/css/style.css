@@ -100,6 +100,13 @@ button{ font-family: inherit; cursor: pointer; }
 
 .btn--gold{ background: linear-gradient(var(--gold-bright), var(--gold)); color: var(--ink); }
 
+/* Stessa identica forma/sfumatura di .btn--gold (15/09/2026, su richiesta
+   dell'utente per "Ferma tutte le riparazioni": "riprendi lo stile del
+   pulsante Ripara Tutto, cambia solo il colore") ma in verde, per restare
+   coerente con l'accento verde già usato per lo stato "in riparazione"
+   (vedi .city-map__strato--riparazione). */
+.btn--verde{ background: linear-gradient(#5fc46e, #3fa34d); color: #fff; }
+
 .btn--ghost{ background: transparent; color: var(--wood-dark); border: 2px solid var(--wood); }
 
 /* La regola globale "img{display:block}" (sopra) serve per le immagini a
@@ -990,6 +997,30 @@ button{ font-family: inherit; cursor: pointer; }
   line-height: 1.3;
 }
 .ripara-tutto-banner .btn{ flex: 0 0 auto; }
+
+/* "Ferma tutte le riparazioni" (15/09/2026, su richiesta dell'utente): stesso
+   linguaggio visivo compatto di .ripara-tutto-banner ma con accento verde
+   (in linea con .city-map__strato--riparazione) invece che dorato, per non
+   confondersi col banner "danneggiate" qui sopra. */
+.ripara-stop-wrap{
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  background: var(--parchment-dark);
+  border-left: 4px solid #3fa34d;
+  border-radius: 8px;
+  padding: .55rem .7rem;
+  margin-bottom: .6rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,.15);
+}
+.ripara-stop-wrap .panel__hint{
+  flex: 1 1 auto;
+  margin: 0;
+  font-size: .82rem;
+  color: var(--ink-soft);
+  line-height: 1.3;
+}
+.ripara-stop-wrap .btn{ flex: 0 0 auto; }
 
 .direzione-toggle{ margin-top: .6rem; }
 

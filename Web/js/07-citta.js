@@ -288,6 +288,21 @@ window.WW = window.WW || {};
     if (testoEl) testoEl.textContent = `${totaleDaRiparare} strutture danneggiate`;
   }
 
+  // Mostra/nasconde "Ferma tutte le riparazioni" (15/09/2026, su richiesta
+  // dell'utente): a differenza di aggiornaBtnRiparaTutto, qui non conta le
+  // statistiche danneggiate ma controlla se una riparazione è REALMENTE in
+  // corso da qualche parte (i flag Riparazione_X_Salute/Difesa esposti da
+  // PlayerSnapshot.cs) — compare anche per una sola struttura in
+  // riparazione, non solo da 2 in su.
+  function aggiornaBtnRiparaStop() {
+    const wrap = document.getElementById("ripara-stop-wrap");
+    if (!wrap) return;
+    const inCorso = STRUTTURE_CITTA.some(
+      (s) => s.salute && (WW.GAME.raw[`Riparazione_${s.chiave}_Salute`] === "True" || WW.GAME.raw[`Riparazione_${s.chiave}_Difesa`] === "True")
+    );
+    wrap.hidden = !inCorso;
+  }
+
   // Riepilogo dei tier con quantità già impostate ma non ancora inviate,
   // per non perdersi cambiando tab (le quantità restano finché non si
   // preme "Sposta" o si cambia direzione).
@@ -312,9 +327,11 @@ window.WW = window.WW || {};
       ul.innerHTML = STRUTTURE_CITTA.map(templateCittaCard).join("");
       collegaEventiCitta(ul);
       collegaBtnRiparaTutto();
+      collegaBtnRiparaStop();
     }
     const totaleDaRiparare = STRUTTURE_CITTA.reduce((somma, s) => somma + aggiornaCittaCard(s), 0);
     aggiornaBtnRiparaTutto(totaleDaRiparare);
+    aggiornaBtnRiparaStop();
   }
 
   // Un solo listener delegato sull'intera lista invece di uno per
@@ -404,6 +421,19 @@ window.WW = window.WW || {};
     if (!btn) return;
     btn.addEventListener("click", () => {
       WW.NET.send("Ripara", WW.AUTH.accessToken, "Ripara Tutto");
+    });
+  }
+
+  // "Ferma tutte le riparazioni" (15/09/2026, su richiesta dell'utente):
+  // comando "Ripara Stop|token" -> case "Ripara Stop" in ServerConnection.cs
+  // -> Stop_Riparazione(player), che riporta le 8 variabili bool di
+  // Player.Riparazioni a false. Nessun altro parametro richiesto: ferma
+  // TUTTE le strutture in un colpo solo, non una alla volta.
+  function collegaBtnRiparaStop() {
+    const btn = document.getElementById("btn-ripara-stop");
+    if (!btn) return;
+    btn.addEventListener("click", () => {
+      WW.NET.send("Ripara Stop", WW.AUTH.accessToken);
     });
   }
 
