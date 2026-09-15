@@ -569,7 +569,7 @@ namespace Server_Strategico.Gioco
             if (vittoria)
             {
                 // Bilanciamento: stesso nerf /5 applicato al saccheggio PVP/PVE (confermato dall'utente).
-                int capacitaEffettiva = capacitaCaricoTotale / 5;
+                int capacitaEffettiva = capacitaCaricoTotale / 3;
                 espConquistaTotale = citta.Esperienza;
                 bottinoTotale = RaccoliRisorseEquamente(capacitaEffettiva, citta.Cibo, citta.Legno, citta.Pietra, citta.Ferro, citta.Oro, espConquistaTotale, citta.Diamanti_Blu, citta.Diamanti_Viola);
 

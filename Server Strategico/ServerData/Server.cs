@@ -2,6 +2,7 @@
 using Server_Strategico.Manager;
 using Server_Strategico.ServerData.Moduli;
 using Server_Strategico.ServerData.Moduli.Battaglie;
+using System.Data;
 using System.Diagnostics;
 using WatsonTcp;
 using static Server_Strategico.Gioco.Giocatori;
@@ -543,7 +544,7 @@ namespace Server_Strategico.Server
                             {
                                 player.SetupVillaggioGiocatore(player);
                                 player.BonusPacchetti();
-                                Ripara(player);
+                                //Ripara(player);
                                 CalcoloPotenza(player);
                                 Esperienza.LevelUp(player);
                                 _firstStart++;
@@ -830,11 +831,18 @@ namespace Server_Strategico.Server
             }
             public static void Ripara(Player player)
             {
+                int i = 0, salute = 0, difesa = 0;
+                foreach (var item in player.Riparazioni)
+                    if (item == true) i++;
+                
+                if (i == 0) return;
+                    
                 // Array di strutture da riparare
                 var strutture = new[]
                 {
                     new {
                         Index = 0,
+                        Nome = "Cancello",
                         SaluteAttuale = player.Salute_Cancello,
                         SaluteMax = player.Salute_CancelloMax,
                         Riparazione = Strutture.Riparazione.Cancello,
@@ -843,6 +851,7 @@ namespace Server_Strategico.Server
                     },
                     new {
                         Index = 1,
+                        Nome = "Cancello",
                         SaluteAttuale = player.Difesa_Cancello,
                         SaluteMax = player.Difesa_CancelloMax,
                         Riparazione = Strutture.Riparazione.Cancello,
@@ -851,6 +860,7 @@ namespace Server_Strategico.Server
                     },
                     new {
                         Index = 2,
+                        Nome = "Mura",
                         SaluteAttuale = player.Salute_Mura,
                         SaluteMax = player.Salute_MuraMax,
                         Riparazione = Strutture.Riparazione.Mura,
@@ -859,6 +869,7 @@ namespace Server_Strategico.Server
                     },
                     new {
                         Index = 3,
+                        Nome = "Mura",
                         SaluteAttuale = player.Difesa_Mura,
                         SaluteMax = player.Difesa_MuraMax,
                         Riparazione = Strutture.Riparazione.Mura,
@@ -867,6 +878,7 @@ namespace Server_Strategico.Server
                     },
                     new {
                         Index = 4,
+                        Nome = "Torri",
                         SaluteAttuale = player.Salute_Torri,
                         SaluteMax = player.Salute_TorriMax,
                         Riparazione = Strutture.Riparazione.Torri,
@@ -875,6 +887,7 @@ namespace Server_Strategico.Server
                     },
                     new {
                         Index = 5,
+                        Nome = "Torri",
                         SaluteAttuale = player.Difesa_Torri,
                         SaluteMax = player.Difesa_TorriMax,
                         Riparazione = Strutture.Riparazione.Torri,
@@ -883,6 +896,7 @@ namespace Server_Strategico.Server
                     },
                     new {
                         Index = 6,
+                        Nome = "Castello",
                         SaluteAttuale = player.Salute_Castello,
                         SaluteMax = player.Salute_CastelloMax,
                         Riparazione = Strutture.Riparazione.Castello,
@@ -891,6 +905,7 @@ namespace Server_Strategico.Server
                     },
                     new {
                         Index = 7,
+                        Nome = "Castello",
                         SaluteAttuale = player.Difesa_Castello,
                         SaluteMax = player.Difesa_CastelloMax,
                         Riparazione = Strutture.Riparazione.Castello,
@@ -901,9 +916,11 @@ namespace Server_Strategico.Server
 
                 foreach (var struttura in strutture)
                 {
-                    if (!player.Riparazioni[struttura.Index] || struttura.SaluteAttuale >= struttura.SaluteMax)
+                    if (player.Riparazioni[struttura.Index] == false) continue;
+                    if (struttura.SaluteAttuale >= struttura.SaluteMax)
                     {
                         player.Riparazioni[struttura.Index] = false;
+                        struttura.SetSalute(struttura.SaluteMax);
                         continue;
                     }
 
@@ -925,10 +942,19 @@ namespace Server_Strategico.Server
                         int incremento = struttura.Tipo == "Salute"
                             ? (int)(struttura.Riparazione.Salute * (1 + player.Bonus_Riparazione))
                             : (int)(struttura.Riparazione.Difesa * (1 + player.Bonus_Riparazione));
+                        if (struttura.Tipo == "Salute") salute++;
+                        else difesa++;
 
                         struttura.SetSalute(struttura.SaluteAttuale + incremento);
+                    } 
+                    else
+                    {
+                        player.Riparazioni[struttura.Index] = false;
+                        Console.WriteLine($"[Riparazioni] Giocatore: {player.Username}. Riparazione interrotta {struttura.Nome}");
                     }
                 }
+                if (salute + difesa == 0) Console.WriteLine($"[Riparazioni] Giocatore: {player.Username}. Risorse insufficienti");
+                else Console.WriteLine($"[Riparazioni] Giocatore: {player.Username} HP: +{salute} DEF +{difesa}");
             }
             public static void GuerrieriCitta(Player player)
             {

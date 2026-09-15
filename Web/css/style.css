@@ -995,6 +995,39 @@ button{ font-family: inherit; cursor: pointer; }
 
 .pendenti-hint{ font-style: italic; }
 
+/* Ingrandimento generale del resto della schermata Città (15/09/2026, su
+   richiesta dell'utente, dopo lo stesso trattamento già fatto sulla mappa)
+   — TRANNE il pulsante "Guarnigione" (.btn-toggle-guarnigione), escluso di
+   proposito ("quelli sono perfetti così"). Circa +20%, più contenuto del
+   +50% della mappa perché qui tocca il testo di lettura vera e propria
+   (nomi unità, valori) invece di un'etichetta minuscola su uno sfondo.
+   Tutto scoped con [data-tab-panel="citta"] invece di toccare le classi
+   condivise (.row-item, .qty-btn, .tier-btn, .section-toggle--inline,
+   .pendenti-hint...) usate anche da Ricerca/Scambio/Shop/Esercito, così
+   quelle altre schermate restano identiche a prima. */
+[data-tab-panel="citta"] .city-card{ padding: .95rem 1.05rem; }
+[data-tab-panel="citta"] .city-card__header{ font-size: 1.15rem; }
+[data-tab-panel="citta"] .city-card__guarnigione{ font-size: .88rem; padding: .24rem .66rem; }
+[data-tab-panel="citta"] .stat-bar{ height: 22px; font-size: .82rem; }
+[data-tab-panel="citta"] .row-item{ font-size: 1.02rem; padding: .48rem .6rem; }
+[data-tab-panel="citta"] .row-item img{ width: 36px; height: 36px; }
+[data-tab-panel="citta"] .qty-btn{ width: 34px; height: 34px; font-size: 1.25rem; }
+[data-tab-panel="citta"] .tier-btn{ width: 36px; height: 36px; font-size: .95rem; }
+[data-tab-panel="citta"] .section-toggle--inline .section-toggle__btn{ font-size: .88rem; padding: .42rem .84rem; }
+[data-tab-panel="citta"] .pendenti-hint{ font-size: .98rem; }
+[data-tab-panel="citta"] .btn-conferma-sposta{ font-size: 1.05rem; padding: .7rem 1.1rem; }
+
+/* BUGFIX (15/09/2026, segnalato dall'utente: "i pulsanti + e - escono fuori
+   dalla schermata su tablet e telefono"): la riga icona+nome+disponibili+
+   stepper (.row-item--form, dentro al modulo "Guarnigione") non andava mai
+   a capo — con tutto ingrandito qui sopra, su schermi stretti la somma
+   delle larghezze supera quella del pannello e lo stepper +/− viene
+   spinto fuori dal bordo invece di restare visibile. flex-wrap fa sì che,
+   quando non c'è più posto sulla stessa riga, lo stepper scenda su una
+   riga propria (allineato a destra) invece di uscire dallo schermo. */
+[data-tab-panel="citta"] .row-item--form{ flex-wrap: wrap; row-gap: .3rem; }
+[data-tab-panel="citta"] .row-item--form .qty-stepper{ margin-left: auto; }
+
 /* ==========================================================
    Schermata Negozio: card a griglia per ogni acquisto (VIP,
    Costruttori, Reclutatori, Scudo della Pace, e i pacchetti a
