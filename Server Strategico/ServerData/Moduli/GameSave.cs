@@ -737,7 +737,7 @@ namespace Server_Strategico.ServerData.Moduli
                     if (File.Exists(fileName_Villaggio + "_Villaggi.json")) // Caricamento Villaggi Personali
                     {
                         var villaggiJson = File.ReadAllText(fileName_Villaggio + "_Villaggi.json");
-                        var savedVillaggi = JsonSerializer.Deserialize<List<VillaggioSaveData>>(villaggiJson);
+                        var savedVillaggi = JsonSerializer.Deserialize<List<VillaggioBarbaro>>(villaggiJson);
 
                         player.VillaggiPersonali = savedVillaggi
                          .Select(v => new VillaggioBarbaro
@@ -746,7 +746,8 @@ namespace Server_Strategico.ServerData.Moduli
                              Nome           = v.Nome,
                              Livello        = v.Livello,
                              Sconfitto      = v.Sconfitto,
-                             Esplorato      = v.Esplorato,
+                             Saccheggiato   = v.Saccheggiato,
+                             Contro_Spionaggio = v.Contro_Spionaggio,
                              Esperienza     = v.Esperienza,
                              Diamanti_Viola = v.Diamanti_Viola,
                              Diamanti_Blu   = v.Diamanti_Blu,
@@ -767,7 +768,7 @@ namespace Server_Strategico.ServerData.Moduli
                     if (File.Exists(fileName_Villaggio + "_Citta.json") && Saved == false) // Caricamento Città Globali
                     {
                         var cittaJson = File.ReadAllText(fileName_Villaggio + "_Citta.json");
-                        var savedCitta = JsonSerializer.Deserialize<List<VillaggioSaveData>>(cittaJson);
+                        var savedCitta = JsonSerializer.Deserialize<List<VillaggioBarbaro>>(cittaJson);
 
                         Gioco.Barbari.CittaGlobali = savedCitta
                         .Select(v => new CittaBarbara
@@ -989,35 +990,12 @@ namespace Server_Strategico.ServerData.Moduli
             public double RemainingSeconds { get; set; }
             public bool IsInProgress { get; set; }
 
-            // gestione pausa
-            public bool IsPaused { get; set; }
-            public double pausedRemainingSeconds { get; set; }
         }
         public class Building
         {
             public string Type { get; set; }
             public double TempoInSecondi { get; set; }
             public bool IsPaused { get; set; }
-        }
-        public class VillaggioSaveData
-        {
-            public int Id { get; set; }
-            public string Nome { get; set; }
-            public int Livello { get; set; }
-            public bool Sconfitto { get; set; }
-            public bool Esplorato { get; set; }
-            public int Esperienza { get; set; }
-            public int Diamanti_Viola { get; set; }
-            public int Diamanti_Blu { get; set; }
-            public int Cibo { get; set; }
-            public int Legno { get; set; }
-            public int Pietra { get; set; }
-            public int Ferro { get; set; }
-            public int Oro { get; set; }
-            public int Guerrieri { get; set; }
-            public int Lancieri { get; set; }
-            public int Arcieri { get; set; }
-            public int Catapulte { get; set; }
         }
         private class ServerSaveData
         {
@@ -1068,9 +1046,6 @@ namespace Server_Strategico.ServerData.Moduli
 
             public List<SavedTask> CurrentResearchTasks { get; set; } = new();
             public List<SavedTask> QueuedResearchTasks { get; set; } = new();
-
-            public List<VillaggioSaveData> VillaggiPersonali { get; set; } = new();
-            public List<VillaggioSaveData> CittaGlobali { get; set; } = new();
 
             public int[] Completions { get; set; } = new int[QuestManager.QuestDatabase.Quests.Count]; // Indica quante volte ogni quest è stata completata
             public int[] CurrentProgress { get; set; } = new int[QuestManager.QuestDatabase.Quests.Count]; // Puoi anche tenere traccia di progressi parziali
