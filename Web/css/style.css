@@ -98,6 +98,13 @@ button{ font-family: inherit; cursor: pointer; }
 .btn--primary{ background: var(--wood); color: #fff; }
 .btn--primary:hover{ background: var(--wood-dark); }
 
+/* 16/09/2026, su richiesta dell'utente: "Attacca" (Barbari) ora si disabilita quando
+   non ci sono truppe selezionate (vedi js/14-battaglia.js, aggiornaPendentiHint) —
+   nessuno stile ":disabled" generico esisteva ancora per .btn, stesso trattamento
+   (opacità ridotta, niente hover, cursore "non permesso") già usato per .research-btn. */
+.btn:disabled{ opacity: .5; cursor: not-allowed; }
+.btn--primary:disabled:hover{ background: var(--wood); }
+
 .btn--gold{ background: linear-gradient(var(--gold-bright), var(--gold)); color: var(--ink); }
 
 /* Stessa identica forma/sfumatura di .btn--gold (15/09/2026, su richiesta
@@ -392,6 +399,40 @@ button{ font-family: inherit; cursor: pointer; }
 .main-grid [data-panel="cronologia"]{ grid-column: 2 / span 2; grid-row: 2; }
 
 .panel--log{ min-height: 220px; }
+
+/* 16/09/2026, su richiesta dell'utente: barra sopra il log con il pulsante
+   per svuotare la cronologia (vedi .btn-elimina-tondo più sotto in questo
+   file) — semplice riga a destra, stesso pattern usato per allineare la
+   "×" nelle righe di referto. */
+.log-box__toolbar{ display: flex; justify-content: flex-end; margin-bottom: .3rem; }
+
+/* 16/09/2026, su richiesta dell'utente: barra "‹ Indietro"/"Avanti ›" condivisa
+   da Cronologia (#log-box-pager) e lista Report (#report-list-pager), entrambe
+   limitate a 10 elementi per pagina — vedi js/04-game-main.js e
+   js/14-battaglia.js. Stile "ghost" coerente col resto dei pulsanti secondari
+   del gioco (.btn--ghost), ma più compatto per stare in una singola riga con
+   l'indicatore di pagina al centro. */
+.list-pager{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+  margin-top: .5rem;
+}
+.list-pager__btn{
+  flex: none;
+  background: transparent;
+  color: var(--wood-dark);
+  border: 2px solid var(--wood);
+  border-radius: 6px;
+  padding: .35rem .7rem;
+  font-weight: 600;
+  font-size: .8rem;
+  cursor: pointer;
+}
+.list-pager__btn:hover:not(:disabled){ background: var(--wood); color: #fff; }
+.list-pager__btn:disabled{ opacity: .4; cursor: default; }
+.list-pager__info{ font-size: .8rem; color: var(--ink-soft); text-align: center; }
 
 /* Barra laterale di scorrimento per la Cronologia (14/09/2026, su richiesta
    dell'utente: "vorrei che ci fosse una barra laterale per scorrere tutti i
@@ -2085,6 +2126,44 @@ button{ font-family: inherit; cursor: pointer; }
 .report-row__esito{ flex: none; font-weight: 700; font-size: .82rem; }
 .report-row__esito--vittoria{ color: #2f7d3a; }
 .report-row__esito--sconfitta{ color: var(--error, #b23a3a); }
+/* 16/09/2026: pulsante tondo "elimina/svuota" condiviso — stessa forma di
+   .modal-close-btn (coerenza visiva con la "✕" di chiusura del modale, stesso
+   glyph), ma discreto di default (opacità ridotta) e che si accende solo al
+   passaggio del mouse sulla riga/pannello o sul pulsante stesso, per non
+   distrarre dalla lettura del contenuto. Usato sia dal pulsante elimina
+   referto (.report-row) sia dal pulsante svuota cronologia (panel--log).
+   Bordo e colore più scuri (var(--wood-dark), come .modal-close-btn) su
+   richiesta dell'utente del 16/09/2026: prima usava var(--wood)/var(--ink-soft),
+   troppo chiari rispetto alla "✕" di chiusura. */
+.btn-elimina-tondo{
+  flex: none;
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  border: 1px solid var(--wood-dark);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--wood-dark);
+  font-size: .85rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  opacity: .55;
+  transition: opacity .15s ease, background-color .15s ease, border-color .15s ease, color .15s ease, transform .15s ease;
+}
+.report-row:hover .btn-elimina-tondo,
+.panel--log:hover .btn-elimina-tondo{ opacity: .9; }
+.btn-elimina-tondo:hover{
+  opacity: 1;
+  background: var(--error, #b23a3a);
+  border-color: var(--error, #b23a3a);
+  color: #fff;
+  transform: scale(1.08);
+}
+.btn-elimina-tondo:focus-visible{ opacity: 1; outline: 2px solid var(--error, #b23a3a); outline-offset: 1px; }
 .report-row__data{ flex: 0 0 100%; text-align: right; font-size: .72rem; color: var(--ink-soft); }
 
 .modal-box--report{ max-width: 640px; }

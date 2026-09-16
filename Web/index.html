@@ -345,8 +345,24 @@
             </div>
 
             <div data-cronologia-messaggi-view="cronologia">
+              <!-- 16/09/2026, su richiesta dell'utente: la Cronologia ora è salvata anche
+                   lato server (player.Cronologia, ultimi 200 — vedi Server.cs/GameSave.cs),
+                   quindi serve un modo per svuotarla. Stesso stile tondo/scuro del pulsante
+                   elimina referto (.btn-elimina-tondo, style.css), azione totale (non riga
+                   per riga come i referti) confermata dal server via "Elimina_Cronologia". -->
+              <div class="log-box__toolbar">
+                <button type="button" class="btn-elimina-tondo" id="btn-elimina-cronologia" title="Svuota cronologia" aria-label="Svuota cronologia">✕</button>
+              </div>
               <div class="log-box" id="log-box">
                 <p class="log-empty">Nessun evento recente.</p>
+              </div>
+              <!-- 16/09/2026, su richiesta dell'utente: paginazione a 10 elementi per
+                   volta (vedi js/04-game-main.js, renderCronologiaPage) invece di una
+                   lista che cresce senza limiti — visibile solo con più di 10 voci. -->
+              <div class="list-pager" id="log-box-pager" hidden>
+                <button type="button" class="list-pager__btn" id="log-box-prev" aria-label="Pagina precedente">‹ Indietro</button>
+                <span class="list-pager__info" id="log-box-page-info"></span>
+                <button type="button" class="list-pager__btn" id="log-box-next" aria-label="Pagina successiva">Avanti ›</button>
               </div>
             </div>
             <div data-cronologia-messaggi-view="messaggi" hidden>
@@ -649,13 +665,24 @@
           <div class="panel wood-panel" data-panel="pvp-barbari">
             <div class="panel__header">
               <h2 class="panel__title">Barbari</h2>
+              <!-- 16/09/2026, su richiesta dell'utente: ordine invertito (Villaggio prima
+                   di Città) — resta "Città" il tipo attivo di default (is-active/
+                   stato.tipoBarbaro in js/14-battaglia.js invariati, solo l'ordine dei
+                   due pulsanti in questa barra è cambiato). -->
               <div class="section-toggle section-toggle--inline" id="barbari-tipo-toggle">
-                <button type="button" class="section-toggle__btn is-active" data-tipo="Città Barbaro">Città</button>
                 <button type="button" class="section-toggle__btn" data-tipo="Villaggio Barbaro">Villaggio</button>
+                <button type="button" class="section-toggle__btn is-active" data-tipo="Città Barbaro">Città</button>
               </div>
             </div>
             <select id="barbari-target-select" class="pvp-select" disabled><option value="">Nessun bersaglio</option></select>
-            <div class="target-info" id="barbari-target-info">Esplora il barbaro per avere una stima delle sue truppe.</div>
+            <!-- 16/09/2026, su richiesta dell'utente: rimossa la casella "Bottino stimato"
+                 (era puramente lato client, vedi js/14-battaglia.js) — il resoconto
+                 completo arriva comunque nei Report dopo "Esplora". Città e Villaggi
+                 Barbari restano invariati (select, Esplora, Attacca). Il piccolo div
+                 sotto NON è quella casella: serve solo a mostrare l'avviso "seleziona
+                 almeno una truppa" quando si preme Attacca senza truppe selezionate
+                 (stessa validazione già presente per il PVP, #pvp-target-info). -->
+            <div class="target-info" id="barbari-attacco-errore" hidden></div>
             <div class="pvp-actions">
               <label class="pvp-livello-label">Livello <input type="number" id="barbari-livello-input" min="1" max="20" value="1"></label>
               <button type="button" class="btn btn--ghost" id="btn-esplora-barbari">Esplora</button>
@@ -685,6 +712,14 @@
             <h2 class="panel__title">Report</h2>
             <p class="panel__hint">Report di battaglia e di spionaggio. Tocca una riga per il dettaglio.</p>
             <ul class="research-list" id="battaglia-report-list"><!-- popolata da js --></ul>
+            <!-- 16/09/2026, su richiesta dell'utente: stessa paginazione a 10 elementi
+                 della Cronologia (vedi js/14-battaglia.js, renderReportLista) —
+                 visibile solo con più di 10 referti. -->
+            <div class="list-pager" id="report-list-pager" hidden>
+              <button type="button" class="list-pager__btn" id="report-list-prev" aria-label="Pagina precedente">‹ Indietro</button>
+              <span class="list-pager__info" id="report-list-page-info"></span>
+              <button type="button" class="list-pager__btn" id="report-list-next" aria-label="Pagina successiva">Avanti ›</button>
+            </div>
           </div>
         </div>
       </section>

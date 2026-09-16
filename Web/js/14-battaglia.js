@@ -77,9 +77,27 @@ window.WW = window.WW || {};
     targetPvp: "",
   };
 
-  let barbariLista = []; // ultima lista ricevuta da Esplora (CittaGlobali o VillaggiPersonali)
+  // 16/09/2026, su richiesta dell'utente: bug segnalato — passando da Villaggio a Città
+  // (o viceversa) la tendina mostrava sempre "Nessun bersaglio", anche se il server
+  // aveva già mandato entrambe le liste al login (vedi ServerConnection.
+  // AggiornaVillaggiClient, che manda SIA "VillaggiPersonali" SIA "CittaGlobali" ad
+  // ogni Login/AutoLogin). La causa: i due handler "onJson" più sotto scartavano il
+  // messaggio se non corrispondeva al tipo attivo IN QUEL MOMENTO, quindi una delle
+  // due liste veniva sempre persa. Ora si tengono entrambe sempre aggiornate in due
+  // variabili separate, e "barbariLista" (quella mostrata) è solo un riferimento a
+  // quella corrispondente al tipo attualmente selezionato.
+  let cittaGlobaliDati = []; // ultima lista "CittaGlobali" ricevuta dal server
+  let villaggiPersonaliDati = []; // ultima lista "VillaggiPersonali" ricevuta dal server
+  let barbariLista = []; // riferimento a cittaGlobaliDati o villaggiPersonaliDati, secondo stato.tipoBarbaro
   let pvpLista = []; // ultima lista di username da "Update_PVP_Player"
   let reports = []; // ultimo player.Report ricevuto da "Report_Lista"
+
+  // 16/09/2026, su richiesta dell'utente: lista Report paginata a 10 alla volta
+  // (ora senza alcun limite sul totale salvato — vedi GameSave.cs — la
+  // schermata continuerebbe altrimenti a crescere all'infinito). reportPage è
+  // 0-based, 0 = pagina più recente.
+  const REPORT_PAGE_SIZE = 10;
+  let reportPage = 0;
 
   function esploraTipo(tipoBattaglia) {
     return tipoBattaglia === "Città Barbaro" ? "Citta Barbaro" : "Villaggio Barbaro";
@@ -106,12 +124,21 @@ window.WW = window.WW || {};
 
   function aggiornaPendentiHint() {
     const el = document.getElementById("battaglia-pendenti-hint");
-    if (!el) return;
-    const tierConValori = TIER_LABELS.map((label, i) => {
-      const q = stato.quantita[i + 1];
-      return q.g + q.l + q.a + q.c > 0 ? label : null;
-    }).filter(Boolean);
-    el.textContent = tierConValori.length > 0 ? `Truppe pronte sui tier: ${tierConValori.join(", ")}.` : "Nessuna truppa selezionata.";
+    if (el) {
+      const tierConValori = TIER_LABELS.map((label, i) => {
+        const q = stato.quantita[i + 1];
+        return q.g + q.l + q.a + q.c > 0 ? label : null;
+      }).filter(Boolean);
+      el.textContent = tierConValori.length > 0 ? `Truppe pronte sui tier: ${tierConValori.join(", ")}.` : "Nessuna truppa selezionata.";
+    }
+
+    // 16/09/2026, su richiesta dell'utente: il pulsante Attacca (Barbari) deve essere
+    // attivo solo se è stata selezionata almeno 1 unità — prima si poteva premere
+    // sempre e l'errore compariva solo dopo il click. Richiamata da qui perché
+    // aggiornaPendentiHint gira già ad ogni cambio quantità (stepper) e dopo ogni
+    // invio truppe (azzeraTruppe più sotto).
+    const btnAttaccaBarbari = document.getElementById("btn-attacca-barbari");
+    if (btnAttaccaBarbari) btnAttaccaBarbari.disabled = truppeTotale() === 0;
   }
 
   function aggiornaEsercitoDisponibili() {
@@ -181,9 +208,18 @@ window.WW = window.WW || {};
      VILLAGGI BARBARI — toggle Città/Villaggio, Esplora, Attacca
      --------------------------------------------------------------- */
 
+  // Nasconde l'avviso "seleziona almeno una truppa" (vedi attaccaBarbaro più sotto):
+  // richiamata ogni volta che il bersaglio Barbari cambia, così un vecchio avviso non
+  // resta visibile dopo che il giocatore ha cambiato scelta.
+  function nascondiErroreBarbari() {
+    const info = document.getElementById("barbari-attacco-errore");
+    if (info) info.hidden = true;
+  }
+
   function renderBarbariSelect() {
     const select = document.getElementById("barbari-target-select");
     if (!select) return;
+    nascondiErroreBarbari();
     const valorePrecedente = select.value;
     if (barbariLista.length === 0) {
       // Testo accorciato (bug segnalato dall'utente il 14/09/2026): la colonna Villaggi
@@ -193,11 +229,10 @@ window.WW = window.WW || {};
       select.disabled = true;
       // Bug segnalato dall'utente il 14/09/2026: cambiando Città/Villaggio la lista viene
       // svuotata (sopra, dal chiamante) ma qui si usciva subito senza azzerare anche il
-      // target selezionato e il box descrizione — restava visibile la stima del tipo
-      // precedente finché non si ri-esplorava, come se il messaggio "esplora il barbaro"
-      // arrivasse in ritardo. Ora si azzerano subito insieme alla select.
+      // target selezionato — restava impostato sul valore del tipo precedente finché non
+      // si ri-esplorava, come se il messaggio "esplora il barbaro" arrivasse in ritardo.
+      // Ora si azzera subito insieme alla select.
       stato.targetBarbaro = "";
-      aggiornaBarbariInfo();
       return;
     }
     select.disabled = false;
@@ -215,20 +250,15 @@ window.WW = window.WW || {};
       select.value = String(primoDisponibile.Livello);
     }
     stato.targetBarbaro = select.value;
-    aggiornaBarbariInfo();
   }
 
-  function aggiornaBarbariInfo() {
-    const info = document.getElementById("barbari-target-info");
-    if (!info) return;
-    const v = barbariLista.find((x) => String(x.Livello) === stato.targetBarbaro);
-    if (!v) { info.textContent = "Seleziona un bersaglio e premi Esplora: il resoconto comparirà tra i tuoi Report."; return; }
-    info.innerHTML = `
-      <strong>${v.Nome}</strong> ${v.Sconfitto ? "(già sconfitto)" : ""}<br>
-      Bottino stimato: ${WW.fmtInt(v.Cibo)} cibo, ${WW.fmtInt(v.Legno)} legno, ${WW.fmtInt(v.Pietra)} pietra, ${WW.fmtInt(v.Ferro)} ferro, ${WW.fmtInt(v.Oro)} oro
-      ${v.Diamanti_Viola > 0 ? `, ${WW.fmtInt(v.Diamanti_Viola)} diamanti viola` : ""}${v.Diamanti_Blu > 0 ? `, ${WW.fmtInt(v.Diamanti_Blu)} diamanti blu` : ""}<br>
-      Premi Esplora per un resoconto dettagliato (truppe comprese) nei tuoi Report.`;
-  }
+  // 16/09/2026, su richiesta dell'utente: rimossa la casella "Bottino stimato" sotto
+  // la select Città/Villaggi Barbari — era puramente lato client (i valori venivano
+  // letti da v.Cibo/v.Legno/... già presenti nell'oggetto ricevuto con la lista
+  // Esplora, non da un comando server dedicato/deprecato), ma ridondante ora che il
+  // resoconto completo (truppe comprese) arriva comunque nei Report dopo "Esplora".
+  // Città e Villaggi Barbari restano invariati: select, "già sconfitto" ed Esplora/
+  // Attacca continuano a funzionare come prima.
 
   function esploraBarbaro() {
     const livelloInput = document.getElementById("barbari-livello-input");
@@ -240,8 +270,14 @@ window.WW = window.WW || {};
   function attaccaBarbaro() {
     if (!stato.targetBarbaro) return;
     if (truppeTotale() === 0) {
-      const info = document.getElementById("barbari-target-info");
-      if (info) info.innerHTML += `<br><span class="testo-errore">Seleziona almeno una truppa da inviare (pannello Esercito).</span>`;
+      // 16/09/2026: la casella "Bottino stimato" non c'è più (vedi sopra), quindi questo
+      // avviso ora usa il suo piccolo div dedicato (#barbari-attacco-errore, nascosto di
+      // default e mostrato solo quando serve — non è la casella eliminata).
+      const info = document.getElementById("barbari-attacco-errore");
+      if (info) {
+        info.innerHTML = `<span class="testo-errore">Seleziona almeno una truppa da inviare (pannello Esercito).</span>`;
+        info.hidden = false;
+      }
       return;
     }
     WW.NET.send("Battaglia", WW.AUTH.accessToken, stato.tipoBarbaro, stato.targetBarbaro, ...truppeArgsPerAttacco());
@@ -308,6 +344,7 @@ window.WW = window.WW || {};
         <span class="report-row__tipo">Spionaggio</span>
         <span class="report-row__vs">vs ${(s.Giocatore && s.Giocatore.Nome) || "?"}</span>
         <span class="report-row__esito ${esitoClasse}">${esito}</span>
+        <button type="button" class="btn-elimina-tondo" data-elimina-index="${indice}" title="Elimina referto" aria-label="Elimina referto">✕</button>
         <span class="report-row__data">${formattaData(r.Data)}</span>
       </li>`;
     }
@@ -330,6 +367,7 @@ window.WW = window.WW || {};
       <span class="report-row__tipo">${b.Tipo_Battaglia}</span>
       <span class="report-row__vs">vs ${avversario}</span>
       <span class="report-row__esito ${esitoClasse}">${esito}</span>
+      <button type="button" class="btn-elimina-tondo" data-elimina-index="${indice}" title="Elimina referto" aria-label="Elimina referto">✕</button>
       <span class="report-row__data">${formattaData(r.Data)}</span>
     </li>`;
   }
@@ -348,16 +386,43 @@ window.WW = window.WW || {};
     return `${d.toLocaleDateString()} ${d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
   }
 
+  // 16/09/2026, su richiesta dell'utente: mostra solo REPORT_PAGE_SIZE (10) referti
+  // alla volta, i più recenti prima, con "‹ Indietro"/"Avanti ›" per sfogliare gli
+  // altri (il numero di referti non ha più alcun limite lato salvataggio, quindi la
+  // lista può crescere molto). indiceOriginale è tenuto esplicito (invece di dedurlo
+  // dalla posizione, come faceva la versione precedente) per restare corretto anche
+  // se in futuro un referto non passasse il filtro sotto.
   function renderReportLista() {
     const ul = document.getElementById("battaglia-report-list");
     if (!ul) return;
     const utili = reports
-      .filter((r) => (r.Tipo === "Battaglia" && r.Battaglia) || (r.Tipo === "Spionaggio" && r.Spionaggio))
-      .slice()
-      .reverse();
-    ul.innerHTML = utili.length > 0
-      ? utili.map((r, i) => templateReportRow(r, reports.length - 1 - i)).join("")
+      .map((r, indiceOriginale) => ({ r, indiceOriginale }))
+      .filter(({ r }) => (r.Tipo === "Battaglia" && r.Battaglia) || (r.Tipo === "Spionaggio" && r.Spionaggio))
+      .reverse(); // più recenti prima
+
+    const totalPages = Math.max(1, Math.ceil(utili.length / REPORT_PAGE_SIZE));
+    if (reportPage >= totalPages) reportPage = totalPages - 1;
+    if (reportPage < 0) reportPage = 0;
+
+    const inizio = reportPage * REPORT_PAGE_SIZE;
+    const pagina = utili.slice(inizio, inizio + REPORT_PAGE_SIZE);
+    ul.innerHTML = pagina.length > 0
+      ? pagina.map(({ r, indiceOriginale }) => templateReportRow(r, indiceOriginale)).join("")
       : `<li class="panel__hint">Nessun report ancora.</li>`;
+
+    aggiornaPagerReport(utili.length, totalPages);
+  }
+
+  function aggiornaPagerReport(totale, totalPages) {
+    const pager = document.getElementById("report-list-pager");
+    if (!pager) return;
+    pager.hidden = totale <= REPORT_PAGE_SIZE;
+    const info = document.getElementById("report-list-page-info");
+    if (info) info.textContent = `Pagina ${reportPage + 1} di ${totalPages}`;
+    const btnPrev = document.getElementById("report-list-prev");
+    const btnNext = document.getElementById("report-list-next");
+    if (btnPrev) btnPrev.disabled = reportPage <= 0;
+    if (btnNext) btnNext.disabled = reportPage >= totalPages - 1;
   }
 
   function tabellaUnita(schierati, caduti, superstiti) {
@@ -779,6 +844,18 @@ window.WW = window.WW || {};
       </div>`;
   }
 
+  // 16/09/2026, su richiesta dell'utente: elimina un referto dalla propria lista.
+  // L'indice è quello dell'ultimo Report_Lista ricevuto (stesso usato per aprire il
+  // dettaglio, vedi data-report-index) — il server lo rivalida comunque per intero e
+  // range prima di rimuovere davvero (vedi ServerConnection.Elimina_Report). Non tocca
+  // l'array "reports" locale: aspetta che il server rimandi il Report_Lista aggiornato
+  // (WW.BATTLE.setReports sotto), stessa logica "server-autoritativo" già usata per il
+  // resto di questo pannello — nessuno stato ottimistico da tenere allineato.
+  function eliminaReport(indice) {
+    if (!confirm("Eliminare questo referto? L'operazione non è reversibile.")) return;
+    WW.NET.send("Elimina_Report", WW.AUTH.accessToken, indice);
+  }
+
   function apriReportDettaglio(indice) {
     const r = reports[indice];
     if (!r) return;
@@ -846,7 +923,11 @@ window.WW = window.WW || {};
         if (!btn || btn.dataset.tipo === stato.tipoBarbaro) return; // click sul tipo già attivo: nessun cambiamento
         stato.tipoBarbaro = btn.dataset.tipo;
         toggleTipo.querySelectorAll("[data-tipo]").forEach((b) => b.classList.toggle("is-active", b === btn));
-        barbariLista = [];
+        // 16/09/2026: non si azzera più a [] — si passa subito alla lista già ricevuta
+        // dal server per l'altro tipo (vedi nota su cittaGlobaliDati/villaggiPersonaliDati
+        // sopra), così la tendina mostra subito i bersagli disponibili invece di
+        // "Nessun bersaglio" finché non si preme di nuovo Esplora.
+        barbariLista = stato.tipoBarbaro === "Città Barbaro" ? cittaGlobaliDati : villaggiPersonaliDati;
         renderBarbariSelect();
         // NON auto-esplorare qui (tentativo fatto e tolto il 14/09/2026): Esplora resta
         // un'azione esplicita scelta dal giocatore, con "Esplora" da premere a mano —
@@ -859,7 +940,7 @@ window.WW = window.WW || {};
     }
 
     const selectBarbari = document.getElementById("barbari-target-select");
-    if (selectBarbari) selectBarbari.addEventListener("change", () => { stato.targetBarbaro = selectBarbari.value; aggiornaBarbariInfo(); });
+    if (selectBarbari) selectBarbari.addEventListener("change", () => { stato.targetBarbaro = selectBarbari.value; nascondiErroreBarbari(); });
 
     const selectPvp = document.getElementById("pvp-target-select");
     if (selectPvp) selectPvp.addEventListener("change", () => { stato.targetPvp = selectPvp.value; });
@@ -875,10 +956,22 @@ window.WW = window.WW || {};
 
     const listaReport = document.getElementById("battaglia-report-list");
     if (listaReport) listaReport.addEventListener("click", (e) => {
+      const btnElimina = e.target.closest("[data-elimina-index]");
+      if (btnElimina) {
+        eliminaReport(Number(btnElimina.dataset.eliminaIndex));
+        return; // non aprire anche il dettaglio del referto
+      }
       const riga = e.target.closest("[data-report-index]");
       if (!riga) return;
       apriReportDettaglio(Number(riga.dataset.reportIndex));
     });
+
+    // Pulsanti "‹ Indietro"/"Avanti ›" della lista Report (visibili solo con più
+    // di 10 referti — vedi aggiornaPagerReport).
+    const btnReportPrev = document.getElementById("report-list-prev");
+    if (btnReportPrev) btnReportPrev.addEventListener("click", () => { reportPage--; renderReportLista(); });
+    const btnReportNext = document.getElementById("report-list-next");
+    if (btnReportNext) btnReportNext.addEventListener("click", () => { reportPage++; renderReportLista(); });
 
     const btnChiudiReport = document.getElementById("btn-chiudi-report");
     if (btnChiudiReport) btnChiudiReport.addEventListener("click", () => { document.getElementById("report-overlay").hidden = true; });
@@ -935,8 +1028,17 @@ window.WW = window.WW || {};
     showBattagliaPanel("pvp-barbari");
   }
 
-  WW.NET.onJson("CittaGlobali", (obj) => { if (stato.tipoBarbaro === "Città Barbaro") { barbariLista = obj.Dati || []; renderBarbariSelect(); } });
-  WW.NET.onJson("VillaggiPersonali", (obj) => { if (stato.tipoBarbaro === "Villaggio Barbaro") { barbariLista = obj.Dati || []; renderBarbariSelect(); } });
+  // 16/09/2026: aggiorna SEMPRE la lista corrispondente (arrivano entrambe già al
+  // login, non solo dopo Esplora — vedi nota su cittaGlobaliDati sopra), e ridisegna
+  // la tendina solo se il tipo appena arrivato è quello attualmente selezionato.
+  WW.NET.onJson("CittaGlobali", (obj) => {
+    cittaGlobaliDati = obj.Dati || [];
+    if (stato.tipoBarbaro === "Città Barbaro") { barbariLista = cittaGlobaliDati; renderBarbariSelect(); }
+  });
+  WW.NET.onJson("VillaggiPersonali", (obj) => {
+    villaggiPersonaliDati = obj.Dati || [];
+    if (stato.tipoBarbaro === "Villaggio Barbaro") { barbariLista = villaggiPersonaliDati; renderBarbariSelect(); }
+  });
   // Errori di Esplora (bersaglio non trovato, oro insufficiente, livello non valido, ecc.)
   // non arrivano più come JSON dedicato ma via "Log_Server|<messaggio>" — già gestito
   // genericamente in 04-game-main.js/app.js (WW.NET.on("Log_Server", ...)).
@@ -951,6 +1053,7 @@ window.WW = window.WW || {};
     if (!uiCostruita) {
       costruisciEsercitoUI();
       collegaEventiStatici();
+      aggiornaPendentiHint(); // stato iniziale (0 truppe selezionate): "Attacca" (Barbari) parte disabilitato
       uiCostruita = true;
     }
     // NON auto-esplorare qui (tentativo fatto e tolto il 14/09/2026, vedi commento in

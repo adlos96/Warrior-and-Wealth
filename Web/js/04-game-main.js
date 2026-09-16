@@ -71,6 +71,25 @@ window.WW = window.WW || {};
         return;
       }
 
+      // Caso speciale: "Update_Data|Cronologia_Lista|<json>" (cronologia messaggi
+      // salvata lato server, player.Cronologia — vedi Server.cs/ServerConnection.cs,
+      // 16/09/2026 su richiesta dell'utente). Stesso motivo del caso Report_Lista sopra:
+      // JSON, non coppie chiave=valore, va intercettato prima del parsing generico.
+      // Sostituisce sempre l'intero contenuto del log-box (non accoda) sia al login
+      // sia dopo "Elimina_Cronologia", perché il server è la fonte di verità.
+      if (args[0] === "Cronologia_Lista") {
+        const jsonPayload = args.slice(1).join("|");
+        let cronologia;
+        try {
+          cronologia = JSON.parse(jsonPayload);
+        } catch (e) {
+          console.warn("[GAME] Cronologia_Lista: JSON non valido", e, jsonPayload);
+          return;
+        }
+        if (typeof setCronologia === "function") setCronologia(cronologia);
+        return;
+      }
+
       args.forEach((coppia) => {
         const idx = coppia.indexOf("=");
         if (idx === -1) return;
@@ -381,26 +400,106 @@ window.WW = window.WW || {};
     return frag;
   }
 
-  // Aggiunge una riga in cima alla Cronologia, con un tetto per non far
-  // crescere il DOM all'infinito. Tetto alzato da 50 a 300 (14/09/2026, su
-  // richiesta dell'utente: la Cronologia ora ha una barra laterale per
-  // scorrere i messaggi — vedi .log-box in style.css — quindi ha senso
-  // tenerne molti di più invece dei soli 50 più recenti).
+  // 16/09/2026, su richiesta dell'utente: la Cronologia ora è paginata (10 alla
+  // volta, con "‹ Indietro"/"Avanti ›") invece di un'unica lista che cresceva a
+  // dismisura con la barra laterale. cronologiaAll tiene TUTTI i messaggi
+  // conosciuti (indice 0 = il più recente), il DOM (#log-box) mostra sempre e
+  // solo i 10 della pagina corrente — stesso pattern usato per i Report in
+  // js/14-battaglia.js. Tetto lato client a 300 voci (invariato da 14/09/2026)
+  // solo come valvola di sicurezza: il server ne manda già al massimo 200
+  // (vedi Server.cs/GameSave.cs), quindi in pratica non scatta mai.
+  const CRONOLOGIA_PAGE_SIZE = 10;
   const LOG_MAX_VOCI = 300;
   const logBox = document.getElementById("log-box");
+  let cronologiaAll = [];
+  let cronologiaPage = 0;
+
+  function aggiornaPagerCronologia(totalPages) {
+    const pager = document.getElementById("log-box-pager");
+    if (!pager) return;
+    pager.hidden = cronologiaAll.length <= CRONOLOGIA_PAGE_SIZE;
+    const info = document.getElementById("log-box-page-info");
+    if (info) info.textContent = `Pagina ${cronologiaPage + 1} di ${totalPages}`;
+    const btnPrev = document.getElementById("log-box-prev");
+    const btnNext = document.getElementById("log-box-next");
+    if (btnPrev) btnPrev.disabled = cronologiaPage <= 0;
+    if (btnNext) btnNext.disabled = cronologiaPage >= totalPages - 1;
+  }
+
+  // Ridisegna SOLO la pagina corrente (10 righe al massimo) a partire da
+  // cronologiaAll. Va richiamata ogni volta che cambia pagina o che arriva un
+  // nuovo messaggio mentre si è sulla pagina 1 (la più recente).
+  function renderCronologiaPage() {
+    if (!logBox) return;
+    const totalPages = Math.max(1, Math.ceil(cronologiaAll.length / CRONOLOGIA_PAGE_SIZE));
+    if (cronologiaPage >= totalPages) cronologiaPage = totalPages - 1;
+    if (cronologiaPage < 0) cronologiaPage = 0;
+
+    logBox.innerHTML = "";
+    const inizio = cronologiaPage * CRONOLOGIA_PAGE_SIZE;
+    const pagina = cronologiaAll.slice(inizio, inizio + CRONOLOGIA_PAGE_SIZE);
+    if (pagina.length === 0) {
+      const vuoto = document.createElement("p");
+      vuoto.className = "log-empty";
+      vuoto.textContent = "Nessun evento recente.";
+      logBox.appendChild(vuoto);
+    } else {
+      pagina.forEach((testo) => {
+        const riga = document.createElement("p");
+        riga.className = "log-entry";
+        riga.appendChild(renderLogSegments(parseLogMessage(testo)));
+        logBox.appendChild(riga);
+      });
+    }
+    aggiornaPagerCronologia(totalPages);
+  }
+
+  // Aggiunge un nuovo messaggio in cima a cronologiaAll (il più recente resta
+  // sempre in indice 0). Ridisegna subito solo se si è sulla pagina 1 — se il
+  // giocatore sta sfogliando pagine più vecchie, la vista resta ferma dov'è e
+  // si aggiorna solo l'indicatore "Pagina X di Y" (il totale pagine può
+  // crescere) per non interrompere la lettura.
   function appendLog(testo) {
-    if (!logBox || !testo) return;
-    const vuoto = logBox.querySelector(".log-empty");
-    if (vuoto) vuoto.remove();
-
-    const riga = document.createElement("p");
-    riga.className = "log-entry";
-    riga.appendChild(renderLogSegments(parseLogMessage(testo)));
-    logBox.prepend(riga);
-
-    while (logBox.children.length > LOG_MAX_VOCI) logBox.removeChild(logBox.lastChild);
+    if (!testo) return;
+    cronologiaAll.unshift(testo);
+    if (cronologiaAll.length > LOG_MAX_VOCI) cronologiaAll.length = LOG_MAX_VOCI;
+    if (cronologiaPage === 0) renderCronologiaPage();
+    else aggiornaPagerCronologia(Math.max(1, Math.ceil(cronologiaAll.length / CRONOLOGIA_PAGE_SIZE)));
   }
   WW.NET.on("Log_Server", (args) => appendLog(args.join("|")));
+
+  // 16/09/2026, su richiesta dell'utente: popola la Cronologia dalla lista salvata
+  // lato server (arriva al login e dopo "Elimina_Cronologia" — vedi applyUpdateData
+  // sopra). Sostituisce sempre l'intero contenuto (non accoda) perché il server
+  // manda SEMPRE la lista intera: senza questo, un login successivo duplicherebbe
+  // le righe già presenti. L'array arriva in ordine cronologico (più vecchio ->
+  // più recente dal server): lo invertiamo per avere indice 0 = più recente,
+  // coerente con l'ordine usato da appendLog qui sopra.
+  function setCronologia(cronologia) {
+    cronologiaAll = Array.isArray(cronologia) ? cronologia.slice().reverse() : [];
+    cronologiaPage = 0;
+    renderCronologiaPage();
+  }
+
+  // Pulsante "Svuota cronologia" (vedi index.html, .btn-elimina-tondo): azione
+  // server-autoritativa come "Elimina_Report" — svuota subito la vista locale in
+  // ottimistico (l'utente vede l'effetto immediato) e manda il comando al server,
+  // che risponderà comunque con un nuovo "Cronologia_Lista" (vuoto) a conferma.
+  const btnEliminaCronologia = document.getElementById("btn-elimina-cronologia");
+  if (btnEliminaCronologia) {
+    btnEliminaCronologia.addEventListener("click", () => {
+      if (!confirm("Svuotare tutta la cronologia messaggi?")) return;
+      setCronologia([]);
+      if (WW.NET && WW.NET.send) WW.NET.send("Elimina_Cronologia", WW.AUTH.accessToken);
+    });
+  }
+
+  // Pulsanti "‹ Indietro"/"Avanti ›" della Cronologia (visibili solo con più di
+  // 10 elementi — vedi aggiornaPagerCronologia).
+  const btnLogPrev = document.getElementById("log-box-prev");
+  if (btnLogPrev) btnLogPrev.addEventListener("click", () => { cronologiaPage--; renderCronologiaPage(); });
+  const btnLogNext = document.getElementById("log-box-next");
+  if (btnLogNext) btnLogNext.addEventListener("click", () => { cronologiaPage++; renderCronologiaPage(); });
 
   // Cache generica di tutte le "Descrizione|<chiave>|<testo>" ricevute dal
   // server (costo/effetto di una ricerca, di un edificio, di un
