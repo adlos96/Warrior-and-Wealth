@@ -1433,7 +1433,17 @@ namespace Server_Strategico.Server
             $"Pacchetto_GamePass_Base_Reward={Variabili_Server.Shop.GamePass_Base.Reward}|" +
             $"Pacchetto_GamePass_Avanzato_Costo={Variabili_Server.Shop.GamePass_Avanzato.Costo}|" +
             $"Pacchetto_GamePass_Avanzato_Reward={Variabili_Server.Shop.GamePass_Avanzato.Reward}|" +
-            "";
+            $"Terreno_NonComune_Produzione={Variabili_Server.Terreni_Virtuali.NonComune.Produzione}|" +
+            $"Terreno_Comune_Produzione={Variabili_Server.Terreni_Virtuali.Comune.Produzione}|" +
+            $"Terreno_Raro_Produzione={Variabili_Server.Terreni_Virtuali.Raro.Produzione}|" +
+            $"Terreno_Epico_Produzione={Variabili_Server.Terreni_Virtuali.Epico.Produzione}|" +
+            $"Terreno_Leggendario_Produzione={Variabili_Server.Terreni_Virtuali.Leggendario.Produzione}|" +
+
+            $"Feudi_NonComune_Rarita={Variabili_Server.Terreni_Virtuali.NonComune.Rarita}|" +
+            $"Feudi_Comune_Rarita={Variabili_Server.Terreni_Virtuali.Comune.Rarita}|" +
+            $"Feudi_Raro_Rarita={Variabili_Server.Terreni_Virtuali.Raro.Rarita}|" +
+            $"Feudi_Epico_Rarita={Variabili_Server.Terreni_Virtuali.Epico.Rarita}|" +
+            $"Feudi_Leggendario_Rarita={Variabili_Server.Terreni_Virtuali.Leggendario.Rarita}";
 
             Server.Send(guid, data);
 
