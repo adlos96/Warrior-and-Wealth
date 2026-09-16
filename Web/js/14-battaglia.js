@@ -7,22 +7,28 @@
    (pannello "Report", ex "Referti Battaglia" — rinominato il
    14/09/2026 perché copre sia i referti di battaglia, vedi
    Report Battaglia.JPG, sia quelli di spionaggio, Report.Tipo ==
-   "Spionaggio" in Battaglia.cs — questi ultimi non ancora generati
-   da nessun percorso server, vedi commento sopra templateReportRow).
+   "Spionaggio" in Battaglia.cs — vedi commento sopra templateReportRow).
    I Raduni (sezione in basso nello screenshot più recente) restano
    fuori da questa schermata per scelta esplicita dell'utente
    (14/09/2026): il backend è stato riscritto lo stesso giorno e non
    ancora compilato/testato.
 
-   Protocollo (vedi ServerConnection.cs):
-   - "Esplora|token|<tipo>|<livello>" — tipo SENZA accento per le
+   Protocollo (vedi ServerConnection.cs, aggiornato il 16/09/2026 —
+   Esplora() deprecato, sostituito da EseguiSpionaggioRichiesta):
+   - "Esplora|token|PVE|<tipo>|<livello>" — tipo SENZA accento per le
      città ("Citta Barbaro", non "Città Barbaro": incoerenza già
      presente nel server tra Esplora() e Battaglia(), qui replicata
      di proposito invece di "corretta", per non rischiare di rompere
-     l'altro percorso). Risposta JSON pura (non "comando|arg"):
-     {"Type":"CittaGlobali"|"VillaggiPersonali","Dati":[...]} oppure
-     {"Type":"ErroreEsplorazione","Messaggio":"..."} — smistati da
-     WW.NET.onJson (01-net.js) in base al campo "Type".
+     l'altro percorso). Il protocollo prevede anche
+     "Esplora|token|PVP|<username>" (spionaggio contro un altro
+     giocatore, stesso motore di Spionaggio.EseguiSpionaggioPVP usato
+     dal PVP) ma non esiste ancora un pulsante/flusso client per
+     quella modalità. Risposta: niente più JSON dedicato — il server
+     aggiunge un Report di Tipo "Spionaggio" a Player.Report e lo
+     rimanda con il normale "Update_Data|Report_Lista|<json>" (vedi
+     sotto); gli errori (bersaglio non trovato, oro insufficiente,
+     ecc.) arrivano come "Log_Server|<messaggio>", già gestito in
+     04-game-main.js/app.js con WW.NET.on("Log_Server", ...).
    - "Battaglia|token|<tipo>|<target>|G1..G5|L1..L5|A1..A5|C1..C5"
      (20 valori truppe) — tipo QUI CON accento per le città
      ("Città Barbaro"/"Villaggio Barbaro"/"PVP"); target = livello
@@ -216,19 +222,19 @@ window.WW = window.WW || {};
     const info = document.getElementById("barbari-target-info");
     if (!info) return;
     const v = barbariLista.find((x) => String(x.Livello) === stato.targetBarbaro);
-    if (!v) { info.textContent = "Esplora il barbaro per avere una stima delle sue truppe."; return; }
+    if (!v) { info.textContent = "Seleziona un bersaglio e premi Esplora: il resoconto comparirà tra i tuoi Report."; return; }
     info.innerHTML = `
       <strong>${v.Nome}</strong> ${v.Sconfitto ? "(già sconfitto)" : ""}<br>
-      Truppe stimate: ${WW.fmtInt(v.Guerrieri)} Guerrieri, ${WW.fmtInt(v.Lancieri)} Lancieri, ${WW.fmtInt(v.Arcieri)} Arcieri, ${WW.fmtInt(v.Catapulte)} Catapulte<br>
       Bottino stimato: ${WW.fmtInt(v.Cibo)} cibo, ${WW.fmtInt(v.Legno)} legno, ${WW.fmtInt(v.Pietra)} pietra, ${WW.fmtInt(v.Ferro)} ferro, ${WW.fmtInt(v.Oro)} oro
-      ${v.Diamanti_Viola > 0 ? `, ${WW.fmtInt(v.Diamanti_Viola)} diamanti viola` : ""}${v.Diamanti_Blu > 0 ? `, ${WW.fmtInt(v.Diamanti_Blu)} diamanti blu` : ""}`;
+      ${v.Diamanti_Viola > 0 ? `, ${WW.fmtInt(v.Diamanti_Viola)} diamanti viola` : ""}${v.Diamanti_Blu > 0 ? `, ${WW.fmtInt(v.Diamanti_Blu)} diamanti blu` : ""}<br>
+      Premi Esplora per un resoconto dettagliato (truppe comprese) nei tuoi Report.`;
   }
 
   function esploraBarbaro() {
     const livelloInput = document.getElementById("barbari-livello-input");
     const livello = Math.max(1, Number((livelloInput && livelloInput.value) || stato.targetBarbaro || 1));
     stato.livelloEsplora = livello;
-    WW.NET.send("Esplora", WW.AUTH.accessToken, esploraTipo(stato.tipoBarbaro), livello);
+    WW.NET.send("Esplora", WW.AUTH.accessToken, "PVE", esploraTipo(stato.tipoBarbaro), livello);
   }
 
   function attaccaBarbaro() {
@@ -281,16 +287,16 @@ window.WW = window.WW || {};
      Report.Tipo (Battaglia.cs) vale "Battaglia" o "Spionaggio": prima qui
      si mostravano/filtravano SOLO quelli di tipo "Battaglia" (da cui il
      nome "Referti Battaglia" — bug segnalato dall'utente il 14/09/2026,
-     rinominato in "Report" e allargato a entrambi i tipi). Nota: al
-     momento nessun percorso del server crea ancora referti di tipo
-     "Spionaggio" (nessun comando/attacco di spionaggio è collegato al
-     dispatcher in ServerConnection.cs) — quindi in pratica questa lista
-     mostra solo battaglie finché quella funzione non verrà implementata
-     lato server. Il ramo Spionaggio qui sotto (restyling del 14/09/2026
-     su riferimento "Report Spionaggio.JPG", screenshot del client
-     desktop in WW/ sul PC dell'utente) copre ormai tutto RisultatoSpionaggio,
-     Fasi e Bonus incluse, ma resta comunque non testabile con dati reali
-     finché quella funzione non esisterà lato server. */
+     rinominato in "Report" e allargato a entrambi i tipi). Il ramo
+     Spionaggio qui sotto (restyling del 14/09/2026 su riferimento "Report
+     Spionaggio.JPG", screenshot del client desktop in WW/ sul PC
+     dell'utente) copre tutto RisultatoSpionaggio, Fasi e Bonus incluse.
+     Dal 16/09/2026 il PVE-barbaro genera davvero questi referti (Esplora ->
+     Spionaggio.SpionaggioPVE): non usa Strutture_Civili/Workshop/Caserme/
+     Ricerca_Civile/Ricerca_Militare/Bonus (un barbaro non li ha — restano null, le sezioni
+     corrispondenti spariscono da sole grazie agli "|| {}" sotto) e usa
+     solo 2 Fasi ("A Distanza"/"Corpo a Corpo") invece delle 7 strutturali
+     del PVP tra giocatori — vedi i tab "Strutture" nel dettaglio. */
 
   function templateReportRow(r, indice) {
     if (r.Tipo === "Spionaggio" && r.Spionaggio) {
@@ -842,13 +848,13 @@ window.WW = window.WW || {};
         toggleTipo.querySelectorAll("[data-tipo]").forEach((b) => b.classList.toggle("is-active", b === btn));
         barbariLista = [];
         renderBarbariSelect();
-        // NON auto-esplorare qui (tentativo fatto e tolto il 14/09/2026): Esplora ha un
-        // costo in oro reale lato server (EsploraTruppe in Barbari.cs — 2 oro per le Città
-        // globali, 1 per i Villaggi personali, scalato ad OGNI chiamata, anche su un
-        // bersaglio già esplorato prima). Esplorare in automatico ad ogni cambio Città/
-        // Villaggio o ad ogni apertura del pannello spenderebbe oro del giocatore senza
-        // che lui lo scelga — esattamente quello che ha segnalato l'utente. Resta quindi
-        // un'azione esplicita, con "Esplora" da premere a mano.
+        // NON auto-esplorare qui (tentativo fatto e tolto il 14/09/2026): Esplora resta
+        // un'azione esplicita scelta dal giocatore, con "Esplora" da premere a mano —
+        // anche ora che il nuovo flusso (Spionaggio.SpionaggioPVE, 16/09/2026) non ha
+        // ancora un costo in oro configurato, esplorare in automatico ad ogni cambio
+        // Città/Villaggio o ad ogni apertura del pannello resterebbe comunque scorretto
+        // (report generati senza una scelta del giocatore) — bug già segnalato dall'utente
+        // quando Esplora aveva un costo reale.
       });
     }
 
@@ -931,10 +937,9 @@ window.WW = window.WW || {};
 
   WW.NET.onJson("CittaGlobali", (obj) => { if (stato.tipoBarbaro === "Città Barbaro") { barbariLista = obj.Dati || []; renderBarbariSelect(); } });
   WW.NET.onJson("VillaggiPersonali", (obj) => { if (stato.tipoBarbaro === "Villaggio Barbaro") { barbariLista = obj.Dati || []; renderBarbariSelect(); } });
-  WW.NET.onJson("ErroreEsplorazione", (obj) => {
-    const info = document.getElementById("barbari-target-info");
-    if (info) info.innerHTML = `<span class="testo-errore">${obj.Messaggio || "Errore di esplorazione."}</span>`;
-  });
+  // Errori di Esplora (bersaglio non trovato, oro insufficiente, livello non valido, ecc.)
+  // non arrivano più come JSON dedicato ma via "Log_Server|<messaggio>" — già gestito
+  // genericamente in 04-game-main.js/app.js (WW.NET.on("Log_Server", ...)).
   WW.NET.on("Update_PVP_Player", (args) => {
     const count = Number(args[0]) || 0;
     pvpLista = args.slice(1, 1 + count);
@@ -949,10 +954,8 @@ window.WW = window.WW || {};
       uiCostruita = true;
     }
     // NON auto-esplorare qui (tentativo fatto e tolto il 14/09/2026, vedi commento in
-    // collegaEventiStatici): Esplora costa oro reale ad ogni chiamata lato server, quindi
-    // farlo scattare da solo ad ogni apertura del pannello spenderebbe oro del giocatore
-    // senza una sua scelta — è esattamente il bug segnalato dall'utente (partiva subito
-    // e, ripetuto durante i test, ha prosciugato l'oro fino a "Non hai abbastanza oro").
+    // collegaEventiStatici): Esplora resta un'azione esplicita scelta dal giocatore, non
+    // qualcosa da far scattare da solo ad ogni apertura del pannello.
     aggiornaEsercitoDisponibili();
     renderPvpSelect();
   }
