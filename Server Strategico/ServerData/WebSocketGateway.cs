@@ -187,10 +187,25 @@ namespace Server_Strategico.Server
                 return;
             }
 
-            //string realIp = context.Request.Headers["X-Real-IP"]; //Per nginx
-            string clientDescription = $"WS:{context.Request.RemoteEndPoint}"; //
-            RegisterClient(clientGuid, socket, clientDescription);
+            string clientDescription = "";
+            if (OperatingSystem.IsWindows())
+            {
+                clientDescription = $"WS:{context.Request.RemoteEndPoint}"; //
+                RegisterClient(clientGuid, socket, clientDescription);
+            }
+            else
+            {
+                string realIp = context.Request.Headers["X-Real-IP"]; //Per nginx
+                clientDescription = $"WS:{realIp}"; //
+                RegisterClient(clientGuid, socket, clientDescription);
+            }
 
+            if(clientDescription == "")
+            {
+                Console.WriteLine($"[WebSocketGateway] Connessione da client sconosciuto: {context.Request.RemoteEndPoint}");
+                return;
+            }
+            
             var buffer = new byte[8192];
             try
             {
