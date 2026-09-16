@@ -236,6 +236,25 @@ namespace Server_Strategico.Server
                 inviato = true;
             }
 
+            // 16/09/2026, su richiesta dell'utente: la Cronologia (pannello "Log_Server" del
+            // client) ora viene anche salvata lato server, non solo mostrata "al volo" — così
+            // sopravvive a un ricollegamento o a un riavvio del server invece di sparire ogni
+            // volta. Risale al giocatore dal guid tramite la stessa mappa già usata per il
+            // routing dei messaggi, invece di aggiungere un parametro Player a ogni singola
+            // chiamata a Send sparsa in centinaia di punti del codice. Il controllo
+            // StartsWith è economico e riguarda solo i messaggi Log_Server (rari rispetto
+            // agli Update_Data di ogni tick), quindi non pesa sul percorso più frequente.
+            if (inviato && msg.StartsWith("Log_Server|") && Client_Connessi_Map.TryGetValue(guid, out string usernameLog))
+            {
+                var giocatoreLog = servers_.GetPlayer(usernameLog);
+                if (giocatoreLog != null)
+                {
+                    giocatoreLog.Cronologia.Add(msg.Substring("Log_Server|".Length));
+                    if (giocatoreLog.Cronologia.Count > 300)
+                        giocatoreLog.Cronologia.RemoveAt(0);
+                }
+            }
+
             if (inviato && !msg.Contains("Update_Data") && !msg.Contains("QuestRewards") && !msg.Contains("QuestUpdate") && !msg.Contains("Descrizione"))
                 Console.WriteLine($"[SERVER|LOG] > {msg}");
         }

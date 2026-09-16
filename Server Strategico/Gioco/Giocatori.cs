@@ -346,6 +346,14 @@ namespace Server_Strategico.Gioco
             //Report Battaglie e Spionaggio
             public List<Battaglia.Report> Report = new(); // Lista dei task attualmente in costruzione (slot globali, max = 1)
 
+            // 16/09/2026, su richiesta dell'utente: cronologia eventi (pannello "Cronologia"
+            // del client web, i messaggi "Log_Server|..." mostrati in Web/js/04-game-main.js).
+            // Prima viveva solo lato client e spariva ad ogni riconnessione — ora il testo di
+            // ogni Log_Server viene anche accodato qui (vedi Server.Send), tenendo solo gli
+            // ultimi 300 (stesso tetto usato per Report), e viene rimandato al login tramite
+            // "Cronologia_Lista" (vedi ServerConnection.Update_Data_OneTime).
+            public List<string> Cronologia = new();
+
             public PlayerSnapshot Snapshot = new PlayerSnapshot();
 
             public readonly object LockCostruzione = new object();
@@ -384,7 +392,7 @@ namespace Server_Strategico.Gioco
                 Username = username;
                 Password = password;
                 guid_Player = guid_Client;
-                Lingua = "ITA";
+                Lingua = "it";
                 ScudoDellaPace = 0;
                 Costruttori = 0;
                 Reclutatori = 0;

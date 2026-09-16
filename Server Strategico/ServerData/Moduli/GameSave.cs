@@ -1,6 +1,7 @@
 ﻿using Server_Strategico.Gioco;
 using Server_Strategico.Manager;
 using Server_Strategico.Server;
+using Server_Strategico.ServerData.Moduli.Battaglie;
 using System.Text.Json;
 using static Server_Strategico.Gioco.Barbari;
 using static Server_Strategico.Gioco.Giocatori;
@@ -458,6 +459,43 @@ namespace Server_Strategico.ServerData.Moduli
                     await WriteAllTextAtomicAsync(fileName1, villaggiJson);
                 }
 
+                if (player.Report != null) // Salvataggio Report
+                {
+                    // 16/09/2026, su richiesta dell'utente: i referti (player.Report) vivevano
+                    // solo in RAM e sparivano ad ogni riavvio del server. Ora vengono salvati
+                    // su disco, senza alcun limite (né qui né lato client): a differenza della
+                    // Cronologia, i referti sono uno storico "personale" che deve restare
+                    // interamente a disposizione del giocatore, che se necessario li elimina
+                    // lui stesso man mano (vedi "Elimina_Report") — non è compito del server
+                    // troncarli. Scrive sempre (anche lista vuota) invece di saltare quando
+                    // Count==0: altrimenti, se il giocatore elimina tutti i referti, il vecchio
+                    // _Report.json resterebbe sul disco e tornerebbe a comparire al prossimo
+                    // caricamento.
+                    //
+                    // NOTA (16/09/2026, dall'utente): più avanti andrà affrontato il costo in
+                    // memoria di tenere così tutti i referti di ogni giocatore, specialmente per
+                    // chi viene attaccato spesso — probabilmente sfruttando il bool esistente
+                    // "Stato_Giocatore" per distinguere i giocatori attivi da quelli inattivi.
+                    // Non ancora implementato: per ora nessun limite, come richiesto.
+                    var reportJson = JsonSerializer.Serialize(player.Report, IndentedJsonOptions);
+                    string fileNameReport = Path.Combine(SavePath, $"{player.Username}_Report.json");
+                    await WriteAllTextAtomicAsync(fileNameReport, reportJson);
+                }
+
+                if (player.Cronologia != null) // Salvataggio Cronologia
+                {
+                    // 16/09/2026, su richiesta dell'utente: stessa logica del blocco Report
+                    // qui sopra, applicata alla cronologia messaggi (player.Cronologia).
+                    // Scrive sempre (anche lista vuota) per non far ricomparire una vecchia
+                    // cronologia dopo che il giocatore l'ha svuotata con "Elimina_Cronologia".
+                    var cronologiaDaSalvare = player.Cronologia.Count > 300
+                        ? player.Cronologia.Skip(player.Cronologia.Count - 300).ToList()
+                        : player.Cronologia;
+                    var cronologiaJson = JsonSerializer.Serialize(cronologiaDaSalvare, IndentedJsonOptions);
+                    string fileNameCronologia = Path.Combine(SavePath, $"{player.Username}_Cronologia.json");
+                    await WriteAllTextAtomicAsync(fileNameCronologia, cronologiaJson);
+                }
+
                 if (Gioco.Barbari.CittaGlobali != null) // Salvataggio Città Globali
                 {
                     var cittaJson = JsonSerializer.Serialize(Gioco.Barbari.CittaGlobali, IndentedJsonOptions);
@@ -849,6 +887,20 @@ namespace Server_Strategico.ServerData.Moduli
                     }
                     else Console.WriteLine($"[GameSave] Nessun salvataggio trovato per {username}");
 
+                    if (File.Exists(fileName_Villaggio + "_Report.json")) // Caricamento Report (tutti, nessun limite — vedi SavePlayer)
+                    {
+                        var reportJson = File.ReadAllText(fileName_Villaggio + "_Report.json");
+                        var savedReport = JsonSerializer.Deserialize<List<Battaglia.Report>>(reportJson);
+                        player.Report = savedReport ?? new List<Battaglia.Report>();
+                    }
+
+                    if (File.Exists(fileName_Villaggio + "_Cronologia.json")) // Caricamento Cronologia (ultimi 200 salvati, vedi SavePlayer)
+                    {
+                        var cronologiaJson = File.ReadAllText(fileName_Villaggio + "_Cronologia.json");
+                        var savedCronologia = JsonSerializer.Deserialize<List<string>>(cronologiaJson);
+                        player.Cronologia = savedCronologia ?? new List<string>();
+                    }
+
                     if (File.Exists(fileName_Villaggio + "_Citta.json") && Saved == false) // Caricamento Città Globali
                     {
                         var cittaJson = File.ReadAllText(fileName_Villaggio + "_Citta.json");
@@ -1059,7 +1111,7 @@ namespace Server_Strategico.ServerData.Moduli
                 foreach (string file in saveFiles)
                 {
                     string fileName = Path.GetFileName(file);
-                    if (fileName == "ServerData.json" || fileName.Contains("_Citta.json") || fileName.Contains("_Villaggi.json")) // File di dati globali/barbari, non un giocatore
+                    if (fileName == "ServerData.json" || fileName.Contains("_Citta.json") || fileName.Contains("_Villaggi.json") || fileName.Contains("_Report.json") || fileName.Contains("_Cronologia.json")) // File di dati globali/barbari/report/cronologia, non un giocatore
                         continue;
 
                     string username = Path.GetFileNameWithoutExtension(file);

@@ -5,10 +5,10 @@ internal static class LocalizationManager
 {
     private static readonly Dictionary<string, ILocalization> _lingue = new()
     {
-        { "ITA", new ITA() },
-        { "ENG", new ENG() },
+        { "it", new ITA() },
+        { "en", new ENG() },
     };
 
     public static ILocalization Get(Player player) =>
-        _lingue.TryGetValue(player.Lingua, out var loc) ? loc : _lingue["ITA"];
+        _lingue.TryGetValue(player.Lingua, out var loc) ? loc : _lingue["it"];
 }

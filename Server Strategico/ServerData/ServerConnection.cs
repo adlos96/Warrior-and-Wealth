@@ -370,6 +370,19 @@ namespace Server_Strategico.Server
                 case "Shop":
                     Shop.Shop_Call(clientGuid, player, msgArgs[3]); //Shop
                     break;
+                case "Elimina_Report":
+                    // 16/09/2026, su richiesta dell'utente: il giocatore può eliminare un
+                    // singolo referto dalla propria lista. Formato: "Elimina_Report|Token|Indice"
+                    // -> msgArgs[3] = indice nell'array player.Report così come l'ha ricevuto
+                    // l'ultima volta dal client (vedi Web/js/14-battaglia.js, data-report-index).
+                    Elimina_Report(player, clientGuid, msgArgs[3]);
+                    break;
+                case "Elimina_Cronologia":
+                    // 16/09/2026, su richiesta dell'utente: il giocatore può svuotare la
+                    // propria cronologia messaggi. Formato: "Elimina_Cronologia|Token"
+                    // (nessun indice: cancella tutta la cronologia salvata lato server).
+                    Elimina_Cronologia(player, clientGuid);
+                    break;
                 case "SpostamentoTruppe":
                     SpostamentoTruppe(clientGuid, player, msgArgs); //sposta le troppe tra il "giocatore" e la città/cancello/ingresso
                     Server.GameServer.GuerrieriCitta(player);
@@ -423,7 +436,7 @@ namespace Server_Strategico.Server
         async static void Lingua(Player player, string lang)
         {
             if (Variabili_Server.lingue_Supportate.Contains(lang)) player.Lingua = lang; //Imposta la lingua preferita del giocatore
-            else player.Lingua = "ITA"; //Default Italiano
+            else player.Lingua = "it"; //Default Italiano
             Console.WriteLine($"[Server] Lingua selezionata: {lang}");
         }
         public async static void Cambia_Password(Guid clientGuid, Player player, string[] msgArgs)
@@ -1454,7 +1467,53 @@ namespace Server_Strategico.Server
             // il primo tick periodico dopo il login rimanderebbe subito lo stesso
             // identico Report_Lista appena inviato qui sopra.
             player.Snapshot.SyncReportCount(player.Report.Count);
+
+            // 16/09/2026, su richiesta dell'utente: la Cronologia (player.Cronologia,
+            // popolata da Server.Send ad ogni Log_Server) viene rimandata al login come
+            // blocco unico via JSON, stesso schema di Report_Lista qui sopra — non tramite
+            // singoli messaggi "Log_Server|..." individuali, che verrebbero ri-registrati
+            // in Cronologia da Server.Send creando duplicati ad ogni ricollegamento.
+            string cronologiaPayload = JsonConvert.SerializeObject(player.Cronologia);
+            Server.Send(guid, $"Update_Data|Cronologia_Lista|{cronologiaPayload}");
         }
+
+        // 16/09/2026, su richiesta dell'utente: elimina un referto dalla lista personale
+        // del giocatore (player.Report). L'indice arriva dal client riferito all'ultimo
+        // Report_Lista ricevuto — non è un Id persistente sul referto, quindi va sempre
+        // validato per intero e per range prima di usarlo (un vecchio indice rimasto nel
+        // client dopo che la lista è già cambiata non deve poter mai andare fuori dai
+        // limiti o cancellare il referto sbagliato).
+        public static void Elimina_Report(Player player, Guid clientGuid, string indiceStr)
+        {
+            if (!int.TryParse(indiceStr, out int indice) || indice < 0 || indice >= player.Report.Count)
+            {
+                Server.Send(clientGuid, "Log_Server|[warning]Referto non trovato.");
+                return;
+            }
+
+            player.Report.RemoveAt(indice);
+
+            // Rimanda subito la lista aggiornata (stesso formato di Update_Data_OneTime/
+            // Update_Data) invece di aspettare il prossimo tick del game loop, così il
+            // referto sparisce subito dalla UI del giocatore che l'ha eliminato.
+            string payloadAggiornato = JsonConvert.SerializeObject(player.Report);
+            Server.Send(clientGuid, $"Update_Data|Report_Lista|{payloadAggiornato}");
+            player.Snapshot.SyncReportCount(player.Report.Count);
+        }
+
+        // 16/09/2026, su richiesta dell'utente: svuota la cronologia messaggi salvata
+        // lato server per questo giocatore (player.Cronologia). Azione totale, non a
+        // singolo indice: il client cancella la propria vista locale in ottimistico e
+        // il server è la fonte di verità che verrà persistita/ricaricata al prossimo
+        // salvataggio (vedi GameSave.cs, "_Cronologia.json").
+        public static void Elimina_Cronologia(Player player, Guid clientGuid)
+        {
+            player.Cronologia.Clear();
+
+            string payloadAggiornato = JsonConvert.SerializeObject(player.Cronologia);
+            Server.Send(clientGuid, $"Update_Data|Cronologia_Lista|{payloadAggiornato}");
+        }
+
         public static void Update_Data(Guid guid, Player player)
         {
             if (!Server.Client_Connessi.Contains(player.guid_Player)) return; //Se non è presente nella lista connesso...
