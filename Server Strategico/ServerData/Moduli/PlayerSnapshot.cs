@@ -8,8 +8,8 @@ namespace Server_Strategico.ServerData.Moduli
 {
     public class PlayerSnapshot
     {
-        private Dictionary<string, string> _lastSent = new(250);
-        private Dictionary<string, string> _currentState = new(250); // ← riusato, non ricreato ogni volta
+        private Dictionary<string, string> _lastSent = new(350);
+        private Dictionary<string, string> _currentState = new(350); // ← riusato, non ricreato ogni volta
 
         // Numero di referti (player.Report.Count) inviati l'ultima volta al client
         // (16/09/2026, su richiesta dell'utente: i referti devono arrivare "in
