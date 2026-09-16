@@ -30,6 +30,14 @@ namespace Server_Strategico.ServerData.Moduli
                 Directory.CreateDirectory(SavePath);
         }
 
+        // Scrive prima su un file temporaneo e poi lo sposta sul path finale.
+        private static async Task WriteAllTextAtomicAsync(string finalPath, string content)
+        {
+            string tempPath = finalPath + ".tmp";
+            await File.WriteAllTextAsync(tempPath, content);
+            File.Move(tempPath, finalPath, overwrite: true);
+        }
+
         public static async Task SavePlayer(Giocatori.Player player)
         {
             try
@@ -294,6 +302,9 @@ namespace Server_Strategico.ServerData.Moduli
                     PremiNormali = player.PremiNormali,
                     PremiVIP = player.PremiVIP,
 
+                    //Riparazioni in corso
+                    Riparazioni = player.Riparazioni,
+
                     //Gamepass PRemi raccolti
 
 
@@ -362,19 +373,19 @@ namespace Server_Strategico.ServerData.Moduli
                 {
                     var villaggiJson = JsonSerializer.Serialize(player.VillaggiPersonali, new JsonSerializerOptions { WriteIndented = true });
                     string fileName1 = Path.Combine(SavePath, $"{player.Username}_Villaggi.json");
-                    await File.WriteAllTextAsync(fileName1, villaggiJson);
+                    await WriteAllTextAtomicAsync(fileName1, villaggiJson);
                 }
 
                 if (Gioco.Barbari.CittaGlobali != null) // Salvataggio Città Globali
                 {
                     var cittaJson = JsonSerializer.Serialize(Gioco.Barbari.CittaGlobali, new JsonSerializerOptions { WriteIndented = true });
                     string fileName1 = Path.Combine(SavePath, $"{player.Username}_Citta.json");
-                    await File.WriteAllTextAsync(fileName1, cittaJson);
+                    await WriteAllTextAtomicAsync(fileName1, cittaJson);
                 }
 
                 string fileName = Path.Combine(SavePath, $"{player.Username}.json");
                 string jsonString = JsonSerializer.Serialize(playerData, new JsonSerializerOptions { WriteIndented = true });
-                await File.WriteAllTextAsync(fileName, jsonString);
+                await WriteAllTextAtomicAsync(fileName, jsonString);
 
                 Console.WriteLine($"[GameSave] Salvati i dati del giocatore {player.Username}");
             }
@@ -431,8 +442,7 @@ namespace Server_Strategico.ServerData.Moduli
                     player.Banned_Giocatore = playerData.Banned_Giocatore;
                     player.GamePass_Accessi_Consecutivi = playerData.GamePass_Accessi_Consecutivi;
 
-                    for (int i = 0; i < playerData.GamePass_Premi.Count(); i++)
-                        player.GamePass_Premi = playerData.GamePass_Premi;
+                    player.GamePass_Premi = playerData.GamePass_Premi;
 
                     player.ScudoDellaPace = playerData.ScudoDellaPace;
                     player.Costruttori = playerData.Costruttori;
@@ -616,6 +626,10 @@ namespace Server_Strategico.ServerData.Moduli
                     //Quest Mensile
                     player.PremiNormali = playerData.PremiNormali;
                     player.PremiVIP = playerData.PremiVIP;
+
+                    //Riparazioni in corso
+                    if (playerData.Riparazioni != null && playerData.Riparazioni.Length == player.Riparazioni.Length)
+                        player.Riparazioni = playerData.Riparazioni;
 
                     // Statistiche
                     player.Unità_Eliminate = playerData.Unità_Eliminate;
@@ -835,13 +849,16 @@ namespace Server_Strategico.ServerData.Moduli
 
                 };
                 string fileName = Path.Combine(SavePath, $"ServerData.json");
-                string jsonString = JsonSerializer.Serialize(ServerData, new JsonSerializerOptions { WriteIndented = true });
 
-                // ⚡ Ottimizzazione: scrittura asincrona su stream invece di generare una stringa gigantesca
-                await using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None, 65536, true))
+                // Ottimizzazione: scrittura asincrona su stream invece di generare una stringa gigantesca.
+                // Si scrive prima su un file .tmp e solo alla fine lo si sposta sul path finale (atomico),
+                // così un crash a metà scrittura non lascia ServerData.json troncato/corrotto.
+                string tempFileName = fileName + ".tmp";
+                await using (var fs = new FileStream(tempFileName, FileMode.Create, FileAccess.Write, FileShare.None, 65536, true))
                 {
                     await JsonSerializer.SerializeAsync(fs, ServerData, new JsonSerializerOptions { WriteIndented = true });
                 }
+                File.Move(tempFileName, fileName, overwrite: true);
 
                 await TokenManager.SaveRefreshTokens();
 
@@ -867,7 +884,6 @@ namespace Server_Strategico.ServerData.Moduli
                 var serverData = JsonSerializer.Deserialize<ServerSaveData>(jsonString);
 
                 Variabili_Server.numero_Code_Base = serverData.numero_Code_Base;
-                Variabili_Server.numero_Code_Base_Vip = serverData.numero_Code_Base_Vip;
                 Variabili_Server.numero_Code_Base_Vip = serverData.numero_Code_Base_Vip;
                 Variabili_Server.Velocizzazione_Tempo = serverData.Velocizzazione_Tempo;
                 Variabili_Server.D_Viola_To_Blu = serverData.D_Viola_To_Blu;
