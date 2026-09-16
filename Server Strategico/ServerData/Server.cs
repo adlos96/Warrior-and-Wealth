@@ -4,6 +4,7 @@ using Server_Strategico.ServerData.Moduli;
 using Server_Strategico.ServerData.Moduli.Battaglie;
 using System.Data;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using WatsonTcp;
 using static Server_Strategico.Gioco.Giocatori;
 
@@ -453,7 +454,9 @@ namespace Server_Strategico.Server
             public async Task PrintResourcesAsync()
             {
                 Process proc = Process.GetCurrentProcess();
-                double ramMb = proc.WorkingSet64 / 1024.0 / 1024.0; // RAM in Byte
+                proc.Refresh(); // FIX: senza questo, su Linux i valori restano quelli della prima lettura
+
+                double ramMb = GetAccurateRamMb(proc);
                 TimeSpan currentCpu = proc.TotalProcessorTime; // CPU
                 DateTime now = DateTime.UtcNow;
 
@@ -468,9 +471,46 @@ namespace Server_Strategico.Server
 
                 _lastCpu = currentCpu;
                 _lastTime = now;
+
+                int playerCount = players.Count();
+                double ramPerPlayerKb = playerCount > 0
+                    ? (ramMb - Variabili_Server._Server_Consumo_RAM) / playerCount * 1024.0
+                    : 0;
+
                 Console.WriteLine($"[Server Resources] Totale - RAM: {ramMb:F2} MB | CPU: {cpuPercent:F2} %");
-                Console.WriteLine($"[Server Resources] X player - RAM: {(ramMb - Variabili_Server._Server_Consumo_RAM) / players.Count()*1024:F2} KB");
+                Console.WriteLine($"[Server Resources] X player - RAM: {ramPerPlayerKb:F2} KB");
+
                 await Task.CompletedTask;
+            }
+
+            private static double GetAccurateRamMb(Process proc)
+            {
+                // Su Linux leggiamo VmRSS direttamente da /proc/self/status: più preciso di WorkingSet64
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                {
+                    try
+                    {
+                        foreach (string line in File.ReadLines("/proc/self/status"))
+                        {
+                            if (line.StartsWith("VmRSS:"))
+                            {
+                                // formato: "VmRSS:      123456 kB"
+                                string[] parts = line.Split(new[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                                if (parts.Length >= 2 && long.TryParse(parts[1], out long kb))
+                                {
+                                    return kb / 1024.0; // kB -> MB
+                                }
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        // fallback sotto in caso di errore di lettura
+                    }
+                }
+
+                // Windows (o fallback Linux se /proc/self/status non leggibile)
+                return proc.WorkingSet64 / 1024.0 / 1024.0;
             }
 
 
