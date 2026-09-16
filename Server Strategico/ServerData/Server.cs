@@ -98,7 +98,16 @@ namespace Server_Strategico.Server
             {
                 Console.WriteLine("");
                 Console.WriteLine("Info Comandi: \"?\"");
-                var userInput = Console.ReadLine() ?? string.Empty;
+                var userInput = string.Empty;
+                try
+                {
+                    userInput = Console.ReadLine() ?? string.Empty;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[SERVER|LOG] (Errore) > Console non più leggibile, comandi da tastiera disabilitati: {ex.Message}");
+                    break;
+                }
 
                 switch (userInput)
                 {
