@@ -8,6 +8,10 @@ namespace Server_Strategico.ServerData.Moduli
     internal class Spionaggio
     {
         static float valForza = 45f;
+        static int costo_Spionaggio_Villaggio_Base = 238;
+        static int costo_Spionaggio_Citta_Base = 3328;
+        static int costo_Spionaggio_Player_Base = 35800;
+
         public async static void SpionaggioPVP(Giocatori.Player difensore, Giocatori.Player attaccante)
         {
             var report = new Battaglia.Report();
@@ -81,17 +85,139 @@ namespace Server_Strategico.ServerData.Moduli
             attaccante.Report.Add(report);
         }
 
-        public async static void EseguiSpionaggio(Giocatori.Player difensore, Giocatori.Player attaccante, string modalità)
+        public async static void EseguiSpionaggioPVP(Giocatori.Player difensore, Giocatori.Player attaccante, string modalità)
         {
             //Aggiornare valore guarnigione... farlo sempre non conviene...
             Server.Server.GameServer.GuerrieriCitta(difensore);
             Server.Server.GameServer.GuerrieriCitta(attaccante);
-            if (modalità == "PVP")
-                SpionaggioPVP(difensore, attaccante);
-            else
+
+            //Costo in risorse per lo spionaggio: [ORO]
+
+            //if (attaccante.Oro >= costo_Spionaggio_Player_Base)
+            //{
+            //    attaccante.Oro -= costo_Spionaggio_Player_Base;
+            //    SpionaggioPVP(difensore, attaccante); //Spionaggio
+            //}
+            //else
+            //{
+            //    Server.Server.Send(attaccante.guid_Player, "Log_Server|Oro insufficiente per lo spionaggio.");
+            //    return;
+            //}
+            SpionaggioPVP(difensore, attaccante); //Spionaggio
+        }
+
+        // 16/09/2026: overload PVE — spionaggio contro Città/Villaggi Barbari. A differenza del PVP non c'è un Player "difensore" (GuerrieriCitta non si applica:
+        // i barbari non hanno una guarnigione distribuita per struttura, solo i 4 totali piatti su BarbarianBase).
+        public async static void EseguiSpionaggioPVE(Barbari.BarbarianBase target, Giocatori.Player attaccante)
+        {
+            //Costo in risorse per lo spionaggio: [ORO] — vedi nota sopra, stesso discorso del PVP
+            int costo = 0;
+            string name = "";
+            if (target.Nome.Contains("Villaggio"))
             {
-                // PVE
+                costo = costo_Spionaggio_Villaggio_Base * target.Livello;
+                name = "Villaggio Barbaro";
             }
+            if (target.Nome.Contains("Citta"))
+            {
+                costo = costo_Spionaggio_Villaggio_Base * target.Livello;
+                name = "Citta Barbaro";
+            }
+            
+            if (attaccante.Oro >= costo)
+            {
+                attaccante.Oro -= costo;
+                SpionaggioPVE(target, attaccante);
+            }
+            else
+                Server.Server.Send(attaccante.guid_Player, "Log_Server|Oro");
+
+            SpionaggioPVE(target, attaccante);
+        }
+        public async static void SpionaggioPVE(Barbari.BarbarianBase target, Giocatori.Player attaccante)
+        {
+            var report = new Battaglia.Report();
+
+            report.Tipo = "Spionaggio";
+            report.Data = DateTime.UtcNow.ToString("o"); // vedi nota in SpionaggioPVP sul formato ISO 8601
+            report.Aperto = false;
+            report.Spionaggio = new Battaglia.RisultatoSpionaggio();
+            // Il client distingue un report di spionaggio PVP da uno PVE-barbaro (e, tra i due barbari, Città globale da Villaggio personale) leggendo Tipo_Battaglia.
+            report.Spionaggio.Tipo_Battaglia = target.IsGlobal ? "PVE_Citta" : "PVE_Villaggio";
+
+            // Riusiamo DatiGiocatore per identificare il bersaglio barbaro (non un vero giocatore).
+            report.Spionaggio.Giocatore.Nome = target.Nome;
+            report.Spionaggio.Giocatore.Livello = target.Livello;
+            report.Spionaggio.Giocatore.Esperienza = target.Esperienza;
+
+            int forza = Math.Max(0, attaccante.Ricerca_Spionaggio - target.Contro_Spionaggio);
+            int precisione = CalcolaPrecisioneSpionaggio(forza);
+            int livello = CalcolaLivelloSpionaggio(forza);
+
+            var spy = report.Spionaggio;
+            spy.Forza_Spionaggio = forza;
+            spy.Stadio = livello;
+            spy.Precisione_Insufficiente = precisione < 900;
+            spy.Spionaggio_Riuscito = livello > 0;
+
+            // Un barbaro non ha edifici, ricerche o bonus da spiare: queste sezioni della struttura
+            // esistente (pensata per un Player) non si applicano e restano null, come richiesto.
+            spy.Strutture_Civili = null;
+            spy.Workshop = null;
+            spy.Caserme = null;
+            spy.Ricerca_Civile = null;
+            spy.Ricerca_Militare = null;
+            spy.Bonus = null;
+            spy.Risorse_Militari = null; // i barbari non producono risorse militari lavorate (Spade/Lance/Archi/...)
+
+            // Le "Fasi" ricalcano lo scontro reale contro un barbaro (2 fasi: a distanza, corpo a corpo — vedi Battaglie.Battaglia_Distanza),
+            // non le 7 fasi strutturali (Ingresso/Mura/ Cancello/Torri/...) dello spionaggio PVP tra giocatori, che per un barbaro non hanno un vero corrispettivo difensivo.
+            spy.Fasi = new List<SpionaggioFase> { new SpionaggioFase(), new SpionaggioFase() };
+
+            // Struttura.Nome è usato dal client SIA come etichetta del tab SIA come titolo della
+            // sezione (vedi 14-battaglia.js, renderSpiaFaseContent) — qui non è il nome del
+            // bersaglio ma il nome della fase stessa. Salute/Difesa del bersaglio sono valori
+            // strutturali visibili dall'esterno, sempre esatti (non passano da ApplicaPrecisione),
+            // e li ripetiamo identici su entrambe le fasi dato che un barbaro ha un'unica salute/difesa.
+            // I campi di SpionaggioVillaggio non pertinenti ai barbari (ricerche, guarnigione) restano ai valori di default: qui non esistono equivalenti da mostrare.
+            spy.Fasi[0].Struttura = new SpionaggioVillaggio
+            {
+                Nome = "A Distanza",
+                Salute = target.Salute,
+                Difesa = target.Difesa
+            };
+            spy.Fasi[1].Struttura = new SpionaggioVillaggio
+            {
+                Nome = "Corpo a Corpo",
+                Salute = target.Salute,
+                Difesa = target.Difesa
+            };
+
+            if (livello >= 2) // Le truppe si vedono solo da stadio 2 in su, come nel PVP
+            {
+                // Fase 0 = A Distanza (Arcieri + Catapulte)
+                ApplicaPrecisione(spy.Fasi[0].Arcieri[0], target.Arcieri, precisione);
+                ApplicaPrecisione(spy.Fasi[0].Catapulte[0], target.Catapulte, precisione);
+
+                // Fase 1 = Corpo a Corpo (Guerrieri + Lancieri)
+                ApplicaPrecisione(spy.Fasi[1].Guerrieri[0], target.Guerrieri, precisione);
+                ApplicaPrecisione(spy.Fasi[1].Lanceri[0], target.Lancieri, precisione);
+            }
+
+            if (livello >= 1)
+            {
+                spy.Risorse_Civili.Cibo = target.Cibo;
+                spy.Risorse_Civili.Legno = target.Legno;
+                spy.Risorse_Civili.Pietra = target.Pietra;
+                spy.Risorse_Civili.Ferro = target.Ferro;
+                spy.Risorse_Civili.Oro = target.Oro;
+                // Popolazione non esiste per i barbari: resta 0 (non applicabile).
+
+                spy.Risorse_Speciali.Diamanti_Viola = target.Diamanti_Viola;
+                spy.Risorse_Speciali.Diamanti_Blu = target.Diamanti_Blu;
+            }
+
+            attaccante.Report.Add(report);
         }
         public async static void EseguiSpionaggioTEST()
         {

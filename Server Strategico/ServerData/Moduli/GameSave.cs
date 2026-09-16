@@ -937,49 +937,78 @@ namespace Server_Strategico.ServerData.Moduli
             }
         }
 
-        public static async Task Load_Player_Data_Auto()
+        // Flag di processo: garantisce che il caricamento massivo dei salvataggi avvenga una
+        // sola volta per esecuzione del server. Non è pensato per essere richiamato di nuovo
+        // "a runtime" (i giocatori vengono aggiunti/aggiornati singolarmente via Login/New_Player
+        // durante il gioco) — un'eventuale nuova esecuzione ha senso solo dopo un riavvio del
+        // processo, che azzera questo campo static insieme a tutto il resto.
+        private static bool _giocatoriCaricati = false;
+
+        // Unico punto d'ingresso per il caricamento di tutti i giocatori salvati all'avvio del
+        // server. Sostituisce la vecchia coppia Load_Player_Data_Auto (qui) + Load_User_Auto
+        // (ServerConnection.cs), che si richiamavano a vicenda senza un reale motivo per essere
+        // separate. Valida il nome file prima di creare il giocatore: un file con nome vuoto o
+        // non valido (es. ".json") o con Username mancante nel JSON viene semplicemente ignorato,
+        // invece di generare un giocatore "fantasma" senza nome ad ogni riavvio.
+        public static async Task LoadAllPlayersData()
         {
+            if (_giocatoriCaricati)
+            {
+                Console.WriteLine("[GameLoad] LoadAllPlayersData già eseguita in questo processo: chiamata ignorata (serve un riavvio del server per rieseguirla).");
+                return;
+            }
+            _giocatoriCaricati = true;
+
             try
             {
                 if (!Directory.Exists(SavePath))
                 {
-                    Console.WriteLine("[autoGameLoad] Directory dei salvataggi non trovata");
+                    Console.WriteLine("[GameLoad] Directory dei salvataggi non trovata");
                     return;
                 }
 
                 string[] saveFiles = Directory.GetFiles(SavePath, "*.json");
                 foreach (string file in saveFiles)
                 {
-                    if (Path.GetFileName(file) == "ServerData.json" || Path.GetFileName(file).Contains("_Citta.json") || Path.GetFileName(file).Contains("_Villaggi.json")) // Salta il file dei barbari PVP
+                    string fileName = Path.GetFileName(file);
+                    if (fileName == "ServerData.json" || fileName.Contains("_Citta.json") || fileName.Contains("_Villaggi.json")) // File di dati globali/barbari, non un giocatore
                         continue;
 
                     string username = Path.GetFileNameWithoutExtension(file);
-                    Console.WriteLine($"[autoGameLoad] Caricamento automatico per {username}");
+                    if (string.IsNullOrWhiteSpace(username))
+                    {
+                        Console.WriteLine($"[GameLoad] File di salvataggio ignorato (nome file non valido): {fileName}");
+                        continue;
+                    }
 
                     try
                     {
-                        // Leggi il file JSON per estrarre la password
                         string jsonString = await File.ReadAllTextAsync(file);
                         var playerData = JsonSerializer.Deserialize<PlayerSaveData>(jsonString);
 
-                        string password = playerData.Password; // Estrai la password e carica i dati del giocatore
-                        Console.WriteLine($"[autoGameLoad] Password estratta per {username}");
+                        if (playerData == null || string.IsNullOrWhiteSpace(playerData.Username))
+                        {
+                            Console.WriteLine($"[GameLoad] File di salvataggio ignorato (Username mancante o dati non validi nel JSON): {fileName}");
+                            continue;
+                        }
 
-                        // Carica i dati del giocatore con la password estratta dal file
-                        bool success = await ServerConnection.Load_User_Auto(username, password, playerData.Email);
-                        if (success) Console.WriteLine($"[autoGameLoad] Caricamento automatico completato per {username}");
-                        else Console.WriteLine($"[autoGameLoad] Caricamento automatico fallito per {username}");
+                        Console.WriteLine($"[GameLoad] Caricamento {username}...");
+                        await Server.Server.servers_.AddPlayer(username, playerData.Password, playerData.Email, Guid.Empty);
+                        if (await LoadPlayer(username, playerData.Password))
+                            Console.WriteLine($"[GameLoad] Caricamento completato per {username}");
+                        else
+                            Console.WriteLine($"[GameLoad] Caricamento fallito per {username}");
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"[autoGameLoad] Errore durante l'estrazione della password per {username}: {ex.Message}");
+                        Console.WriteLine($"[GameLoad] Errore durante il caricamento di {fileName}: {ex.Message}");
                     }
                 }
-                Console.WriteLine("[autoGameLoad] Caricamento automatico completato per tutti i giocatori");
+                Console.WriteLine("[GameLoad] Caricamento di tutti i giocatori completato.");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[autoGameLoad] Errore durante il caricamento automatico: {ex.Message}");
+                Console.WriteLine($"[GameLoad] Errore durante il caricamento automatico: {ex.Message}");
             }
         }
 

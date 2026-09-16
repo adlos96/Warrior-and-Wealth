@@ -573,7 +573,7 @@ namespace Server_Strategico.Server
                 //await addBOT(500000);
 
                 await GameSave.LoadServerData();
-                await GameSave.Load_Player_Data_Auto();
+                await GameSave.LoadAllPlayersData();
                 servers_.AggiornaListaPVP();
                 await Gioco.Barbari.Inizializza();
                 _ = Task.Run(() => RunGameLoopSecondarioAsync(cancellationToken));

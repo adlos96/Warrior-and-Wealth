@@ -335,11 +335,11 @@ namespace Server_Strategico.Server
                     BuildingManagerV2.Terreni_Virtuali(clientGuid, player); // Costruisci fattorie
                     break;
                 case "Esplora":
-                    //Bisogna includere i dati del giocatore da spiare... per comodità nei test, ho utilizzato un giocatore fisso, tramite il suo username.
-                    var difensore = Server.servers_.GetPlayer("adly"); //Carica il giocatore da spiare.
-                    Spionaggio.EseguiSpionaggio(difensore, player, "PVP"); //Esegue lo spionaggio tra due giocatori (Andrà modificato per includere lo spionaggio verso i barbari)
-
-                    Esplora(player, Convert.ToInt32(msgArgs[4]), msgArgs[3]); //Vecchio metodo di esplorazione, da rimuovere in futuro
+                    // 16/09/2026: nuovo protocollo, sostituisce gradualmente il vecchio Esplora(...).
+                    // PVP: "Esplora|Token|PVP|Bersaglio"              -> msgArgs[3]=PVP, [4]=username
+                    // PVE: "Esplora|Token|PVE|Bersaglio|Livello"      -> msgArgs[3]=PVE, [4]=globale, [5]=livello
+                    //public static void EseguiSpionaggioRichiesta(Player attaccante, string modalità, string bersaglio, string livelloStr)
+                    EseguiSpionaggioRichiesta(player, msgArgs[3], msgArgs[4], msgArgs.Length > 5 ? msgArgs[5] : null);
                     break;
                 case "Battaglia":
                     Battaglia(player.guid_Player, player, msgArgs);
@@ -971,6 +971,56 @@ namespace Server_Strategico.Server
                 Server.Send(player.guid_Player, $"Log_Server|Scambiati [warning][icon:dollariVirtuali]{tributi} Tributi --> [icon:diamanteViola][warning]{tributi * Variabili_Server.D_Viola_To_Blu}[viola] Diamanti Viola");
             }
         }
+        // 16/09/2026: nuovo punto di ingresso per lo spionaggio, chiamato dal case "Esplora" —
+        // il nome del comando client resta invariato, cambia solo il payload (vedi il case sopra).
+        // PVP: bersaglio = username del giocatore da spiare, livelloStr = null.
+        // PVE: bersaglio = "Citta Barbaro" / "Villaggio Barbaro" (stesso valore che aveva "globale"
+        //      nel vecchio Esplora), livelloStr = livello del barbaro bersaglio.
+        public static void EseguiSpionaggioRichiesta(Player attaccante, string modalità, string bersaglio, string livelloStr)
+        {
+            if (modalità == "PVP")
+            {
+                var difensore = Server.servers_.GetPlayer(bersaglio);
+                if (difensore == null)
+                {
+                    Server.Send(attaccante.guid_Player, "Log_Server|[warning]Giocatore da spiare non trovato.");
+                    return;
+                }
+                Spionaggio.EseguiSpionaggioPVP(difensore, attaccante, "PVP");
+                return;
+            }
+
+            // PVE
+            if (!int.TryParse(livelloStr, out int livello))
+            {
+                Server.Send(attaccante.guid_Player, "Log_Server|[warning]Livello del bersaglio non valido.");
+                return;
+            }
+
+            BarbarianBase target;
+            if (bersaglio == "Citta Barbaro")
+                target = Gioco.Barbari.CittaGlobali.FirstOrDefault(c => c.Livello == livello);
+            else if (bersaglio == "Villaggio Barbaro")
+                target = attaccante.VillaggiPersonali.FirstOrDefault(v => v.Livello == livello);
+            else
+                target = null;
+
+            if (target == null)
+            {
+                Server.Send(attaccante.guid_Player, "Log_Server|[warning]Barbaro non trovato.");
+                return;
+            }
+
+            Spionaggio.EseguiSpionaggioPVE(target, attaccante);
+        }
+
+        // 16/09/2026: deprecato a favore del nuovo spionaggio (vedi Spionaggio.EseguiSpionaggio/
+        // SpionaggioPVE), che sostituisce la stima ±20% con la stessa meccanica forza/precisione/
+        // stadio già usata nel PVP e produce un vero Report invece di un semplice aggiornamento
+        // della lista. Lasciato qui invariato: non più raggiungibile dal case "Esplora" (che ora
+        // chiama EseguiSpionaggioRichiesta sopra), ma il metodo resta finché non si è sicuri che
+        // nient'altro lo richiami.
+        [Obsolete("Sostituito da EseguiSpionaggioRichiesta / Spionaggio.EseguiSpionaggio (PVE).")]
         public static void Esplora(Player player, int livello_Barbaro, string globale)
         {
             BarbarianBase target;
@@ -1096,6 +1146,8 @@ namespace Server_Strategico.Server
                         {
                             player.PremiNormali[reward] = true;
                             player.Diamanti_Blu += QuestManager.QuestRewardSet.Normali_Monthly.Rewards[reward];
+                            QuestManager.QuestRewardUpdate(player);
+                            QuestManager.QuestUpdate(player);
                             return;
                         }else
                         {
@@ -1125,6 +1177,8 @@ namespace Server_Strategico.Server
                             player.Diamanti_Viola += QuestManager.QuestRewardSet.Vip_Monthly.Rewards[reward];
                         }
                         premioRaccolto = true;
+                        QuestManager.QuestRewardUpdate(player);
+                        QuestManager.QuestUpdate(player);
                     }
                     break;
 
@@ -1139,6 +1193,23 @@ namespace Server_Strategico.Server
         public static async Task<bool> New_Player(string username, string password, string email, Guid guid)
         {
             var existingPlayer = Server.servers_.GetPlayer(username, password);
+
+            if (username == "")
+            {
+                Console.WriteLine($"New Player: Username non valido ({username})");
+                return false;
+            }
+            if (password == "")
+            {
+                Console.WriteLine($"New Player: Pasword non valido ({password})");
+                return false;
+            }
+            if (email == "")
+            {
+                Console.WriteLine($"New Player: Email non valido ({email})");
+                return false;
+            }
+
             if (existingPlayer != null) // Controlla se il giocatore esiste già
             {
                 existingPlayer.guid_Player = guid; //Assegna il guid aggiornato
@@ -1166,24 +1237,6 @@ namespace Server_Strategico.Server
                 return true;
             }
             else return false;
-        }
-        public static async Task<bool> Load_User_Auto(string username, string password, string email)
-        {
-            var existingPlayer = Server.servers_.GetPlayer(username);
-            if (existingPlayer != null) // Controlla se il giocatore esiste già
-            {
-                Console.WriteLine("Login: Il giocatore già esiste");
-                return true;
-            }
-
-            // Controlla se il nome utente è disponibile
-            if (await Server.servers_.Check_Username_Player(username))
-            {
-                await Server.servers_.AddPlayer(username, password, email, Guid.Empty); // Prima crea il nuovo giocatore
-                if (await GameSave.LoadPlayer(username, password)) // Poi prova a caricare i dati salvati
-                    return true;
-            }
-            return true;
         }
         public static void GamePass_Premi_Send(Player player)
         {
