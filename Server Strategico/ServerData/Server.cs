@@ -49,7 +49,7 @@ namespace Server_Strategico.Server
             else if (OperatingSystem.IsLinux())
             {
                 Console.WriteLine("Siamo su Linux");
-                GameSave.SavePath = "/opt/warriorandwealth/Saves_Test";
+                GameSave.SavePath = "/opt/Warrior-and-Wealth/Saves_Test";
             }
             GameSave.Initialize();
 
