@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using Server_Strategico.Gioco;
+﻿using Server_Strategico.Gioco;
 using Server_Strategico.Manager;
 using System.Text;
 using static Server_Strategico.Gioco.Giocatori;
@@ -11,6 +10,29 @@ namespace Server_Strategico.ServerData.Moduli
     {
         private Dictionary<string, string> _lastSent = new(250);
         private Dictionary<string, string> _currentState = new(250); // ← riusato, non ricreato ogni volta
+
+        // Numero di referti (player.Report.Count) inviati l'ultima volta al client
+        // (16/09/2026, su richiesta dell'utente: i referti devono arrivare "in
+        // diretta" come il resto dei dati di gioco, senza che ogni punto del
+        // codice che ne crea uno — battaglie PVP/PVE, spionaggio, ecc. — debba
+        // ricordarsi di inviarlo esplicitamente). Il JSON di player.Report NON
+        // passa da _currentState/BuildDelta sotto: può contenere il carattere
+        // "|", usato come separatore di campo nel protocollo, e mischiato lì
+        // dentro corromperebbe il messaggio. Va invece tenuto a parte e inviato
+        // con lo stesso formato "Update_Data|Report_Lista|<json>" già usato da
+        // Update_Data_OneTime — vedi ReportCountChanged/SyncReportCount sotto,
+        // usati da ServerConnection.Update_Data/Update_Data_OneTime.
+        // -1 = mai sincronizzato, forza l'invio al primo tick utile.
+        private int _lastReportCount = -1;
+
+        // Ultimo JSON delle quest inviato al client (16/09/2026, su richiesta
+        // dell'utente: stesso spirito di _lastReportCount sopra, ma qui il
+        // confronto è per contenuto, non per conteggio — le quest non crescono di
+        // numero come i referti, cambiano invece i valori dentro a quelle esistenti
+        // (progresso, completamenti). Usato da QuestManager.QuestUpdateSeCambiato,
+        // chiamato da OnEvent ad ogni variazione di quest invece che ogni 5 secondi
+        // a prescindere dal game loop (Server.cs). null = mai sincronizzato.
+        private string _lastQuestJson;
 
         // Costruisci lo stato attuale come dizionario
         public Dictionary<string, string> BuildCurrentState(Giocatori.Player player)
@@ -468,5 +490,38 @@ namespace Server_Strategico.ServerData.Moduli
 
         // Forza l'invio completo (es. al login)
         public void Reset() => _lastSent.Clear();
+
+        // True se il numero di referti è cambiato rispetto all'ultima volta che è
+        // stato inviato: aggiorna subito il valore interno, quindi va chiamato
+        // solo da chi si impegna a inviare davvero il nuovo Report_Lista se torna
+        // true (vedi ServerConnection.Update_Data).
+        public bool ReportCountChanged(int currentCount)
+        {
+            if (_lastReportCount == currentCount) return false;
+            _lastReportCount = currentCount;
+            return true;
+        }
+
+        // Chiamato da Update_Data_OneTime dopo aver mandato il Report_Lista
+        // iniziale al login: sincronizza il contatore così il primo tick
+        // periodico successivo non rimanda subito una seconda volta lo stesso
+        // identico contenuto appena inviato.
+        public void SyncReportCount(int currentCount) => _lastReportCount = currentCount;
+
+        // True se il JSON delle quest è cambiato rispetto all'ultima volta che è
+        // stato inviato: aggiorna subito il valore interno, quindi va chiamato solo
+        // da chi si impegna a inviare davvero il nuovo pacchetto se torna true (vedi
+        // QuestManager.QuestUpdateSeCambiato).
+        public bool QuestJsonChanged(string currentJson)
+        {
+            if (_lastQuestJson == currentJson) return false;
+            _lastQuestJson = currentJson;
+            return true;
+        }
+
+        // Chiamato da QuestManager.QuestUpdate (invio "a forza": login, riscatto
+        // premio) per allineare il tracking, così QuestUpdateSeCambiato non rimanda
+        // subito una seconda volta lo stesso identico contenuto appena inviato.
+        public void SyncQuestJson(string currentJson) => _lastQuestJson = currentJson;
     }
 }

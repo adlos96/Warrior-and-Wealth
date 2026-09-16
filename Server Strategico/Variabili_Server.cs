@@ -44,7 +44,7 @@
         public static Int16 peso_Risorse_Diamante_Blu = 1000;
         public static Int16 peso_Risorse_Diamante_Viola = 2000;
 
-        public static int tempo_Riparazione = 12; //tempo in secondi per riparare le strutture danneggiate
+        public static int tempo_Riparazione = 12; //tempo in secondi necessario per aggiungere una unità di HP o DEF (Base 60s test 12s)
 
         //Sblocco Esercito
         public static int truppe_II = 9;

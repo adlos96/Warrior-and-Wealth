@@ -418,7 +418,7 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
         private static Report AssegnaRisorseVittoria_PVE(Giocatori.Player player, Guid clientGuid, string tipo, int livello, UnitGroup sopravvissuti, Report report)
         {
             // Bilanciamento: stesso nerf /5 applicato al saccheggio PVP, per coerenza tra le due modalità (confermato dall'utente).
-            int capacitàCarico = CapacitàCarico(sopravvissuti, player) / 3;
+            int capacitàCarico = CapacitàCarico(sopravvissuti, player) / 5;
             int capacitàOriginale = capacitàCarico;
 
             int cibo = 0, legno = 0, pietra = 0, ferro = 0, oro = 0, exp = 0, diamBlu = 0, diamViola = 0;
@@ -587,10 +587,12 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
 
             player.Report.Add(report);
 
-            // Invio live del report aggiornato (2026-09-14), stesso schema aggiunto a BattagliaPVP.cs: prima
-            // il referto arrivava al client solo una volta al login ("Update_Data|Report_Lista|<json>" in
-            // ServerConnection.cs), ora anche subito dopo la battaglia.
-            Server_Strategico.Server.Server.Send(clientGuid, $"Update_Data|Report_Lista|{Newtonsoft.Json.JsonConvert.SerializeObject(player.Report)}");
+            // Invio live del report: fino al 15/09/2026 veniva mandato subito qui a mano
+            // (stesso schema di BattagliaPVP.cs), perché prima il referto arrivava al
+            // client solo al login. Dal 16/09/2026 questo invio esplicito non serve più:
+            // ServerConnection.Update_Data (il tick di gioco, circa ogni secondo) rileva
+            // da solo il cambio di player.Report.Count e manda il Report_Lista aggiornato
+            // — vedi PlayerSnapshot.ReportCountChanged.
 
             // Statistiche/Quest
             player.Guerrieri_Eliminati += fase.Difensore.Perdite.Guerrieri.Sum() + fase.Fase_Distanza.Difensore_Morti.Guerrieri.Sum();

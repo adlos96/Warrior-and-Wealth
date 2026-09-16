@@ -374,9 +374,9 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
         }
         private static async Task<Report> AssegnaRisorseVittoria_PvP(Giocatori.Player attaccante, Giocatori.Player difensore, Guid attackerGuid, UnitGroup sopravvissuti, Report report)
         {
-            // Bilanciamento: nel saccheggio PVP le truppe sopravvissute trasportano solo 1/3 della loro capacità di carico
+            // Bilanciamento: nel saccheggio PVP le truppe sopravvissute trasportano solo 1/5 della loro capacità di carico
             // totale (a differenza del PVE, dove presumibilmente si sfrutta la capacità piena). Nerf intenzionale.
-            int capacitàCarico = CapacitàCarico(sopravvissuti, attaccante) / 3;
+            int capacitàCarico = CapacitàCarico(sopravvissuti, attaccante) / 5;
             int capacitàOriginale = capacitàCarico;
 
             // Il 50% delle risorse del difensore può essere rubato
@@ -535,12 +535,15 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
             attaccante.Report.Add(report);
             difensore.Report.Add(report);
 
-            // Invio live del report aggiornato (2026-09-14): prima veniva mandato solo una volta al login
-            // (Update_Data_OneTime in ServerConnection.cs), quindi un client web/desktop aperto durante la
-            // battaglia non vedeva mai il nuovo referto senza riconnettersi. Stesso formato già in uso lì
-            // ("Update_Data|Report_Lista|<json>"), solo inviato anche subito dopo la battaglia.
-            Server_Strategico.Server.Server.Send(attaccante.guid_Player, $"Update_Data|Report_Lista|{Newtonsoft.Json.JsonConvert.SerializeObject(attaccante.Report)}");
-            Server_Strategico.Server.Server.Send(difensore.guid_Player, $"Update_Data|Report_Lista|{Newtonsoft.Json.JsonConvert.SerializeObject(difensore.Report)}");
+            // Invio live del report: fino al 15/09/2026 veniva mandato subito qui a mano
+            // (stesso formato usato da Update_Data_OneTime al login), perché prima veniva
+            // inviato solo una volta al login e un client aperto durante la battaglia non
+            // vedeva mai il nuovo referto senza riconnettersi. Dal 16/09/2026 questo invio
+            // esplicito non serve più: ServerConnection.Update_Data (il tick di gioco,
+            // circa ogni secondo) rileva da solo il cambio di player.Report.Count e manda
+            // il Report_Lista aggiornato — vedi PlayerSnapshot.ReportCountChanged. Così
+            // qualunque futura fonte di referti (non solo le battaglie) funziona senza
+            // doversene ricordare qui.
 
             AggiornaDatiGiocatori(attaccante, difensore, report); //Statistiche 
 

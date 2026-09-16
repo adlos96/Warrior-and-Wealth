@@ -217,6 +217,16 @@ namespace Server_Strategico.Manager
                     GestisciLivelli(player, targetName, amount);
                     break;
             }
+
+            // 16/09/2026, su richiesta dell'utente: invio "in diretta" del nuovo stato
+            // delle quest, ma solo se è davvero cambiato qualcosa — vedi
+            // QuestUpdateSeCambiato più sotto. OnEvent è l'UNICO punto da cui passa
+            // ogni variazione di progresso (tutti i Gestisci... sopra chiamano
+            // AddProgress, mai chiamato altrove), quindi qualunque futura meccanica
+            // che tocca le quest eredita gratis questo invio senza doversene occupare.
+            // Prima invece le quest venivano rimandate per intero ogni 5 secondi dal
+            // game loop (Server.cs), a prescindere che fosse cambiato qualcosa o meno.
+            QuestUpdateSeCambiato(player);
         }
 
         private static void GestisciCostruzione(Player player, string tipo, int quantita) // 🔸 GESTIONE SPECIFICA PER OGNI TIPO DI QUEST
@@ -443,46 +453,72 @@ namespace Server_Strategico.Manager
             player.QuestProgress.AddProgress(59, quantita, player);
         }
 
-        public static void QuestUpdate(Player player) // 🔸 INVIO AL CLIENT
+        // Costruisce il JSON con lo stato attuale delle quest non completate —
+        // condiviso da QuestUpdate (invio sempre) e QuestUpdateSeCambiato (invio solo
+        // se cambiato), così la query resta scritta in un punto solo.
+        private static string BuildQuestUpdateJson(Player player)
+        {
+            var questData = QuestDatabase.Quests.Values
+            // 🔹 Filtra solo le quest non completamente completate
+            .Where(q => player.QuestProgress.Completions[q.Id] < q.Max_Complete)
+            .Select(q =>
+            {
+                int completata = player.QuestProgress.Completions[q.Id]; // Quante volte è stata completata
+                int progress = player.QuestProgress.CurrentProgress[q.Id]; // Progresso attuale
+
+                int experienceBase = q.Experience;
+                int experienceBonus = experienceBase + completata * moltiplicatore_Esperienza;
+                int requireDinamico = q.Require + completata * q.Require;
+
+                string description = LocalizationManager.Get(player).GetQuestDescription(q.Id);
+
+                return new
+                {
+                    q.Id,
+                    Quest_Description = description,
+                    Experience = experienceBonus,
+                    Require = requireDinamico,
+                    Progress = progress,
+                    q.Max_Complete,
+                    Completata = completata
+                };
+            })
+            .ToList();
+
+            var questUpdate = new
+            {
+                Type = "QuestUpdate",
+                Quests = questData
+            };
+
+            return JsonSerializer.Serialize(questUpdate);
+        }
+
+        public static void QuestUpdate(Player player) // 🔸 INVIO AL CLIENT (sempre — login, riscatto premio)
         {
             if (Server.Server.Client_Connessi.Contains(player.guid_Player))
             {
-                var questData = QuestDatabase.Quests.Values
-                // 🔹 Filtra solo le quest non completamente completate
-                .Where(q => player.QuestProgress.Completions[q.Id] < q.Max_Complete)
-                .Select(q =>
-                {
-                    int completata = player.QuestProgress.Completions[q.Id]; // Quante volte è stata completata
-                    int progress = player.QuestProgress.CurrentProgress[q.Id]; // Progresso attuale
-
-                    int experienceBase = q.Experience;
-                    int experienceBonus = experienceBase + completata * moltiplicatore_Esperienza;
-                    int requireDinamico = q.Require + completata * q.Require;
-
-                    string description = LocalizationManager.Get(player).GetQuestDescription(q.Id);
-
-                    return new
-                    {
-                        q.Id,
-                        Quest_Description = description,
-                        Experience = experienceBonus,
-                        Require = requireDinamico,
-                        Progress = progress,
-                        q.Max_Complete,
-                        Completata = completata
-                    };
-                })
-                .ToList();
-
-                var questUpdate = new
-                {
-                    Type = "QuestUpdate",
-                    Quests = questData
-                };
-
-                string json = JsonSerializer.Serialize(questUpdate);
+                string json = BuildQuestUpdateJson(player);
+                // Allinea comunque il tracking di QuestUpdateSeCambiato: altrimenti il
+                // prossimo OnEvent penserebbe (a torto) che le quest siano "cambiate"
+                // rispetto a questo invio appena fatto, e le rimanderebbe subito di nuovo.
+                player.Snapshot.SyncQuestJson(json);
                 Server.Server.Send(player.guid_Player, json);
             }
+        }
+
+        // 16/09/2026, su richiesta dell'utente: invio "in diretta" chiamato da OnEvent
+        // ad ogni variazione di quest, ma solo se il contenuto è davvero diverso
+        // dall'ultimo mandato — evita di rimandare l'intera struttura delle quest
+        // quando OnEvent scatta ma il progresso non si è mosso (es. player.Tutorial
+        // == true dentro AddProgress, che blocca l'incremento).
+        public static void QuestUpdateSeCambiato(Player player)
+        {
+            if (!Server.Server.Client_Connessi.Contains(player.guid_Player)) return;
+
+            string json = BuildQuestUpdateJson(player);
+            if (!player.Snapshot.QuestJsonChanged(json)) return; // nulla di nuovo, non spammare
+            Server.Server.Send(player.guid_Player, json);
         }
         public static void QuestRewardUpdate(Player player)
         {

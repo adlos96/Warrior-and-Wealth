@@ -42,7 +42,8 @@ namespace Server_Strategico.Server
 
             if (OperatingSystem.IsWindows())
             {
-                Console.WriteLine("Siamo su Windows");
+                Console.WriteLine("-----------------------------------------------------------");
+                Console.WriteLine("[OS] Siamo su Windows");
                 if (subjectName == "DESKTOP-DOBLVTI" || subjectName == "ADLO") serverIp = "0.0.0.0";
             }
             else if (OperatingSystem.IsLinux())
@@ -171,6 +172,12 @@ namespace Server_Strategico.Server
         {
             cts = new CancellationTokenSource();
             gameLoopTask = servers_.RunGameLoopAsync(cts.Token);
+
+            //Start WebSocketGateway
+            try { WebSocketGateway.Start(Variabili_Server.WebGatewayPort); }
+            catch (Exception ex) { Console.WriteLine($"[Server] Errore avvio WebSocketGateway: {ex.Message}"); }
+            Console.WriteLine("-----------------------------------------------------------");
+
         }
         private async Task StopGame()
         {
@@ -506,7 +513,7 @@ namespace Server_Strategico.Server
             }
             public async Task RunGameLoopAsync(CancellationToken cancellationToken)
             {
-                int _firstStart = 0, stats = 0;
+                int stats = 0;
 
                 if (Variabili_Server._Server_Consumo_RAM == 0)
                 {
@@ -520,8 +527,9 @@ namespace Server_Strategico.Server
                 await GameSave.Load_Player_Data_Auto();
                 servers_.AggiornaListaPVP();
                 await Gioco.Barbari.Inizializza();
-                _ = Task.Run(() => CompleteTask(cancellationToken));
+                _ = Task.Run(() => RunGameLoopSecondarioAsync(cancellationToken));
                 ScheduleManager.AvvioReset();
+
 
                 int maxConcurrentTasks = Math.Max(1, Environment.ProcessorCount);
                 var options = new ParallelOptions { MaxDegreeOfParallelism = maxConcurrentTasks };
@@ -539,16 +547,6 @@ namespace Server_Strategico.Server
                                 player.ManutenzioneEsercito();
                                 return;
                             }
-
-                            if (_firstStart == 0)
-                            {
-                                player.SetupVillaggioGiocatore(player);
-                                player.BonusPacchetti();
-                                //Ripara(player);
-                                CalcoloPotenza(player);
-                                Esperienza.LevelUp(player);
-                                _firstStart++;
-                            }
                             
                             player.ProduceResources();
                             player.ServerTimer();
@@ -561,6 +559,7 @@ namespace Server_Strategico.Server
                     if (Variabili_Server.timer_Reset_Barbari > 0) Variabili_Server.timer_Reset_Barbari--;
                     if (Variabili_Server.timer_Reset_Barbari == 0) Barbari.RigeneraBarbari();
 
+                    #region STATS SERVER
                     taskStopwatch.Stop();
                     TimeSpan tempoImpiegato_2 = taskStopwatch.Elapsed;
 
@@ -599,9 +598,13 @@ namespace Server_Strategico.Server
                         if (tempoImpiegato_2.TotalMilliseconds > max_Stats) max_Stats = tempoImpiegato_2.TotalMilliseconds;
                         if (tempoImpiegato_2.TotalMilliseconds < min_Stats || min_Stats == 0) min_Stats = tempoImpiegato_2.TotalMilliseconds;
                     }
+                    #endregion
 
+                    //Tempo reale di attesa....
                     double tempoRimanente = 1000.0 - tempoImpiegato_2.TotalMilliseconds;
-                    if (tempoRimanente <= 0) tempoRimanente = 50;
+                    if (stats >= 60)
+                        Console.WriteLine($"[STATS] Tempo rimanente: {tempoRimanente} -- Deve essere <25");
+                    if (tempoRimanente <= 0) tempoRimanente = 25;
                     if (tempoRimanente > 0) await Task.Delay((int)tempoRimanente);
 
                     stats++;
@@ -679,9 +682,10 @@ namespace Server_Strategico.Server
                 // Totale
                 player.Potenza_Totale = player.Potenza_Strutture + player.Potenza_Esercito + player.Potenza_Ricerca;
             }
-            public async Task CompleteTask(CancellationToken cancellationToken) //Task parallelo, andrebbe usato x richiamare cose, costruzioni, tempo, ecc...
+            public async Task RunGameLoopSecondarioAsync(CancellationToken cancellationToken) //Task parallelo, andrebbe usato x richiamare cose, costruzioni, tempo, ecc...
             {
                 int tempo_1 = 0, execute_2s = 0, saveServer = 0, savePlayer = 0, update_5s = 0, riparazioni = 0;
+                bool start = true;
                 while (!cancellationToken.IsCancellationRequested)
                 {
                     foreach (var player in players.Values)
@@ -691,6 +695,16 @@ namespace Server_Strategico.Server
                         UnitManagerV2.CompleteRecruitment(player.guid_Player, player);
                         if (tempo_1 >= 4)
                         {
+                            if (start)
+                            {
+                                player.SetupVillaggioGiocatore(player);
+                                player.BonusPacchetti();
+                                Ripara(player); //Inizializza le riparazioni, se i bool sono true allora ripara. (se ci sono risorse)
+                                CalcoloPotenza(player);
+                                Esperienza.LevelUp(player);
+                                start = false;
+                            }
+
                             if (execute_2s >= 2)
                             {
 
@@ -705,7 +719,16 @@ namespace Server_Strategico.Server
                             if (update_5s >= 5)
                             {
                                 player.ManutenzioneEsercito();
-                                QuestManager.QuestUpdate(player);
+                                // 16/09/2026, su richiesta dell'utente: QuestManager.QuestUpdate(player) qui
+                                // mandava l'intera struttura delle quest ogni 5 secondi per OGNI giocatore
+                                // connesso, a prescindere che fosse cambiato qualcosa o meno (era proprio
+                                // questo lo "spam" per cui esisteva il filtro di log in Server.Send più sotto
+                                // — vedi il case "Update_Data"/"QuestUpdate"/"QuestRewards"/"Descrizione").
+                                // Rimosso: QuestManager.OnEvent (l'UNICO punto da cui passa ogni variazione
+                                // di progresso quest) ora chiama da sé QuestUpdateSeCambiato subito quando
+                                // qualcosa cambia davvero — il giocatore vede il progresso aggiornarsi
+                                // all'istante, invece che aspettare fino a 5 secondi, e non arriva più nulla
+                                // quando non è successo nulla.
                                 //QuestManager.QuestRewardUpdate(player);
                                 player.SetupVillaggioGiocatore(player);
                             }

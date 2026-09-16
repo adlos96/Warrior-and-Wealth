@@ -3,7 +3,6 @@ using Server_Strategico.Gioco;
 using Server_Strategico.Manager;
 using Server_Strategico.ServerData.Moduli;
 using Strategico_V2.Manager;
-using System;
 using System.Text;
 using WatsonTcp;
 using static Server_Strategico.Gioco.Barbari;
@@ -336,20 +335,14 @@ namespace Server_Strategico.Server
                     BuildingManagerV2.Terreni_Virtuali(clientGuid, player); // Costruisci fattorie
                     break;
                 case "Esplora":
-                    //Esplora(player, Convert.ToInt32(msgArgs[4]), msgArgs[3]);
-                    var difensore = Server.servers_.GetPlayer("adly");
-                    Spionaggio.EseguiSpionaggio(difensore, player, "PVP");
+                    //Bisogna includere i dati del giocatore da spiare... per comodità nei test, ho utilizzato un giocatore fisso, tramite il suo username.
+                    var difensore = Server.servers_.GetPlayer("adly"); //Carica il giocatore da spiare.
+                    Spionaggio.EseguiSpionaggio(difensore, player, "PVP"); //Esegue lo spionaggio tra due giocatori (Andrà modificato per includere lo spionaggio verso i barbari)
 
-                    //Invia i report al client
-                    string payload = JsonConvert.SerializeObject(player.Report);
-                    Server.Send(clientGuid, $"Update_Data|Report_Lista|{payload}");
+                    Esplora(player, Convert.ToInt32(msgArgs[4]), msgArgs[3]); //Vecchio metodo di esplorazione, da rimuovere in futuro
                     break;
                 case "Battaglia":
                     Battaglia(player.guid_Player, player, msgArgs);
-
-                    //Invia i report al client
-                    string payloadX = JsonConvert.SerializeObject(player.Report);
-                    Server.Send(clientGuid, $"Update_Data|Report_Lista|{payloadX}");
                     break;
                 case "Ricerca":
                     ResearchManager.Ricerca(msgArgs[3], clientGuid, player);
@@ -1103,8 +1096,6 @@ namespace Server_Strategico.Server
                         {
                             player.PremiNormali[reward] = true;
                             player.Diamanti_Blu += QuestManager.QuestRewardSet.Normali_Monthly.Rewards[reward];
-                            QuestManager.QuestRewardUpdate(player);
-                            QuestManager.QuestUpdate(player);
                             return;
                         }else
                         {
@@ -1134,8 +1125,6 @@ namespace Server_Strategico.Server
                             player.Diamanti_Viola += QuestManager.QuestRewardSet.Vip_Monthly.Rewards[reward];
                         }
                         premioRaccolto = true;
-                        QuestManager.QuestRewardUpdate(player);
-                        QuestManager.QuestUpdate(player);
                     }
                     break;
 
@@ -1395,9 +1384,13 @@ namespace Server_Strategico.Server
 
             Server.Send(guid, data);
 
-            //Invia i report al client
             string payload = JsonConvert.SerializeObject(player.Report);
             Server.Send(guid, $"Update_Data|Report_Lista|{payload}");
+            // 16/09/2026: sincronizza il contatore usato da Update_Data per capire
+            // se sono arrivati nuovi referti da mandare "in diretta" — altrimenti
+            // il primo tick periodico dopo il login rimanderebbe subito lo stesso
+            // identico Report_Lista appena inviato qui sopra.
+            player.Snapshot.SyncReportCount(player.Report.Count);
         }
         public static void Update_Data(Guid guid, Player player)
         {
@@ -1406,6 +1399,21 @@ namespace Server_Strategico.Server
             var current = player.Snapshot.BuildCurrentState(player);
             var delta = player.Snapshot.BuildDelta(current);
             if (delta != null) Server.Send(guid, delta);
+
+            // 16/09/2026, su richiesta dell'utente: i referti (player.Report) vengono
+            // rilevati e inviati "in diretta" automaticamente ad ogni tick, invece di
+            // richiedere che ogni punto del codice che ne crea uno (battaglie PVP/PVE,
+            // spionaggio, e in futuro altri) se ne ricordi da solo — prima, ad esempio,
+            // lo spionaggio non lo faceva e il referto arrivava al client solo al
+            // prossimo login. Non passa dal delta sopra: vedi il commento su
+            // _lastReportCount in PlayerSnapshot.cs per il perché (il carattere "|"
+            // nel JSON corromperebbe il protocollo). Stesso formato già usato da
+            // Update_Data_OneTime al login.
+            if (player.Snapshot.ReportCountChanged(player.Report.Count))
+            {
+                string reportPayload = JsonConvert.SerializeObject(player.Report);
+                Server.Send(guid, $"Update_Data|Report_Lista|{reportPayload}");
+            }
 
             if (player.Livello >= Variabili_Server.PVP_Unlock)
             {
