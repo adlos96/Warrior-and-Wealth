@@ -166,6 +166,8 @@ namespace Server_Strategico.Server
                         max_Stats = 0;
                         numero_Stats = 0;
                         break;
+                    case "":
+                        break;
 
                     default: Console.WriteLine("[Server] >> Comando sconosciuto"); break;
                 }
