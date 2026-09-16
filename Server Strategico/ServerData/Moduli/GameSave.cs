@@ -11,10 +11,28 @@ namespace Server_Strategico.ServerData.Moduli
     internal class GameSave
     {
         static bool Saved = false;
+
+        // Condivisa invece di "new JsonSerializerOptions { WriteIndented = true }" ad ogni
+        // chiamata: ogni istanza si costruisce (e tiene in cache) la propria metadata di
+        // reflection per i tipi che serializza — con salvataggi frequenti per tanti giocatori
+        // questo genera parecchio garbage di reflection (Signature/RuntimeMethodInfoStub/
+        // RuntimeTypeCache, confermato da uno snapshot heap dell'utente il 16/09/2026) che poi
+        // il GC deve ripulire. Riusare la stessa istanza costruisce la metadata una sola volta.
+        internal static readonly JsonSerializerOptions IndentedJsonOptions = new JsonSerializerOptions { WriteIndented = true };
+
         public static string SavePath = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), 
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
             "Server Strategico",
             "Saves_Test"
+        );
+
+        // Cartella sorella di SavePath, stessa logica (default Windows qui, override su Linux in
+        // Server.cs riga ~52 accanto a quello di SavePath). Un file di log per avvio del server
+        // (nome con data/ora, vedi InitializeLogging), non un unico file che cresce all'infinito.
+        public static string LogPath = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+            "Server Strategico",
+            "Log"
         );
 
         private class RefreshTokenRecord
@@ -28,6 +46,70 @@ namespace Server_Strategico.ServerData.Moduli
         {
             if (!Directory.Exists(SavePath)) // Crea la directory se non esiste
                 Directory.CreateDirectory(SavePath);
+        }
+
+        private static StreamWriter _logFileWriter;
+
+        // 16/09/2026, su richiesta dell'utente: duplica tutto quello che passa per Console.Out
+        // (quindi ogni Console.WriteLine/Write esistente, senza doverli toccare uno per uno) anche
+        // su un file di log, scritto in modo incrementale (non bufferizzato) così se il processo
+        // crasha il log fino a quel momento resta comunque leggibile su disco. Va chiamata il prima
+        // possibile in Server(), PRIMA di qualsiasi Console.WriteLine, altrimenti le primissime
+        // righe (compreso l'esito del check Windows/Linux) non finiscono nel file.
+        public static void InitializeLogging()
+        {
+            if (!Directory.Exists(LogPath))
+                Directory.CreateDirectory(LogPath);
+
+            string fileName = $"server_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.log";
+            _logFileWriter = new StreamWriter(Path.Combine(LogPath, fileName), append: false)
+            {
+                AutoFlush = true // scrittura incrementale: ogni riga arriva subito sul file, non solo alla chiusura
+            };
+
+            Console.SetOut(new TeeTextWriter(Console.Out, _logFileWriter));
+        }
+
+        // Duplica ogni scrittura sia sulla console originale sia sul file di log. Non copre TUTTI
+        // i possibili overload di TextWriter, ma quelli che il codice del server usa davvero
+        // (Write/WriteLine di stringhe e caratteri) — gli altri overload di TextWriter (WriteLine(int),
+        // WriteLine(object), ecc.) ricadono di default su questi tramite la classe base.
+        private sealed class TeeTextWriter : TextWriter
+        {
+            private readonly TextWriter _console;
+            private readonly TextWriter _file;
+
+            public TeeTextWriter(TextWriter console, TextWriter file)
+            {
+                _console = console;
+                _file = file;
+            }
+
+            public override System.Text.Encoding Encoding => _console.Encoding;
+
+            public override void Write(char value)
+            {
+                _console.Write(value);
+                _file.Write(value);
+            }
+
+            public override void Write(string value)
+            {
+                _console.Write(value);
+                _file.Write(value);
+            }
+
+            public override void WriteLine(string value)
+            {
+                _console.WriteLine(value);
+                _file.WriteLine(value);
+            }
+
+            public override void WriteLine()
+            {
+                _console.WriteLine();
+                _file.WriteLine();
+            }
         }
 
         // Scrive prima su un file temporaneo e poi lo sposta sul path finale.
@@ -371,20 +453,20 @@ namespace Server_Strategico.ServerData.Moduli
 
                 if (player.VillaggiPersonali != null) // Salvataggio Villaggi Personali
                 {
-                    var villaggiJson = JsonSerializer.Serialize(player.VillaggiPersonali, new JsonSerializerOptions { WriteIndented = true });
+                    var villaggiJson = JsonSerializer.Serialize(player.VillaggiPersonali, IndentedJsonOptions);
                     string fileName1 = Path.Combine(SavePath, $"{player.Username}_Villaggi.json");
                     await WriteAllTextAtomicAsync(fileName1, villaggiJson);
                 }
 
                 if (Gioco.Barbari.CittaGlobali != null) // Salvataggio Città Globali
                 {
-                    var cittaJson = JsonSerializer.Serialize(Gioco.Barbari.CittaGlobali, new JsonSerializerOptions { WriteIndented = true });
+                    var cittaJson = JsonSerializer.Serialize(Gioco.Barbari.CittaGlobali, IndentedJsonOptions);
                     string fileName1 = Path.Combine(SavePath, $"{player.Username}_Citta.json");
                     await WriteAllTextAtomicAsync(fileName1, cittaJson);
                 }
 
                 string fileName = Path.Combine(SavePath, $"{player.Username}.json");
-                string jsonString = JsonSerializer.Serialize(playerData, new JsonSerializerOptions { WriteIndented = true });
+                string jsonString = JsonSerializer.Serialize(playerData, IndentedJsonOptions);
                 await WriteAllTextAtomicAsync(fileName, jsonString);
 
                 Console.WriteLine($"[GameSave] Salvati i dati del giocatore {player.Username}");
@@ -748,6 +830,8 @@ namespace Server_Strategico.ServerData.Moduli
                              Sconfitto      = v.Sconfitto,
                              Saccheggiato   = v.Saccheggiato,
                              Contro_Spionaggio = v.Contro_Spionaggio,
+                             Salute         = v.Salute,
+                             Difesa         = v.Difesa,
                              Esperienza     = v.Esperienza,
                              Diamanti_Viola = v.Diamanti_Viola,
                              Diamanti_Blu   = v.Diamanti_Blu,
@@ -778,6 +862,10 @@ namespace Server_Strategico.ServerData.Moduli
                             Livello = v.Livello,
                             Sconfitto = v.Sconfitto,
                             Esplorato = v.Esplorato,
+                            Saccheggiato = v.Saccheggiato,
+                            Contro_Spionaggio = v.Contro_Spionaggio,
+                            Salute = v.Salute,
+                            Difesa = v.Difesa,
                             Esperienza = v.Esperienza,
                             Diamanti_Viola = v.Diamanti_Viola,
                             Diamanti_Blu = v.Diamanti_Blu,
@@ -857,7 +945,7 @@ namespace Server_Strategico.ServerData.Moduli
                 string tempFileName = fileName + ".tmp";
                 await using (var fs = new FileStream(tempFileName, FileMode.Create, FileAccess.Write, FileShare.None, 65536, true))
                 {
-                    await JsonSerializer.SerializeAsync(fs, ServerData, new JsonSerializerOptions { WriteIndented = true });
+                    await JsonSerializer.SerializeAsync(fs, ServerData, IndentedJsonOptions);
                 }
                 File.Move(tempFileName, fileName, overwrite: true);
 

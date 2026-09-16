@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Text.Json;
+using Server_Strategico.ServerData.Moduli;
 using static Server_Strategico.Gioco.Barbari;
 using static Server_Strategico.Gioco.Giocatori;
 using static Server_Strategico.Gioco.Variabili_Server;
@@ -541,8 +542,9 @@ namespace Server_Strategico.Manager
                     Completo_Vip = completo_vip
                 };
 
-                var options = new JsonSerializerOptions { WriteIndented = true };
-                string json = JsonSerializer.Serialize(packet, options);
+                // Riusa l'istanza condivisa invece di crearne una nuova ad ogni chiamata (vedi nota
+                // in GameSave.IndentedJsonOptions per il perché).
+                string json = JsonSerializer.Serialize(packet, GameSave.IndentedJsonOptions);
                 Server.Server.Send(player.guid_Player, json);
             }
             catch (Exception ex)

@@ -39,6 +39,15 @@ namespace Server_Strategico.Server
         private Server()
         {
             string subjectName = Environment.MachineName; //Ottine il nome della macchina (hostname)
+
+            // Path di log specifico Linux, stesso trattamento di SavePath sotto — va impostato
+            // PRIMA di InitializeLogging() (altrimenti il log finirebbe nella cartella di default
+            // Windows anche su Linux), quindi il check OS è separato e anticipato rispetto al
+            // blocco if/else con i Console.WriteLine qualche riga più sotto.
+            if (OperatingSystem.IsLinux())
+                GameSave.LogPath = "/opt/Warrior-and-Wealth/Log";
+            GameSave.InitializeLogging(); // prima di qualsiasi Console.WriteLine, per non perdere le primissime righe
+
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
             if (OperatingSystem.IsWindows())
@@ -573,7 +582,12 @@ namespace Server_Strategico.Server
                 if (Variabili_Server._Server_Consumo_RAM == 0)
                 {
                     Process proc = Process.GetCurrentProcess();
-                    Variabili_Server._Server_Consumo_RAM = (int)(proc.WorkingSet64 / 1024.0 / 1024.0);
+                    // Prima usava proc.WorkingSet64 diretto anche su Linux, mentre PrintResourcesAsync
+                    // calcola il valore "attuale" con GetAccurateRamMb (che su Linux legge VmRSS da
+                    // /proc/self/status, una metrica diversa da WorkingSet64) — la sottrazione tra le due
+                    // mescolava due misure incompatibili, dando i numeri "a caso" per player su Linux.
+                    // Ora la baseline usa la stessa funzione, quindi la stessa metrica, di ogni lettura successiva.
+                    Variabili_Server._Server_Consumo_RAM = (int)GetAccurateRamMb(proc);
                     Console.WriteLine($"[Server] Baseline RAM impostata: {Variabili_Server._Server_Consumo_RAM:F2} MB");
                 }
                 //await addBOT(500000);
