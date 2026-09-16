@@ -107,7 +107,6 @@ namespace Server_Strategico.Server
                 catch (Exception ex)
                 {
                     Console.WriteLine($"[SERVER|LOG] (Errore) > Console non più leggibile, comandi da tastiera disabilitati: {ex.Message}");
-                    break;
                 }
 
                 switch (userInput)
