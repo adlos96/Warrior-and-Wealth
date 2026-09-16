@@ -130,23 +130,13 @@ namespace Server_Strategico.Gioco
             for (int lv = 1; lv <= 20; lv++)
                 player.VillaggiPersonali.Add(GeneraVillaggio(lv, player.Livello));
 
-            Console.WriteLine($"[Barbari] Generati {player.VillaggiPersonali.Count} villaggi per {player.Username}");
-            int diamanti_Viola = 0, diamanti_Blu = 0;
-            int guerrieri = 0;
-            int lancieri = 0;
-            int arcieri = 0;
-            int catapulte = 0;
-
-            foreach (var villaggi in player.VillaggiPersonali)
-            {
-                diamanti_Viola += villaggi.Diamanti_Viola;
-                diamanti_Blu += villaggi.Diamanti_Blu;
-                guerrieri += villaggi.Guerrieri;
-                lancieri += villaggi.Lancieri;
-                arcieri += villaggi.Arcieri;
-                catapulte += villaggi.Catapulte;
-            }
-            Console.WriteLine($"[Barbari] Stats Villaggi Barbare: {diamanti_Viola} D_V, {diamanti_Blu} D_B, {guerrieri} G, {lancieri} L, {arcieri} A, {catapulte} C");
+            // 16/09/2026, su richiesta dell'utente: tolti i due Console.WriteLine per-giocatore
+            // che c'erano qui ("Generati N villaggi per X"/"Stats Villaggi Barbare: ...") — con
+            // molti account salvati (anche solo di test) intasavano la console con due righe
+            // IDENTICHE per ognuno ad ogni avvio del server (i 20 villaggi hanno sempre la
+            // stessa formula, quindi le "stats" sono sempre le stesse). Il caricamento
+            // complessivo resta comunque visibile nel riepilogo di GameSave.LoadAllPlayersData
+            // ("[GameLoad] Caricati N giocatori..."), che è il segnale che conta davvero.
         }
 
         public static async Task Inizializza() // Inizializzazione globale (da chiamare all’avvio del server)

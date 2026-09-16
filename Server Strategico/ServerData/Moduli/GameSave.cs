@@ -514,14 +514,20 @@ namespace Server_Strategico.ServerData.Moduli
                 Console.WriteLine($"[GameSave] Errore durante il salvataggio: {ex.Message}");
             }
         }
-        public static async Task<bool> LoadPlayer(string username, string password)
+        // 16/09/2026, su richiesta dell'utente: parametro "silenzioso" per non stampare i due
+        // avvisi qui sotto quando questo metodo viene chiamato in blocco da
+        // LoadAllPlayersData (dove su tanti account "Nessun salvataggio trovato"/"Password
+        // non valida" per ognuno erano solo spam) — resta invariato (default false, quindi
+        // stampa) per il caso normale: un giocatore vero che fa Login/AutoLogin, dove questi
+        // due messaggi sono informazioni utili in tempo reale, non rumore.
+        public static async Task<bool> LoadPlayer(string username, string password, bool silenzioso = false)
         {
             try
             {
                 string fileName = Path.Combine(SavePath, $"{username}.json");
                 if (!File.Exists(fileName))
                 {
-                    Console.WriteLine($"[GameLoad] Nessun salvataggio trovato per {username}");
+                    if (!silenzioso) Console.WriteLine($"[GameLoad] Nessun salvataggio trovato per {username}");
                     return false;
                 }
 
@@ -530,7 +536,7 @@ namespace Server_Strategico.ServerData.Moduli
 
                 if (playerData.Password != password && password != "Auto")
                 {
-                    Console.WriteLine($"[GameLoad] Password non valida per {username}");
+                    if (!silenzioso) Console.WriteLine($"[GameLoad] Password non valida per {username}");
                     return false;
                 }
 
@@ -885,7 +891,7 @@ namespace Server_Strategico.ServerData.Moduli
                          })
                          .ToList();
                     }
-                    else Console.WriteLine($"[GameSave] Nessun salvataggio trovato per {username}");
+                    else Console.WriteLine($"[GameLoad] Nessun salvataggio villaggi trovato per {username}");
 
                     if (File.Exists(fileName_Villaggio + "_Report.json")) // Caricamento Report (tutti, nessun limite — vedi SavePlayer)
                     {
@@ -934,9 +940,7 @@ namespace Server_Strategico.ServerData.Moduli
                         .ToList();
                         Saved = true; // carica 1 volta sola e non per ogni giocatore
                     }
-                    else Console.WriteLine($"[GameLoad] Nessun salvataggio trovato per {username}");
 
-                    Console.WriteLine($"[GameLoad] Caricamento dei dati del giocatore {username} completato");
                     return true;
                 }
             }
@@ -1107,17 +1111,47 @@ namespace Server_Strategico.ServerData.Moduli
                     return;
                 }
 
+                // 16/09/2026, su richiesta dell'utente: non stampa più una riga per ogni
+                // singolo giocatore ("Caricamento X...", poi "completato per X") — con molti
+                // account salvati (anche solo di test) erano decine di righe quasi identiche
+                // ad ogni avvio. Ora si contano gli esiti e si stampa UN solo riepilogo finale
+                // (stesso stile sintetico di "[TokenStore] Caricati N refresh token (M scaduti
+                // scartati)"), così resta comunque visibile che il caricamento è avvenuto.
+                //
+                // 16/09/2026 (seconda richiesta): il riepilogo da solo non diceva CHI fosse
+                // stato ignorato/fallito e perché — bisognava risalire alle singole righe più
+                // sopra nel log. Ora "ignorati"/"falliti" tengono anche il nome file e il
+                // motivo, ripetuti nella riga di riepilogo finale, oltre alla riga già stampata
+                // subito quando l'anomalia si verifica (utile se si sta guardando la console in
+                // tempo reale, non solo a caricamento finito).
+                //
+                // "totale" ora conta ogni file "*.json" che non è escluso per nome (Città/
+                // Villaggi/Report/Cronologia/ServerData/token) — prima un nome file non valido
+                // (raro: "" o solo spazi) non veniva contato in "totale" ma un JSON senza
+                // Username sì, rendendo i numeri incoerenti tra i due casi di "ignorato".
+                int totale = 0, successi = 0, falliti = 0;
+                var ignorati = new List<(string File, string Motivo)>();
+                var fallitiDettaglio = new List<(string Username, string Motivo)>();
+
                 string[] saveFiles = Directory.GetFiles(SavePath, "*.json");
                 foreach (string file in saveFiles)
                 {
                     string fileName = Path.GetFileName(file);
-                    if (fileName == "ServerData.json" || fileName.Contains("_Citta.json") || fileName.Contains("_Villaggi.json") || fileName.Contains("_Report.json") || fileName.Contains("_Cronologia.json")) // File di dati globali/barbari/report/cronologia, non un giocatore
+                    // "token.json" (TokenStore, refresh token — vedi log "[TokenStore] Caricati
+                    // N refresh token...") vive nella stessa cartella dei salvataggi ma non è un
+                    // giocatore: prima finiva qui dentro e veniva segnalato come "ignorato"
+                    // (Username mancante), un falso allarme ad ogni avvio. Ora è escluso per
+                    // nome esatto, come ServerData.json.
+                    if (fileName == "ServerData.json" || fileName == "token.json" || fileName.Contains("_Citta.json") || fileName.Contains("_Villaggi.json") || fileName.Contains("_Report.json") || fileName.Contains("_Cronologia.json")) // File di dati globali/barbari/report/cronologia/token, non un giocatore
                         continue;
 
+                    totale++;
                     string username = Path.GetFileNameWithoutExtension(file);
                     if (string.IsNullOrWhiteSpace(username))
                     {
-                        Console.WriteLine($"[GameLoad] File di salvataggio ignorato (nome file non valido): {fileName}");
+                        const string motivo = "nome file non valido";
+                        Console.WriteLine($"[GameLoad] File di salvataggio ignorato ({motivo}): {fileName}");
+                        ignorati.Add((fileName, motivo));
                         continue;
                     }
 
@@ -1128,23 +1162,37 @@ namespace Server_Strategico.ServerData.Moduli
 
                         if (playerData == null || string.IsNullOrWhiteSpace(playerData.Username))
                         {
-                            Console.WriteLine($"[GameLoad] File di salvataggio ignorato (Username mancante o dati non validi nel JSON): {fileName}");
+                            const string motivo = "Username mancante o dati non validi nel JSON";
+                            Console.WriteLine($"[GameLoad] File di salvataggio ignorato ({motivo}): {fileName}");
+                            ignorati.Add((fileName, motivo));
                             continue;
                         }
 
-                        Console.WriteLine($"[GameLoad] Caricamento {username}...");
                         await Server.Server.servers_.AddPlayer(username, playerData.Password, playerData.Email, Guid.Empty);
-                        if (await LoadPlayer(username, playerData.Password))
-                            Console.WriteLine($"[GameLoad] Caricamento completato per {username}");
+                        if (await LoadPlayer(username, playerData.Password, silenzioso: true))
+                            successi++;
                         else
-                            Console.WriteLine($"[GameLoad] Caricamento fallito per {username}");
+                        {
+                            const string motivo = "nessun salvataggio trovato o password non valida";
+                            Console.WriteLine($"[GameLoad] Caricamento fallito per {username} ({motivo})");
+                            falliti++;
+                            fallitiDettaglio.Add((username, motivo));
+                        }
                     }
                     catch (Exception ex)
                     {
                         Console.WriteLine($"[GameLoad] Errore durante il caricamento di {fileName}: {ex.Message}");
+                        falliti++;
+                        fallitiDettaglio.Add((username, ex.Message));
                     }
                 }
-                Console.WriteLine("[GameLoad] Caricamento di tutti i giocatori completato.");
+
+                string riepilogo = $"[GameLoad] Caricati {successi}/{totale} giocatori ({ignorati.Count} ignorati, {falliti} falliti).";
+                if (ignorati.Count > 0)
+                    riepilogo += $" Ignorati: {string.Join("; ", ignorati.Select(i => $"{i.File} ({i.Motivo})"))}.";
+                if (fallitiDettaglio.Count > 0)
+                    riepilogo += $" Falliti: {string.Join("; ", fallitiDettaglio.Select(f => $"{f.Username} ({f.Motivo})"))}.";
+                Console.WriteLine(riepilogo);
             }
             catch (Exception ex)
             {

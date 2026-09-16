@@ -35,6 +35,7 @@ namespace Server_Strategico.Server
         static public GameServer servers_ = new GameServer();
 
         public static double totale_Stats = 0, media_Stats = 0, min_Stats = 0, max_Stats = 0, numero_Stats = 0;
+        static bool avviato = false;
 
         private Server()
         {
@@ -198,6 +199,12 @@ namespace Server_Strategico.Server
             cts = new CancellationTokenSource();
             gameLoopTask = servers_.RunGameLoopAsync(cts.Token);
 
+            Console.WriteLine($"[Server] Attesa avvio server....");
+            while (!avviato)
+            {
+                Thread.Sleep(1000);
+            }
+            Console.WriteLine($"[Server] Server avviato!");
             //Start WebSocketGateway
             try { WebSocketGateway.Start(Variabili_Server.WebGatewayPort); }
             catch (Exception ex) { Console.WriteLine($"[Server] Errore avvio WebSocketGateway: {ex.Message}"); }
@@ -696,6 +703,7 @@ namespace Server_Strategico.Server
                     if (tempoRimanente > 0) await Task.Delay((int)tempoRimanente);
 
                     stats++;
+                    if (!avviato) avviato = true;
                 }
             }
             public async Task SaveSomePlayersAsync(int count)
