@@ -254,8 +254,8 @@ namespace Server_Strategico.Server
             player1.Armature = 2000;
             player1.Frecce = 200;
 
-            player1.Diamanti_Blu = 60000;
-            player1.Diamanti_Viola = 45000;
+            player1.Diamanti_Blu = 600000;
+            player1.Diamanti_Viola = 450000;
 
             Gioco.Barbari.GeneraVillaggiPerGiocatore(player1);
         }

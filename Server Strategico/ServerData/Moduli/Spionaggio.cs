@@ -111,26 +111,26 @@ namespace Server_Strategico.ServerData.Moduli
         public async static void EseguiSpionaggioPVE(Barbari.BarbarianBase target, Giocatori.Player attaccante)
         {
             //Costo in risorse per lo spionaggio: [ORO] — vedi nota sopra, stesso discorso del PVP
-            int costo = 0;
-            string name = "";
-            if (target.Nome.Contains("Villaggio"))
-            {
-                costo = costo_Spionaggio_Villaggio_Base * target.Livello;
-                name = "Villaggio Barbaro";
-            }
-            if (target.Nome.Contains("Citta"))
-            {
-                costo = costo_Spionaggio_Villaggio_Base * target.Livello;
-                name = "Citta Barbaro";
-            }
-            
-            if (attaccante.Oro >= costo)
-            {
-                attaccante.Oro -= costo;
-                SpionaggioPVE(target, attaccante);
-            }
-            else
-                Server.Server.Send(attaccante.guid_Player, "Log_Server|Oro");
+           // int costo = 0;
+           // string name = "";
+           // if (target.Nome.Contains("Villaggio"))
+           // {
+           //     costo = costo_Spionaggio_Villaggio_Base * target.Livello;
+           //     name = "Villaggio Barbaro";
+           // }
+           // if (target.Nome.Contains("Citta"))
+           // {
+           //     costo = costo_Spionaggio_Citta_Base * target.Livello;
+           //     name = "Citta Barbaro";
+           // }
+           // 
+           // if (attaccante.Oro >= costo)
+           // {
+           //     attaccante.Oro -= costo;
+           //     SpionaggioPVE(target, attaccante);
+           // }
+           // else
+           //     Server.Server.Send(attaccante.guid_Player, "Log_Server|Oro");
 
             SpionaggioPVE(target, attaccante);
         }
