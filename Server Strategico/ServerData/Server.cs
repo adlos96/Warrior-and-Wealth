@@ -94,6 +94,7 @@ namespace Server_Strategico.Server
             }
 
             Task task = StartGame();
+            bool avviso = false;
 
             while (true)
             {
@@ -106,7 +107,11 @@ namespace Server_Strategico.Server
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"[SERVER|LOG] (Errore) > Console non più leggibile, comandi da tastiera disabilitati: {ex.Message}");
+                    if (!avviso)
+                    {
+                        Console.WriteLine($"[SERVER|LOG] (Errore) > Console non più leggibile, comandi da tastiera disabilitati: {ex.Message}");
+                        avviso = true;
+                    }
                 }
 
                 switch (userInput)
