@@ -604,34 +604,34 @@
       <section class="tab-panel" data-tab-panel="statistiche" hidden>
         <div class="stat-panels">
           <div class="panel wood-panel">
-            <h2 class="panel__title">Stato Attivi</h2>
+            <h2 class="panel__title" id="statistiche-attivi-title">Stato Attivi</h2>
             <p class="panel__hint">Tempo rimanente dei potenziamenti temporanei in corso.</p>
             <ul class="research-list" id="statistiche-attivi-list"><!-- popolata da js --></ul>
           </div>
 
           <div class="panel wood-panel">
-            <h2 class="panel__title">Potenza</h2>
+            <h2 class="panel__title" id="statistiche-potenza-title">Potenza</h2>
             <ul class="research-list" id="statistiche-potenza-list"><!-- popolata da js --></ul>
           </div>
 
           <div class="panel wood-panel">
-            <h2 class="panel__title">Bonus</h2>
+            <h2 class="panel__title" id="statistiche-bonus-title">Bonus</h2>
             <p class="panel__hint">Percentuali di bonus attive su produzione, costruzione e combattimento.</p>
             <div id="statistiche-bonus-container"><!-- popolata da js --></div>
           </div>
 
           <div class="panel wood-panel">
-            <h2 class="panel__title">Statistiche Generali</h2>
+            <h2 class="panel__title" id="statistiche-generali-title">Statistiche Generali</h2>
             <ul class="research-list" id="statistiche-generali-list"><!-- popolata da js --></ul>
           </div>
 
           <div class="panel wood-panel">
-            <h2 class="panel__title">Guerra e Razzie</h2>
+            <h2 class="panel__title" id="statistiche-guerra-title">Guerra e Razzie</h2>
             <ul class="research-list" id="statistiche-guerra-list"><!-- popolata da js --></ul>
           </div>
 
           <div class="panel wood-panel">
-            <h2 class="panel__title">Unità</h2>
+            <h2 class="panel__title" id="statistiche-unita-title">Unità</h2>
             <div id="statistiche-unita-container"><!-- popolata da js --></div>
           </div>
         </div>
@@ -828,7 +828,7 @@
       <button class="tab-bar__btn" data-tab="citta">Città</button>
       <button class="tab-bar__btn" data-tab="negozio">Negozio</button>
       <button class="tab-bar__btn" data-tab="ricerca" id="tab-btn-ricerca">Ricerca</button>
-      <button class="tab-bar__btn" data-tab="statistiche">Statistiche</button>
+      <button class="tab-bar__btn" data-tab="statistiche" id="tab-btn-statistiche">Statistiche</button>
       <!-- "Mercato": nessuna schermata nel client desktop da cui prendere
            riferimento (a differenza di "Statistiche"/"Quest Mensili", vedi
            GUI/Statistiche.cs e Manager/QuestManager.cs) — placeholder come
