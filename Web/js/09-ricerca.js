@@ -114,7 +114,22 @@ window.WW = window.WW || {};
     return `Ricerca ${tipo}`;
   }
 
+  // Pulsante "Ricerca" nella tab-bar in basso (18/09/2026, su richiesta
+  // dell'utente — stesso caso di "tab-btn-costruzione" in 06-costruzione.js):
+  // vive fuori da ricercaPanel, quindi il querySelectorAll qui sotto
+  // (scoped a ricercaPanel) non lo tocca — va aggiornato a parte, qui,
+  // perché 09-ricerca.js carica dopo 04-game-main.js (03-nav.js, che crea
+  // il bottone, carica PRIMA e non può usare WW.descrizioni/onDescrizione).
+  const tabBtnRicerca = document.getElementById("tab-btn-ricerca");
+  function aggiornaTabBtnRicerca() {
+    const testo = WW.descrizioni["Label Ricerca"];
+    if (tabBtnRicerca && testo) tabBtnRicerca.textContent = testo;
+  }
+  aggiornaTabBtnRicerca();
+
   WW.onDescrizione((chiave) => {
+    if (chiave === "Label Ricerca") aggiornaTabBtnRicerca();
+
     // Se l'infobox di questa ricerca è già aperto, aggiorna subito il
     // contenuto invece di aspettare il prossimo click.
     const box = ricercaPanel && ricercaPanel.querySelector(`[data-desc-per="${cssEscape(chiave)}"]`);
