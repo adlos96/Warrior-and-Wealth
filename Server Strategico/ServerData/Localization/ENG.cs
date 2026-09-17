@@ -427,6 +427,9 @@ namespace Server_Strategico.ServerData.Localization
         public string Label_Strutture_Civili() => "Civilian Structures";
         public string Label_Strutture_Militari() => "Military Structures";
         public string Label_Caserme() => "Barracks";
+        public string Label_Ripara() => "Repair";
+        public string Label_Spionaggio() => "Espionage";
+        public string Label_ControSpionaggio() => "Counter-Espionage";
 
         public string Label_Produzione() => "Resource Production";
         public string Label_Mantenimento_Cibo() => "Food Upkeep";

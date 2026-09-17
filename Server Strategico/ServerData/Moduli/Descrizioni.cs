@@ -1191,26 +1191,18 @@ namespace Server_Strategico.ServerData.Moduli
                 $"{L.Label_Ricerca()}: [icon:tempo]{player.FormatTime(Ricerca.Citta.Castello_Difesa.TempoRicerca * (player.Ricerca_Castello_Difesa + 1))}\n" +
                 $"{L.Label_Difesa()}: +{Strutture.Edifici.Castello.Difesa}");
 
-            //Shop Descrizioni
-            Send(player.guid_Player, $"Descrizione|Shop GamePass Base|{L.Desc_Shop_GamePassBase()}");
-            Send(player.guid_Player, $"Descrizione|Shop GamePass Avanzato|{L.Desc_Shop_GamePassAvanzato()}");
-            Send(player.guid_Player, $"Descrizione|Shop Vip 1|{L.Desc_Shop_Vip1()}");
-            Send(player.guid_Player, $"Descrizione|Shop Vip 2|{L.Desc_Shop_Vip2()}");
-            Send(player.guid_Player, $"Descrizione|Shop Costruttore 24h|{L.Desc_Shop_Costruttore(player.FormatTime(Variabili_Server.Shop.Costruttore_24h.Reward))}");
-            Send(player.guid_Player, $"Descrizione|Shop Costruttore 48h|{L.Desc_Shop_Costruttore(player.FormatTime(Variabili_Server.Shop.Costruttore_48h.Reward))}");
-            Send(player.guid_Player, $"Descrizione|Shop Reclutatore 24h|{L.Desc_Shop_Reclutatore(player.FormatTime(Variabili_Server.Shop.Reclutatore_24h.Reward))}");
-            Send(player.guid_Player, $"Descrizione|Shop Reclutatore 48h|{L.Desc_Shop_Reclutatore(player.FormatTime(Variabili_Server.Shop.Reclutatore_48h.Reward))}");
-            Send(player.guid_Player, $"Descrizione|Shop Scudo Pace 8h|{L.Desc_Shop_ScudoPace(player.FormatTime(Variabili_Server.Shop.Scudo_Pace_8h.Reward))}");
-            Send(player.guid_Player, $"Descrizione|Shop Scudo Pace 24h|{L.Desc_Shop_ScudoPace(player.FormatTime(Variabili_Server.Shop.Scudo_Pace_24h.Reward))}");
-            Send(player.guid_Player, $"Descrizione|Shop Scudo Pace 72h|{L.Desc_Shop_ScudoPace(player.FormatTime(Variabili_Server.Shop.Scudo_Pace_72h.Reward))}");
-
+            LabelUpdate(player);
+            TestoUpdate(player);
+        }
+        public static async void LabelUpdate(Giocatori.Player player)
+        {
+            var L = LocalizationManager.Get(player); // unica riga aggiunta
             Send(player.guid_Player, $"Descrizione|Label Costruzione|{L.Label_Costruzione()}");
             Send(player.guid_Player, $"Descrizione|Label Addestramento|{L.Label_Addestramento()}");
             Send(player.guid_Player, $"Descrizione|Label Strutture Civili|{L.Label_Strutture_Civili()}");
             Send(player.guid_Player, $"Descrizione|Label Strutture Militari|{L.Label_Strutture_Militari()}");
             Send(player.guid_Player, $"Descrizione|Label Caserme|{L.Label_Caserme()}");
 
-            Send(player.guid_Player, $"Descrizione|Feudi Info|{L.Desc_Feudi_Testo()}");
             Send(player.guid_Player, $"Descrizione|Label Feudi|{L.Label_Feudo()}");
             Send(player.guid_Player, $"Descrizione|Label Feudo Comune|{L.Label_Comune()}");
             Send(player.guid_Player, $"Descrizione|Label Feudo NonComune|{L.Label_NonComune()}");
@@ -1242,8 +1234,41 @@ namespace Server_Strategico.ServerData.Moduli
             Send(player.guid_Player, $"Descrizione|Label Arceri|{L.Label_Arcieri()}");
             Send(player.guid_Player, $"Descrizione|Label Catapulte|{L.Label_Catapulte()}");
 
+            Send(player.guid_Player, $"Descrizione|Label Livello|{L.Label_Livello()}");
+            Send(player.guid_Player, $"Descrizione|Label Salute|{L.Label_Salute()}");
+            Send(player.guid_Player, $"Descrizione|Label Difesa|{L.Label_Difesa()}");
+            Send(player.guid_Player, $"Descrizione|Label Attacco|{L.Label_Attacco()}");
+            //---------------
+            Send(player.guid_Player, $"Descrizione|Label Costruzione|{L.Label_Costruzione()}");
+            Send(player.guid_Player, $"Descrizione|Label Produzione|{L.Label_Produzione()}");
+            Send(player.guid_Player, $"Descrizione|Label Addestramento|{L.Label_Addestramento()}");
+            Send(player.guid_Player, $"Descrizione|Label Popolazione|{L.Label_Popolazione()}");
+            Send(player.guid_Player, $"Descrizione|Label Trasporto|{L.Label_Attacco()}");
+            Send(player.guid_Player, $"Descrizione|Label Ripara|{L.Label_Ripara()}");
+            Send(player.guid_Player, $"Descrizione|Label Spionaggio|{L.Label_Spionaggio()}");
+            Send(player.guid_Player, $"Descrizione|Label Contro-Spionaggio|{L.Label_ControSpionaggio()}");
+
+
+        }
+        public static async void TestoUpdate(Giocatori.Player player)
+        {
+            var L = LocalizationManager.Get(player); // unica riga aggiunta
+            Send(player.guid_Player, $"Descrizione|Feudi Info|{L.Desc_Feudi_Testo()}");
             Send(player.guid_Player, $"Descrizione|Città Testo|{L.Desc_Città_Testo()}");
             Send(player.guid_Player, $"Descrizione|Ricerca Testo|{L.Desc_Ricerca_Testo()}");
+
+            //Shop Descrizioni
+            Send(player.guid_Player, $"Descrizione|Shop GamePass Base|{L.Desc_Shop_GamePassBase()}");
+            Send(player.guid_Player, $"Descrizione|Shop GamePass Avanzato|{L.Desc_Shop_GamePassAvanzato()}");
+            Send(player.guid_Player, $"Descrizione|Shop Vip 1|{L.Desc_Shop_Vip1()}");
+            Send(player.guid_Player, $"Descrizione|Shop Vip 2|{L.Desc_Shop_Vip2()}");
+            Send(player.guid_Player, $"Descrizione|Shop Costruttore 24h|{L.Desc_Shop_Costruttore(player.FormatTime(Variabili_Server.Shop.Costruttore_24h.Reward))}");
+            Send(player.guid_Player, $"Descrizione|Shop Costruttore 48h|{L.Desc_Shop_Costruttore(player.FormatTime(Variabili_Server.Shop.Costruttore_48h.Reward))}");
+            Send(player.guid_Player, $"Descrizione|Shop Reclutatore 24h|{L.Desc_Shop_Reclutatore(player.FormatTime(Variabili_Server.Shop.Reclutatore_24h.Reward))}");
+            Send(player.guid_Player, $"Descrizione|Shop Reclutatore 48h|{L.Desc_Shop_Reclutatore(player.FormatTime(Variabili_Server.Shop.Reclutatore_48h.Reward))}");
+            Send(player.guid_Player, $"Descrizione|Shop Scudo Pace 8h|{L.Desc_Shop_ScudoPace(player.FormatTime(Variabili_Server.Shop.Scudo_Pace_8h.Reward))}");
+            Send(player.guid_Player, $"Descrizione|Shop Scudo Pace 24h|{L.Desc_Shop_ScudoPace(player.FormatTime(Variabili_Server.Shop.Scudo_Pace_24h.Reward))}");
+            Send(player.guid_Player, $"Descrizione|Shop Scudo Pace 72h|{L.Desc_Shop_ScudoPace(player.FormatTime(Variabili_Server.Shop.Scudo_Pace_72h.Reward))}");
         }
     }
 }

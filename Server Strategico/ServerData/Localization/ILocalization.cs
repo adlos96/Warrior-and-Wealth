@@ -33,6 +33,9 @@ namespace Server_Strategico.ServerData.Localization
         string Label_Strutture_Civili();
         string Label_Strutture_Militari();
         string Label_Caserme();
+        string Label_Ripara();
+        string Label_Spionaggio();
+        string Label_ControSpionaggio();
 
         //Strutture Civili
         string Label_Fattoria();
