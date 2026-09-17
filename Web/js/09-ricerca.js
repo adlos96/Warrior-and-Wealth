@@ -58,10 +58,7 @@ window.WW = window.WW || {};
   // usato per struttureCivili/struttureMilitari/caserme/unita in
   // 04-game-main.js — (labelKey && WW.descrizioni[labelKey]) || nome, nessun
   // nuovo metodo. Le chiavi combaciano esattamente con i nuovi
-  // "Descrizione|Label ...|" mandati da Descrizioni.cs. "Guarnigione" e i
-  // nomi delle strutture di Città (Ingresso/Cancello/Mura/Torri/Centro/
-  // Castello) non hanno ancora un Label lato server, quindi restano nome
-  // fisso in italiano com'erano.
+  // "Descrizione|Label ...|" mandati da Descrizioni.cs.
   const RICERCA_GENERALI = [
     { nome: "Costruzione", tipo: "Costruzione", chiave: "ricerca_costruzione", labelKey: "Label Costruzione" },
     { nome: "Produzione", tipo: "Produzione", chiave: "ricerca_produzione", labelKey: "Label Produzione" },
@@ -88,7 +85,8 @@ window.WW = window.WW || {};
 
   // 17/09/2026: "Label Ingresso/Mura/Cancello/Torri/Castello/Citta" ora
   // disponibili (Descrizioni.cs) — stesso labelKey delle altre due liste.
-  // "Guarnigione" resta senza Label server, fissa in italiano.
+  // "Guarnigione" (18/09/2026): riusa "Label Guarnigione", già mandata dal
+  // server per la schermata Città — vedi STAT_LABEL_KEYS sopra.
   const RICERCA_CITTA = [
     { nome: "Ingresso", tipoServer: "Ingresso", chiave: "ingresso", stats: ["livello", "guarnigione"], labelKey: "Label Ingresso" },
     { nome: "Cancello", tipoServer: "Cancello", chiave: "cancello", stats: ["livello", "salute", "difesa", "guarnigione"], labelKey: "Label Cancello" },
@@ -98,7 +96,10 @@ window.WW = window.WW || {};
     { nome: "Castello", tipoServer: "Castello", chiave: "castello", stats: ["livello", "salute", "difesa", "guarnigione"], labelKey: "Label Castello" },
   ];
   const STAT_LABELS = { livello: "Livello", salute: "Salute", difesa: "Difesa", guarnigione: "Guarnigione" };
-  const STAT_LABEL_KEYS = { livello: "Label Livello", salute: "Label Salute", difesa: "Label Difesa" };
+  // "Label Guarnigione" (18/09/2026, su segnalazione dell'utente): il server
+  // la manda già da tempo (usata in 07-citta.js) ma qui mancava dalla
+  // mappa — per questo restava sempre sul fallback italiano.
+  const STAT_LABEL_KEYS = { livello: "Label Livello", salute: "Label Salute", difesa: "Label Difesa", guarnigione: "Label Guarnigione" };
 
   // Descrizioni: il server manda "Descrizione|Ricerca <tipo>|<testo>" da solo
   // (dopo login/AutoLogin e dopo ogni ricerca completata — Descrizioni.
