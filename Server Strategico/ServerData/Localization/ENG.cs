@@ -650,22 +650,22 @@ namespace Server_Strategico.ServerData.Localization
             "[icon:popolazione]Population is fundamental for the construction of civil and military structures, as well as for recruiting units.\n\n";
 
         public string Desc_Spade() =>
-            $"Descrizione|Spade|[black]Swords[icon:spade] are necessary for training [cuoioScuro]warriors[icon:guerriero][black].\n\n";
+            $"[black]Swords[icon:spade] are necessary for training [cuoioScuro]warriors[icon:guerriero][black].\n\n";
 
         public string Desc_Lance() =>
-            $"Descrizione|Lance|[black]Spears[icon:lance] are necessary for training [cuoioScuro]spearmen[icon:lancere][black].\n\n";
+            $"[black]Spears[icon:lance] are necessary for training [cuoioScuro]spearmen[icon:lancere][black].\n\n";
 
         public string Desc_Archi() =>
-            $"Descrizione|Archi|[black]Bows[icon:archi] are necessary for training [cuoioScuro]archers[icon:arcere][black].\n\n";
+            $"[black]Bows[icon:archi] are necessary for training [cuoioScuro]archers[icon:arcere][black].\n\n";
 
         public string Desc_Scudi() =>
-            $"Descrizione|Scudi|[black]Shields[icon:scudi] are necessary for training military units.\n\n";
+            $"[black]Shields[icon:scudi] are necessary for training military units.\n\n";
 
         public string Desc_Armature() =>
-            $"Descrizione|Armature|[black]Armor[icon:armature] is necessary for training military units.\n\n";
+            $"[black]Armor[icon:armature] is necessary for training military units.\n\n";
 
         public string Desc_Frecce() =>
-            $"Descrizione|Frecce|[black]Arrows[icon:frecce] are fundamental for [cuoioScuro]ranged units[black]; without them, they are practically useless.\n\n";
+            $"[black]Arrows[icon:frecce] are fundamental for [cuoioScuro]ranged units[black]; without them, they are practically useless.\n\n";
 
         // ── Shop Descriptions ────────────────────────────────────────
         public string Desc_Shop_GamePassBase() =>
