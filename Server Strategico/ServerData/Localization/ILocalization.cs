@@ -12,6 +12,7 @@ namespace Server_Strategico.ServerData.Localization
         string Label_CostoCostruzione();
         string Label_CostoAddestramento();
         string Label_Statistiche();
+
         string Label_Cibo();
         string Label_Legno();
         string Label_Pietra();
@@ -24,10 +25,15 @@ namespace Server_Strategico.ServerData.Localization
         string Label_Scudi();
         string Label_Armature();
         string Label_Frecce();
+
         string Label_Costruzione();
         string Label_Addestramento();
         string Label_Ricerca();
         string Label_Produzione();
+        string Label_Strutture_Civili();
+        string Label_Strutture_Militari();
+        string Label_Caserme();
+
         //Strutture Civili
         string Label_Fattoria();
         string Label_Segheria();

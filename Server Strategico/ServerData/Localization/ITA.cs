@@ -428,6 +428,10 @@ namespace Server_Strategico.ServerData.Localization
         public string Label_Costruzione() => "Costruzione";
         public string Label_Addestramento() => "Addestramento";
         public string Label_Ricerca() => "Ricerca";
+        public string Label_Strutture_Civili() => "Strutture Civili";
+        public string Label_Strutture_Militari() => "Strutture Militari";
+        public string Label_Caserme() => "Caserme";
+
         public string Label_Produzione() => "Produzione risorse";
         public string Label_Mantenimento_Cibo() => "Mantenimento cibo";
         public string Label_Mantenimento_Legno() => "Mantenimento legno";

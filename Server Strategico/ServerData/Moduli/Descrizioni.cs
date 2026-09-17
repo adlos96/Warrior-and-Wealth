@@ -1204,31 +1204,42 @@ namespace Server_Strategico.ServerData.Moduli
             Send(player.guid_Player, $"Descrizione|Shop Scudo Pace 24h|{L.Desc_Shop_ScudoPace(player.FormatTime(Variabili_Server.Shop.Scudo_Pace_24h.Reward))}");
             Send(player.guid_Player, $"Descrizione|Shop Scudo Pace 72h|{L.Desc_Shop_ScudoPace(player.FormatTime(Variabili_Server.Shop.Scudo_Pace_72h.Reward))}");
 
+            Send(player.guid_Player, $"Descrizione|Label Costruzione|{L.Label_Costruzione()}");
+            Send(player.guid_Player, $"Descrizione|Label Addestramento|{L.Label_Addestramento()}");
+            Send(player.guid_Player, $"Descrizione|Label Strutture Civili|{L.Label_Strutture_Civili()}");
+            Send(player.guid_Player, $"Descrizione|Label Strutture Militari|{L.Label_Strutture_Militari()}");
+            Send(player.guid_Player, $"Descrizione|Label Caserme|{L.labelcase()}");
+
             Send(player.guid_Player, $"Descrizione|Feudi Info|{L.Desc_Feudi_Testo()}");
-            Send(player.guid_Player, $"Descrizione|Feudo Comune|{L.Label_Comune()}");
-            Send(player.guid_Player, $"Descrizione|Feudi Non Comune|{L.Label_NonComune()}");
-            Send(player.guid_Player, $"Descrizione|Feudi Raro|{L.Label_Raro()}");
-            Send(player.guid_Player, $"Descrizione|Feudi Epico|{L.Label_Epico()}");
-            Send(player.guid_Player, $"Descrizione|Feudo Leggendario|{L.Label_Leggendario()}");
+            Send(player.guid_Player, $"Descrizione|Label Feudo Comune|{L.Label_Comune()}");
+            Send(player.guid_Player, $"Descrizione|Label Feudo NonComune|{L.Label_NonComune()}");
+            Send(player.guid_Player, $"Descrizione|Label Feudo Raro|{L.Label_Raro()}");
+            Send(player.guid_Player, $"Descrizione|Label Feudo Epico|{L.Label_Epico()}");
+            Send(player.guid_Player, $"Descrizione|Label Feudo Leggendario|{L.Label_Leggendario()}");
 
-            Send(player.guid_Player, $"Descrizione|Fattoria|{L.Label_Fattoria()}");
-            Send(player.guid_Player, $"Descrizione|Segheria|{L.Label_Segheria()}");
-            Send(player.guid_Player, $"Descrizione|Cava di Pietra|{L.Label_CavaPietra()}");
-            Send(player.guid_Player, $"Descrizione|Miniera di Ferro|{L.Label_MinieraFerro()}");
-            Send(player.guid_Player, $"Descrizione|Miniera d'Oro|{L.Label_MinieraOro()}");
-            Send(player.guid_Player, $"Descrizione|Abitazioni|{L.Label_Abitazioni()}");
+            Send(player.guid_Player, $"Descrizione|Label Fattoria|{L.Label_Fattoria()}");
+            Send(player.guid_Player, $"Descrizione|Label Segheria|{L.Label_Segheria()}");
+            Send(player.guid_Player, $"Descrizione|Label Cava di Pietra|{L.Label_CavaPietra()}");
+            Send(player.guid_Player, $"Descrizione|Label Miniera di Ferro|{L.Label_MinieraFerro()}");
+            Send(player.guid_Player, $"Descrizione|Label Miniera d'Oro|{L.Label_MinieraOro()}");
+            Send(player.guid_Player, $"Descrizione|Label Abitazioni|{L.Label_Abitazioni()}");
 
-            Send(player.guid_Player, $"Descrizione|Workshop Spade|{L.Label_Workshop_Spade()}");
-            Send(player.guid_Player, $"Descrizione|Workshop Lancie|{L.Label_Workshop_Lancie()}");
-            Send(player.guid_Player, $"Descrizione|Workshop Archi|{L.Label_Workshop_Archi()}");
-            Send(player.guid_Player, $"Descrizione|Workshop Scudi|{L.Label_Workshop_Scudi()}");
-            Send(player.guid_Player, $"Descrizione|Workshop Armature|{L.Label_Workshop_Armature()}");
-            Send(player.guid_Player, $"Descrizione|Workshop Frecce|{L.Label_Workshop_Frecce()}");
+            Send(player.guid_Player, $"Descrizione|Label Workshop Spade|{L.Label_Workshop_Spade()}");
+            Send(player.guid_Player, $"Descrizione|Label Workshop Lancie|{L.Label_Workshop_Lancie()}");
+            Send(player.guid_Player, $"Descrizione|Label Workshop Archi|{L.Label_Workshop_Archi()}");
+            Send(player.guid_Player, $"Descrizione|Label Workshop Scudi|{L.Label_Workshop_Scudi()}");
+            Send(player.guid_Player, $"Descrizione|Label Workshop Armature|{L.Label_Workshop_Armature()}");
+            Send(player.guid_Player, $"Descrizione|Label Workshop Frecce|{L.Label_Workshop_Frecce()}");
 
-            Send(player.guid_Player, $"Descrizione|Casaerma Guerrieri|{L.Label_CasermaGuerrieri()}");
-            Send(player.guid_Player, $"Descrizione|Casaerma Lancieri|{L.Label_CasermaLanceri()}");
-            Send(player.guid_Player, $"Descrizione|Casaerma Arcieri|{L.Label_CasermaArceri()}");
-            Send(player.guid_Player, $"Descrizione|Casaerma Catapulte|{L.Label_CasermaCatapulte()}");
+            Send(player.guid_Player, $"Descrizione|Label Caserma Guerrieri|{L.Label_CasermaGuerrieri()}");
+            Send(player.guid_Player, $"Descrizione|Label Caserma Lanceri|{L.Label_CasermaLanceri()}");
+            Send(player.guid_Player, $"Descrizione|Label Caserma Arceri|{L.Label_CasermaArceri()}");
+            Send(player.guid_Player, $"Descrizione|Label Caserma Catapulte|{L.Label_CasermaCatapulte()}");
+
+            Send(player.guid_Player, $"Descrizione|Label Guerrieri|{L.Label_Guerrieri()}");
+            Send(player.guid_Player, $"Descrizione|Label Lanceri|{L.Label_Lancieri()}");
+            Send(player.guid_Player, $"Descrizione|Label Arceri|{L.Label_Arcieri()}");
+            Send(player.guid_Player, $"Descrizione|Label Catapulte|{L.Label_Catapulte()}");
 
             Send(player.guid_Player, $"Descrizione|Città Testo|{L.Desc_Città_Testo()}");
             Send(player.guid_Player, $"Descrizione|Ricerca Testo|{L.Desc_Ricerca_Testo()}");

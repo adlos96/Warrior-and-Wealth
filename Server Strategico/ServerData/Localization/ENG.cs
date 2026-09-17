@@ -420,9 +420,14 @@ namespace Server_Strategico.ServerData.Localization
         public string Label_Scudi() => "Shields";
         public string Label_Armature() => "Armor";
         public string Label_Frecce() => "Arrows";
+
         public string Label_Costruzione() => "Construction";
         public string Label_Addestramento() => "Training";
         public string Label_Ricerca() => "Research";
+        public string Label_Strutture_Civili() => "Civilian Structures";
+        public string Label_Strutture_Militari() => "Military Structures";
+        public string Label_Caserme() => "Barracks";
+
         public string Label_Produzione() => "Resource Production";
         public string Label_Mantenimento_Cibo() => "Food Upkeep";
         public string Label_Mantenimento_Legno() => "Wood Upkeep";
