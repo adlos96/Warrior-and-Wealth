@@ -20,12 +20,12 @@
   <section id="screen-login" class="screen screen--login">
     <div class="login-card panel">
 
-      <!-- Selettore lingua: cambia le stringhe della sola schermata di
-           login (vedi js/app.js, dizionario I18N). La scelta viene
+      <!-- Selettore lingua: cambia le stringhe dell'interfaccia (dizionario
+           I18N in js/02-auth.js, vedi WW.t()/[data-i18n]). La scelta viene
            salvata in localStorage così resta impostata al prossimo
-           accesso. Le altre schermate restano in italiano per ora: la
-           localizzazione completa arriverà quando il client sarà
-           collegato al server vero. -->
+           accesso. I nomi di strutture/unità/feudi arrivano già localizzati
+           dal server (WW.descrizioni, vedi 04-game-main.js) e non vanno
+           duplicati qui. -->
       <div class="lang-switch">
         <select id="lang-select" aria-label="Lingua / Language">
           <option value="it">🇮🇹 Italiano</option>
@@ -157,7 +157,7 @@
         <!-- Pulsante di stato: alterna la vista civile/militare qui sopra.
              Non è (per ora) lo stato "Civile/In guerra" del giocatore:
              è solo il selettore di quale gruppo di risorse mostrare. -->
-        <button type="button" class="res res--pill" id="btn-toggle-risorse" data-view="civili">Civile</button>
+        <button type="button" class="res res--pill" id="btn-toggle-risorse" data-view="civili" data-i18n="resCivile">Civile</button>
 
         <div class="res res--clickable" data-res="diamantiBlu"><img src="assets/DiamanteBlu_V2.png" alt="Diamanti Blu"><span data-value="diamantiBlu">58.300</span></div>
         <div class="res res--clickable" data-res="diamantiViola"><img src="assets/DiamanteViola_V2.png" alt="Diamanti Viola"><span data-value="diamantiViola">45.000</span></div>
@@ -189,11 +189,11 @@
              panel] a sé: vive dentro "cronologia", showPanel() in
              03-nav.js lo gestisce come caso speciale. -->
         <div class="section-toggle" id="main-panel-toggle" role="tablist" aria-label="Pannelli Main">
-          <button class="section-toggle__btn is-active" data-panel-target="feudi">Feudi</button>
-          <button class="section-toggle__btn" data-panel-target="civili">Strutture</button>
-          <button class="section-toggle__btn" data-panel-target="esercito">Esercito</button>
-          <button class="section-toggle__btn" data-panel-target="cronologia">Cronologia</button>
-          <button class="section-toggle__btn" data-panel-target="messaggi">Messaggi</button>
+          <button class="section-toggle__btn is-active" data-panel-target="feudi" data-i18n="navFeudi">Feudi</button>
+          <button class="section-toggle__btn" data-panel-target="civili" data-i18n="navStrutture">Strutture</button>
+          <button class="section-toggle__btn" data-panel-target="esercito" data-i18n="navEsercito">Esercito</button>
+          <button class="section-toggle__btn" data-panel-target="cronologia" data-i18n="navCronologia">Cronologia</button>
+          <button class="section-toggle__btn" data-panel-target="messaggi" data-i18n="navMessaggi">Messaggi</button>
         </div>
 
         <div class="main-grid">
@@ -204,7 +204,7 @@
             </div>
             <ul class="feudi-list" id="feudi-list"><!-- popolata da app.js --></ul>
             <div class="feudi-actions">
-              <button class="btn btn--gold" id="btn-acquista-feudo">Acquista <img class="icon-inline" src="assets/DiamanteViola_V2.png" alt=""><span data-value="costo-feudo">…</span></button>
+              <button class="btn btn--gold" id="btn-acquista-feudo"><span data-i18n="acquista">Acquista</span> <img class="icon-inline" src="assets/DiamanteViola_V2.png" alt=""><span data-value="costo-feudo">…</span></button>
             </div>
 
             <!-- Gruppo separato da "Acquista" (13/09/2026, su richiesta
@@ -214,15 +214,15 @@
                  impilate una sopra l'altra senza nessuna separazione). Vedi
                  .feudi-exchange-actions in style.css per il divisorio. -->
             <div class="feudi-exchange-actions">
-              <p class="feudi-exchange-actions__label">Scambio valute</p>
-              <button class="btn btn--ghost" id="btn-scambia-viola-blu">Scambia <img class="icon-inline" src="assets/DiamanteViola_V2.png" alt=""></button>
-              <button class="btn btn--ghost" id="btn-scambia-tributi-viola">Scambia Tributi <img class="icon-inline" src="assets/Tributi_V2.png" alt=""></button>
+              <p class="feudi-exchange-actions__label" data-i18n="scambioValute">Scambio valute</p>
+              <button class="btn btn--ghost" id="btn-scambia-viola-blu"><span data-i18n="scambia">Scambia</span> <img class="icon-inline" src="assets/DiamanteViola_V2.png" alt=""></button>
+              <button class="btn btn--ghost" id="btn-scambia-tributi-viola"><span data-i18n="scambiaTributi">Scambia Tributi</span> <img class="icon-inline" src="assets/Tributi_V2.png" alt=""></button>
             </div>
 
             <!-- Scambio Diamanti Viola -> Diamanti Blu (comando "Scambia_Diamanti"),
                  stesso rapporto mostrato dal server in "D_Viola_D_Blu". -->
             <div class="mini-form" id="form-scambia-viola-blu" hidden>
-              <p class="panel__hint">Scambia <strong data-value="ratio-viola-blu">…</strong> diamanti blu per ogni diamante viola.</p>
+              <p class="panel__hint"><span data-i18n="scambia">Scambia</span> <strong data-value="ratio-viola-blu">…</strong> <span data-i18n="exchangeBlueSuffix">diamanti blu per ogni diamante viola.</span></p>
               <div class="mini-form__row">
                 <img class="icon-inline" src="assets/DiamanteViola_V2.png" alt="">
                 <div class="qty-stepper" id="stepper-scambia-viola-blu">
@@ -236,13 +236,13 @@
                   <strong class="mini-form__preview" data-preview="scambia-viola-blu">0</strong>
                 </span>
               </div>
-              <button type="button" class="btn btn--primary btn--block" id="btn-conferma-scambia-viola-blu">Scambia</button>
+              <button type="button" class="btn btn--primary btn--block" id="btn-conferma-scambia-viola-blu" data-i18n="scambia">Scambia</button>
             </div>
 
             <!-- Scambio Tributi -> Diamanti Viola (comando "Scambia_Tributi"),
                  rapporto mostrato dal server in "Tributi_D_Viola". -->
             <div class="mini-form" id="form-scambia-tributi-viola" hidden>
-              <p class="panel__hint">Scambia <strong data-value="ratio-tributi-viola">…</strong> diamanti viola per ogni tributo.</p>
+              <p class="panel__hint"><span data-i18n="scambia">Scambia</span> <strong data-value="ratio-tributi-viola">…</strong> <span data-i18n="exchangeVioletSuffix">diamanti viola per ogni tributo.</span></p>
               <div class="mini-form__row">
                 <img class="icon-inline" src="assets/Tributi_V2.png" alt="">
                 <div class="qty-stepper" id="stepper-scambia-tributi-viola">
@@ -256,7 +256,7 @@
                   <strong class="mini-form__preview" data-preview="scambia-tributi-viola">0</strong>
                 </span>
               </div>
-              <button type="button" class="btn btn--primary btn--block" id="btn-conferma-scambia-tributi-viola">Scambia</button>
+              <button type="button" class="btn btn--primary btn--block" id="btn-conferma-scambia-tributi-viola" data-i18n="scambia">Scambia</button>
             </div>
           </div>
 
@@ -268,16 +268,16 @@
                  invece di 2 (segmented control anziché singolo pulsante
                  che alterna testo). -->
             <div class="section-toggle section-toggle--inline" role="tablist" aria-label="Categoria strutture">
-              <button class="section-toggle__btn is-active" data-strutture-view="civili">Civili</button>
-              <button class="section-toggle__btn" data-strutture-view="militari">Militari</button>
-              <button class="section-toggle__btn" data-strutture-view="caserme">Caserme</button>
+              <button class="section-toggle__btn is-active" data-strutture-view="civili" data-i18n="civili">Civili</button>
+              <button class="section-toggle__btn" data-strutture-view="militari" data-i18n="militari">Militari</button>
+              <button class="section-toggle__btn" data-strutture-view="caserme" data-i18n="caserme">Caserme</button>
             </div>
 
-            <p class="panel__hint">Costruttori: <strong data-value="code-costruzioni">…</strong></p>
+            <p class="panel__hint"><span data-i18n="costruttori">Costruttori:</span> <strong data-value="code-costruzioni">…</strong></p>
             <!-- Visibile solo se c'è davvero qualcosa in coda (vedi app.js,
                  renderVarie): niente "Tempo rimanente: 0h 0m 0s" quando non
                  si sta costruendo nulla. -->
-            <p class="panel__hint" data-tempo-costruzione-row hidden>Tempo rimanente: <strong data-value="tempo-costruzione">…</strong></p>
+            <p class="panel__hint" data-tempo-costruzione-row hidden><span data-i18n="tempoRimanente">Tempo rimanente:</span> <strong data-value="tempo-costruzione">…</strong></p>
 
             <ul class="building-list" id="civili-list" data-strutture-list="civili"><!-- popolata da app.js --></ul>
             <ul class="building-list" id="militari-list" data-strutture-list="militari" hidden><!-- popolata da app.js --></ul>
@@ -285,9 +285,9 @@
 
             <!-- Velocizza con Diamanti Blu (comando "Velocizza_Diamanti|...|Costruzione|n"):
                  pulsante + mini-form nascosti finché non c'è tempo da velocizzare. -->
-            <button type="button" class="btn btn--ghost btn--block" id="btn-toggle-velocizza-costruzione" hidden>Velocizza <img class="icon-inline" src="assets/DiamanteBlu_V2.png" alt=""></button>
+            <button type="button" class="btn btn--ghost btn--block" id="btn-toggle-velocizza-costruzione" hidden><span data-i18n="velocizza">Velocizza</span> <img class="icon-inline" src="assets/DiamanteBlu_V2.png" alt=""></button>
             <div class="mini-form" id="form-velocizza-costruzione" hidden>
-              <p class="panel__hint">Ogni diamante blu riduce il tempo di <strong data-value="ratio-velocizza-tempo">…</strong>.</p>
+              <p class="panel__hint"><span data-i18n="reduceTimeByPrefix">Ogni diamante blu riduce il tempo di</span> <strong data-value="ratio-velocizza-tempo">…</strong>.</p>
               <div class="mini-form__row">
                 <div class="qty-stepper" id="stepper-velocizza-costruzione">
                   <button type="button" class="qty-btn qty-btn--minus" aria-label="Diminuisci">−</button>
@@ -296,12 +296,12 @@
                 </div>
                 <img class="icon-inline" src="assets/DiamanteBlu_V2.png" alt="">
               </div>
-              <button type="button" class="btn btn--primary btn--block" id="btn-conferma-velocizza-costruzione">Velocizza Costruzione</button>
+              <button type="button" class="btn btn--primary btn--block" id="btn-conferma-velocizza-costruzione" data-i18n="velocizzaCostruzioneBtn">Velocizza Costruzione</button>
             </div>
           </div>
 
           <div class="panel wood-panel" data-panel="esercito">
-            <h2 class="panel__title">Esercito</h2>
+            <h2 class="panel__title" data-i18n="navEsercito">Esercito</h2>
             <div class="tier-tabs" id="tier-tabs">
               <button class="tier-btn is-active" data-tier="1">I</button>
               <button class="tier-btn" data-tier="2">II</button>
@@ -309,14 +309,14 @@
               <button class="tier-btn" data-tier="4">IV</button>
               <button class="tier-btn" data-tier="5">V</button>
             </div>
-            <p class="panel__hint">Reclutatori: <strong data-value="code-reclutamenti">…</strong></p>
-            <p class="panel__hint" data-tempo-reclutamento-row hidden>Tempo rimanente: <strong data-value="tempo-reclutamento">…</strong></p>
+            <p class="panel__hint"><span data-i18n="reclutatori">Reclutatori:</span> <strong data-value="code-reclutamenti">…</strong></p>
+            <p class="panel__hint" data-tempo-reclutamento-row hidden><span data-i18n="tempoRimanente">Tempo rimanente:</span> <strong data-value="tempo-reclutamento">…</strong></p>
             <ul class="unit-list" id="unit-list"><!-- popolata da app.js --></ul>
             <p class="panel__hint" data-sblocco-unita></p>
 
-            <button type="button" class="btn btn--ghost btn--block" id="btn-toggle-velocizza-reclutamento" hidden>Velocizza <img class="icon-inline" src="assets/DiamanteBlu_V2.png" alt=""></button>
+            <button type="button" class="btn btn--ghost btn--block" id="btn-toggle-velocizza-reclutamento" hidden><span data-i18n="velocizza">Velocizza</span> <img class="icon-inline" src="assets/DiamanteBlu_V2.png" alt=""></button>
             <div class="mini-form" id="form-velocizza-reclutamento" hidden>
-              <p class="panel__hint">Ogni diamante blu riduce il tempo di <strong data-value="ratio-velocizza-tempo-2">…</strong>.</p>
+              <p class="panel__hint"><span data-i18n="reduceTimeByPrefix">Ogni diamante blu riduce il tempo di</span> <strong data-value="ratio-velocizza-tempo-2">…</strong>.</p>
               <div class="mini-form__row">
                 <div class="qty-stepper" id="stepper-velocizza-reclutamento">
                   <button type="button" class="qty-btn qty-btn--minus" aria-label="Diminuisci">−</button>
@@ -325,7 +325,7 @@
                 </div>
                 <img class="icon-inline" src="assets/DiamanteBlu_V2.png" alt="">
               </div>
-              <button type="button" class="btn btn--primary btn--block" id="btn-conferma-velocizza-reclutamento">Velocizza Addestramento</button>
+              <button type="button" class="btn btn--primary btn--block" id="btn-conferma-velocizza-reclutamento" data-i18n="velocizzaAddestramentoBtn">Velocizza Addestramento</button>
             </div>
           </div>
 
@@ -340,8 +340,8 @@
                né protocollo dedicato nel client desktop. -->
           <div class="panel wood-panel panel--log" data-panel="cronologia">
             <div class="section-toggle section-toggle--inline" id="cronologia-messaggi-toggle" role="tablist" aria-label="Cronologia o Messaggi">
-              <button class="section-toggle__btn is-active" data-view-target="cronologia">Cronologia</button>
-              <button class="section-toggle__btn" data-view-target="messaggi">Messaggi</button>
+              <button class="section-toggle__btn is-active" data-view-target="cronologia" data-i18n="navCronologia">Cronologia</button>
+              <button class="section-toggle__btn" data-view-target="messaggi" data-i18n="navMessaggi">Messaggi</button>
             </div>
 
             <div data-cronologia-messaggi-view="cronologia">
@@ -354,20 +354,20 @@
                 <button type="button" class="btn-elimina-tondo" id="btn-elimina-cronologia" title="Svuota cronologia" aria-label="Svuota cronologia">✕</button>
               </div>
               <div class="log-box" id="log-box">
-                <p class="log-empty">Nessun evento recente.</p>
+                <p class="log-empty" data-i18n="nessunEventoRecente">Nessun evento recente.</p>
               </div>
               <!-- 16/09/2026, su richiesta dell'utente: paginazione a 10 elementi per
                    volta (vedi js/04-game-main.js, renderCronologiaPage) invece di una
                    lista che cresce senza limiti — visibile solo con più di 10 voci. -->
               <div class="list-pager" id="log-box-pager" hidden>
-                <button type="button" class="list-pager__btn" id="log-box-prev" aria-label="Pagina precedente">‹ Indietro</button>
+                <button type="button" class="list-pager__btn" id="log-box-prev" data-i18n="indietro" aria-label="Pagina precedente">‹ Indietro</button>
                 <span class="list-pager__info" id="log-box-page-info"></span>
-                <button type="button" class="list-pager__btn" id="log-box-next" aria-label="Pagina successiva">Avanti ›</button>
+                <button type="button" class="list-pager__btn" id="log-box-next" data-i18n="avanti" aria-label="Pagina successiva">Avanti ›</button>
               </div>
             </div>
             <div data-cronologia-messaggi-view="messaggi" hidden>
-              <h2 class="panel__title">Messaggi</h2>
-              <p class="panel__hint">Questa schermata sarà completata quando saranno definiti i comandi del protocollo lato server.</p>
+              <h2 class="panel__title" data-i18n="navMessaggi">Messaggi</h2>
+              <p class="panel__hint" data-i18n="messaggiPlaceholder">Questa schermata sarà completata quando saranno definiti i comandi del protocollo lato server.</p>
             </div>
           </div>
         </div>
@@ -386,7 +386,7 @@
       ============================================================ -->
       <section class="tab-panel" data-tab-panel="costruzione" hidden>
         <div class="section-toggle" id="costruzione-panel-toggle" role="tablist" aria-label="Pannelli Costruzione">
-          <button class="section-toggle__btn is-active" data-panel-target="costruzione-edifici">Edifici</button>
+          <button class="section-toggle__btn is-active" data-panel-target="costruzione-edifici" data-i18n="edifici">Edifici</button>
           <button class="section-toggle__btn" data-panel-target="costruzione-esercito" id="costruzione-toggle-addestramento">Addestramento</button>
         </div>
 
@@ -403,7 +403,7 @@
             <h3 class="panel__subtitle" id="costruzione-caserme-subtitle">Caserme</h3>
             <ul class="building-list building-list--form" id="costruzione-caserme-list"><!-- popolata da app.js --></ul>
 
-            <button type="button" class="btn btn--primary btn--block" id="btn-invia-costruzione">Costruisci</button>
+            <button type="button" class="btn btn--primary btn--block" id="btn-invia-costruzione" data-i18n="costruisci">Costruisci</button>
           </div>
 
           <div class="panel wood-panel" data-panel="costruzione-esercito">
@@ -417,7 +417,7 @@
             </div>
             <ul class="unit-list unit-list--form" id="costruzione-unit-list"><!-- popolata da app.js --></ul>
             <p class="panel__hint" data-sblocco-unita></p>
-            <button type="button" class="btn btn--primary btn--block" id="btn-invia-reclutamento">Recluta</button>
+            <button type="button" class="btn btn--primary btn--block" id="btn-invia-reclutamento" data-i18n="recluta">Recluta</button>
           </div>
         </div>
       </section>
@@ -528,25 +528,28 @@
            Generali), vedi .main-grid--ricerca in style.css.
       ============================================================ -->
       <section class="tab-panel" data-tab-panel="ricerca" hidden>
-        <p class="panel__hint">La Ricerca rappresenta il progresso delle conoscenze del tuo regno. Investendo tempo e risorse potrai sbloccare nuove possibilità, migliorare strutture, eserciti e strategie.</p>
-        <p class="panel__hint" data-tempo-ricerca-row>Tempo Ricerca: <strong data-value="tempo-ricerca">…</strong></p>
+        <p class="panel__hint" data-i18n="ricercaHint">La Ricerca rappresenta il progresso delle conoscenze del tuo regno. Investendo tempo e risorse potrai sbloccare nuove possibilità, migliorare strutture, eserciti e strategie.</p>
+        <p class="panel__hint" data-tempo-ricerca-row><span data-i18n="tempoRicercaPrefix">Tempo Ricerca:</span> <strong data-value="tempo-ricerca">…</strong></p>
 
         <div class="section-toggle" id="ricerca-panel-toggle" role="tablist" aria-label="Pannelli Ricerca">
-          <button class="section-toggle__btn is-active" data-panel-target="ricerca-generali">Generali</button>
-          <button class="section-toggle__btn" data-panel-target="ricerca-esercito">Esercito</button>
-          <button class="section-toggle__btn" data-panel-target="ricerca-citta">Città</button>
+          <button class="section-toggle__btn is-active" data-panel-target="ricerca-generali" data-i18n="navGenerali">Generali</button>
+          <button class="section-toggle__btn" data-panel-target="ricerca-esercito" data-i18n="navEsercito">Esercito</button>
+          <button class="section-toggle__btn" data-panel-target="ricerca-citta" data-i18n="navCitta">Città</button>
         </div>
 
         <div class="main-grid main-grid--ricerca">
           <div class="panel wood-panel" data-panel="ricerca-generali">
-            <h2 class="panel__title">Strutture Civili</h2>
+            <!-- 17/09/2026: titolo ora dinamico, come "strutture-title" in Main —
+                 vedi renderRicercaGenerali() in 09-ricerca.js (WW.descrizioni["Label
+                 Strutture Civili"], stesso meccanismo, nessuno nuovo). -->
+            <h2 class="panel__title" id="ricerca-generali-title">Strutture Civili</h2>
             <ul class="research-list" id="ricerca-generali-list"><!-- popolata da js --></ul>
 
             <!-- Velocizza con Diamanti Blu (comando "Velocizza_Diamanti|...|Ricerca|n",
                  già supportato lato server — ResearchManager.UsaDiamantiPerVelocizzareRicerca). -->
-            <button type="button" class="btn btn--ghost btn--block" id="btn-toggle-velocizza-ricerca" hidden>Velocizza <img class="icon-inline" src="assets/DiamanteBlu_V2.png" alt=""></button>
+            <button type="button" class="btn btn--ghost btn--block" id="btn-toggle-velocizza-ricerca" hidden><span data-i18n="velocizza">Velocizza</span> <img class="icon-inline" src="assets/DiamanteBlu_V2.png" alt=""></button>
             <div class="mini-form" id="form-velocizza-ricerca" hidden>
-              <p class="panel__hint">Ogni diamante blu riduce il tempo di <strong data-value="ratio-velocizza-tempo-ricerca">…</strong>.</p>
+              <p class="panel__hint"><span data-i18n="reduceTimeByPrefix">Ogni diamante blu riduce il tempo di</span> <strong data-value="ratio-velocizza-tempo-ricerca">…</strong>.</p>
               <div class="mini-form__row">
                 <div class="qty-stepper" id="stepper-velocizza-ricerca">
                   <button type="button" class="qty-btn qty-btn--minus" aria-label="Diminuisci">−</button>
@@ -555,7 +558,7 @@
                 </div>
                 <img class="icon-inline" src="assets/DiamanteBlu_V2.png" alt="">
               </div>
-              <button type="button" class="btn btn--primary btn--block" id="btn-conferma-velocizza-ricerca">Velocizza Ricerca</button>
+              <button type="button" class="btn btn--primary btn--block" id="btn-conferma-velocizza-ricerca" data-i18n="velocizzaRicercaBtn">Velocizza Ricerca</button>
             </div>
           </div>
 
@@ -568,17 +571,17 @@
                indipendente dal toggle mobile qui sopra (#ricerca-panel-toggle):
                non lo tocca, vedi 09-ricerca.js. -->
           <div class="section-toggle section-toggle--inline" id="ricerca-destra-toggle" role="tablist" aria-label="Esercito o Città">
-            <button class="section-toggle__btn is-active" data-panel-target="ricerca-esercito">Esercito</button>
-            <button class="section-toggle__btn" data-panel-target="ricerca-citta">Città</button>
+            <button class="section-toggle__btn is-active" data-panel-target="ricerca-esercito" data-i18n="navEsercito">Esercito</button>
+            <button class="section-toggle__btn" data-panel-target="ricerca-citta" data-i18n="navCitta">Città</button>
           </div>
 
           <div class="panel wood-panel" data-panel="ricerca-esercito">
-            <h2 class="panel__title">Esercito</h2>
+            <h2 class="panel__title" data-i18n="navEsercito">Esercito</h2>
             <div id="ricerca-esercito-container"><!-- popolata da js --></div>
           </div>
 
           <div class="panel wood-panel" data-panel="ricerca-citta">
-            <h2 class="panel__title">Città</h2>
+            <h2 class="panel__title" data-i18n="navCitta">Città</h2>
             <div id="ricerca-citta-container"><!-- popolata da js --></div>
           </div>
         </div>
@@ -820,7 +823,7 @@
            nome più chiaro visto che ospita più pannelli (Feudi, Strutture,
            Esercito, Cronologia e ora anche Messaggi) — data-tab="main"
            NON cambia, resta l'id interno usato da 03-nav.js/04-game-main.js. -->
-      <button class="tab-bar__btn is-active" data-tab="main">Panoramica</button>
+      <button class="tab-bar__btn is-active" data-tab="main" data-i18n="tabPanoramica">Panoramica</button>
       <button class="tab-bar__btn" data-tab="costruzione" id="tab-btn-costruzione">Costruzione</button>
       <button class="tab-bar__btn" data-tab="citta">Città</button>
       <button class="tab-bar__btn" data-tab="negozio">Negozio</button>

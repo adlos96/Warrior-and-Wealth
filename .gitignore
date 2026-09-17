@@ -6,3 +6,4 @@
 # generati li' da "dotnet publish" e ogni deploy successivo fallirebbe.
 bin/
 obj/
+/Web_Old

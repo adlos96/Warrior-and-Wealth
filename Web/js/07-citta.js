@@ -47,20 +47,27 @@ window.WW = window.WW || {};
   // per arrivare al giocatore (strato 7, non una struttura qui). Mostrato
   // come numeretto sul marker della mappa così il giocatore capisce subito
   // "in che ordine" verrà attaccata ogni struttura.
+  // "labelKey" (17/09/2026, su richiesta dell'utente): stesse Label già
+  // usate in 09-ricerca.js per le stesse strutture/unità — nessuna nuova
+  // Descrizione da aggiungere lato server. A differenza di Ricerca, qui il
+  // nome viene riletto ad ogni tick da aggiornaCittaCard()/renderCittaMap()
+  // (girano già continuamente), quindi non serve un listener onDescrizione
+  // separato: se la Label arriva dopo la prima costruzione della card/
+  // marker, il testo si aggiorna comunque al tick successivo.
   const STRUTTURE_CITTA = [
-    { chiave: "Ingresso", nome: "Ingresso", salute: false, strato: 1, pos: { left: 75.55, top: 13.85 } },
-    { chiave: "Mura", nome: "Mura", salute: true, strato: 2, pos: { left: 83.65, top: 55.6 } },
-    { chiave: "Cancello", nome: "Cancello", salute: true, strato: 3, pos: { left: 54.65, top: 28.65 } },
-    { chiave: "Torri", nome: "Torri", salute: true, strato: 4, pos: { left: 68.35, top: 88.8 } },
-    { chiave: "Citta", nome: "Centro", salute: false, strato: 5, pos: { left: 42.45, top: 59.85 } },
-    { chiave: "Castello", nome: "Castello", salute: true, strato: 6, pos: { left: 18.45, top: 35.9 } },
+    { chiave: "Ingresso", nome: "Ingresso", salute: false, strato: 1, pos: { left: 75.55, top: 13.85 }, labelKey: "Label Ingresso" },
+    { chiave: "Mura", nome: "Mura", salute: true, strato: 2, pos: { left: 83.65, top: 55.6 }, labelKey: "Label Mura" },
+    { chiave: "Cancello", nome: "Cancello", salute: true, strato: 3, pos: { left: 54.65, top: 28.65 }, labelKey: "Label Cancello" },
+    { chiave: "Torri", nome: "Torri", salute: true, strato: 4, pos: { left: 68.35, top: 88.8 }, labelKey: "Label Torri" },
+    { chiave: "Citta", nome: "Centro", salute: false, strato: 5, pos: { left: 42.45, top: 59.85 }, labelKey: "Label Citta" },
+    { chiave: "Castello", nome: "Castello", salute: true, strato: 6, pos: { left: 18.45, top: 35.9 }, labelKey: "Label Castello" },
   ];
 
   const UNITA_CITTA = [
-    { nome: "Guerriero", icona: "Guerriero_V2.png", chiave: "g", prefissoVillaggio: "guerrieri", nomeServer: "Guerrieri" },
-    { nome: "Lanciere", icona: "Lanciere_V2.png", chiave: "l", prefissoVillaggio: "lanceri", nomeServer: "Lanceri" },
-    { nome: "Arciere", icona: "Arciere_V2.png", chiave: "a", prefissoVillaggio: "arceri", nomeServer: "Arceri" },
-    { nome: "Catapulta", icona: "Catapulta_V2.png", chiave: "c", prefissoVillaggio: "catapulte", nomeServer: "Catapulte" },
+    { nome: "Guerriero", icona: "Guerriero_V2.png", chiave: "g", prefissoVillaggio: "guerrieri", nomeServer: "Guerrieri", labelKey: "Label Guerrieri" },
+    { nome: "Lanciere", icona: "Lanciere_V2.png", chiave: "l", prefissoVillaggio: "lanceri", nomeServer: "Lanceri", labelKey: "Label Lanceri" },
+    { nome: "Arciere", icona: "Arciere_V2.png", chiave: "a", prefissoVillaggio: "arceri", nomeServer: "Arceri", labelKey: "Label Arceri" },
+    { nome: "Catapulta", icona: "Catapulta_V2.png", chiave: "c", prefissoVillaggio: "catapulte", nomeServer: "Catapulte", labelKey: "Label Catapulte" },
   ];
   const TIER_LABELS = ["I", "II", "III", "IV", "V"];
 
@@ -97,15 +104,21 @@ window.WW = window.WW || {};
     // pulsante Ripara Tutto anche per i singoli bottoni Ripara" — poi
     // corretto: solo lo stile del bottone, senza l'icona a chiave inglese,
     // tolta su richiesta) — vedi .btn-ripara in style.css.
+    // Ripara/Salute/Difesa: stesse Label server già usate in Ricerca (Label
+    // Ripara/Salute/Difesa) — fallback italiano subito, poi ricalcolate ad
+    // ogni tick da aggiornaCittaCard() insieme al resto della card.
+    const nomeRipara = WW.descrizioni["Label Ripara"] || "Ripara";
+    const nomeSalute = WW.descrizioni["Label Salute"] || "Salute";
+    const nomeDifesa = WW.descrizioni["Label Difesa"] || "Difesa";
     const barre = s.salute
       ? `
       <div class="stat-bar-row">
         <div class="stat-bar stat-bar--hp" data-campo="salute"><div class="stat-bar__fill"></div><span class="stat-bar__label"></span></div>
-        <button type="button" class="btn-ripara" data-ripara="Salute" hidden title="Ripara Salute">Ripara</button>
+        <button type="button" class="btn-ripara" data-ripara="Salute" hidden title="${nomeRipara} ${nomeSalute}">${nomeRipara}</button>
       </div>
       <div class="stat-bar-row">
         <div class="stat-bar stat-bar--def" data-campo="difesa"><div class="stat-bar__fill"></div><span class="stat-bar__label"></span></div>
-        <button type="button" class="btn-ripara" data-ripara="Difesa" hidden title="Ripara Difesa">Ripara</button>
+        <button type="button" class="btn-ripara" data-ripara="Difesa" hidden title="${nomeRipara} ${nomeDifesa}">${nomeRipara}</button>
       </div>`
       : "";
     const tierBtns = TIER_LABELS.map((label, i) => `<button type="button" class="tier-btn${i === 0 ? " is-active" : ""}" data-tier="${i + 1}">${label}</button>`).join("");
@@ -113,8 +126,8 @@ window.WW = window.WW || {};
       (u) => `
       <li class="row-item row-item--form">
         <img src="assets/${u.icona}" class="icon-inline" alt="">
-        <span class="row-item__label">${u.nome}</span>
-        <span class="row-item__value" data-disponibili="${u.chiave}" title="Disponibili per lo spostamento">0</span>
+        <span class="row-item__label"${u.labelKey ? ` data-label-per="${u.labelKey}"` : ""}>${(u.labelKey && WW.descrizioni[u.labelKey]) || u.nome}</span>
+        <span class="row-item__value" data-disponibili="${u.chiave}" title="${WW.t('disponibiliSpostamento')}">0</span>
         <div class="qty-stepper" data-unit-stepper="${u.chiave}">
           <button type="button" class="qty-btn qty-btn--minus" aria-label="Diminuisci">−</button>
           <span class="qty-stepper__value">0</span>
@@ -123,10 +136,12 @@ window.WW = window.WW || {};
       </li>`
     ).join("");
 
+    const nomeStruttura = (s.labelKey && WW.descrizioni[s.labelKey]) || s.nome;
+    const nomeGuarnigione = WW.descrizioni["Label Guarnigione"] || "Guarnigione";
     return `
     <li class="city-card" data-struttura="${s.chiave}">
       <div class="city-card__header">
-        <strong>${s.nome} <span class="city-card__strato" title="Strato difensivo ${s.strato} di 6">[${s.strato}]</span></strong>
+        <strong><span data-campo="nome">${nomeStruttura}</span> <span class="city-card__strato" title="${WW.t('stratoDifensivoPrefix').replace('{0}', s.strato)}">[${s.strato}]</span></strong>
         <span class="city-card__guarnigione" data-campo="guarnigione">…</span>
       </div>
       ${barre}
@@ -138,13 +153,13 @@ window.WW = window.WW || {};
            uno stato "aperto" ben distinto (sfondo pieno) — vedi
            collegaEventiCitta() più sotto per l'aria-expanded. -->
       <button type="button" class="btn-toggle-guarnigione" aria-expanded="false">
-        <span>Guarnigione</span>
+        <span data-campo="guarnigione-label">${nomeGuarnigione}</span>
         <span class="btn-toggle-guarnigione__chevron" aria-hidden="true">▾</span>
       </button>
       <div class="mini-form form-guarnigione" hidden>
         <div class="section-toggle section-toggle--inline direzione-toggle">
-          <button type="button" class="section-toggle__btn is-active" data-direzione="in">Verso ${s.nome}</button>
-          <button type="button" class="section-toggle__btn" data-direzione="out">Verso Villaggio</button>
+          <button type="button" class="section-toggle__btn is-active" data-direzione="in">${WW.t('versoPrefix')} ${nomeStruttura}</button>
+          <button type="button" class="section-toggle__btn" data-direzione="out">${WW.t('versoPrefix')} ${WW.t('villaggio')}</button>
         </div>
         <div class="tier-tabs">${tierBtns}</div>
         <ul class="unit-list unit-list--form">${unitRows}</ul>
@@ -155,8 +170,8 @@ window.WW = window.WW || {};
              di default, mostrato per qualche secondo da
              mostraAvvisoTruppeInsufficienti() — vedi inviaSpostamentoTruppe
              più sotto. -->
-        <p class="panel__hint avviso-truppe" hidden>Truppe non disponibili: la quantità è stata corretta.</p>
-        <button type="button" class="btn btn--primary btn--block btn-conferma-sposta">Sposta</button>
+        <p class="panel__hint avviso-truppe" hidden>${WW.t('truppeNonDisponibiliAvviso')}</p>
+        <button type="button" class="btn btn--primary btn--block btn-conferma-sposta">${WW.t('spostaBtn')}</button>
       </div>
     </li>`;
   }
@@ -174,9 +189,9 @@ window.WW = window.WW || {};
     return `
     <button type="button" class="city-map__marker" data-struttura="${s.chiave}"
       style="left:${s.pos.left}%; top:${s.pos.top}%;"
-      title="Strato difensivo ${s.strato} di 6">
+      title="${WW.t('stratoDifensivoPrefix').replace('{0}', s.strato)}">
       <span class="city-map__strato">${s.strato}</span>
-      <span class="city-map__nome">${s.nome}</span>
+      <span class="city-map__nome">${(s.labelKey && WW.descrizioni[s.labelKey]) || s.nome}</span>
     </button>`;
   }
 
@@ -186,19 +201,28 @@ window.WW = window.WW || {};
   // se la mappa va ancora costruita.
   function renderCittaMap() {
     const container = document.getElementById("city-map-markers");
-    if (!container || container.children.length === STRUTTURE_CITTA.length) return;
-
-    container.innerHTML = STRUTTURE_CITTA.map(templateCittaMarker).join("");
-    // Toccare un marker scorre alla card corrispondente nella lista sotto
-    // e la evidenzia per un attimo, per far capire "sei atterrato qui".
-    container.addEventListener("click", (e) => {
-      const marker = e.target.closest(".city-map__marker");
-      if (!marker) return;
-      const card = document.querySelector(`#city-list [data-struttura="${marker.dataset.struttura}"]`);
-      if (!card) return;
-      card.scrollIntoView({ behavior: "smooth", block: "center" });
-      card.classList.add("city-card--evidenziata");
-      setTimeout(() => card.classList.remove("city-card--evidenziata"), 1500);
+    if (!container) return;
+    if (container.children.length !== STRUTTURE_CITTA.length) {
+      container.innerHTML = STRUTTURE_CITTA.map(templateCittaMarker).join("");
+      // Toccare un marker scorre alla card corrispondente nella lista sotto
+      // e la evidenzia per un attimo, per far capire "sei atterrato qui".
+      container.addEventListener("click", (e) => {
+        const marker = e.target.closest(".city-map__marker");
+        if (!marker) return;
+        const card = document.querySelector(`#city-list [data-struttura="${marker.dataset.struttura}"]`);
+        if (!card) return;
+        card.scrollIntoView({ behavior: "smooth", block: "center" });
+        card.classList.add("city-card--evidenziata");
+        setTimeout(() => card.classList.remove("city-card--evidenziata"), 1500);
+      });
+    }
+    // 17/09/2026: i marker restano "statici" solo nel senso che non vengono
+    // ricostruiti (vedi sopra) — il nome viene comunque riletto ad ogni
+    // tick, così una Label server arrivata dopo la prima costruzione (es.
+    // subito dopo il login) viene comunque applicata al giro successivo.
+    STRUTTURE_CITTA.forEach((s) => {
+      const nomeEl = container.querySelector(`[data-struttura="${s.chiave}"] .city-map__nome`);
+      if (nomeEl) nomeEl.textContent = (s.labelKey && WW.descrizioni[s.labelKey]) || s.nome;
     });
   }
 
@@ -220,8 +244,26 @@ window.WW = window.WW || {};
     if (!li) return;
     const stato = cittaStato[s.chiave];
 
+    // Nome struttura, "Guarnigione" e "Verso ..." (17/09/2026): riletti qui
+    // ad ogni tick — insieme al resto della card — invece che una sola
+    // volta in templateCittaCard, così una Label server arrivata dopo la
+    // prima costruzione viene comunque applicata (stesso fallback nome
+    // italiano usato lì).
+    const nomeStruttura = (s.labelKey && WW.descrizioni[s.labelKey]) || s.nome;
+    const nomeCampoEl = li.querySelector('[data-campo="nome"]');
+    if (nomeCampoEl) nomeCampoEl.textContent = nomeStruttura;
+
+    const nomeGuarnigione = WW.descrizioni["Label Guarnigione"] || "Guarnigione";
+    const guarnLabelEl = li.querySelector('[data-campo="guarnigione-label"]');
+    if (guarnLabelEl) guarnLabelEl.textContent = nomeGuarnigione;
+
+    const btnVersoStruttura = li.querySelector('[data-direzione="in"]');
+    if (btnVersoStruttura) btnVersoStruttura.textContent = `${WW.t("versoPrefix")} ${nomeStruttura}`;
+    const btnVersoVillaggio = li.querySelector('[data-direzione="out"]');
+    if (btnVersoVillaggio) btnVersoVillaggio.textContent = `${WW.t("versoPrefix")} ${WW.t("villaggio")}`;
+
     const guarnEl = li.querySelector('[data-campo="guarnigione"]');
-    if (guarnEl) guarnEl.textContent = `Guarnigione: ${WW.fmtInt(WW.GAME.num(`Guarnigione_${s.chiave}`))}/${WW.fmtInt(WW.GAME.num(`Guarnigione_${s.chiave}Max`))}`;
+    if (guarnEl) guarnEl.textContent = `${nomeGuarnigione}: ${WW.fmtInt(WW.GAME.num(`Guarnigione_${s.chiave}`))}/${WW.fmtInt(WW.GAME.num(`Guarnigione_${s.chiave}Max`))}`;
 
     let daRiparare = 0;
     // Stato del "pallino" numerato sulla mappa (15/09/2026, su richiesta
@@ -260,10 +302,19 @@ window.WW = window.WW || {};
         barraDef.querySelector(".stat-bar__fill").style.width = difesaMax > 0 ? `${Math.min(100, (difesa / difesaMax) * 100)}%` : "0%";
         barraDef.querySelector(".stat-bar__label").textContent = `DEF: ${WW.fmtInt(difesa)}/${WW.fmtInt(difesaMax)}`;
       }
+      const nomeRipara = WW.descrizioni["Label Ripara"] || "Ripara";
       const btnRiparaSalute = li.querySelector('[data-ripara="Salute"]');
-      if (btnRiparaSalute) btnRiparaSalute.hidden = !saluteDaRiparare;
+      if (btnRiparaSalute) {
+        btnRiparaSalute.hidden = !saluteDaRiparare;
+        btnRiparaSalute.textContent = nomeRipara;
+        btnRiparaSalute.title = `${nomeRipara} ${WW.descrizioni["Label Salute"] || "Salute"}`;
+      }
       const btnRiparaDifesa = li.querySelector('[data-ripara="Difesa"]');
-      if (btnRiparaDifesa) btnRiparaDifesa.hidden = !difesaDaRiparare;
+      if (btnRiparaDifesa) {
+        btnRiparaDifesa.hidden = !difesaDaRiparare;
+        btnRiparaDifesa.textContent = nomeRipara;
+        btnRiparaDifesa.title = `${nomeRipara} ${WW.descrizioni["Label Difesa"] || "Difesa"}`;
+      }
     }
     aggiornaMarkerCitta(s, statoMarker);
 
@@ -285,7 +336,7 @@ window.WW = window.WW || {};
     if (!banner) return;
     banner.hidden = totaleDaRiparare < 2;
     const testoEl = document.getElementById("ripara-tutto-testo");
-    if (testoEl) testoEl.textContent = `${totaleDaRiparare} strutture danneggiate`;
+    if (testoEl) testoEl.textContent = WW.t("struttureDanneggiatePrefix").replace("{0}", totaleDaRiparare);
   }
 
   // Mostra/nasconde "Ferma tutte le riparazioni" (15/09/2026, su richiesta
@@ -316,10 +367,16 @@ window.WW = window.WW || {};
       const q = stato.quantita[tier];
       return q.g + q.l + q.a + q.c > 0 ? label : null;
     }).filter(Boolean);
-    hintEl.textContent = tierConValori.length > 0 ? `In attesa di invio: tier ${tierConValori.join(", ")}.` : "";
+    hintEl.textContent = tierConValori.length > 0 ? WW.t("inAttesaInvioTierPrefix").replace("{0}", tierConValori.join(", ")) : "";
   }
 
   function renderCittaList() {
+    // Titolo pannello (17/09/2026): stesso principio di "ricerca-generali-
+    // title" in 09-ricerca.js — rilettura ad ogni tick, nessun listener
+    // separato necessario.
+    const titleEl = document.getElementById("citta-title");
+    if (titleEl) titleEl.textContent = WW.descrizioni["Label Citta"] || "Città";
+
     renderCittaMap();
     const ul = document.getElementById("city-list");
     if (!ul) return;

@@ -419,7 +419,7 @@ window.WW = window.WW || {};
     if (!pager) return;
     pager.hidden = cronologiaAll.length <= CRONOLOGIA_PAGE_SIZE;
     const info = document.getElementById("log-box-page-info");
-    if (info) info.textContent = `Pagina ${cronologiaPage + 1} di ${totalPages}`;
+    if (info) info.textContent = WW.t("paginaDi").replace("{0}", cronologiaPage + 1).replace("{1}", totalPages);
     const btnPrev = document.getElementById("log-box-prev");
     const btnNext = document.getElementById("log-box-next");
     if (btnPrev) btnPrev.disabled = cronologiaPage <= 0;
@@ -441,7 +441,7 @@ window.WW = window.WW || {};
     if (pagina.length === 0) {
       const vuoto = document.createElement("p");
       vuoto.className = "log-empty";
-      vuoto.textContent = "Nessun evento recente.";
+      vuoto.textContent = WW.t("nessunEventoRecente");
       logBox.appendChild(vuoto);
     } else {
       pagina.forEach((testo) => {
@@ -663,7 +663,7 @@ window.WW = window.WW || {};
     } else {
       const span = document.createElement("span");
       span.className = "research-desc__vuoto";
-      span.textContent = "Descrizione non ancora ricevuta dal server (arriva subito dopo il login).";
+      span.textContent = WW.t("descrizioneNonRicevuta");
       el.appendChild(span);
     }
   }
@@ -869,7 +869,7 @@ window.WW = window.WW || {};
 
     const testoDesc = WW.descrizioni[config.chiaveDesc];
     const righe = [];
-    righe.push(testoDesc || "Descrizione non ancora ricevuta dal server (arriva subito dopo il login).");
+    righe.push(testoDesc || WW.t("descrizioneNonRicevuta"));
     if (config.campi) {
       righe.push(""); // riga vuota: separa l'intro narrativa dalle statistiche (vedi renderDescrizioneRicca)
       righe.push(...config.campi());
@@ -964,8 +964,8 @@ window.WW = window.WW || {};
       <li class="row-item">
         <img src="assets/${s.icona}" alt="">
         <span class="row-item__label">${(s.labelKey && WW.descrizioni[s.labelKey]) || s.nome}</span>
-        <span class="row-item__value" title="Costruite">${WW.fmtInt(GAME.num(s.qta))}</span>
-        <span class="row-item__queue" title="In coda di costruzione">${WW.fmtInt(GAME.num(s.coda))}</span>
+        <span class="row-item__value" title="${WW.t('builtTooltip')}">${WW.fmtInt(GAME.num(s.qta))}</span>
+        <span class="row-item__queue" title="${WW.t('queuedBuildTooltip')}">${WW.fmtInt(GAME.num(s.coda))}</span>
       </li>`
       )
       .join("");
@@ -1029,8 +1029,8 @@ window.WW = window.WW || {};
       <li class="row-item">
         <img src="assets/${u.icona}" alt="">
         <span class="row-item__label">${(u.labelKey && WW.descrizioni[u.labelKey]) || u.nome}</span>
-        <span class="row-item__value" title="Addestrate / limite Caserma">${WW.fmtInt(qta)} / ${WW.fmtInt(max)}</span>
-        <span class="row-item__queue" title="In coda di addestramento">${WW.fmtInt(coda)}</span>
+        <span class="row-item__value" title="${WW.t('trainedLimitTooltip')}">${WW.fmtInt(qta)} / ${WW.fmtInt(max)}</span>
+        <span class="row-item__queue" title="${WW.t('queuedTrainTooltip')}">${WW.fmtInt(coda)}</span>
       </li>`;
       })
       .join("");

@@ -54,39 +54,51 @@ window.WW = window.WW || {};
 (function (WW) {
   "use strict";
 
+  // "labelKey" (17/09/2026, su richiesta dell'utente): stesso meccanismo già
+  // usato per struttureCivili/struttureMilitari/caserme/unita in
+  // 04-game-main.js — (labelKey && WW.descrizioni[labelKey]) || nome, nessun
+  // nuovo metodo. Le chiavi combaciano esattamente con i nuovi
+  // "Descrizione|Label ...|" mandati da Descrizioni.cs. "Guarnigione" e i
+  // nomi delle strutture di Città (Ingresso/Cancello/Mura/Torri/Centro/
+  // Castello) non hanno ancora un Label lato server, quindi restano nome
+  // fisso in italiano com'erano.
   const RICERCA_GENERALI = [
-    { nome: "Costruzione", tipo: "Costruzione", chiave: "ricerca_costruzione" },
-    { nome: "Produzione", tipo: "Produzione", chiave: "ricerca_produzione" },
-    { nome: "Addestramento", tipo: "Addestramento", chiave: "ricerca_addestramento" },
-    { nome: "Popolazione", tipo: "Popolazione", chiave: "ricerca_popolazione" },
-    { nome: "Trasporto", tipo: "Trasporto", chiave: "ricerca_trasporto" },
-    { nome: "Ripara", tipo: "Riparazione", chiave: "ricerca_riparazione" },
-    { nome: "Spionaggio", tipo: "Spionaggio", chiave: "ricerca_Spionaggio" },
-    { nome: "Contro-Spionaggio", tipo: "Contro-Spionaggio", chiave: "ricerca_Contro_Spionaggio" },
+    { nome: "Costruzione", tipo: "Costruzione", chiave: "ricerca_costruzione", labelKey: "Label Costruzione" },
+    { nome: "Produzione", tipo: "Produzione", chiave: "ricerca_produzione", labelKey: "Label Produzione" },
+    { nome: "Addestramento", tipo: "Addestramento", chiave: "ricerca_addestramento", labelKey: "Label Addestramento" },
+    { nome: "Popolazione", tipo: "Popolazione", chiave: "ricerca_popolazione", labelKey: "Label Popolazione" },
+    { nome: "Trasporto", tipo: "Trasporto", chiave: "ricerca_trasporto", labelKey: "Label Trasporto" },
+    { nome: "Ripara", tipo: "Riparazione", chiave: "ricerca_riparazione", labelKey: "Label Ripara" },
+    { nome: "Spionaggio", tipo: "Spionaggio", chiave: "ricerca_Spionaggio", labelKey: "Label Spionaggio" },
+    { nome: "Contro-Spionaggio", tipo: "Contro-Spionaggio", chiave: "ricerca_Contro_Spionaggio", labelKey: "Label Contro-Spionaggio" },
   ];
 
   const RICERCA_UNITA = [
-    { nome: "Guerrieri", tipoServer: "Guerriero", chiave: "guerriero", icona: "Guerriero_V2.png" },
-    { nome: "Lancieri", tipoServer: "Lancere", chiave: "lancere", icona: "Lanciere_V2.png" },
-    { nome: "Arcieri", tipoServer: "Arcere", chiave: "arcere", icona: "Arciere_V2.png" },
-    { nome: "Catapulte", tipoServer: "Catapulta", chiave: "catapulta", icona: "Catapulta_V2.png" },
+    { nome: "Guerrieri", tipoServer: "Guerriero", chiave: "guerriero", icona: "Guerriero_V2.png", labelKey: "Label Guerrieri" },
+    { nome: "Lancieri", tipoServer: "Lancere", chiave: "lancere", icona: "Lanciere_V2.png", labelKey: "Label Lanceri" },
+    { nome: "Arcieri", tipoServer: "Arcere", chiave: "arcere", icona: "Arciere_V2.png", labelKey: "Label Arceri" },
+    { nome: "Catapulte", tipoServer: "Catapulta", chiave: "catapulta", icona: "Catapulta_V2.png", labelKey: "Label Catapulte" },
   ];
   const RICERCA_STATS_UNITA = [
-    { label: "Attacco", suffisso: "attacco" },
-    { label: "Salute", suffisso: "salute" },
-    { label: "Difesa", suffisso: "difesa" },
-    { label: "Livello", suffisso: "livello" },
+    { label: "Attacco", suffisso: "attacco", labelKey: "Label Attacco" },
+    { label: "Salute", suffisso: "salute", labelKey: "Label Salute" },
+    { label: "Difesa", suffisso: "difesa", labelKey: "Label Difesa" },
+    { label: "Livello", suffisso: "livello", labelKey: "Label Livello" },
   ];
 
+  // 17/09/2026: "Label Ingresso/Mura/Cancello/Torri/Castello/Citta" ora
+  // disponibili (Descrizioni.cs) — stesso labelKey delle altre due liste.
+  // "Guarnigione" resta senza Label server, fissa in italiano.
   const RICERCA_CITTA = [
-    { nome: "Ingresso", tipoServer: "Ingresso", chiave: "ingresso", stats: ["livello", "guarnigione"] },
-    { nome: "Cancello", tipoServer: "Cancello", chiave: "cancello", stats: ["livello", "salute", "difesa", "guarnigione"] },
-    { nome: "Mura", tipoServer: "Mura", chiave: "mura", stats: ["livello", "salute", "difesa", "guarnigione"] },
-    { nome: "Torri", tipoServer: "Torri", chiave: "torri", stats: ["livello", "salute", "difesa", "guarnigione"] },
-    { nome: "Centro", tipoServer: "Citta", chiave: "citta", stats: ["livello", "guarnigione"] },
-    { nome: "Castello", tipoServer: "Castello", chiave: "castello", stats: ["livello", "salute", "difesa", "guarnigione"] },
+    { nome: "Ingresso", tipoServer: "Ingresso", chiave: "ingresso", stats: ["livello", "guarnigione"], labelKey: "Label Ingresso" },
+    { nome: "Cancello", tipoServer: "Cancello", chiave: "cancello", stats: ["livello", "salute", "difesa", "guarnigione"], labelKey: "Label Cancello" },
+    { nome: "Mura", tipoServer: "Mura", chiave: "mura", stats: ["livello", "salute", "difesa", "guarnigione"], labelKey: "Label Mura" },
+    { nome: "Torri", tipoServer: "Torri", chiave: "torri", stats: ["livello", "salute", "difesa", "guarnigione"], labelKey: "Label Torri" },
+    { nome: "Centro", tipoServer: "Citta", chiave: "citta", stats: ["livello", "guarnigione"], labelKey: "Label Citta" },
+    { nome: "Castello", tipoServer: "Castello", chiave: "castello", stats: ["livello", "salute", "difesa", "guarnigione"], labelKey: "Label Castello" },
   ];
   const STAT_LABELS = { livello: "Livello", salute: "Salute", difesa: "Difesa", guarnigione: "Guarnigione" };
+  const STAT_LABEL_KEYS = { livello: "Label Livello", salute: "Label Salute", difesa: "Label Difesa" };
 
   // Descrizioni: il server manda "Descrizione|Ricerca <tipo>|<testo>" da solo
   // (dopo login/AutoLogin e dopo ogni ricerca completata — Descrizioni.
@@ -107,6 +119,18 @@ window.WW = window.WW || {};
     // contenuto invece di aspettare il prossimo click.
     const box = ricercaPanel && ricercaPanel.querySelector(`[data-desc-per="${cssEscape(chiave)}"]`);
     if (box && !box.hidden) popolaDescrizione(chiave, box);
+
+    // Etichette (nomi ricerca/unità/statistiche, "labelKey" sopra): le liste
+    // vengono ricostruite solo quando cambia il numero di righe (per non
+    // perdere lo stato aperto delle descrizioni, vedi renderRicercaGenerali
+    // ecc. sotto), quindi se un "Label ..." arriva DOPO il primo render lo
+    // applichiamo qui, stesso principio di aggiornaStruttureTitle in
+    // 04-game-main.js ma per più elementi in una volta.
+    if (ricercaPanel) {
+      ricercaPanel.querySelectorAll(`[data-label-per="${cssEscape(chiave)}"]`).forEach((el) => {
+        el.textContent = WW.descrizioni[chiave];
+      });
+    }
   });
 
   // I "tipo" contengono spazi e trattini (es. "Contro-Spionaggio", "Guerriero
@@ -124,20 +148,26 @@ window.WW = window.WW || {};
     } else {
       const p = document.createElement("span");
       p.className = "research-desc__vuoto";
-      p.textContent = "Descrizione non ancora ricevuta dal server (arriva subito dopo il login).";
+      p.textContent = WW.t("descrizioneNonRicevuta");
       box.appendChild(p);
     }
   }
 
-  function templateResearchRow(nome, tipo, chiaveLivello) {
+  function templateResearchRow(nome, tipo, chiaveLivello, labelKey) {
     const chiaveDesc = chiaveDescrizione(tipo);
+    // Stesso fallback (labelKey && WW.descrizioni[labelKey]) || nome usato in
+    // 04-game-main.js/06-costruzione.js: mostra subito il nome italiano,
+    // sostituito appena arriva la Descrizione col Label server (vedi
+    // WW.onDescrizione sopra, che aggiorna [data-label-per] a runtime).
+    const nomeMostrato = (labelKey && WW.descrizioni[labelKey]) || nome;
+    const labelAttr = labelKey ? ` data-label-per="${labelKey}"` : "";
     return `
     <li class="research-item">
       <div class="row-item research-row">
-        <span class="row-item__label">${nome}</span>
-        <span class="row-item__value" data-ricerca-livello="${chiaveLivello}" title="Livello attuale">…</span>
-        <button type="button" class="research-info-btn" data-info-tipo="${chiaveDesc}" title="Descrizione" aria-label="Descrizione ${nome}"><img src="assets/info.png" alt=""></button>
-        <button type="button" class="btn btn--ghost btn--sm research-btn" data-ricerca-tipo="${tipo}">Ricerca</button>
+        <span class="row-item__label"${labelAttr}>${nomeMostrato}</span>
+        <span class="row-item__value" data-ricerca-livello="${chiaveLivello}" title="${WW.t('livelloAttualeAria')}">…</span>
+        <button type="button" class="research-info-btn" data-info-tipo="${chiaveDesc}" title="${WW.t('descriptionAria')}" aria-label="${WW.t('descriptionAria')} ${nomeMostrato}"><img src="assets/info.png" alt=""></button>
+        <button type="button" class="btn btn--ghost btn--sm research-btn" data-ricerca-tipo="${tipo}">${WW.t('ricercaBtn')}</button>
       </div>
       <div class="research-desc" data-desc-per="${chiaveDesc}" hidden></div>
     </li>`;
@@ -151,10 +181,17 @@ window.WW = window.WW || {};
   }
 
   function renderRicercaGenerali() {
+    // Titolo pannello: stesso Label server già usato per "strutture-title" in
+    // Main (04-game-main.js) — qui basta rileggerlo ad ogni render, nessun
+    // listener separato necessario (renderRicercaGenerali gira già ad ogni
+    // tick tramite renderRicerca/renderAllFromServer).
+    const titleEl = document.getElementById("ricerca-generali-title");
+    if (titleEl) titleEl.textContent = WW.descrizioni["Label Strutture Civili"] || "Strutture Civili";
+
     const ul = document.getElementById("ricerca-generali-list");
     if (!ul) return;
     if (ul.children.length !== RICERCA_GENERALI.length) {
-      ul.innerHTML = RICERCA_GENERALI.map((r) => templateResearchRow(r.nome, r.tipo, r.chiave)).join("");
+      ul.innerHTML = RICERCA_GENERALI.map((r) => templateResearchRow(r.nome, r.tipo, r.chiave, r.labelKey)).join("");
     }
     aggiornaLivelli(
       ul,
@@ -169,8 +206,8 @@ window.WW = window.WW || {};
       container.innerHTML = RICERCA_UNITA.map(
         (u) => `
         <div class="research-esercito-unit">
-          <h3 class="panel__subtitle"><img class="icon-inline" src="assets/${u.icona}" alt=""> ${u.nome}</h3>
-          <ul class="research-list">${RICERCA_STATS_UNITA.map((s) => templateResearchRow(s.label, `${u.tipoServer} ${s.label}`, `${u.chiave}_${s.suffisso}`)).join("")}</ul>
+          <h3 class="panel__subtitle"><img class="icon-inline" src="assets/${u.icona}" alt=""> <span${u.labelKey ? ` data-label-per="${u.labelKey}"` : ""}>${(u.labelKey && WW.descrizioni[u.labelKey]) || u.nome}</span></h3>
+          <ul class="research-list">${RICERCA_STATS_UNITA.map((s) => templateResearchRow(s.label, `${u.tipoServer} ${s.label}`, `${u.chiave}_${s.suffisso}`, s.labelKey)).join("")}</ul>
         </div>`
       ).join("");
     }
@@ -189,9 +226,9 @@ window.WW = window.WW || {};
       container.innerHTML = RICERCA_CITTA.map(
         (s) => `
         <div class="research-citta-struttura">
-          <h3 class="panel__subtitle">${s.nome}</h3>
+          <h3 class="panel__subtitle"${s.labelKey ? ` data-label-per="${s.labelKey}"` : ""}>${(s.labelKey && WW.descrizioni[s.labelKey]) || s.nome}</h3>
           <ul class="research-list">${s.stats
-            .map((stat) => templateResearchRow(STAT_LABELS[stat], `${s.tipoServer} ${STAT_LABELS[stat]}`, `ricerca_${s.chiave}_${stat}`))
+            .map((stat) => templateResearchRow(STAT_LABELS[stat], `${s.tipoServer} ${STAT_LABELS[stat]}`, `ricerca_${s.chiave}_${stat}`, STAT_LABEL_KEYS[stat]))
             .join("")}</ul>
         </div>`
       ).join("");

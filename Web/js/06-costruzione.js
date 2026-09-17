@@ -103,7 +103,7 @@ window.WW = window.WW || {};
     } else {
       const p = document.createElement("span");
       p.className = "research-desc__vuoto";
-      p.textContent = "Descrizione non ancora ricevuta dal server (arriva subito dopo il login).";
+      p.textContent = WW.t("descrizioneNonRicevuta");
       box.appendChild(p);
     }
   }
@@ -150,11 +150,11 @@ window.WW = window.WW || {};
           <div class="row-item row-item--form">
             <img src="assets/${s.icona}" alt="">
             <span class="row-item__label">${nome}</span>
-            <button type="button" class="research-info-btn" data-info-tipo="${s.chiaveDesc}" title="Descrizione" aria-label="Descrizione ${nome}"><img src="assets/info.png" alt=""></button>
+            <button type="button" class="research-info-btn" data-info-tipo="${s.chiaveDesc}" title="${WW.t("descriptionAria")}" aria-label="${WW.t("descriptionAria")} ${nome}"><img src="assets/info.png" alt=""></button>
             <div class="qty-stepper" data-tipo-server="${s.tipoServer}">
-              <button type="button" class="qty-btn qty-btn--minus" aria-label="Diminuisci quantità: ${nome}">−</button>
+              <button type="button" class="qty-btn qty-btn--minus" aria-label="${WW.t("decreaseQty")} ${nome}">−</button>
               <span class="qty-stepper__value">${qtyCostruzione[s.tipoServer] || 0}</span>
-              <button type="button" class="qty-btn qty-btn--plus" aria-label="Aumenta quantità: ${nome}">+</button>
+              <button type="button" class="qty-btn qty-btn--plus" aria-label="${WW.t("increaseQty")} ${nome}">+</button>
             </div>
           </div>
           <div class="research-desc" data-desc-per="${s.chiaveDesc}" hidden></div>
@@ -237,11 +237,11 @@ window.WW = window.WW || {};
           <div class="row-item row-item--form">
             <img src="assets/${u.icona}" alt="">
             <span class="row-item__label">${nome}</span>
-            <button type="button" class="research-info-btn" data-info-tipo="${chiaveDesc}" title="Descrizione" aria-label="Descrizione ${nome}"><img src="assets/info.png" alt=""></button>
+            <button type="button" class="research-info-btn" data-info-tipo="${chiaveDesc}" title="${WW.t("descriptionAria")}" aria-label="${WW.t("descriptionAria")} ${nome}"><img src="assets/info.png" alt=""></button>
             <div class="qty-stepper" data-prefisso="${u.prefisso}">
-              <button type="button" class="qty-btn qty-btn--minus" aria-label="Diminuisci quantità: ${nome}">−</button>
+              <button type="button" class="qty-btn qty-btn--minus" aria-label="${WW.t("decreaseQty")} ${nome}">−</button>
               <span class="qty-stepper__value">${qtyReclutamento[u.prefisso] || 0}</span>
-              <button type="button" class="qty-btn qty-btn--plus" aria-label="Aumenta quantità: ${nome}">+</button>
+              <button type="button" class="qty-btn qty-btn--plus" aria-label="${WW.t("increaseQty")} ${nome}">+</button>
             </div>
           </div>
           <div class="research-desc" data-desc-per="${chiaveDesc}" hidden></div>
@@ -292,7 +292,7 @@ window.WW = window.WW || {};
   // più fissi in JS. Mostrati sia in Main (Esercito) che in Addestramento.
   function renderSbloccoUnita() {
     const testo =
-      `Sblocco unità — livello II: ${WW.fmtInt(WW.GAME.num("Unlock_Truppe_II"))} · ` +
+      `${WW.t("sbloccoUnitaPrefix")} II: ${WW.fmtInt(WW.GAME.num("Unlock_Truppe_II"))} · ` +
       `III: ${WW.fmtInt(WW.GAME.num("Unlock_Truppe_III"))} · ` +
       `IV: ${WW.fmtInt(WW.GAME.num("Unlock_Truppe_IV"))} · ` +
       `V: ${WW.fmtInt(WW.GAME.num("Unlock_Truppe_V"))}`;
