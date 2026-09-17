@@ -437,6 +437,7 @@ namespace Server_Strategico.ServerData.Localization
         public string Label_Lancieri() => "Lancieri";
         public string Label_Arcieri() => "Arcieri";
         public string Label_Catapulte() => "Catapulte";
+        public string Label_Esperienza() => "Esperienza";
         public string Label_Livello() => "Livello";
         public string Label_Salute() => "Salute";
         public string Label_Difesa() => "Difesa";
@@ -830,15 +831,15 @@ namespace Server_Strategico.ServerData.Localization
         public string Desc_Feudi_Testo() =>
             $"Acquista il tuo feudo e diventa signore di queste terre. Ogni dominio raccoglie tributi dai suoi villaggi, versati fedelmente dai contadini giorno dopo giorno. L'abbondanza dei tributi dipende dalla rarità del feudo.";
         public string Label_Comune() =>
-            $"Comune";
+            $"Feudo Comune";
         public string Label_NonComune() =>
-            $"Non Comune";
+            $"Feudo Non Comune";
         public string Label_Raro() =>
-            $"Raro";
+            $"Feudo Raro";
         public string Label_Epico() =>
-            $"Epico";
+            $"Feudo Epico";
         public string Label_Leggendario() =>
-            $"Leggendario";
+            $"Feudo Leggendario";
 
         public static string ToRoman(int n) => n switch
         {

@@ -37,6 +37,7 @@ namespace Server_Strategico.ServerData.Localization
         string Label_Mantenimento_Oro();
 
         //Unità
+        string Label_Esperienza();
         string Label_Livello();
         string Label_Salute();
         string Label_Difesa();

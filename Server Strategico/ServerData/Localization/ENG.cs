@@ -429,6 +429,7 @@ namespace Server_Strategico.ServerData.Localization
         public string Label_Mantenimento_Pietra() => "Stone Upkeep";
         public string Label_Mantenimento_Ferro() => "Iron Upkeep";
         public string Label_Mantenimento_Oro() => "Gold Upkeep";
+        public string Label_Esperienza() => "Experience";
         public string Label_Livello() => "Level";
         public string Label_Salute() => "Health";
         public string Label_Difesa() => "Defense";
@@ -838,14 +839,14 @@ namespace Server_Strategico.ServerData.Localization
         public string Desc_Feudi_Testo() =>
             $"Purchase your fief and become the owner of a plot of land. Each plot generates an automatic daily income. The amount of income depends on its rarity.";
         public string Label_Comune() =>
-            $"Common";
+            $"Common Fief";
         public string Label_NonComune() =>
-            $"Uncommon";
+            $"Uncommon Fief";
         public string Label_Raro() =>
-            $"Rare";
+            $"Rare Fief";
         public string Label_Epico() =>
-            $"Epic";
+            $"Epic Fief";
         public string Label_Leggendario() =>
-            $"Legendary";
+            $"Legendary Fief";
     }
 }
