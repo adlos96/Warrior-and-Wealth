@@ -434,11 +434,31 @@ namespace Server_Strategico.ServerData.Localization
         public string Label_Salute() => "Health";
         public string Label_Difesa() => "Defense";
         public string Label_Attacco() => "Attack";
-        public string Label_Guarnigione() => "Garrison";
+
+        public string Label_Fattoria() => "Farm";
+        public string Label_Segheria() => "Sawmill";
+        public string Label_CavaPietra() => "Stone Quarry";
+        public string Label_MinieraFerro() => "Iron Mine";
+        public string Label_MinieraOro() => "Gold Mine";
+        public string Label_Abitazioni() => "Houses";
+
+        public string Label_Workshop_Spade() => "Sword Workshop";
+        public string Label_Workshop_Lancie() => "Spear Workshop";
+        public string Label_Workshop_Archi() => "Bow Workshop";
+        public string Label_Workshop_Scudi() => "Shield Workshop";
+        public string Label_Workshop_Armature() => "Armor Workshop";
+        public string Label_Workshop_Frecce() => "Arrow Workshop";
+
+        public string Label_CasermaGuerrieri() => "Warrior Barracks";
+        public string Label_CasermaLanceri() => "Spearman Barracks";
+        public string Label_CasermaArceri() => "Archer Barracks";
+        public string Label_CasermaCatapulte() => "Catapult Barracks";
+
         public string Label_Guerrieri() => "Warriors";
         public string Label_Lancieri() => "Spearmen";
         public string Label_Arcieri() => "Archers";
         public string Label_Catapulte() => "Catapults";
+        public string Label_Guarnigione() => "Garrison";
         public string Label_Limite_Magazzino() => "Storage Limit";
         public string Label_Limite() => "Limit";
 

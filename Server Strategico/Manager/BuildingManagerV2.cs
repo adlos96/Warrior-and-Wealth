@@ -208,10 +208,10 @@ namespace Server_Strategico.Manager
                                 TutorialUpdate(player, msgArgs);
                             }
                             break;
-                        case "Case":
+                        case "Abitazioni":
                             player.Abitazioni++;
                             player.Strutture_Civili_Costruite++;
-                            OnEvent(player, QuestEventType.Costruzione, "Case", 1);
+                            OnEvent(player, QuestEventType.Costruzione, "Abitazioni", 1);
                             if (player.Tutorial)
                             {
                                 msgArgs[3] = "19";
@@ -470,7 +470,7 @@ namespace Server_Strategico.Manager
                 "CavaPietra" => Strutture.Edifici.CavaPietra,
                 "MinieraFerro" => Strutture.Edifici.MinieraFerro,
                 "MinieraOro" => Strutture.Edifici.MinieraOro,
-                "Case" => Strutture.Edifici.Case,
+                "Abitazioni" => Strutture.Edifici.Case,
                 "ProduzioneSpade" => Strutture.Edifici.ProduzioneSpade,
                 "ProduzioneLance" => Strutture.Edifici.ProduzioneLance,
                 "ProduzioneArchi" => Strutture.Edifici.ProduzioneArchi,

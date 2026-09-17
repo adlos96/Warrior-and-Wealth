@@ -88,7 +88,7 @@ namespace Server_Strategico.ServerData.Moduli
 
             tempoCalcolato = Strutture.Edifici.Case.TempoCostruzione - player.Ricerca_Costruzione - (Strutture.Edifici.Case.TempoCostruzione * player.Bonus_Costruzione);
             tempoBase = Strutture.Edifici.Case.TempoCostruzione;
-            Send(player.guid_Player, $"Descrizione|Case|[black]" +
+            Send(player.guid_Player, $"Descrizione|Abitazioni|[black]" +
                 $"{L.Desc_Case()}\n\n" +
                 $"{L.Label_CostoCostruzione()}\n" +
                 $"{L.Label_Cibo()} [icon:cibo]{Strutture.Edifici.Case.Cibo.ToString("#,0")}\n" +
@@ -1210,6 +1210,25 @@ namespace Server_Strategico.ServerData.Moduli
             Send(player.guid_Player, $"Descrizione|Feudi Raro|{L.Label_Raro()}");
             Send(player.guid_Player, $"Descrizione|Feudi Epico|{L.Label_Epico()}");
             Send(player.guid_Player, $"Descrizione|Feudo Leggendario|{L.Label_Leggendario()}");
+
+            Send(player.guid_Player, $"Descrizione|Fattoria|{L.Label_Fattoria()}");
+            Send(player.guid_Player, $"Descrizione|Segheria|{L.Label_Segheria()}");
+            Send(player.guid_Player, $"Descrizione|Cava di Pietra|{L.Label_CavaPietra()}");
+            Send(player.guid_Player, $"Descrizione|Miniera di Ferro|{L.Label_MinieraFerro()}");
+            Send(player.guid_Player, $"Descrizione|Miniera d'Oro|{L.Label_MinieraOro()}");
+            Send(player.guid_Player, $"Descrizione|Abitazioni|{L.Label_Abitazioni()}");
+
+            Send(player.guid_Player, $"Descrizione|Workshop Spade|{L.Label_Workshop_Spade()}");
+            Send(player.guid_Player, $"Descrizione|Workshop Lancie|{L.Label_Workshop_Lancie()}");
+            Send(player.guid_Player, $"Descrizione|Workshop Archi|{L.Label_Workshop_Archi()}");
+            Send(player.guid_Player, $"Descrizione|Workshop Scudi|{L.Label_Workshop_Scudi()}");
+            Send(player.guid_Player, $"Descrizione|Workshop Armature|{L.Label_Workshop_Armature()}");
+            Send(player.guid_Player, $"Descrizione|Workshop Frecce|{L.Label_Workshop_Frecce()}");
+
+            Send(player.guid_Player, $"Descrizione|Csaerma Guerrieri|{L.Label_CasermaGuerrieri()}");
+            Send(player.guid_Player, $"Descrizione|Csaerma Lancieri|{L.Label_CasermaLanceri()}");
+            Send(player.guid_Player, $"Descrizione|Csaerma Arcieri|{L.Label_CasermaArceri()}");
+            Send(player.guid_Player, $"Descrizione|Csaerma Catapulte|{L.Label_CasermaCatapulte()}");
 
             Send(player.guid_Player, $"Descrizione|Città Testo|{L.Desc_Città_Testo()}");
             Send(player.guid_Player, $"Descrizione|Ricerca Testo|{L.Desc_Ricerca_Testo()}");

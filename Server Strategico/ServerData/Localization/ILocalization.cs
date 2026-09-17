@@ -28,6 +28,25 @@ namespace Server_Strategico.ServerData.Localization
         string Label_Addestramento();
         string Label_Ricerca();
         string Label_Produzione();
+        //Strutture Civili
+        string Label_Fattoria();
+        string Label_Segheria();
+        string Label_CavaPietra();
+        string Label_MinieraFerro();
+        string Label_MinieraOro();
+        string Label_Abitazioni();
+        //Workshop
+        string Label_Workshop_Spade();
+        string Label_Workshop_Lancie();
+        string Label_Workshop_Archi();
+        string Label_Workshop_Scudi();
+        string Label_Workshop_Armature();
+        string Label_Workshop_Frecce();
+        //Caserme
+        string Label_CasermaGuerrieri();
+        string Label_CasermaLanceri();
+        string Label_CasermaArceri();
+        string Label_CasermaCatapulte();
 
         //Mantenimento
         string Label_Mantenimento_Cibo();

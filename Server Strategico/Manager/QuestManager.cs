@@ -259,7 +259,7 @@ namespace Server_Strategico.Manager
                     player.QuestProgress.AddProgress(15, quantita, player);
                     player.QuestProgress.AddProgress(10, quantita, player); // qualsiasi struttura civile
                     break;
-                case "Case":
+                case "Abitazioni":
                     player.QuestProgress.AddProgress(16, quantita, player);
                     player.QuestProgress.AddProgress(10, quantita, player); // qualsiasi struttura civile
                     break;

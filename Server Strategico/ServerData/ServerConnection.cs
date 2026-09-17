@@ -311,7 +311,7 @@ namespace Server_Strategico.Server
                     if (Convert.ToInt32(msgArgs[5]) > 0) BuildingManagerV2.Costruzione("CavaPietra", Convert.ToInt32(msgArgs[5]), clientGuid, player); // Costruisci fattorie
                     if (Convert.ToInt32(msgArgs[6]) > 0) BuildingManagerV2.Costruzione("MinieraFerro", Convert.ToInt32(msgArgs[6]), clientGuid, player); // Costruisci fattorie
                     if (Convert.ToInt32(msgArgs[7]) > 0) BuildingManagerV2.Costruzione("MinieraOro", Convert.ToInt32(msgArgs[7]), clientGuid, player); // Costruisci fattorie
-                    if (Convert.ToInt32(msgArgs[8]) > 0) BuildingManagerV2.Costruzione("Case", Convert.ToInt32(msgArgs[8]), clientGuid, player); // Costruisci fattorie
+                    if (Convert.ToInt32(msgArgs[8]) > 0) BuildingManagerV2.Costruzione("Abitazioni", Convert.ToInt32(msgArgs[8]), clientGuid, player); // Costruisci fattorie
                     
                     if (Convert.ToInt32(msgArgs[9]) > 0) BuildingManagerV2.Costruzione("ProduzioneSpade", Convert.ToInt32(msgArgs[9]), clientGuid, player); // Costruisci fattorie
                     if (Convert.ToInt32(msgArgs[10]) > 0) BuildingManagerV2.Costruzione("ProduzioneLance", Convert.ToInt32(msgArgs[10]), clientGuid, player); // Costruisci fattorie

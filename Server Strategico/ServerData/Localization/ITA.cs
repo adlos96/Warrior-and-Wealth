@@ -424,6 +424,7 @@ namespace Server_Strategico.ServerData.Localization
         public string Label_Scudi() => "Scudi";
         public string Label_Armature() => "Armature";
         public string Label_Frecce() => "Frecce";
+
         public string Label_Costruzione() => "Costruzione";
         public string Label_Addestramento() => "Addestramento";
         public string Label_Ricerca() => "Ricerca";
@@ -433,6 +434,26 @@ namespace Server_Strategico.ServerData.Localization
         public string Label_Mantenimento_Pietra() => "Mantenimento pietra";
         public string Label_Mantenimento_Ferro() => "Mantenimento ferro";
         public string Label_Mantenimento_Oro() => "Mantenimento oro";
+
+        public string Label_Fattoria() => "Fattoria";
+        public string Label_Segheria() => "Segheria";
+        public string Label_CavaPietra() => "Cava di pietra";
+        public string Label_MinieraFerro() => "Miniera di ferro";
+        public string Label_MinieraOro() => "Miniera d'oro";
+        public string Label_Abitazioni() => "Abitazioni";
+
+        public string Label_Workshop_Spade() => "Workshop Spade";
+        public string Label_Workshop_Lancie() => "Workshop Lancie";
+        public string Label_Workshop_Archi() => "Workshop Archi";
+        public string Label_Workshop_Scudi() => "Workshop Scudi";
+        public string Label_Workshop_Armature() => "Workshop Armature";
+        public string Label_Workshop_Frecce() => "Workshop Frecce";
+
+        public string Label_CasermaGuerrieri() => "Caserma Guerrieri";
+        public string Label_CasermaLanceri() => "Caserma Lanceri";
+        public string Label_CasermaArceri() => "Caserma Arceri";
+        public string Label_CasermaCatapulte() => "Caserma Catapulte";
+
         public string Label_Guerrieri() => "Guerrieri";
         public string Label_Lancieri() => "Lancieri";
         public string Label_Arcieri() => "Arcieri";
@@ -544,7 +565,7 @@ namespace Server_Strategico.ServerData.Localization
             "l'addestramento delle unità militari. Indispensabile per la ricerca tecnologica e di componenti militari";
 
         public string Desc_Case() =>
-            "Le Case sono necessarie per attirare sempre più [icon:popolazione]cittadini, verso il vostro villaggio, " +
+            "Le Abitazioni sono necessarie per attirare sempre più [icon:popolazione]cittadini, verso il vostro villaggio, " +
             "sono fondamentali per la costruzione di strutture militari e civili, oltre che per addestrare le unità militari";
 
         // ── Descrizioni narrative: workshop ────────────────────────────────────

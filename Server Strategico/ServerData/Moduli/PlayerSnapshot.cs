@@ -642,7 +642,7 @@ namespace Server_Strategico.ServerData.Moduli
             _currentState[(int)Field.cavapietra_coda] = buildingsQueue.GetValueOrDefault("CavaPietra", 0).ToString();
             _currentState[(int)Field.minieraferro_coda] = buildingsQueue.GetValueOrDefault("MinieraFerro", 0).ToString();
             _currentState[(int)Field.minieraoro_coda] = buildingsQueue.GetValueOrDefault("MinieraOro", 0).ToString();
-            _currentState[(int)Field.casa_coda] = buildingsQueue.GetValueOrDefault("Case", 0).ToString();
+            _currentState[(int)Field.casa_coda] = buildingsQueue.GetValueOrDefault("Abitazioni", 0).ToString();
             _currentState[(int)Field.workshop_spade_coda] = buildingsQueue.GetValueOrDefault("ProduzioneSpade", 0).ToString();
             _currentState[(int)Field.workshop_lance_coda] = buildingsQueue.GetValueOrDefault("ProduzioneLance", 0).ToString();
             _currentState[(int)Field.workshop_archi_coda] = buildingsQueue.GetValueOrDefault("ProduzioneArchi", 0).ToString();
