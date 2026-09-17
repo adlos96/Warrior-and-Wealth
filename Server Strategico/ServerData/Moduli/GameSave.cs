@@ -93,24 +93,6 @@ namespace Server_Strategico.ServerData.Moduli
                 _console.Write(value);
                 _file.Write(value);
             }
-
-            public override void Write(string value)
-            {
-                _console.Write(value);
-                _file.Write(value);
-            }
-
-            public override void WriteLine(string value)
-            {
-                _console.WriteLine(value);
-                _file.WriteLine(value);
-            }
-
-            public override void WriteLine()
-            {
-                _console.WriteLine();
-                _file.WriteLine();
-            }
         }
 
         // Scrive prima su un file temporaneo e poi lo sposta sul path finale.
