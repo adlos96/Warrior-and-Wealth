@@ -38,7 +38,7 @@ namespace Server_Strategico.Server
             //Variabili.server_Log.Add()
            Console.WriteLine("             ** Comunicazione Client **  ");
            Console.WriteLine("-----------------------------", "standard");
-           Console.WriteLine($"[ServerConnection|ClientRequest] > Client:      {client}");
+           Console.WriteLine($"[ServerConnection|ClientRequest] > Client:      [{client}]");
            Console.WriteLine($"[ServerConnection|ClientRequest] > Guid:        [{clientGuid}]");
            Console.WriteLine($"[ServerConnection|ClientRequest] > Messaggio:   [{messaggioRicevuto}]");
 
@@ -114,7 +114,7 @@ namespace Server_Strategico.Server
             }
             var dati = Server.servers_.players;
             if (player == null) player = Server.servers_.GetPlayer(user, password);
-
+            
             switch (msgArgs[0])
             {
                 case "Refresh_Access_Token":
@@ -235,6 +235,7 @@ namespace Server_Strategico.Server
                     }
 
                     player = Server.servers_.GetPlayer(usernameAutoLogin);
+                    if (player != null) Console.WriteLine($"[ServerConnection|ClientRequest] > IP:          [{client} || Caricato: {player.Username}]\n");
                     if (player == null)
                     {
                         Console.WriteLine("[AutoLogin] Player risulta null");
