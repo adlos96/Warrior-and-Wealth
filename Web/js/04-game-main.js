@@ -523,6 +523,21 @@ window.WW = window.WW || {};
   WW.descrizioni = descrizioni;
   WW.onDescrizione = (fn) => descrizioneListeners.push(fn);
 
+  // Etichette UI localizzate (17/09/2026, su richiesta dell'utente): il
+  // server manda "UI_Labels" (JSON, Type="UI_Labels") una volta ad ogni
+  // login/AutoLogin, con SOLO le etichette che hanno un corrispondente
+  // ESATTO nei file di localizzazione server ITA.cs/ENG.cs (vedi
+  // ServerConnection.cs, InviaEtichetteUI) — così i titoli dei popup "Info
+  // Risorsa" qui sotto (RISORSA_INFO_CONFIG) cambiano lingua anche loro al
+  // prossimo login, invece di restare fissi in italiano. Le voci senza un
+  // corrispondente esatto (es. "Lance" qui vs "Lancie" in ITA.cs/ENG.cs, o
+  // "Diamanti Blu/Viola"/"Tributi", assenti come Label_*) restano invariate.
+  WW.LABELS = {};
+  WW.NET.onJson("UI_Labels", (msg) => {
+    WW.LABELS = msg || {};
+    if (risorsaInfoApertaChiave) popolaRisorsaInfo(risorsaInfoApertaChiave);
+  });
+
   // Barra risorse: chiave-locale (usata dall'HTML in data-value) -> chiave
   // esatta mandata dal server per il giocatore connesso.
   const RESOURCE_KEY_ALIASES = {
@@ -687,7 +702,7 @@ window.WW = window.WW || {};
   // descrizione): "campi" resta null per loro.
   const RISORSA_INFO_CONFIG = {
     cibo: {
-      titolo: "Cibo", chiaveDesc: "Cibo", icona: "cibo",
+      titolo: "Cibo", labelKey: "Cibo", chiaveDesc: "Cibo", icona: "cibo",
       campi: () => {
         const grezza = GAME.num("cibo_s");
         const edifici = GAME.num("consumo_cibo_strutture");
@@ -702,7 +717,7 @@ window.WW = window.WW || {};
       },
     },
     legno: {
-      titolo: "Legno", chiaveDesc: "Legno", icona: "legno",
+      titolo: "Legno", labelKey: "Legno", chiaveDesc: "Legno", icona: "legno",
       campi: () => {
         const grezza = GAME.num("legna_s");
         const edifici = GAME.num("consumo_legno_strutture");
@@ -714,7 +729,7 @@ window.WW = window.WW || {};
       },
     },
     pietra: {
-      titolo: "Pietra", chiaveDesc: "Pietra", icona: "pietra",
+      titolo: "Pietra", labelKey: "Pietra", chiaveDesc: "Pietra", icona: "pietra",
       campi: () => {
         const grezza = GAME.num("pietra_s");
         const edifici = GAME.num("consumo_pietra_strutture");
@@ -726,7 +741,7 @@ window.WW = window.WW || {};
       },
     },
     ferro: {
-      titolo: "Ferro", chiaveDesc: "Ferro", icona: "ferro",
+      titolo: "Ferro", labelKey: "Ferro", chiaveDesc: "Ferro", icona: "ferro",
       campi: () => {
         const grezza = GAME.num("ferro_s");
         const edifici = GAME.num("consumo_ferro_strutture");
@@ -738,7 +753,7 @@ window.WW = window.WW || {};
       },
     },
     oro: {
-      titolo: "Oro", chiaveDesc: "Oro", icona: "oro",
+      titolo: "Oro", labelKey: "Oro", chiaveDesc: "Oro", icona: "oro",
       campi: () => {
         const grezza = GAME.num("oro_s");
         const edifici = GAME.num("consumo_oro_strutture");
@@ -753,7 +768,7 @@ window.WW = window.WW || {};
       },
     },
     popolazione: {
-      titolo: "Popolazione", chiaveDesc: "Popolazione", icona: "popolazione",
+      titolo: "Popolazione", labelKey: "Popolazione", chiaveDesc: "Popolazione", icona: "popolazione",
       // Niente Edifici/Esercito: la Popolazione non si consuma (stesso
       // comportamento del client desktop, vedi Main.cs).
       campi: () => [
@@ -770,47 +785,63 @@ window.WW = window.WW || {};
     // desktop (Main.cs, ramo "Militare") mostra solo Produzione + Limite,
     // senza le righe Edifici/Esercito (le armi non hanno mantenimento).
     spade: {
-      titolo: "Spade", chiaveDesc: "Spade", icona: "spade",
+      titolo: "Spade", labelKey: "Spade", chiaveDesc: "Spade", icona: "spade",
       campi: () => [
         `Produzione: [icon:spade][verde]${WW.fmtDecimal(GAME.num("spade_s"), 3)}[/verde][black]s`,
         `Limite: [icon:spade][ferroScuro]${WW.fmtInt(GAME.num("spade_limite"))}`,
       ],
     },
     lance: {
-      titolo: "Lance", chiaveDesc: "Lance", icona: "lance",
+      // 17/09/2026, su richiesta esplicita dell'utente: qui usiamo Label_Lancie()
+      // del server anche se la parola non è identica ("Lance" qui vs "Lancie"
+      // in ITA.cs/ENG.cs) — stesso concetto (unità Lancieri), a differenza delle
+      // altre etichette sopra che hanno una corrispondenza esatta parola per parola.
+      titolo: "Lance", labelKey: "Lancie", chiaveDesc: "Lance", icona: "lance",
       campi: () => [
         `Produzione: [icon:lance][verde]${WW.fmtDecimal(GAME.num("lance_s"), 3)}[/verde][black]s`,
         `Limite: [icon:lance][ferroScuro]${WW.fmtInt(GAME.num("lance_limite"))}`,
       ],
     },
     archi: {
-      titolo: "Archi", chiaveDesc: "Archi", icona: "archi",
+      titolo: "Archi", labelKey: "Archi", chiaveDesc: "Archi", icona: "archi",
       campi: () => [
         `Produzione: [icon:archi][verde]${WW.fmtDecimal(GAME.num("archi_s"), 3)}[/verde][black]s`,
         `Limite: [icon:archi][ferroScuro]${WW.fmtInt(GAME.num("archi_limite"))}`,
       ],
     },
     scudi: {
-      titolo: "Scudi", chiaveDesc: "Scudi", icona: "scudi",
+      titolo: "Scudi", labelKey: "Scudi", chiaveDesc: "Scudi", icona: "scudi",
       campi: () => [
         `Produzione: [icon:scudi][verde]${WW.fmtDecimal(GAME.num("scudi_s"), 3)}[/verde][black]s`,
         `Limite: [icon:scudi][ferroScuro]${WW.fmtInt(GAME.num("scudi_limite"))}`,
       ],
     },
     armature: {
-      titolo: "Armature", chiaveDesc: "Armature", icona: "armature",
+      titolo: "Armature", labelKey: "Armature", chiaveDesc: "Armature", icona: "armature",
       campi: () => [
         `Produzione: [icon:armature][verde]${WW.fmtDecimal(GAME.num("armature_s"), 3)}[/verde][black]s`,
         `Limite: [icon:armature][ferroScuro]${WW.fmtInt(GAME.num("armature_limite"))}`,
       ],
     },
     frecce: {
-      titolo: "Frecce", chiaveDesc: "Frecce", icona: "frecce",
+      titolo: "Frecce", labelKey: "Frecce", chiaveDesc: "Frecce", icona: "frecce",
       campi: () => [
         `Produzione: [icon:frecce][verde]${WW.fmtDecimal(GAME.num("frecce_s"), 3)}[/verde][black]s`,
         `Limite: [icon:frecce][ferroScuro]${WW.fmtInt(GAME.num("frecce_limite"))}`,
       ],
     },
+
+    // Esperienza e Livello (17/09/2026, su richiesta dell'utente): stesso
+    // meccanismo delle risorse sopra, ma senza "campi" di produzione/limite
+    // (solo l'intro narrativa, come diamantiBlu/diamantiViola/tributi) — il
+    // server manda già il testo completo, valore incluso, in
+    // "Descrizione|Esperienza|..."/"Descrizione|Livello|..." (vedi
+    // Descrizioni.cs, chiamate a Desc_Esperienza/Desc_Livello). labelKey
+    // "Esperienza" è una nuova etichetta aggiunta a ITA.cs/ENG.cs apposta per
+    // questo popup (non esisteva prima, a differenza di "Livello" che era già
+    // tra le Label_* inutilizzate).
+    xp: { titolo: "Esperienza", labelKey: "Esperienza", chiaveDesc: "Esperienza", icona: "xp", campi: null },
+    livello: { titolo: "Livello", labelKey: "Livello", chiaveDesc: "Livello", icona: "livello", campi: null },
   };
 
   const risorsaInfoOverlay = document.getElementById("risorsa-info-overlay");
@@ -822,7 +853,7 @@ window.WW = window.WW || {};
     const config = RISORSA_INFO_CONFIG[chiaveRes];
     if (!config || !risorsaInfoContent || !risorsaInfoTitolo) return;
     risorsaInfoApertaChiave = chiaveRes;
-    risorsaInfoTitolo.textContent = config.titolo;
+    risorsaInfoTitolo.textContent = (config.labelKey && WW.LABELS[config.labelKey]) || config.titolo;
 
     const testoDesc = WW.descrizioni[config.chiaveDesc];
     const righe = [];

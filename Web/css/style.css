@@ -1295,13 +1295,18 @@ button{ font-family: inherit; cursor: pointer; }
    già vista sopra (attivata/spenta da #battaglia-panel-toggle, vedi
    js/14-battaglia.js), nessuna regola aggiuntiva necessaria qui. */
 .main-grid--pvppve{
-  grid-template-columns: 1.1fr 1.3fr 1.3fr;
+  grid-template-columns: 1fr 1.25fr 1fr;
   grid-template-rows: auto auto;
 }
-.main-grid--pvppve [data-panel="pvp-barbari"]{ grid-column: 1; grid-row: 1 / span 2; }
+/* 17/09/2026, su richiesta dell'utente: Barbari non è più alto quanto
+   Report (niente più "grid-row: 1 / span 2") — ora è alto quanto PVP/
+   Esercito da Inviare, come loro. Referti (Report) occupa tutta la riga 2
+   per non lasciare un vuoto sotto Barbari. Esercito da Inviare è ora
+   leggermente più largo di Barbari e PVP (colonna centrale più larga). */
+.main-grid--pvppve [data-panel="pvp-barbari"]{ grid-column: 1; grid-row: 1; }
 .main-grid--pvppve [data-panel="pvp-esercito"]{ grid-column: 2; grid-row: 1; }
 .main-grid--pvppve [data-panel="pvp-pvp"]{ grid-column: 3; grid-row: 1; }
-.main-grid--pvppve [data-panel="pvp-referti"]{ grid-column: 2 / span 2; grid-row: 2; }
+.main-grid--pvppve [data-panel="pvp-referti"]{ grid-column: 1 / span 3; grid-row: 2; }
 
 .research-list{ list-style: none; margin: 0 0 .9rem; padding: 0; display: flex; flex-direction: column; gap: .4rem; }
 
@@ -2059,6 +2064,18 @@ button{ font-family: inherit; cursor: pointer; }
   overflow: hidden;
 }
 .pvp-select:disabled{ opacity: .6; }
+/* 17/09/2026, su richiesta dell'utente: da desktop la colonna PVP (griglia a 3
+   colonne) è molto più stretta della larghezza piena usata da telefono, quindi
+   placeholder come "Nessun avversario disponibile" restavano troncati anche con
+   l'ellissi. Da >760px riduciamo leggermente il font così il testo intero ci
+   sta quasi sempre; il title impostato in js/14-battaglia.js mostra comunque il
+   testo completo al passaggio del mouse se dovesse ancora essere troncato. */
+@media (min-width: 761px){
+  .pvp-select{
+    font-size: .82rem;
+    padding: .5rem .45rem;
+  }
+}
 
 .target-info{
   font-size: .82rem;

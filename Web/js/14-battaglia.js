@@ -71,7 +71,7 @@ window.WW = window.WW || {};
   const stato = {
     tier: 1,
     quantita: { 1: { g: 0, l: 0, a: 0, c: 0 }, 2: { g: 0, l: 0, a: 0, c: 0 }, 3: { g: 0, l: 0, a: 0, c: 0 }, 4: { g: 0, l: 0, a: 0, c: 0 }, 5: { g: 0, l: 0, a: 0, c: 0 } },
-    tipoBarbaro: "Città Barbaro", // valore usato per il comando "Battaglia" (CON accento)
+    tipoBarbaro: "Villaggio Barbaro", // valore usato per il comando "Battaglia" (default: Villaggio, 17/09/2026)
     livelloEsplora: 1,
     targetBarbaro: "",
     targetPvp: "",
@@ -305,6 +305,10 @@ window.WW = window.WW || {};
       : `<option value="">Nessun avversario disponibile</option>`;
     if (pvpLista.includes(valorePrecedente)) select.value = valorePrecedente;
     stato.targetPvp = select.value;
+    // 17/09/2026, su richiesta dell'utente: da desktop il testo può restare troncato
+    // anche dopo la riduzione del font in style.css — il title mostra il testo
+    // completo al passaggio del mouse (nessun effetto su telefono, dove non serve).
+    select.title = select.options[select.selectedIndex]?.text || "";
   }
 
   function attaccaPvp() {

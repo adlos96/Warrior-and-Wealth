@@ -165,8 +165,8 @@
         <!-- Icone reali del client desktop (ico_Esperienza / ico_Livello
              in Main.Designer.cs: Properties.Resources.Exp_1 e
              .level_up_1_) al posto delle emoji, per coerenza visiva. -->
-        <div class="res" data-res="xp"><img src="assets/Exp_1.png" alt="Esperienza"><span data-value="xp">0</span> XP</div>
-        <div class="res res--level" data-res="livello"><img src="assets/Livello_V2.png" alt="Livello"><span data-value="livello">1</span></div>
+        <div class="res res--clickable" data-res="xp"><img src="assets/Exp_1.png" alt="Esperienza"><span data-value="xp">0</span> XP</div>
+        <div class="res res--clickable res--level" data-res="livello"><img src="assets/Livello_V2.png" alt="Livello"><span data-value="livello">1</span></div>
       </div>
     </header>
 
@@ -652,7 +652,7 @@
            PVP affiancati in alto, Referti in basso a destra.
       ============================================================ -->
       <section class="tab-panel" data-tab-panel="pvppve" hidden>
-        <p class="panel__hint">Esplora i Villaggi/Città Barbare per stimare le loro truppe, oppure sfida un altro giocatore in PVP. Le truppe da inviare si scelgono a tier (I-V) come nello Spostamento Truppe — restano impostate finché non lanci l'attacco.</p>
+        <p class="panel__hint">Esplora i Villaggi/Città Barbare per stimare le loro truppe, oppure sfida un altro giocatore in PVP. Le truppe da inviare si scelgono a tier (I-V) — Restano impostate finché non lanci l'attacco.</p>
 
         <div class="section-toggle" id="battaglia-panel-toggle" role="tablist" aria-label="Pannelli PVP/PVE">
           <button class="section-toggle__btn is-active" data-panel-target="pvp-barbari">Barbari</button>
@@ -665,13 +665,12 @@
           <div class="panel wood-panel" data-panel="pvp-barbari">
             <div class="panel__header">
               <h2 class="panel__title">Barbari</h2>
-              <!-- 16/09/2026, su richiesta dell'utente: ordine invertito (Villaggio prima
-                   di Città) — resta "Città" il tipo attivo di default (is-active/
-                   stato.tipoBarbaro in js/14-battaglia.js invariati, solo l'ordine dei
-                   due pulsanti in questa barra è cambiato). -->
+              <!-- 17/09/2026, su richiesta dell'utente: "Villaggio" è ora il tipo attivo
+                   di default (is-active spostato qui, stato.tipoBarbaro aggiornato in
+                   js/14-battaglia.js). -->
               <div class="section-toggle section-toggle--inline" id="barbari-tipo-toggle">
-                <button type="button" class="section-toggle__btn" data-tipo="Villaggio Barbaro">Villaggio</button>
-                <button type="button" class="section-toggle__btn is-active" data-tipo="Città Barbaro">Città</button>
+                <button type="button" class="section-toggle__btn is-active" data-tipo="Villaggio Barbaro">Villaggio</button>
+                <button type="button" class="section-toggle__btn" data-tipo="Città Barbaro">Città</button>
               </div>
             </div>
             <select id="barbari-target-select" class="pvp-select" disabled><option value="">Nessun bersaglio</option></select>
