@@ -489,6 +489,36 @@ namespace Server_Strategico.ServerData.Localization
 
         public string Label_Acquista() => "Acquista";
 
+        public string Label_Edifici() => "Edifici";
+        public string Label_Costruisci() => "Costruisci";
+        public string Label_Recluta() => "Recluta";
+        public string Label_tempoRimanente() => "Tempo rimanente:";
+        public string Label_Velocizza() => "Velocizza";
+
+        public string Label_Panoramica() => "Panoramica";
+        public string Label_Civile() => "Civile";
+        public string Label_Militare() => "Militare";
+        public string Label_Strutture() => "Strutture";
+        public string Label_Scambia() => "Scambia";
+        public string Label_ScambiaTributi() => "Scambia tributi";
+        public string Label_Costruttori() => "Costruttori:";
+        public string Label_Reclutatori() => "Reclutatori:";
+        public string Label_VelocizzaAddestramento() => "Velocizza addestramento";
+
+        public string Label_SvuotaCronologia() => "Svuota cronologia";
+        public string Label_NessunEventoRecente() => "Nessun evento recente.";
+        public string Label_PaginaPrecedente() => "Pagina precedente";
+        public string Label_PaginaSuccessiva() => "Pagina successiva";
+        public string Label_Indietro() => "Indietro";
+        public string Label_Avanti() => "Avanti";
+
+        //Send(player.guid_Player, $"Descrizione|Label SvuotaCronologia|{L.Label_Svuotacronologia()}");
+        //Send(player.guid_Player, $"Descrizione|Label NessunEventoRecente|{L.Label_Nessuneventorecente()}");
+        //Send(player.guid_Player, $"Descrizione|Label PaginaPrecedente|{L.Label_Paginaprecedente()}");
+        //Send(player.guid_Player, $"Descrizione|Label PaginaSuccessiva|{L.Label_PaginaSuccessiva()}");
+        //Send(player.guid_Player, $"Descrizione|Label Indietro|{L.Label_Indietro()}");
+        //Send(player.guid_Player, $"Descrizione|Label Avanti|{L.Label_Avanti()}");
+
         // -------------- Schermata Login --------------------------
         public string Label_NomeUtente() => "Nome Utente";
         public string Label_Password() => "Password";

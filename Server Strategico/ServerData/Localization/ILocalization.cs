@@ -89,6 +89,29 @@ namespace Server_Strategico.ServerData.Localization
 
         string Label_Acquista();
 
+        string Label_Edifici();
+        string Label_Costruisci();
+        string Label_Recluta();
+        string Label_tempoRimanente();
+        string Label_Velocizza();
+        
+        string Label_Panoramica();
+        string Label_Civile();
+        string Label_Militare();
+        string Label_Strutture();
+        string Label_Scambia();
+        string Label_ScambiaTributi();
+        string Label_Costruttori();
+        string Label_Reclutatori();
+        string Label_VelocizzaAddestramento();
+        
+        string Label_SvuotaCronologia();
+        string Label_NessunEventoRecente();
+        string Label_PaginaPrecedente();
+        string Label_PaginaSuccessiva();
+        string Label_Indietro();
+        string Label_Avanti();
+
         // -------------- Schermata Login --------------------------
         string Label_NomeUtente();
         string Label_Password();

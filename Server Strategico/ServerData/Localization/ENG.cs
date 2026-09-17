@@ -484,6 +484,29 @@ namespace Server_Strategico.ServerData.Localization
 
         public string Label_Acquista() => "Buy";
 
+        public string Label_Edifici() => "Buildings";
+        public string Label_Costruisci() => "Build";
+        public string Label_Recluta() => "Recruit";
+        public string Label_tempoRimanente() => "Time remaining:";
+        public string Label_Velocizza() => "Speed up";
+
+        public string Label_Panoramica() => "Overview";
+        public string Label_Civile() => "Civilian";
+        public string Label_Militare() => "Military";
+        public string Label_Strutture() => "Structures";
+        public string Label_Scambia() => "Trade";
+        public string Label_ScambiaTributi() => "Trade tributes";
+        public string Label_Costruttori() => "Builders:";
+        public string Label_Reclutatori() => "Recruiters:";
+        public string Label_VelocizzaAddestramento() => "Speed up training";
+
+        public string Label_SvuotaCronologia() => "Clear history";
+        public string Label_NessunEventoRecente() => "No recent events.";
+        public string Label_PaginaPrecedente() => "Previous page";
+        public string Label_PaginaSuccessiva() => "Next page";
+        public string Label_Indietro() => "Back";
+        public string Label_Avanti() => "Next";
+
         // -------------- Schermata Login --------------------------
         public string Label_NomeUtente() => "Username";
         public string Label_Password() => "Password";

@@ -1267,6 +1267,29 @@ namespace Server_Strategico.ServerData.Moduli
 
             Send(player.guid_Player, $"Descrizione|Label Acquista|{L.Label_Esercito()}");
 
+            Send(player.guid_Player, $"Descrizione|Label Edifici|{L.Label_Edifici()}");
+            Send(player.guid_Player, $"Descrizione|Label Costruisci|{L.Label_Costruisci()}");
+            Send(player.guid_Player, $"Descrizione|Label Recluta|{L.Label_Recluta()}");
+            Send(player.guid_Player, $"Descrizione|Label TempoRimanente|{L.Label_tempoRimanente()}");
+            Send(player.guid_Player, $"Descrizione|Label Velocizza|{L.Label_Velocizza()}");
+
+            Send(player.guid_Player, $"Descrizione|Label Panoramica|{L.Label_Panoramica()}");
+            Send(player.guid_Player, $"Descrizione|Label Civile|{L.Label_Civile()}");
+            Send(player.guid_Player, $"Descrizione|Label Militare|{L.Label_Militare()}");
+            Send(player.guid_Player, $"Descrizione|Label Strutture|{L.Label_Strutture()}");
+            Send(player.guid_Player, $"Descrizione|Label Scambia|{L.Label_Scambia()}");
+            Send(player.guid_Player, $"Descrizione|Label ScambiaTributi|{L.Label_ScambiaTributi()}");
+            Send(player.guid_Player, $"Descrizione|Label Costruttori|{L.Label_Costruttori()}");
+            Send(player.guid_Player, $"Descrizione|Label Reclutatori|{L.Label_Reclutatori()}");
+            Send(player.guid_Player, $"Descrizione|Label VelocizzaAddestramento|{L.Label_VelocizzaAddestramento()}");
+
+            Send(player.guid_Player, $"Descrizione|Label SvuotaCronologia|{L.Label_Svuotacronologia()}");
+            Send(player.guid_Player, $"Descrizione|Label NessunEventoRecente|{L.Label_Nessuneventorecente()}");
+            Send(player.guid_Player, $"Descrizione|Label PaginaPrecedente|{L.Label_Paginaprecedente()}");
+            Send(player.guid_Player, $"Descrizione|Label PaginaSuccessiva|{L.Label_PaginaSuccessiva()}");
+            Send(player.guid_Player, $"Descrizione|Label Indietro|{L.Label_Indietro()}");
+            Send(player.guid_Player, $"Descrizione|Label Avanti|{L.Label_Avanti()}");
+
             // -------------- Schermata Login --------------------------
             Send(player.guid_Player, $"Descrizione|Label Nome-Utente|{L.Label_NomeUtente()}");
             Send(player.guid_Player, $"Descrizione|Label Password|{L.Label_Password()}");
