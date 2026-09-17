@@ -1283,9 +1283,9 @@ namespace Server_Strategico.ServerData.Moduli
             Send(player.guid_Player, $"Descrizione|Label Reclutatori|{L.Label_Reclutatori()}");
             Send(player.guid_Player, $"Descrizione|Label VelocizzaAddestramento|{L.Label_VelocizzaAddestramento()}");
 
-            Send(player.guid_Player, $"Descrizione|Label SvuotaCronologia|{L.Label_Svuotacronologia()}");
-            Send(player.guid_Player, $"Descrizione|Label NessunEventoRecente|{L.Label_Nessuneventorecente()}");
-            Send(player.guid_Player, $"Descrizione|Label PaginaPrecedente|{L.Label_Paginaprecedente()}");
+            Send(player.guid_Player, $"Descrizione|Label SvuotaCronologia|{L.Label_SvuotaCronologia()}");
+            Send(player.guid_Player, $"Descrizione|Label NessunEventoRecente|{L.Label_NessunEventoRecente()}");
+            Send(player.guid_Player, $"Descrizione|Label PaginaPrecedente|{L.Label_PaginaPrecedente()}");
             Send(player.guid_Player, $"Descrizione|Label PaginaSuccessiva|{L.Label_PaginaSuccessiva()}");
             Send(player.guid_Player, $"Descrizione|Label Indietro|{L.Label_Indietro()}");
             Send(player.guid_Player, $"Descrizione|Label Avanti|{L.Label_Avanti()}");
