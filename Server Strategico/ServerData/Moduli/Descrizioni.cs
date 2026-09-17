@@ -1225,10 +1225,10 @@ namespace Server_Strategico.ServerData.Moduli
             Send(player.guid_Player, $"Descrizione|Workshop Armature|{L.Label_Workshop_Armature()}");
             Send(player.guid_Player, $"Descrizione|Workshop Frecce|{L.Label_Workshop_Frecce()}");
 
-            Send(player.guid_Player, $"Descrizione|Csaerma Guerrieri|{L.Label_CasermaGuerrieri()}");
-            Send(player.guid_Player, $"Descrizione|Csaerma Lancieri|{L.Label_CasermaLanceri()}");
-            Send(player.guid_Player, $"Descrizione|Csaerma Arcieri|{L.Label_CasermaArceri()}");
-            Send(player.guid_Player, $"Descrizione|Csaerma Catapulte|{L.Label_CasermaCatapulte()}");
+            Send(player.guid_Player, $"Descrizione|Casaerma Guerrieri|{L.Label_CasermaGuerrieri()}");
+            Send(player.guid_Player, $"Descrizione|Casaerma Lancieri|{L.Label_CasermaLanceri()}");
+            Send(player.guid_Player, $"Descrizione|Casaerma Arcieri|{L.Label_CasermaArceri()}");
+            Send(player.guid_Player, $"Descrizione|Casaerma Catapulte|{L.Label_CasermaCatapulte()}");
 
             Send(player.guid_Player, $"Descrizione|Città Testo|{L.Desc_Città_Testo()}");
             Send(player.guid_Player, $"Descrizione|Ricerca Testo|{L.Desc_Ricerca_Testo()}");
