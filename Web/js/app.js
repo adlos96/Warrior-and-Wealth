@@ -70,16 +70,21 @@
          localStorage.setItem('ww_ws_url', 'ws://IP:PORTA/')
      dalla console del browser. */
   const WS_DEFAULT_PORT = 8444;
+  const WS_SERVER_PORT = 8448;
 
   function resolveWsUrl() {
-    const override = storage.get("ww_ws_url");
+    const override = WW.storage.get("ww_ws_url");
     if (override) return override;
 
-    const proto = window.location.protocol === "https:" ? "wss:" : "ws:";
+    const isHttps = window.location.protocol === "https:";
     // Da file:// (mockup aperto direttamente) non c'è un host valido:
     // in quel caso si assume che il server giri in locale.
     const host = window.location.hostname || "localhost";
-    return `${proto}//${host}:${WS_DEFAULT_PORT}/`;
+    // HTTPS -> passa dal proxy WebSocket di nginx (path "/ws", porta 443
+    // implicita, stessa origine della pagina): la porta 8444 diretta non fa
+    // TLS su Linux (vedi commento in cima al file). HTTP -> parla ancora
+    // direttamente con WebSocketGateway.cs sulla sua porta, come prima.
+    return isHttps ? `wss://${host}:${WS_SERVER_PORT}/ws` : `ws://${host}:${WS_DEFAULT_PORT}/`;
   }
 
   const NET = {
