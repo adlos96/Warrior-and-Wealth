@@ -523,6 +523,13 @@ namespace Server_Strategico.Server
             AggiornaVillaggiClient(player);
             if (dati[3] == "PVP")
             {
+                if (player.ScudoDellaPace > 0)
+                {
+                    Server.Send(clientGuid, "Log_Server|[title]Non puoi attaccare un giocatore... Hai lo scudo della pace attivo");
+                    Console.WriteLine($"[Battaglia] [{player.Username}] Non puoi attaccare un giocatore... Hai lo scudo della pace attivo");
+                    return;
+                }
+
                 var datisss = dati[4].Split(',');
                 var difensore = Server.servers_.GetPlayer(datisss[0]);
 
