@@ -45,7 +45,7 @@ window.WW = window.WW || {};
     // invece di aspettare che l'utente riclicchi "Entra".
     onSocketOpen() {
       if (AUTH.accessToken && AUTH.refreshToken) {
-        WW.NET.send("AutoLogin", AUTH.accessToken, AUTH.refreshToken, langSelect.value || "it");
+        WW.NET.send("AutoLogin", AUTH.accessToken, AUTH.refreshToken, WW.langSelect.value || "it");
       }
     },
 
@@ -104,7 +104,7 @@ window.WW = window.WW || {};
       loginStatus.hidden = true;
       enterGame();
     } else {
-      const motivo = a || t("loginGenericError");
+      const motivo = a || WW.t("loginGenericError");
       loginStatus.hidden = false;
       loginStatus.classList.remove("login-status--ok");
       loginStatus.textContent = motivo;
@@ -146,10 +146,10 @@ window.WW = window.WW || {};
 
     // Formato esatto usato dal client desktop (ComandiInvio.Login):
     // "Login|<access_token o vuoto>|username|password|lingua|email"
-    const inviato = WW.NET.send("Login", AUTH.accessToken, username, password, langSelect.value || "it", email);
+    const inviato = WW.NET.send("Login", AUTH.accessToken, username, password, WW.langSelect.value || "it", email);
     if (!inviato) {
       loginStatus.hidden = false;
-      loginStatus.textContent = t("netNotConnectedYet");
+      loginStatus.textContent = WW.t("netNotConnectedYet");
     }
   });
 
@@ -166,14 +166,14 @@ window.WW = window.WW || {};
 
     // Formato esatto usato dal client desktop (ComandiInvio.NewGame):
     // "New Player|<access_token o vuoto>|username|password|lingua|email"
-    WW.NET.send("New Player", AUTH.accessToken, username, password, langSelect.value || "it", email);
+    WW.NET.send("New Player", AUTH.accessToken, username, password, WW.langSelect.value || "it", email);
   });
 
   formRecover.addEventListener("submit", (event) => {
     event.preventDefault();
     // TODO: comando "Reset Password|email" quando definito lato server
     // (non presente nell'elenco comandi individuato in ServerConnection.cs).
-    recoverStatus.textContent = t("recoverSent");
+    recoverStatus.textContent = WW.t("recoverSent");
     recoverStatus.hidden = false;
   });
 
@@ -183,267 +183,15 @@ window.WW = window.WW || {};
   }
 
   /* ---------- LINGUA (i18n) ----------
-     Dizionario client per le stringhe statiche dell'interfaccia (bottoni,
-     titoli, etichette) che NON arrivano dal server. I nomi di
-     strutture/unità/feudi/ricerche restano invece quelli mandati dal
-     server come "Descrizione|Label ...|<testo>" (vedi WW.descrizioni/
-     WW.onDescrizione, 04-game-main.js): già nella lingua giusta per
-     costruzione, non serve duplicarli qui — stessa idea di
-     "non differenziare le stringhe tra schermate", applicata anche alle
-     voci qui sotto quando lo stesso testo compare in più punti (es.
-     "Esercito"/"Cronologia"/"Messaggi" usati sia nel toggle Main sia nei
-     rispettivi pannelli/titoli). 17/09/2026, su richiesta dell'utente:
-     esteso dalla sola schermata di login a Panoramica (ex "Main") e
-     Costruzione. */
-  const I18N = {
-    it: {
-      username: "Nome utente",
-      password: "Password",
-      email: "Email",
-      remember: "Ricordami (accesso automatico)",
-      enter: "Entra",
-      createAccount: "Crea un nuovo account",
-      createAccountBtn: "Crea account",
-      forgotPassword: "Password dimenticata?",
-      backToLogin: "Torna al login",
-      recoverHint: "Inserisci l'email associata al tuo account: ti invieremo un link per reimpostare la password.",
-      sendLink: "Invia link di recupero",
-      recoverSent: "Se l'indirizzo esiste, riceverai a breve un'email con le istruzioni.",
-      netConnecting: "Connessione al server in corso…",
-      netConnected: "Connesso al server.",
-      netDisconnected: "Connessione al server persa, nuovo tentativo in corso…",
-      netUnreachable: "Impossibile raggiungere il server.",
-      netNotConnectedYet: "Non ancora connesso al server: riprova tra un istante.",
-      loginGenericError: "Accesso non riuscito.",
-
-      // Comuni a più schermate (Panoramica + Costruzione)
-      edifici: "Edifici",
-      costruisci: "Costruisci",
-      recluta: "Recluta",
-      tempoRimanente: "Tempo rimanente:",
-      velocizza: "Velocizza",
-      descrizioneNonRicevuta: "Descrizione non ancora ricevuta dal server (arriva subito dopo il login).",
-      sbloccoUnitaPrefix: "Sblocco unità — livello",
-      decreaseQty: "Diminuisci quantità:",
-      increaseQty: "Aumenta quantità:",
-      descriptionAria: "Descrizione",
-      builtTooltip: "Costruite",
-      queuedBuildTooltip: "In coda di costruzione",
-      trainedLimitTooltip: "Addestrate / limite Caserma",
-      queuedTrainTooltip: "In coda di addestramento",
-
-      // Tab bar
-      tabPanoramica: "Panoramica",
-
-      // Barra risorse
-      resCivile: "Civile",
-      resMilitare: "Militare",
-
-      // Toggle pannelli Panoramica (Feudi/Strutture/Esercito/Cronologia/Messaggi)
-      navFeudi: "Feudi",
-      navStrutture: "Strutture",
-      navEsercito: "Esercito",
-      navCronologia: "Cronologia",
-      navMessaggi: "Messaggi",
-
-      // Pannello Feudi
-      feudiInfoAria: "Informazioni sui Feudi",
-      acquista: "Acquista",
-      scambioValute: "Scambio valute",
-      scambia: "Scambia",
-      scambiaTributi: "Scambia Tributi",
-      exchangeBlueSuffix: "diamanti blu per ogni diamante viola.",
-      exchangeVioletSuffix: "diamanti viola per ogni tributo.",
-
-      // Pannello Strutture Civili/Militari/Caserme
-      costruttori: "Costruttori:",
-      civili: "Civili",
-      militari: "Militari",
-      caserme: "Caserme",
-      velocizzaCostruzioneBtn: "Velocizza Costruzione",
-      reduceTimeByPrefix: "Ogni diamante blu riduce il tempo di",
-
-      // Pannello Esercito
-      reclutatori: "Reclutatori:",
-      velocizzaAddestramentoBtn: "Velocizza Addestramento",
-
-      // Cronologia / Messaggi
-      svuotaCronologiaAria: "Svuota cronologia",
-      nessunEventoRecente: "Nessun evento recente.",
-      paginaPrecedenteAria: "Pagina precedente",
-      paginaSuccessivaAria: "Pagina successiva",
-      indietro: "‹ Indietro",
-      avanti: "Avanti ›",
-      paginaDi: "Pagina {0} di {1}",
-      messaggiPlaceholder: "Questa schermata sarà completata quando saranno definiti i comandi del protocollo lato server.",
-
-      // Pannello Ricerca (17/09/2026) — "navEsercito"/"velocizza"/
-      // "reduceTimeByPrefix"/"descrizioneNonRicevuta"/"descriptionAria" sopra
-      // sono riusate anche qui, stessa parola in più schermate.
-      ricercaHint: "La Ricerca rappresenta il progresso delle conoscenze del tuo regno. Investendo tempo e risorse potrai sbloccare nuove possibilità, migliorare strutture, eserciti e strategie.",
-      tempoRicercaPrefix: "Tempo Ricerca:",
-      navGenerali: "Generali",
-      navCitta: "Città",
-      velocizzaRicercaBtn: "Velocizza Ricerca",
-      ricercaBtn: "Ricerca",
-      livelloAttualeAria: "Livello attuale",
-
-      // Pannello Città (17/09/2026) — nomi strutture/unità e "Ripara"/
-      // "Salute"/"Difesa"/"Guarnigione" arrivano dal server (WW.descrizioni,
-      // stesse Label già usate in Ricerca), qui solo il testo fisso rimasto.
-      cittaHint: "Sposta le truppe tra il Villaggio e ogni struttura per rinforzarne la guarnigione.",
-      riparaTuttoBtn: "Ripara Tutto",
-      riparazioneInCorsoHint: "Riparazione in corso su una o più strutture.",
-      fermaRiparazioniBtn: "Ferma tutte le riparazioni",
-      versoPrefix: "Verso",
-      villaggio: "Villaggio",
-      disponibiliSpostamento: "Disponibili per lo spostamento",
-      spostaBtn: "Sposta",
-      truppeNonDisponibiliAvviso: "Truppe non disponibili: la quantità è stata corretta.",
-      inAttesaInvioTierPrefix: "In attesa di invio: tier {0}.",
-      stratoDifensivoPrefix: "Strato difensivo {0} di 6",
-      struttureDanneggiatePrefix: "{0} strutture danneggiate",
-    },
-    en: {
-      username: "Username",
-      password: "Password",
-      email: "Email",
-      remember: "Remember me (auto sign-in)",
-      enter: "Sign in",
-      createAccount: "Create a new account",
-      createAccountBtn: "Create account",
-      forgotPassword: "Forgot password?",
-      backToLogin: "Back to sign in",
-      recoverHint: "Enter the email linked to your account: we'll send you a password reset link.",
-      sendLink: "Send reset link",
-      recoverSent: "If that address exists, you'll receive an email with instructions shortly.",
-      netConnecting: "Connecting to the server…",
-      netConnected: "Connected to the server.",
-      netDisconnected: "Lost connection to the server, retrying…",
-      netUnreachable: "Can't reach the server.",
-      netNotConnectedYet: "Not connected to the server yet: try again in a moment.",
-      loginGenericError: "Sign-in failed.",
-
-      edifici: "Buildings",
-      costruisci: "Build",
-      recluta: "Recruit",
-      tempoRimanente: "Time remaining:",
-      velocizza: "Speed up",
-      descrizioneNonRicevuta: "Description not received from the server yet (arrives right after login).",
-      sbloccoUnitaPrefix: "Unit unlock — level",
-      decreaseQty: "Decrease quantity:",
-      increaseQty: "Increase quantity:",
-      descriptionAria: "Description",
-      builtTooltip: "Built",
-      queuedBuildTooltip: "Queued for construction",
-      trainedLimitTooltip: "Trained / barracks limit",
-      queuedTrainTooltip: "Queued for training",
-
-      tabPanoramica: "Overview",
-
-      resCivile: "Civilian",
-      resMilitare: "Military",
-
-      navFeudi: "Strongholds",
-      navStrutture: "Buildings",
-      navEsercito: "Army",
-      navCronologia: "History",
-      navMessaggi: "Messages",
-
-      feudiInfoAria: "Stronghold information",
-      acquista: "Buy",
-      scambioValute: "Currency exchange",
-      scambia: "Exchange",
-      scambiaTributi: "Exchange Tributes",
-      exchangeBlueSuffix: "blue diamonds for each violet diamond.",
-      exchangeVioletSuffix: "violet diamonds for each tribute.",
-
-      costruttori: "Builders:",
-      civili: "Civilian",
-      militari: "Military",
-      caserme: "Barracks",
-      velocizzaCostruzioneBtn: "Speed Up Construction",
-      reduceTimeByPrefix: "Every blue diamond reduces the time by",
-
-      reclutatori: "Recruiters:",
-      velocizzaAddestramentoBtn: "Speed Up Training",
-
-      svuotaCronologiaAria: "Clear history",
-      nessunEventoRecente: "No recent events.",
-      paginaPrecedenteAria: "Previous page",
-      paginaSuccessivaAria: "Next page",
-      indietro: "‹ Back",
-      avanti: "Next ›",
-      paginaDi: "Page {0} of {1}",
-      messaggiPlaceholder: "This screen will be completed once the server-side protocol commands are defined.",
-
-      ricercaHint: "Research represents your kingdom's progress in knowledge. By investing time and resources you can unlock new possibilities and improve buildings, armies and strategies.",
-      tempoRicercaPrefix: "Research Time:",
-      navGenerali: "General",
-      navCitta: "City",
-      velocizzaRicercaBtn: "Speed Up Research",
-      ricercaBtn: "Research",
-      livelloAttualeAria: "Current level",
-
-      cittaHint: "Move troops between the Village and each structure to reinforce its garrison.",
-      riparaTuttoBtn: "Repair All",
-      riparazioneInCorsoHint: "Repair in progress on one or more structures.",
-      fermaRiparazioniBtn: "Stop all repairs",
-      versoPrefix: "To",
-      villaggio: "Village",
-      disponibiliSpostamento: "Available to move",
-      spostaBtn: "Move",
-      truppeNonDisponibiliAvviso: "Troops not available: the quantity was adjusted.",
-      inAttesaInvioTierPrefix: "Waiting to send: tier {0}.",
-      stratoDifensivoPrefix: "Defensive layer {0} of 6",
-      struttureDanneggiatePrefix: "{0} damaged structures",
-    },
-  };
-
-  const langSelect = document.getElementById("lang-select");
-
-  function t(key) {
-    const lang = langSelect.value in I18N ? langSelect.value : "it";
-    return I18N[lang][key] || I18N.it[key] || key;
-  }
-
-  // Sostituisce {0}, {1}, ... in una stringa I18N con gli argomenti dati
-  // (es. t("paginaDi") = "Pagina {0} di {1}" -> tFormat("paginaDi", 2, 5)).
-  function tFormat(key, ...args) {
-    return args.reduce((s, v, i) => s.replace(`{${i}}`, v), t(key));
-  }
-
-  // Elementi che non bastano un textContent (bottone icona senza testo
-  // visibile: title/aria-label sono l'unica etichetta) — stesso dizionario,
-  // attributo diverso. "languageListeners" copre invece il testo generato
-  // da JS che non è un elemento statico con data-i18n (es. il pulsante
-  // Civile/Militare che si aggiorna in base allo stato, o "Pagina X di Y").
-  const languageListeners = [];
-
-  function applyLanguage() {
-    document.querySelectorAll("[data-i18n]").forEach((el) => {
-      el.textContent = t(el.dataset.i18n);
-    });
-    document.querySelectorAll("[data-i18n-title]").forEach((el) => {
-      const valore = t(el.dataset.i18nTitle);
-      el.title = valore;
-      el.setAttribute("aria-label", valore);
-    });
-    document.querySelectorAll("[data-i18n-aria]").forEach((el) => {
-      el.setAttribute("aria-label", t(el.dataset.i18nAria));
-    });
-    languageListeners.forEach((fn) => fn());
-  }
-
-  let savedLang = "it";
-  savedLang = WW.storage.get("ww_lang") || "it";
-  langSelect.value = savedLang in I18N ? savedLang : "it";
-  applyLanguage();
-
-  langSelect.addEventListener("change", () => {
-    WW.storage.set("ww_lang", langSelect.value);
-    applyLanguage();
-  });
+     18/09/2026, su richiesta dell'utente: il dizionario I18N/le funzioni
+     t()/tFormat()/applyLanguage() e il riferimento a #lang-select sono
+     stati spostati in Localizzazione.js (caricato subito prima di questo
+     file, vedi index.html) per poterli controllare/estendere senza dover
+     cercarli in mezzo al codice di login/registrazione. Qui restano solo
+     i pochi punti che li usavano: WW.t(...) al posto di t(...), e
+     WW.langSelect.value al posto di langSelect.value (vedi sopra in
+     AUTH.onSocketOpen/login/register). Nessuna nuova chiave o dizionario:
+     stesso identico WW.t()/WW.onLanguageChange di sempre, solo spostati. */
 
   /* ---------- TOGGLE RISORSE CIVILI / MILITARI ---------- */
   const btnToggleRisorse = document.getElementById("btn-toggle-risorse");
@@ -452,10 +200,11 @@ window.WW = window.WW || {};
 
   // Testo del pulsante in base allo stato corrente (civili/militari
   // mostrati): estratto in una funzione perché va rieseguito anche al
-  // cambio lingua (vedi WW.onLanguageChange più sotto), non solo al click.
+  // cambio lingua (vedi WW.onLanguageChange, esportato da
+  // Localizzazione.js), non solo al click.
   function aggiornaTestoToggleRisorse() {
     const showingCivili = btnToggleRisorse.dataset.view === "civili";
-    btnToggleRisorse.textContent = showingCivili ? t("resMilitare") : t("resCivile");
+    btnToggleRisorse.textContent = showingCivili ? WW.t("resMilitare") : WW.t("resCivile");
   }
 
   btnToggleRisorse.addEventListener("click", () => {
@@ -466,7 +215,7 @@ window.WW = window.WW || {};
     aggiornaTestoToggleRisorse();
   });
   aggiornaTestoToggleRisorse();
-  languageListeners.push(aggiornaTestoToggleRisorse);
+  WW.onLanguageChange(aggiornaTestoToggleRisorse);
 
   /* ---------- Menu giocatore (14/09/2026, su richiesta dell'utente) ----------
      Cliccando su nome/avatar nella barra risorse si apre un popup:
@@ -506,10 +255,9 @@ window.WW = window.WW || {};
     });
   }
 
+  // WW.t/WW.tFormat/WW.onLanguageChange (18/09/2026): esportati da
+  // Localizzazione.js, non più da qui — vedi commento sopra a "LINGUA (i18n)".
   WW.AUTH = AUTH;
-  WW.t = t;
-  WW.tFormat = tFormat;
-  WW.onLanguageChange = (fn) => languageListeners.push(fn);
   WW.screenLogin = screenLogin;
   WW.loginStatus = loginStatus;
 })(window.WW);

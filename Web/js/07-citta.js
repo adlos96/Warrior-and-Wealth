@@ -321,6 +321,19 @@ window.WW = window.WW || {};
     UNITA_CITTA.forEach((u) => {
       const el = li.querySelector(`[data-disponibili="${u.chiave}"]`);
       if (el) el.textContent = WW.fmtInt(disponibiliCitta(u, s, stato.direzione, stato.tier));
+      // Nome unità (18/09/2026: qui MANCAVA la rilettura ad ogni tick, a
+      // differenza di nomeStruttura/nomeGuarnigione sopra — il mini-form
+      // guarnigione viene costruito una sola volta in templateCittaCard,
+      // quindi se "Label Guerrieri/Lanceri/Arceri/Catapulte" arrivava dal
+      // server DOPO quella prima costruzione, il nome restava bloccato sul
+      // fallback italiano per sempre. "data-label-per" era già presente nel
+      // markup (vedi templateCittaCard) proprio per questo aggancio, non
+      // ancora usato. Stesso principio già applicato a nomeStruttura poco
+      // sopra.
+      if (u.labelKey) {
+        const labelEl = li.querySelector(`[data-label-per="${u.labelKey}"]`);
+        if (labelEl) labelEl.textContent = WW.descrizioni[u.labelKey] || u.nome;
+      }
     });
 
     aggiornaPendentiHint(s);
