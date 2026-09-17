@@ -408,6 +408,7 @@ namespace Server_Strategico.ServerData.Localization
         public string Label_CostoCostruzione() => "Construction Cost";
         public string Label_CostoAddestramento() => "Training Cost";
         public string Label_Statistiche() => "Statistics";
+        public string Label_Negozio() => "Negozio";
         public string Label_Cibo() => "Food";
         public string Label_Legno() => "Wood";
         public string Label_Pietra() => "Stone";
@@ -469,6 +470,29 @@ namespace Server_Strategico.ServerData.Localization
         public string Label_Guarnigione() => "Garrison";
         public string Label_Limite_Magazzino() => "Storage Limit";
         public string Label_Limite() => "Limit";
+
+        public string Label_Cronologia() => "History";
+        public string Label_Messaggi() => "Message";
+        public string Label_Esercito() => "Army";
+
+        public string Label_Ingresso() => "Entrance";
+        public string Label_Mura() => "Wall";
+        public string Label_Cancello() => "Gate";
+        public string Label_Torri() => "Tower";
+        public string Label_Castello() => "Castle";
+        public string Label_Citta() => "Village";
+
+        public string Label_Acquista() => "Buy";
+
+        // -------------- Schermata Login --------------------------
+        public string Label_NomeUtente() => "Username";
+        public string Label_Password() => "Password";
+        public string Label_Email() => "Email";
+        public string Label_AutoLogin() => "Remember me (auto sign-in)";
+        public string Label_Login() => "Sign in";
+        public string Label_NewAccount() => "Create a new account";
+        public string Label_PasswordLos() => "Forgot password?";
+
 
         //Virtual Lands - Fiefs
         public string Terreni_DiamantiInsufficienti() =>

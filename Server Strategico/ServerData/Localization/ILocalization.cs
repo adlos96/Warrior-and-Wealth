@@ -12,6 +12,7 @@ namespace Server_Strategico.ServerData.Localization
         string Label_CostoCostruzione();
         string Label_CostoAddestramento();
         string Label_Statistiche();
+        string Label_Negozio();
 
         string Label_Cibo();
         string Label_Legno();
@@ -74,6 +75,28 @@ namespace Server_Strategico.ServerData.Localization
 
         string Label_Limite_Magazzino();
         string Label_Limite();
+
+        string Label_Cronologia();
+        string Label_Messaggi();
+        string Label_Esercito();
+
+        string Label_Ingresso();
+        string Label_Mura();
+        string Label_Cancello();
+        string Label_Torri();
+        string Label_Castello();
+        string Label_Citta();
+
+        string Label_Acquista();
+
+        // -------------- Schermata Login --------------------------
+        string Label_NomeUtente();
+        string Label_Password();
+        string Label_Email();
+        string Label_AutoLogin();
+        string Label_Login();
+        string Label_NewAccount();
+        string Label_PasswordLos();
 
         //Costruzione
         string Costruzione_RisorseUtilizzate(int count, string buildingType, Strutture.Edifici cost);

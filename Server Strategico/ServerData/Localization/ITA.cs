@@ -1,4 +1,5 @@
 ﻿using Server_Strategico.Gioco;
+using static Server_Strategico.Gioco.Giocatori;
 
 namespace Server_Strategico.ServerData.Localization
 {
@@ -473,6 +474,29 @@ namespace Server_Strategico.ServerData.Localization
         public string Label_Guarnigione() => "Guarnigione";
         public string Label_Limite_Magazzino() => "Limite magazzino";
         public string Label_Limite() => "Limite";
+
+        public string Label_Cronologia() => "Cronologia";
+        public string Label_Messaggi() => "Messaggi";
+        public string Label_Esercito() => "Esercito";
+
+        public string Label_Ingresso() => "Ingresso";
+        public string Label_Mura() => "Mura";
+        public string Label_Cancello() => "Cancello";
+        public string Label_Torri() => "Torri";
+        public string Label_Castello() => "Castello";
+        public string Label_Citta() => "Citta";
+        public string Label_Negozio() => "Negozio";
+
+        public string Label_Acquista() => "Acquista";
+
+        // -------------- Schermata Login --------------------------
+        public string Label_NomeUtente() => "Nome Utente";
+        public string Label_Password() => "Password";
+        public string Label_Email() => "Email";
+        public string Label_AutoLogin() => "Ricordami (accesso automatico)";
+        public string Label_Login() => "Entra";
+        public string Label_NewAccount() => "Crea un nuovo account";
+        public string Label_PasswordLos() => "Password dimenticata?";
 
         //Terreni Virtuali - Feudi
         public string Terreni_DiamantiInsufficienti() =>

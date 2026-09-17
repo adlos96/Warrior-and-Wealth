@@ -1202,6 +1202,11 @@ namespace Server_Strategico.ServerData.Moduli
             Send(player.guid_Player, $"Descrizione|Label Strutture Civili|{L.Label_Strutture_Civili()}");
             Send(player.guid_Player, $"Descrizione|Label Strutture Militari|{L.Label_Strutture_Militari()}");
             Send(player.guid_Player, $"Descrizione|Label Caserme|{L.Label_Caserme()}");
+            Send(player.guid_Player, $"Descrizione|Label Guarnigione|{L.Label_Guarnigione()}");
+            Send(player.guid_Player, $"Descrizione|Label Ricerca|{L.Label_Ricerca()}");
+
+            Send(player.guid_Player, $"Descrizione|Label Negozio|{L.Label_Negozio()}");
+            Send(player.guid_Player, $"Descrizione|Label Statistiche|{L.Label_Statistiche()}");
 
             Send(player.guid_Player, $"Descrizione|Label Feudi|{L.Label_Feudo()}");
             Send(player.guid_Player, $"Descrizione|Label Feudo Comune|{L.Label_Comune()}");
@@ -1248,6 +1253,28 @@ namespace Server_Strategico.ServerData.Moduli
             Send(player.guid_Player, $"Descrizione|Label Spionaggio|{L.Label_Spionaggio()}");
             Send(player.guid_Player, $"Descrizione|Label Contro-Spionaggio|{L.Label_ControSpionaggio()}");
 
+            Send(player.guid_Player, $"Descrizione|Label Cronologia|{L.Label_Cronologia()}");
+            Send(player.guid_Player, $"Descrizione|Label Messaggi|{L.Label_Messaggi()}");
+            Send(player.guid_Player, $"Descrizione|Label Esercito|{L.Label_Esercito()}");
+
+            Send(player.guid_Player, $"Descrizione|Label Ingresso|{L.Label_Ingresso()}");
+            Send(player.guid_Player, $"Descrizione|Label Mura|{L.Label_Mura()}");
+            Send(player.guid_Player, $"Descrizione|Label Cancello|{L.Label_Cancello()}");
+            Send(player.guid_Player, $"Descrizione|Label Torri|{L.Label_Torri()}");
+            Send(player.guid_Player, $"Descrizione|Label Castello|{L.Label_Castello()}");
+
+            Send(player.guid_Player, $"Descrizione|Label Citta|{L.Label_Citta()}");
+
+            Send(player.guid_Player, $"Descrizione|Label Acquista|{L.Label_Esercito()}");
+
+            // -------------- Schermata Login --------------------------
+            Send(player.guid_Player, $"Descrizione|Label Nome-Utente|{L.Label_NomeUtente()}");
+            Send(player.guid_Player, $"Descrizione|Label Password|{L.Label_Password()}");
+            Send(player.guid_Player, $"Descrizione|Label Email|{L.Label_Email()}");
+            Send(player.guid_Player, $"Descrizione|Label Auto-Login|{L.Label_AutoLogin()}");
+            Send(player.guid_Player, $"Descrizione|Label Login|{L.Label_Login()}");
+            Send(player.guid_Player, $"Descrizione|Label New_Account|{L.Label_NewAccount()}");
+            Send(player.guid_Player, $"Descrizione|Label Password-Lost|{L.Label_PasswordLos()}");
 
         }
         public static async void TestoUpdate(Giocatori.Player player)
