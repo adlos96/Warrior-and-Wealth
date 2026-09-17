@@ -863,15 +863,11 @@ namespace Server_Strategico.ServerData.Localization
             $"A kingdom that does not research is destined to fall behind.";
         public string Desc_Feudi_Testo() =>
             $"Purchase your fief and become the owner of a plot of land. Each plot generates an automatic daily income. The amount of income depends on its rarity.";
-        public string Label_Comune() =>
-            $"Common Fief";
-        public string Label_NonComune() =>
-            $"Uncommon Fief";
-        public string Label_Raro() =>
-            $"Rare Fief";
-        public string Label_Epico() =>
-            $"Epic Fief";
-        public string Label_Leggendario() =>
-            $"Legendary Fief";
+        public string Label_Feudo() => $"Fief";
+        public string Label_Comune() => $"Common Fief";
+        public string Label_NonComune() => $"Uncommon Fief";
+        public string Label_Raro() => $"Rare Fief";
+        public string Label_Epico() => $"Epic Fief";
+        public string Label_Leggendario() => $"Legendary Fief";
     }
 }

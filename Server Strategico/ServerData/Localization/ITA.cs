@@ -853,18 +853,16 @@ namespace Server_Strategico.ServerData.Localization
         public string Desc_Scambia_Tributi_T_DB_Testo() =>
            $"Vuoi scambiare 1 [icon:dollariVirtuali] per {Variabili_Server.Tributi_To_D_Viola} [icon:diamanteViola]? Inserisci la quantità di tributi che desideri scambiare.";
 
-        public string Desc_Feudi_Testo() =>
-            $"Acquista il tuo feudo e diventa signore di queste terre. Ogni dominio raccoglie tributi dai suoi villaggi, versati fedelmente dai contadini giorno dopo giorno. L'abbondanza dei tributi dipende dalla rarità del feudo.";
-        public string Label_Comune() =>
-            $"Feudo Comune";
-        public string Label_NonComune() =>
-            $"Feudo Non Comune";
-        public string Label_Raro() =>
-            $"Feudo Raro";
-        public string Label_Epico() =>
-            $"Feudo Epico";
-        public string Label_Leggendario() =>
-            $"Feudo Leggendario";
+        public string Desc_Feudi_Testo() => 
+            $"Acquista il tuo feudo e diventa signore di queste terre." +
+            $"Ogni dominio raccoglie tributi dai suoi villaggi, versati fedelmente dai contadini giorno dopo giorno." +
+            $"L'abbondanza dei tributi dipende dalla rarità del feudo.";
+        public string Label_Feudo() => $"Feudo";
+        public string Label_Comune() => $"Feudo Comune";
+        public string Label_NonComune() => $"Feudo Non Comune";
+        public string Label_Raro() => $"Feudo Raro";
+        public string Label_Epico() => $"Feudo Epico";
+        public string Label_Leggendario() => $"Feudo Leggendario";
 
         public static string ToRoman(int n) => n switch
         {

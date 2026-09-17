@@ -1208,9 +1208,10 @@ namespace Server_Strategico.ServerData.Moduli
             Send(player.guid_Player, $"Descrizione|Label Addestramento|{L.Label_Addestramento()}");
             Send(player.guid_Player, $"Descrizione|Label Strutture Civili|{L.Label_Strutture_Civili()}");
             Send(player.guid_Player, $"Descrizione|Label Strutture Militari|{L.Label_Strutture_Militari()}");
-            Send(player.guid_Player, $"Descrizione|Label Caserme|{L.labelcase()}");
+            Send(player.guid_Player, $"Descrizione|Label Caserme|{L.Label_Caserme()}");
 
             Send(player.guid_Player, $"Descrizione|Feudi Info|{L.Desc_Feudi_Testo()}");
+            Send(player.guid_Player, $"Descrizione|Label Feudi|{L.Label_Feudo()}");
             Send(player.guid_Player, $"Descrizione|Label Feudo Comune|{L.Label_Comune()}");
             Send(player.guid_Player, $"Descrizione|Label Feudo NonComune|{L.Label_NonComune()}");
             Send(player.guid_Player, $"Descrizione|Label Feudo Raro|{L.Label_Raro()}");

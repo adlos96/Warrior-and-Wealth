@@ -234,6 +234,7 @@ namespace Server_Strategico.ServerData.Localization
         string Desc_Feudi_Testo();
         string Desc_Città_Testo();
         string Desc_Ricerca_Testo();
+        string Label_Feudo();
         string Label_Comune();
         string Label_NonComune();
         string Label_Raro();
