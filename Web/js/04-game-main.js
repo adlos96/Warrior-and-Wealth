@@ -523,20 +523,21 @@ window.WW = window.WW || {};
   WW.descrizioni = descrizioni;
   WW.onDescrizione = (fn) => descrizioneListeners.push(fn);
 
-  // Etichette UI localizzate (17/09/2026, su richiesta dell'utente): il
-  // server manda "UI_Labels" (JSON, Type="UI_Labels") una volta ad ogni
-  // login/AutoLogin, con SOLO le etichette che hanno un corrispondente
-  // ESATTO nei file di localizzazione server ITA.cs/ENG.cs (vedi
-  // ServerConnection.cs, InviaEtichetteUI) — così i titoli dei popup "Info
-  // Risorsa" qui sotto (RISORSA_INFO_CONFIG) cambiano lingua anche loro al
-  // prossimo login, invece di restare fissi in italiano. Le voci senza un
-  // corrispondente esatto (es. "Lance" qui vs "Lancie" in ITA.cs/ENG.cs, o
-  // "Diamanti Blu/Viola"/"Tributi", assenti come Label_*) restano invariate.
-  WW.LABELS = {};
-  WW.NET.onJson("UI_Labels", (msg) => {
-    WW.LABELS = msg || {};
-    if (risorsaInfoApertaChiave) popolaRisorsaInfo(risorsaInfoApertaChiave);
-  });
+  // Etichette UI localizzate (18/09/2026, su richiesta dell'utente): NON
+  // arrivano più con un messaggio dedicato ("UI_Labels", rimosso
+  // dall'utente da ServerConnection.cs — vedi nota del 17/09/2026, il
+  // server "invia già i dati nel modo corretto"), ma riusano lo stesso
+  // canale "Descrizione|<chiave>|<testo>" già gestito sopra: ogni etichetta
+  // breve arriva con una chiave che inizia per "Label " (es. "Descrizione|
+  // Label Fattoria|Fattoria", vedi Descrizioni.cs) per non scontrarsi con
+  // la chiave OMONIMA già usata dalla descrizione narrativa lunga della
+  // stessa struttura (es. "Descrizione|Fattoria|<testo lungo>"): stessa
+  // chiave per entrambe avrebbe fatto sovrascrivere l'una con l'altra in
+  // WW.descrizioni, a seconda di quale arriva per ultima. Le etichette
+  // finiscono quindi semplicemente in WW.descrizioni come tutto il resto:
+  // niente più WW.LABELS separato, i punti che leggevano un "labelKey" ora
+  // leggono WW.descrizioni[labelKey] con lo stesso fallback al nome
+  // italiano finché il valore non è ancora arrivato dal server.
 
   // Barra risorse: chiave-locale (usata dall'HTML in data-value) -> chiave
   // esatta mandata dal server per il giocatore connesso.
@@ -581,21 +582,24 @@ window.WW = window.WW || {};
   // Feudi_Info.JPG del client desktop), riusate qui per coerenza visiva
   // invece di introdurre asset nuovi.
   const feudi = [
-    { nome: "Feudo Comune", chiave: "comune", file: "Comune.jpeg" },
-    { nome: "Feudo Non Comune", chiave: "noncomune", file: "NonComune.jpeg" },
-    { nome: "Feudo Raro", chiave: "raro", file: "Raro.jpeg" },
-    { nome: "Feudo Epico", chiave: "epico", file: "Epico.jpeg" },
-    { nome: "Feudo Leggendario", chiave: "leggendario", file: "Leggendario.jpeg" },
+    { nome: "Feudo Comune", chiave: "comune", file: "Comune.jpeg", labelKey: "Label Feudo Comune" },
+    { nome: "Feudo Non Comune", chiave: "noncomune", file: "NonComune.jpeg", labelKey: "Label Feudo NonComune" },
+    { nome: "Feudo Raro", chiave: "raro", file: "Raro.jpeg", labelKey: "Label Feudo Raro" },
+    { nome: "Feudo Epico", chiave: "epico", file: "Epico.jpeg", labelKey: "Label Feudo Epico" },
+    { nome: "Feudo Leggendario", chiave: "leggendario", file: "Leggendario.jpeg", labelKey: "Label Feudo Leggendario" },
   ];
 
+  const feudiTitleEl = document.getElementById("feudi-title");
+
   function renderFeudi() {
+    if (feudiTitleEl) feudiTitleEl.textContent = WW.descrizioni["Label Feudi"] || "Feudi";
     const ul = document.getElementById("feudi-list");
     ul.innerHTML = feudi
       .map(
         (f) => `
       <li class="row-item">
         <img src="assets/${f.file}" alt="">
-        <span class="row-item__label">${f.nome}</span>
+        <span class="row-item__label">${(f.labelKey && WW.descrizioni[f.labelKey]) || f.nome}</span>
         <span class="row-item__value" title="Posseduti">${WW.fmtInt(GAME.num(f.chiave))}</span>
       </li>`
       )
@@ -619,28 +623,35 @@ window.WW = window.WW || {};
   // Descrizioni ("Descrizione|Feudi Info|<testo>", Descrizioni.cs) e già
   // disponibile in WW.descrizioni senza bisogno di richiederla.
   const FEUDI_INFO = [
-    { nome: "Comune", file: "Comune.jpeg", tasso: "$ 0.00000000111 s", probabilita: "50%", classe: "comune" },
-    { nome: "Non Comune", file: "NonComune.jpeg", tasso: "$ 0.00000000222 s", probabilita: "20%", classe: "non-comune" },
-    { nome: "Raro", file: "Raro.jpeg", tasso: "$ 0.00000000333 s", probabilita: "15%", classe: "raro" },
-    { nome: "Epico", file: "Epico.jpeg", tasso: "$ 0.00000000444 s", probabilita: "10%", classe: "epico" },
-    { nome: "Leggendario", file: "Leggendario.jpeg", tasso: "$ 0.00000000555 s", probabilita: "5%", classe: "leggendario" },
+    { nome: "Comune", file: "Comune.jpeg", tasso: "$ 0.00000000111 s", probabilita: "50%", classe: "comune", labelKey: "Label Feudo Comune" },
+    { nome: "Non Comune", file: "NonComune.jpeg", tasso: "$ 0.00000000222 s", probabilita: "20%", classe: "non-comune", labelKey: "Label Feudo NonComune" },
+    { nome: "Raro", file: "Raro.jpeg", tasso: "$ 0.00000000333 s", probabilita: "15%", classe: "raro", labelKey: "Label Feudo Raro" },
+    { nome: "Epico", file: "Epico.jpeg", tasso: "$ 0.00000000444 s", probabilita: "10%", classe: "epico", labelKey: "Label Feudo Epico" },
+    { nome: "Leggendario", file: "Leggendario.jpeg", tasso: "$ 0.00000000555 s", probabilita: "5%", classe: "leggendario", labelKey: "Label Feudo Leggendario" },
   ];
 
   const feudiInfoOverlay = document.getElementById("feudi-info-overlay");
   const feudiInfoList = document.getElementById("feudi-info-list");
-  if (feudiInfoList && feudiInfoList.children.length !== FEUDI_INFO.length) {
+  // Funzione (non più un blocco statico eseguito una volta sola): i nomi
+  // delle rarità arrivano da WW.descrizioni (vedi labelKey sopra) e possono
+  // non essere ancora arrivati al primo render — va richiamata anche quando
+  // le relative "Label Feudo ..." arrivano (vedi listener più sotto), non
+  // solo all'avvio, altrimenti resterebbe bloccata sul fallback italiano.
+  function renderFeudiInfoList() {
+    if (!feudiInfoList) return;
     feudiInfoList.innerHTML = FEUDI_INFO.map(
       (r) => `
       <li class="feudi-info-item feudi-info-item--${r.classe}">
         <img src="assets/${r.file}" alt="">
         <div class="feudi-info-item__mid">
           <span class="feudi-info-item__tasso">${r.tasso}</span>
-          <span class="feudi-info-item__nome">${r.nome}</span>
+          <span class="feudi-info-item__nome">${(r.labelKey && WW.descrizioni[r.labelKey]) || r.nome}</span>
         </div>
         <span class="feudi-info-item__prob">${r.probabilita}</span>
       </li>`
     ).join("");
   }
+  renderFeudiInfoList();
 
   function popolaFeudiInfoIntro() {
     const el = document.getElementById("feudi-info-intro");
@@ -680,6 +691,7 @@ window.WW = window.WW || {};
   // Se il testo arriva/aggiorna mentre il popup è già aperto, si aggiorna subito.
   WW.onDescrizione((chiave) => {
     if (chiave === "Feudi Info" && feudiInfoOverlay && !feudiInfoOverlay.hidden) popolaFeudiInfoIntro();
+    if (chiave.startsWith("Label Feudo ")) renderFeudiInfoList();
   });
 
   // Popup "Info Risorsa" (14/09/2026, su richiesta dell'utente): stesso
@@ -702,7 +714,7 @@ window.WW = window.WW || {};
   // descrizione): "campi" resta null per loro.
   const RISORSA_INFO_CONFIG = {
     cibo: {
-      titolo: "Cibo", labelKey: "Cibo", chiaveDesc: "Cibo", icona: "cibo",
+      titolo: "Cibo", labelKey: "Label Cibo", chiaveDesc: "Cibo", icona: "cibo",
       campi: () => {
         const grezza = GAME.num("cibo_s");
         const edifici = GAME.num("consumo_cibo_strutture");
@@ -717,7 +729,7 @@ window.WW = window.WW || {};
       },
     },
     legno: {
-      titolo: "Legno", labelKey: "Legno", chiaveDesc: "Legno", icona: "legno",
+      titolo: "Legno", labelKey: "Label Legno", chiaveDesc: "Legno", icona: "legno",
       campi: () => {
         const grezza = GAME.num("legna_s");
         const edifici = GAME.num("consumo_legno_strutture");
@@ -729,7 +741,7 @@ window.WW = window.WW || {};
       },
     },
     pietra: {
-      titolo: "Pietra", labelKey: "Pietra", chiaveDesc: "Pietra", icona: "pietra",
+      titolo: "Pietra", labelKey: "Label Pietra", chiaveDesc: "Pietra", icona: "pietra",
       campi: () => {
         const grezza = GAME.num("pietra_s");
         const edifici = GAME.num("consumo_pietra_strutture");
@@ -741,7 +753,7 @@ window.WW = window.WW || {};
       },
     },
     ferro: {
-      titolo: "Ferro", labelKey: "Ferro", chiaveDesc: "Ferro", icona: "ferro",
+      titolo: "Ferro", labelKey: "Label Ferro", chiaveDesc: "Ferro", icona: "ferro",
       campi: () => {
         const grezza = GAME.num("ferro_s");
         const edifici = GAME.num("consumo_ferro_strutture");
@@ -753,7 +765,7 @@ window.WW = window.WW || {};
       },
     },
     oro: {
-      titolo: "Oro", labelKey: "Oro", chiaveDesc: "Oro", icona: "oro",
+      titolo: "Oro", labelKey: "Label Oro", chiaveDesc: "Oro", icona: "oro",
       campi: () => {
         const grezza = GAME.num("oro_s");
         const edifici = GAME.num("consumo_oro_strutture");
@@ -768,7 +780,7 @@ window.WW = window.WW || {};
       },
     },
     popolazione: {
-      titolo: "Popolazione", labelKey: "Popolazione", chiaveDesc: "Popolazione", icona: "popolazione",
+      titolo: "Popolazione", labelKey: "Label Popolazione", chiaveDesc: "Popolazione", icona: "popolazione",
       // Niente Edifici/Esercito: la Popolazione non si consuma (stesso
       // comportamento del client desktop, vedi Main.cs).
       campi: () => [
@@ -785,7 +797,7 @@ window.WW = window.WW || {};
     // desktop (Main.cs, ramo "Militare") mostra solo Produzione + Limite,
     // senza le righe Edifici/Esercito (le armi non hanno mantenimento).
     spade: {
-      titolo: "Spade", labelKey: "Spade", chiaveDesc: "Spade", icona: "spade",
+      titolo: "Spade", labelKey: "Label Spade", chiaveDesc: "Spade", icona: "spade",
       campi: () => [
         `Produzione: [icon:spade][verde]${WW.fmtDecimal(GAME.num("spade_s"), 3)}[/verde][black]s`,
         `Limite: [icon:spade][ferroScuro]${WW.fmtInt(GAME.num("spade_limite"))}`,
@@ -796,35 +808,35 @@ window.WW = window.WW || {};
       // del server anche se la parola non è identica ("Lance" qui vs "Lancie"
       // in ITA.cs/ENG.cs) — stesso concetto (unità Lancieri), a differenza delle
       // altre etichette sopra che hanno una corrispondenza esatta parola per parola.
-      titolo: "Lance", labelKey: "Lancie", chiaveDesc: "Lance", icona: "lance",
+      titolo: "Lance", labelKey: "Label Lancie", chiaveDesc: "Lance", icona: "lance",
       campi: () => [
         `Produzione: [icon:lance][verde]${WW.fmtDecimal(GAME.num("lance_s"), 3)}[/verde][black]s`,
         `Limite: [icon:lance][ferroScuro]${WW.fmtInt(GAME.num("lance_limite"))}`,
       ],
     },
     archi: {
-      titolo: "Archi", labelKey: "Archi", chiaveDesc: "Archi", icona: "archi",
+      titolo: "Archi", labelKey: "Label Archi", chiaveDesc: "Archi", icona: "archi",
       campi: () => [
         `Produzione: [icon:archi][verde]${WW.fmtDecimal(GAME.num("archi_s"), 3)}[/verde][black]s`,
         `Limite: [icon:archi][ferroScuro]${WW.fmtInt(GAME.num("archi_limite"))}`,
       ],
     },
     scudi: {
-      titolo: "Scudi", labelKey: "Scudi", chiaveDesc: "Scudi", icona: "scudi",
+      titolo: "Scudi", labelKey: "Label Scudi", chiaveDesc: "Scudi", icona: "scudi",
       campi: () => [
         `Produzione: [icon:scudi][verde]${WW.fmtDecimal(GAME.num("scudi_s"), 3)}[/verde][black]s`,
         `Limite: [icon:scudi][ferroScuro]${WW.fmtInt(GAME.num("scudi_limite"))}`,
       ],
     },
     armature: {
-      titolo: "Armature", labelKey: "Armature", chiaveDesc: "Armature", icona: "armature",
+      titolo: "Armature", labelKey: "Label Armature", chiaveDesc: "Armature", icona: "armature",
       campi: () => [
         `Produzione: [icon:armature][verde]${WW.fmtDecimal(GAME.num("armature_s"), 3)}[/verde][black]s`,
         `Limite: [icon:armature][ferroScuro]${WW.fmtInt(GAME.num("armature_limite"))}`,
       ],
     },
     frecce: {
-      titolo: "Frecce", labelKey: "Frecce", chiaveDesc: "Frecce", icona: "frecce",
+      titolo: "Frecce", labelKey: "Label Frecce", chiaveDesc: "Frecce", icona: "frecce",
       campi: () => [
         `Produzione: [icon:frecce][verde]${WW.fmtDecimal(GAME.num("frecce_s"), 3)}[/verde][black]s`,
         `Limite: [icon:frecce][ferroScuro]${WW.fmtInt(GAME.num("frecce_limite"))}`,
@@ -840,8 +852,8 @@ window.WW = window.WW || {};
     // "Esperienza" è una nuova etichetta aggiunta a ITA.cs/ENG.cs apposta per
     // questo popup (non esisteva prima, a differenza di "Livello" che era già
     // tra le Label_* inutilizzate).
-    xp: { titolo: "Esperienza", labelKey: "Esperienza", chiaveDesc: "Esperienza", icona: "xp", campi: null },
-    livello: { titolo: "Livello", labelKey: "Livello", chiaveDesc: "Livello", icona: "livello", campi: null },
+    xp: { titolo: "Esperienza", labelKey: "Label Esperienza", chiaveDesc: "Esperienza", icona: "xp", campi: null },
+    livello: { titolo: "Livello", labelKey: "Label Livello", chiaveDesc: "Livello", icona: "livello", campi: null },
   };
 
   const risorsaInfoOverlay = document.getElementById("risorsa-info-overlay");
@@ -853,7 +865,7 @@ window.WW = window.WW || {};
     const config = RISORSA_INFO_CONFIG[chiaveRes];
     if (!config || !risorsaInfoContent || !risorsaInfoTitolo) return;
     risorsaInfoApertaChiave = chiaveRes;
-    risorsaInfoTitolo.textContent = (config.labelKey && WW.LABELS[config.labelKey]) || config.titolo;
+    risorsaInfoTitolo.textContent = (config.labelKey && WW.descrizioni[config.labelKey]) || config.titolo;
 
     const testoDesc = WW.descrizioni[config.chiaveDesc];
     const righe = [];
@@ -898,7 +910,7 @@ window.WW = window.WW || {};
   WW.onDescrizione((chiave) => {
     if (!risorsaInfoApertaChiave || risorsaInfoOverlay.hidden) return;
     const config = RISORSA_INFO_CONFIG[risorsaInfoApertaChiave];
-    if (config && config.chiaveDesc === chiave) popolaRisorsaInfo(risorsaInfoApertaChiave);
+    if (config && (config.chiaveDesc === chiave || config.labelKey === chiave)) popolaRisorsaInfo(risorsaInfoApertaChiave);
   });
 
   // Strutture Civili / Militari / Caserme: chiave "qta" (numero costruito) e
@@ -915,28 +927,28 @@ window.WW = window.WW || {};
   // NON sempre coincide con tipoServer (es. "Cava di Pietra" con spazi
   // contro "CavaPietra"), quindi la teniamo esplicita invece di derivarla.
   const struttureCivili = [
-    { nome: "Fattoria", icona: "Fattoria_V2.png", qta: "fattorie", coda: "fattoria_coda", tipoServer: "Fattoria", chiaveDesc: "Fattoria" },
-    { nome: "Segheria", icona: "Segheria_V2.png", qta: "segherie", coda: "segheria_coda", tipoServer: "Segheria", chiaveDesc: "Segheria" },
-    { nome: "Cava di Pietra", icona: "CavaDiPietra_V2.png", qta: "cave_pietra", coda: "cavapietra_coda", tipoServer: "CavaPietra", chiaveDesc: "Cava di Pietra" },
-    { nome: "Miniera di Ferro", icona: "MinieraFerro_V2.png", qta: "miniere_ferro", coda: "minieraferro_coda", tipoServer: "MinieraFerro", chiaveDesc: "Miniera di Ferro" },
-    { nome: "Miniera d'Oro", icona: "MinieraOro_V2.png", qta: "miniere_oro", coda: "minieraoro_coda", tipoServer: "MinieraOro", chiaveDesc: "Miniera d'Oro" },
-    { nome: "Case", icona: "Abitazioni_V2.png", qta: "case", coda: "casa_coda", tipoServer: "Case", chiaveDesc: "Case" },
+    { nome: "Fattoria", icona: "Fattoria_V2.png", qta: "fattorie", coda: "fattoria_coda", tipoServer: "Fattoria", chiaveDesc: "Fattoria", labelKey: "Label Fattoria" },
+    { nome: "Segheria", icona: "Segheria_V2.png", qta: "segherie", coda: "segheria_coda", tipoServer: "Segheria", chiaveDesc: "Segheria", labelKey: "Label Segheria" },
+    { nome: "Cava di Pietra", icona: "CavaDiPietra_V2.png", qta: "cave_pietra", coda: "cavapietra_coda", tipoServer: "CavaPietra", chiaveDesc: "Cava di Pietra", labelKey: "Label Cava di Pietra" },
+    { nome: "Miniera di Ferro", icona: "MinieraFerro_V2.png", qta: "miniere_ferro", coda: "minieraferro_coda", tipoServer: "MinieraFerro", chiaveDesc: "Miniera di Ferro", labelKey: "Label Miniera di Ferro" },
+    { nome: "Miniera d'Oro", icona: "MinieraOro_V2.png", qta: "miniere_oro", coda: "minieraoro_coda", tipoServer: "MinieraOro", chiaveDesc: "Miniera d'Oro", labelKey: "Label Miniera d'Oro" },
+    { nome: "Case", icona: "Abitazioni_V2.png", qta: "case", coda: "casa_coda", tipoServer: "Abitazioni", chiaveDesc: "Abitazioni", labelKey: "Label Abitazioni" },
   ];
 
   const struttureMilitari = [
-    { nome: "Workshop Spade", icona: "Workshop_Spade_V2.png", qta: "workshop_spade", coda: "workshop_spade_coda", tipoServer: "ProduzioneSpade", chiaveDesc: "Produzione Spade" },
-    { nome: "Workshop Lance", icona: "Workshop_Lance_V2.png", qta: "workshop_lance", coda: "workshop_lance_coda", tipoServer: "ProduzioneLance", chiaveDesc: "Produzione Lance" },
-    { nome: "Workshop Archi", icona: "Workshop_Archi_V2.png", qta: "workshop_archi", coda: "workshop_archi_coda", tipoServer: "ProduzioneArchi", chiaveDesc: "Produzione Archi" },
-    { nome: "Workshop Scudi", icona: "Workshop_Scudi_V2.png", qta: "workshop_scudi", coda: "workshop_scudi_coda", tipoServer: "ProduzioneScudi", chiaveDesc: "Produzione Scudi" },
-    { nome: "Workshop Armature", icona: "Workshop_Armature_V2.png", qta: "workshop_armature", coda: "workshop_armature_coda", tipoServer: "ProduzioneArmature", chiaveDesc: "Produzione Armature" },
-    { nome: "Workshop Frecce", icona: "Workshop_Frecce_V2.png", qta: "workshop_frecce", coda: "workshop_frecce_coda", tipoServer: "ProduzioneFrecce", chiaveDesc: "Produzione Frecce" },
+    { nome: "Workshop Spade", icona: "Workshop_Spade_V2.png", qta: "workshop_spade", coda: "workshop_spade_coda", tipoServer: "ProduzioneSpade", chiaveDesc: "Produzione Spade", labelKey: "Label Workshop Spade" },
+    { nome: "Workshop Lance", icona: "Workshop_Lance_V2.png", qta: "workshop_lance", coda: "workshop_lance_coda", tipoServer: "ProduzioneLance", chiaveDesc: "Produzione Lance", labelKey: "Label Workshop Lancie" },
+    { nome: "Workshop Archi", icona: "Workshop_Archi_V2.png", qta: "workshop_archi", coda: "workshop_archi_coda", tipoServer: "ProduzioneArchi", chiaveDesc: "Produzione Archi", labelKey: "Label Workshop Archi" },
+    { nome: "Workshop Scudi", icona: "Workshop_Scudi_V2.png", qta: "workshop_scudi", coda: "workshop_scudi_coda", tipoServer: "ProduzioneScudi", chiaveDesc: "Produzione Scudi", labelKey: "Label Workshop Scudi" },
+    { nome: "Workshop Armature", icona: "Workshop_Armature_V2.png", qta: "workshop_armature", coda: "workshop_armature_coda", tipoServer: "ProduzioneArmature", chiaveDesc: "Produzione Armature", labelKey: "Label Workshop Armature" },
+    { nome: "Workshop Frecce", icona: "Workshop_Frecce_V2.png", qta: "workshop_frecce", coda: "workshop_frecce_coda", tipoServer: "ProduzioneFrecce", chiaveDesc: "Produzione Frecce", labelKey: "Label Workshop Frecce" },
   ];
 
   const caserme = [
-    { nome: "Caserma Guerrieri", icona: "Caserma_Guerieri_V2.png", qta: "caserma_guerrieri", coda: "caserma_guerrieri_coda", tipoServer: "CasermaGuerrieri", chiaveDesc: "Caserma Guerrieri" },
-    { nome: "Caserma Lancieri", icona: "Caserma_Lanceri_V2.png", qta: "caserma_lanceri", coda: "caserma_lanceri_coda", tipoServer: "CasermaLanceri", chiaveDesc: "Caserma Lanceri" },
-    { nome: "Caserma Arcieri", icona: "Caserma_Arcieri_V2.png", qta: "caserma_arceri", coda: "caserma_arceri_coda", tipoServer: "CasermaArceri", chiaveDesc: "Caserma Arceri" },
-    { nome: "Caserma Catapulte", icona: "Caserma_Catapulte_V2.png", qta: "caserma_catapulte", coda: "caserma_catapulte_coda", tipoServer: "CasermaCatapulte", chiaveDesc: "Caserma Catapulte" },
+    { nome: "Caserma Guerrieri", icona: "Caserma_Guerieri_V2.png", qta: "caserma_guerrieri", coda: "caserma_guerrieri_coda", tipoServer: "CasermaGuerrieri", chiaveDesc: "Caserma Guerrieri", labelKey: "Label Caserma Guerrieri" },
+    { nome: "Caserma Lancieri", icona: "Caserma_Lanceri_V2.png", qta: "caserma_lanceri", coda: "caserma_lanceri_coda", tipoServer: "CasermaLanceri", chiaveDesc: "Caserma Lanceri", labelKey: "Label Caserma Lanceri" },
+    { nome: "Caserma Arcieri", icona: "Caserma_Arcieri_V2.png", qta: "caserma_arceri", coda: "caserma_arceri_coda", tipoServer: "CasermaArceri", chiaveDesc: "Caserma Arceri", labelKey: "Label Caserma Arceri" },
+    { nome: "Caserma Catapulte", icona: "Caserma_Catapulte_V2.png", qta: "caserma_catapulte", coda: "caserma_catapulte_coda", tipoServer: "CasermaCatapulte", chiaveDesc: "Caserma Catapulte", labelKey: "Label Caserma Catapulte" },
   ];
 
   // Ordine ESATTO dei 16 campi richiesti dal comando "Costruzione" lato
@@ -951,7 +963,7 @@ window.WW = window.WW || {};
         (s) => `
       <li class="row-item">
         <img src="assets/${s.icona}" alt="">
-        <span class="row-item__label">${s.nome}</span>
+        <span class="row-item__label">${(s.labelKey && WW.descrizioni[s.labelKey]) || s.nome}</span>
         <span class="row-item__value" title="Costruite">${WW.fmtInt(GAME.num(s.qta))}</span>
         <span class="row-item__queue" title="In coda di costruzione">${WW.fmtInt(GAME.num(s.coda))}</span>
       </li>`
@@ -963,15 +975,28 @@ window.WW = window.WW || {};
   const struttureLists = document.querySelectorAll("[data-strutture-list]");
   const struttureTitle = document.getElementById("strutture-title");
   const struttureTitoli = { civili: "Strutture Civili", militari: "Strutture Militari", caserme: "Caserme" };
+  // 18/09/2026, su richiesta dell'utente: anche questi titoli arrivano ora
+  // come "Descrizione|Label ...|<testo>" (vedi Descrizioni.cs) — stesso
+  // fallback al nome italiano finché non arrivano.
+  const struttureTitoliLabelKey = { civili: "Label Strutture Civili", militari: "Label Strutture Militari", caserme: "Label Caserme" };
+  let struttureViewAttiva = "civili";
+
+  function aggiornaStruttureTitle() {
+    struttureTitle.textContent = WW.descrizioni[struttureTitoliLabelKey[struttureViewAttiva]] || struttureTitoli[struttureViewAttiva];
+  }
 
   struttureToggleBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
       struttureToggleBtns.forEach((b) => b.classList.remove("is-active"));
       btn.classList.add("is-active");
-      const view = btn.dataset.struttureView;
-      struttureLists.forEach((ul) => (ul.hidden = ul.dataset.struttureList !== view));
-      struttureTitle.textContent = struttureTitoli[view];
+      struttureViewAttiva = btn.dataset.struttureView;
+      struttureLists.forEach((ul) => (ul.hidden = ul.dataset.struttureList !== struttureViewAttiva));
+      aggiornaStruttureTitle();
     });
+  });
+
+  WW.onDescrizione((chiave) => {
+    if (chiave === struttureTitoliLabelKey[struttureViewAttiva]) aggiornaStruttureTitle();
   });
 
   // Esercito: il server manda una quantità e una coda PER TIER (1-5, chiavi
@@ -987,10 +1012,10 @@ window.WW = window.WW || {};
   // altrove per le chiavi di quantità/coda, anche se qui coincidono).
   let tierSelezionato = 1;
   const unita = [
-    { nome: "Guerriero", icona: "Guerriero_V2.png", prefisso: "guerrieri", max: "guerrieri_max", chiaveDescPrefix: "Guerrieri" },
-    { nome: "Lanciere", icona: "Lanciere_V2.png", prefisso: "lanceri", max: "lanceri_max", chiaveDescPrefix: "Lanceri" },
-    { nome: "Arciere", icona: "Arciere_V2.png", prefisso: "arceri", max: "arceri_max", chiaveDescPrefix: "Arceri" },
-    { nome: "Catapulta", icona: "Catapulta_V2.png", prefisso: "catapulte", max: "catapulte_max", chiaveDescPrefix: "Catapulte" },
+    { nome: "Guerriero", icona: "Guerriero_V2.png", prefisso: "guerrieri", max: "guerrieri_max", chiaveDescPrefix: "Guerrieri", labelKey: "Label Guerrieri" },
+    { nome: "Lanciere", icona: "Lanciere_V2.png", prefisso: "lanceri", max: "lanceri_max", chiaveDescPrefix: "Lanceri", labelKey: "Label Lanceri" },
+    { nome: "Arciere", icona: "Arciere_V2.png", prefisso: "arceri", max: "arceri_max", chiaveDescPrefix: "Arceri", labelKey: "Label Arceri" },
+    { nome: "Catapulta", icona: "Catapulta_V2.png", prefisso: "catapulte", max: "catapulte_max", chiaveDescPrefix: "Catapulte", labelKey: "Label Catapulte" },
   ];
 
   function renderUnita() {
@@ -1003,7 +1028,7 @@ window.WW = window.WW || {};
         return `
       <li class="row-item">
         <img src="assets/${u.icona}" alt="">
-        <span class="row-item__label">${u.nome}</span>
+        <span class="row-item__label">${(u.labelKey && WW.descrizioni[u.labelKey]) || u.nome}</span>
         <span class="row-item__value" title="Addestrate / limite Caserma">${WW.fmtInt(qta)} / ${WW.fmtInt(max)}</span>
         <span class="row-item__queue" title="In coda di addestramento">${WW.fmtInt(coda)}</span>
       </li>`;

@@ -199,7 +199,7 @@
         <div class="main-grid">
           <div class="panel wood-panel" data-panel="feudi">
             <div class="panel__header">
-              <h2 class="panel__title">Feudi</h2>
+              <h2 class="panel__title" id="feudi-title">Feudi</h2>
               <button type="button" class="research-info-btn" id="btn-feudi-info" title="Informazioni sui Feudi" aria-label="Informazioni sui Feudi"><img src="assets/info.png" alt=""></button>
             </div>
             <ul class="feudi-list" id="feudi-list"><!-- popolata da app.js --></ul>
@@ -387,27 +387,27 @@
       <section class="tab-panel" data-tab-panel="costruzione" hidden>
         <div class="section-toggle" id="costruzione-panel-toggle" role="tablist" aria-label="Pannelli Costruzione">
           <button class="section-toggle__btn is-active" data-panel-target="costruzione-edifici">Edifici</button>
-          <button class="section-toggle__btn" data-panel-target="costruzione-esercito">Addestramento</button>
+          <button class="section-toggle__btn" data-panel-target="costruzione-esercito" id="costruzione-toggle-addestramento">Addestramento</button>
         </div>
 
         <div class="main-grid main-grid--costruzione">
           <div class="panel wood-panel" data-panel="costruzione-edifici">
-            <h2 class="panel__title">Costruzione</h2>
+            <h2 class="panel__title" id="costruzione-edifici-title">Costruzione</h2>
 
-            <h3 class="panel__subtitle">Strutture Civili</h3>
+            <h3 class="panel__subtitle" id="costruzione-civili-subtitle">Strutture Civili</h3>
             <ul class="building-list building-list--form" id="costruzione-civili-list"><!-- popolata da app.js --></ul>
 
-            <h3 class="panel__subtitle">Strutture Militari</h3>
+            <h3 class="panel__subtitle" id="costruzione-militari-subtitle">Strutture Militari</h3>
             <ul class="building-list building-list--form" id="costruzione-militari-list"><!-- popolata da app.js --></ul>
 
-            <h3 class="panel__subtitle">Caserme</h3>
+            <h3 class="panel__subtitle" id="costruzione-caserme-subtitle">Caserme</h3>
             <ul class="building-list building-list--form" id="costruzione-caserme-list"><!-- popolata da app.js --></ul>
 
             <button type="button" class="btn btn--primary btn--block" id="btn-invia-costruzione">Costruisci</button>
           </div>
 
           <div class="panel wood-panel" data-panel="costruzione-esercito">
-            <h2 class="panel__title">Addestramento</h2>
+            <h2 class="panel__title" id="costruzione-esercito-title">Addestramento</h2>
             <div class="tier-tabs" id="costruzione-tier-tabs">
               <button class="tier-btn is-active" data-tier="1">I</button>
               <button class="tier-btn" data-tier="2">II</button>
@@ -821,7 +821,7 @@
            Esercito, Cronologia e ora anche Messaggi) — data-tab="main"
            NON cambia, resta l'id interno usato da 03-nav.js/04-game-main.js. -->
       <button class="tab-bar__btn is-active" data-tab="main">Panoramica</button>
-      <button class="tab-bar__btn" data-tab="costruzione">Costruzione</button>
+      <button class="tab-bar__btn" data-tab="costruzione" id="tab-btn-costruzione">Costruzione</button>
       <button class="tab-bar__btn" data-tab="citta">Città</button>
       <button class="tab-bar__btn" data-tab="negozio">Negozio</button>
       <button class="tab-bar__btn" data-tab="ricerca">Ricerca</button>

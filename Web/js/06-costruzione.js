@@ -24,6 +24,42 @@ window.WW = window.WW || {};
 (function (WW) {
   "use strict";
 
+  // Titoli statici della schermata (18/09/2026, su richiesta dell'utente):
+  // arrivano anche loro come "Descrizione|Label ...|<testo>" (vedi
+  // Descrizioni.cs), stesso meccanismo già usato per le righe di
+  // Strutture/Esercito (vedi WW.descrizioni in 04-game-main.js). Restano
+  // sul valore italiano hardcoded nell'HTML finché il valore non arriva.
+  function aggiornaTitoliCostruzione() {
+    [
+      ["costruzione-edifici-title", "Label Costruzione"],
+      ["costruzione-civili-subtitle", "Label Strutture Civili"],
+      ["costruzione-militari-subtitle", "Label Strutture Militari"],
+      ["costruzione-caserme-subtitle", "Label Caserme"],
+      ["costruzione-esercito-title", "Label Addestramento"],
+      ["costruzione-toggle-addestramento", "Label Addestramento"],
+      // Pulsante "Costruzione" nella tab-bar in basso (vedi index.html):
+      // stesso testo/etichetta del titolo del pannello qui sopra, riusata
+      // pari pari invece di chiedere un altro Label_* al server per lo
+      // stesso identico testo.
+      ["tab-btn-costruzione", "Label Costruzione"],
+    ].forEach(([id, chiave]) => {
+      const el = document.getElementById(id);
+      const testo = WW.descrizioni[chiave];
+      if (el && testo) el.textContent = testo;
+    });
+  }
+  aggiornaTitoliCostruzione();
+  WW.onDescrizione((chiave) => {
+    if (!chiave.startsWith("Label ")) return;
+    aggiornaTitoliCostruzione();
+    // Ricostruisce le righe di Strutture/Addestramento se l'etichetta di
+    // una di esse arriva dopo il primo render (vedi "force" più sotto).
+    renderStruttureListForm("costruzione-civili-list", WW.struttureCivili, true);
+    renderStruttureListForm("costruzione-militari-list", WW.struttureMilitari, true);
+    renderStruttureListForm("costruzione-caserme-list", WW.caserme, true);
+    renderUnitaForm(true);
+  });
+
   // Quantità da costruire scelte con lo stepper (+/-) per ogni riga, non un
   // campo di testo libero: più comodo su mobile e più simile allo stile del
   // client desktop. Chiave = tipoServer, valore = quantità in attesa di invio.
@@ -95,26 +131,35 @@ window.WW = window.WW || {};
     return true;
   }
 
-  function renderStruttureListForm(listId, dati) {
+  // "force" (18/09/2026, su richiesta dell'utente: stesso meccanismo di
+  // localizzazione già applicato alla schermata Main) ricostruisce la lista
+  // anche se il numero di righe non è cambiato — serve per aggiornare i
+  // nomi (s.labelKey, vedi WW.descrizioni) quando l'etichetta arriva dal
+  // server DOPO il primo render, altrimenti la guardia sul children.length
+  // qui sotto blocca per sempre il rebuild e i nomi restano in italiano.
+  function renderStruttureListForm(listId, dati, force) {
     const ul = document.getElementById(listId);
     if (!ul) return;
-    if (ul.children.length !== dati.length) {
+    if (force || ul.children.length !== dati.length) {
       ul.innerHTML = dati
         .map(
-          (s) => `
+          (s) => {
+            const nome = (s.labelKey && WW.descrizioni[s.labelKey]) || s.nome;
+            return `
         <li class="research-item">
           <div class="row-item row-item--form">
             <img src="assets/${s.icona}" alt="">
-            <span class="row-item__label">${s.nome}</span>
-            <button type="button" class="research-info-btn" data-info-tipo="${s.chiaveDesc}" title="Descrizione" aria-label="Descrizione ${s.nome}"><img src="assets/info.png" alt=""></button>
+            <span class="row-item__label">${nome}</span>
+            <button type="button" class="research-info-btn" data-info-tipo="${s.chiaveDesc}" title="Descrizione" aria-label="Descrizione ${nome}"><img src="assets/info.png" alt=""></button>
             <div class="qty-stepper" data-tipo-server="${s.tipoServer}">
-              <button type="button" class="qty-btn qty-btn--minus" aria-label="Diminuisci quantità: ${s.nome}">−</button>
+              <button type="button" class="qty-btn qty-btn--minus" aria-label="Diminuisci quantità: ${nome}">−</button>
               <span class="qty-stepper__value">${qtyCostruzione[s.tipoServer] || 0}</span>
-              <button type="button" class="qty-btn qty-btn--plus" aria-label="Aumenta quantità: ${s.nome}">+</button>
+              <button type="button" class="qty-btn qty-btn--plus" aria-label="Aumenta quantità: ${nome}">+</button>
             </div>
           </div>
           <div class="research-desc" data-desc-per="${s.chiaveDesc}" hidden></div>
-        </li>`
+        </li>`;
+          }
         )
         .join("");
     }
@@ -177,24 +222,26 @@ window.WW = window.WW || {};
   // differenza delle Strutture qui bisogna ricostruire la riga (non solo il
   // valore) quando cambia tier: teniamo traccia dell'ultimo tier renderizzato
   // in ul.dataset.tier per capire quando serve.
-  function renderUnitaForm() {
+  // "force": stesso motivo di renderStruttureListForm sopra.
+  function renderUnitaForm(force) {
     const ul = document.getElementById("costruzione-unit-list");
     if (!ul) return;
-    if (ul.children.length !== WW.unita.length || ul.dataset.tier !== String(tierCostruzione)) {
+    if (force || ul.children.length !== WW.unita.length || ul.dataset.tier !== String(tierCostruzione)) {
       ul.innerHTML = WW.unita
         .map(
           (u) => {
             const chiaveDesc = `${u.chiaveDescPrefix} ${tierCostruzione}`;
+            const nome = (u.labelKey && WW.descrizioni[u.labelKey]) || u.nome;
             return `
         <li class="research-item">
           <div class="row-item row-item--form">
             <img src="assets/${u.icona}" alt="">
-            <span class="row-item__label">${u.nome}</span>
-            <button type="button" class="research-info-btn" data-info-tipo="${chiaveDesc}" title="Descrizione" aria-label="Descrizione ${u.nome}"><img src="assets/info.png" alt=""></button>
+            <span class="row-item__label">${nome}</span>
+            <button type="button" class="research-info-btn" data-info-tipo="${chiaveDesc}" title="Descrizione" aria-label="Descrizione ${nome}"><img src="assets/info.png" alt=""></button>
             <div class="qty-stepper" data-prefisso="${u.prefisso}">
-              <button type="button" class="qty-btn qty-btn--minus" aria-label="Diminuisci quantità: ${u.nome}">−</button>
+              <button type="button" class="qty-btn qty-btn--minus" aria-label="Diminuisci quantità: ${nome}">−</button>
               <span class="qty-stepper__value">${qtyReclutamento[u.prefisso] || 0}</span>
-              <button type="button" class="qty-btn qty-btn--plus" aria-label="Aumenta quantità: ${u.nome}">+</button>
+              <button type="button" class="qty-btn qty-btn--plus" aria-label="Aumenta quantità: ${nome}">+</button>
             </div>
           </div>
           <div class="research-desc" data-desc-per="${chiaveDesc}" hidden></div>
