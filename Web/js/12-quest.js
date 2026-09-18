@@ -240,6 +240,10 @@ window.WW = window.WW || {};
       elLista.innerHTML = `<li class="quest-item"><div class="quest-item__main"><p class="quest-item__desc">Nessuna quest attiva al momento.</p></div></li>`;
     } else {
       elLista.innerHTML = paginaQuests.map(rigaQuest).join("");
+      // Percentuale della barra: vedi nota su "data-percento" in rigaQuest().
+      elLista.querySelectorAll(".quest-item__bar-fill").forEach((el) => {
+        el.style.width = `${el.dataset.percento}%`;
+      });
     }
 
     elPager.hidden = stato.quests.length <= QUEST_PER_PAGINA;
@@ -255,12 +259,18 @@ window.WW = window.WW || {};
     // leggibile a colpo d'occhio. Il numero di volte completata diventa un
     // badge a parte, staccato dal numero di progresso (13/09/2026, su
     // richiesta dell'utente: prima erano tutti e due nella stessa riga).
+    // 18/09/2026: niente più "style" nell'HTML (CSP style-src-attr, vedi
+    // renderQuestList: la percentuale viene impostata subito dopo con
+    // elFill.style.width, che a differenza dell'attributo style="" scritto
+    // qui non rientra nella direttiva "style-src-attr" — stesso principio
+    // già usato per la barra punti in renderBarra() poco sopra in questo
+    // file). "data-percento" porta il valore fino a lì.
     return `
       <li class="quest-item">
         <div class="quest-item__main">
           <p class="quest-item__desc">${escapeHtml(q.Quest_Description || "")}</p>
           <div class="quest-item__bar">
-            <div class="quest-item__bar-fill" style="width:${percento}%"></div>
+            <div class="quest-item__bar-fill" data-percento="${percento}"></div>
             <span class="quest-item__bar-label">${WW.fmtInt(q.Progress)} / ${WW.fmtInt(q.Require)}</span>
           </div>
           <span class="quest-item__completate">Completata ${q.Completata}/${q.Max_Complete}</span>

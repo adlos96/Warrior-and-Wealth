@@ -186,9 +186,15 @@ window.WW = window.WW || {};
   // piccoli un mini-form sopra l'immagine sarebbe troppo piccolo per
   // essere usabile.
   function templateCittaMarker(s) {
+    // 18/09/2026: niente più "style" nell'HTML (CSP style-src-attr, vedi
+    // renderCittaMap subito sotto, che imposta left/top con
+    // marker.style.left/top dopo l'inserimento — a differenza
+    // dell'attributo style="" scritto qui, questo non rientra nella
+    // direttiva "style-src-attr"). "data-left"/"data-top" portano il
+    // valore fino a lì.
     return `
     <button type="button" class="city-map__marker" data-struttura="${s.chiave}"
-      style="left:${s.pos.left}%; top:${s.pos.top}%;"
+      data-left="${s.pos.left}" data-top="${s.pos.top}"
       title="${WW.t('stratoDifensivoPrefix').replace('{0}', s.strato)}">
       <span class="city-map__strato">${s.strato}</span>
       <span class="city-map__nome">${(s.labelKey && WW.descrizioni[s.labelKey]) || s.nome}</span>
@@ -204,6 +210,11 @@ window.WW = window.WW || {};
     if (!container) return;
     if (container.children.length !== STRUTTURE_CITTA.length) {
       container.innerHTML = STRUTTURE_CITTA.map(templateCittaMarker).join("");
+      // Posizione: vedi nota su "data-left"/"data-top" in templateCittaMarker().
+      container.querySelectorAll(".city-map__marker").forEach((el) => {
+        el.style.left = `${el.dataset.left}%`;
+        el.style.top = `${el.dataset.top}%`;
+      });
       // Toccare un marker scorre alla card corrispondente nella lista sotto
       // e la evidenzia per un attimo, per far capire "sei atterrato qui".
       container.addEventListener("click", (e) => {
