@@ -180,6 +180,9 @@ namespace Server_Strategico.Server
                         max_Stats = 0;
                         numero_Stats = 0;
                         break;
+                    case "TEST":
+                        Cibo();
+                        break;
                     case "":
                         break;
 
@@ -187,6 +190,25 @@ namespace Server_Strategico.Server
                 }
             }
         }
+        async static Task<Player> PlayerID(int id)
+        {
+            Player player = null;
+            foreach (var giocatori in Server.servers_.players.Values)
+                if (giocatori.ID == id) player = giocatori;
+            return player;
+        }
+        async void Cibo()
+        {
+            Console.WriteLine("Inserisci ID giocatore:");
+            string ID = Console.ReadLine() ?? string.Empty;
+
+            Console.WriteLine("Inserisci cibo da dare al giocatore:");
+            string quantità = Console.ReadLine() ?? string.Empty;
+
+            Player player = await PlayerID(Convert.ToInt32(ID));
+            player.Cibo += Convert.ToDouble(quantità);
+        }
+
         void ClientConnessi()
         {
             if (Client_Connessi.Count() == 0) Console.WriteLine("Client connessi: 0");
@@ -384,6 +406,7 @@ namespace Server_Strategico.Server
         {
             public Dictionary<string, Player> players = new Dictionary<string, Player>();
             int _saveIndex = 0;
+
             public async Task<bool> AddPlayer(string username, string password, string email, Guid guid)
             {
                 var newPlayer = new Player(username, password, email, guid);
@@ -405,6 +428,7 @@ namespace Server_Strategico.Server
                 players.TryGetValue(username, out Player player);
                 return player;
             }
+
             // Riformattato (14/09/2026, su richiesta dell'utente: "visivamente è
             // molto brutto") in una tabella allineata a colonne fisse, invece
             // di una riga di testo libero per giocatore: prima ogni riga aveva
@@ -421,6 +445,7 @@ namespace Server_Strategico.Server
 
                 string intestazione =
                     "   " +
+                    "ID".PadRight(larghLivello) +
                     "Username".PadRight(larghUsername) +
                     "Livello".PadRight(larghLivello) +
                     "Potenza".PadRight(larghPotenza) +
@@ -448,8 +473,10 @@ namespace Server_Strategico.Server
                     string ultimoAccesso = player.Last_Login == DateTime.MinValue
                         ? "mai"
                         : player.Last_Login.ToString("dd/MM/yyyy");
+                    int ID = player.ID;
 
                     Console.WriteLine(
+                        ID.ToString().PadRight(larghLivello) +
                         username.PadRight(larghUsername) +
                         player.Livello.ToString().PadRight(larghLivello) +
                         player.Potenza_Totale.ToString("#,0").PadRight(larghPotenza) +

@@ -2,6 +2,7 @@
 using Server_Strategico.Manager;
 using Server_Strategico.Server;
 using Server_Strategico.ServerData.Moduli.Battaglie;
+using Server_Strategico.ServerData.Moduli.Player;
 using System.Text.Json;
 using static Server_Strategico.Gioco.Barbari;
 using static Server_Strategico.Gioco.Giocatori;
@@ -1099,6 +1100,7 @@ namespace Server_Strategico.ServerData.Moduli
                 return;
             }
             _giocatoriCaricati = true;
+                int b = 0;
 
             try
             {
@@ -1126,6 +1128,8 @@ namespace Server_Strategico.ServerData.Moduli
                 // Villaggi/Report/Cronologia/ServerData/token) — prima un nome file non valido
                 // (raro: "" o solo spazi) non veniva contato in "totale" ma un JSON senza
                 // Username sì, rendendo i numeri incoerenti tra i due casi di "ignorato".
+
+
                 int totale = 0, successi = 0, falliti = 0;
                 var ignorati = new List<(string File, string Motivo)>();
                 var fallitiDettaglio = new List<(string Username, string Motivo)>();
@@ -1156,6 +1160,30 @@ namespace Server_Strategico.ServerData.Moduli
                     {
                         string jsonString = await File.ReadAllTextAsync(file);
                         var playerData = JsonSerializer.Deserialize<PlayerSaveData>(jsonString);
+
+                        ///Temp 
+                        //ID random.
+                        bool exit = true;
+                        int i = 0, c= 0;
+                        int ID = new Random().Next(1, 9999999);
+
+                        bool uguale = false;
+
+                        if (playerData.ID == ID)
+                            uguale = true;
+
+                        Console.WriteLine("Giocatore Convertito: " + playerData.Username);
+                        if (uguale) ID = new Random().Next(1, 9999999);
+
+                        if (playerData.ID == 0)
+                        {
+                            playerData.ID = ID;
+                            ID = new Random().Next(1, 9999999);
+                            b++;
+                        }
+
+
+
 
                         if (playerData == null || string.IsNullOrWhiteSpace(playerData.Username))
                         {
@@ -1195,6 +1223,7 @@ namespace Server_Strategico.ServerData.Moduli
             {
                 Console.WriteLine($"[GameLoad] Errore durante il caricamento automatico: {ex.Message}");
             }
+            Console.WriteLine($"\nGicoatori convertiti: {b}\n");
         }
 
         public class SavedTask

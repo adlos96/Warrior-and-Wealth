@@ -153,6 +153,7 @@ namespace Server_Strategico.Server
                             if (i == 0) exit = false;
                             else ID = new Random().Next(1, 9999999);
                         }
+                        player.ID = ID;
 
                         // Pulisce eventuali refresh token residui di sessioni precedenti
                         TokenManager.RevokeAllRefreshTokensForUser(email);
@@ -160,7 +161,6 @@ namespace Server_Strategico.Server
                         // Genero i token qui, subito dopo l'auth con username/password
                         string accessToken = TokenManager.GenerateAccessToken(email, user, TimeSpan.FromHours(8));
                         string refreshToken = TokenManager.GenerateRefreshToken(email, user, TimeSpan.FromDays(10));
-
 
                         Server.Send(clientGuid, $"Login|true|{accessToken}|{refreshToken}");
 
