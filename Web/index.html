@@ -121,7 +121,11 @@
            schermo, lo stesso .modal-overlay/.modal-box già usato per Feudi/
            Info Risorsa/Resoconto qui sotto, invece di un pattern nuovo. -->
       <button type="button" class="resource-bar__player" id="btn-player-menu">
-        <span class="avatar">👤</span>
+        <!-- Immagine profilo (18/09/2026): 👤 resta il fallback finché il
+             giocatore non ha un avatar scelto (player.Avatar vuoto) — vedi
+             js/15-avatar.js, che mostra l'una o l'altra. -->
+        <span class="avatar" id="res-avatar-emoji">👤</span>
+        <img class="avatar-img" id="res-avatar-img" alt="" hidden>
         <span id="res-username" class="player-name">adly</span>
       </button>
 
@@ -908,8 +912,25 @@
         </div>
         <div class="player-menu">
           <button type="button" class="player-menu__voce" id="player-menu-cambio-giocatore">Cambio giocatore</button>
-          <button type="button" class="player-menu__voce" disabled title="Non ancora disponibile">Cambio immagine profilo</button>
+          <button type="button" class="player-menu__voce" id="player-menu-cambio-avatar">Cambio immagine profilo</button>
         </div>
+      </div>
+    </div>
+
+    <!-- Popup "Cambia immagine profilo" (18/09/2026, su richiesta dell'utente):
+         stesso overlay generico usato per Feudi/Info Risorsa/Resoconto/Menu
+         giocatore, aperto da "Cambio immagine profilo" qui sopra — vedi
+         js/15-avatar.js. I 2 avatar gratuiti partono già sbloccati lato
+         server (player.Avatar_Sbloccati); gli altri mostrano lucchetto e
+         prezzo finché non vengono acquistati, stesso trattamento delle card
+         USDT non ancora attive nello Shop. -->
+    <div class="modal-overlay" id="avatar-picker-overlay" hidden>
+      <div class="modal-box panel wood-panel modal-box--avatar-picker">
+        <div class="panel__header">
+          <h2 class="panel__title">Scegli avatar</h2>
+          <button type="button" class="modal-close-btn" id="btn-chiudi-avatar-picker" aria-label="Chiudi">✕</button>
+        </div>
+        <ul class="avatar-grid" id="avatar-grid"><!-- popolata da js/15-avatar.js --></ul>
       </div>
     </div>
   </section>
@@ -934,6 +955,7 @@
   <script src="js/12-quest.js"></script>
   <script src="js/13-gamepass.js"></script>
   <script src="js/14-battaglia.js"></script>
+  <script src="js/15-avatar.js"></script>
   <script src="js/10-main.js"></script>
 </body>
 </html>

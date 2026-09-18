@@ -124,6 +124,7 @@ window.WW = window.WW || {};
     WW.renderQuestBarra(); // barra punti + marker Quest (12-quest.js): ricalcolati ad ogni tick, non solo su un nuovo QuestRewards (bugfix 14/09/2026)
     if (WW.renderGamepass) WW.renderGamepass(); // griglia premi GamePass (13-gamepass.js)
     if (WW.renderBattaglia) WW.renderBattaglia(); // schermata PVP/PVE (14-battaglia.js)
+    if (WW.renderAvatar) WW.renderAvatar(); // popup "Cambia immagine profilo" + avatar in barra risorse (15-avatar.js)
   }
 
   // Costo del prossimo Feudo e Costruttori/Reclutatori attualmente occupati
