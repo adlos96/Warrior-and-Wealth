@@ -171,6 +171,14 @@
              .level_up_1_) al posto delle emoji, per coerenza visiva. -->
         <div class="res res--clickable" data-res="xp"><img src="assets/Exp_1.png" alt="Esperienza"><span data-value="xp">0</span> XP</div>
         <div class="res res--clickable res--level" data-res="livello"><img src="assets/Livello_V2.png" alt="Livello"><span data-value="livello">1</span></div>
+        <!-- ID giocatore (18/09/2026, su richiesta dell'utente): serve solo
+             per i comandi admin da console lato server (/give, /ban, ecc. —
+             vedi PlayerID() in ServerConnection.cs), non è una risorsa di
+             gioco — per questo niente icona, solo testo "ID 123" più
+             piccolo/discreto (vedi .res--id in style.css). Mandato una
+             tantum al login (Update_Data_OneTime → "ID_Giocatore"), non
+             cambia più dopo, quindi non serve rileggerlo ad ogni tick. -->
+        <div class="res res--id" data-res="idGiocatore" title="ID giocatore">ID <span data-value="idGiocatore">-</span></div>
       </div>
     </header>
 

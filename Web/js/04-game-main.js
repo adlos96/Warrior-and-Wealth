@@ -559,6 +559,7 @@ window.WW = window.WW || {};
     diamantiViola: "diamanti_viola",
     xp: "esperienza",
     livello: "livello",
+    idGiocatore: "ID_Giocatore",
   };
 
   function renderRisorseBar() {
