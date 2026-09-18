@@ -197,9 +197,6 @@ namespace Server_Strategico.Server
                     case "adminstop":
                         Admin.adminStart = false;
                         break;
-                    case "TEST":
-                        Cibo();
-                        break;
                     case "":
                         break;
 
@@ -214,17 +211,6 @@ namespace Server_Strategico.Server
             foreach (var giocatori in Server.servers_.players.Values)
                 if (giocatori.ID == id) player = giocatori;
             return player;
-        }
-        async void Cibo()
-        {
-            Console.WriteLine("Inserisci ID giocatore:");
-            string ID = Console.ReadLine() ?? string.Empty;
-
-            Console.WriteLine("Inserisci cibo da dare al giocatore:");
-            string quantità = Console.ReadLine() ?? string.Empty;
-
-            Player player = await PlayerID(Convert.ToInt32(ID));
-            player.Cibo += Convert.ToDouble(quantità);
         }
 
         void ClientConnessi()
