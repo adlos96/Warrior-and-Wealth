@@ -251,6 +251,7 @@ namespace Server_Strategico.Server
             // chiamata a Send sparsa in centinaia di punti del codice. Il controllo
             // StartsWith è economico e riguarda solo i messaggi Log_Server (rari rispetto
             // agli Update_Data di ogni tick), quindi non pesa sul percorso più frequente.
+            string ora = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
             if (inviato && msg.StartsWith("Log_Server|") && Client_Connessi_Map.TryGetValue(guid, out string usernameLog))
             {
                 var giocatoreLog = servers_.GetPlayer(usernameLog);
@@ -263,7 +264,7 @@ namespace Server_Strategico.Server
             }
 
             if (inviato && !msg.Contains("Update_Data") && !msg.Contains("QuestRewards") && !msg.Contains("QuestUpdate") && !msg.Contains("Descrizione"))
-                Console.WriteLine($"[SERVER|LOG] > {msg}");
+                Console.WriteLine($"[{ora}][SERVER|LOG] > {msg}");
         }
 
         public static async Task NewPlayer(string player, string password)

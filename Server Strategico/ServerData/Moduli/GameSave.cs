@@ -79,6 +79,7 @@ namespace Server_Strategico.ServerData.Moduli
         {
             private readonly TextWriter _console;
             private readonly TextWriter _file;
+            private bool _inizioRiga = true; // true finché non scriviamo il primo carattere della riga corrente
 
             public TeeTextWriter(TextWriter console, TextWriter file)
             {
@@ -91,7 +92,15 @@ namespace Server_Strategico.ServerData.Moduli
             public override void Write(char value)
             {
                 _console.Write(value);
+
+                if (_inizioRiga)
+                {
+                    _file.Write($"[{DateTime.Now:dd/MM/yyyy HH:mm:ss}] ");
+                    _inizioRiga = false;
+                }
                 _file.Write(value);
+
+                if (value == '\n') _inizioRiga = true;
             }
         }
 
