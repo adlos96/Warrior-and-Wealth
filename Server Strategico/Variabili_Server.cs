@@ -79,10 +79,77 @@
             135, 135, 135, 135, 2100,
         };
 
-        public class PartialTimerData
+        public class Avatar
         {
-            public double Interval { get; set; }
-            public bool Enabled { get; set; }
+            public string Nome { get; set; }
+            public int Costo { get; set; }
+
+            public static Avatar Lord_1 = new Avatar
+            {
+                Nome = "Lord_1", //GamePass
+                Costo = 600, // USDT
+            };
+            public static Avatar Lord_2 = new Avatar
+            {
+                Nome = "Lord_2", //GamePass
+                Costo = 400, // USDT
+            };
+            public static Avatar Lord_3 = new Avatar
+            {
+                Nome = "Lord_3", //GamePass
+                Costo = 0, // USDT
+            };
+            public static Avatar Lord_4 = new Avatar
+            {
+                Nome = "Lord_4", //GamePass
+                Costo = 400, // USDT
+            };
+            public static Avatar Lord_5 = new Avatar
+            {
+                Nome = "Lord_5", //GamePass
+                Costo = 400, // USDT
+            };
+            public static Avatar Lord_6 = new Avatar
+            {
+                Nome = "Lord_6", //GamePass
+                Costo = 400, // USDT
+            };
+            public static Avatar Lord_7 = new Avatar
+            {
+                Nome = "Lord_7", //GamePass
+                Costo = 400, // USDT
+            };
+
+            public static Avatar Lady_1 = new Avatar
+            {
+                Nome = "Lady_1", //GamePass
+                Costo = 0, // USDT
+            };
+            public static Avatar Lady_2 = new Avatar
+            {
+                Nome = "Lady_2", //GamePass
+                Costo = 400, // USDT
+            };
+            public static Avatar Lady_3 = new Avatar
+            {
+                Nome = "Lady_3", //GamePass
+                Costo = 400, // USDT
+            };
+            public static Avatar Lady_4 = new Avatar
+            {
+                Nome = "Lady_4", //GamePass
+                Costo = 400, // USDT
+            };
+            public static Avatar Lady_5 = new Avatar
+            {
+                Nome = "Lady_5", //GamePass
+                Costo = 400, // USDT
+            };
+            public static Avatar Lady_6 = new Avatar
+            {
+                Nome = "Lady_6", //GamePass
+                Costo = 400, // USDT
+            };
         }
         public class Shop
         {

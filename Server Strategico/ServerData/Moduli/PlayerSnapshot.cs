@@ -28,6 +28,8 @@ namespace Server_Strategico.ServerData.Moduli
         {
             livello,
             esperienza,
+            avatar,
+            avatar_Sbloccati,
             vip,
             vip_Tempo,
             Scudo_Tempo,
@@ -527,6 +529,9 @@ namespace Server_Strategico.ServerData.Moduli
             // ← Aggiorna i valori nel dizionario esistente invece di crearne uno nuovo
             _currentState[(int)Field.livello] = player.Livello.ToString();
             _currentState[(int)Field.esperienza] = player.Esperienza.ToString();
+            _currentState[(int)Field.avatar] = player.Avatar ?? "";
+            _currentState[(int)Field.avatar_Sbloccati] = string.Join(",", player.Avatar_Sbloccati.Where(a => !string.IsNullOrEmpty(a)));
+
             _currentState[(int)Field.vip] = player.Vip.ToString();
             _currentState[(int)Field.vip_Tempo] = player.FormatTime(player.Vip_Tempo);
             _currentState[(int)Field.Scudo_Tempo] = player.FormatTime(player.ScudoDellaPace);

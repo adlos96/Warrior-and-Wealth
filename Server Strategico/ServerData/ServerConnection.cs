@@ -154,7 +154,13 @@ namespace Server_Strategico.Server
 
                         Lingua(player, lang);
 
+                        //Avatar
+                        player.Avatar_Sbloccati = new string[] { "Lord_3", "Lady_1", "", "", "", "", "", "", "", "" };
+
                         Descrizioni.DescUpdate(player);
+                        Descrizioni.DescLabelUpdate(player);
+                        Descrizioni.DescTestoUpdate(player);
+
                         QuestManager.QuestUpdate(player);
                         QuestManager.QuestRewardUpdate(player);
                         AggiornaVillaggiClient(player);
@@ -192,6 +198,9 @@ namespace Server_Strategico.Server
                         Lingua(player, lang);
 
                         Descrizioni.DescUpdate(player);
+                        Descrizioni.DescLabelUpdate(player);
+                        Descrizioni.DescTestoUpdate(player);
+
                         QuestManager.QuestUpdate(player);
                         QuestManager.QuestRewardUpdate(player);
                         AggiornaVillaggiClient(player);
@@ -289,6 +298,9 @@ namespace Server_Strategico.Server
                     Lingua(player, lang_A);
 
                     Descrizioni.DescUpdate(player);
+                    Descrizioni.DescLabelUpdate(player);
+                    Descrizioni.DescTestoUpdate(player);
+
                     QuestManager.QuestUpdate(player);
                     QuestManager.QuestRewardUpdate(player);
                     AggiornaVillaggiClient(player);
@@ -403,11 +415,89 @@ namespace Server_Strategico.Server
                 case "GamePass DailyReward":
                     GamePass_Premi(player);
                     break;
-                
+                case "Acquista Avatar":
+                    Acquista_Avatar(player, msgArgs);
+                    break;
+                case "Seleziona Avatar":
+                    Seleziona_Avatar(player, msgArgs);
+                    break;
+
 
                 default: Console.WriteLine($"Messaggio: [{msgArgs}]"); break;
             }
            
+        }
+        static int Avatar(Player player, string avatar)
+        {
+            int prezzo = -1;
+            if (avatar == "Lord_1") prezzo = Variabili_Server.Avatar.Lord_1.Costo;
+            else if (avatar == "Lord_2") prezzo = Variabili_Server.Avatar.Lord_2.Costo;
+            else if (avatar == "Lord_3") prezzo = Variabili_Server.Avatar.Lord_3.Costo;
+            else if (avatar == "Lord_4") prezzo = Variabili_Server.Avatar.Lord_4.Costo;
+            else if (avatar == "Lord_5") prezzo = Variabili_Server.Avatar.Lord_5.Costo;
+            else if (avatar == "Lord_6") prezzo = Variabili_Server.Avatar.Lord_6.Costo;
+            else if (avatar == "Lord_7") prezzo = Variabili_Server.Avatar.Lord_7.Costo;
+            else if (avatar == "Lady_1") prezzo = Variabili_Server.Avatar.Lady_1.Costo;
+            else if (avatar == "Lady_2") prezzo = Variabili_Server.Avatar.Lady_2.Costo;
+            else if (avatar == "Lady_3") prezzo = Variabili_Server.Avatar.Lady_3.Costo;
+            else if (avatar == "Lady_4") prezzo = Variabili_Server.Avatar.Lady_4.Costo;
+            else if (avatar == "Lady_5") prezzo = Variabili_Server.Avatar.Lady_5.Costo;
+            else if (avatar == "Lady_6") prezzo = Variabili_Server.Avatar.Lady_6.Costo;
+            else Server.Send(player.guid_Player, $"Server_Log|Avatar non trovato");
+            return prezzo;
+        }
+        static void Acquista_Avatar(Player player, string[] msgArgs)
+        {
+            int prezzo = -1;
+            string avatar = msgArgs[3];
+
+            if (player.Avatar_Sbloccati.Contains(avatar))
+            {
+                Server.Send(player.guid_Player, $"Server_Log|Avatar già sbloccato");
+                return;
+            }
+            prezzo = Avatar(player, avatar);
+            if (prezzo == -1)
+            {
+                Server.Send(player.guid_Player, $"Server_Log|Avatar non trovato");
+                return;
+            }
+
+
+            if (player.Diamanti_Viola >= prezzo)
+            {
+                player.Diamanti_Viola -= prezzo;
+                player.Avatar_Sbloccati = player.Avatar_Sbloccati.Append(avatar).ToArray();
+                Server.Send(player.guid_Player, $"Server_Log|Avatar acquistato con successo");
+                Server.Send(player.guid_Player, $"Update_Data|avatar_Sbloccati={string.Join(",", player.Avatar_Sbloccati.Where(a => !string.IsNullOrEmpty(a)))}");
+            }
+            else
+            {
+                Server.Send(player.guid_Player, $"Server_Log|Diamanti viola insufficienti");
+            }
+        }
+        async static void Seleziona_Avatar(Player player, string[] msgArgs)
+        {
+            string avatar = msgArgs[3];
+            int prezzo = -1;
+
+            prezzo = Avatar(player, avatar);
+
+            if (prezzo == -1)
+            {
+                Server.Send(player.guid_Player, $"Log_Server|Avatar non trovato");
+                return;
+            }
+
+            // Gratuito (prezzo 0) oppure già acquistato: selezionabile subito.
+            if (prezzo > 0 && !player.Avatar_Sbloccati.Contains(avatar))
+            {
+                Server.Send(player.guid_Player, $"Log_Server|Avatar bloccato");
+                return;
+            }
+
+            player.Avatar = avatar;
+            Server.Send(player.guid_Player, $"Update_Data|avatar={player.Avatar}");
         }
         async static void Accesso_Giornaliero(Player player)
         {
@@ -1465,6 +1555,36 @@ namespace Server_Strategico.Server
             $"Feudi_Raro_Rarita={Variabili_Server.Terreni_Virtuali.Raro.Rarita}|" +
             $"Feudi_Epico_Rarita={Variabili_Server.Terreni_Virtuali.Epico.Rarita}|" +
             $"Feudi_Leggendario_Rarita={Variabili_Server.Terreni_Virtuali.Leggendario.Rarita}";
+
+            Server.Send(player.guid_Player, $"Update_Data|" +
+            $"Avatar_Costo_Lord_1={Variabili_Server.Avatar.Lord_1.Costo}|" +
+            $"Avatar_Costo_Lord_2={Variabili_Server.Avatar.Lord_2.Costo}|" +
+            $"Avatar_Costo_Lord_3={Variabili_Server.Avatar.Lord_3.Costo}|" +
+            $"Avatar_Costo_Lord_4={Variabili_Server.Avatar.Lord_4.Costo}|" +
+            $"Avatar_Costo_Lord_5={Variabili_Server.Avatar.Lord_5.Costo}|" +
+            $"Avatar_Costo_Lord_6={Variabili_Server.Avatar.Lord_6.Costo}|" +
+            $"Avatar_Costo_Lord_7={Variabili_Server.Avatar.Lord_7.Costo}|" +
+            $"Avatar_Costo_Lady_1={Variabili_Server.Avatar.Lady_1.Costo}|" +
+            $"Avatar_Costo_Lady_2={Variabili_Server.Avatar.Lady_2.Costo}|" +
+            $"Avatar_Costo_Lady_3={Variabili_Server.Avatar.Lady_3.Costo}|" +
+            $"Avatar_Costo_Lady_4={Variabili_Server.Avatar.Lady_4.Costo}|" +
+            $"Avatar_Costo_Lady_5={Variabili_Server.Avatar.Lady_5.Costo}|" +
+            $"Avatar_Costo_Lady_6={Variabili_Server.Avatar.Lady_6.Costo}|");
+
+            Server.Send(player.guid_Player, $"Update_Data|" +
+            $"Avatar_Nome_Lord_1={Variabili_Server.Avatar.Lord_1.Nome}|" +
+            $"Avatar_Nome_Lord_2={Variabili_Server.Avatar.Lord_2.Nome}|" +
+            $"Avatar_Nome_Lord_3={Variabili_Server.Avatar.Lord_3.Nome}|" +
+            $"Avatar_Nome_Lord_4={Variabili_Server.Avatar.Lord_4.Nome}|" +
+            $"Avatar_Nome_Lord_5={Variabili_Server.Avatar.Lord_5.Nome}|" +
+            $"Avatar_Nome_Lord_6={Variabili_Server.Avatar.Lord_6.Nome}|" +
+            $"Avatar_Nome_Lord_7={Variabili_Server.Avatar.Lord_7.Nome}|" +
+            $"Avatar_Nome_Lady_1={Variabili_Server.Avatar.Lady_1.Nome}|" +
+            $"Avatar_Nome_Lady_2={Variabili_Server.Avatar.Lady_2.Nome}|" +
+            $"Avatar_Nome_Lady_3={Variabili_Server.Avatar.Lady_3.Nome}|" +
+            $"Avatar_Nome_Lady_4={Variabili_Server.Avatar.Lady_4.Nome}|" +
+            $"Avatar_Nome_Lady_5={Variabili_Server.Avatar.Lady_5.Nome}|" +
+            $"Avatar_Nome_Lady_6={Variabili_Server.Avatar.Lady_6.Nome}");
 
             Server.Send(guid, data);
 

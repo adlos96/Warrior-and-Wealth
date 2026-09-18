@@ -789,7 +789,7 @@ namespace Server_Strategico.Server
                         // -- V2 --
                         BuildingManagerV2.CompleteBuilds(player.guid_Player, player);
                         UnitManagerV2.CompleteRecruitment(player.guid_Player, player);
-                        if (tempo_1 >= 4)
+                        if (tempo_1 >= 2)
                         {
                             if (start)
                             {
@@ -933,7 +933,7 @@ namespace Server_Strategico.Server
                                 }
                         }
                     }
-                    if (tempo_1 >= 4)
+                    if (tempo_1 >= 2)
                     {
                         await Auto_Update_Clients();
                         tempo_1 = 0;
@@ -945,7 +945,7 @@ namespace Server_Strategico.Server
                     savePlayer++;
                     riparazioni++;
 
-                    await Task.Delay(250); // Ciclo ogni secondo, o regola il ritardo come necessario
+                    await Task.Delay(500); // Ciclo ogni secondo, o regola il ritardo come necessario
                 }
             }
             public static void Ripara(Player player)

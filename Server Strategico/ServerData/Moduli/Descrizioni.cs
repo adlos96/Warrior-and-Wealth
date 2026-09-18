@@ -1190,11 +1190,8 @@ namespace Server_Strategico.ServerData.Moduli
                 $"{L.Label_Oro()}: [icon:oro]{Ricerca.Citta.Castello_Difesa.Oro * (player.Ricerca_Castello_Difesa + 1):#,0}\n" +
                 $"{L.Label_Ricerca()}: [icon:tempo]{player.FormatTime(Ricerca.Citta.Castello_Difesa.TempoRicerca * (player.Ricerca_Castello_Difesa + 1))}\n" +
                 $"{L.Label_Difesa()}: +{Strutture.Edifici.Castello.Difesa}");
-
-            LabelUpdate(player);
-            TestoUpdate(player);
         }
-        public static async void LabelUpdate(Giocatori.Player player)
+        public static async void DescLabelUpdate(Giocatori.Player player)
         {
             var L = LocalizationManager.Get(player); // unica riga aggiunta
             Send(player.guid_Player, $"Descrizione|Label Costruzione|{L.Label_Costruzione()}");
@@ -1234,10 +1231,12 @@ namespace Server_Strategico.ServerData.Moduli
             Send(player.guid_Player, $"Descrizione|Label Caserma Arceri|{L.Label_CasermaArceri()}");
             Send(player.guid_Player, $"Descrizione|Label Caserma Catapulte|{L.Label_CasermaCatapulte()}");
 
+
             Send(player.guid_Player, $"Descrizione|Label Guerrieri|{L.Label_Guerrieri()}");
             Send(player.guid_Player, $"Descrizione|Label Lanceri|{L.Label_Lancieri()}");
             Send(player.guid_Player, $"Descrizione|Label Arceri|{L.Label_Arcieri()}");
             Send(player.guid_Player, $"Descrizione|Label Catapulte|{L.Label_Catapulte()}");
+
 
             Send(player.guid_Player, $"Descrizione|Label Livello|{L.Label_Livello()}");
             Send(player.guid_Player, $"Descrizione|Label Salute|{L.Label_Salute()}");
@@ -1300,7 +1299,7 @@ namespace Server_Strategico.ServerData.Moduli
             Send(player.guid_Player, $"Descrizione|Label Password-Lost|{L.Label_PasswordLos()}");
 
         }
-        public static async void TestoUpdate(Giocatori.Player player)
+        public static async void DescTestoUpdate(Giocatori.Player player)
         {
             var L = LocalizationManager.Get(player); // unica riga aggiunta
             Send(player.guid_Player, $"Descrizione|Feudi Info|{L.Desc_Feudi_Testo()}");

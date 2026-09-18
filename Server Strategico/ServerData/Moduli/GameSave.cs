@@ -124,6 +124,8 @@ namespace Server_Strategico.ServerData.Moduli
                     Username = player.Username,
                     Password = player.Password,
                     Email = player.Email,
+                    Avatar = player.Avatar,
+                    Avatar_Sbloccati = player.Avatar_Sbloccati,
                     conferma_Codice_Email = player.conferma_Codice_Email,
                     guid_Player = player.guid_Player,
                     ScudoDellaPace = player.ScudoDellaPace,
@@ -534,6 +536,8 @@ namespace Server_Strategico.ServerData.Moduli
                     player.Username = playerData.Username;
                     player.Password = playerData.Password;
                     player.Email = playerData.Email;
+                    player.Avatar = playerData.Avatar;
+                    player.Avatar_Sbloccati = playerData.Avatar_Sbloccati;
                     player.conferma_Codice_Email = playerData.conferma_Codice_Email;
                     player.Livello = playerData.Livello;
                     player.Esperienza = playerData.Esperienza;
@@ -1256,6 +1260,8 @@ namespace Server_Strategico.ServerData.Moduli
             public string Email { get; set; }
             public string Username { get; set; }
             public string Password { get; set; }
+            public string Avatar { get; set; }
+            public string[] Avatar_Sbloccati { get; set; } = new string[10];
             public bool conferma_Codice_Email { get; set; }
             public Guid guid_Player { get; set; }
 
