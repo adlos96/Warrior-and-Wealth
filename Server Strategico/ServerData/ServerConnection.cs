@@ -1507,6 +1507,7 @@ namespace Server_Strategico.Server
             string data =
             "Update_Data|" +
             $"D_Viola_D_Blu={Variabili_Server.D_Viola_To_Blu}|" +
+            $"ID_Giocatore={player.ID}|" +
             $"Tributi_D_Viola={Variabili_Server.Tributi_To_D_Viola}|" +
             $"Tempo_D_Blu={Variabili_Server.Velocizzazione_Tempo}|" +
 

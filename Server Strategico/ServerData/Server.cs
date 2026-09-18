@@ -190,7 +190,8 @@ namespace Server_Strategico.Server
                 }
             }
         }
-        async static Task<Player> PlayerID(int id)
+        
+        public async static Task<Player> PlayerID(int id)
         {
             Player player = null;
             foreach (var giocatori in Server.servers_.players.Values)
