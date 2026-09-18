@@ -606,69 +606,69 @@ namespace Server_Strategico.ServerData.Localization
 
         // ── Descrizioni narrative: strutture civili ────────────────────────────
         public string Desc_Fattoria() =>
-            "La fattoria è la struttura principale per la produzione di [icon:cibo]Cibo, fondamentale per la costruzione di edifici militari e civili, " +
+            "[title]La fattoria è la struttura principale per la produzione di [icon:cibo][info]Cibo[title], fondamentale per la costruzione di edifici militari e civili, " +
             "l'addestramento delle unità militari ed il loro mantenimento. Indispensabile per la ricerca tecnologica e di componenti militari";
 
         public string Desc_Segheria() =>
-            "La Segheria è la struttura principale per la produzione di [icon:legno]Legna, fondamentale per la costruzione di strutture militari, civili e " +
+            "[title]La Segheria è la struttura principale per la produzione di [icon:legno][info]Legna[title], fondamentale per la costruzione di strutture militari, civili e " +
             "l'addestramento delle unità militari. Indispensabile per la ricerca tecnologica e di componenti militari";
 
         public string Desc_CavaPietra() =>
-            "La cava di pietra è la struttura principale per la produzione di [icon:pietra]Pietra, fondamentale per la costruzione di strutture militari, civili e " +
+            "[title]La cava di pietra è la struttura principale per la produzione di [icon:pietra][info]Pietra[title], fondamentale per la costruzione di strutture militari, civili e " +
             "l'addestramento delle unità militari. Indispensabile per la ricerca tecnologica e di componenti militari";
 
         public string Desc_MinieraFerro() =>
-            "La Miniera di ferro è la struttura principale per la produzione di [icon:ferro]Ferro, fondamentale per la costruzione di strutture militari, civili e " +
+            "[title]La Miniera di ferro è la struttura principale per la produzione di [icon:ferro][info]Ferro[title], fondamentale per la costruzione di strutture militari, civili e " +
             "l'addestramento delle unità militari. Indispensabile per la ricerca tecnologica e di componenti militari";
 
         public string Desc_MinieraOro() =>
-            "La miniera d'oro è la struttura principale per la produzione di [icon:oro]oro, fondamentale per la costruzione di strutture militari, civili e " +
+            "[title]La miniera d'oro è la struttura principale per la produzione di [icon:oro][info]oro[title], fondamentale per la costruzione di strutture militari, civili e " +
             "l'addestramento delle unità militari. Indispensabile per la ricerca tecnologica e di componenti militari";
 
         public string Desc_Case() =>
-            "Le Abitazioni sono necessarie per attirare sempre più [icon:popolazione]cittadini, verso il vostro villaggio, " +
+            "[title]Le Abitazioni sono necessarie per attirare sempre più [icon:popolazione][info]cittadini[title], verso il vostro villaggio, " +
             "sono fondamentali per la costruzione di strutture militari e civili, oltre che per addestrare le unità militari";
 
         // ── Descrizioni narrative: workshop ────────────────────────────────────
         public string Desc_ProduzioneSpade() =>
-            "Workshop Spade questa struttura produce equipaggiamento militare specifico, " +
-            "essenziali per l'addestramento di unità militari, questa struttura produce [icon:spade]Spade";
+            "[title]Workshop Spade questa struttura produce equipaggiamento militare specifico, " +
+            "essenziali per l'addestramento di unità militari, questa struttura produce [icon:spade][info]Spade";
 
         public string Desc_ProduzioneLance() =>
-            "Workshop Lancie questa struttura produce equipaggiamento militare specifico, " +
-            "essenziali per l'addestramento di unità militari, questa struttura produce [icon:lance]Lancie";
+            "[title]Workshop Lancie questa struttura produce equipaggiamento militare specifico, " +
+            "essenziali per l'addestramento di unità militari, questa struttura produce [icon:lance][info]Lancie";
 
         public string Desc_ProduzioneArchi() =>
-            "Workshop Archi questa struttura produce equipaggiamento militare specifico, " +
-            "essenziali per l'addestramento di unità militari, questa struttura produce [icon:archi]Archi";
+            "[title]Workshop Archi questa struttura produce equipaggiamento militare specifico, " +
+            "essenziali per l'addestramento di unità militari, questa struttura produce [icon:archi][info]Archi";
 
         public string Desc_ProduzioneScudi() =>
-            "Workshop Scudi questa struttura produce equipaggiamento militare specifico, " +
-            "essenziali per l'addestramento di unità militari, questa struttura produce [icon:scudi]Scudi";
+            "[title]Workshop Scudi questa struttura produce equipaggiamento militare specifico, " +
+            "essenziali per l'addestramento di unità militari, questa struttura produce [icon:scudi][info]Scudi";
 
         public string Desc_ProduzioneArmature() =>
-            "Workshop Armature questa struttura produce equipaggiamento militare specifico, " +
-            "essenziali per l'addestramento di unità militari, questa struttura produce [icon:armature]Armature";
+            "[title]Workshop Armature questa struttura produce equipaggiamento militare specifico, " +
+            "essenziali per l'addestramento di unità militari, questa struttura produce [icon:armature][info]Armature";
 
         public string Desc_ProduzioneFrecce() =>
-            "Workshop Frecce questa struttura produce equipaggiamento militare specifico, " +
-            "essenziali per l'addestramento di unità militari, questa struttura produce [icon:frecce]Frecce";
+            "[title]Workshop Frecce questa struttura produce equipaggiamento militare specifico, " +
+            "essenziali per l'addestramento di unità militari, questa struttura produce [icon:frecce][info]Frecce";
 
         // ── Descrizioni narrative: caserme ─────────────────────────────────────
         public string Desc_CasermaGuerrieri() =>
-            "Caserma guerrieri questa struttura militare di fondamentale presenza per ogni villaggio, permette l'addestramento ed il mantenimento di unità militari specifiche.\n\n" +
+            "[title]Caserma guerrieri questa struttura militare di fondamentale presenza per ogni villaggio, permette l'addestramento ed il mantenimento di unità militari come i [info]guerrieri[title].\n\n" +
             "Ogni caserma è attrezzata per ospitare un certo numero di uomini, raccomandati di averne un numero sufficiente";
 
         public string Desc_CasermaLanceri() =>
-            "Caserma lancieri questa struttura militare di fondamentale presenza per ogni villaggio, permette l'addestramento ed il mantenimento di unità militari specifiche.\n\n" +
+            "[title]Caserma lancieri questa struttura militare di fondamentale presenza per ogni villaggio, permette l'addestramento ed il mantenimento di unità militari come i [info]lancieri[title].\n\n" +
             "Ogni caserma è attrezzata per ospitare un certo numero di uomini, raccomandati di averne un numero sufficiente";
 
         public string Desc_CasermaArceri() =>
-            "Caserma arcieri questa struttura militare di fondamentale presenza per ogni villaggio permette l'addestramento ed il mantenimento di unità militari specifiche.\n\n" +
+            "[title]Caserma arcieri questa struttura militare di fondamentale presenza per ogni villaggio permette l'addestramento ed il mantenimento di unità militari come gli [info]arceri[title].\n\n" +
             "Ogni caserma è attrezzata per ospitare un certo numero di uomini, raccomandati di averne un numero sufficiente";
 
         public string Desc_CasermaCatapulte() =>
-            "Caserma catapulte questa struttura militare di fondamentale presenza per ogni villaggio, permette l'addestramento ed il mantenimento di unità militari specifiche.\n\n" +
+            "[title]Caserma catapulte questa struttura militare di fondamentale presenza per ogni villaggio, permette l'addestramento ed il mantenimento di unità militari come le [info]catapulte[title].\n\n" +
             "Ogni caserma è attrezzata per ospitare un certo numero di uomini, raccomandati di averne un numero sufficiente";
 
         // ── Descrizioni narrative: guerrieri ───────────────────────────────────
