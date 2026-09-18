@@ -5,20 +5,10 @@ namespace Server_Strategico.ServerData.Moduli
 {
     public class Admin
     {
-        public static bool adminStart = true;
-        public static void AvviaConsoleAdmin(string userInput)
+        public static bool adminStart = false;
+        public async static void AvviaConsoleAdmin(string userInput)
         {
-            Task.Run(async () =>
-            {
-                while (adminStart)
-                {
-                    string input = Console.ReadLine() ?? string.Empty;
-                    if (input == "adminstart" || input == "") 
-                        Console.WriteLine($"scrivi /comandi per la lista");
-                    if (string.IsNullOrWhiteSpace(input) || userInput == "adminstop") continue;
-                    await ProcessaComando(input);
-                }
-            });
+            await ProcessaComando(userInput);
         }
         public static double GetRisorsa(Giocatori.Player player, string risorsa)
         {

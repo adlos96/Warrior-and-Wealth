@@ -109,7 +109,12 @@ namespace Server_Strategico.Server
             while (true)
             {
                 Console.WriteLine("");
-                Console.WriteLine("Info Comandi: \"?\"");
+                if (Admin.adminStart == true)
+                {
+                    Console.WriteLine("Info Comandi: \"?\"");
+                    Console.WriteLine($"/comandi per la lista");
+                }else Console.WriteLine("Info Comandi: \"?\"");
+
                 var userInput = string.Empty;
                 try
                 {
@@ -122,6 +127,10 @@ namespace Server_Strategico.Server
                         Console.WriteLine($"[SERVER|LOG] (Errore) > Console non più leggibile, comandi da tastiera disabilitati: {ex.Message}");
                         avviso = true;
                     }
+                }
+                if (userInput.Contains("/") && Admin.adminStart == true)
+                {
+                    Admin.AvviaConsoleAdmin(userInput);
                 }
 
                 switch (userInput)
@@ -184,11 +193,9 @@ namespace Server_Strategico.Server
                         break;
                     case "adminstart":
                         Admin.adminStart = true;
-                        Admin.AvviaConsoleAdmin(userInput);
                         break;
                     case "adminstop":
                         Admin.adminStart = false;
-                        Admin.AvviaConsoleAdmin(userInput);
                         break;
                     case "TEST":
                         Cibo();
