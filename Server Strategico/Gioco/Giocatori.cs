@@ -10,9 +10,11 @@ namespace Server_Strategico.Gioco
         {
             #region Variabili giocatore
             // Giocatori
+            public int ID { get; set; }
             public string Email { get; set; }
             public string Username { get; set; }
             public string Password { get; set; }
+            public string Wallet { get; set; }
             public string Lingua { get; set; }
             public string Avatar { get; set; }
             public string[] Avatar_Sbloccati { get; set; } = new string[15];
@@ -390,9 +392,11 @@ namespace Server_Strategico.Gioco
                 Diamanti_Blu_PVP_Persi = 0;
 
                 //Dati Giocatore
+                ID = 0;
                 Email = email;
                 Username = username;
                 Password = password;
+                Wallet = "";
                 guid_Player = guid_Client;
                 Lingua = "it";
                 Avatar = "";

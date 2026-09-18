@@ -112,7 +112,7 @@ namespace Server_Strategico.Server
                 Console.WriteLine("[Errore|ServerConnection] >> needed 1 args");
                 return;
             }
-            var dati = Server.servers_.players;
+            var Giocatori = Server.servers_.players;
             if (player == null) player = Server.servers_.GetPlayer(user, password);
             
             switch (msgArgs[0])
@@ -141,12 +141,27 @@ namespace Server_Strategico.Server
                             Console.WriteLine("[NewPlayer] Player risulta null");
                             return;
                         }
+                        //ID random.
+                        bool exit = true;
+                        int i = 0;
+                        int ID = new Random().Next(1, 9999999);
+
+                        while (exit)
+                        {
+                            foreach (var giocatore in Giocatori.Values)
+                                if (giocatore.ID == ID) i++;
+                            if (i == 0) exit = false;
+                            else ID = new Random().Next(1, 9999999);
+                        }
+
                         // Pulisce eventuali refresh token residui di sessioni precedenti
                         TokenManager.RevokeAllRefreshTokensForUser(email);
 
                         // Genero i token qui, subito dopo l'auth con username/password
                         string accessToken = TokenManager.GenerateAccessToken(email, user, TimeSpan.FromHours(8));
                         string refreshToken = TokenManager.GenerateRefreshToken(email, user, TimeSpan.FromDays(10));
+
+
                         Server.Send(clientGuid, $"Login|true|{accessToken}|{refreshToken}");
 
                         Server.Client_Connessi_Map.TryRemove(clientGuid, out _);

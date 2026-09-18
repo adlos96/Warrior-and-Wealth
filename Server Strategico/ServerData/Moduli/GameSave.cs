@@ -130,6 +130,7 @@ namespace Server_Strategico.ServerData.Moduli
                     GamePass_Accessi_Consecutivi = player.GamePass_Accessi_Consecutivi,
 
                     //Dati Giocatore
+                    ID = player.ID,
                     Username = player.Username,
                     Password = player.Password,
                     Email = player.Email,
@@ -542,6 +543,7 @@ namespace Server_Strategico.ServerData.Moduli
                     player.Diamanti_Viola_PVP_Persi = playerData.Diamanti_Viola_PVP_Persi;
                     player.Diamanti_Blu_PVP_Persi = playerData.Diamanti_Blu_PVP_Persi;
 
+                    player.ID = playerData.ID;
                     player.Username = playerData.Username;
                     player.Password = playerData.Password;
                     player.Email = playerData.Email;
@@ -1266,6 +1268,7 @@ namespace Server_Strategico.ServerData.Moduli
 
             #region Variabili giocatore
             // Giocatori
+            public int ID { get; set; }
             public string Email { get; set; }
             public string Username { get; set; }
             public string Password { get; set; }
