@@ -10,6 +10,10 @@ using static Server_Strategico.Gioco.Giocatori;
 
 namespace Server_Strategico.Server
 {
+    using System;
+    using System.Collections.Generic;
+
+    
     internal class Server
     {
         public static List<Guid> Client_Connessi = new List<Guid>(); // va rimossa, è pericolosa con il multithread
@@ -139,13 +143,12 @@ namespace Server_Strategico.Server
                         Console.WriteLine("");
                         Console.WriteLine("                         *** Command ***");
                         Console.WriteLine("----------------------------------------------------------------------");
-                        Console.WriteLine("Comando vuoto:                 [player]");                      // 
-                        Console.WriteLine("Comando vuoto:                 [client]");                      // 
-                        Console.WriteLine("Comando vuoto:                 [battaglia]");                      // 
-                        Console.WriteLine("Comando vuoto:                 [spionaggio]");                      // 
-                        Console.WriteLine("Comando vuoto:                 [disconnetti]");                      //
-                        Console.WriteLine("Comando vuoto:                 [adminstart]");                      //
-                        Console.WriteLine("Comando vuoto:                 [adminstop]");                      //
+                        Console.WriteLine("Comando vuoto:                       [player]");                      // 
+                        Console.WriteLine("Comando vuoto:                       [client]");                      // 
+                        Console.WriteLine("Comando vuoto:                       [battaglia]");                      // 
+                        Console.WriteLine("Comando vuoto:                       [spionaggio]");                      // 
+                        Console.WriteLine("Abilita i comandi admin con '/':     [adminstart]");                      //
+                        Console.WriteLine("Comando vuoto:                       [adminstop]");                      //
 
                         Console.WriteLine(" --------------------- Web Client (WebSocket) ---------------------");                      //
                         Console.WriteLine("Comando vuoto:                 [webstart]  (avvia il gateway WebSocket per il client web)");
@@ -169,11 +172,6 @@ namespace Server_Strategico.Server
                     case "spionaggio":
                         Spionaggio.EseguiSpionaggioTEST();
                         break;
-                    case "disconnetti":
-                        Console.Write("Username del giocatore da disconnettere: ");
-                        string usernameTarget = Console.ReadLine() ?? string.Empty;
-                        _ = DisconnettiGiocatore(usernameTarget); // fire-and-forget, dato che siamo in un metodo sync
-                        break;
                     case "webstart":
                         try { WebSocketGateway.Start(Variabili_Server.WebGatewayPort); }
                         catch (Exception ex) { Console.WriteLine($"[Server] Errore avvio WebSocketGateway: {ex.Message}"); }
@@ -196,8 +194,6 @@ namespace Server_Strategico.Server
                         break;
                     case "adminstop":
                         Admin.adminStart = false;
-                        break;
-                    case "":
                         break;
 
                     default: Console.WriteLine("[Server] >> Comando sconosciuto"); break;
