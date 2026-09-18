@@ -15,7 +15,7 @@ namespace Server_Strategico.Gioco
             public string Password { get; set; }
             public string Lingua { get; set; }
             public string Avatar { get; set; }
-            public string[] Avatar_Sbloccati { get; set; } = new string[10];
+            public string[] Avatar_Sbloccati { get; set; } = new string[15];
             public Guid guid_Player { get; set; }
             public bool conferma_Codice_Email { get; set; }
             public bool Tutorial { get; set; }
@@ -396,7 +396,7 @@ namespace Server_Strategico.Gioco
                 guid_Player = guid_Client;
                 Lingua = "it";
                 Avatar = "";
-                Avatar_Sbloccati = new string[10];
+                Avatar_Sbloccati = new string[15];
                 ScudoDellaPace = 0;
                 Costruttori = 0;
                 Reclutatori = 0;

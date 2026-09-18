@@ -1261,7 +1261,7 @@ namespace Server_Strategico.ServerData.Moduli
             public string Username { get; set; }
             public string Password { get; set; }
             public string Avatar { get; set; }
-            public string[] Avatar_Sbloccati { get; set; } = new string[10];
+            public string[] Avatar_Sbloccati { get; set; } = new string[15];
             public bool conferma_Codice_Email { get; set; }
             public Guid guid_Player { get; set; }
 
