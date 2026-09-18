@@ -537,28 +537,6 @@ namespace Server_Strategico.ServerData.Moduli
 
                 var player = Server.Server.servers_.GetPlayer(username, password);
 
-                ///Temp 
-                //ID random.
-                bool exit = true;
-                int c = 0;
-                int ID = new Random().Next(1, 9999999);
-                
-                bool uguale = false;
-                
-                if (playerData.ID == ID)
-                    uguale = true;
-                
-                if (uguale) ID = new Random().Next(1, 9999999);
-                
-                if (playerData.ID == 0)
-                {
-                    playerData.ID = ID;
-                    ID = new Random().Next(1, 9999999);
-                }
-                //Console.WriteLine("Giocatore Convertito: " + playerData.Username);
-                //playerData.ID = 0;
-
-
                 if (player != null) // Aggiorna il giocatore esistente con i dati salvati
                 {
                     player.Tutorial = playerData.Tutorial;

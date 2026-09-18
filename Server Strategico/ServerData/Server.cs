@@ -135,6 +135,8 @@ namespace Server_Strategico.Server
                         Console.WriteLine("Comando vuoto:                 [battaglia]");                      // 
                         Console.WriteLine("Comando vuoto:                 [spionaggio]");                      // 
                         Console.WriteLine("Comando vuoto:                 [disconnetti]");                      //
+                        Console.WriteLine("Comando vuoto:                 [adminstart]");                      //
+                        Console.WriteLine("Comando vuoto:                 [adminstop]");                      //
 
                         Console.WriteLine(" --------------------- Web Client (WebSocket) ---------------------");                      //
                         Console.WriteLine("Comando vuoto:                 [webstart]  (avvia il gateway WebSocket per il client web)");
@@ -179,6 +181,14 @@ namespace Server_Strategico.Server
                         min_Stats = 0;
                         max_Stats = 0;
                         numero_Stats = 0;
+                        break;
+                    case "adminstart":
+                        Admin.adminStart = true;
+                        Admin.AvviaConsoleAdmin(userInput);
+                        break;
+                    case "adminstop":
+                        Admin.adminStart = false;
+                        Admin.AvviaConsoleAdmin(userInput);
                         break;
                     case "TEST":
                         Cibo();
