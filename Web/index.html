@@ -46,11 +46,11 @@
           <input type="password" name="password" autocomplete="current-password" required>
         </label>
 
-        <!-- "Ricordami": se selezionato, salva le credenziali in locale
-             e la prossima volta che si apre la pagina esegue l'accesso
-             in automatico (vedi checkAutoLogin() in app.js). Puramente
-             lato client per ora: quando ci sarà il server vero andrà
-             sostituito con un vero token di sessione. -->
+        <!-- "Ricordami": se selezionato, salva lo username in locale
+             (ww_remember_user) e la prossima volta che si apre la pagina
+             esegue l'accesso in automatico (vedi AUTH.onSocketOpen in
+             js/02-auth.js, che manda "AutoLogin" non appena il WebSocket
+             è aperto) invece di passare dal form. -->
         <label class="field field--checkbox">
           <input type="checkbox" id="chk-remember" name="remember">
           <span data-i18n="remember">Ricordami (accesso automatico)</span>
@@ -202,7 +202,7 @@
               <h2 class="panel__title" id="feudi-title">Feudi</h2>
               <button type="button" class="research-info-btn" id="btn-feudi-info" title="Informazioni sui Feudi" aria-label="Informazioni sui Feudi"><img src="assets/info.png" alt=""></button>
             </div>
-            <ul class="feudi-list" id="feudi-list"><!-- popolata da app.js --></ul>
+            <ul class="feudi-list" id="feudi-list"><!-- popolata da 04-game-main.js (renderFeudi) --></ul>
             <div class="feudi-actions">
               <button class="btn btn--gold" id="btn-acquista-feudo"><span data-i18n="acquista">Acquista</span> <img class="icon-inline" src="assets/DiamanteViola_V2.png" alt=""><span data-value="costo-feudo">…</span></button>
             </div>
@@ -274,14 +274,14 @@
             </div>
 
             <p class="panel__hint"><span data-i18n="costruttori">Costruttori:</span> <strong data-value="code-costruzioni">…</strong></p>
-            <!-- Visibile solo se c'è davvero qualcosa in coda (vedi app.js,
-                 renderVarie): niente "Tempo rimanente: 0h 0m 0s" quando non
-                 si sta costruendo nulla. -->
+            <!-- Visibile solo se c'è davvero qualcosa in coda (vedi
+                 renderVarie() in js/04-game-main.js): niente "Tempo
+                 rimanente: 0h 0m 0s" quando non si sta costruendo nulla. -->
             <p class="panel__hint" data-tempo-costruzione-row hidden><span data-i18n="tempoRimanente">Tempo rimanente:</span> <strong data-value="tempo-costruzione">…</strong></p>
 
-            <ul class="building-list" id="civili-list" data-strutture-list="civili"><!-- popolata da app.js --></ul>
-            <ul class="building-list" id="militari-list" data-strutture-list="militari" hidden><!-- popolata da app.js --></ul>
-            <ul class="building-list" id="caserme-list" data-strutture-list="caserme" hidden><!-- popolata da app.js --></ul>
+            <ul class="building-list" id="civili-list" data-strutture-list="civili"><!-- popolata da js/04-game-main.js (renderStruttureList) --></ul>
+            <ul class="building-list" id="militari-list" data-strutture-list="militari" hidden><!-- popolata da js/04-game-main.js (renderStruttureList) --></ul>
+            <ul class="building-list" id="caserme-list" data-strutture-list="caserme" hidden><!-- popolata da js/04-game-main.js (renderStruttureList) --></ul>
 
             <!-- Velocizza con Diamanti Blu (comando "Velocizza_Diamanti|...|Costruzione|n"):
                  pulsante + mini-form nascosti finché non c'è tempo da velocizzare. -->
@@ -311,7 +311,7 @@
             </div>
             <p class="panel__hint"><span data-i18n="reclutatori">Reclutatori:</span> <strong data-value="code-reclutamenti">…</strong></p>
             <p class="panel__hint" data-tempo-reclutamento-row hidden><span data-i18n="tempoRimanente">Tempo rimanente:</span> <strong data-value="tempo-reclutamento">…</strong></p>
-            <ul class="unit-list" id="unit-list"><!-- popolata da app.js --></ul>
+            <ul class="unit-list" id="unit-list"><!-- popolata da js/04-game-main.js (renderUnita) --></ul>
             <p class="panel__hint" data-sblocco-unita></p>
 
             <button type="button" class="btn btn--ghost btn--block" id="btn-toggle-velocizza-reclutamento" hidden><span data-i18n="velocizza">Velocizza</span> <img class="icon-inline" src="assets/DiamanteBlu_V2.png" alt=""></button>
@@ -395,13 +395,13 @@
             <h2 class="panel__title" id="costruzione-edifici-title">Costruzione</h2>
 
             <h3 class="panel__subtitle" id="costruzione-civili-subtitle">Strutture Civili</h3>
-            <ul class="building-list building-list--form" id="costruzione-civili-list"><!-- popolata da app.js --></ul>
+            <ul class="building-list building-list--form" id="costruzione-civili-list"><!-- popolata da js/06-costruzione.js (renderStruttureListForm) --></ul>
 
             <h3 class="panel__subtitle" id="costruzione-militari-subtitle">Strutture Militari</h3>
-            <ul class="building-list building-list--form" id="costruzione-militari-list"><!-- popolata da app.js --></ul>
+            <ul class="building-list building-list--form" id="costruzione-militari-list"><!-- popolata da js/06-costruzione.js (renderStruttureListForm) --></ul>
 
             <h3 class="panel__subtitle" id="costruzione-caserme-subtitle">Caserme</h3>
-            <ul class="building-list building-list--form" id="costruzione-caserme-list"><!-- popolata da app.js --></ul>
+            <ul class="building-list building-list--form" id="costruzione-caserme-list"><!-- popolata da js/06-costruzione.js (renderStruttureListForm) --></ul>
 
             <button type="button" class="btn btn--primary btn--block" id="btn-invia-costruzione" data-i18n="costruisci">Costruisci</button>
           </div>
@@ -415,7 +415,7 @@
               <button class="tier-btn" data-tier="4">IV</button>
               <button class="tier-btn" data-tier="5">V</button>
             </div>
-            <ul class="unit-list unit-list--form" id="costruzione-unit-list"><!-- popolata da app.js --></ul>
+            <ul class="unit-list unit-list--form" id="costruzione-unit-list"><!-- popolata da js/06-costruzione.js (renderUnitaForm) --></ul>
             <p class="panel__hint" data-sblocco-unita></p>
             <button type="button" class="btn btn--primary btn--block" id="btn-invia-reclutamento" data-i18n="recluta">Recluta</button>
           </div>
@@ -426,7 +426,7 @@
            SCHERMATA CITTÀ
            Una card per struttura (Ingresso, Cancello, Mura, Torri,
            Castello, Centro) con HP/DEF (dove presenti) e Guarnigione,
-           costruite interamente da app.js (vedi renderCittaList) perché
+           costruite interamente da js/07-citta.js (vedi renderCittaList) perché
            ogni card include anche il mini-form "Sposta Truppe" con tab
            tier e stepper — troppa logica per scriverla a mano qui.
       ============================================================ -->
@@ -481,10 +481,10 @@
           <div class="city-layout">
             <div class="city-map" id="city-map">
               <img src="assets/Village_1.jpg" alt="Panoramica del villaggio" class="city-map__img">
-              <div class="city-map__markers" id="city-map-markers"><!-- popolata da app.js --></div>
+              <div class="city-map__markers" id="city-map-markers"><!-- popolata da js/07-citta.js (renderCittaMap) --></div>
             </div>
 
-            <ul class="city-list" id="city-list"><!-- popolata da app.js --></ul>
+            <ul class="city-list" id="city-list"><!-- popolata da js/07-citta.js (renderCittaList) --></ul>
           </div>
         </div>
       </section>
@@ -494,14 +494,14 @@
            Card per ogni acquisto (VIP, Costruttori, Reclutatori, Scudo
            della Pace — funzionanti, pagati in Diamanti) e per i
            pacchetti a pagamento reale (USDT) non ancora attivi lato
-           server, mostrati disattivati. Tutto costruito da app.js
-           (vedi renderShop in js/08-shop.js).
+           server, mostrati disattivati. Tutto costruito da js/08-shop.js
+           (vedi renderShop).
       ============================================================ -->
       <section class="tab-panel" data-tab-panel="negozio" hidden>
         <div class="panel wood-panel">
           <h2 class="panel__title">Negozio</h2>
           <p class="panel__hint">Gli acquisti in Diamanti sono attivi da subito. I pacchetti con pagamento reale (USDT) sono mostrati ma non ancora disponibili.</p>
-          <div id="shop-container"><!-- popolato da app.js --></div>
+          <div id="shop-container"><!-- popolato da js/08-shop.js (renderShop) --></div>
         </div>
       </section>
 
@@ -914,11 +914,11 @@
     </div>
   </section>
 
-  <!-- app.js è stato suddiviso in più file per sezione (Main, Costruzione,
-       Città, ecc.) — vedi il commento in cima a ciascuno. L'ORDINE conta:
-       00-core.js e 01-net.js/02-auth.js/03-nav.js vanno caricati per primi
-       (mettono NET/AUTH/le utility su window.WW), 08-main.js va caricato
-       per ultimo (avvia la connessione e il primo render). -->
+  <!-- Un file per sezione (Main, Costruzione, Città, ecc.) — vedi il
+       commento in cima a ciascuno. L'ORDINE conta: 00-core.js e
+       01-net.js/02-auth.js/03-nav.js vanno caricati per primi (mettono
+       NET/AUTH/le utility su window.WW), 10-main.js va caricato per
+       ultimo (avvia la connessione e il primo render). -->
   <script src="js/00-core.js"></script>
   <script src="js/01-net.js"></script>
   <script src="js/Localizzazione.js"></script>

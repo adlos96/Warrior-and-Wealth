@@ -28,7 +28,7 @@
      rimanda con il normale "Update_Data|Report_Lista|<json>" (vedi
      sotto); gli errori (bersaglio non trovato, oro insufficiente,
      ecc.) arrivano come "Log_Server|<messaggio>", già gestito in
-     04-game-main.js/app.js con WW.NET.on("Log_Server", ...).
+     04-game-main.js con WW.NET.on("Log_Server", ...).
    - "Battaglia|token|<tipo>|<target>|G1..G5|L1..L5|A1..A5|C1..C5"
      (20 valori truppe) — tipo QUI CON accento per le città
      ("Città Barbaro"/"Villaggio Barbaro"/"PVP"); target = livello
@@ -1045,7 +1045,7 @@ window.WW = window.WW || {};
   });
   // Errori di Esplora (bersaglio non trovato, oro insufficiente, livello non valido, ecc.)
   // non arrivano più come JSON dedicato ma via "Log_Server|<messaggio>" — già gestito
-  // genericamente in 04-game-main.js/app.js (WW.NET.on("Log_Server", ...)).
+  // genericamente in 04-game-main.js (WW.NET.on("Log_Server", ...)).
   WW.NET.on("Update_PVP_Player", (args) => {
     const count = Number(args[0]) || 0;
     pvpLista = args.slice(1, 1 + count);

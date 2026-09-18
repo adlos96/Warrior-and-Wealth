@@ -34,7 +34,7 @@
    funzioni chiamate più avanti (mai a livello "top level"), quindi
    funziona anche se questo file è caricato prima di quelli — l'unico
    vincolo è che TUTTI i file siano caricati prima che NET.connect()
-   venga davvero chiamato (avviene in 08-main.js, per ultimo). */
+   venga davvero chiamato (avviene in 10-main.js, per ultimo). */
 
 window.WW = window.WW || {};
 

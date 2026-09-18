@@ -13,7 +13,7 @@
    window.WW (es. WW.NET, WW.GAME, WW.fmtInt...): gli altri file,
    caricati dopo, li leggono da lì. L'ordine di caricamento nel
    <body> di index.html è quindi importante — vedi il commento in
-   fondo a 08-main.js.
+   fondo a 10-main.js.
    ========================================================== */
 
 window.WW = window.WW || {};

@@ -10,15 +10,20 @@
    (definita in 04-game-main.js) trova tutto pronto.
 
    Ordine completo degli <script> in index.html:
-     00-core.js, 01-net.js, 02-auth.js, 03-nav.js, 04-game-main.js,
-     05-scambio.js, 06-costruzione.js, 07-citta.js, 08-shop.js,
-     09-ricerca.js, 11-statistiche.js, 12-quest.js, 10-main.js
+     00-core.js, 01-net.js, Localizzazione.js, 02-auth.js, 03-nav.js,
+     04-game-main.js, 05-scambio.js, 06-costruzione.js, 07-citta.js,
+     08-shop.js, 09-ricerca.js, 11-statistiche.js, 12-quest.js,
+     13-gamepass.js, 14-battaglia.js, 10-main.js
 
-   NOTA: questo file sostituisce il precedente "09-main.js" (rinominato
-   in "10-main.js" per lasciare spazio a "09-ricerca.js" nell'ordine di
-   caricamento, stesso principio già usato per il vecchio "js/app.js").
-   "09-main.js" resta fisicamente nella cartella ma non è più referenziato
-   da index.html: può essere rimosso manualmente quando comodo.
+   NOTA (18/09/2026): questo file è quello che gira davvero per ultimo.
+   È il terzo nome che porta lo stesso identico bootstrap — ogni volta
+   che è stata aggiunta una nuova schermata prima dello slot finale, il
+   file "Main" precedente è stato rinominato per fargli spazio nell'
+   ordine di caricamento (prima "js/app.js" monolitico, poi "08-main.js",
+   poi "09-main.js", ora questo). Le versioni precedenti sono state
+   rimosse dalla cartella: se un giorno serve aggiungere un'altra
+   schermata prima di questo, rinominalo "11-main.js" (o simile) invece
+   di lasciarne in giro una copia non referenziata.
 
    Si tenta subito la connessione al server: se c'è già un accesso
    "ricordato" (token salvati), AUTH.onSocketOpen() farà l'auto-login non
