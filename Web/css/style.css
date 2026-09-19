@@ -1877,7 +1877,7 @@ button{ font-family: inherit; cursor: pointer; }
    basso a sinistra e infine (sempre su richiesta) spostato in alto al
    centro: si vede subito che il premio è stato riscosso senza coprire
    l'icona, ed è consultabile direttamente dal dato del server
-   (stato.claimNormal/claimSilver, popolato da Completo/Completo_Silver in
+   (stato.claimNormal/claimSilver, popolato da Completo/Completo_Vip in
    QuestRewards — vedi creaMarker() in js/12-quest.js), non da una
    supposizione lato client. */
 .quest-marker--claimed::after{

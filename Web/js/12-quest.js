@@ -145,7 +145,12 @@ window.WW = window.WW || {};
     const totale = stato.points.length;
     if (totale === 0) return;
     const haSilver = WW.GAME.raw.GamePass_Base === "True";
-    elLegendaSilver.hidden = false; // riga GamePass Silver sempre visibile (13/09/2026, su richiesta dell'utente), anche se il giocatore non lo ha attivo
+    // Guard difensivo (19/09/2026): se index.html non è ancora allineato a
+    // questo JS (es. deploy parziale, id ancora "quest-legenda-vip"),
+    // elLegendaSilver risulta null — senza questo controllo l'intero
+    // handler "QuestRewards" andava in crash (TypeError su .hidden),
+    // bloccando anche l'aggiornamento di punti/marker.
+    if (elLegendaSilver) elLegendaSilver.hidden = false; // riga GamePass Silver sempre visibile (13/09/2026, su richiesta dell'utente), anche se il giocatore non lo ha attivo
 
     elTrack.style.minWidth = `${DISTANZA_MARKER_PX * (totale - 1) + META_MARKER_PX * 2}px`;
 
