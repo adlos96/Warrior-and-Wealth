@@ -856,5 +856,34 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
                 Catapulte = catapulte
             };
         }
+        public static void AddTroops(Giocatori.Player difensore, int ricerca)
+        {
+            difensore.Livello = 10;
+
+            difensore.Ricerca_Cancello_Salute = ricerca;
+            difensore.Ricerca_Cancello_Difesa = ricerca;
+
+            difensore.Ricerca_Mura_Salute = ricerca;
+            difensore.Ricerca_Mura_Difesa = ricerca;
+
+            difensore.Ricerca_Torri_Salute = ricerca;
+            difensore.Ricerca_Torri_Difesa = ricerca;
+
+            difensore.Ricerca_Castello_Salute = ricerca;
+            difensore.Ricerca_Castello_Difesa = ricerca;
+
+            difensore.Salute_Mura = difensore.Salute_MuraMax;
+            difensore.Difesa_Mura = difensore.Difesa_MuraMax;
+
+            difensore.Salute_Cancello = difensore.Salute_CancelloMax;
+            difensore.Difesa_Cancello = difensore.Difesa_CancelloMax;
+
+            difensore.Salute_Torri = difensore.Salute_TorriMax;
+            difensore.Difesa_Torri = difensore.Difesa_TorriMax;
+
+            difensore.Salute_Castello = difensore.Salute_CastelloMax;
+            difensore.Difesa_Castello = difensore.Difesa_CastelloMax;
+
+        }
     }
 }

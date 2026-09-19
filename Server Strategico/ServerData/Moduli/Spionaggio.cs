@@ -111,26 +111,26 @@ namespace Server_Strategico.ServerData.Moduli
         public async static void EseguiSpionaggioPVE(Barbari.BarbarianBase target, Giocatori.Player attaccante)
         {
             //Costo in risorse per lo spionaggio: [ORO] — vedi nota sopra, stesso discorso del PVP
-           // int costo = 0;
-           // string name = "";
-           // if (target.Nome.Contains("Villaggio"))
-           // {
-           //     costo = costo_Spionaggio_Villaggio_Base * target.Livello;
-           //     name = "Villaggio Barbaro";
-           // }
-           // if (target.Nome.Contains("Citta"))
-           // {
-           //     costo = costo_Spionaggio_Citta_Base * target.Livello;
-           //     name = "Citta Barbaro";
-           // }
-           // 
-           // if (attaccante.Oro >= costo)
-           // {
-           //     attaccante.Oro -= costo;
-           //     SpionaggioPVE(target, attaccante);
-           // }
-           // else
-           //     Server.Server.Send(attaccante.guid_Player, "Log_Server|Oro");
+            int costo = 0;
+            string name = "";
+            if (target.Nome.Contains("Villaggio"))
+            {
+                costo = costo_Spionaggio_Villaggio_Base * target.Livello;
+                name = "Villaggio Barbaro";
+            }
+            if (target.Nome.Contains("Citta"))
+            {
+                costo = costo_Spionaggio_Villaggio_Base * target.Livello;
+                name = "Citta Barbaro";
+            }
+            
+            if (attaccante.Oro >= costo)
+            {
+                attaccante.Oro -= costo;
+                SpionaggioPVE(target, attaccante);
+            }
+            else
+                Server.Server.Send(attaccante.guid_Player, $"Log_Server|Oro insufficiente per lo spionaggio. Costo richiesto: [icon:oro]{costo}");
 
             SpionaggioPVE(target, attaccante);
         }
@@ -176,15 +176,15 @@ namespace Server_Strategico.ServerData.Moduli
 
             // Struttura.Nome è usato dal client SIA come etichetta del tab SIA come titolo della
             // sezione (vedi 14-battaglia.js, renderSpiaFaseContent) — qui non è il nome del
-            // bersaglio ma il nome della fase stessa. Salute/Difesa del bersaglio sono valori
-            // strutturali visibili dall'esterno, sempre esatti (non passano da ApplicaPrecisione),
-            // e li ripetiamo identici su entrambe le fasi dato che un barbaro ha un'unica salute/difesa.
+            // bersaglio ma il nome della fase stessa. Salute/Difesa del bersaglio (19/09/2026, su
+            // richiesta dell'utente) sono ora mostrate SOLO sulla fase Corpo a Corpo: sono la vera
+            // Salute/Difesa del barbaro (Barbari.cs), che ora la battaglia usa davvero (Battaglia_Fase
+            // in BattagliaPVE.cs) ma soltanto lì — la fase A Distanza non le tocca mai, quindi
+            // mostrarle anche lì avrebbe fatto pensare che contassero anche a distanza.
             // I campi di SpionaggioVillaggio non pertinenti ai barbari (ricerche, guarnigione) restano ai valori di default: qui non esistono equivalenti da mostrare.
             spy.Fasi[0].Struttura = new SpionaggioVillaggio
             {
                 Nome = "A Distanza",
-                Salute = target.Salute,
-                Difesa = target.Difesa
             };
             spy.Fasi[1].Struttura = new SpionaggioVillaggio
             {
