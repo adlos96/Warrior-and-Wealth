@@ -82,6 +82,20 @@ namespace Server_Strategico.ServerData.Moduli
             private readonly TextWriter _file;
             private bool _inizioRiga = true; // true finché non scriviamo il primo carattere della riga corrente
 
+            // 19/09/2026, su richiesta dell'utente: il server crashava a intermittenza con
+            // un'IOException durante la scrittura sul file di log (AutoFlush=true fa una
+            // scrittura fisica su disco per OGNI carattere, quindi basta un blocco
+            // momentaneo del file — antivirus, backup, un altro processo — a mandare in
+            // eccezione questa riga). Prima non c'era nessun try/catch: l'eccezione
+            // risaliva fuori da Console.WriteLine e faceva crashare l'INTERO server per
+            // un problema che riguardava solo il file di log, non il gioco. Ora un errore
+            // di scrittura sul file viene ignorato (il gioco continua, si perde solo quella
+            // riga nel .log) invece di uscire dal metodo, e dopo il primo errore si smette
+            // di riprovare a scrivere sul file per il resto della sessione — se il file è
+            // diventato inaccessibile in modo permanente (es. disco pieno), niente riprova
+            // migliaia di volte al secondo per ogni carattere stampato in console.
+            private bool _fileLoggingDisabilitato = false;
+
             public TeeTextWriter(TextWriter console, TextWriter file)
             {
                 _console = console;
@@ -94,14 +108,24 @@ namespace Server_Strategico.ServerData.Moduli
             {
                 _console.Write(value);
 
-                if (_inizioRiga)
-                {
-                    _file.Write($"[{DateTime.Now:dd/MM/yyyy HH:mm:ss}] ");
-                    _inizioRiga = false;
-                }
-                _file.Write(value);
+                if (_fileLoggingDisabilitato) return;
 
-                if (value == '\n') _inizioRiga = true;
+                try
+                {
+                    if (_inizioRiga)
+                    {
+                        _file.Write($"[{DateTime.Now:dd/MM/yyyy HH:mm:ss}] ");
+                        _inizioRiga = false;
+                    }
+                    _file.Write(value);
+
+                    if (value == '\n') _inizioRiga = true;
+                }
+                catch (IOException ex)
+                {
+                    _fileLoggingDisabilitato = true;
+                    _console.WriteLine($"\n[GameSave] Scrittura sul file di log fallita, disabilitato per il resto della sessione: {ex.Message}");
+                }
             }
         }
 
