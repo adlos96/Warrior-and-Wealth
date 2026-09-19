@@ -112,8 +112,8 @@
            sul proprio nome si apre un popup con "Cambio giocatore" (torna
            alla schermata di login/registrazione, riusando lo stesso
            AUTH.logout() già usato per un TOKEN_NON_VALIDO — vedi
-           collegaMenuGiocatore() in js/02-auth.js) e "Cambio immagine
-           profilo" (per ora solo un segnaposto grigio, non cliccabile: la
+           collegaMenuGiocatore() in js/02-auth.js) e "Cambio avatar" 
+           (per ora solo un segnaposto grigio, non cliccabile: la
            funzione non esiste ancora lato server/client). Prima era un
            piccolo dropdown ancorato al pulsante, ma dentro alla barra
            risorse (sticky, con overflow-x:auto) compariva schiacciato lì
@@ -920,15 +920,15 @@
           <button type="button" class="modal-close-btn" id="btn-chiudi-player-menu" aria-label="Chiudi">✕</button>
         </div>
         <div class="player-menu">
-          <button type="button" class="player-menu__voce" id="player-menu-cambio-giocatore">Cambio giocatore</button>
-          <button type="button" class="player-menu__voce" id="player-menu-cambio-avatar">Cambio immagine profilo</button>
+          <button type="button" class="player-menu__voce" id="player-menu-cambio-giocatore">Cambia giocatore</button>
+          <button type="button" class="player-menu__voce" id="player-menu-cambio-avatar">Cambia avatar</button>
         </div>
       </div>
     </div>
 
-    <!-- Popup "Cambia immagine profilo" (18/09/2026, su richiesta dell'utente):
+    <!-- Popup "Cambia avatar" (18/09/2026, su richiesta dell'utente):
          stesso overlay generico usato per Feudi/Info Risorsa/Resoconto/Menu
-         giocatore, aperto da "Cambio immagine profilo" qui sopra — vedi
+         giocatore, aperto da "Cambio avatar" qui sopra — vedi
          js/15-avatar.js. I 2 avatar gratuiti partono già sbloccati lato
          server (player.Avatar_Sbloccati); gli altri mostrano lucchetto e
          prezzo finché non vengono acquistati, stesso trattamento delle card
