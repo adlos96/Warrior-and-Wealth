@@ -259,6 +259,7 @@ namespace Server_Strategico.Server
                     }
 
                     player = Server.servers_.GetPlayer(usernameAutoLogin);
+
                     if (player != null) Console.WriteLine($"[ServerConnection|ClientRequest] > IP:          [{client} || Caricato: {player.Username}]\n");
                     if (player == null)
                     {
@@ -274,7 +275,6 @@ namespace Server_Strategico.Server
                     // aggiornamenti, pur senza errori lato server. Login/New Player lo
                     // fanno già (vedi ServerConnection.Login/New_Player).
                     player.guid_Player = clientGuid;
-
                     // Rotazione token (come su Login/New Player): il refresh token
                     // usato viene revocato e se ne genera uno nuovo insieme al nuovo
                     // access token, invece di continuare a riusare lo stesso all'infinito.
@@ -1272,8 +1272,6 @@ namespace Server_Strategico.Server
                         {
                             player.PremiNormali[reward] = true;
                             player.Diamanti_Blu += QuestManager.QuestRewardSet.Normali_Monthly.Rewards[reward];
-                            QuestManager.QuestRewardUpdate(player);
-                            QuestManager.QuestUpdate(player);
                             return;
                         }else
                         {
@@ -1283,7 +1281,7 @@ namespace Server_Strategico.Server
                         premioRaccolto = true;
                     }
                     break;
-                case "Vip":
+                case "Silver":
                     {
                         if (player.GamePass_Base == false) return;
                         if (player.PremiVIP[reward] == true) return;
@@ -1303,8 +1301,6 @@ namespace Server_Strategico.Server
                             player.Diamanti_Viola += QuestManager.QuestRewardSet.Vip_Monthly.Rewards[reward];
                         }
                         premioRaccolto = true;
-                        QuestManager.QuestRewardUpdate(player);
-                        QuestManager.QuestUpdate(player);
                     }
                     break;
 
