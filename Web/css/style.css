@@ -1767,11 +1767,12 @@ button{ font-family: inherit; cursor: pointer; }
    Due blocchi: "Ricompense" (una sola barra punti-esperienza con le
    20 ricompense posizionate sopra di essa, riscattabili con un click
    appena la barra le raggiunge — invece delle due liste testuali
-   separate Normali/VIP del client desktop) e "Quest" (elenco a
-   pagine da 10 alla volta, essendo fino a 60 quest in totale — invece
-   di mostrarle tutte assieme). Vedi QuestManager.cs lato server per
-   il protocollo (messaggi JSON "QuestUpdate"/"QuestRewards", comando
-   "Quest_Reward|<token>|Normale|Vip|<indice 1-based>"). */
+   separate Normali/GamePass Silver del client desktop, rinominate da
+   "VIP" il 19/09/2026) e "Quest" (elenco a pagine da 10 alla volta,
+   essendo fino a 60 quest in totale — invece di mostrarle tutte
+   assieme). Vedi QuestManager.cs lato server per il protocollo
+   (messaggi JSON "QuestUpdate"/"QuestRewards", comando
+   "Quest_Reward|<token>|Normale|Silver|<indice 1-based>"). */
 
 /* Spazio tra il pannello "Ricompense Mensili" e quello "Quest" sotto
    (13/09/2026, su richiesta dell'utente: erano attaccati). */
@@ -1853,9 +1854,10 @@ button{ font-family: inherit; cursor: pointer; }
 }
 .quest-marker img{ width: 100%; height: 100%; object-fit: contain; }
 /* Colori distinti per le due file (13/09/2026, su richiesta dell'utente:
-   il viola VIP si confondeva troppo col marrone di default). */
+   il viola VIP si confondeva troppo col marrone di default — riga
+   rinominata da "vip" a "silver" il 19/09/2026). */
 .quest-marker--normale{ bottom: calc(100% + 8px); border-color: #8a8a8a; }
-.quest-marker--vip{ top: calc(100% + 8px); border-color: var(--gold); }
+.quest-marker--silver{ top: calc(100% + 8px); border-color: var(--gold); }
 /* Ricompensa "Feudo Leggendario" (14/09/2026, su richiesta dell'utente):
    a differenza delle icone diamante (PNG trasparenti, ok con "contain"),
    l'immagine è una foto rettangolare (stessa dei Feudi — vedi #feudi-list
@@ -1875,7 +1877,7 @@ button{ font-family: inherit; cursor: pointer; }
    basso a sinistra e infine (sempre su richiesta) spostato in alto al
    centro: si vede subito che il premio è stato riscosso senza coprire
    l'icona, ed è consultabile direttamente dal dato del server
-   (stato.claimNormal/claimVip, popolato da Completo/Completo_Vip in
+   (stato.claimNormal/claimSilver, popolato da Completo/Completo_Silver in
    QuestRewards — vedi creaMarker() in js/12-quest.js), non da una
    supposizione lato client. */
 .quest-marker--claimed::after{
@@ -1898,7 +1900,7 @@ button{ font-family: inherit; cursor: pointer; }
 }
 .quest-marker--ready{
   /* Non tocca più border-color: prima sovrascriveva sempre in oro, che
-     ora è invece il colore identificativo della sola fila VIP — così il
+     ora è invece il colore identificativo della sola fila GamePass Silver — così il
      bagliore "pronto da riscattare" resta un indizio in più, non cancella
      più la distinzione grigio/oro tra le due file. */
   cursor: pointer;
@@ -1936,7 +1938,7 @@ button{ font-family: inherit; cursor: pointer; }
 /* Punteggio necessario per sbloccare la ricompensa (14/09/2026, su
    richiesta dell'utente: prima si vedeva solo passandoci sopra col mouse).
    Un'UNICA etichetta per coppia, sulla barra stessa — non sopra E sotto —
-   perché Normale e VIP della stessa coppia condividono sempre la stessa
+   perché Normale e GamePass Silver della stessa coppia condividono sempre la stessa
    soglia (fatto notare dall'utente): ripeterla due volte era ridondante. */
 .quest-track__tick{
   position: absolute;
@@ -1967,7 +1969,7 @@ button{ font-family: inherit; cursor: pointer; }
   border-radius: 50%;
   border: 2px solid #8a8a8a;
 }
-.quest-track__legenda i.legenda-vip{ border-color: var(--gold); }
+.quest-track__legenda i.legenda-silver{ border-color: var(--gold); }
 
 /* Feedback grafico alla riscossione di una ricompensa (14/09/2026, su
    richiesta dell'utente: "quando un premio viene raccolto, dovremmo
@@ -2002,7 +2004,7 @@ button{ font-family: inherit; cursor: pointer; }
    calc(100% + 8px), 48px di diametro dopo l'ultimo ingrandimento) e sale
    ancora un po' oltre. */
 .quest-reward-popup--normale{ bottom: calc(100% + 64px); }
-.quest-reward-popup--vip{ top: calc(100% + 64px); }
+.quest-reward-popup--silver{ top: calc(100% + 64px); }
 @keyframes quest-reward-popup-sali{
   0%{ opacity: 0; transform: translate(-50%, 6px) scale(.85); }
   20%{ opacity: 1; transform: translate(-50%, 0) scale(1); }

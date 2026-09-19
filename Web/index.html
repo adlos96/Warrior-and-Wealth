@@ -742,11 +742,13 @@
       <!-- Quest Mensili (13/09/2026, su richiesta dell'utente): costruita
            da QuestManager.cs lato server (protocollo JSON "QuestUpdate"/
            "QuestRewards" + comando "Quest_Reward"). Le 20 ricompense
-           Normali/VIP condividono la stessa barra punti-esperienza (stessa
-           soglia "Points"): un solo binario invece di due liste separate,
-           con le ricompense posizionate sopra/sotto la barra e riscattabili
-           con un click appena la barra le raggiunge. Le quest (fino a 60)
-           sono mostrate 10 alla volta con un pulsante avanti/indietro. -->
+           Normali/GamePass Silver (rinominate da "VIP" il 19/09/2026,
+           vedi js/12-quest.js) condividono la stessa barra punti-esperienza
+           (stessa soglia "Points"): un solo binario invece di due liste
+           separate, con le ricompense posizionate sopra/sotto la barra e
+           riscattabili con un click appena la barra le raggiunge. Le quest
+           (fino a 60) sono mostrate 10 alla volta con un pulsante
+           avanti/indietro. -->
       <section class="tab-panel" data-tab-panel="quest" hidden>
         <div class="quest-panels">
           <div class="panel wood-panel">
@@ -768,13 +770,13 @@
                 <div class="quest-track__bar">
                   <div class="quest-track__fill" id="quest-track-fill"></div>
                 </div>
-                <!-- Marker Normali/VIP aggiunti da js/12-quest.js -->
+                <!-- Marker Normali/GamePass Silver aggiunti da js/12-quest.js -->
               </div>
             </div>
             <p class="quest-track__points" id="quest-track-points">0 / 0 punti</p>
             <div class="quest-track__legenda">
               <span><i></i> Normale</span>
-              <span id="quest-legenda-vip" hidden><i class="legenda-vip"></i> VIP</span>
+              <span id="quest-legenda-silver" hidden><i class="legenda-silver"></i> GamePass Silver</span>
             </div>
           </div>
 

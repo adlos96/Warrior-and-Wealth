@@ -6,16 +6,29 @@
    quella desktop (GUI/MontlyQuest.cs), su richiesta esplicita
    dell'utente (13/09/2026):
 
-   - Le 20 ricompense Normali e le 20 VIP condividono lo STESSO
-     array di soglie "Points" (vedi QuestRewardUpdate lato server):
-     un'unica barra punti-esperienza con le ricompense posizionate
-     sopra (Normali) e sotto (VIP, solo se il giocatore è VIP) di
-     essa, invece di due liste testuali separate. Cliccando su una
-     ricompensa già raggiunta (e non ancora ritirata) si invia
-     "Quest_Reward|<token>|Normale|<indice 1-based>" (o "Vip").
+   - Le 20 ricompense Normali e le 20 GamePass Silver condividono lo
+     STESSO array di soglie "Points" (vedi QuestRewardUpdate lato
+     server): un'unica barra punti-esperienza con le ricompense
+     posizionate sopra (Normali) e sotto (GamePass Silver, solo se il
+     giocatore ha il GamePass Silver attivo) di essa, invece di due
+     liste testuali separate. Cliccando su una ricompensa già
+     raggiunta (e non ancora ritirata) si invia
+     "Quest_Reward|<token>|Normale|<indice 1-based>" (o "Silver").
    - Le quest (fino a 60 nel database server) sono mostrate 10 alla
      volta con un pulsante avanti/indietro, invece che tutte assieme
      o mescolate a rotazione come nel client desktop.
+
+   Rinominato da "VIP" a "GamePass Silver" (19/09/2026, su richiesta
+   dell'utente): la vecchia riga di ricompense premium usava lo stato
+   "vip" indipendente (Vip_1/Vip_2 in Shop) invece del GamePass_Base
+   già esistente (usato altrove come "GamePass Silver", vedi 11-
+   statistiche.js/08-shop.js) — ora unificati sotto lo stesso nome e
+   la stessa variabile di stato. Il server deve rispecchiare questo
+   cambio: il case "Vip" del comando Quest_Reward diventa "Silver", e
+   i campi "Rewards_VIP"/"Completo_Vip" del JSON "QuestRewards"
+   diventano "Rewards_Silver"/"Completo_Silver" (vedi elenco protocollo
+   sotto). Lato client non serve più leggere un flag "vip" a parte:
+   si riusa GamePass_Base, già presente in ogni Update_Data.
 
    Protocollo (NON un "comando|arg" ma JSON puro, gestito tramite
    WW.NET.onJson — vedi 01-net.js):
@@ -24,13 +37,14 @@
        (solo le quest non ancora completate il numero massimo di
        volte — il server le filtra già lato suo).
      - "QuestRewards": { Type, Rewards_Normali: [20 int],
-       Rewards_VIP: [20 int], Points: [20 int], Completo: [20 bool],
-       Completo_Vip: [20 bool] }
+       Rewards_Silver: [20 int], Points: [20 int], Completo: [20 bool],
+       Completo_Silver: [20 bool] }
    Il punteggio corrente del giocatore arriva invece come qualsiasi
    altro valore, dentro Update_Data: WW.GAME.raw.punti_quest (vedi
-   PlayerSnapshot.cs, _currentState["punti_quest"]). Lo stato VIP è
-   WW.GAME.raw.vip === "True" (stesso identico controllo già usato
-   in 08-shop.js/11-statistiche.js).
+   PlayerSnapshot.cs, _currentState["punti_quest"]). Lo stato GamePass
+   Silver è WW.GAME.raw.GamePass_Base === "True" (stesso identico
+   controllo già usato in 08-shop.js/11-statistiche.js/13-gamepass.js
+   per GamePass_Avanzato).
 
    Dipende da: WW.NET (01-net.js), WW.GAME (04-game-main.js),
    WW.AUTH (02-auth.js), WW.fmtInt (00-core.js).
@@ -47,17 +61,17 @@ window.WW = window.WW || {};
   const stato = {
     quests: [],
     rewardsNormali: [],
-    rewardsVip: [],
+    rewardsSilver: [],
     points: [],
     claimNormal: [],
-    claimVip: [],
+    claimSilver: [],
     pagina: 0,
   };
 
   const elTrack = document.getElementById("quest-track");
   const elFill = document.getElementById("quest-track-fill");
   const elPunti = document.getElementById("quest-track-points");
-  const elLegendaVip = document.getElementById("quest-legenda-vip");
+  const elLegendaSilver = document.getElementById("quest-legenda-silver");
   const elLista = document.getElementById("quest-list");
   const elPager = document.getElementById("quest-pager");
   const elPagerPrev = document.getElementById("quest-pager-prev");
@@ -97,17 +111,18 @@ window.WW = window.WW || {};
 
   // Icone delle ricompense (14/09/2026, su richiesta dell'utente): la
   // traccia mostrava SEMPRE l'icona Diamante Viola per ogni ricompensa,
-  // Normale o VIP che fosse, ma non è così — confrontando con
+  // Normale o GamePass Silver che fosse, ma non è così — confrontando con
   // QuestRewardSet in QuestManager.cs: alcune ricompense (indici 1-based,
   // gli stessi usati dal comando Quest_Reward) sono in Diamanti Blu, e la
-  // ricompensa VIP #20 (l'ultima) è un Feudo Leggendario, non una valuta.
-  // Tutte le altre restano Diamante Viola (comportamento invariato).
+  // ricompensa GamePass Silver #20 (l'ultima) è un Feudo Leggendario, non
+  // una valuta. Tutte le altre restano Diamante Viola (comportamento
+  // invariato).
   const REWARD_DIAMANTE_BLU = {
     normale: new Set([2, 4, 7, 11, 14, 17]),
-    vip: new Set([3]),
+    silver: new Set([3]),
   };
   const REWARD_TERRENO = {
-    vip: { 20: { file: "Leggendario.jpeg", nome: "Feudo Leggendario" } },
+    silver: { 20: { file: "Leggendario.jpeg", nome: "Feudo Leggendario" } },
   };
   function infoIconaRicompensa(tipo, indiceUnoBased) {
     const terreno = REWARD_TERRENO[tipo] && REWARD_TERRENO[tipo][indiceUnoBased];
@@ -118,15 +133,15 @@ window.WW = window.WW || {};
 
   function renderMarkers() {
     // Rimuove i marker precedenti (i figli oltre alla barra stessa) e li
-    // ricrea da zero: sono solo 20 (+20 VIP), un rebuild completo ad ogni
-    // aggiornamento di QuestRewards non pesa e semplifica la gestione
-    // rispetto a un diffing manuale come in shop/ricerca.
+    // ricrea da zero: sono solo 20 (+20 GamePass Silver), un rebuild
+    // completo ad ogni aggiornamento di QuestRewards non pesa e semplifica
+    // la gestione rispetto a un diffing manuale come in shop/ricerca.
     elTrack.querySelectorAll(".quest-marker").forEach((el) => el.remove());
 
     const totale = stato.points.length;
     if (totale === 0) return;
-    const isVip = WW.GAME.raw.vip === "True";
-    elLegendaVip.hidden = false; // riga VIP sempre visibile (13/09/2026, su richiesta dell'utente), anche se il giocatore non è VIP
+    const haSilver = WW.GAME.raw.GamePass_Base === "True";
+    elLegendaSilver.hidden = false; // riga GamePass Silver sempre visibile (13/09/2026, su richiesta dell'utente), anche se il giocatore non lo ha attivo
 
     elTrack.style.minWidth = `${DISTANZA_MARKER_PX * (totale - 1) + META_MARKER_PX * 2}px`;
 
@@ -140,24 +155,24 @@ window.WW = window.WW || {};
     for (let i = 0; i < totale; i++) {
       const frac = totale > 1 ? i / (totale - 1) : 0;
       // Il punteggio richiesto è lo STESSO per la ricompensa Normale e per
-      // quella VIP della stessa coppia (un solo array "Points" condiviso,
-      // vedi QuestRewardUpdate in QuestManager.cs) — un'unica etichetta
-      // sulla barra stessa invece di ripeterla sopra E sotto (segnalato
-      // dall'utente: era un doppione inutile).
+      // quella GamePass Silver della stessa coppia (un solo array "Points"
+      // condiviso, vedi QuestRewardUpdate in QuestManager.cs) — un'unica
+      // etichetta sulla barra stessa invece di ripeterla sopra E sotto
+      // (segnalato dall'utente: era un doppione inutile).
       elTrack.appendChild(creaTickPunti(i, frac));
       elTrack.appendChild(creaMarker("normale", i, frac, stato.rewardsNormali[i], stato.claimNormal[i], true));
-      // Riga VIP: sempre disegnata (sopra/sotto la stessa barra) così si
-      // vede sempre a cosa si andrebbe incontro con il GamePass, ma se il
-      // giocatore non è VIP resta bloccata anche se il punteggio è già
-      // stato raggiunto (il server la rifiuterebbe comunque, vedi
+      // Riga GamePass Silver: sempre disegnata (sopra/sotto la stessa barra)
+      // così si vede sempre a cosa si andrebbe incontro col GamePass, ma se
+      // il giocatore non lo ha attivo resta bloccata anche se il punteggio è
+      // già stato raggiunto (il server la rifiuterebbe comunque, vedi
       // ServerConnection.cs: "if (player.GamePass_Base == false) return;").
-      elTrack.appendChild(creaMarker("vip", i, frac, stato.rewardsVip[i], stato.claimVip[i], isVip));
+      elTrack.appendChild(creaMarker("silver", i, frac, stato.rewardsSilver[i], stato.claimSilver[i], haSilver));
     }
   }
 
-  // Un solo tick per coppia (Normale+VIP), sulla barra stessa, invece di
-  // ripetere il punteggio richiesto sopra E sotto: le due ricompense della
-  // stessa coppia condividono sempre la stessa soglia.
+  // Un solo tick per coppia (Normale+GamePass Silver), sulla barra stessa,
+  // invece di ripetere il punteggio richiesto sopra E sotto: le due
+  // ricompense della stessa coppia condividono sempre la stessa soglia.
   function creaTickPunti(indice, frazionePosizione) {
     const el = document.createElement("span");
     el.className = "quest-track__tick";
@@ -186,8 +201,8 @@ window.WW = window.WW || {};
     el.style.left = `calc(${META_MARKER_PX}px + ${frazionePosizione} * (100% - ${META_MARKER_PX * 2}px))`;
     const etichettaValore = info.terreno ? info.etichetta : `${WW.fmtInt(valore || 0)} 💎`;
     el.title = !sbloccabile
-      ? `VIP — ${etichettaValore}, richiede il GamePass e ${WW.fmtInt(stato.points[indice])} punti`
-      : `${tipo === "vip" ? "VIP" : "Normale"} — ${etichettaValore}, richiede ${WW.fmtInt(stato.points[indice])} punti`;
+      ? `GamePass Silver — ${etichettaValore}, richiede il GamePass Silver e ${WW.fmtInt(stato.points[indice])} punti`
+      : `${tipo === "silver" ? "GamePass Silver" : "Normale"} — ${etichettaValore}, richiede ${WW.fmtInt(stato.points[indice])} punti`;
     el.disabled = !raggiunta || riscossa;
 
     // Il valore della ricompensa va nell'angolino dell'icona invece che in
@@ -201,7 +216,7 @@ window.WW = window.WW || {};
 
     el.addEventListener("click", () => {
       if (el.disabled) return;
-      WW.NET.send("Quest_Reward", WW.AUTH.accessToken, tipo === "vip" ? "Vip" : "Normale", indice + 1);
+      WW.NET.send("Quest_Reward", WW.AUTH.accessToken, tipo === "silver" ? "Silver" : "Normale", indice + 1);
     });
 
     return el;
@@ -304,7 +319,7 @@ window.WW = window.WW || {};
        2) il valore che sale e sfuma sopra/sotto il marker;
        3) un toast in cima al pannello con tipo e valore riscosso — utile
           apposta per accorgersi a colpo d'occhio se il valore o il tipo
-          (Normale/VIP) non sono quelli attesi. */
+          (Normale/GamePass Silver) non sono quelli attesi. */
 
   function trovaIndiciAppenaRiscossi(vecchio, nuovo) {
     const risultato = [];
@@ -328,7 +343,7 @@ window.WW = window.WW || {};
   }
 
   function segnalaRiscossione(tipo, indiceZeroBased) {
-    const valore = tipo === "vip" ? stato.rewardsVip[indiceZeroBased] : stato.rewardsNormali[indiceZeroBased];
+    const valore = tipo === "silver" ? stato.rewardsSilver[indiceZeroBased] : stato.rewardsNormali[indiceZeroBased];
     const info = infoIconaRicompensa(tipo, indiceZeroBased + 1);
     const testoValore = info.terreno ? info.etichetta : `+${WW.fmtInt(valore || 0)} 💎`;
 
@@ -345,7 +360,7 @@ window.WW = window.WW || {};
       popup.addEventListener("animationend", () => popup.remove(), { once: true });
     }
 
-    mostraToastQuest(`Ricompensa ${tipo === "vip" ? "VIP" : "Normale"} riscossa: ${testoValore}`);
+    mostraToastQuest(`Ricompensa ${tipo === "silver" ? "GamePass Silver" : "Normale"} riscossa: ${testoValore}`);
   }
 
   /* ---------- Ricezione dati dal server ---------- */
@@ -357,24 +372,24 @@ window.WW = window.WW || {};
 
   WW.NET.onJson("QuestRewards", (msg) => {
     const nuoviClaimNormal = msg.Completo || [];
-    const nuoviClaimVip = msg.Completo_Vip || [];
+    const nuoviClaimSilver = msg.Completo_Silver || [];
 
-    // Confronto PRIMA di sovrascrivere stato.claimNormal/claimVip: un
+    // Confronto PRIMA di sovrascrivere stato.claimNormal/claimSilver: un
     // indice passato da false a true è una ricompensa riscossa in questo
     // preciso aggiornamento (sia perché il giocatore l'ha appena cliccata,
     // sia se arrivasse "già riscossa" da un altro client/sessione).
     const appenaRiscosseNormali = rewardsCaricate ? trovaIndiciAppenaRiscossi(stato.claimNormal, nuoviClaimNormal) : [];
-    const appenaRiscosseVip = rewardsCaricate ? trovaIndiciAppenaRiscossi(stato.claimVip, nuoviClaimVip) : [];
+    const appenaRiscosseSilver = rewardsCaricate ? trovaIndiciAppenaRiscossi(stato.claimSilver, nuoviClaimSilver) : [];
 
     stato.rewardsNormali = msg.Rewards_Normali || [];
-    stato.rewardsVip = msg.Rewards_VIP || [];
+    stato.rewardsSilver = msg.Rewards_Silver || [];
     stato.points = msg.Points || [];
     stato.claimNormal = nuoviClaimNormal;
-    stato.claimVip = nuoviClaimVip;
+    stato.claimSilver = nuoviClaimSilver;
     renderRicompense();
 
     appenaRiscosseNormali.forEach((i) => segnalaRiscossione("normale", i));
-    appenaRiscosseVip.forEach((i) => segnalaRiscossione("vip", i));
+    appenaRiscosseSilver.forEach((i) => segnalaRiscossione("silver", i));
     rewardsCaricate = true;
   });
 
