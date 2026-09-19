@@ -23,12 +23,15 @@
    "vip" indipendente (Vip_1/Vip_2 in Shop) invece del GamePass_Base
    già esistente (usato altrove come "GamePass Silver", vedi 11-
    statistiche.js/08-shop.js) — ora unificati sotto lo stesso nome e
-   la stessa variabile di stato. Il server deve rispecchiare questo
-   cambio: il case "Vip" del comando Quest_Reward diventa "Silver", e
-   i campi "Rewards_VIP"/"Completo_Vip" del JSON "QuestRewards"
-   diventano "Rewards_Silver"/"Completo_Silver" (vedi elenco protocollo
-   sotto). Lato client non serve più leggere un flag "vip" a parte:
-   si riusa GamePass_Base, già presente in ogni Update_Data.
+   la stessa variabile di stato. Il server deve rispecchiare SOLO
+   questo cambio di gating: il case "Vip" del comando Quest_Reward
+   diventa "Silver" (confermato dall'utente). I campi del JSON
+   "QuestRewards" restano invariati — "Rewards_VIP"/"Completo_Vip",
+   NON rinominati lato server (chiarito dall'utente il 19/09/2026: il
+   client legge ancora questi nomi, solo l'etichetta mostrata e il
+   comando/gating sono cambiati). Lato client non serve più leggere un
+   flag "vip" a parte per il GATING: si riusa GamePass_Base, già
+   presente in ogni Update_Data.
 
    Protocollo (NON un "comando|arg" ma JSON puro, gestito tramite
    WW.NET.onJson — vedi 01-net.js):
@@ -37,8 +40,9 @@
        (solo le quest non ancora completate il numero massimo di
        volte — il server le filtra già lato suo).
      - "QuestRewards": { Type, Rewards_Normali: [20 int],
-       Rewards_Silver: [20 int], Points: [20 int], Completo: [20 bool],
-       Completo_Silver: [20 bool] }
+       Rewards_VIP: [20 int], Points: [20 int], Completo: [20 bool],
+       Completo_Vip: [20 bool] } — nomi di campo invariati, solo il
+       comando di riscatto usa "Silver" (vedi sopra).
    Il punteggio corrente del giocatore arriva invece come qualsiasi
    altro valore, dentro Update_Data: WW.GAME.raw.punti_quest (vedi
    PlayerSnapshot.cs, _currentState["punti_quest"]). Lo stato GamePass
@@ -372,7 +376,7 @@ window.WW = window.WW || {};
 
   WW.NET.onJson("QuestRewards", (msg) => {
     const nuoviClaimNormal = msg.Completo || [];
-    const nuoviClaimSilver = msg.Completo_Silver || [];
+    const nuoviClaimSilver = msg.Completo_Vip || [];
 
     // Confronto PRIMA di sovrascrivere stato.claimNormal/claimSilver: un
     // indice passato da false a true è una ricompensa riscossa in questo
@@ -382,7 +386,7 @@ window.WW = window.WW || {};
     const appenaRiscosseSilver = rewardsCaricate ? trovaIndiciAppenaRiscossi(stato.claimSilver, nuoviClaimSilver) : [];
 
     stato.rewardsNormali = msg.Rewards_Normali || [];
-    stato.rewardsSilver = msg.Rewards_Silver || [];
+    stato.rewardsSilver = msg.Rewards_VIP || [];
     stato.points = msg.Points || [];
     stato.claimNormal = nuoviClaimNormal;
     stato.claimSilver = nuoviClaimSilver;
