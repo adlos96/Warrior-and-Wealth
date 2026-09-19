@@ -678,6 +678,16 @@ window.WW = window.WW || {};
     // diventano "????" invece dei numeri di default.
     const bloccato = spionaggioStadio < 2;
     const v = fase.Struttura || {};
+    // 19/09/2026, su richiesta dell'utente: nello spionaggio PVE (barbari) Salute/Difesa contano
+    // solo nella fase Corpo a Corpo (vedi Spionaggio.cs) — sulla fase "A Distanza" non arrivano più
+    // dal server, quindi qui vanno del tutto omesse invece di mostrare "0" (che sembrerebbe un
+    // barbaro senza vita, non "qui non si applica"). "A Distanza" è un nome usato solo per questa
+    // fase PVE, quindi il controllo non tocca gli strati reali del PVP (Ingresso/Mura/ecc.).
+    const rigaSaluteDifesa = v.Nome === "A Distanza" ? "" : `
+        <div><strong>${v.Nome || "?"}</strong><br>
+          Salute: ${fmtStima(v.Salute, v.SaluteMin, v.SaluteMax, bloccato)}</div>
+        <div>Difesa: ${fmtStima(v.Difesa, v.DifesaMin, v.DifesaMax, bloccato)}<br>
+          Guarnigione: ${tv(v.Guarnigione, bloccato)}${v.Guarnigione_Max ? ` / ${WW.fmtInt(v.Guarnigione_Max)} max` : ""}</div>`;
     const righeTruppe = UNITA.map((u) => {
       const arr = fase[CAMPO_SPIA[u.chiave].stats];
       const t = arr && arr[spiaTier - 1];
@@ -686,10 +696,7 @@ window.WW = window.WW || {};
     }).join("");
     el.innerHTML = `
       <div class="report-header">
-        <div><strong>${v.Nome || "?"}</strong><br>
-          Salute: ${fmtStima(v.Salute, v.SaluteMin, v.SaluteMax, bloccato)}</div>
-        <div>Difesa: ${fmtStima(v.Difesa, v.DifesaMin, v.DifesaMax, bloccato)}<br>
-          Guarnigione: ${tv(v.Guarnigione, bloccato)}${v.Guarnigione_Max ? ` / ${WW.fmtInt(v.Guarnigione_Max)} max` : ""}</div>
+        ${rigaSaluteDifesa || `<div><strong>${v.Nome || "?"}</strong></div>`}
       </div>
       <table class="report-table"><thead><tr><th>Unità (tier ${TIER_LABELS[spiaTier - 1]})</th><th>Valore</th></tr></thead>
       <tbody>${righeTruppe || '<tr><td colspan="2">Nessun dato</td></tr>'}</tbody></table>`;
