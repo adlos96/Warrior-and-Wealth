@@ -1,7 +1,8 @@
-﻿using System.Timers;
+﻿using Server_Strategico.Gioco;
+using System.Timers;
 using Timer = System.Timers.Timer;
 
-namespace Server_Strategico.Gioco
+namespace Server_Strategico.Manager
 {
     internal class ScheduleManager
     {
@@ -82,7 +83,7 @@ namespace Server_Strategico.Gioco
             DateTime targetTime = new DateTime(now.Year, now.Month, 1, hour, minute, 0);
 
             // Esegui se siamo in un nuovo mese, è il primo giorno e abbiamo passato l'orario
-            bool isNewMonth = (now.Year > lastReset.Year) || (now.Year == lastReset.Year && now.Month > lastReset.Month);
+            bool isNewMonth = now.Year > lastReset.Year || now.Year == lastReset.Year && now.Month > lastReset.Month;
             if (isNewMonth && now.Day == 1 && now >= targetTime)
             {
                 _lastResets[key] = now;
@@ -213,17 +214,10 @@ namespace Server_Strategico.Gioco
         {
             // Avvia il sistema di reset
             var resetManager = new ScheduleManager();
-            Console.WriteLine("Sistema reset avviato...");
+            Console.WriteLine("[Schedule]Sistema reset avviato...");
 
-            // Stampa i tempi rimanenti
-            resetManager.PrintTempiReset();
-
-            // Ottieni i tempi per inviarli ai giocatori
-            var tempi = resetManager.GetTempiResetPerGiocatori();
-            Console.WriteLine($"Messaggio per i giocatori:");
-            Console.WriteLine($"Reset giornaliero tra: {tempi["daily"]}");
-            Console.WriteLine($"Reset settimanale tra: {tempi["weekly"]}");
-            Console.WriteLine($"Reset mensile tra: {tempi["monthly"]}");
+            resetManager.PrintTempiReset(); // Stampa i tempi rimanenti
+            var tempi = resetManager.GetTempiResetPerGiocatori(); // Ottieni i tempi per inviarli ai giocatori
         }
     }    
 }

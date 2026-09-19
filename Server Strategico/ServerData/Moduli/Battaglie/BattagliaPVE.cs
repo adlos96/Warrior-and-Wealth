@@ -10,8 +10,9 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
     //
     // Differenze di meccanica rispetto al PVP (vedi Wiki/Game/Battaglie/PVE.md e Difesa.md):
     //  - Non esistono strati difensivi multipli (Ingresso/Mura/Cancello/Torri/Castello): un Villaggio o una Città
-    //    Barbara è una singola guarnigione, senza Salute/Difesa di struttura propria — concettualmente equivalente
-    //    allo strato "Ingresso"/"Centro Villaggio" del PVP. Quindi un'unica RisultatoFase per battaglia.
+    //    Barbara è una singola guarnigione con una sola Salute/Difesa propria (Barbari.cs), usata nella fase corpo a
+    //    corpo esattamente come lo strato "Ingresso"/"Centro Villaggio" del PVP (30% danno assorbito da Difesa, poi
+    //    20% del resto da Salute — vedi Battaglia_Fase, 19/09/2026). Quindi un'unica RisultatoFase per battaglia.
     //  - Il difensore non è un giocatore: usa le statistiche di Esercito.EsercitoNemico (GetEnemyUnitStats) e non ha
     //    scorte di frecce da gestire (semplificazione: i barbari hanno sempre "frecce infinite").
     //  - Non c'è saccheggio del 50%: in caso di vittoria si raccoglie il bottino totale del Villaggio/Città (nei
@@ -134,6 +135,22 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
                 units.Catapulte[tierIndex] = villaggio.Catapulte;
             }
             return units;
+        }
+
+        // 19/09/2026, su richiesta dell'utente: stessa identica ricerca di CaricaUnitaNemiche qui sopra, ma restituisce
+        // l'oggetto Villaggio/Città Barbara stesso invece delle sole truppe — serve a Battaglia_Fase per leggere e
+        // ridurre Salute/Difesa nella fase corpo a corpo (vedi sotto).
+        internal static Barbari.BarbarianBase CaricaBarbaro(int livello, string tipo, Giocatori.Player player)
+        {
+            if (tipo == "Città Barbaro")
+                return Barbari.CittaGlobali.FirstOrDefault(c => c.Livello == livello);
+
+            if (tipo == "Villaggio Barbaro")
+            {
+                if (player.VillaggiPersonali == null || livello - 1 < 0 || livello - 1 >= player.VillaggiPersonali.Count) return null;
+                return player.VillaggiPersonali[livello - 1];
+            }
+            return null;
         }
 
         // Riporta sul Villaggio/Città Barbara i sopravvissuti della guarnigione dopo la battaglia.
@@ -495,27 +512,79 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
         // FASE UNICA (i barbari non hanno strati multipli come nel PVP)
         // ═══════════════════════════════════════════════════════════════
 
-        private static RisultatoFase Battaglia_Fase(Giocatori.Player player, UnitGroup attackerUnits, UnitGroup enemyUnits)
+        // 19/09/2026, su richiesta dell'utente ("i barbari hanno anche Difesa e Salute"): Villaggi/Città Barbare hanno
+        // sempre avuto questi due campi (Barbari.cs, scalano col livello e si "riparano" di 1/giorno — vedi
+        // RiparaVillaggiBarbari/RiparaCittàBarbare), ma finora la battaglia li ignorava del tutto: la riparazione
+        // giornaliera non serviva a nulla perché niente li faceva mai scendere. Ora la fase corpo a corpo li usa
+        // esattamente come lo strato Ingresso/Centro nel PVP (vedi BattagliaPVP.cs, Battaglia_corpo_a_Corpo): 30%
+        // del danno assorbito dalla Difesa, poi il 20% di quel che resta assorbito dalla Salute, il resto va alle
+        // truppe — e Difesa/Salute restano scalati sull'oggetto Barbari stesso (danno permanente finché non si
+        // rigenerano da soli). "target" può essere null (barbaro non trovato): in quel caso si comporta come prima.
+        private static RisultatoFase Battaglia_Fase(Giocatori.Player player, UnitGroup attackerUnits, UnitGroup enemyUnits, Barbari.BarbarianBase target)
         {
             var fase = new RisultatoFase
             {
-                Struttura = new Villaggio { Nome = "Guarnigione Barbara", Guarnigione = enemyUnits.TotalUnits() } // niente Salute/Difesa: solo guarnigione, come Ingresso/Centro nel PVP
+                Struttura = new Villaggio
+                {
+                    Nome = "Guarnigione Barbara",
+                    Guarnigione = enemyUnits.TotalUnits(),
+                    Salute = target?.Salute ?? 0,
+                    Difesa = target?.Difesa ?? 0,
+                    SaluteIniziale = target?.Salute ?? 0,
+                    DifesaIniziale = target?.Difesa ?? 0,
+                }
             };
 
-            // Fase a distanza
+            // Fase a distanza (Salute/Difesa del barbaro non intervengono qui, solo nel corpo a corpo — vedi sotto)
             var rangedResult = BattagliaDistanzaPVE(attackerUnits, enemyUnits, player);
             fase.Attaccante.Schierati = rangedResult.Attaccante_Sopravvisuti;
             fase.Difensore.Schierati = rangedResult.Difensore_Sopravvisuti;
             fase.Fase_Distanza = rangedResult;
             fase.Unità_Presenti_Difensore = rangedResult.Difensore_Unità_Presenti;
 
-            // Fase corpo a corpo (100% del danno va alle truppe: nessuna struttura da abbattere prima)
+            // Fase corpo a corpo
             var attaccantiVivi = fase.Attaccante.Schierati;
             var difensoriVivi = fase.Difensore.Schierati;
 
             bool usaFrecce = difensoriVivi.TotalUnits() > 0;
             double dannoAttaccante = CalcolaDannoGiocatore(attaccantiVivi, player, usaFrecce, fase);
             double dannoDifensore = CalcolaDannoBarbari(difensoriVivi);
+
+            // Assorbimento Difesa/Salute del barbaro (stessa proporzione 30%/20% del PVP, vedi commento sopra).
+            if (target != null && fase.Struttura.Salute > 5)
+            {
+                double dannotempDifesa = dannoAttaccante * 0.30;
+                if (dannotempDifesa >= fase.Struttura.Difesa)
+                {
+                    dannotempDifesa -= fase.Struttura.Difesa;
+                    dannoAttaccante -= fase.Struttura.Difesa;
+                    fase.Struttura.Difesa = 0;
+                }
+                else
+                {
+                    fase.Struttura.Difesa -= (int)dannotempDifesa;
+                    dannoAttaccante -= dannotempDifesa;
+                }
+
+                double dannotempSalute = (dannoAttaccante - dannotempDifesa) * 0.20;
+                if (dannotempSalute >= fase.Struttura.Salute)
+                {
+                    dannoAttaccante -= fase.Struttura.Salute;
+                    fase.Struttura.Salute = 0;
+                }
+                else
+                {
+                    fase.Struttura.Salute -= (int)dannotempSalute;
+                    dannoAttaccante -= dannotempSalute;
+                }
+
+                // Danno permanente: resta scalato finché RiparaVillaggiBarbari/RiparaCittàBarbare
+                // (Barbari.cs, +1/giorno) non lo recupera pian piano.
+                target.Difesa = fase.Struttura.Difesa;
+                target.Salute = fase.Struttura.Salute;
+                player.Danno_HP_Barbaro += fase.Struttura.Difesa;
+                player.Danno_HP_Barbaro += fase.Struttura.Salute;
+            }
 
             double dannoPerTipoAttaccante = dannoDifensore / attaccantiVivi.CountUnitTypes();
             double dannoPerTipoDifensore = dannoAttaccante / difensoriVivi.CountUnitTypes();
@@ -538,6 +607,7 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
             if (tipo == "Città Barbaro") OnEvent(player, QuestEventType.Battaglie, "Attacco Citta Barbaro", 1);
 
             var enemyUnits = CaricaUnitaNemiche(livello, tipo, player);
+            var target = CaricaBarbaro(livello, tipo, player); // per Salute/Difesa nella fase corpo a corpo, vedi Battaglia_Fase
 
             var report = new Report
             {
@@ -552,7 +622,7 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
                 }
             };
 
-            var fase = Battaglia_Fase(player, attackerUnits, enemyUnits);
+            var fase = Battaglia_Fase(player, attackerUnits, enemyUnits, target);
             report.Battaglia.Fasi.Add(fase);
             report.Battaglia.Vittoria_Attaccante = fase.Vittoria_Attaccante;
             report.Battaglia.Xp_Attaccante = fase.Xp_Attaccante + fase.Fase_Distanza.Attaccante_XP;

@@ -12,6 +12,7 @@ namespace Server_Strategico.Server
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading;
 
     
     internal class Server
@@ -34,8 +35,8 @@ namespace Server_Strategico.Server
         private static bool _AcceptInvalidCerts = true;
         private static bool _MutualAuth = false;
 
-        private CancellationTokenSource cts;
-        private Task gameLoopTask;
+        private CancellationTokenSource cts_1, cts_2;
+        private Task primaryGameLoopTask, secondaryGameLoopTask;
         static public GameServer servers_ = new GameServer();
 
         public static double totale_Stats = 0, media_Stats = 0, min_Stats = 0, max_Stats = 0, numero_Stats = 0;
@@ -218,8 +219,10 @@ namespace Server_Strategico.Server
 
         private async Task StartGame()
         {
-            cts = new CancellationTokenSource();
-            gameLoopTask = servers_.RunGameLoopAsync(cts.Token);
+            cts_1 = new CancellationTokenSource();
+            cts_2 = new CancellationTokenSource();
+            primaryGameLoopTask = servers_.RunGameLoopAsync(cts_1.Token);
+            secondaryGameLoopTask = Task.Run(() => servers_.RunGameLoopSecondarioAsync(cts_2.Token));
 
             Console.WriteLine($"[Server] Attesa avvio server....");
             while (!avviato)
@@ -235,10 +238,18 @@ namespace Server_Strategico.Server
         }
         private async Task StopGame()
         {
-            if (cts != null)
+            if (cts_1 != null)
             {
-                cts.Cancel(); // Ferma il loop di gioco
-                await gameLoopTask; // Attende che il loop si fermi completamente
+                cts_1.Cancel(); // Ferma il loop di gioco
+                await primaryGameLoopTask; // Attende che il loop si fermi completamente
+                Console.WriteLine("Il gioco è terminato.");
+            }
+            else Console.WriteLine("Il gioco non è attualmente in esecuzione.");
+
+            if (cts_2 != null)
+            {
+                cts_2.Cancel(); // Ferma il loop di gioco
+                await secondaryGameLoopTask; // Attende che il loop si fermi completamente
                 Console.WriteLine("Il gioco è terminato.");
             }
             else Console.WriteLine("Il gioco non è attualmente in esecuzione.");
@@ -650,7 +661,6 @@ namespace Server_Strategico.Server
                 await GameSave.LoadAllPlayersData();
                 servers_.AggiornaListaPVP();
                 await Gioco.Barbari.Inizializza();
-                _ = Task.Run(() => RunGameLoopSecondarioAsync(cancellationToken));
                 ScheduleManager.AvvioReset();
 
 
@@ -685,126 +695,57 @@ namespace Server_Strategico.Server
                     #region STATS SERVER
                     taskStopwatch.Stop();
                     TimeSpan tempoImpiegato_2 = taskStopwatch.Elapsed;
-
-                    if (stats >= 60)
-                    {
-                        PrintResourcesAsync();
-                        Console.WriteLine("Core: " + maxConcurrentTasks + " Giocatori: " + players.Count());
-                        Console.WriteLine($"[PERF] A - Server elaborato in:    [{tempoImpiegato_2.TotalMilliseconds:F4} ms]");
-                        Console.WriteLine($"[PERF] B - Min:                    [{min_Stats:F4} ms]");
-                        Console.WriteLine($"[PERF] C - Med:                    [{media_Stats:F4} ms]");
-                        Console.WriteLine($"[PERF] D - Max:                    [{max_Stats:F4} ms]");
-                        Console.WriteLine($"[PERF] E - X player:               [{(media_Stats / players.Count()):F6} ms]\n");
-
-                        Console.WriteLine($"[MONITOR] Client connessi: {Client_Connessi.Count}");
-                        Console.WriteLine($"[MONITOR] Client map: {Client_Connessi_Map.Count}");
-                        Console.WriteLine($"[MONITOR] Players: {players.Count}");
-                        Console.WriteLine($"[MONITOR] PVP: {Utenti_PVP.Count}");
-                        Console.WriteLine($"[MONITOR] GC Gen0: {GC.CollectionCount(0)}");
-                        Console.WriteLine($"[MONITOR] GC Gen1: {GC.CollectionCount(1)}");
-                        Console.WriteLine($"[MONITOR] GC Gen2: {GC.CollectionCount(2)}");
-                        Console.WriteLine($"[MONITOR] Heap totale: {GC.GetTotalMemory(false) / 1024 / 1024} MB");
-                        Console.WriteLine($"[MONITOR] Thread attivi: {System.Diagnostics.Process.GetCurrentProcess().Threads.Count}");
-                        Console.WriteLine($"[MONITOR] WatsonTcp clients: {server.Connections}");
-                        Console.WriteLine($"------------------------------------");
-
-                        stats = 0;
-                    }
-
-                    if (numero_Stats < 10) numero_Stats += 1;
-                    else
-                    {
-                        numero_Stats += 1;
-                        totale_Stats += tempoImpiegato_2.TotalMilliseconds;
-                        media_Stats = totale_Stats / numero_Stats;
-
-                        if (tempoImpiegato_2.TotalMilliseconds > max_Stats) max_Stats = tempoImpiegato_2.TotalMilliseconds;
-                        if (tempoImpiegato_2.TotalMilliseconds < min_Stats || min_Stats == 0) min_Stats = tempoImpiegato_2.TotalMilliseconds;
-                    }
+                    
+                    //if (stats >= 60)
+                    //{
+                    //    PrintResourcesAsync();
+                    //    Console.WriteLine("Core: " + maxConcurrentTasks + " Giocatori: " + players.Count());
+                    //    Console.WriteLine($"[PERF] A - Server elaborato in:    [{tempoImpiegato_2.TotalMilliseconds:F4} ms]");
+                    //    Console.WriteLine($"[PERF] B - Min:                    [{min_Stats:F4} ms]");
+                    //    Console.WriteLine($"[PERF] C - Med:                    [{media_Stats:F4} ms]");
+                    //    Console.WriteLine($"[PERF] D - Max:                    [{max_Stats:F4} ms]");
+                    //    Console.WriteLine($"[PERF] E - X player:               [{(media_Stats / players.Count()):F6} ms]\n");
+                    //
+                    //    Console.WriteLine($"[MONITOR] Client connessi: {Client_Connessi.Count}");
+                    //    Console.WriteLine($"[MONITOR] Client map: {Client_Connessi_Map.Count}");
+                    //    Console.WriteLine($"[MONITOR] Players: {players.Count}");
+                    //    Console.WriteLine($"[MONITOR] PVP: {Utenti_PVP.Count}");
+                    //    Console.WriteLine($"[MONITOR] GC Gen0: {GC.CollectionCount(0)}");
+                    //    Console.WriteLine($"[MONITOR] GC Gen1: {GC.CollectionCount(1)}");
+                    //    Console.WriteLine($"[MONITOR] GC Gen2: {GC.CollectionCount(2)}");
+                    //    Console.WriteLine($"[MONITOR] Heap totale: {GC.GetTotalMemory(false) / 1024 / 1024} MB");
+                    //    Console.WriteLine($"[MONITOR] Thread attivi: {System.Diagnostics.Process.GetCurrentProcess().Threads.Count}");
+                    //    Console.WriteLine($"[MONITOR] WatsonTcp clients: {server.Connections}");
+                    //    Console.WriteLine($"------------------------------------");
+                    //
+                    //    stats = 0;
+                    //}
+                    //
+                    //if (numero_Stats < 10) numero_Stats += 1;
+                    //else
+                    //{
+                    //    numero_Stats += 1;
+                    //    totale_Stats += tempoImpiegato_2.TotalMilliseconds;
+                    //    media_Stats = totale_Stats / numero_Stats;
+                    //
+                    //    if (tempoImpiegato_2.TotalMilliseconds > max_Stats) max_Stats = tempoImpiegato_2.TotalMilliseconds;
+                    //    if (tempoImpiegato_2.TotalMilliseconds < min_Stats || min_Stats == 0) min_Stats = tempoImpiegato_2.TotalMilliseconds;
+                    //}
                     #endregion
 
                     //Tempo reale di attesa....
                     double tempoRimanente = 1000.0 - tempoImpiegato_2.TotalMilliseconds;
                     if (stats >= 60)
-                        Console.WriteLine($"[STATS] Tempo rimanente: {tempoRimanente} -- Deve essere <25");
+                    {
+                        stats = 0;
+                        Console.WriteLine($"[STATS] Tempo rimanente: {tempoRimanente} -- Deve essere < 25");
+                    }
                     if (tempoRimanente <= 0) tempoRimanente = 25;
                     if (tempoRimanente > 0) await Task.Delay((int)tempoRimanente);
 
                     stats++;
                     if (!avviato) avviato = true;
                 }
-            }
-            public async Task SaveSomePlayersAsync(int count)
-            {
-                if (players.Count == 0) return;
-                if (players.Count < count) count = players.Count;
-                var list = players.Values.ToList();
-
-                for (int i = 0; i < count; i++)
-                {
-                    var player = list[_saveIndex];
-                    _saveIndex++;
-                    if (_saveIndex >= list.Count) _saveIndex = 0;
-
-                    await GameSave.SavePlayer(player);
-                }
-                Console.WriteLine(GameSave.SavePath);
-            }
-            public static void CalcoloPotenza(Player player)
-            {
-                const int p_Strutture = 25;
-                const int p_Ricerca = 1000;
-
-                // Potenza Strutture
-                player.Potenza_Strutture = (
-                    player.Fattoria + player.Segheria + player.CavaPietra +
-                    player.MinieraFerro + player.MinieraOro + player.Abitazioni +
-                    player.Workshop_Spade + player.Workshop_Lance + player.Workshop_Archi +
-                    player.Workshop_Scudi + player.Workshop_Armature + player.Workshop_Frecce +
-                    player.Caserma_Guerrieri + player.Caserma_Lancieri +
-                    player.Caserma_Arceri + player.Caserma_Catapulte
-                ) * p_Strutture;
-
-                // Potenza Esercito (con loop invece di ripetizioni)
-                int[] moltiplicatoriLivello = { 40, 70, 100, 130, 160 };
-                player.Potenza_Esercito = 0;
-
-                for (int i = 0; i < 5; i++)
-                {
-                    int totaleUnita = player.Guerrieri[i] + player.Lanceri[i] + player.Arceri[i] + player.Catapulte[i];
-                    player.Potenza_Esercito += totaleUnita * moltiplicatoriLivello[i];
-                }
-
-                // Potenza Ricerca
-                player.Potenza_Ricerca = (
-                    player.Ricerca_Addestramento + player.Ricerca_Costruzione +
-                    player.Ricerca_Produzione + player.Ricerca_Popolazione +
-                    player.Ricerca_Trasporto + player.Ricerca_Riparazione
-                ) * p_Ricerca * 2;
-
-                // Ricerche difensive
-                player.Potenza_Ricerca += (
-                    player.Ricerca_Cancello_Guarnigione + player.Ricerca_Cancello_Salute +
-                    player.Ricerca_Cancello_Difesa + player.Ricerca_Citta_Guarnigione +
-                    player.Ricerca_Mura_Guarnigione + player.Ricerca_Mura_Salute +
-                    player.Ricerca_Mura_Difesa + player.Ricerca_Torri_Guarnigione +
-                    player.Ricerca_Torri_Salute + player.Ricerca_Torri_Difesa
-                ) * p_Ricerca;
-
-                // Ricerche unità
-                player.Potenza_Ricerca += (
-                    player.Guerriero_Livello + player.Guerriero_Attacco +
-                    player.Guerriero_Salute + player.Guerriero_Difesa +
-                    player.Lancere_Livello + player.Lancere_Attacco +
-                    player.Lancere_Salute + player.Lancere_Difesa +
-                    player.Arcere_Livello + player.Arcere_Attacco +
-                    player.Arcere_Salute + player.Arcere_Difesa +
-                    player.Catapulta_Livello + player.Catapulta_Attacco +
-                    player.Catapulta_Salute + player.Catapulta_Difesa
-                ) * p_Ricerca;
-
-                // Totale
-                player.Potenza_Totale = player.Potenza_Strutture + player.Potenza_Esercito + player.Potenza_Ricerca;
             }
             public async Task RunGameLoopSecondarioAsync(CancellationToken cancellationToken) //Task parallelo, andrebbe usato x richiamare cose, costruzioni, tempo, ecc...
             {
@@ -975,6 +916,84 @@ namespace Server_Strategico.Server
 
                     await Task.Delay(500); // Ciclo ogni secondo, o regola il ritardo come necessario
                 }
+            }
+            public async Task SaveSomePlayersAsync(int count)
+            {
+                int giocatoriServer = players.Count;
+                int giocatoriSalvati = 0;
+                int giocatoriFalliti = 0;
+                if (giocatoriServer == 0) return;
+                if (giocatoriServer < count) count = giocatoriServer;
+                var list = players.Values.ToList();
+
+                for (int i = 0; i < count; i++)
+                {
+                    var player = list[_saveIndex];
+                    _saveIndex++;
+                    if (_saveIndex >= list.Count) _saveIndex = 0;
+
+                    if (!await GameSave.SavePlayer(player)) 
+                        giocatoriFalliti++;
+                    giocatoriSalvati++;
+                }
+                Console.WriteLine($"[SERVER] Salvataggio completato per {giocatoriSalvati}/{count} giocatori su {giocatoriServer} totali. (Falliti: {giocatoriFalliti})");
+                Console.WriteLine(GameSave.SavePath);
+            }
+            public static void CalcoloPotenza(Player player)
+            {
+                const int p_Strutture = 25;
+                const int p_Ricerca = 1000;
+
+                // Potenza Strutture
+                player.Potenza_Strutture = (
+                    player.Fattoria + player.Segheria + player.CavaPietra +
+                    player.MinieraFerro + player.MinieraOro + player.Abitazioni +
+                    player.Workshop_Spade + player.Workshop_Lance + player.Workshop_Archi +
+                    player.Workshop_Scudi + player.Workshop_Armature + player.Workshop_Frecce +
+                    player.Caserma_Guerrieri + player.Caserma_Lancieri +
+                    player.Caserma_Arceri + player.Caserma_Catapulte
+                ) * p_Strutture;
+
+                // Potenza Esercito (con loop invece di ripetizioni)
+                int[] moltiplicatoriLivello = { 40, 70, 100, 130, 160 };
+                player.Potenza_Esercito = 0;
+
+                for (int i = 0; i < 5; i++)
+                {
+                    int totaleUnita = player.Guerrieri[i] + player.Lanceri[i] + player.Arceri[i] + player.Catapulte[i];
+                    player.Potenza_Esercito += totaleUnita * moltiplicatoriLivello[i];
+                }
+
+                // Potenza Ricerca
+                player.Potenza_Ricerca = (
+                    player.Ricerca_Addestramento + player.Ricerca_Costruzione +
+                    player.Ricerca_Produzione + player.Ricerca_Popolazione +
+                    player.Ricerca_Trasporto + player.Ricerca_Riparazione
+                ) * p_Ricerca * 2;
+
+                // Ricerche difensive
+                player.Potenza_Ricerca += (
+                    player.Ricerca_Cancello_Guarnigione + player.Ricerca_Cancello_Salute +
+                    player.Ricerca_Cancello_Difesa + player.Ricerca_Citta_Guarnigione +
+                    player.Ricerca_Mura_Guarnigione + player.Ricerca_Mura_Salute +
+                    player.Ricerca_Mura_Difesa + player.Ricerca_Torri_Guarnigione +
+                    player.Ricerca_Torri_Salute + player.Ricerca_Torri_Difesa
+                ) * p_Ricerca;
+
+                // Ricerche unità
+                player.Potenza_Ricerca += (
+                    player.Guerriero_Livello + player.Guerriero_Attacco +
+                    player.Guerriero_Salute + player.Guerriero_Difesa +
+                    player.Lancere_Livello + player.Lancere_Attacco +
+                    player.Lancere_Salute + player.Lancere_Difesa +
+                    player.Arcere_Livello + player.Arcere_Attacco +
+                    player.Arcere_Salute + player.Arcere_Difesa +
+                    player.Catapulta_Livello + player.Catapulta_Attacco +
+                    player.Catapulta_Salute + player.Catapulta_Difesa
+                ) * p_Ricerca;
+
+                // Totale
+                player.Potenza_Totale = player.Potenza_Strutture + player.Potenza_Esercito + player.Potenza_Ricerca;
             }
             public static void Ripara(Player player)
             {
