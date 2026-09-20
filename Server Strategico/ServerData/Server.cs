@@ -708,7 +708,11 @@ namespace Server_Strategico.Server
                                         player.ManutenzioneEsercito();
                                         return;
                                     }
-                                    if (player.Email_Code_Time > 0) player.Email_Code_Time--;
+                                    if (player.Email_Code_Time > 0)
+                                    {
+                                        player.Email_Code_Time--;
+                                        player.Email_Code = 0;
+                                    }
 
                                     player.ProduceResources();
                                     player.ServerTimer();
