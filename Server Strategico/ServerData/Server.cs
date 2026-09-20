@@ -66,9 +66,9 @@ namespace Server_Strategico.Server
             if (!_Ssl) server = new WatsonTcpServer(serverIp, serverPort);
             else
             {
-                _CertPass = "";
-                _AcceptInvalidCerts = false;
-                _MutualAuth = false;
+                _CertPass = Password.password;
+                _AcceptInvalidCerts = true;
+                _MutualAuth = true;
 
                 server = new WatsonTcpServer(serverIp, serverPort, _CertFile, _CertPass);
                 server.Settings.AcceptInvalidCertificates = _AcceptInvalidCerts;
