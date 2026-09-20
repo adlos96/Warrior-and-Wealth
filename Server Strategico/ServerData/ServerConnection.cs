@@ -1437,10 +1437,10 @@ namespace Server_Strategico.Server
                         Pietra = v.Pietra,
                         Ferro = v.Ferro,
                         Oro = v.Oro,
-                        Guerrieri = v.Esplorato ? v.Guerrieri : 0,
-                        Lancieri = v.Esplorato ? v.Lancieri : 0,
-                        Arcieri = v.Esplorato ? v.Arcieri : 0,
-                        Catapulte = v.Esplorato ? v.Catapulte : 0
+                        Guerrieri = v.Esplorato ? v.Guerrieri.Sum() : 0,
+                        Lancieri = v.Esplorato ? v.Lancieri.Sum() : 0,
+                        Arcieri = v.Esplorato ? v.Arcieri.Sum() : 0,
+                        Catapulte = v.Esplorato ? v.Catapulte.Sum() : 0
                     });
                 else break;
             }
@@ -1473,10 +1473,10 @@ namespace Server_Strategico.Server
                         Pietra = c.Pietra,
                         Ferro = c.Ferro,
                         Oro = c.Oro,
-                        Guerrieri = c.Esplorato ? c.Guerrieri : 0,
-                        Lancieri = c.Esplorato ? c.Lancieri : 0,
-                        Arcieri = c.Esplorato ? c.Arcieri : 0,
-                        Catapulte = c.Esplorato ? c.Catapulte : 0
+                        Guerrieri = c.Esplorato ? c.Guerrieri.Sum() : 0,
+                        Lancieri = c.Esplorato ? c.Lancieri.Sum() : 0,
+                        Arcieri = c.Esplorato ? c.Arcieri.Sum() : 0,
+                        Catapulte = c.Esplorato ? c.Catapulte.Sum() : 0
                     });
                 else break;
             }

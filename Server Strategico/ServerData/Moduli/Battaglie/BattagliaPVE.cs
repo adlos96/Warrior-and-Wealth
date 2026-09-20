@@ -77,11 +77,12 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
             return 0;
         }
 
+        // 20/09/2026: Villaggi/Città Barbare ora hanno truppe su 5 tier come il giocatore
+        // (Barbari.cs, DistribuisciTruppe), quindi si copia l'intero array invece di piazzare
+        // tutto su un solo tierIndex ricavato dal livello del bersaglio.
         internal static UnitGroup CaricaUnitaNemiche(int livello, string tipo, Giocatori.Player player)
         {
             var units = new UnitGroup();
-            int tierIndex = GetTierIndex(livello);
-            if (tierIndex < 0 || tierIndex >= 5) return units;
 
             if (tipo == "Città Barbaro")
             {
@@ -90,10 +91,10 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
                 var citta = Barbari.CittaGlobali.FirstOrDefault(c => c.Livello == livello);
                 if (citta == null) return units;
 
-                units.Guerrieri[tierIndex] = citta.Guerrieri;
-                units.Lancieri[tierIndex] = citta.Lancieri;
-                units.Arcieri[tierIndex] = citta.Arcieri;
-                units.Catapulte[tierIndex] = citta.Catapulte;
+                units.Guerrieri = (int[])citta.Guerrieri.Clone();
+                units.Lancieri = (int[])citta.Lancieri.Clone();
+                units.Arcieri = (int[])citta.Arcieri.Clone();
+                units.Catapulte = (int[])citta.Catapulte.Clone();
             }
             else if (tipo == "Villaggio Barbaro")
             {
@@ -101,10 +102,10 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
                 var villaggio = player.VillaggiPersonali[livello - 1];
                 if (villaggio == null) return units;
 
-                units.Guerrieri[tierIndex] = villaggio.Guerrieri;
-                units.Lancieri[tierIndex] = villaggio.Lancieri;
-                units.Arcieri[tierIndex] = villaggio.Arcieri;
-                units.Catapulte[tierIndex] = villaggio.Catapulte;
+                units.Guerrieri = (int[])villaggio.Guerrieri.Clone();
+                units.Lancieri = (int[])villaggio.Lancieri.Clone();
+                units.Arcieri = (int[])villaggio.Arcieri.Clone();
+                units.Catapulte = (int[])villaggio.Catapulte.Clone();
             }
             return units;
         }
@@ -121,24 +122,21 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
             return null;
         }
 
-        // Riporta sul Villaggio/Città Barbara i sopravvissuti della guarnigione dopo la battaglia.
         internal static void AggiornaBarbari(int livello, string tipo, Giocatori.Player player, UnitGroup survivors)
         {
-            int tierIndex = GetTierIndex(livello);
-
             if (tipo == "Città Barbaro")
             {
                 // BUGFIX: stesso "Livello == 1" hardcoded del caricamento, corretto in "Livello == livello".
                 var citta = Barbari.CittaGlobali.FirstOrDefault(c => c.Livello == livello);
                 if (citta == null) return;
 
-                int truppe = citta.Guerrieri + citta.Lancieri + citta.Arcieri + citta.Catapulte;
+                int truppe = citta.Guerrieri.Sum() + citta.Lancieri.Sum() + citta.Arcieri.Sum() + citta.Catapulte.Sum();
                 if (truppe == 0) citta.Sconfitto = true;
 
-                citta.Guerrieri = survivors.Guerrieri[tierIndex];
-                citta.Lancieri = survivors.Lancieri[tierIndex];
-                citta.Arcieri = survivors.Arcieri[tierIndex];
-                citta.Catapulte = survivors.Catapulte[tierIndex];
+                citta.Guerrieri = (int[])survivors.Guerrieri.Clone();
+                citta.Lancieri = (int[])survivors.Lancieri.Clone();
+                citta.Arcieri = (int[])survivors.Arcieri.Clone();
+                citta.Catapulte = (int[])survivors.Catapulte.Clone();
             }
             else if (tipo == "Villaggio Barbaro")
             {
@@ -146,13 +144,13 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
                 var villaggio = player.VillaggiPersonali[livello - 1];
                 if (villaggio == null) return;
 
-                int truppe = villaggio.Guerrieri + villaggio.Lancieri + villaggio.Arcieri + villaggio.Catapulte;
+                int truppe = villaggio.Guerrieri.Sum() + villaggio.Lancieri.Sum() + villaggio.Arcieri.Sum() + villaggio.Catapulte.Sum();
                 if (truppe == 0) villaggio.Sconfitto = true;
 
-                villaggio.Guerrieri = survivors.Guerrieri[tierIndex];
-                villaggio.Lancieri = survivors.Lancieri[tierIndex];
-                villaggio.Arcieri = survivors.Arcieri[tierIndex];
-                villaggio.Catapulte = survivors.Catapulte[tierIndex];
+                villaggio.Guerrieri = (int[])survivors.Guerrieri.Clone();
+                villaggio.Lancieri = (int[])survivors.Lancieri.Clone();
+                villaggio.Arcieri = (int[])survivors.Arcieri.Clone();
+                villaggio.Catapulte = (int[])survivors.Catapulte.Clone();
             }
         }
 
@@ -476,14 +474,6 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
         // FASE UNICA (i barbari non hanno strati multipli come nel PVP)
         // ═══════════════════════════════════════════════════════════════
 
-        // 19/09/2026, su richiesta dell'utente ("i barbari hanno anche Difesa e Salute"): Villaggi/Città Barbare hanno
-        // sempre avuto questi due campi (Barbari.cs, scalano col livello e si "riparano" di 1/giorno — vedi
-        // RiparaVillaggiBarbari/RiparaCittàBarbare), ma finora la battaglia li ignorava del tutto: la riparazione
-        // giornaliera non serviva a nulla perché niente li faceva mai scendere. Ora la fase corpo a corpo li usa
-        // esattamente come lo strato Ingresso/Centro nel PVP (vedi BattagliaPVP.cs, Battaglia_corpo_a_Corpo): 30%
-        // del danno assorbito dalla Difesa, poi il 20% di quel che resta assorbito dalla Salute, il resto va alle
-        // truppe — e Difesa/Salute restano scalati sull'oggetto Barbari stesso (danno permanente finché non si
-        // rigenerano da soli). "target" può essere null (barbaro non trovato): in quel caso si comporta come prima.
         private static RisultatoFase Battaglia_Fase(Giocatori.Player player, UnitGroup attackerUnits, UnitGroup enemyUnits, Barbari.BarbarianBase target)
         {
             var fase = new RisultatoFase
@@ -618,15 +608,7 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
 
             Esperienza.AddExp(player, report.Battaglia.Xp_Attaccante);
             AggiornaBarbari(livello, tipo, player, fase.Difensore.Sopravvisuti);
-
             player.Report.Add(report);
-
-            // Invio live del report: fino al 15/09/2026 veniva mandato subito qui a mano
-            // (stesso schema di BattagliaPVP.cs), perché prima il referto arrivava al
-            // client solo al login. Dal 16/09/2026 questo invio esplicito non serve più:
-            // ServerConnection.Update_Data (il tick di gioco, circa ogni secondo) rileva
-            // da solo il cambio di player.Report.Count e manda il Report_Lista aggiornato
-            // — vedi PlayerSnapshot.ReportCountChanged.
 
             // Statistiche/Quest
             player.Guerrieri_Eliminati += fase.Difensore.Perdite.Guerrieri.Sum() + fase.Fase_Distanza.Difensore_Morti.Guerrieri.Sum();

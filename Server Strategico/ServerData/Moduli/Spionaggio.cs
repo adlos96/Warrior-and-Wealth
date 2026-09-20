@@ -196,12 +196,14 @@ namespace Server_Strategico.ServerData.Moduli
             if (livello >= 2) // Le truppe si vedono solo da stadio 2 in su, come nel PVP
             {
                 // Fase 0 = A Distanza (Arcieri + Catapulte)
-                ApplicaPrecisione(spy.Fasi[0].Arcieri[0], target.Arcieri, precisione);
-                ApplicaPrecisione(spy.Fasi[0].Catapulte[0], target.Catapulte, precisione);
+                // 20/09/2026: target.Arcieri/ecc. sono ora array a 5 tier (Barbari.cs) — qui si spia
+                // solo il totale (stesso dettaglio mostrato prima), quindi si somma sui tier con .Sum().
+                ApplicaPrecisione(spy.Fasi[0].Arcieri[0], target.Arcieri.Sum(), precisione);
+                ApplicaPrecisione(spy.Fasi[0].Catapulte[0], target.Catapulte.Sum(), precisione);
 
                 // Fase 1 = Corpo a Corpo (Guerrieri + Lancieri)
-                ApplicaPrecisione(spy.Fasi[1].Guerrieri[0], target.Guerrieri, precisione);
-                ApplicaPrecisione(spy.Fasi[1].Lanceri[0], target.Lancieri, precisione);
+                ApplicaPrecisione(spy.Fasi[1].Guerrieri[0], target.Guerrieri.Sum(), precisione);
+                ApplicaPrecisione(spy.Fasi[1].Lanceri[0], target.Lancieri.Sum(), precisione);
             }
 
             if (livello >= 1)
@@ -217,7 +219,38 @@ namespace Server_Strategico.ServerData.Moduli
                 spy.Risorse_Speciali.Diamanti_Blu = target.Diamanti_Blu;
             }
 
+            // 20/09/2026, su richiesta dell'utente: come nel PVP (Load_Truppe_Stats, stesso
+            // stadio 6), anche lo spionaggio contro un barbaro deve mostrare Salute/Difesa/Attacco
+            // delle sue unità per i 5 tier. Città e Villaggi mostreranno di proposito gli stessi
+            // numeri (condividono Esercito.EsercitoNemico via BattagliaPVE.GetEnemyUnitStats) —
+            // non è un errore, è lo stesso comportamento già confermato per il report di battaglia.
+            if (livello >= 6)
+                Load_Truppe_Stats_Barbaro(spy);
+
             attaccante.Report.Add(report);
+        }
+        public static void Load_Truppe_Stats_Barbaro(Battaglia.RisultatoSpionaggio spionaggio)
+        {
+            for (int i = 0; i <= 4; i++)
+            {
+                var stats = BattagliaPVE.GetEnemyUnitStats(i);
+
+                spionaggio.Stats_Unità.Guerrieri[i].Salute = (int)stats.GuerrieriSalute;
+                spionaggio.Stats_Unità.Guerrieri[i].Difesa = (int)stats.GuerrieriDifesa;
+                spionaggio.Stats_Unità.Guerrieri[i].Attacco = (int)stats.GuerrieriAttacco;
+
+                spionaggio.Stats_Unità.Lanceri[i].Salute = (int)stats.LancieriSalute;
+                spionaggio.Stats_Unità.Lanceri[i].Difesa = (int)stats.LancieriDifesa;
+                spionaggio.Stats_Unità.Lanceri[i].Attacco = (int)stats.LancieriAttacco;
+
+                spionaggio.Stats_Unità.Arcieri[i].Salute = (int)stats.ArcieriSalute;
+                spionaggio.Stats_Unità.Arcieri[i].Difesa = (int)stats.ArcieriDifesa;
+                spionaggio.Stats_Unità.Arcieri[i].Attacco = (int)stats.ArcieriAttacco;
+
+                spionaggio.Stats_Unità.Catapulte[i].Salute = (int)stats.CatapulteSalute;
+                spionaggio.Stats_Unità.Catapulte[i].Difesa = (int)stats.CatapulteDifesa;
+                spionaggio.Stats_Unità.Catapulte[i].Attacco = (int)stats.CatapulteAttacco;
+            }
         }
         public async static void EseguiSpionaggioTEST()
         {

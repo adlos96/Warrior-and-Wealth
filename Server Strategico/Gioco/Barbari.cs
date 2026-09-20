@@ -1,4 +1,5 @@
 ﻿using static Server_Strategico.Gioco.Giocatori;
+using Server_Strategico.ServerData.Moduli.Battaglie;
 
 namespace Server_Strategico.Gioco
 {
@@ -32,10 +33,10 @@ namespace Server_Strategico.Gioco
             public int Ferro { get; set; }
             public int Oro { get; set; }
 
-            public int Guerrieri { get; set; }
-            public int Lancieri { get; set; }
-            public int Arcieri { get; set; }
-            public int Catapulte { get; set; }
+            public int[] Guerrieri { get; set; }
+            public int[] Lancieri { get; set; }
+            public int[] Arcieri { get; set; }
+            public int[] Catapulte { get; set; }
 
             public abstract bool IsGlobal { get; }
         }
@@ -63,11 +64,31 @@ namespace Server_Strategico.Gioco
                 citta.Difesa++;
             }
         }
-        static int truppeVillaggio = 20;
-        static int truppeCittà = 110;
+        public static int truppeVillaggio = 20;
+        public static int truppeCittà = 110;
+
+        // 20/09/2026, su richiesta dell'utente: le truppe di villaggi/città barbare ora sono
+        // array a 5 tier come quelle del giocatore (Guerrieri/Lancieri/Arcieri/Catapulte), solo
+        // per uniformità di struttura con UnitGroup (necessaria per riusare le formule di
+        // BattagliaPVE.cs) — NON per avere un esercito "misto" su più tier. Il livello del
+        // barbaro (1-20) determina due cose separate, come chiarito dall'utente:
+        //  - la FORZA delle truppe: tutto il totale finisce su un solo tier, quello di
+        //    BattagliaPVE.GetTierIndex(livello) — più alto è il livello, più alto (quindi più
+        //    forte, vedi GetEnemyUnitStats) è quel tier;
+        //  - il NUMERO di truppe: resta la formula "baseTruppe" già esistente e invariata
+        //    (scala col livello del villaggio/città e, per i villaggi personali, anche col
+        //    livello del giocatore) — nessuna suddivisione del totale su più tier.
+        private static int[] TruppeSulProprioTier(int totale, int tierIndex)
+        {
+            var arr = new int[5];
+            arr[Math.Clamp(tierIndex, 0, 4)] = totale;
+            return arr;
+        }
+
         public static VillaggioBarbaro GeneraVillaggio(int livello, int livello_Player) // Generazione villaggio barbaro personale
         {
             int baseTruppe = (int)(truppeVillaggio * livello + (truppeVillaggio * (livello_Player - 1) * 0.5)); //Non mi torna.... (Edit: ORa dovrebbe ignorare il "liv 1" del giocatore)
+            int tierIndex = BattagliaPVE.GetTierIndex(livello);
             return new VillaggioBarbaro
             {
                 Id = Guid.NewGuid().GetHashCode(),
@@ -84,10 +105,10 @@ namespace Server_Strategico.Gioco
                 Pietra = 2000 * livello,
                 Ferro = 1800 * livello,
                 Oro = 1050 * livello,
-                Guerrieri = baseTruppe,
-                Lancieri = (int)(baseTruppe * 0.97),
-                Arcieri = (int)(baseTruppe * 0.69),
-                Catapulte = (int)(baseTruppe* 0.57),
+                Guerrieri = TruppeSulProprioTier(baseTruppe, tierIndex),
+                Lancieri = TruppeSulProprioTier((int)(baseTruppe * 0.97), tierIndex),
+                Arcieri = TruppeSulProprioTier((int)(baseTruppe * 0.69), tierIndex),
+                Catapulte = TruppeSulProprioTier((int)(baseTruppe * 0.57), tierIndex),
                 Salute = 40 * livello,
                 Difesa = 25 * livello
             };
@@ -95,6 +116,7 @@ namespace Server_Strategico.Gioco
         public static CittaBarbara GeneraCitta(int livello) // Generazione città barbarica globale
         {
             int baseTruppe = truppeCittà * livello;
+            int tierIndex = BattagliaPVE.GetTierIndex(livello);
             return new CittaBarbara
             {
                 Id = Guid.NewGuid().GetHashCode(),
@@ -112,10 +134,10 @@ namespace Server_Strategico.Gioco
                 Pietra = 20000 * livello,
                 Ferro = 18000 * livello,
                 Oro = 10500 * livello,
-                Guerrieri = baseTruppe,
-                Lancieri = (int)(baseTruppe * 0.98),
-                Arcieri = (int)(baseTruppe * 0.70),
-                Catapulte = (int)(baseTruppe * 0.58),
+                Guerrieri = TruppeSulProprioTier(baseTruppe, tierIndex),
+                Lancieri = TruppeSulProprioTier((int)(baseTruppe * 0.98), tierIndex),
+                Arcieri = TruppeSulProprioTier((int)(baseTruppe * 0.70), tierIndex),
+                Catapulte = TruppeSulProprioTier((int)(baseTruppe * 0.58), tierIndex),
                 Salute = 100 * livello,
                 Difesa = 50 * livello
             };
@@ -166,10 +188,10 @@ namespace Server_Strategico.Gioco
             {
                 diamanti_Viola += citta.Diamanti_Viola;
                 diamanti_Blu += citta.Diamanti_Blu;
-                guerrieri += citta.Guerrieri;
-                lancieri += citta.Lancieri;
-                arcieri += citta.Arcieri;
-                catapulte += citta.Catapulte;
+                guerrieri += citta.Guerrieri.Sum();
+                lancieri += citta.Lancieri.Sum();
+                arcieri += citta.Arcieri.Sum();
+                catapulte += citta.Catapulte.Sum();
             }
             Console.WriteLine($"[Barbari] Stats Città Barbare: {diamanti_Viola} D_V, {diamanti_Blu} D_B, {guerrieri} G, {lancieri} L, {arcieri} A, {catapulte} C");
         }
@@ -196,11 +218,14 @@ namespace Server_Strategico.Gioco
             Console.WriteLine($"[Barbari] Rigenerazione completata: {CittaGlobali.Count} città e villaggi per {Server.Server.servers_.players.Count} giocatori.");
         }
          
+        // 20/09/2026: target.Guerrieri/ecc. sono ora array a 5 tier — la stima mandata al client
+        // resta un totale singolo per tipo (stesso contratto di prima, .Sum() sui 5 tier) per non
+        // dover cambiare il protocollo client/Esplora.
         public static (int, int, int, int) StimaTruppe(BarbarianBase target) // Esplorazione — stima truppe (±20%)
         {
             int Deviazione(int val) => (int)(val * (1 + rnd.Next(-20, 21) / 100.0));
-            return (Deviazione(target.Guerrieri), Deviazione(target.Lancieri),
-                    Deviazione(target.Arcieri), Deviazione(target.Catapulte));
+            return (Deviazione(target.Guerrieri.Sum()), Deviazione(target.Lancieri.Sum()),
+                    Deviazione(target.Arcieri.Sum()), Deviazione(target.Catapulte.Sum()));
         }
 
         public static (int G, int L, int A, int C) EsploraTruppe(Player g, BarbarianBase target)  // Esplorazione con costo in oro
