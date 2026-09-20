@@ -64,10 +64,17 @@ namespace Server_Strategico.Server
             // intercettato qui con TOKEN_SCADUTO/TOKEN_NON_VALIDO e la logica
             // di fallback sul refresh token nel case "AutoLogin" più sotto non
             // veniva mai raggiunta.
-            if (comando == "Login" || comando == "New Player" || comando == "AutoLogin")
+            if (comando == "Login" || comando == "New Player" || comando == "AutoLogin" || comando == "Reset Password")
             {
                 msgArgs = msgArgsRicevuti;
-                if (comando != "AutoLogin")
+
+                if (comando == "Reset Password")
+                {
+                    // Reset Password|username|codice|nuovaPassword|email|modalità
+                    if (msgArgsRicevuti.Length < 6) return;
+                    player = Server.servers_.GetPlayer(msgArgsRicevuti[1]); // per username, niente token
+                }
+                else if (comando != "AutoLogin")
                 {
                     user = msgArgsRicevuti[2];
                     password = msgArgsRicevuti[3];
@@ -114,7 +121,8 @@ namespace Server_Strategico.Server
             }
             var Giocatori = Server.servers_.players;
             if (player == null) player = Server.servers_.GetPlayer(user, password);
-            
+
+            string ip = client.Replace("WS:", "").Split(":")[0];
             switch (msgArgs[0])
             {
                 case "Refresh_Access_Token":
@@ -225,6 +233,7 @@ namespace Server_Strategico.Server
                         GamePass_Premi_Send(player);
                         Update_Data_OneTime(clientGuid, player);
                         if (player.Snapshot != null) player.Snapshot.Reset();
+                        await EmailManager.SendLoginAlertAsync(player.Email, player.Username, ip);
                     }
                     else
                         Server.Send(clientGuid, $"Login|false|Username o password non corrispondono. User: [{msgArgs[1]}] psw: [{msgArgs[2]}]");
@@ -268,16 +277,8 @@ namespace Server_Strategico.Server
                         return;
                     }
 
-                    // FONDAMENTALE (mancava): senza aggiornare guid_Player, il game
-                    // loop (GameServer.Auto_Update_Clients, che manda gli Update_Data
-                    // ad ogni tick) continua a usare il guid della sessione precedente
-                    // — quindi il client che ha appena fatto AutoLogin non riceve mai
-                    // aggiornamenti, pur senza errori lato server. Login/New Player lo
-                    // fanno già (vedi ServerConnection.Login/New_Player).
                     player.guid_Player = clientGuid;
-                    // Rotazione token (come su Login/New Player): il refresh token
-                    // usato viene revocato e se ne genera uno nuovo insieme al nuovo
-                    // access token, invece di continuare a riusare lo stesso all'infinito.
+
                     TokenManager.RevokeRefreshToken(refreshToken_A);
                     accessToken_A = TokenManager.GenerateAccessToken(player.Email, player.Username, TimeSpan.FromHours(8));
                     refreshToken_A = TokenManager.GenerateRefreshToken(player.Email, player.Username, TimeSpan.FromDays(10));
@@ -325,14 +326,13 @@ namespace Server_Strategico.Server
                     GamePass_Premi_Send(player);
                     Update_Data_OneTime(clientGuid, player);
                     player.Snapshot.Reset();
+                    await EmailManager.SendLoginAlertAsync(player.Email, player.Username, ip);
 
                     break;
-                case "Password change":
+                case "Reset Password":
                     Console.WriteLine($"[Server] Richiesta cambio password per l'utente: {msgArgs[1]}");
                     Cambia_Password(clientGuid, player, msgArgs);
                     break;
-
-
                 case "Costruzione":
                     if (Convert.ToInt32(msgArgs[3]) > 0) BuildingManagerV2.Costruzione("Fattoria", Convert.ToInt32(msgArgs[3]), clientGuid, player); // Costruisci fattorie
                     if (Convert.ToInt32(msgArgs[4]) > 0) BuildingManagerV2.Costruzione("Segheria", Convert.ToInt32(msgArgs[4]), clientGuid, player); // Costruisci fattorie
@@ -363,10 +363,6 @@ namespace Server_Strategico.Server
                     BuildingManagerV2.Terreni_Virtuali(clientGuid, player); // Costruisci fattorie
                     break;
                 case "Esplora":
-                    // 16/09/2026: nuovo protocollo, sostituisce gradualmente il vecchio Esplora(...).
-                    // PVP: "Esplora|Token|PVP|Bersaglio"              -> msgArgs[3]=PVP, [4]=username
-                    // PVE: "Esplora|Token|PVE|Bersaglio|Livello"      -> msgArgs[3]=PVE, [4]=globale, [5]=livello
-                    //public static void EseguiSpionaggioRichiesta(Player attaccante, string modalità, string bersaglio, string livelloStr)
                     EseguiSpionaggioRichiesta(player, msgArgs[3], msgArgs[4], msgArgs.Length > 5 ? msgArgs[5] : null);
                     break;
                 case "Battaglia":
@@ -399,16 +395,9 @@ namespace Server_Strategico.Server
                     Shop.Shop_Call(clientGuid, player, msgArgs[3]); //Shop
                     break;
                 case "Elimina_Report":
-                    // 16/09/2026, su richiesta dell'utente: il giocatore può eliminare un
-                    // singolo referto dalla propria lista. Formato: "Elimina_Report|Token|Indice"
-                    // -> msgArgs[3] = indice nell'array player.Report così come l'ha ricevuto
-                    // l'ultima volta dal client (vedi Web/js/14-battaglia.js, data-report-index).
                     Elimina_Report(player, clientGuid, msgArgs[3]);
                     break;
                 case "Elimina_Cronologia":
-                    // 16/09/2026, su richiesta dell'utente: il giocatore può svuotare la
-                    // propria cronologia messaggi. Formato: "Elimina_Cronologia|Token"
-                    // (nessun indice: cancella tutta la cronologia salvata lato server).
                     Elimina_Cronologia(player, clientGuid);
                     break;
                 case "SpostamentoTruppe":
@@ -556,8 +545,7 @@ namespace Server_Strategico.Server
                         player.Email_Code = code;
                         player.Email_Code_Time = 15 * 3600;
                         //Invia il codice via email
-                        //await EmailManager.SendPasswordRecoveryAsync(player.Email, player.Username, code.ToString());
-                        //await EmailManager.SendPasswordRecoveryAsync("thechannelofadlos@gmail.com", player.Username, code.ToString());
+                        await EmailManager.SendPasswordRecoveryAsync(player.Email, player.Username, code.ToString());
                     }
                     else Console.WriteLine($"[Server] L'email non corrisponde per l'utente: {msgArgs[1]}");
                 break;

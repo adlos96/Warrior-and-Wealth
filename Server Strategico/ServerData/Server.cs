@@ -680,6 +680,7 @@ namespace Server_Strategico.Server
                                 player.ManutenzioneEsercito();
                                 return;
                             }
+                            if (player.Email_Code_Time > 0) player.Email_Code_Time--;
                             
                             player.ProduceResources();
                             player.ServerTimer();
