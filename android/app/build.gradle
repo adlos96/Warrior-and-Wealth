@@ -34,13 +34,16 @@ android {
             storePassword fetchSecret("KEYSTORE_PASSWORD")
             keyAlias fetchSecret("KEYSTORE_ALIAS")
             keyPassword fetchSecret("KEY_PASSWORD")
+            enableV1Signing = false
+            enableV2Signing = true
+            enableV3Signing = true
         }
     }
 
     buildTypes {
         release {
             signingConfig = signingConfigs.release
-            minifyEnabled false
+            minifyEnabled true
         }
     }
 }
