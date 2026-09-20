@@ -307,33 +307,33 @@ namespace Server_Strategico.Server
         // ----------------------- Client Connessione --------------------------
         static void ClientConnected(object? sender, ConnectionEventArgs args)
         {
-            lastGuid = args.Client.Guid;
-            string lasIpPort = args.Client.IpPort;
-            Console.WriteLine("[SERVER|LOG] > Client connesso: " + args.Client.ToString());
+            try
+            {
+                Guid guid = args.Client.Guid;   // locale: lastGuid è static e condiviso tra thread
+                Console.WriteLine("[SERVER|LOG] > Client connesso: " + args.Client);
 
-            //Mappa
-            Client_Connessi_Map.TryAdd(lastGuid, args.Client.IpPort);
-
-            // Manteniamo la lista per compatibilità, ma usiamo la mappa per l'aggiornamento
-            if (!Client_Connessi.Contains(lastGuid))
-                Client_Connessi.Add(lastGuid);
-            
-            Send(lastGuid, $"Update_Data|versione_Client_Necessario={Variabili_Server.versione_Client_Necessario}");
+                Client_Connessi_Map.TryAdd(guid, args.Client.IpPort);
+                Send(guid, $"Update_Data|versione_Client_Necessario={Variabili_Server.versione_Client_Necessario}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[SERVER|LOG] (Errore) > ClientConnected: {ex}");
+            }
         }
         static async void ClientDisconnected(object? sender, DisconnectionEventArgs args)
         {
-            lastGuid = args.Client.Guid;
-            Console.WriteLine("[SERVER|LOG] > Client disconnesso: " + args.Client.ToString() + ": " + args.Reason.ToString());
-
-            Client_Connessi_Map.TryRemove(lastGuid, out _);
-            Client_Connessi.Remove(lastGuid);
-
-            // Forza pulizia del client su WatsonTcp
             try
             {
-                await server.DisconnectClientAsync(lastGuid);
+                Guid guid = args.Client.Guid;
+                Console.WriteLine("[SERVER|LOG] > Client disconnesso: " + args.Client + ": " + args.Reason);
+
+                Client_Connessi_Map.TryRemove(guid, out _);
+                await server.DisconnectClientAsync(guid);   // forza pulizia su WatsonTcp
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[SERVER|LOG] (Errore) > ClientDisconnected: {ex.Message}");
+            }
         }
         public static async Task<bool> DisconnettiGiocatore(string username)
         {
@@ -378,10 +378,22 @@ namespace Server_Strategico.Server
         }
         static void MessageReceived(object? sender, MessageReceivedEventArgs args)
         {
-            Console.Write("[SERVER|LOG] > " + args.Data.Length + " byte message from " + args.Client + ": " + "\r");
-            if (args.Data != null || args.Data.Length != 0) ServerConnection.HandleClientRequest(args);
-            else Console.WriteLine("[SERVER|LOG] > [null]");
+            try
+            {
+                if (args.Data == null || args.Data.Length == 0)
+                {
+                    Console.WriteLine("[SERVER|LOG] > [null]");
+                    return;
+                }
+                Console.Write("[SERVER|LOG] > " + args.Data.Length + " byte message from " + args.Client + ": \r");
+                ServerConnection.HandleClientRequest(args);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[SERVER|LOG] (Errore) > Messaggio da {args.Client}: {ex}");
+            }
         }
+
         static void Logger(Severity sev, string msg)
         {
             Console.WriteLine("[SERVER|LOG] (" + sev.ToString() + ") > " + msg);
@@ -680,17 +692,24 @@ namespace Server_Strategico.Server
                         await Task.Run(() =>
                             Parallel.ForEach(players.Values, options, player =>
                             {
-                                if (player.Stato_Giocatore == false)
+                                try
                                 {
-                                    player.ProduceResources();
-                                    player.ManutenzioneEsercito();
-                                    return;
-                                }
-                                if (player.Email_Code_Time > 0) player.Email_Code_Time--;
+                                    if (player.Stato_Giocatore == false)
+                                    {
+                                        player.ProduceResources();
+                                        player.ManutenzioneEsercito();
+                                        return;
+                                    }
+                                    if (player.Email_Code_Time > 0) player.Email_Code_Time--;
 
-                                player.ProduceResources();
-                                player.ServerTimer();
-                                //player.ResetGiornaliero();
+                                    player.ProduceResources();
+                                    player.ServerTimer();
+                                    //player.ResetGiornaliero();
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine($"[LOOP1] Errore su {player.Username}: {ex}");
+                                }
                             })
                         );
                     }
@@ -764,16 +783,14 @@ namespace Server_Strategico.Server
                 int tempo_1 = 0, saveServer = 0, savePlayer = 0, update_5s = 0, riparazioni = 0;
                 bool start = true;
 
-                int maxConcurrentTasks = Math.Max(1, Environment.ProcessorCount);
-                var options = new ParallelOptions { MaxDegreeOfParallelism = maxConcurrentTasks };
-
                 while (!cancellationToken.IsCancellationRequested)
                 {
                     try
                     {
-                        await Task.Run(() =>
-                            Parallel.ForEach(players.Values, options, player =>
-                            {
+                        foreach (var player in players.Values)
+                        {
+                            try
+                                {
                                 // -- V2 --
                                 BuildingManagerV2.CompleteBuilds(player.guid_Player, player);
                                 UnitManagerV2.CompleteRecruitment(player.guid_Player, player);
@@ -799,6 +816,7 @@ namespace Server_Strategico.Server
                                     {
                                         player.ManutenzioneEsercito();
                                         player.SetupVillaggioGiocatore(player);
+                                        update_5s = 0;
                                     }
 
                                     if (riparazioni >= Variabili_Server.tempo_Riparazione)
@@ -876,10 +894,13 @@ namespace Server_Strategico.Server
                                         Server.Send(player.guid_Player, tutorialData);
                                         if (player.Tutorial_Stato[31]) player.Tutorial = false;
                                     }
-                                    update_5s++;
                                 }
-                            })
-                        );
+                            }
+                                catch (Exception ex)
+                    {
+                        Console.WriteLine($"[LOOP1] Errore su {player.Username}: {ex}");
+                    }
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -895,7 +916,11 @@ namespace Server_Strategico.Server
                             riparazioni = 0;
                         }
 
-                        if (savePlayer >= 240) await SaveSomePlayersAsync(100); //Salva 50 player per volta...
+                        if (savePlayer >= 180)
+                        {
+                            await SaveSomePlayersAsync(500); //Salva 50 player per volta...
+                            savePlayer = 0;
+                        }
                         if (saveServer >= 600)
                         {
                             await GameSave.SaveServerData();
@@ -911,6 +936,7 @@ namespace Server_Strategico.Server
                                         server.DisconnectClientAsync(clientId.Guid);
                                     }
                             }
+                            saveServer = 0;
                         }
                     }
                     catch (Exception ex)
@@ -923,12 +949,11 @@ namespace Server_Strategico.Server
                         await Auto_Update_Clients();
                         tempo_1 = 0;
                     }
-                    if (saveServer >= 1200) saveServer = 0;
-                    if (savePlayer >= 80) savePlayer = 0;
                     tempo_1++;
                     saveServer++;
                     savePlayer++;
                     riparazioni++;
+                    update_5s++;
 
                     await Task.Delay(500); // Ciclo ogni secondo, o regola il ritardo come necessario
                 }
