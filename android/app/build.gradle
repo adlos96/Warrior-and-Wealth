@@ -1,0 +1,52 @@
+plugins {
+    id 'com.android.application'
+}
+
+
+def fetchSecret = { String name ->
+    def val = providers.gradleProperty(name).getOrNull()
+    if (val) {
+        return val
+    }
+    val = System.getenv(name)
+    if (val) {
+        return val
+    }
+    throw new GradleException("Secret $name is missing!")
+}
+
+
+android {
+    namespace = 'com.adlos.warriorandwealth'
+    compileSdk 37
+
+    defaultConfig {
+        applicationId "com.adlos.warriorandwealth"
+        minSdk 29
+        targetSdk 37
+        versionCode 1
+        versionName "1.0.1"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file(fetchSecret("KEYSTORE_FILE"))
+            storePassword fetchSecret("KEYSTORE_PASSWORD")
+            keyAlias fetchSecret("KEYSTORE_ALIAS")
+            keyPassword fetchSecret("KEY_PASSWORD")
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig = signingConfigs.release
+            minifyEnabled false
+        }
+    }
+}
+
+dependencies {
+    implementation "androidx.appcompat:appcompat:1.8.0"
+    implementation "androidx.activity:activity-ktx:1.13.0"
+}
+
