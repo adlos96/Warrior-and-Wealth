@@ -4,25 +4,19 @@
    SCHERMATA CITTÀ — strutture e spostamento truppe (Guarnigione).
 
    Ogni struttura (Ingresso, Cancello, Mura, Torri, Castello, Centro) ha
-   una propria guarnigione, spostabile da/verso il Villaggio con il
-   comando "SpostamentoTruppe|token|From|To|guerrieri|lanceri|arceri|
-   catapulte|tier" (un tier alla volta — vedi SpostamentoTruppe in
-   ServerConnection.cs). Nel client desktop il popup "Spostamento Truppe"
-   permette però di preparare quantità su PIÙ tier contemporaneamente e
-   inviarle tutte con un solo "Sposta": qui replichiamo lo stesso
-   comportamento tenendo le quantità di ogni tier in memoria (invece di
-   azzerarle cambiando tab) e inviando un comando per ogni tier che ha
-   almeno un valore diverso da zero quando si preme "Sposta".
-   "Centro" nell'interfaccia corrisponde alla chiave server "Citta".
+   una propria guarnigione, spostabile da/verso il Villaggio col comando
+   "SpostamentoTruppe|token|From|To|guerrieri|lanceri|arceri|catapulte|
+   tier" (un tier alla volta). Come nel client desktop, le quantità di
+   ogni tier restano in memoria (non si azzerano cambiando tab) e un
+   comando parte per ogni tier con almeno un valore diverso da zero
+   quando si preme "Sposta". "Centro" in interfaccia = chiave server
+   "Citta".
 
-   In cima alla schermata c'è anche una panoramica del villaggio
-   (.city-map, sfondo assets/Village_1.jpg) con un marker per struttura:
-   solo nome + numero di strato difensivo (niente HP/DEF/Guarnigione qui,
-   quelli si leggono nella card), posizionato — come punto centrale, non
-   più come riquadro — con le stesse coordinate percentuali del pannello
-   del client desktop (vedi "pos" in STRUTTURE_CITTA). Non interattiva nel
-   senso di aprire un form: toccare un marker scorre alla card vera nella
-   lista sotto, dove si spostano davvero le truppe.
+   In cima c'è anche una panoramica del villaggio (.city-map, sfondo
+   assets/Village_1.jpg) con un marker per struttura (solo nome + strato
+   difensivo, non interattivo: toccarlo scorre alla card vera sotto, dove
+   si spostano davvero le truppe), posizionato con le stesse coordinate
+   percentuali del client desktop ("pos" in STRUTTURE_CITTA).
 
    Dipende da: WW.GAME (04-game-main.js), WW.fmtInt (00-core.js),
    WW.NET/WW.AUTH (01-net.js/02-auth.js). Esporta: WW.renderCittaList

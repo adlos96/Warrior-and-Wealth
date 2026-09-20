@@ -1,55 +1,41 @@
 /* ==========================================================
    Warrior & Wealth — Web Client — 14-battaglia.js
    ----------------------------------------------------------
-   SCHERMATA PVP/PVE — replica la schermata desktop "PVE-PVP"
-   (screenshot PVP_PVE.JPG/PVP_PVE 2.JPG in WW/): esplorazione e
-   attacco contro Villaggi/Città Barbare, attacco PVP, e i Report
-   (pannello "Report", ex "Referti Battaglia" — rinominato il
-   14/09/2026 perché copre sia i referti di battaglia, vedi
-   Report Battaglia.JPG, sia quelli di spionaggio, Report.Tipo ==
-   "Spionaggio" in Battaglia.cs — vedi commento sopra templateReportRow).
-   I Raduni (sezione in basso nello screenshot più recente) restano
-   fuori da questa schermata per scelta esplicita dell'utente
-   (14/09/2026): il backend è stato riscritto lo stesso giorno e non
-   ancora compilato/testato.
+   SCHERMATA PVP/PVE — replica la schermata desktop "PVE-PVP":
+   esplorazione e attacco contro Villaggi/Città Barbare, attacco
+   PVP, e i Report (un solo pannello per battaglie e spionaggi,
+   Report.Tipo == "Battaglia"/"Spionaggio" in Battaglia.cs — vedi
+   commento sopra templateReportRow). I Raduni restano fuori da
+   questa schermata (backend non ancora completato).
 
-   Protocollo (vedi ServerConnection.cs, aggiornato il 16/09/2026 —
-   Esplora() deprecato, sostituito da EseguiSpionaggioRichiesta):
-   - "Esplora|token|PVE|<tipo>|<livello>" — tipo SENZA accento per le
-     città ("Citta Barbaro", non "Città Barbaro": incoerenza già
-     presente nel server tra Esplora() e Battaglia(), qui replicata
-     di proposito invece di "corretta", per non rischiare di rompere
-     l'altro percorso). Il protocollo prevede anche
-     "Esplora|token|PVP|<username>" (spionaggio contro un altro
-     giocatore, stesso motore di Spionaggio.EseguiSpionaggioPVP usato
-     dal PVP) ma non esiste ancora un pulsante/flusso client per
-     quella modalità. Risposta: niente più JSON dedicato — il server
-     aggiunge un Report di Tipo "Spionaggio" a Player.Report e lo
-     rimanda con il normale "Update_Data|Report_Lista|<json>" (vedi
-     sotto); gli errori (bersaglio non trovato, oro insufficiente,
-     ecc.) arrivano come "Log_Server|<messaggio>", già gestito in
-     04-game-main.js con WW.NET.on("Log_Server", ...).
+   Protocollo (ServerConnection.cs):
+   - "Esplora|token|PVE|<tipo>|<livello>" — ATTENZIONE: qui <tipo>
+     è SENZA accento ("Citta Barbaro", incoerenza nota col resto
+     del server, replicata di proposito per non toccare l'altro
+     percorso). Supporta anche "Esplora|token|PVP|<username>"
+     (stesso motore di Spionaggio.EseguiSpionaggioPVP) ma senza un
+     flusso client dedicato. Nessuna risposta JSON: il server
+     accoda un Report di Tipo "Spionaggio" e lo rimanda col normale
+     "Update_Data|Report_Lista|<json>" (vedi sotto); gli errori
+     arrivano via "Log_Server|<messaggio>" (già gestito in
+     04-game-main.js).
    - "Battaglia|token|<tipo>|<target>|G1..G5|L1..L5|A1..A5|C1..C5"
-     (20 valori truppe) — tipo QUI CON accento per le città
+     (20 valori truppe) — ATTENZIONE: qui <tipo> è CON accento
      ("Città Barbaro"/"Villaggio Barbaro"/"PVP"); target = livello
-     per i barbari, username per il PVP. Stesso comando per
-     entrambi i tipi di bersaglio, quindi un solo pannello
-     "Esercito da Inviare" condiviso (vedi sotto).
+     per i barbari, username per il PVP. Comando condiviso da
+     entrambi i tipi di bersaglio (un solo pannello "Esercito da
+     Inviare").
    - "Update_PVP_Player|<count>|<user1>|<user2>|..." — lista
-     giocatori PVP disponibili, mandata ad ogni tick se il
-     giocatore ha sbloccato il PVP (Player.Livello >= Unlock_PVP,
-     mandato una volta al login).
-   - "Update_Data|Report_Lista|<json>" — i report del giocatore
-     (Player.Report, lista di Report — ognuno di Tipo "Battaglia" o
-     "Spionaggio"), inviati
-     al login e ora anche subito dopo ogni battaglia PVP/PVE
-     (BattagliaPVP.cs/BattagliaPVE.cs, 14/09/2026). Intercettato
-     PRIMA del parsing generico in WW.GAME.applyUpdateData
-     (04-game-main.js) e passato qui via WW.BATTLE.setReports.
+     giocatori PVP disponibili (solo se Player.Livello >=
+     Unlock_PVP).
+   - "Update_Data|Report_Lista|<json>" — i Report del giocatore,
+     intercettato PRIMA del parsing generico in
+     WW.GAME.applyUpdateData (04-game-main.js) e passato qui via
+     WW.BATTLE.setReports.
 
    Dipende da: WW.GAME/WW.NET/WW.AUTH/WW.fmtInt/WW.qtyStepDelta.
-   Esporta: WW.renderBattaglia (chiamata da renderAllFromServer in
-   04-game-main.js) e WW.BATTLE (setReports, usata da lì). */
+   Esporta: WW.renderBattaglia (da renderAllFromServer in
+   04-game-main.js) e WW.BATTLE (setReports). */
 
 window.WW = window.WW || {};
 
@@ -324,19 +310,14 @@ window.WW = window.WW || {};
 
   /* ---------------------------------------------------------------
      REPORT — battaglie e spionaggio, lista + dettaglio (modale).
-     Report.Tipo (Battaglia.cs) vale "Battaglia" o "Spionaggio": prima qui
-     si mostravano/filtravano SOLO quelli di tipo "Battaglia" (da cui il
-     nome "Referti Battaglia" — bug segnalato dall'utente il 14/09/2026,
-     rinominato in "Report" e allargato a entrambi i tipi). Il ramo
-     Spionaggio qui sotto (restyling del 14/09/2026 su riferimento "Report
-     Spionaggio.JPG", screenshot del client desktop in WW/ sul PC
-     dell'utente) copre tutto RisultatoSpionaggio, Fasi e Bonus incluse.
-     Dal 16/09/2026 il PVE-barbaro genera davvero questi referti (Esplora ->
-     Spionaggio.SpionaggioPVE): non usa Strutture_Civili/Workshop/Caserme/
-     Ricerca_Civile/Ricerca_Militare/Bonus (un barbaro non li ha — restano null, le sezioni
-     corrispondenti spariscono da sole grazie agli "|| {}" sotto) e usa
-     solo 2 Fasi ("A Distanza"/"Corpo a Corpo") invece delle 7 strutturali
-     del PVP tra giocatori — vedi i tab "Strutture" nel dettaglio. */
+     Report.Tipo (Battaglia.cs) vale "Battaglia" o "Spionaggio", entrambi
+     mostrati qui. Il ramo Spionaggio copre tutto RisultatoSpionaggio
+     (Fasi e Bonus incluse). Il PVE-barbaro (Esplora ->
+     Spionaggio.SpionaggioPVE) genera questi stessi referti ma senza
+     Strutture_Civili/Workshop/Caserme/Ricerca_Civile/Ricerca_Militare/
+     Bonus (un barbaro non li ha — restano null, le sezioni corrispondenti
+     spariscono da sole grazie agli "|| {}" sotto) e con solo 2 Fasi ("A
+     Distanza"/"Corpo a Corpo") invece delle 7 del PVP tra giocatori. */
 
   function templateReportRow(r, indice) {
     if (r.Tipo === "Spionaggio" && r.Spionaggio) {
@@ -452,16 +433,11 @@ window.WW = window.WW || {};
       ["Diamanti Viola", r.Diamanti_Viola, "DiamanteViola_V2.png"],
     ].filter(([, v]) => v > 0);
     if (righe.length === 0) return "";
-    // Stessa pillola di Magazzino/Scorta Militare (Spionaggio) invece del vecchio testo
-    // libero "Nome: +Valore" — coerenza visiva tra i due tipi di referto (14/09/2026).
-    // Titolo E segno/colore dipendenti dal LATO SELEZIONATO col toggle Attaccante/Difensore
-    // (non da chi sta guardando il report — richiesto dall'utente 14/09/2026: "a prescindere
-    // che io sia difensore o attaccante, questo solo per vedere risorse saccheggiate o
-    // perse"): lato "attaccante" le ha saccheggiate (verde, "+"), lato "difensore" se le è
-    // viste portare via (rosso, "-") — stesso .report-res-item__value--negativo già usato per
-    // l'HP/DEF struttura scesi durante la fase. Per questo va ri-renderizzata a ogni click del
-    // toggle (vedi renderBattagliaRisorseContent), non più costruita una sola volta in
-    // apriReportDettaglio.
+    // Titolo e segno/colore dipendono dal LATO SELEZIONATO col toggle Attaccante/Difensore
+    // (non da chi guarda il report): lato "attaccante" = risorse saccheggiate (verde, "+"),
+    // lato "difensore" = risorse perse (rosso, "-", stesso .report-res-item__value--negativo
+    // usato per l'HP/DEF struttura). Per questo va ri-renderizzata ad ogni click del toggle
+    // (vedi renderBattagliaRisorseContent), non costruita una sola volta in apriReportDettaglio.
     const attaccante = lato !== "difensore";
     const segno = attaccante ? "+" : "-";
     const classeValore = attaccante ? "report-res-item__value--positivo" : "report-res-item__value--negativo";
@@ -602,18 +578,15 @@ window.WW = window.WW || {};
     el.innerHTML = templateRisorseRaccolte(battagliaAttiva.Risorse_Raccolte, battagliaLato);
   }
 
-  // Dettaglio Spionaggio (RisultatoSpionaggio in Battaglia.cs). Restyling del 14/09/2026
-  // basato su "Report Spionaggio.JPG" (cartella WW/ sul PC dell'utente, screenshot del
-  // client desktop) — copre ora anche Fasi (i singoli bersagli/strutture spiate, con
-  // truppe per tier min/reale/max) e Bonus, prima lasciati fuori.
+  // Dettaglio Spionaggio (RisultatoSpionaggio in Battaglia.cs) — copre Fasi (bersagli/
+  // strutture spiate, truppe per tier min/reale/max) e Bonus.
   //
-  // Quirk di nomenclatura CONFERMATO dallo screenshot e dal codice (Battaglia.cs): a
-  // differenza di Unità/UnitGroup (usati per i referti di battaglia, "Lancieri" CON la i,
-  // vedi UNITA/campoReport più sopra), le strutture dati dello spionaggio (StatsUnità,
-  // RicercaMilitare, Caserme, SpionaggioFase) usano "Lanceri" SENZA la i — stessa
-  // convenzione di Giocatori.Player/PlayerSnapshot. La classe Bonus va oltre: usa
-  // "Arceri" (non "Arcieri") per gli arcieri. CAMPO_SPIA sotto centralizza questa
-  // differenza invece di sparpagliare le tre grafie diverse nel codice.
+  // ATTENZIONE, quirk di nomenclatura (confermato nel codice, Battaglia.cs): a differenza
+  // di Unità/UnitGroup (referti di battaglia, "Lancieri" CON la i — vedi UNITA/campoReport
+  // sopra), le strutture dello spionaggio (StatsUnità, RicercaMilitare, Caserme,
+  // SpionaggioFase) usano "Lanceri" SENZA la i (stessa convenzione di Giocatori.Player/
+  // PlayerSnapshot), e la classe Bonus usa "Arceri" (non "Arcieri"). CAMPO_SPIA sotto
+  // centralizza questa differenza invece di sparpagliare le tre grafie nel codice.
   const CAMPO_SPIA = {
     g: { stats: "Guerrieri", bonus: "Guerrieri" },
     l: { stats: "Lanceri", bonus: "Lanceri" },
@@ -621,20 +594,14 @@ window.WW = window.WW || {};
     c: { stats: "Catapulte", bonus: "Catapulte" },
   };
 
-  // Regola confermata dall'utente (vedi Wiki/Game/Componenti/Spionaggio.md): Reale = -1
-  // significa "precisione insufficiente per leggere il valore esatto", quindi va mostrato
-  // SOLO il range stimato (min–max), mai il -1 letterale. Se Reale è un numero valido
-  // (>= 0), la precisione era abbastanza alta da avere il valore esatto: si mostra solo
-  // quello, il range non serve più (min==max==reale in quel caso). Vale per ogni campo che
-  // usa questa struttura Reale/Min/Max, non solo Strutture/Workshop/Caserme/Truppe.
+  // Reale = -1 → precisione insufficiente: si mostra SOLO il range stimato (min–max), mai
+  // il -1 letterale. Reale >= 0 → si mostra solo quel valore (min==max==reale). Vale per
+  // ogni campo con questa struttura Reale/Min/Max.
   //
-  // "????" jolly (14/09/2026, chiarito dall'utente dopo un primo tentativo sbagliato — la
-  // richiesta non era "nascondi il -1 quando la precisione non basta", ma "nascondi il DATO
-  // quando lo STADIO raggiunto non lo sblocca ancora": la sezione va mostrata comunque (il
-  // giocatore deve vedere che quella statistica esiste), solo con "????" al posto del
-  // valore, per fargli capire che deve aumentare la forza di spionaggio per rivelarla.
-  // `bloccato` (passato dal chiamante, in base a Stadio vs soglia della sezione) ha quindi
-  // sempre la precedenza sul calcolo normale Reale/-1/range.
+  // "????" jolly: nasconde il DATO quando lo STADIO raggiunto non lo sblocca ancora (la
+  // sezione resta visibile, solo il valore diventa "????", per far capire al giocatore che
+  // deve aumentare la forza di spionaggio). `bloccato` (dal chiamante, Stadio vs soglia) ha
+  // sempre la precedenza sul calcolo Reale/-1/range.
   function fmtStima(reale, min, max, bloccato) {
     if (bloccato) return `<span class="report-tv-range">????</span>`;
     if (reale === -1 || reale === undefined || reale === null) {

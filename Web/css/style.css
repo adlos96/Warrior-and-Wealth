@@ -2257,7 +2257,6 @@ button{ font-family: inherit; cursor: pointer; }
   height: 4px;
   background: linear-gradient(90deg, var(--def-blue), #8fb8e0);
 }
-.quest-item--completa{ opacity: .6; }
 .quest-item__main{ flex: 1; min-width: 0; }
 .quest-item__desc{ font-weight: 700; font-size: .85rem; margin-bottom: .4rem; }
 .quest-item__bar{

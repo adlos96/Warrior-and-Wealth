@@ -3,37 +3,27 @@
    ----------------------------------------------------------
    GAME — stato ricevuto dal server (Update_Data) — e schermata
    MAIN: barra risorse, Feudi, Strutture/Esercito (sola lettura,
-   il form con gli stepper per costruire/addestrare è in
-   06-costruzione.js), Cronologia (log), tempo rimanente +
-   pulsanti Velocizza.
+   il form con gli stepper è in 06-costruzione.js), Cronologia
+   (log), tempo rimanente + pulsanti Velocizza.
 
    GAME.raw accumula tutte le coppie chiave=valore ricevute via
-   "Update_Data". Le chiavi qui sotto sono quelle vere, prese da
-   PlayerSnapshot.BuildCurrentState lato server (il "tick" che il
-   game loop manda ad ogni client connesso tramite
-   ServerConnection.Update_Data(guid, player), non solo quelle
-   "one time" del login): dalla porta 8444 arrivano quindi gli
-   stessi identici valori che vede il client desktop.
+   "Update_Data" (il tick periodico di PlayerSnapshot.
+   BuildCurrentState lato server, non solo i valori "one time" del
+   login) — stessi valori che vede il client desktop.
 
-   Nota sul formato dei numeri: il server serializza i valori con
-   ToString("#,0"/"#,0.00"/ecc.) sotto cultura it-IT (impostata in
-   Program.cs), quindi "." è il separatore delle migliaia e ","
-   quello decimale (es. "30.000" = trentamila, "1.200,50" = milleduecento
-   virgola cinquanta) — l'OPPOSTO della convenzione inglese. parseServerNumber
-   qui sotto interpreta sempre i valori in arrivo come italiani, poi la UI li
-   ri-formatta con Intl.NumberFormat nella lingua del dispositivo di chi
-   gioca (vedi WW.fmtInt/WW.fmtDecimal in 00-core.js), così chi guarda da un
-   paese anglosassone vede comunque "30,000" e non si confonde.
+   ATTENZIONE al formato numeri: il server serializza sotto cultura
+   it-IT (Program.cs), quindi "." è il separatore delle migliaia e
+   "," quello decimale ("30.000" = trentamila, "1.200,50" = mille-
+   duecento virgola cinquanta) — l'OPPOSTO della convenzione
+   inglese. parseServerNumber interpreta sempre i valori in arrivo
+   come italiani; la UI poi li riformatta con Intl.NumberFormat
+   nella lingua del dispositivo (WW.fmtInt/WW.fmtDecimal, 00-core.js).
 
-   renderAllFromServer() è l'orchestratore chiamato ad ogni "tick": richiama
-   sia le render locali a questo file (Main) sia quelle di Costruzione
-   (06-costruzione.js), Città (07-citta.js), Negozio (08-shop.js) e Ricerca
-   (09-ricerca.js) tramite WW.renderStruttureListForm/WW.renderUnitaForm/
-   WW.renderSbloccoUnita/WW.renderCittaList/WW.renderShop/WW.renderRicerca —
-   per questo quei file devono essere caricati PRIMA che renderAllFromServer()
-   venga davvero invocata la prima volta (avviene in 10-main.js, caricato per
-   ultimo: l'ordine relativo tra questo file e costruzione/città/negozio/
-   ricerca non conta, basta che siano tutti pronti prima del bootstrap finale). */
+   renderAllFromServer() è l'orchestratore chiamato ad ogni tick:
+   richiama sia le render di questo file sia quelle di Costruzione/
+   Città/Negozio/Ricerca tramite le loro funzioni WW.render* — quei
+   file devono quindi essere caricati prima del bootstrap finale
+   (10-main.js, ultimo script), l'ordine tra loro non conta. */
 
 window.WW = window.WW || {};
 
@@ -127,22 +117,15 @@ window.WW = window.WW || {};
     if (WW.renderAvatar) WW.renderAvatar(); // popup "Cambia immagine profilo" + avatar in barra risorse (15-avatar.js)
   }
 
-  // Costo del prossimo Feudo e Costruttori/Reclutatori attualmente occupati
-  // sul totale: valori reali mandati dal server (rispettivamente
-  // "costo_terreni_Virtuali" via Update_Data_OneTime al login, e
-  // "Code_Costruzioni_Disponibili"/"Code_Costruzioni" ad ogni tick tramite
-  // PlayerSnapshot), al posto dei numeri fissi che c'erano nell'HTML del
-  // mockup.
+  // Costo del prossimo Feudo e Costruttori/Reclutatori occupati sul totale:
+  // valori reali dal server ("costo_terreni_Virtuali" al login,
+  // "Code_Costruzioni_Disponibili"/"Code_Costruzioni" ad ogni tick).
   //
-  // ATTENZIONE al nome "Code_Costruzioni_Disponibili": nonostante il nome
-  // NON è già il numero pronto da mostrare — mostrarlo direttamente (come
-  // faceva questo file prima) restava fisso al totale massimo anche con
-  // strutture davvero in costruzione (bug segnalato dall'utente 13/09/2026:
-  // "1/1" invece di "0/1" mentre il tempo scorreva). Il client desktop
-  // (GUI/Gioco.cs, lbl_Coda_Costruzione/lbl_Coda_Reclutamento, già corretto
-  // lì dall'utente) calcola invece Attuali = Totale - Disponibili, quindi
-  // qui replichiamo la stessa sottrazione invece di usare "Disponibili"
-  // così com'è.
+  // ATTENZIONE: "Code_Costruzioni_Disponibili", nonostante il nome, NON è
+  // già il numero pronto da mostrare — usarlo direttamente resta fisso al
+  // totale massimo anche con strutture davvero in coda ("1/1" invece di
+  // "0/1"). Come il client desktop (GUI/Gioco.cs): Attuali = Totale -
+  // Disponibili, mai "Disponibili" così com'è.
   function renderVarie() {
     const elCosto = document.querySelector('[data-value="costo-feudo"]');
     if (elCosto) elCosto.textContent = WW.fmtInt(GAME.num("costo_terreni_Virtuali"));
@@ -524,21 +507,16 @@ window.WW = window.WW || {};
   WW.descrizioni = descrizioni;
   WW.onDescrizione = (fn) => descrizioneListeners.push(fn);
 
-  // Etichette UI localizzate (18/09/2026, su richiesta dell'utente): NON
-  // arrivano più con un messaggio dedicato ("UI_Labels", rimosso
-  // dall'utente da ServerConnection.cs — vedi nota del 17/09/2026, il
-  // server "invia già i dati nel modo corretto"), ma riusano lo stesso
-  // canale "Descrizione|<chiave>|<testo>" già gestito sopra: ogni etichetta
-  // breve arriva con una chiave che inizia per "Label " (es. "Descrizione|
-  // Label Fattoria|Fattoria", vedi Descrizioni.cs) per non scontrarsi con
-  // la chiave OMONIMA già usata dalla descrizione narrativa lunga della
-  // stessa struttura (es. "Descrizione|Fattoria|<testo lungo>"): stessa
-  // chiave per entrambe avrebbe fatto sovrascrivere l'una con l'altra in
-  // WW.descrizioni, a seconda di quale arriva per ultima. Le etichette
-  // finiscono quindi semplicemente in WW.descrizioni come tutto il resto:
-  // niente più WW.LABELS separato, i punti che leggevano un "labelKey" ora
-  // leggono WW.descrizioni[labelKey] con lo stesso fallback al nome
-  // italiano finché il valore non è ancora arrivato dal server.
+  // Etichette UI localizzate: niente messaggio dedicato, riusano il canale
+  // "Descrizione|<chiave>|<testo>" già gestito sopra — ogni etichetta breve
+  // arriva con una chiave che inizia per "Label " (es. "Descrizione|Label
+  // Fattoria|Fattoria") per non scontrarsi con la chiave OMONIMA della
+  // descrizione narrativa lunga della stessa struttura ("Descrizione|
+  // Fattoria|<testo lungo>") — stessa chiave per entrambe le
+  // sovrascriverebbe a vicenda in WW.descrizioni. Finiscono quindi in
+  // WW.descrizioni come tutto il resto: i punti che leggono un "labelKey"
+  // leggono WW.descrizioni[labelKey], con fallback al nome italiano finché
+  // il valore non arriva dal server.
 
   // Barra risorse: chiave-locale (usata dall'HTML in data-value) -> chiave
   // esatta mandata dal server per il giocatore connesso.
@@ -696,24 +674,17 @@ window.WW = window.WW || {};
     if (chiave.startsWith("Label Feudo ")) renderFeudiInfoList();
   });
 
-  // Popup "Info Risorsa" (14/09/2026, su richiesta dell'utente): stesso
-  // meccanismo del popup Feudi qui sopra, ma condiviso da 9 risorse diverse
-  // (Cibo/Legno/Pietra/Ferro/Oro/Popolazione/Diamanti Blu/Diamanti Viola/
-  // Tributi) invece di uno per ciascuna. La descrizione (narrativa, uguale
-  // per tutte) arriva dal server come "Descrizione|<chiave>|<testo>" (stessa
-  // chiave usata da Update_Desc in ClientMessageHandlers.cs, es. "Cibo",
-  // "Diamanti Viola", "Dollari Virtuali" per i Tributi) ed è già in
-  // WW.descrizioni. Le RIGHE di statistica (Produzione/Edifici/Esercito/
-  // Limite) non arrivano invece come testo: sono calcolate qui dai valori
-  // già presenti in GAME.raw (stesse formule del client desktop, vedi
-  // Main.cs — "Produzione netta" = produzione grezza meno consumo edifici
-  // meno consumo esercito) e poi RISCRITTE nella stessa sintassi
-  // "Label: [icon:x][colore]valore" che il server usa per le sue descrizioni
-  // ricche, così da riusare renderDescrizioneRicca() (04-game-main.js) senza
-  // bisogno di markup/CSS nuovi: intro narrativa come paragrafo, righe
-  // "Label: valore" raggruppate automaticamente in chip.
-  // Diamanti Blu/Viola e Tributi non hanno statistiche (solo la
-  // descrizione): "campi" resta null per loro.
+  // Popup "Info Risorsa": stesso meccanismo del popup Feudi sopra, condiviso
+  // da 9 risorse (Cibo/Legno/Pietra/Ferro/Oro/Popolazione/Diamanti Blu/
+  // Diamanti Viola/Tributi). La descrizione narrativa arriva dal server come
+  // "Descrizione|<chiave>|<testo>" ed è già in WW.descrizioni. Le RIGHE di
+  // statistica (Produzione/Edifici/Esercito/Limite) invece non arrivano come
+  // testo: sono calcolate qui dai valori in GAME.raw (stesse formule del
+  // client desktop — "Produzione netta" = grezza meno consumo edifici meno
+  // consumo esercito) e RISCRITTE nella sintassi "Label: [icon:x][colore]
+  // valore" usata dal server per le sue descrizioni ricche, per riusare
+  // renderDescrizioneRicca() senza markup/CSS nuovi. Diamanti Blu/Viola e
+  // Tributi non hanno statistiche (solo descrizione): "campi" resta null.
   const RISORSA_INFO_CONFIG = {
     cibo: {
       titolo: "Cibo", labelKey: "Label Cibo", chiaveDesc: "Cibo", icona: "cibo",
