@@ -45,11 +45,6 @@ namespace Server_Strategico.Server
         private Server()
         {
             string subjectName = Environment.MachineName; //Ottine il nome della macchina (hostname)
-
-            // Path di log specifico Linux, stesso trattamento di SavePath sotto — va impostato
-            // PRIMA di InitializeLogging() (altrimenti il log finirebbe nella cartella di default
-            // Windows anche su Linux), quindi il check OS è separato e anticipato rispetto al
-            // blocco if/else con i Console.WriteLine qualche riga più sotto.
             if (OperatingSystem.IsLinux())
                 GameSave.LogPath = "/opt/Warrior-and-Wealth/Log";
             GameSave.InitializeLogging(); // prima di qualsiasi Console.WriteLine, per non perdere le primissime righe
@@ -97,11 +92,7 @@ namespace Server_Strategico.Server
             Console.WriteLine("[SERVER|LOG] (Info) > [WatsonTcpServer] Server Inizializzato");
             Console.WriteLine("");
 
-            // Gateway WebSocket: processo/porta separati, avviato solo se
-            // abilitato (Variabili_Server.WebGatewayEnabled) o a runtime col
-            // comando "webstart". Il try/catch isola qualsiasi problema del
-            // layer web (porta occupata, ecc.) dal resto del server: se
-            // fallisce, il gioco e le connessioni WatsonTcp non ne risentono.
+            //Web
             if (Variabili_Server.WebGatewayEnabled)
             {
                 try { WebSocketGateway.Start(Variabili_Server.WebGatewayPort); }
@@ -118,7 +109,8 @@ namespace Server_Strategico.Server
                 {
                     Console.WriteLine("Info Comandi: \"?\"");
                     Console.WriteLine($"/comandi per la lista");
-                }else Console.WriteLine("Info Comandi: \"?\"");
+                }
+                else Console.WriteLine("Info Comandi: \"?\"");
 
                 var userInput = string.Empty;
                 try
@@ -145,7 +137,6 @@ namespace Server_Strategico.Server
                         Console.WriteLine("                         *** Command ***");
                         Console.WriteLine("----------------------------------------------------------------------");
                         Console.WriteLine("Comando vuoto:                       [player]");                      // 
-                        Console.WriteLine("Comando vuoto:                       [client]");                      // 
                         Console.WriteLine("Comando vuoto:                       [battaglia]");                      // 
                         Console.WriteLine("Comando vuoto:                       [spionaggio]");                      // 
                         Console.WriteLine("Abilita i comandi admin con '/':     [adminstart]");                      //
@@ -163,9 +154,6 @@ namespace Server_Strategico.Server
                         break;
                     case "player":
                         servers_.Player_Creati();
-                        break;
-                    case "client":
-                        ClientConnessi();
                         break;
                     case "battaglia":
                         BattagliaPVP.TestBattaglia();
@@ -205,16 +193,10 @@ namespace Server_Strategico.Server
         public async static Task<Player> PlayerID(int id)
         {
             Player player = null;
-            foreach (var giocatori in Server.servers_.players.Values)
+            var tempPlayer = Server.servers_.players.Values;
+            foreach (var giocatori in tempPlayer)
                 if (giocatori.ID == id) player = giocatori;
             return player;
-        }
-
-        void ClientConnessi()
-        {
-            if (Client_Connessi.Count() == 0) Console.WriteLine("Client connessi: 0");
-            foreach (var item in Client_Connessi)
-                Console.WriteLine($"Client: {item}");
         }
 
         private async Task StartGame()
@@ -226,11 +208,10 @@ namespace Server_Strategico.Server
 
             Console.WriteLine($"[Server] Attesa avvio server....");
             while (!avviato)
-            {
                 Thread.Sleep(1000);
-            }
+            
             Console.WriteLine($"[Server] Server avviato!");
-            //Start WebSocketGateway
+
             try { WebSocketGateway.Start(Variabili_Server.WebGatewayPort); }
             catch (Exception ex) { Console.WriteLine($"[Server] Errore avvio WebSocketGateway: {ex.Message}"); }
             Console.WriteLine("-----------------------------------------------------------");
@@ -260,10 +241,7 @@ namespace Server_Strategico.Server
 
             // Instradamento per trasporto: i client del gateway web (vedi
             // WebSocketGateway.cs) non sono client WatsonTcp, quindi vanno
-            // inviati con il loro socket. Nessuna modifica alla logica di
-            // gioco: da qui in giù il resto del server continua a chiamare
-            // solo Server.Send(guid, msg) senza sapere quale trasporto c'è
-            // dietro al guid.
+            // inviati con il loro socket.
             bool inviato = false;
             if (WebSocketGateway.IsWebSocketClient(guid))
             {
@@ -281,9 +259,7 @@ namespace Server_Strategico.Server
             // sopravvive a un ricollegamento o a un riavvio del server invece di sparire ogni
             // volta. Risale al giocatore dal guid tramite la stessa mappa già usata per il
             // routing dei messaggi, invece di aggiungere un parametro Player a ogni singola
-            // chiamata a Send sparsa in centinaia di punti del codice. Il controllo
-            // StartsWith è economico e riguarda solo i messaggi Log_Server (rari rispetto
-            // agli Update_Data di ogni tick), quindi non pesa sul percorso più frequente.
+            // chiamata a Send sparsa in centinaia di punti del codice.
             string ora = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
             if (inviato && msg.StartsWith("Log_Server|") && Client_Connessi_Map.TryGetValue(guid, out string usernameLog))
             {
@@ -335,9 +311,7 @@ namespace Server_Strategico.Server
             string lasIpPort = args.Client.IpPort;
             Console.WriteLine("[SERVER|LOG] > Client connesso: " + args.Client.ToString());
 
-            // AGGIUNTA FONDAMENTALE: Aggiungi il GUID del client alla mappa.
-            // Il valore è provvisorio finché il client non fa il login. 
-            // Lo usiamo per l'iterazione O(M).
+            //Mappa
             Client_Connessi_Map.TryAdd(lastGuid, args.Client.IpPort);
 
             // Manteniamo la lista per compatibilità, ma usiamo la mappa per l'aggiornamento
@@ -415,7 +389,7 @@ namespace Server_Strategico.Server
 
         public class GameServer
         {
-            public Dictionary<string, Player> players = new Dictionary<string, Player>();
+            public System.Collections.Concurrent.ConcurrentDictionary<string, Player> players = new();
             int _saveIndex = 0;
 
             public async Task<bool> AddPlayer(string username, string password, string email, Guid guid)
@@ -440,62 +414,81 @@ namespace Server_Strategico.Server
                 return player;
             }
 
-            // Riformattato (14/09/2026, su richiesta dell'utente: "visivamente è
-            // molto brutto") in una tabella allineata a colonne fisse, invece
-            // di una riga di testo libero per giocatore: prima ogni riga aveva
-            // lunghezza diversa (username di lunghezza variabile) e conteneva
-            // anche il Guid, che per la stragrande maggioranza dei giocatori è
-            // sempre 00000000-0000-0000-0000-000000000000 (nessun client mai
-            // connesso con quell'account) — pura confusione visiva senza alcuna
-            // informazione utile, quindi rimosso dalla stampa.
-            public void Player_Creati()
+            private static bool IsConnesso(Player p) => p.guid_Player != Guid.Empty && (Client_Connessi_Map.ContainsKey(p.guid_Player) || WebSocketGateway.IsWebSocketClient(p.guid_Player));
+            public void Player_Creati(bool soloConnessi = false, int massimo = 100)
             {
-                const int larghUsername = 22;
-                const int larghLivello = 9;
-                const int larghPotenza = 10;
-
-                string intestazione =
-                    "   " +
-                    "ID".PadRight(larghLivello) +
-                    "Username".PadRight(larghUsername) +
-                    "Livello".PadRight(larghLivello) +
-                    "Potenza".PadRight(larghPotenza) +
-                    "Ultimo accesso";
-                string separatore = new string('─', intestazione.Length);
-
-                Console.WriteLine();
-                Console.WriteLine($"Giocatori registrati: {players.Count()}");
-                Console.WriteLine(separatore);
-                Console.WriteLine(intestazione);
-                Console.WriteLine(separatore);
-
-                foreach (var item in players)
+                try
                 {
-                    var player = item.Value;
-                    bool connesso = player.guid_Player != Guid.Empty && Client_Connessi.Contains(player.guid_Player);
+                    const int larghUsername = 22;
+                    const int larghLivello = 9;
+                    const int larghPotenza = 10;
 
-                    Console.ForegroundColor = connesso ? ConsoleColor.Green : ConsoleColor.DarkGray;
-                    Console.Write(connesso ? " ● " : " ○ ");
-                    Console.ResetColor();
+                    // Snapshot: immune alle modifiche degli altri thread
+                    Player[] snapshot = players.Values.ToArray();
+                    int totale = snapshot.Length;
+                    int totaleConnessi = snapshot.Count(IsConnesso);
 
-                    string username = string.IsNullOrWhiteSpace(player.Username) ? "(senza nome)" : player.Username;
-                    if (username.Length > larghUsername - 1) username = username.Substring(0, larghUsername - 4) + "...";
+                    IEnumerable<Player> filtrati = soloConnessi ? snapshot.Where(IsConnesso) : snapshot;
+                    int totaleFiltrati = soloConnessi ? totaleConnessi : totale;
+                    Player[] daMostrare = filtrati.OrderBy(p => p.ID).Take(massimo).ToArray();
 
-                    string ultimoAccesso = player.Last_Login == DateTime.MinValue
-                        ? "mai"
-                        : player.Last_Login.ToString("dd/MM/yyyy");
-                    int ID = player.ID;
+                    string intestazione =
+                        "   " +
+                        "ID".PadRight(larghLivello) +
+                        "Username".PadRight(larghUsername) +
+                        "Livello".PadRight(larghLivello) +
+                        "Potenza".PadRight(larghPotenza) +
+                        "Ultimo accesso";
+                    string separatore = new string('─', intestazione.Length);
 
-                    Console.WriteLine(
-                        ID.ToString().PadRight(larghLivello) +
-                        username.PadRight(larghUsername) +
-                        player.Livello.ToString().PadRight(larghLivello) +
-                        player.Potenza_Totale.ToString("#,0").PadRight(larghPotenza) +
-                        ultimoAccesso);
+                    Console.WriteLine();
+                    Console.WriteLine($"Giocatori registrati: {totale} | connessi: {totaleConnessi}");
+                    Console.WriteLine(separatore);
+                    Console.WriteLine(intestazione);
+                    Console.WriteLine(separatore);
+
+                    foreach (var player in daMostrare)
+                    {
+                        try
+                        {
+                            bool connesso = IsConnesso(player);
+
+                            Console.ForegroundColor = connesso ? ConsoleColor.Green : ConsoleColor.DarkGray;
+                            Console.Write(connesso ? " ● " : " ○ ");
+                            Console.ResetColor();
+
+                            string username = string.IsNullOrWhiteSpace(player.Username) ? "(senza nome)" : player.Username;
+                            if (username.Length > larghUsername - 1)
+                                username = username.Substring(0, larghUsername - 4) + "...";
+
+                            string ultimoAccesso = player.Last_Login == DateTime.MinValue
+                                ? "mai"
+                                : player.Last_Login.ToString("dd/MM/yyyy");
+
+                            Console.WriteLine(
+                                player.ID.ToString().PadRight(larghLivello) +
+                                username.PadRight(larghUsername) +
+                                player.Livello.ToString().PadRight(larghLivello) +
+                                player.Potenza_Totale.ToString("#,0").PadRight(larghPotenza) +
+                                ultimoAccesso);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.ResetColor();
+                            Console.WriteLine($" ! Errore stampa giocatore {player?.Username}: {ex.Message}");
+                        }
+                    }
+
+                    Console.WriteLine(separatore);
+                    if (daMostrare.Length < totaleFiltrati)
+                        Console.WriteLine($"Mostrati {daMostrare.Length} di {totaleFiltrati}. Usa 'player tutti' oppure 'player <numero>'.");
+                    Console.WriteLine();
                 }
-
-                Console.WriteLine(separatore);
-                Console.WriteLine();
+                catch (Exception ex)
+                {
+                    Console.ResetColor();
+                    Console.WriteLine($"[SERVER|LOG] (Errore) > Player_Creati: {ex}");
+                }
             }
             public void AggiornaListaPVP()
             {
@@ -514,8 +507,8 @@ namespace Server_Strategico.Server
                             indexCache[username] = i;
                         }
                     }
-
-                foreach (var kv in players)
+                var tempPlayer = players;
+                foreach (var kv in tempPlayer)
                 {
                     var player = kv.Value;
                     if (player.ScudoDellaPace != 0 || player.Livello < Variabili_Server.PVP_Unlock) continue; //Continue salta il codice sottostante? riparte con un nuovo ciclo?
@@ -596,44 +589,62 @@ namespace Server_Strategico.Server
 
             public async Task<bool> Check_Username_Player(string username)
             {
-                foreach (var item in players)
-                    if (item.Value.Username == username)
-                        return false;
-                return true;
+                try
+                {
+                    var tempPlayer = players;
+                    foreach (var item in tempPlayer)
+                        if (item.Value.Username == username)
+                            return false;
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[LOOP1] Errore su Check_Username_Player: {ex}");
+                    return false;
+                }
             }
             // All'interno della classe GameServer
 
             public async Task Auto_Update_Clients() // Sostituisce il metodo esistente
             {
-                // --- PARTE 1: Gestione Disconnessioni/Cleanup (Seriale) ---
-                if (Client_Connessi_Map.Count == 0)
+                try
                 {
-                    // Se non ci sono client connessi, azzera i GUID nei giocatori non connessi.
-                    // Questa iterazione O(N) è accettabile perché avviene solo quando Client_Connessi_Map.Count == 0
-                    // e ripulisce lo stato.
-                    foreach (var player in players.Values.Where(p => p.guid_Player != Guid.Empty))
-                        player.guid_Player = Guid.Empty;
-                    return;
-                }
-
-                // --- PARTE 2: Aggiornamento Multicore (I/O Parallelizzato in O(M)) ---
-
-                // Iteriamo SOLO sui client connessi (M=5), non sui 58.000 giocatori!
-                var updateTasks = Client_Connessi_Map.Keys // Client_Connessi_Map.Keys contiene i GUID dei client (M=7)
-                .Select(clientGuid =>
-                {
-                    // 1. Lookup O(1): Usiamo Client_Connessi_Map (GUID -> Username) per trovare l'username.
-                    if (Client_Connessi_Map.TryGetValue(clientGuid, out string username))
+                    // --- PARTE 1: Gestione Disconnessioni/Cleanup (Seriale) ---
+                    if (Client_Connessi_Map.Count == 0)
                     {
-                        // 2. Lookup O(1): Usiamo il dizionario globale 'players' (Username -> Player Object) per trovare l'oggetto Player.
-                        // Sostituisce la vecchia, lenta chiamata players.Values.FirstOrDefault(...)
-                        if (players.TryGetValue(username, out Player player))
-                            ServerConnection.Update_Data(player.guid_Player, player); // L'oggetto Player è stato trovato in modo istantaneo
+                        // Se non ci sono client connessi, azzera i GUID nei giocatori non connessi.
+                        // Questa iterazione O(N) è accettabile perché avviene solo quando Client_Connessi_Map.Count == 0
+                        // e ripulisce lo stato.
+                        var tempPlayer = players;
+                        foreach (var player in tempPlayer.Values.Where(p => p.guid_Player != Guid.Empty))
+                            player.guid_Player = Guid.Empty;
+                        return;
                     }
-                    return Task.CompletedTask; // Se fallisce il lookup (giocatore disconnesso/non trovato), ritorniamo un Task completato.
-                })
-                .ToList();
-                await Task.WhenAll(updateTasks); // 3. Attendiamo che tutti gli aggiornamenti di rete siano completati in parallelo.
+
+                    // --- PARTE 2: Aggiornamento Multicore (I/O Parallelizzato in O(M)) ---
+
+                    // Iteriamo SOLO sui client connessi (M=5), non sui 58.000 giocatori!
+                    var updateTasks = Client_Connessi_Map.Keys // Client_Connessi_Map.Keys contiene i GUID dei client (M=7)
+                    .Select(clientGuid =>
+                    {
+                        // 1. Lookup O(1): Usiamo Client_Connessi_Map (GUID -> Username) per trovare l'username.
+                        if (Client_Connessi_Map.TryGetValue(clientGuid, out string username))
+                        {
+                            // 2. Lookup O(1): Usiamo il dizionario globale 'players' (Username -> Player Object) per trovare l'oggetto Player.
+                            // Sostituisce la vecchia, lenta chiamata players.Values.FirstOrDefault(...)
+                            if (players.TryGetValue(username, out Player player))
+                                ServerConnection.Update_Data(player.guid_Player, player); // L'oggetto Player è stato trovato in modo istantaneo
+                        }
+                        return Task.CompletedTask; // Se fallisce il lookup (giocatore disconnesso/non trovato), ritorniamo un Task completato.
+                    })
+                    .ToList();
+                    await Task.WhenAll(updateTasks); // 3. Attendiamo che tutti gli aggiornamenti di rete siano completati in parallelo.
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[LOOP1] Errore su Check_Username_Player: {ex}");
+                }
+                
             }
             async Task addBOT(int b)
             {
@@ -647,11 +658,6 @@ namespace Server_Strategico.Server
                 if (Variabili_Server._Server_Consumo_RAM == 0)
                 {
                     Process proc = Process.GetCurrentProcess();
-                    // Prima usava proc.WorkingSet64 diretto anche su Linux, mentre PrintResourcesAsync
-                    // calcola il valore "attuale" con GetAccurateRamMb (che su Linux legge VmRSS da
-                    // /proc/self/status, una metrica diversa da WorkingSet64) — la sottrazione tra le due
-                    // mescolava due misure incompatibili, dando i numeri "a caso" per player su Linux.
-                    // Ora la baseline usa la stessa funzione, quindi la stessa metrica, di ogni lettura successiva.
                     Variabili_Server._Server_Consumo_RAM = (int)GetAccurateRamMb(proc);
                     Console.WriteLine($"[Server] Baseline RAM impostata: {Variabili_Server._Server_Consumo_RAM:F2} MB");
                 }
@@ -663,30 +669,35 @@ namespace Server_Strategico.Server
                 await Gioco.Barbari.Inizializza();
                 ScheduleManager.AvvioReset();
 
-
                 int maxConcurrentTasks = Math.Max(1, Environment.ProcessorCount);
                 var options = new ParallelOptions { MaxDegreeOfParallelism = maxConcurrentTasks };
 
                 while (!cancellationToken.IsCancellationRequested)
                 {
                     Stopwatch taskStopwatch = Stopwatch.StartNew();
-
-                    await Task.Run(() =>
-                        Parallel.ForEach(players.Values, options, player =>
-                        {
-                            if (player.Stato_Giocatore == false)
+                    try
+                    {
+                        await Task.Run(() =>
+                            Parallel.ForEach(players.Values, options, player =>
                             {
+                                if (player.Stato_Giocatore == false)
+                                {
+                                    player.ProduceResources();
+                                    player.ManutenzioneEsercito();
+                                    return;
+                                }
+                                if (player.Email_Code_Time > 0) player.Email_Code_Time--;
+
                                 player.ProduceResources();
-                                player.ManutenzioneEsercito();
-                                return;
-                            }
-                            if (player.Email_Code_Time > 0) player.Email_Code_Time--;
-                            
-                            player.ProduceResources();
-                            player.ServerTimer();
-                            //player.ResetGiornaliero();
-                        })
-                    );
+                                player.ServerTimer();
+                                //player.ResetGiornaliero();
+                            })
+                        );
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"[LOOP1] Errore su GameloopPrimario: {ex}");
+                    }
 
                     if (Variabili_Server.timer_Reset_Quest > 0) Variabili_Server.timer_Reset_Quest--;
                     if (Variabili_Server.timer_Reset_Quest == 0) QuestManager.RigeneraQuest();
@@ -750,159 +761,163 @@ namespace Server_Strategico.Server
             }
             public async Task RunGameLoopSecondarioAsync(CancellationToken cancellationToken) //Task parallelo, andrebbe usato x richiamare cose, costruzioni, tempo, ecc...
             {
-                int tempo_1 = 0, execute_2s = 0, saveServer = 0, savePlayer = 0, update_5s = 0, riparazioni = 0;
+                int tempo_1 = 0, saveServer = 0, savePlayer = 0, update_5s = 0, riparazioni = 0;
                 bool start = true;
+
+                int maxConcurrentTasks = Math.Max(1, Environment.ProcessorCount);
+                var options = new ParallelOptions { MaxDegreeOfParallelism = maxConcurrentTasks };
+
                 while (!cancellationToken.IsCancellationRequested)
                 {
-                    foreach (var player in players.Values)
+                    try
                     {
-                        // -- V2 --
-                        BuildingManagerV2.CompleteBuilds(player.guid_Player, player);
-                        UnitManagerV2.CompleteRecruitment(player.guid_Player, player);
-                        if (tempo_1 >= 2)
-                        {
-                            if (start)
+                        await Task.Run(() =>
+                            Parallel.ForEach(players.Values, options, player =>
                             {
-                                player.SetupVillaggioGiocatore(player);
-                                player.BonusPacchetti();
-                                Ripara(player); //Inizializza le riparazioni, se i bool sono true allora ripara. (se ci sono risorse)
-                                CalcoloPotenza(player);
-                                Esperienza.LevelUp(player);
-                                start = false;
-                            }
-
-                            if (execute_2s >= 2)
-                            {
-
-                            }
-                            ResearchManager.CompleteResearch(player.guid_Player, player);
-
-                            if (player.Vip || player.GamePass_Base || player.GamePass_Avanzato) player.BonusPacchetti();
-                            if (player.task_Attuale_Costruzioni.Count > 0) player.Tempo_Costruzione++;
-                            if (player.task_Attuale_Recutamento.Count > 0) player.Tempo_Addestramento++;
-                            if (player.currentTasks_Research.Count > 0) player.Tempo_Ricerca++;
-
-                            if (update_5s >= 5)
-                            {
-                                player.ManutenzioneEsercito();
-                                // 16/09/2026, su richiesta dell'utente: QuestManager.QuestUpdate(player) qui
-                                // mandava l'intera struttura delle quest ogni 5 secondi per OGNI giocatore
-                                // connesso, a prescindere che fosse cambiato qualcosa o meno (era proprio
-                                // questo lo "spam" per cui esisteva il filtro di log in Server.Send più sotto
-                                // — vedi il case "Update_Data"/"QuestUpdate"/"QuestRewards"/"Descrizione").
-                                // Rimosso: QuestManager.OnEvent (l'UNICO punto da cui passa ogni variazione
-                                // di progresso quest) ora chiama da sé QuestUpdateSeCambiato subito quando
-                                // qualcosa cambia davvero — il giocatore vede il progresso aggiornarsi
-                                // all'istante, invece che aspettare fino a 5 secondi, e non arriva più nulla
-                                // quando non è successo nulla.
-                                //QuestManager.QuestRewardUpdate(player);
-                                player.SetupVillaggioGiocatore(player);
-                            }
-
-                            if (riparazioni >= Variabili_Server.tempo_Riparazione)
-                            {
-                                Ripara(player);
-                                CalcoloPotenza(player);
-                                //Esperienza.LevelUp(player); //In teoria quando l'esperienza viene aggiunta al giocatore, viene controllato se il giocatore può salire di livello... non penso sia necessario
-                            }
-
-                            lock (player.LockCostruzione)
-                            {
-                                if (player.task_Attuale_Costruzioni.Count > 0)
-                                    foreach (var task in player.task_Attuale_Costruzioni)
-                                    {
-                                        if (player.task_Attuale_Costruzioni[0].IsPaused) task.Resume();
-                                        if (!task.IsComplete() && !task.IsPaused)  task.TempoInSecondi -= 1;
-                                    }
-                                
-                                if (player.task_Attuale_Costruzioni.Count == 0)
-                                    for (int i = 0; i <= player.Code_Costruzione; i++)
-                                        if (player.task_Coda_Costruzioni.Count() > 0)
-                                            player.task_Attuale_Costruzioni.Add(player.task_Coda_Costruzioni.Dequeue());
-                            }
-                            lock (player.LockReclutamento)
-                            {
-                                if (player.task_Attuale_Recutamento.Count > 0)
-                                    foreach (var task in player.task_Attuale_Recutamento)
-                                    {
-                                        if (player.task_Attuale_Recutamento[0].IsPaused) task.Resume();
-                                        if (!task.IsComplete() && !task.IsPaused) task.TempoInSecondi -= 1;
-                                    }
-
-                                if (player.task_Attuale_Recutamento.Count == 0)
-                                    for (int i = 0; i <= player.Code_Costruzione; i++)
-                                        if (player.task_Coda_Recutamento.Count() > 0)
-                                            player.task_Attuale_Recutamento.Add(player.task_Coda_Recutamento.Dequeue());
-                            }
-                            if (player.Tutorial == true && Server.Client_Connessi.Contains(player.guid_Player))
-                            {
-                                string tutorialData =
-                                "Update_Data|" +
-                                $"Tutorial_1={player.Tutorial_Stato[0]}|" +
-                                $"Tutorial_2={player.Tutorial_Stato[1]}|" +
-                                $"Tutorial_3={player.Tutorial_Stato[2]}|" +
-                                $"Tutorial_4={player.Tutorial_Stato[3]}|" +
-                                $"Tutorial_5={player.Tutorial_Stato[4]}|" +
-                                $"Tutorial_6={player.Tutorial_Stato[5]}|" +
-                                $"Tutorial_7={player.Tutorial_Stato[6]}|" +
-                                $"Tutorial_8={player.Tutorial_Stato[7]}|" +
-                                $"Tutorial_9={player.Tutorial_Stato[8]}|" +
-                                $"Tutorial_10={player.Tutorial_Stato[9]}|" +
-                                $"Tutorial_11={player.Tutorial_Stato[10]}|" +
-                                $"Tutorial_12={player.Tutorial_Stato[11]}|" +
-                                $"Tutorial_13={player.Tutorial_Stato[12]}|" +
-                                $"Tutorial_14={player.Tutorial_Stato[13]}|" +
-                                $"Tutorial_15={player.Tutorial_Stato[14]}|" +
-                                $"Tutorial_16={player.Tutorial_Stato[15]}|" +
-                                $"Tutorial_17={player.Tutorial_Stato[16]}|" +
-                                $"Tutorial_18={player.Tutorial_Stato[17]}|" +
-                                $"Tutorial_19={player.Tutorial_Stato[18]}|" +
-                                $"Tutorial_20={player.Tutorial_Stato[19]}|" +
-                                $"Tutorial_21={player.Tutorial_Stato[20]}|" +
-                                $"Tutorial_22={player.Tutorial_Stato[21]}|" +
-                                $"Tutorial_23={player.Tutorial_Stato[22]}|" +
-                                $"Tutorial_24={player.Tutorial_Stato[23]}|" +
-                                $"Tutorial_25={player.Tutorial_Stato[24]}|" +
-                                $"Tutorial_26={player.Tutorial_Stato[25]}|" +
-                                $"Tutorial_27={player.Tutorial_Stato[26]}|" +
-                                $"Tutorial_28={player.Tutorial_Stato[27]}|" +
-                                $"Tutorial_29={player.Tutorial_Stato[28]}|" +
-                                $"Tutorial_30={player.Tutorial_Stato[29]}|" +
-                                $"Tutorial_31={player.Tutorial_Stato[30]}|" +
-                                $"Tutorial_32={player.Tutorial_Stato[31]}";
-
-                                Server.Send(player.guid_Player, tutorialData);
-                                if (player.Tutorial_Stato[31]) player.Tutorial = false;
-                            }
-                            if (execute_2s >= 2) execute_2s = 0;
-                            execute_2s++;
-                            update_5s++;
-                        }
-                    }
-
-                    if (riparazioni >= Variabili_Server.tempo_Riparazione)
-                    {
-                        AttacchiCooperativi.AggiornaAttacchi();
-                        servers_.AggiornaListaPVP();
-                        riparazioni = 0;
-                    }
-
-                    if (savePlayer >= 80) await SaveSomePlayersAsync(100); //Salva 50 player per volta...
-                    if (saveServer >= 1200)
-                    {
-                        await GameSave.SaveServerData();
-                        if (server.Connections > Client_Connessi.Count)
-                        {
-                            Console.WriteLine($"[ALERT] Client fantasma rilevati! Watson:{server.Connections} vs Lista:{Client_Connessi.Count}");
-                            // Disconnetti tutti i client non nella lista
-                            foreach (var clientId in server.ListClients())
-                                if (!Client_Connessi.Contains(clientId.Guid))
+                                // -- V2 --
+                                BuildingManagerV2.CompleteBuilds(player.guid_Player, player);
+                                UnitManagerV2.CompleteRecruitment(player.guid_Player, player);
+                                if (tempo_1 >= 2)
                                 {
-                                    Console.WriteLine($"[ALERT] Disconnetto client fantasma: {clientId}");
-                                    server.DisconnectClientAsync(clientId.Guid);
+                                    if (start)
+                                    {
+                                        player.SetupVillaggioGiocatore(player);
+                                        player.BonusPacchetti();
+                                        Ripara(player); //Inizializza le riparazioni, se i bool sono true allora ripara. (se ci sono risorse)
+                                        CalcoloPotenza(player);
+                                        Esperienza.LevelUp(player);
+                                        start = false;
+                                    }
+                                    ResearchManager.CompleteResearch(player.guid_Player, player);
+
+                                    if (player.Vip || player.GamePass_Base || player.GamePass_Avanzato) player.BonusPacchetti();
+                                    if (player.task_Attuale_Costruzioni.Count > 0) player.Tempo_Costruzione++;
+                                    if (player.task_Attuale_Recutamento.Count > 0) player.Tempo_Addestramento++;
+                                    if (player.currentTasks_Research.Count > 0) player.Tempo_Ricerca++;
+
+                                    if (update_5s >= 5)
+                                    {
+                                        player.ManutenzioneEsercito();
+                                        player.SetupVillaggioGiocatore(player);
+                                    }
+
+                                    if (riparazioni >= Variabili_Server.tempo_Riparazione)
+                                    {
+                                        Ripara(player);
+                                        CalcoloPotenza(player);
+                                        //Esperienza.LevelUp(player); //In teoria quando l'esperienza viene aggiunta al giocatore, viene controllato se il giocatore può salire di livello... non penso sia necessario
+                                    }
+
+                                    lock (player.LockCostruzione)
+                                    {
+                                        if (player.task_Attuale_Costruzioni.Count > 0)
+                                            foreach (var task in player.task_Attuale_Costruzioni)
+                                            {
+                                                if (player.task_Attuale_Costruzioni[0].IsPaused) task.Resume();
+                                                if (!task.IsComplete() && !task.IsPaused) task.TempoInSecondi -= 1;
+                                            }
+
+                                        if (player.task_Attuale_Costruzioni.Count == 0)
+                                            for (int i = 0; i <= player.Code_Costruzione; i++)
+                                                if (player.task_Coda_Costruzioni.Count() > 0)
+                                                    player.task_Attuale_Costruzioni.Add(player.task_Coda_Costruzioni.Dequeue());
+                                    }
+                                    lock (player.LockReclutamento)
+                                    {
+                                        if (player.task_Attuale_Recutamento.Count > 0)
+                                            foreach (var task in player.task_Attuale_Recutamento)
+                                            {
+                                                if (player.task_Attuale_Recutamento[0].IsPaused) task.Resume();
+                                                if (!task.IsComplete() && !task.IsPaused) task.TempoInSecondi -= 1;
+                                            }
+
+                                        if (player.task_Attuale_Recutamento.Count == 0)
+                                            for (int i = 0; i <= player.Code_Costruzione; i++)
+                                                if (player.task_Coda_Recutamento.Count() > 0)
+                                                    player.task_Attuale_Recutamento.Add(player.task_Coda_Recutamento.Dequeue());
+                                    }
+                                    if (player.Tutorial == true && Server.Client_Connessi.Contains(player.guid_Player))
+                                    {
+                                        string tutorialData =
+                                        "Update_Data|" +
+                                        $"Tutorial_1={player.Tutorial_Stato[0]}|" +
+                                        $"Tutorial_2={player.Tutorial_Stato[1]}|" +
+                                        $"Tutorial_3={player.Tutorial_Stato[2]}|" +
+                                        $"Tutorial_4={player.Tutorial_Stato[3]}|" +
+                                        $"Tutorial_5={player.Tutorial_Stato[4]}|" +
+                                        $"Tutorial_6={player.Tutorial_Stato[5]}|" +
+                                        $"Tutorial_7={player.Tutorial_Stato[6]}|" +
+                                        $"Tutorial_8={player.Tutorial_Stato[7]}|" +
+                                        $"Tutorial_9={player.Tutorial_Stato[8]}|" +
+                                        $"Tutorial_10={player.Tutorial_Stato[9]}|" +
+                                        $"Tutorial_11={player.Tutorial_Stato[10]}|" +
+                                        $"Tutorial_12={player.Tutorial_Stato[11]}|" +
+                                        $"Tutorial_13={player.Tutorial_Stato[12]}|" +
+                                        $"Tutorial_14={player.Tutorial_Stato[13]}|" +
+                                        $"Tutorial_15={player.Tutorial_Stato[14]}|" +
+                                        $"Tutorial_16={player.Tutorial_Stato[15]}|" +
+                                        $"Tutorial_17={player.Tutorial_Stato[16]}|" +
+                                        $"Tutorial_18={player.Tutorial_Stato[17]}|" +
+                                        $"Tutorial_19={player.Tutorial_Stato[18]}|" +
+                                        $"Tutorial_20={player.Tutorial_Stato[19]}|" +
+                                        $"Tutorial_21={player.Tutorial_Stato[20]}|" +
+                                        $"Tutorial_22={player.Tutorial_Stato[21]}|" +
+                                        $"Tutorial_23={player.Tutorial_Stato[22]}|" +
+                                        $"Tutorial_24={player.Tutorial_Stato[23]}|" +
+                                        $"Tutorial_25={player.Tutorial_Stato[24]}|" +
+                                        $"Tutorial_26={player.Tutorial_Stato[25]}|" +
+                                        $"Tutorial_27={player.Tutorial_Stato[26]}|" +
+                                        $"Tutorial_28={player.Tutorial_Stato[27]}|" +
+                                        $"Tutorial_29={player.Tutorial_Stato[28]}|" +
+                                        $"Tutorial_30={player.Tutorial_Stato[29]}|" +
+                                        $"Tutorial_31={player.Tutorial_Stato[30]}|" +
+                                        $"Tutorial_32={player.Tutorial_Stato[31]}";
+
+                                        Server.Send(player.guid_Player, tutorialData);
+                                        if (player.Tutorial_Stato[31]) player.Tutorial = false;
+                                    }
+                                    update_5s++;
                                 }
+                            })
+                        );
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"[LOOP1] Errore su LoopSecondario: {ex}");
+                    }
+
+                    try
+                    {
+                        if (riparazioni >= Variabili_Server.tempo_Riparazione)
+                        {
+                            AttacchiCooperativi.AggiornaAttacchi();
+                            servers_.AggiornaListaPVP();
+                            riparazioni = 0;
+                        }
+
+                        if (savePlayer >= 240) await SaveSomePlayersAsync(100); //Salva 50 player per volta...
+                        if (saveServer >= 600)
+                        {
+                            await GameSave.SaveServerData();
+                            if (server.Connections > Client_Connessi.Count)
+                            {
+                                Console.WriteLine($"[ALERT] Client fantasma rilevati! Watson:{server.Connections} vs Lista:{Client_Connessi.Count}");
+                                // Disconnetti tutti i client non nella lista
+                                var tempClient = server.ListClients();
+                                foreach (var clientId in tempClient)
+                                    if (!Client_Connessi.Contains(clientId.Guid))
+                                    {
+                                        Console.WriteLine($"[ALERT] Disconnetto client fantasma: {clientId}");
+                                        server.DisconnectClientAsync(clientId.Guid);
+                                    }
+                            }
                         }
                     }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"[LOOP1] Errore su Secondario - pvp, coop, save: {ex}");
+                    }
+                    
                     if (tempo_1 >= 2)
                     {
                         await Auto_Update_Clients();
@@ -999,7 +1014,8 @@ namespace Server_Strategico.Server
             public static void Ripara(Player player)
             {
                 int i = 0, salute = 0, difesa = 0;
-                foreach (var item in player.Riparazioni)
+                var playerRiparazioni = player.Riparazioni;
+                foreach (var item in playerRiparazioni)
                     if (item == true) i++;
                 
                 if (i == 0) return;

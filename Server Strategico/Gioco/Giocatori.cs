@@ -960,7 +960,7 @@ namespace Server_Strategico.Gioco
                 if (GamePass_Base == false && Reclutatori > 0) Code_Reclutamento = 2;
                 if (GamePass_Base == true && Reclutatori > 0) Code_Reclutamento = 3;
             }
-            public async Task BonusPacchetti()
+            public void BonusPacchetti()
             {
                 double bonusAttack = 0, bonusHealth = 0, bonusDefense = 0;
 

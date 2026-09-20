@@ -596,14 +596,14 @@ namespace Server_Strategico.Server
             if (dati[3] == "Villaggio Barbaro" || dati[3] == "Città Barbaro")
             {
                 // --- PERCORSO ATTIVO (2026-09-14): BattagliaPVE.cs, con i bugfix applicati (vedi audit-battaglie.md) ---
-                var attackerUnitsPVE = new Server_Strategico.ServerData.Moduli.Battaglie.Battaglia.UnitGroup
+                var attackerUnitsPVE = new ServerData.Moduli.Battaglie.Battaglia.UnitGroup
                 {
                     Guerrieri = guerrieri,
                     Lancieri = picchieri,
                     Arcieri = arcieri,
                     Catapulte = catapulte
                 };
-                await Server_Strategico.ServerData.Moduli.Battaglie.BattagliaPVE.Battaglia(player, clientGuid, dati[3], Convert.ToInt32(dati[4]), attackerUnitsPVE);
+                await ServerData.Moduli.Battaglie.BattagliaPVE.Battaglia(player, clientGuid, dati[3], Convert.ToInt32(dati[4]), attackerUnitsPVE);
 
                 /* --- PERCORSO LEGACY (disattivato il 2026-09-14, tenuto come riferimento finché i test sul nuovo percorso
                    non danno l'ok — poi va eliminato insieme a BattaglieV2.Battaglia_Barbari e i suoi helper) ---
