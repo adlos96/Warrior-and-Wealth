@@ -423,7 +423,7 @@
         </div>
 
         <div class="main-grid main-grid--costruzione">
-          <div class="panel wood-panel" data-panel="costruzione-edifici">
+          <div class="panel wood-panel is-visible" data-panel="costruzione-edifici">
             <h2 class="panel__title" id="costruzione-edifici-title">Costruzione</h2>
 
             <h3 class="panel__subtitle" id="costruzione-civili-subtitle">Strutture Civili</h3>
@@ -533,6 +533,9 @@
         <div class="panel wood-panel">
           <h2 class="panel__title">Negozio</h2>
           <p class="panel__hint">Gli acquisti in Diamanti sono attivi da subito. I pacchetti con pagamento reale (USDT) sono mostrati ma non ancora disponibili.</p>
+          <!-- 20/09/2026, su richiesta dell'utente: feedback grafico all'acquisto, stesso
+               meccanismo/stile del toast Quest (#quest-toast) — vedi js/08-shop.js. -->
+          <div class="quest-toast" id="shop-toast" hidden></div>
           <div id="shop-container"><!-- popolato da js/08-shop.js (renderShop) --></div>
         </div>
       </section>
@@ -837,6 +840,10 @@
         <div class="panel wood-panel">
           <h2 class="panel__title">Premi Giornalieri</h2>
           <p class="panel__hint">Accedi ogni giorno per riscattare un premio, fino al 90° giorno consecutivo con il GamePass Gold attivo. Attenzione: se salti anche un solo giorno, i premi ripartono dal Giorno 1.</p>
+          <!-- 20/09/2026, su richiesta dell'utente: feedback grafico al ritiro di un
+               premio, stesso meccanismo/stile del toast Quest (#quest-toast) — vedi
+               js/13-gamepass.js. -->
+          <div class="quest-toast" id="gamepass-toast" hidden></div>
           <div class="gamepass-grid" id="gamepass-grid"><!-- popolata da js/13-gamepass.js --></div>
         </div>
       </section>

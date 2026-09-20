@@ -24,6 +24,28 @@ window.WW = window.WW || {};
 (function (WW) {
   "use strict";
 
+  // Toggle Edifici/Addestramento su mobile (stesso pattern di #main-panel-toggle).
+  // 20/09/2026, su richiesta dell'utente: spostato in cima allo script (era in
+  // fondo al file) e reso indipendente da qualunque altra inizializzazione qui
+  // sotto, così il pannello "Edifici" risulta visibile fin da subito quando si
+  // apre la schermata Costruzione, anche se qualcos'altro nel file dovesse
+  // fallire più avanti. La classe "is-visible" è comunque già presente anche
+  // nell'HTML (index.html) come ulteriore rete di sicurezza, sullo stesso
+  // principio del pulsante "Edifici" che ha già "is-active" hardcoded lì.
+  const costruzioneToggleBtns = document.querySelectorAll("#costruzione-panel-toggle .section-toggle__btn");
+  const costruzioneGridPanels = document.querySelectorAll(".main-grid--costruzione [data-panel]");
+  function showCostruzionePanel(target) {
+    costruzioneGridPanels.forEach((p) => p.classList.toggle("is-visible", p.dataset.panel === target));
+  }
+  costruzioneToggleBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      costruzioneToggleBtns.forEach((b) => b.classList.remove("is-active"));
+      btn.classList.add("is-active");
+      showCostruzionePanel(btn.dataset.panelTarget);
+    });
+  });
+  showCostruzionePanel("costruzione-edifici");
+
   // Titoli statici della schermata (18/09/2026, su richiesta dell'utente):
   // arrivano anche loro come "Descrizione|Label ...|<testo>" (vedi
   // Descrizioni.cs), stesso meccanismo già usato per le righe di
@@ -298,21 +320,6 @@ window.WW = window.WW || {};
       `V: ${WW.fmtInt(WW.GAME.num("Unlock_Truppe_V"))}`;
     document.querySelectorAll("[data-sblocco-unita]").forEach((el) => (el.textContent = testo));
   }
-
-  // Toggle Edifici/Addestramento su mobile (stesso pattern di #main-panel-toggle).
-  const costruzioneToggleBtns = document.querySelectorAll("#costruzione-panel-toggle .section-toggle__btn");
-  const costruzioneGridPanels = document.querySelectorAll(".main-grid--costruzione [data-panel]");
-  function showCostruzionePanel(target) {
-    costruzioneGridPanels.forEach((p) => p.classList.toggle("is-visible", p.dataset.panel === target));
-  }
-  costruzioneToggleBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      costruzioneToggleBtns.forEach((b) => b.classList.remove("is-active"));
-      btn.classList.add("is-active");
-      showCostruzionePanel(btn.dataset.panelTarget);
-    });
-  });
-  showCostruzionePanel("costruzione-edifici");
 
   WW.renderStruttureListForm = renderStruttureListForm;
   WW.renderUnitaForm = renderUnitaForm;

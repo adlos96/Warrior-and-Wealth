@@ -488,6 +488,36 @@ window.WW = window.WW || {};
   // almeno due pulsanti per osservare attacco e difesa in maniera indipendente".
   let battagliaAttiva = null;
   let battagliaLato = "attaccante";
+  // 20/09/2026, su richiesta dell'utente: tier selezionato per la tabella "Statistiche
+  // Truppe Barbare" (solo referti PVE) — stesso pattern di spiaTier per lo spionaggio.
+  let battagliaTier = 1;
+
+  // Sezione "Statistiche Truppe Barbare" (solo PVE — vedi Stats_Difensore in
+  // BattagliaPVE.cs): stessa tabella Livello/Salute/Difesa/Attacco già usata per lo
+  // spionaggio (tabellaStatUnita), con lo stesso selettore a tab per tier. Città e
+  // Villaggi mostrano di proposito gli stessi numeri (condividono le statistiche lato
+  // server, GetEnemyUnitStats) — non è un errore di questa tabella.
+  function templateBattagliaStatsBarbaro() {
+    const tierTabsHtml = TIER_LABELS.map((l, i) => `<button type="button" class="tier-btn${i === 0 ? " is-active" : ""}" data-battaglia-tier="${i + 1}">${l}</button>`).join("");
+    return `
+    <div class="report-fase">
+      <h3>Statistiche Truppe Barbare</h3>
+      <div class="tier-tabs">${tierTabsHtml}</div>
+      <div id="battaglia-stats-barbaro-content"></div>
+    </div>`;
+  }
+
+  function renderBattagliaStatsBarbaroContent() {
+    const el = document.getElementById("battaglia-stats-barbaro-content");
+    if (!el || !battagliaAttiva) return;
+    const stats = (battagliaAttiva.Fasi && battagliaAttiva.Fasi[0] && battagliaAttiva.Fasi[0].Stats_Difensore) || {};
+    const fonteTier = {};
+    UNITA.forEach((u) => {
+      const arr = stats[CAMPO_SPIA[u.chiave].stats];
+      fonteTier[CAMPO_SPIA[u.chiave].stats] = arr && arr[battagliaTier - 1];
+    });
+    el.innerHTML = tabellaStatUnita(fonteTier, (u) => CAMPO_SPIA[u.chiave].stats, false);
+  }
 
   function templateFase(fase, indice, lato) {
     const nomeStruttura = (fase.Struttura && fase.Struttura.Nome) || `Fase ${indice + 1}`;
@@ -905,6 +935,7 @@ window.WW = window.WW || {};
     // comunque disponibili per controllare entrambi i lati indipendentemente.
     battagliaAttiva = b;
     battagliaLato = ioAttaccante ? "attaccante" : "difensore";
+    battagliaTier = 1; // reset tra un referto e l'altro, vedi Statistiche Truppe Barbare sotto
 
     content.innerHTML = `
       <div class="report-header">
@@ -914,11 +945,13 @@ window.WW = window.WW || {};
       ${templateBattagliaFasiToggle()}
       <div id="battaglia-fasi-content"></div>
       <div id="battaglia-risorse-content"></div>
+      ${b.Tipo_Battaglia === "PVE" ? templateBattagliaStatsBarbaro() : ""}
       <div class="report-esito ${vittoriaMia ? "report-esito--vittoria" : "report-esito--sconfitta"}">
         Esperienza totale guadagnata: ${WW.fmtInt(xpMio)} — ${vittoriaMia ? "VITTORIA!" : "SCONFITTA"}
       </div>`;
     renderBattagliaFasiContent();
     renderBattagliaRisorseContent();
+    if (b.Tipo_Battaglia === "PVE") renderBattagliaStatsBarbaroContent();
     overlay.hidden = false;
   }
 
@@ -1008,6 +1041,13 @@ window.WW = window.WW || {};
           spiaFaseIndice = Number(faseBtn.dataset.spiaFase) || 0;
           reportContent.querySelectorAll("[data-spia-fase]").forEach((b) => b.classList.toggle("is-active", b === faseBtn));
           renderSpiaFaseContent();
+          return;
+        }
+        const battagliaTierBtn = e.target.closest("[data-battaglia-tier]");
+        if (battagliaTierBtn) {
+          battagliaTier = Number(battagliaTierBtn.dataset.battagliaTier) || 1;
+          reportContent.querySelectorAll("[data-battaglia-tier]").forEach((b) => b.classList.toggle("is-active", b === battagliaTierBtn));
+          renderBattagliaStatsBarbaroContent();
           return;
         }
 

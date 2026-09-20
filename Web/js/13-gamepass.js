@@ -109,6 +109,53 @@ window.WW = window.WW || {};
     renderGriglia();
   }
 
+  /* ---------- Feedback grafico al ritiro di un premio ----------
+     (20/09/2026, su richiesta dell'utente: "vorrei... vedere se i premi dei
+     giorni precedenti sono stati raccolti", più l'animazione al ritiro
+     aggiunta come estensione). Stesso principio di segnalaRiscossione() in
+     js/12-quest.js: confrontiamo Gamepass_Premi_Ottenuti PRIMA e DOPO ogni
+     aggiornamento — un indice che passa da false a true è un premio appena
+     ritirato in questo preciso tick (sia perché il giocatore l'ha appena
+     cliccato, sia se arrivasse "già ritirato" da un altro client/sessione). */
+  let toastTimeout = null;
+  let completatiCaricati = false; // come rewardsCaricate in 12-quest.js
+
+  function trovaIndiciAppenaRitirati(vecchio, nuovo) {
+    const risultato = [];
+    for (let i = 0; i < nuovo.length; i++) {
+      if (nuovo[i] && !(vecchio && vecchio[i])) risultato.push(i);
+    }
+    return risultato;
+  }
+
+  function mostraToastGamepass(testo) {
+    const elToast = document.getElementById("gamepass-toast");
+    if (!elToast) return;
+    elToast.textContent = testo;
+    elToast.hidden = false;
+    elToast.classList.remove("quest-toast--anim");
+    void elToast.offsetWidth;
+    elToast.classList.add("quest-toast--anim");
+    clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => { elToast.hidden = true; }, 2200);
+  }
+
+  function segnalaRitiro(indice) {
+    const valore = stato.valori[indice] || 0;
+    const tessera = elGrid.querySelector(`.gamepass-day[data-indice="${indice}"]`);
+    if (tessera) {
+      tessera.classList.add("gamepass-day--ritirata");
+      tessera.addEventListener("animationend", () => tessera.classList.remove("gamepass-day--ritirata"), { once: true });
+
+      const popup = document.createElement("span");
+      popup.className = "gamepass-reward-popup";
+      popup.textContent = `+${WW.fmtInt(valore)} 💎`;
+      tessera.appendChild(popup);
+      popup.addEventListener("animationend", () => popup.remove(), { once: true });
+    }
+    mostraToastGamepass(`Premio Giorno ${indice + 1} ritirato: +${WW.fmtInt(valore)} Diamanti Viola`);
+  }
+
   // Un solo listener delegato sulla griglia invece di uno per bottone (90
   // elementi ricreati ad ogni aggiornamento — stesso approccio di
   // renderMarkers() in 12-quest.js).
@@ -123,8 +170,12 @@ window.WW = window.WW || {};
     renderTutto();
   });
   WW.NET.on("Gamepass_Premi_Ottenuti", (args) => {
-    stato.completati = args.slice(0, GIORNI_TOTALI).map((v) => v === "True");
+    const nuovi = args.slice(0, GIORNI_TOTALI).map((v) => v === "True");
+    const appenaRitirati = completatiCaricati ? trovaIndiciAppenaRitirati(stato.completati, nuovi) : [];
+    stato.completati = nuovi;
     renderTutto();
+    appenaRitirati.forEach(segnalaRitiro);
+    completatiCaricati = true;
   });
 
   // Giorni_Consecutivi/GamePass_Avanzato arrivano genericamente con ogni
