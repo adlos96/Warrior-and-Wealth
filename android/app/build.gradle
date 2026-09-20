@@ -51,5 +51,6 @@ android {
 dependencies {
     implementation "androidx.appcompat:appcompat:1.8.0"
     implementation "androidx.activity:activity-ktx:1.13.0"
+    implementation "com.android.billingclient:billing-ktx:9.1.0"
 }
 
