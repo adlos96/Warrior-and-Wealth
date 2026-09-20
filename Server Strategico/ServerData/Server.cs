@@ -204,10 +204,10 @@ namespace Server_Strategico.Server
             cts_2 = new CancellationTokenSource();
 
             primaryGameLoopTask = servers_.RunGameLoopAsync(cts_1.Token);
-            await primaryGameLoopTask.ContinueWith(t => Console.WriteLine($"[FATAL] Loop primario terminato: {t.Exception}"), TaskContinuationOptions.OnlyOnFaulted);
+            _ = primaryGameLoopTask.ContinueWith(t => Console.WriteLine($"[FATAL] Loop primario terminato: {t.Exception}"), TaskContinuationOptions.OnlyOnFaulted);
 
             secondaryGameLoopTask = Task.Run(() => servers_.RunGameLoopSecondarioAsync(cts_2.Token));
-            await secondaryGameLoopTask.ContinueWith(t => Console.WriteLine($"[FATAL] Loop secondario terminato: {t.Exception}"), TaskContinuationOptions.OnlyOnFaulted);
+            _ = secondaryGameLoopTask.ContinueWith(t => Console.WriteLine($"[FATAL] Loop secondario terminato: {t.Exception}"), TaskContinuationOptions.OnlyOnFaulted);
 
             Console.WriteLine("[Server] Attesa avvio server....");
             while (!avviato)
@@ -739,41 +739,40 @@ namespace Server_Strategico.Server
                     taskStopwatch.Stop();
                     TimeSpan tempoImpiegato_2 = taskStopwatch.Elapsed;
                     
-                    //if (stats >= 60)
-                    //{
-                    //    PrintResourcesAsync();
-                    //    Console.WriteLine("Core: " + maxConcurrentTasks + " Giocatori: " + players.Count());
-                    //    Console.WriteLine($"[PERF] A - Server elaborato in:    [{tempoImpiegato_2.TotalMilliseconds:F4} ms]");
-                    //    Console.WriteLine($"[PERF] B - Min:                    [{min_Stats:F4} ms]");
-                    //    Console.WriteLine($"[PERF] C - Med:                    [{media_Stats:F4} ms]");
-                    //    Console.WriteLine($"[PERF] D - Max:                    [{max_Stats:F4} ms]");
-                    //    Console.WriteLine($"[PERF] E - X player:               [{(media_Stats / players.Count()):F6} ms]\n");
-                    //
-                    //    Console.WriteLine($"[MONITOR] Client connessi: {Client_Connessi.Count}");
-                    //    Console.WriteLine($"[MONITOR] Client map: {Client_Connessi_Map.Count}");
-                    //    Console.WriteLine($"[MONITOR] Players: {players.Count}");
-                    //    Console.WriteLine($"[MONITOR] PVP: {Utenti_PVP.Count}");
-                    //    Console.WriteLine($"[MONITOR] GC Gen0: {GC.CollectionCount(0)}");
-                    //    Console.WriteLine($"[MONITOR] GC Gen1: {GC.CollectionCount(1)}");
-                    //    Console.WriteLine($"[MONITOR] GC Gen2: {GC.CollectionCount(2)}");
-                    //    Console.WriteLine($"[MONITOR] Heap totale: {GC.GetTotalMemory(false) / 1024 / 1024} MB");
-                    //    Console.WriteLine($"[MONITOR] Thread attivi: {System.Diagnostics.Process.GetCurrentProcess().Threads.Count}");
-                    //    Console.WriteLine($"[MONITOR] WatsonTcp clients: {server.Connections}");
-                    //    Console.WriteLine($"------------------------------------");
-                    //
-                    //    stats = 0;
-                    //}
-                    //
-                    //if (numero_Stats < 10) numero_Stats += 1;
-                    //else
-                    //{
-                    //    numero_Stats += 1;
-                    //    totale_Stats += tempoImpiegato_2.TotalMilliseconds;
-                    //    media_Stats = totale_Stats / numero_Stats;
-                    //
-                    //    if (tempoImpiegato_2.TotalMilliseconds > max_Stats) max_Stats = tempoImpiegato_2.TotalMilliseconds;
-                    //    if (tempoImpiegato_2.TotalMilliseconds < min_Stats || min_Stats == 0) min_Stats = tempoImpiegato_2.TotalMilliseconds;
-                    //}
+                    if (stats >= 60)
+                    {
+                        PrintResourcesAsync();
+                        Console.WriteLine("Core: " + maxConcurrentTasks + " Giocatori: " + players.Count());
+                        Console.WriteLine($"[PERF] A - Server elaborato in:    [{tempoImpiegato_2.TotalMilliseconds:F4} ms]");
+                        Console.WriteLine($"[PERF] B - Min:                    [{min_Stats:F4} ms]");
+                        Console.WriteLine($"[PERF] C - Med:                    [{media_Stats:F4} ms]");
+                        Console.WriteLine($"[PERF] D - Max:                    [{max_Stats:F4} ms]");
+                        Console.WriteLine($"[PERF] E - X player:               [{(media_Stats / players.Count()):F6} ms]\n");
+                    
+                        Console.WriteLine($"[MONITOR] Client map: {Client_Connessi_Map.Count}");
+                        Console.WriteLine($"[MONITOR] Players: {players.Count}");
+                        Console.WriteLine($"[MONITOR] PVP: {Utenti_PVP.Count}");
+                        Console.WriteLine($"[MONITOR] GC Gen0: {GC.CollectionCount(0)}");
+                        Console.WriteLine($"[MONITOR] GC Gen1: {GC.CollectionCount(1)}");
+                        Console.WriteLine($"[MONITOR] GC Gen2: {GC.CollectionCount(2)}");
+                        Console.WriteLine($"[MONITOR] Heap totale: {GC.GetTotalMemory(false) / 1024 / 1024} MB");
+                        Console.WriteLine($"[MONITOR] Thread attivi: {System.Diagnostics.Process.GetCurrentProcess().Threads.Count}");
+                        Console.WriteLine($"[MONITOR] WatsonTcp clients: {server.Connections}");
+                        Console.WriteLine($"------------------------------------");
+                    
+                        stats = 0;
+                    }
+                    
+                    if (numero_Stats < 10) numero_Stats += 1;
+                    else
+                    {
+                        numero_Stats += 1;
+                        totale_Stats += tempoImpiegato_2.TotalMilliseconds;
+                        media_Stats = totale_Stats / numero_Stats;
+                    
+                        if (tempoImpiegato_2.TotalMilliseconds > max_Stats) max_Stats = tempoImpiegato_2.TotalMilliseconds;
+                        if (tempoImpiegato_2.TotalMilliseconds < min_Stats || min_Stats == 0) min_Stats = tempoImpiegato_2.TotalMilliseconds;
+                    }
                     #endregion
 
                     //Tempo reale di attesa....
@@ -824,9 +823,8 @@ namespace Server_Strategico.Server
                                     if (player.task_Attuale_Recutamento.Count > 0) player.Tempo_Addestramento++;
                                     if (player.currentTasks_Research.Count > 0) player.Tempo_Ricerca++;
 
-                                    if (update_5s >= 5)
+                                    if (update_5s >= 10)
                                     {
-                                        update_5s = 0;
                                         player.ManutenzioneEsercito();
                                         player.SetupVillaggioGiocatore(player);
                                     }
@@ -963,6 +961,8 @@ namespace Server_Strategico.Server
                         tempo_1 = 0;
                         await Auto_Update_Clients();
                     }
+                    if (update_5s >= 10) update_5s = 0;
+                    
                     tempo_1++;
                     saveServer++;
                     savePlayer++;
