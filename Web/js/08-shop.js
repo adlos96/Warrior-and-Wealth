@@ -130,27 +130,18 @@ window.WW = window.WW || {};
   /* ---------- Feedback grafico all'acquisto ----------
      (20/09/2026, su richiesta dell'utente: "vorrei che quando un utente
      acquista un elemento dello shop ci possa essere qualche effetto visivo
-     in più"). Stesso principio di segnalaRiscossione() in js/12-quest.js:
-     confrontiamo il "tempo rimanente" reale mandato dal server prima/dopo
-     ogni tick, e se è AUMENTATO (di norma scende soltanto, col tempo che
-     passa) vuol dire che un acquisto in quella categoria è appena andato a
-     buon fine — così l'effetto scatta solo alla conferma vera del server,
-     non al semplice click, e un acquisto che non va a buon fine (es. saldo
-     insufficiente) resta silenzioso invece di mostrare un finto successo. */
-  const stato = {
-    tempoPrec: Object.create(null), // "vip_Tempo"/"Costruttori_Tempo"/... -> secondi al tick precedente
-    tempoCaricato: false, // come rewardsCaricate in 12-quest.js: evita un falso trigger al primo render
-    pendingAcquisto: Object.create(null), // tempoChiave -> { catIdx, itemIdx, ts } dell'ultimo click in attesa di conferma
-  };
-  const CHIAVI_TEMPO_TRACCIATE = ["vip_Tempo", "Costruttori_Tempo", "Reclutatori_Tempo", "Scudo_Tempo"];
+     in più"). PRIMA VERSIONE: scattava confrontando il "tempo rimanente"
+     prima/dopo ogni tick, per innescarsi solo alla conferma vera del
+     server. Rimossa (20/09/2026, "lo shop pulsa... come se venisse
+     aggiornato perennemente"): il testo del tempo rimanente mandato dal
+     server (Giocatori.cs, FormatTime) OMETTE "h"/"m" quando sono zero
+     ("45s" sotto il minuto, "12m 3s" sotto l'ora, aggiunge "Xd " sopra le
+     24h) — un parsing basato su quel testo è quindi inaffidabile e può
+     scattare a vuoto. Ora l'effetto è innescato direttamente dal click su
+     "Acquista" (ottimistico: parte subito, senza aspettare conferma dal
+     server), usando la durata già nota lato client (stesso valore mostrato
+     sulla card, da rewardChiave — nessun parsing di stringhe di tempo). */
   let toastTimeout = null;
-
-  function secondiDaTempo(str) {
-    if (!str) return 0;
-    const m = String(str).match(/(\d+)h\s*(\d+)m\s*(\d+)s/);
-    if (!m) return 0;
-    return Number(m[1]) * 3600 + Number(m[2]) * 60 + Number(m[3]);
-  }
 
   function mostraToastShop(testo) {
     const elToast = document.getElementById("shop-toast");
@@ -166,45 +157,23 @@ window.WW = window.WW || {};
     toastTimeout = setTimeout(() => { elToast.hidden = true; }, 2200);
   }
 
-  // Se il click che ha innescato l'acquisto non è più "recente" (es. la card
-  // è stata acquistata da un altro client/sessione, o troppo tempo fa),
-  // mostriamo comunque l'effetto sul primo item funzionale di quella
-  // categoria — meglio un target plausibile che nessun feedback.
-  function primoItemFunzionale(tempoChiave) {
-    for (let c = 0; c < SHOP_CATEGORIE.length; c++) {
-      const items = SHOP_CATEGORIE[c].items;
-      for (let i = 0; i < items.length; i++) {
-        if (items[i].tempoChiave === tempoChiave && items[i].funzionale) return { catIdx: c, itemIdx: i };
-      }
-    }
-    return null;
-  }
+  // Chiamata subito al click su "Acquista" (prima ancora della risposta del
+  // server — vedi nota sopra). "li" è la card cliccata: essendo TUTTO il
+  // markup ricostruito ad ogni tick (vedi renderShop), se un aggiornamento
+  // arriva a metà animazione la card viene sostituita e l'effetto si
+  // interrompe semplicemente un po' prima — innocuo, meglio che rischiare
+  // di non vederlo mai scattare.
+  function segnalaAcquisto(li, item) {
+    li.classList.add("shop-card--acquistata");
+    li.addEventListener("animationend", () => li.classList.remove("shop-card--acquistata"), { once: true });
 
-  // Va chiamata PRIMA di ricostruire il markup (renderShop): calcola i nuovi
-  // valori, li confronta coi precedenti, e restituisce l'elenco delle card da
-  // animare DOPO il rebuild (gli elementi attuali stanno per essere sostituiti).
-  function rilevaAcquisti() {
-    const nuovi = Object.create(null);
-    CHIAVI_TEMPO_TRACCIATE.forEach((k) => { nuovi[k] = secondiDaTempo(WW.GAME.raw[k]); });
+    const popup = document.createElement("span");
+    popup.className = "shop-reward-popup";
+    popup.textContent = `+${testoDurata(item)}`;
+    li.appendChild(popup);
+    popup.addEventListener("animationend", () => popup.remove(), { once: true });
 
-    const daAnimare = [];
-    if (stato.tempoCaricato) {
-      CHIAVI_TEMPO_TRACCIATE.forEach((k) => {
-        const prima = stato.tempoPrec[k] || 0;
-        if (nuovi[k] > prima) {
-          const pending = stato.pendingAcquisto[k];
-          const target = (pending && Date.now() - pending.ts < 20000) ? pending : primoItemFunzionale(k);
-          if (target) {
-            const item = SHOP_CATEGORIE[target.catIdx].items[target.itemIdx];
-            daAnimare.push({ catIdx: target.catIdx, itemIdx: target.itemIdx, nome: item.nome, testoValore: `+${WW.fmtInt(Math.round((nuovi[k] - prima) / 3600))}h` });
-          }
-          delete stato.pendingAcquisto[k];
-        }
-      });
-    }
-    stato.tempoPrec = nuovi;
-    stato.tempoCaricato = true;
-    return daAnimare;
+    mostraToastShop(`Acquisto inviato: ${item.nome} (+${testoDurata(item)})`);
   }
 
   // Va chiamata DOPO il rebuild del markup: applica bagliore + popup sulla
@@ -311,9 +280,6 @@ window.WW = window.WW || {};
     // già aperti: senza questo si richiuderebbero da soli al tick
     // successivo, un attimo dopo averli aperti.
     const aperti = Array.from(container.querySelectorAll(".shop-card__desc:not([hidden])")).map((b) => b.dataset.descPer);
-    // Va calcolato PRIMA del rebuild: confronta i valori di questo tick con
-    // quelli del tick precedente (vedi rilevaAcquisti() sopra).
-    const daAnimare = rilevaAcquisti();
     container.innerHTML = SHOP_CATEGORIE.map(templateCategoria).join("");
     aperti.forEach((chiave) => {
       const box = container.querySelector(`.shop-card__desc[data-desc-per="${cssEscape(chiave)}"]`);
@@ -323,7 +289,6 @@ window.WW = window.WW || {};
       if (btn) btn.classList.add("is-active");
       popolaDescrizioneShop(chiave, box);
     });
-    if (daAnimare.length) segnalaAcquisti(container, daAnimare);
   }
 
   // Un solo listener delegato sul contenitore: gestisce il click su
@@ -350,11 +315,7 @@ window.WW = window.WW || {};
       const itemIdx = Number(li.dataset.item);
       const item = SHOP_CATEGORIE[catIdx].items[itemIdx];
       if (!item || !item.funzionale) return;
-      // Ricorda QUALE card ha innescato l'acquisto, per far scattare
-      // l'effetto grafico su quella (invece che sulla prima della
-      // categoria) quando rilevaAcquisti() confermerà l'aumento del tempo
-      // rimanente — vedi nota sopra.
-      if (item.tempoChiave) stato.pendingAcquisto[item.tempoChiave] = { catIdx, itemIdx, ts: Date.now() };
+      segnalaAcquisto(li, item);
       WW.NET.send("Shop", WW.AUTH.accessToken, item.comandoServer);
     });
   }
