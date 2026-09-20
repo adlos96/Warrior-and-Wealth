@@ -127,23 +127,18 @@
 
     <!-- Barra risorse: stessi valori/icone del client desktop -->
     <header class="resource-bar" id="resource-bar">
-      <!-- Menu giocatore (14/09/2026, su richiesta dell'utente): cliccando
-           sul proprio nome si apre un popup con "Cambio giocatore" (torna
-           alla schermata di login/registrazione, riusando lo stesso
-           AUTH.logout() già usato per un TOKEN_NON_VALIDO — vedi
-           collegaMenuGiocatore() in js/02-auth.js) e "Cambio avatar" 
-           (per ora solo un segnaposto grigio, non cliccabile: la
-           funzione non esiste ancora lato server/client). Prima era un
-           piccolo dropdown ancorato al pulsante, ma dentro alla barra
-           risorse (sticky, con overflow-x:auto) compariva schiacciato lì
-           sotto — su richiesta dell'utente ("puoi fare un menù a comparsa
-           come fai per i report?") è diventato un overlay centrato a tutto
-           schermo, lo stesso .modal-overlay/.modal-box già usato per Feudi/
-           Info Risorsa/Resoconto qui sotto, invece di un pattern nuovo. -->
+      <!-- Menu giocatore: cliccando sul proprio nome si apre un popup con
+           "Cambio giocatore" (torna al login, riusando AUTH.logout() già
+           usato per un TOKEN_NON_VALIDO — vedi collegaMenuGiocatore() in
+           js/02-auth.js) e "Cambio avatar". Overlay centrato a tutto
+           schermo (.modal-overlay/.modal-box, stesso usato per Feudi/Info
+           Risorsa/Resoconto qui sotto) invece di un dropdown ancorato al
+           pulsante: dentro alla barra risorse (sticky, overflow-x:auto) un
+           dropdown comparirebbe schiacciato lì sotto. -->
       <button type="button" class="resource-bar__player" id="btn-player-menu">
-        <!-- Immagine profilo (18/09/2026): 👤 resta il fallback finché il
-             giocatore non ha un avatar scelto (player.Avatar vuoto) — vedi
-             js/15-avatar.js, che mostra l'una o l'altra. -->
+        <!-- Immagine profilo: 👤 resta il fallback finché il giocatore non
+             ha un avatar scelto (player.Avatar vuoto) — vedi js/15-avatar.js,
+             che mostra l'una o l'altra. -->
         <span class="avatar" id="res-avatar-emoji">👤</span>
         <img class="avatar-img" id="res-avatar-img" alt="" hidden>
         <span id="res-username" class="player-name">adly</span>
@@ -154,10 +149,9 @@
              "Civile"/"Militare" alterna questo gruppo con quello
              militare qui sotto, per risparmiare spazio in barra
              (stesso pattern di toggle usato altrove nel gioco). -->
-        <!-- "res--clickable" (14/09/2026, su richiesta dell'utente): apre
-             il popup con descrizione + statistiche di produzione della
-             risorsa (vedi #risorsa-info-overlay più sotto e
-             popolaRisorsaInfo() in js/04-game-main.js). -->
+        <!-- "res--clickable": apre il popup con descrizione + statistiche
+             di produzione della risorsa (vedi #risorsa-info-overlay più
+             sotto e popolaRisorsaInfo() in js/04-game-main.js). -->
         <div class="res-group" id="res-group-civili">
           <div class="res res--clickable" data-res="cibo"><img src="assets/Grano_V2.png" alt="Cibo"><span data-value="cibo">30.000</span></div>
           <div class="res res--clickable" data-res="legno"><img src="assets/Legna_V2.png" alt="Legno"><span data-value="legno">30.000</span></div>
@@ -191,13 +185,13 @@
              .level_up_1_) al posto delle emoji, per coerenza visiva. -->
         <div class="res res--clickable" data-res="xp"><img src="assets/Exp_1.png" alt="Esperienza"><span data-value="xp">0</span> XP</div>
         <div class="res res--clickable res--level" data-res="livello"><img src="assets/Livello_V2.png" alt="Livello"><span data-value="livello">1</span></div>
-        <!-- ID giocatore (18/09/2026, su richiesta dell'utente): serve solo
-             per i comandi admin da console lato server (/give, /ban, ecc. —
-             vedi PlayerID() in ServerConnection.cs), non è una risorsa di
-             gioco — per questo niente icona, solo testo "ID 123" più
-             piccolo/discreto (vedi .res--id in style.css). Mandato una
-             tantum al login (Update_Data_OneTime → "ID_Giocatore"), non
-             cambia più dopo, quindi non serve rileggerlo ad ogni tick. -->
+        <!-- ID giocatore: serve solo per i comandi admin da console lato
+             server (/give, /ban, ecc. — vedi PlayerID() in
+             ServerConnection.cs), non è una risorsa di gioco — per questo
+             niente icona, solo testo "ID 123" più piccolo/discreto (vedi
+             .res--id in style.css). Mandato una tantum al login
+             (Update_Data_OneTime → "ID_Giocatore"), non cambia più dopo,
+             quindi non serve rileggerlo ad ogni tick. -->
         <div class="res res--id" data-res="idGiocatore" title="ID giocatore">ID <span data-value="idGiocatore">-</span></div>
       </div>
     </header>
@@ -213,12 +207,11 @@
              per passare da un pannello all'altro (uno alla volta)
              invece di vederli affiancati: stesso pattern del client
              desktop per risorse civili/militari, qui applicato ai
-             pannelli della schermata Main. "Messaggi" (14/09/2026, su
-             richiesta dell'utente: da telefono preferisce raggiungerlo
-             direttamente da qui, non entrando prima in "Cronologia" e
-             poi usando il toggle interno di quel pannello — che infatti
-             su mobile viene nascosto, vedi style.css) non è un [data-
-             panel] a sé: vive dentro "cronologia", showPanel() in
+             pannelli della schermata Main. "Messaggi" (raggiungibile da
+             qui direttamente su mobile, senza entrare prima in
+             "Cronologia" e usare il toggle interno di quel pannello — che
+             infatti su mobile viene nascosto, vedi style.css) non è un
+             [data-panel] a sé: vive dentro "cronologia", showPanel() in
              03-nav.js lo gestisce come caso speciale. -->
         <div class="section-toggle" id="main-panel-toggle" role="tablist" aria-label="Pannelli Main">
           <button class="section-toggle__btn is-active" data-panel-target="feudi" data-i18n="navFeudi">Feudi</button>
@@ -239,11 +232,10 @@
               <button class="btn btn--gold" id="btn-acquista-feudo"><span data-i18n="acquista">Acquista</span> <img class="icon-inline" src="assets/DiamanteViola_V2.png" alt=""><span data-value="costo-feudo">…</span></button>
             </div>
 
-            <!-- Gruppo separato da "Acquista" (13/09/2026, su richiesta
-                 dell'utente: "Acquista" spende Diamanti Viola per comprare
-                 Feudi, mentre questi due SCAMBIANO una valuta per un'altra —
-                 azioni diverse, prima si confondevano visivamente perché
-                 impilate una sopra l'altra senza nessuna separazione). Vedi
+            <!-- Gruppo separato da "Acquista": "Acquista" spende Diamanti
+                 Viola per comprare Feudi, mentre questi due SCAMBIANO una
+                 valuta per un'altra — azioni diverse, da non confondere
+                 visivamente impilandole senza separazione. Vedi
                  .feudi-exchange-actions in style.css per il divisorio. -->
             <div class="feudi-exchange-actions">
               <p class="feudi-exchange-actions__label" data-i18n="scambioValute">Scambio valute</p>
@@ -362,9 +354,8 @@
           </div>
 
           <!-- Cronologia e Messaggi condivisi in UN SOLO pannello con due
-               pulsanti per passare dall'uno all'altro (13/09/2026, su
-               richiesta dell'utente: prima erano due box separati, uno
-               spesso vuoto sotto l'altro). Toggle sempre visibile
+               pulsanti per passare dall'uno all'altro (invece di due box
+               separati, uno spesso vuoto sotto l'altro). Toggle sempre visibile
                (.section-toggle--inline, stesso usato per Esercito/Città
                in Ricerca) — funziona identico su PC e telefono, quindi
                niente pulsante dedicato nel toggle mobile qui sopra.
@@ -377,20 +368,20 @@
             </div>
 
             <div data-cronologia-messaggi-view="cronologia">
-              <!-- 16/09/2026, su richiesta dell'utente: la Cronologia ora è salvata anche
-                   lato server (player.Cronologia, ultimi 200 — vedi Server.cs/GameSave.cs),
-                   quindi serve un modo per svuotarla. Stesso stile tondo/scuro del pulsante
-                   elimina referto (.btn-elimina-tondo, style.css), azione totale (non riga
-                   per riga come i referti) confermata dal server via "Elimina_Cronologia". -->
+              <!-- La Cronologia è salvata anche lato server (player.Cronologia, ultimi
+                   200 — vedi Server.cs/GameSave.cs), quindi serve un modo per svuotarla.
+                   Stesso stile tondo/scuro del pulsante elimina referto (.btn-elimina-tondo,
+                   style.css), azione totale (non riga per riga come i referti) confermata
+                   dal server via "Elimina_Cronologia". -->
               <div class="log-box__toolbar">
                 <button type="button" class="btn-elimina-tondo" id="btn-elimina-cronologia" title="Svuota cronologia" aria-label="Svuota cronologia">✕</button>
               </div>
               <div class="log-box" id="log-box">
                 <p class="log-empty" data-i18n="nessunEventoRecente">Nessun evento recente.</p>
               </div>
-              <!-- 16/09/2026, su richiesta dell'utente: paginazione a 10 elementi per
-                   volta (vedi js/04-game-main.js, renderCronologiaPage) invece di una
-                   lista che cresce senza limiti — visibile solo con più di 10 voci. -->
+              <!-- Paginazione a 10 elementi per volta (vedi js/04-game-main.js,
+                   renderCronologiaPage) invece di una lista che cresce senza limiti —
+                   visibile solo con più di 10 voci. -->
               <div class="list-pager" id="log-box-pager" hidden>
                 <button type="button" class="list-pager__btn" id="log-box-prev" data-i18n="indietro" aria-label="Pagina precedente">‹ Indietro</button>
                 <span class="list-pager__info" id="log-box-page-info"></span>
@@ -471,11 +462,10 @@
                DEF, su qualsiasi struttura) sono sotto il massimo — stessa
                soglia usata dal client desktop (Citta_V2.cs, daRiparare >= 2).
                Nascosto di default: renderCittaList (07-citta.js) lo scopre
-               ad ogni tick in base ai dati reali. Restyling del 14/09/2026
-               (era un semplice .btn--primary.btn--block, "non piaceva"):
-               ora è un avviso compatto con icona a chiave inglese e conteggio,
-               non un bottone a piena larghezza che compete con le azioni
-               principali della schermata. -->
+               ad ogni tick in base ai dati reali. Avviso compatto con icona
+               a chiave inglese e conteggio, non un bottone a piena
+               larghezza che competerebbe con le azioni principali della
+               schermata. -->
           <div class="ripara-tutto-banner" id="ripara-tutto-banner" hidden>
             <svg class="ripara-tutto-banner__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <path d="M22.7 19.4 14.2 11c1-2.4.5-5.3-1.6-7.3-2.1-2.1-5.2-2.6-7.8-1.4-.3.1-.4.5-.1.7l4 4-3 3-4-4c-.2-.2-.6-.2-.7.1-1.2 2.6-.6 5.7 1.4 7.8 2 2 4.9 2.5 7.3 1.6l8.4 8.4c.4.4 1 .4 1.4 0l2.6-2.6c.4-.4.4-1 0-1.4z"/>
@@ -484,14 +474,14 @@
             <button type="button" class="btn btn--gold btn--sm" id="btn-ripara-tutto">Ripara Tutto</button>
           </div>
 
-          <!-- "Ferma Riparazioni" (15/09/2026, su richiesta dell'utente,
-               nuovo comando server "Ripara Stop" -> Stop_Riparazione,
-               riporta le 8 variabili bool di Player.Riparazioni a false):
-               a differenza del banner sopra, non dipende dalla soglia delle
-               2 statistiche — compare ogni volta che almeno una struttura ha
-               una riparazione realmente avviata (Riparazione_X_Salute/Difesa
-               = true), anche se una sola. Nascosto di default: aggiornato ad
-               ogni tick da aggiornaBtnRiparaStop() in 07-citta.js. -->
+          <!-- "Ferma Riparazioni" (comando server "Ripara Stop" ->
+               Stop_Riparazione, riporta le 8 variabili bool di
+               Player.Riparazioni a false): a differenza del banner sopra,
+               non dipende dalla soglia delle 2 statistiche — compare ogni
+               volta che almeno una struttura ha una riparazione realmente
+               avviata (Riparazione_X_Salute/Difesa = true), anche se una
+               sola. Nascosto di default: aggiornato ad ogni tick da
+               aggiornaBtnRiparaStop() in 07-citta.js. -->
           <div class="ripara-stop-wrap" id="ripara-stop-wrap" hidden>
             <p class="panel__hint">Riparazione in corso su una o più strutture.</p>
             <button type="button" class="btn btn--verde btn--sm" id="btn-ripara-stop">Ferma tutte le riparazioni</button>
@@ -506,10 +496,10 @@
                card corrispondente nella lista sotto, dove si spostano
                davvero le truppe. -->
           <!-- .city-layout: su schermi larghi mappa a sinistra e lista
-               (statistiche/guarnigione) a destra (richiesto dall'utente
-               13/09/2026); su mobile resta impilata come prima (nessuna
-               regola per schermi stretti, il wrapper è "trasparente" al
-               layout a blocco di default). Vedi .city-layout in style.css. -->
+               (statistiche/guarnigione) a destra; su mobile resta impilata
+               come prima (nessuna regola per schermi stretti, il wrapper è
+               "trasparente" al layout a blocco di default). Vedi
+               .city-layout in style.css. -->
           <div class="city-layout">
             <div class="city-map" id="city-map">
               <img src="assets/Village_1.jpg" alt="Panoramica del villaggio" class="city-map__img">
@@ -533,8 +523,8 @@
         <div class="panel wood-panel">
           <h2 class="panel__title">Negozio</h2>
           <p class="panel__hint">Gli acquisti in Diamanti sono attivi da subito. I pacchetti con pagamento reale (USDT) sono mostrati ma non ancora disponibili.</p>
-          <!-- 20/09/2026, su richiesta dell'utente: feedback grafico all'acquisto, stesso
-               meccanismo/stile del toast Quest (#quest-toast) — vedi js/08-shop.js. -->
+          <!-- Feedback grafico all'acquisto, stesso meccanismo/stile del toast Quest
+               (#quest-toast) — vedi js/08-shop.js. -->
           <div class="quest-toast" id="shop-toast" hidden></div>
           <div id="shop-container"><!-- popolato da js/08-shop.js (renderShop) --></div>
         </div>
@@ -553,14 +543,13 @@
            statistiche). "Ripara" = tipo server "Riparazione", "Centro"
            = tipo server "Citta". Su schermi stretti il toggle in alto
            passa tra i tre pannelli (Generali/Esercito/Città sono tre
-           pulsanti separati, su richiesta esplicita dell'utente — non
-           più "Esercito e Città" insieme in un unico pulsante); su
+           pulsanti separati, non un unico "Esercito e Città"); su
            schermi larghi Generali resta sempre visibile a sinistra,
            mentre Esercito/Città condividono la colonna di destra con
            un secondo toggle indipendente (#ricerca-destra-toggle, uno
-           alla volta anche da PC — richiesto dall'utente 13/09/2026,
-           prima restavano impilati e lasciavano un vuoto sotto
-           Generali), vedi .main-grid--ricerca in style.css.
+           alla volta anche da PC — altrimenti restano impilati e
+           lasciano un vuoto sotto Generali), vedi .main-grid--ricerca
+           in style.css.
       ============================================================ -->
       <section class="tab-panel" data-tab-panel="ricerca" hidden>
         <p class="panel__hint" data-i18n="ricercaHint">La Ricerca rappresenta il progresso delle conoscenze del tuo regno. Investendo tempo e risorse potrai sbloccare nuove possibilità, migliorare strutture, eserciti e strategie.</p>
@@ -574,8 +563,8 @@
 
         <div class="main-grid main-grid--ricerca">
           <div class="panel wood-panel" data-panel="ricerca-generali">
-            <!-- 17/09/2026: titolo ora dinamico, come "strutture-title" in Main —
-                 vedi renderRicercaGenerali() in 09-ricerca.js (WW.descrizioni["Label
+            <!-- Titolo dinamico, come "strutture-title" in Main — vedi
+                 renderRicercaGenerali() in 09-ricerca.js (WW.descrizioni["Label
                  Strutture Civili"], stesso meccanismo, nessuno nuovo). -->
             <h2 class="panel__title" id="ricerca-generali-title">Strutture Civili</h2>
             <ul class="research-list" id="ricerca-generali-list"><!-- popolata da js --></ul>
@@ -597,14 +586,13 @@
             </div>
           </div>
 
-          <!-- Toggle SOLO desktop (>760px): Esercito e Città erano sempre
-               entrambi visibili impilati a destra, con la colonna Generali
-               (più corta) che lasciava un vuoto sotto — richiesto
-               dall'utente (13/09/2026) di vederne uno alla volta anche da
-               PC, non solo su mobile. Figlio diretto di .main-grid--ricerca
-               (occupa la riga 1 della colonna 2, sopra Esercito/Città) e
-               indipendente dal toggle mobile qui sopra (#ricerca-panel-toggle):
-               non lo tocca, vedi 09-ricerca.js. -->
+          <!-- Toggle SOLO desktop (>760px): mostra Esercito/Città uno alla
+               volta anche da PC (non solo su mobile), invece di tenerli
+               entrambi impilati a destra con la colonna Generali (più corta)
+               che lascerebbe un vuoto sotto. Figlio diretto di
+               .main-grid--ricerca (occupa la riga 1 della colonna 2, sopra
+               Esercito/Città) e indipendente dal toggle mobile qui sopra
+               (#ricerca-panel-toggle): non lo tocca, vedi 09-ricerca.js. -->
           <div class="section-toggle section-toggle--inline" id="ricerca-destra-toggle" role="tablist" aria-label="Esercito o Città">
             <button class="section-toggle__btn is-active" data-panel-target="ricerca-esercito" data-i18n="navEsercito">Esercito</button>
             <button class="section-toggle__btn" data-panel-target="ricerca-citta" data-i18n="navCitta">Città</button>
@@ -673,13 +661,12 @@
       </section>
 
       <!-- ============================================================
-           SCHERMATA PVP/PVE (14/09/2026)
+           SCHERMATA PVP/PVE
            Rispecchia la schermata desktop "PVE-PVP" (screenshot
            PVP_PVE.JPG/PVP_PVE 2.JPG in WW/) — solo la parte Villaggi
            Barbari + PVP, senza i Raduni (sezione separata dello
-           screenshot più recente, rimandata su scelta esplicita
-           dell'utente: il backend dei Raduni è stato riscritto lo
-           stesso giorno e non ancora compilato/testato). Un solo
+           screenshot più recente, rimandata: il backend dei Raduni non
+           è ancora compilato/testato). Un solo
            pannello "Esercito da Inviare" (tier I-V, quantità
            persistenti tra i tab come in Città/Guarnigione) condiviso
            tra l'attacco ai Barbari e il PVP: il comando "Battaglia"
@@ -703,22 +690,18 @@
           <div class="panel wood-panel" data-panel="pvp-barbari">
             <div class="panel__header">
               <h2 class="panel__title">Barbari</h2>
-              <!-- 17/09/2026, su richiesta dell'utente: "Villaggio" è ora il tipo attivo
-                   di default (is-active spostato qui, stato.tipoBarbaro aggiornato in
-                   js/14-battaglia.js). -->
+              <!-- "Villaggio" è il tipo attivo di default (is-active qui,
+                   stato.tipoBarbaro aggiornato in js/14-battaglia.js). -->
               <div class="section-toggle section-toggle--inline" id="barbari-tipo-toggle">
                 <button type="button" class="section-toggle__btn is-active" data-tipo="Villaggio Barbaro">Villaggio</button>
                 <button type="button" class="section-toggle__btn" data-tipo="Città Barbaro">Città</button>
               </div>
             </div>
             <select id="barbari-target-select" class="pvp-select" disabled><option value="">Nessun bersaglio</option></select>
-            <!-- 16/09/2026, su richiesta dell'utente: rimossa la casella "Bottino stimato"
-                 (era puramente lato client, vedi js/14-battaglia.js) — il resoconto
-                 completo arriva comunque nei Report dopo "Esplora". Città e Villaggi
-                 Barbari restano invariati (select, Esplora, Attacca). Il piccolo div
-                 sotto NON è quella casella: serve solo a mostrare l'avviso "seleziona
-                 almeno una truppa" quando si preme Attacca senza truppe selezionate
-                 (stessa validazione già presente per il PVP, #pvp-target-info). -->
+            <!-- Nessuna casella "Bottino stimato" qui: il resoconto completo arriva
+                 nei Report dopo "Esplora". Il piccolo div sotto serve solo a mostrare
+                 l'avviso "seleziona almeno una truppa" quando si preme Attacca senza
+                 truppe selezionate (stessa validazione del PVP, #pvp-target-info). -->
             <div class="target-info" id="barbari-attacco-errore" hidden></div>
             <div class="pvp-actions">
               <label class="pvp-livello-label">Livello <input type="number" id="barbari-livello-input" min="1" max="20" value="1"></label>
@@ -749,9 +732,9 @@
             <h2 class="panel__title">Report</h2>
             <p class="panel__hint">Report di battaglia e di spionaggio. Tocca una riga per il dettaglio.</p>
             <ul class="research-list" id="battaglia-report-list"><!-- popolata da js --></ul>
-            <!-- 16/09/2026, su richiesta dell'utente: stessa paginazione a 10 elementi
-                 della Cronologia (vedi js/14-battaglia.js, renderReportLista) —
-                 visibile solo con più di 10 referti. -->
+            <!-- Stessa paginazione a 10 elementi della Cronologia (vedi
+                 js/14-battaglia.js, renderReportLista) — visibile solo con
+                 più di 10 referti. -->
             <div class="list-pager" id="report-list-pager" hidden>
               <button type="button" class="list-pager__btn" id="report-list-prev" aria-label="Pagina precedente">‹ Indietro</button>
               <span class="list-pager__info" id="report-list-page-info"></span>
@@ -761,11 +744,10 @@
         </div>
       </section>
 
-      <!-- Quest Mensili (13/09/2026, su richiesta dell'utente): costruita
-           da QuestManager.cs lato server (protocollo JSON "QuestUpdate"/
-           "QuestRewards" + comando "Quest_Reward"). Le 20 ricompense
-           Normali/GamePass Silver (rinominate da "VIP" il 19/09/2026,
-           vedi js/12-quest.js) condividono la stessa barra punti-esperienza
+      <!-- Quest Mensili: costruita da QuestManager.cs lato server (protocollo
+           JSON "QuestUpdate"/"QuestRewards" + comando "Quest_Reward"). Le 20
+           ricompense Normali/GamePass Silver (rinominate da "VIP", vedi
+           js/12-quest.js) condividono la stessa barra punti-esperienza
            (stessa soglia "Points"): un solo binario invece di due liste
            separate, con le ricompense posizionate sopra/sotto la barra e
            riscattabili con un click appena la barra le raggiunge. Le quest
@@ -776,17 +758,16 @@
           <div class="panel wood-panel">
             <h2 class="panel__title">Ricompense Mensili</h2>
             <p class="panel__hint">La barra si riempie con i punti guadagnati completando le quest. Clicca su una ricompensa raggiunta per riscattarla. Scorri per vedere tutte le ricompense.</p>
-            <!-- Toast di conferma riscossione (14/09/2026, su richiesta
-                 dell'utente: feedback grafico + utile per notare bug — vedi
-                 segnalaRiscossione() in js/12-quest.js). Popolato/mostrato
-                 solo via JS, resta hidden finché non c'è nulla da dire. -->
+            <!-- Toast di conferma riscossione (feedback grafico + utile per
+                 notare bug — vedi segnalaRiscossione() in js/12-quest.js).
+                 Popolato/mostrato solo via JS, resta hidden finché non c'è
+                 nulla da dire. -->
             <div class="quest-toast" id="quest-toast" hidden></div>
-            <!-- Striscia scorrevole (14/09/2026, su richiesta dell'utente:
-                 da telefono, con 20 marker per fila, erano troppo vicini —
-                 vedi renderMarkers() in js/12-quest.js, che dà a #quest-track
-                 una larghezza minima fissa così i marker restano ben
-                 distanziati e la parte che non ci sta si scorre invece di
-                 restringersi). -->
+            <!-- Striscia scorrevole: su telefono, con 20 marker per fila,
+                 sarebbero troppo vicini — vedi renderMarkers() in
+                 js/12-quest.js, che dà a #quest-track una larghezza minima
+                 fissa così i marker restano ben distanziati e la parte che
+                 non ci sta si scorre invece di restringersi). -->
             <div class="quest-track-scroll">
               <div class="quest-track" id="quest-track">
                 <div class="quest-track__bar">
@@ -815,11 +796,8 @@
       </section>
 
       <!-- ============================================================
-           SCHERMATA GAMEPASS (14/09/2026, su richiesta dell'utente: prima
-           dell'aspetto grafico, iniziamo con la sola estetica dei premi
-           giornalieri del GamePass Gold — vedi commento in cima a
-           js/13-gamepass.js per il protocollo e per cosa resta da
-           verificare lato server prima di considerarla definitiva).
+           SCHERMATA GAMEPASS — vedi commento in cima a js/13-gamepass.js
+           per il protocollo e per cosa resta da verificare lato server.
            Un solo premio al giorno per 90 giorni consecutivi: saltando un
            giorno si riparte dal Giorno 1 (vedi ServerConnection.cs,
            Accesso_Giornaliero()). A differenza della traccia Quest (20+20
@@ -840,9 +818,8 @@
         <div class="panel wood-panel">
           <h2 class="panel__title">Premi Giornalieri</h2>
           <p class="panel__hint">Accedi ogni giorno per riscattare un premio, fino al 90° giorno consecutivo con il GamePass Gold attivo. Attenzione: se salti anche un solo giorno, i premi ripartono dal Giorno 1.</p>
-          <!-- 20/09/2026, su richiesta dell'utente: feedback grafico al ritiro di un
-               premio, stesso meccanismo/stile del toast Quest (#quest-toast) — vedi
-               js/13-gamepass.js. -->
+          <!-- Feedback grafico al ritiro di un premio, stesso meccanismo/stile del
+               toast Quest (#quest-toast) — vedi js/13-gamepass.js. -->
           <div class="quest-toast" id="gamepass-toast" hidden></div>
           <div class="gamepass-grid" id="gamepass-grid"><!-- popolata da js/13-gamepass.js --></div>
         </div>
@@ -860,10 +837,10 @@
     <!-- Barra di navigazione principale, stessa struttura del client
          desktop (Main, Costruzione, Città, ...). -->
     <nav class="tab-bar" id="tab-bar">
-      <!-- "Main" → "Panoramica" (13/09/2026, su richiesta dell'utente):
-           nome più chiaro visto che ospita più pannelli (Feudi, Strutture,
-           Esercito, Cronologia e ora anche Messaggi) — data-tab="main"
-           NON cambia, resta l'id interno usato da 03-nav.js/04-game-main.js. -->
+      <!-- "Main" → "Panoramica": nome più chiaro visto che ospita più
+           pannelli (Feudi, Strutture, Esercito, Cronologia e Messaggi) —
+           data-tab="main" NON cambia, resta l'id interno usato da
+           03-nav.js/04-game-main.js. -->
       <button class="tab-bar__btn is-active" data-tab="main" data-i18n="tabPanoramica">Panoramica</button>
       <button class="tab-bar__btn" data-tab="costruzione" id="tab-btn-costruzione">Costruzione</button>
       <button class="tab-bar__btn" data-tab="citta">Città</button>
@@ -873,9 +850,8 @@
       <!-- "Mercato": nessuna schermata nel client desktop da cui prendere
            riferimento (a differenza di "Statistiche"/"Quest Mensili", vedi
            GUI/Statistiche.cs e Manager/QuestManager.cs) — placeholder come
-           Mappa/PVP/GamePass qui sotto, su richiesta esplicita dell'utente
-           (13/09/2026), finché non ci sarà uno screenshot/protocollo da cui
-           costruirla davvero. -->
+           Mappa/PVP/GamePass qui sotto, finché non ci sarà uno
+           screenshot/protocollo da cui costruirla davvero. -->
       <button class="tab-bar__btn" data-tab="mercato">Mercato</button>
       <button class="tab-bar__btn" data-tab="pvppve">PVP/PVE</button>
       <button class="tab-bar__btn" data-tab="gamepass">GamePass</button>
@@ -902,8 +878,8 @@
       </div>
     </div>
 
-    <!-- Popup "Info Risorsa" (14/09/2026, su richiesta dell'utente): stesso
-         overlay generico usato per Feudi, aperto cliccando una risorsa nella
+    <!-- Popup "Info Risorsa": stesso overlay generico usato per Feudi,
+         aperto cliccando una risorsa nella
          barra in alto (Cibo/Legno/Pietra/Ferro/Oro/Popolazione/Diamanti
          Blu/Diamanti Viola/Tributi). Contenuto e titolo cambiano in base
          alla risorsa cliccata — vedi RISORSA_INFO_CONFIG e
@@ -919,9 +895,9 @@
       </div>
     </div>
 
-    <!-- Resoconto (14/09/2026, rinominato da "Resoconto Battaglia" il 14/09/2026 su
-         richiesta dell'utente: lo stesso overlay ora copre sia i report di battaglia
-         che quelli di spionaggio — vedi Report.Tipo in Battaglia.cs). Aperto toccando
+    <!-- Resoconto (rinominato da "Resoconto Battaglia": lo stesso overlay ora
+         copre sia i report di battaglia che quelli di spionaggio — vedi
+         Report.Tipo in Battaglia.cs). Aperto toccando
          una riga nel pannello "Report" della schermata PVP/PVE — per il tipo Battaglia
          replica la finestra desktop "Log_Battaglie" (screenshot Report Battaglia.JPG):
          fasi, tabelle Schierati/Caduti/Superstiti, risorse raccolte, esperienza ed esito
@@ -937,10 +913,9 @@
       </div>
     </div>
 
-    <!-- Popup "Menu giocatore" (14/09/2026, su richiesta dell'utente): stesso
-         overlay generico usato per Feudi/Info Risorsa/Resoconto, aperto
-         cliccando su nome/avatar nella barra risorse — vedi
-         collegaMenuGiocatore() in js/02-auth.js. -->
+    <!-- Popup "Menu giocatore": stesso overlay generico usato per Feudi/Info
+         Risorsa/Resoconto, aperto cliccando su nome/avatar nella barra
+         risorse — vedi collegaMenuGiocatore() in js/02-auth.js. -->
     <div class="modal-overlay" id="player-menu-overlay" hidden>
       <div class="modal-box panel wood-panel modal-box--player-menu">
         <div class="panel__header">
@@ -954,9 +929,9 @@
       </div>
     </div>
 
-    <!-- Popup "Cambia avatar" (18/09/2026, su richiesta dell'utente):
-         stesso overlay generico usato per Feudi/Info Risorsa/Resoconto/Menu
-         giocatore, aperto da "Cambio avatar" qui sopra — vedi
+    <!-- Popup "Cambia avatar": stesso overlay generico usato per Feudi/Info
+         Risorsa/Resoconto/Menu giocatore, aperto da "Cambio avatar" qui
+         sopra — vedi
          js/15-avatar.js. I 2 avatar gratuiti partono già sbloccati lato
          server (player.Avatar_Sbloccati); gli altri mostrano lucchetto e
          prezzo finché non vengono acquistati, stesso trattamento delle card
