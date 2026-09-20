@@ -15,4 +15,5 @@ gradle.properties
 /Web/Lords_Profile_Image_Temp
 /CriptoGame_Online/.vs
 /Server Strategico/Properties/PublishProfiles
+/Server Strategico/ServerData/Password.cs
 Server Strategico/ServerData/Password.cs
