@@ -17,7 +17,6 @@ namespace Server_Strategico.Server
     
     internal class Server
     {
-        public static List<Guid> Client_Connessi = new List<Guid>(); // va rimossa, è pericolosa con il multithread
         public static List<string> Utenti_PVP = new List<string>();
 
         public static System.Collections.Concurrent.ConcurrentDictionary<Guid, string> Client_Connessi_Map =
@@ -203,19 +202,28 @@ namespace Server_Strategico.Server
         {
             cts_1 = new CancellationTokenSource();
             cts_2 = new CancellationTokenSource();
-            primaryGameLoopTask = servers_.RunGameLoopAsync(cts_1.Token);
-            secondaryGameLoopTask = Task.Run(() => servers_.RunGameLoopSecondarioAsync(cts_2.Token));
 
-            Console.WriteLine($"[Server] Attesa avvio server....");
+            primaryGameLoopTask = servers_.RunGameLoopAsync(cts_1.Token);
+            await primaryGameLoopTask.ContinueWith(t => Console.WriteLine($"[FATAL] Loop primario terminato: {t.Exception}"), TaskContinuationOptions.OnlyOnFaulted);
+
+            secondaryGameLoopTask = Task.Run(() => servers_.RunGameLoopSecondarioAsync(cts_2.Token));
+            await secondaryGameLoopTask.ContinueWith(t => Console.WriteLine($"[FATAL] Loop secondario terminato: {t.Exception}"), TaskContinuationOptions.OnlyOnFaulted);
+
+            Console.WriteLine("[Server] Attesa avvio server....");
             while (!avviato)
+            {
+                if (primaryGameLoopTask.IsFaulted)
+                {
+                    Console.WriteLine("[FATAL] Avvio fallito, esco (vedi errore sopra).");
+                    Environment.Exit(1);   // meglio uscire che restare in piedi senza dati; systemd/Docker riavviano
+                }
                 Thread.Sleep(1000);
-            
-            Console.WriteLine($"[Server] Server avviato!");
+            }
+            Console.WriteLine("[Server] Server avviato!");
 
             try { WebSocketGateway.Start(Variabili_Server.WebGatewayPort); }
             catch (Exception ex) { Console.WriteLine($"[Server] Errore avvio WebSocketGateway: {ex.Message}"); }
             Console.WriteLine("-----------------------------------------------------------");
-
         }
         private async Task StopGame()
         {
@@ -248,7 +256,7 @@ namespace Server_Strategico.Server
                 WebSocketGateway.Send(guid, msg);
                 inviato = true;
             }
-            else if (Client_Connessi.Contains(guid))
+            else if (Client_Connessi_Map.ContainsKey(guid))
             {
                 server.SendAsync(guid, msg);
                 inviato = true;
@@ -344,7 +352,7 @@ namespace Server_Strategico.Server
                 return false;
             }
 
-            if (player.guid_Player == Guid.Empty || !Client_Connessi.Contains(player.guid_Player))
+            if (player.guid_Player == Guid.Empty || !Client_Connessi_Map.ContainsKey(player.guid_Player))
             {
                 Console.WriteLine($"[SERVER|LOG] > Giocatore '{username}' non è attualmente connesso.");
                 return false;
@@ -504,7 +512,7 @@ namespace Server_Strategico.Server
             }
             public void AggiornaListaPVP()
             {
-                if (Client_Connessi.Count == 0) return;
+                if (Client_Connessi_Map.Count == 0) return;
                 var utentiDaAggiungere = new List<string>();
                 var indexCache = new Dictionary<string, int>(Utenti_PVP.Count); // CACHE LOCALE: username → indice
 
@@ -718,10 +726,14 @@ namespace Server_Strategico.Server
                         Console.WriteLine($"[LOOP1] Errore su GameloopPrimario: {ex}");
                     }
 
-                    if (Variabili_Server.timer_Reset_Quest > 0) Variabili_Server.timer_Reset_Quest--;
-                    if (Variabili_Server.timer_Reset_Quest == 0) QuestManager.RigeneraQuest();
-                    if (Variabili_Server.timer_Reset_Barbari > 0) Variabili_Server.timer_Reset_Barbari--;
-                    if (Variabili_Server.timer_Reset_Barbari == 0) Barbari.RigeneraBarbari();
+                    try
+                    {
+                        if (Variabili_Server.timer_Reset_Quest > 0) Variabili_Server.timer_Reset_Quest--;
+                        if (Variabili_Server.timer_Reset_Quest == 0) QuestManager.RigeneraQuest();
+                        if (Variabili_Server.timer_Reset_Barbari > 0) Variabili_Server.timer_Reset_Barbari--;
+                        if (Variabili_Server.timer_Reset_Barbari == 0) Barbari.RigeneraBarbari();
+                    }
+                    catch (Exception ex) { Console.WriteLine($"[LOOP1] Errore timer quest/barbari: {ex}"); }
 
                     #region STATS SERVER
                     taskStopwatch.Stop();
@@ -790,7 +802,7 @@ namespace Server_Strategico.Server
                         foreach (var player in players.Values)
                         {
                             try
-                                {
+                            {
                                 // -- V2 --
                                 BuildingManagerV2.CompleteBuilds(player.guid_Player, player);
                                 UnitManagerV2.CompleteRecruitment(player.guid_Player, player);
@@ -814,9 +826,9 @@ namespace Server_Strategico.Server
 
                                     if (update_5s >= 5)
                                     {
+                                        update_5s = 0;
                                         player.ManutenzioneEsercito();
                                         player.SetupVillaggioGiocatore(player);
-                                        update_5s = 0;
                                     }
 
                                     if (riparazioni >= Variabili_Server.tempo_Riparazione)
@@ -854,7 +866,7 @@ namespace Server_Strategico.Server
                                                 if (player.task_Coda_Recutamento.Count() > 0)
                                                     player.task_Attuale_Recutamento.Add(player.task_Coda_Recutamento.Dequeue());
                                     }
-                                    if (player.Tutorial == true && Server.Client_Connessi.Contains(player.guid_Player))
+                                    if (player.Tutorial == true && Server.Client_Connessi_Map.ContainsKey(player.guid_Player))
                                     {
                                         string tutorialData =
                                         "Update_Data|" +
@@ -896,10 +908,10 @@ namespace Server_Strategico.Server
                                     }
                                 }
                             }
-                                catch (Exception ex)
-                    {
-                        Console.WriteLine($"[LOOP1] Errore su {player.Username}: {ex}");
-                    }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine($"[LOOP1] Errore su {player.Username}: {ex}");
+                            }
                         }
                     }
                     catch (Exception ex)
@@ -909,45 +921,47 @@ namespace Server_Strategico.Server
 
                     try
                     {
-                        if (riparazioni >= Variabili_Server.tempo_Riparazione)
+                        if (riparazioni > 5)
                         {
+                            riparazioni = 0;
                             AttacchiCooperativi.AggiornaAttacchi();
                             servers_.AggiornaListaPVP();
-                            riparazioni = 0;
-                        }
-
-                        if (savePlayer >= 180)
-                        {
-                            await SaveSomePlayersAsync(500); //Salva 50 player per volta...
-                            savePlayer = 0;
-                        }
-                        if (saveServer >= 600)
-                        {
-                            await GameSave.SaveServerData();
-                            if (server.Connections > Client_Connessi.Count)
-                            {
-                                Console.WriteLine($"[ALERT] Client fantasma rilevati! Watson:{server.Connections} vs Lista:{Client_Connessi.Count}");
-                                // Disconnetti tutti i client non nella lista
-                                var tempClient = server.ListClients();
-                                foreach (var clientId in tempClient)
-                                    if (!Client_Connessi.Contains(clientId.Guid))
-                                    {
-                                        Console.WriteLine($"[ALERT] Disconnetto client fantasma: {clientId}");
-                                        server.DisconnectClientAsync(clientId.Guid);
-                                    }
-                            }
-                            saveServer = 0;
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception ex) { Console.WriteLine($"[LOOP2] Errore attacchi/PVP: {ex}"); }
+
+                    if (savePlayer >= 180)
                     {
-                        Console.WriteLine($"[LOOP1] Errore su Secondario - pvp, coop, save: {ex}");
+                        savePlayer = 0;
+                        try { await SaveSomePlayersAsync(500); }
+                        catch (Exception ex) { Console.WriteLine($"[LOOP2] Errore salvataggio giocatori: {ex}"); }
+                    }
+
+                    if (saveServer >= 600)
+                    {
+                        saveServer = 0;
+                        try
+                        {
+                            await GameSave.SaveServerData();
+
+                            if (server.Connections > Client_Connessi_Map.Count)
+                            {
+                                Console.WriteLine($"[ALERT] Client fantasma: Watson {server.Connections} vs mappa {Client_Connessi_Map.Count}");
+                                foreach (var c in server.ListClients())
+                                    if (!Client_Connessi_Map.ContainsKey(c.Guid))
+                                    {
+                                        Console.WriteLine($"[ALERT] Disconnetto client fantasma: {c}");
+                                        await server.DisconnectClientAsync(c.Guid);
+                                    }
+                            }
+                        }
+                        catch (Exception ex) { Console.WriteLine($"[LOOP2] Errore salvataggio server/fantasmi: {ex}"); }
                     }
                     
                     if (tempo_1 >= 2)
                     {
-                        await Auto_Update_Clients();
                         tempo_1 = 0;
+                        await Auto_Update_Clients();
                     }
                     tempo_1++;
                     saveServer++;

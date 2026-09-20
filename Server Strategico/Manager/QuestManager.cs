@@ -497,7 +497,7 @@ namespace Server_Strategico.Manager
 
         public static void QuestUpdate(Player player) // 🔸 INVIO AL CLIENT (sempre — login, riscatto premio)
         {
-            if (Server.Server.Client_Connessi.Contains(player.guid_Player))
+            if (Server.Server.Client_Connessi_Map.ContainsKey(player.guid_Player))
             {
                 string json = BuildQuestUpdateJson(player);
                 // Allinea comunque il tracking di QuestUpdateSeCambiato: altrimenti il
@@ -515,7 +515,7 @@ namespace Server_Strategico.Manager
         // == true dentro AddProgress, che blocca l'incremento).
         public static void QuestUpdateSeCambiato(Player player)
         {
-            if (!Server.Server.Client_Connessi.Contains(player.guid_Player)) return;
+            if (!Server.Server.Client_Connessi_Map.ContainsKey(player.guid_Player)) return;
 
             string json = BuildQuestUpdateJson(player);
             if (!player.Snapshot.QuestJsonChanged(json)) return; // nulla di nuovo, non spammare

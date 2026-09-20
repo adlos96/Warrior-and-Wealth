@@ -1644,7 +1644,7 @@ namespace Server_Strategico.Server
 
         public static void Update_Data(Guid guid, Player player)
         {
-            if (!Server.Client_Connessi.Contains(player.guid_Player)) return; //Se non è presente nella lista connesso...
+            if (!Server.Client_Connessi_Map.ContainsKey(player.guid_Player)) return; //Se non è presente nella lista connesso...
 
             var current = player.Snapshot.BuildCurrentState(player);
             var delta = player.Snapshot.BuildDelta(current);

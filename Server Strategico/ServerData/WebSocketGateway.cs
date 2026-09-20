@@ -125,7 +125,6 @@ namespace Server_Strategico.Server
             {
                 try { kv.Value.Socket.Abort(); } catch { }
                 kv.Value.SendLock.Dispose();
-                Server.Client_Connessi.Remove(kv.Key);
                 Server.Client_Connessi_Map.TryRemove(kv.Key, out _);
             }
             _clients.Clear();
@@ -266,11 +265,10 @@ namespace Server_Strategico.Server
             // Stesso "aggancio" che Server.ClientConnected fa per i client
             // WatsonTcp: da qui in poi il resto del server vede questo guid
             // come un client qualsiasi, senza sapere che è arrivato via web.
-            if (!Server.Client_Connessi.Contains(guid)) Server.Client_Connessi.Add(guid);
-            Server.Client_Connessi_Map.TryAdd(guid, description);
+            if (!Server.Client_Connessi_Map.ContainsKey(guid)) 
+                Server.Client_Connessi_Map.TryAdd(guid, description);
 
             Console.WriteLine($"[WebSocketGateway] Client connesso: {description} [{guid}]");
-
             Server.Send(guid, $"Update_Data|versione_Client_Necessario={Server_Strategico.Gioco.Variabili_Server.versione_Client_Necessario}");
         }
 
@@ -278,7 +276,6 @@ namespace Server_Strategico.Server
         {
             if (_clients.TryRemove(guid, out var entry))
                 entry.SendLock.Dispose();
-            Server.Client_Connessi.Remove(guid);
             Server.Client_Connessi_Map.TryRemove(guid, out _);
             Console.WriteLine($"[WebSocketGateway] Client disconnesso: {description} [{guid}]");
         }

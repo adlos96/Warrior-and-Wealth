@@ -40,7 +40,7 @@ namespace Server_Strategico.Gioco
                 player.Esperienza -= esperienza;
                 OnEvent(player, QuestEventType.Livelli, "non serve", 1);
                 player.Livello++;
-                if (Server.Server.Client_Connessi.Contains(player.guid_Player) && Server.Server.Client_Connessi.Count() == 0) Descrizioni.DescUpdate(player);
+                if (Server.Server.Client_Connessi_Map.ContainsKey(player.guid_Player) && Server.Server.Client_Connessi_Map.Count() == 0) Descrizioni.DescUpdate(player);
             }
             if (player.Livello > player.QuestProgress.CurrentProgress[59]) OnEvent(player, QuestEventType.Livelli, "non serve", 1);
             return esperienza;
