@@ -22,7 +22,7 @@ namespace Server_Strategico.ServerData.Moduli
 
             switch (comando)
             {
-                case "Vip_1":
+                case "Vip_1": //Diamanti viola
                     if (diamanti_Viola < Variabili_Server.Shop.Vip_1.Costo)
                     {
                         Console.WriteLine($"[Shop] Diamanti Viola insufficienti per vip 24H... Richiesta annullata..");
@@ -43,7 +43,7 @@ namespace Server_Strategico.ServerData.Moduli
                     Server.Server.Send(player.guid_Player, $"Log_Server|[Shop] Hai usato [warning][icon:diamanteViola]{Variabili_Server.Shop.Vip_1.Costo} [viola]Diamanti Viola[/viola] per l'acquisto del [highlight]VIP 24H[/highlight], Tempo disponibile: {player.FormatTime(player.Vip_Tempo)}");
                     player.SetupVillaggioGiocatore(player);
                     break;
-                case "Vip_2":
+                case "Vip_2": // Blockchain USDT - Transazione google pay
                     if (player.Vip_Tempo + Variabili_Server.Shop.Vip_2.Reward > 2 * 24 * 60 * 60) //Max 2gg di accumolo
                     {
                         Server.Server.Send(player.guid_Player, $"Log_Server|[Shop][error]Tempo [highlight]{player.Vip_Tempo}[/highlight] [highlight]VIP[/highlight] [error]oltre il limite massimo di [highlight]2 giorni[/highlight]... Richiesta annullata..");
@@ -58,7 +58,7 @@ namespace Server_Strategico.ServerData.Moduli
                     }
                     break;
 
-                case "GamePass_Base":
+                case "GamePass_Base": // Blockchain USDT - Transazione google pay (Abbonamento)
                     if (player.GamePass_Base_Tempo + Variabili_Server.Shop.GamePass_Base.Reward > 6 * Variabili_Server.Shop.GamePass_Base.Reward) //Max 6 mesi di accumolo
                     {
                         Server.Server.Send(player.guid_Player, $"Log_Server|[Shop][error]Tempo [highlight]{player.Vip_Tempo}[/highlight] [highlight]VIP[/highlight] [error]oltre il limite massimo di [highlight]6 mesi[/highlight]... Richiesta annullata..");
@@ -70,7 +70,7 @@ namespace Server_Strategico.ServerData.Moduli
                     Descrizioni.DescUpdate(player);
                     player.SetupVillaggioGiocatore(player);
                     break;
-                case "GamePass_Avanzato":
+                case "GamePass_Avanzato": // Blockchain USDT - Transazione google pay (Abbonamento)
                     if (player.GamePass_Avanzato_Tempo + Variabili_Server.Shop.GamePass_Avanzato.Reward > 6 * Variabili_Server.Shop.GamePass_Avanzato.Reward) //Max 6 mesi di accumulo
                     {
                         Server.Server.Send(player.guid_Player, $"Log_Server|[Shop][error]Tempo [highlight]{player.Vip_Tempo}[/highlight] [highlight]VIP[/highlight] [error]oltre il limite massimo di [highlight]6 mesi[/highlight]... Richiesta annullata..");
@@ -248,14 +248,24 @@ namespace Server_Strategico.ServerData.Moduli
                         Server.Server.Send(player.guid_Player, $"Log_Server|[Shop] Scudo della pace attivo, utilizzati [icon:diamanteBlu][warning]{Variabili_Server.Shop.Scudo_Pace_72h.Costo} [blu]Diamanti Blu[/blu], per estendere lo scudo di: {player.FormatTime(Variabili_Server.Shop.Scudo_Pace_72h.Reward)}. Scudo disponibile per: {player.FormatTime(player.ScudoDellaPace)}");
                     }
                     break;
-                case "Pacchetto_1":
+                case "Starter_1":
 
-                    // Procedere alla richiesta transazione USDT da parte dell'utente
+                    // Procedere alla richiesta transazione USDT da parte dell'utente - Transazione google pay
 
                     //Confermare l'acquisto
                     //Accreditare i diamanti
                     if (conferma_Transazione == true)
-                        player.Diamanti_Viola += Variabili_Server.Shop.Pacchetto_Diamanti_1.Reward;
+                        player.Diamanti_Viola += Variabili_Server.Shop.Starter_1.Reward;
+
+                    break;
+                case "Starter_2":
+
+                    // Procedere alla richiesta transazione USDT da parte dell'utente - Transazione google pay
+
+                    //Confermare l'acquisto
+                    //Accreditare i diamanti
+                    if (conferma_Transazione == true)
+                        player.Diamanti_Viola += Variabili_Server.Shop.Starter_2.Reward;
 
                     break;
             }

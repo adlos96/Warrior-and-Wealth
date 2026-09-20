@@ -198,6 +198,16 @@
                 Costo = 49.99,
                 Reward = 1700
             };
+            public static Shop Starter_1 = new Shop
+            {
+                Costo = 1.99,
+                Reward = 100
+            };
+            public static Shop Starter_2 = new Shop
+            {
+                Costo = 2.99,
+                Reward = 140
+            };
             public static Shop Scudo_Pace_8h = new Shop
             {
                 Costo = 250,
