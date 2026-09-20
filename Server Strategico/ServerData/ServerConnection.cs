@@ -555,6 +555,7 @@ namespace Server_Strategico.Server
                         player.Password = msgArgs[3];
                         Server.Send(clientGuid, $"Password change|Change|true");
                         player.Email_Code = 0;
+                        player.Email_Code_Time = 0;
                     }
                     else
                     {
