@@ -487,22 +487,22 @@ public class BattaglieV2
         var units = new UnitGroup();
         int tierIndex = GetTierIndex(livello);
 
-        if (tipo == "Città Barbaro")
-            if (tierIndex >= 0 && tierIndex < 5)
-            {
-                units.Guerrieri[tierIndex] = citta.Guerrieri;
-                units.Lancieri[tierIndex] = citta.Lancieri;
-                units.Arcieri[tierIndex] = citta.Arcieri;
-                units.Catapulte[tierIndex] = citta.Catapulte;
-            }
-        if (tipo == "Villaggio Barbaro")
-            if (tierIndex >= 0 && tierIndex < 5)
-            {
-                units.Guerrieri[tierIndex] = villaggio.Guerrieri;
-                units.Lancieri[tierIndex] = villaggio.Lancieri;
-                units.Arcieri[tierIndex] = villaggio.Arcieri;
-                units.Catapulte[tierIndex] = villaggio.Catapulte;
-            }
+        //if (tipo == "Città Barbaro")
+        //    if (tierIndex >= 0 && tierIndex < 5)
+        //    {
+        //        units.Guerrieri[tierIndex] = citta.Guerrieri;
+        //        units.Lancieri[tierIndex] = citta.Lancieri;
+        //        units.Arcieri[tierIndex] = citta.Arcieri;
+        //        units.Catapulte[tierIndex] = citta.Catapulte;
+        //    }
+        //if (tipo == "Villaggio Barbaro")
+        //    if (tierIndex >= 0 && tierIndex < 5)
+        //    {
+        //        units.Guerrieri[tierIndex] = villaggio.Guerrieri;
+        //        units.Lancieri[tierIndex] = villaggio.Lancieri;
+        //        units.Arcieri[tierIndex] = villaggio.Arcieri;
+        //        units.Catapulte[tierIndex] = villaggio.Catapulte;
+        //    }
         return units;
     }
     private static int GetTierIndex(int livello)
@@ -1173,30 +1173,30 @@ public class BattaglieV2
             var citta = Barbari.CittaGlobali.FirstOrDefault(c => c.Livello == 1);
             if (citta == null) return;
 
-            int truppe = citta.Guerrieri + citta.Lancieri + citta.Arcieri + citta.Catapulte;
-            if (truppe == 0)
-                citta.Sconfitto = true;
-
-            // Aggiorna con i sopravvissuti finali (dopo entrambe le fasi)
-            citta.Guerrieri = survivors.Guerrieri[tierIndex];
-            citta.Lancieri = survivors.Lancieri[tierIndex];
-            citta.Arcieri = survivors.Arcieri[tierIndex];
-            citta.Catapulte = survivors.Catapulte[tierIndex];
+           // int truppe = citta.Guerrieri + citta.Lancieri + citta.Arcieri + citta.Catapulte;
+           // if (truppe == 0)
+           //     citta.Sconfitto = true;
+           //
+           // // Aggiorna con i sopravvissuti finali (dopo entrambe le fasi)
+           // citta.Guerrieri = survivors.Guerrieri[tierIndex];
+           // citta.Lancieri = survivors.Lancieri[tierIndex];
+           // citta.Arcieri = survivors.Arcieri[tierIndex];
+           // citta.Catapulte = survivors.Catapulte[tierIndex];
         }
         else if (tipo == "Villaggio Barbaro")
         {
             var villaggio = player.VillaggiPersonali[livello - 1];
             if (villaggio == null) return;
 
-            int truppe = villaggio.Guerrieri + villaggio.Lancieri + villaggio.Arcieri + villaggio.Catapulte;
-            if ( truppe == 0)
-                villaggio.Sconfitto = true;
-            
-            // Aggiorna con i sopravvissuti finali (dopo entrambe le fasi)
-            villaggio.Guerrieri = survivors.Guerrieri[tierIndex];
-            villaggio.Lancieri = survivors.Lancieri[tierIndex];
-            villaggio.Arcieri = survivors.Arcieri[tierIndex];
-            villaggio.Catapulte = survivors.Catapulte[tierIndex];
+            //int truppe = villaggio.Guerrieri + villaggio.Lancieri + villaggio.Arcieri + villaggio.Catapulte;
+            //if ( truppe == 0)
+            //    villaggio.Sconfitto = true;
+            //
+            //// Aggiorna con i sopravvissuti finali (dopo entrambe le fasi)
+            //villaggio.Guerrieri = survivors.Guerrieri[tierIndex];
+            //villaggio.Lancieri = survivors.Lancieri[tierIndex];
+            //villaggio.Arcieri = survivors.Arcieri[tierIndex];
+            //villaggio.Catapulte = survivors.Catapulte[tierIndex];
         }
     }
     private static void InviaLogBattaglia_PvP(Guid attackerGuid, Guid defenderGuid, Player attaccante, Player difensore, BattleResult result,UnitGroup attackerUnitsOriginali, UnitGroup defenderUnitsOriginali)

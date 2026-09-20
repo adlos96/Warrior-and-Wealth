@@ -286,41 +286,41 @@ namespace Server_Strategico.Gioco
             var vilaggio = player.VillaggiPersonali.FirstOrDefault(c => c.Livello == 1); // Supponiamo che stiamo attaccando la città di livello 1
             int liv = Convert.ToInt32(livello);
 
-            if (liv >= 1 && liv <= 4)
-            {
-                guerrieri_Enemy[0] = citta.Guerrieri;
-                picchieri_Enemy[0] = citta.Lancieri;
-                arcieri_Enemy[0] = citta.Arcieri;
-                catapulte_Enemy[0] = citta.Catapulte;
-            }
-            if (liv > 4 && liv <= 8)
-            {
-                guerrieri_Enemy[1] = citta.Guerrieri;
-                picchieri_Enemy[1] = citta.Lancieri;
-                arcieri_Enemy[1] = citta.Arcieri;
-                catapulte_Enemy[1] = citta.Catapulte;
-            }
-            if (liv > 8 && liv <= 12)
-            {
-                guerrieri_Enemy[2] = citta.Guerrieri;
-                picchieri_Enemy[2] = citta.Lancieri;
-                arcieri_Enemy[2] = citta.Arcieri;
-                catapulte_Enemy[2] = citta.Catapulte;
-            }
-            if (liv > 12 && liv <= 16)
-            {
-                guerrieri_Enemy[3] = citta.Guerrieri;
-                picchieri_Enemy[3] = citta.Lancieri;
-                arcieri_Enemy[3] = citta.Arcieri;
-                catapulte_Enemy[3] = citta.Catapulte;
-            }
-            if (liv > 16 && liv <= 20)
-            {
-                guerrieri_Enemy[4] = citta.Guerrieri;
-                picchieri_Enemy[4] = citta.Lancieri;
-                arcieri_Enemy[4] = citta.Arcieri;
-                catapulte_Enemy[4] = citta.Catapulte;
-            }
+            //if (liv >= 1 && liv <= 4)
+            //{
+            //    guerrieri_Enemy[0] = citta.Guerrieri;
+            //    picchieri_Enemy[0] = citta.Lancieri;
+            //    arcieri_Enemy[0] = citta.Arcieri;
+            //    catapulte_Enemy[0] = citta.Catapulte;
+            //}
+            //if (liv > 4 && liv <= 8)
+            //{
+            //    guerrieri_Enemy[1] = citta.Guerrieri;
+            //    picchieri_Enemy[1] = citta.Lancieri;
+            //    arcieri_Enemy[1] = citta.Arcieri;
+            //    catapulte_Enemy[1] = citta.Catapulte;
+            //}
+            //if (liv > 8 && liv <= 12)
+            //{
+            //    guerrieri_Enemy[2] = citta.Guerrieri;
+            //    picchieri_Enemy[2] = citta.Lancieri;
+            //    arcieri_Enemy[2] = citta.Arcieri;
+            //    catapulte_Enemy[2] = citta.Catapulte;
+            //}
+            //if (liv > 12 && liv <= 16)
+            //{
+            //    guerrieri_Enemy[3] = citta.Guerrieri;
+            //    picchieri_Enemy[3] = citta.Lancieri;
+            //    arcieri_Enemy[3] = citta.Arcieri;
+            //    catapulte_Enemy[3] = citta.Catapulte;
+            //}
+            //if (liv > 16 && liv <= 20)
+            //{
+            //    guerrieri_Enemy[4] = citta.Guerrieri;
+            //    picchieri_Enemy[4] = citta.Lancieri;
+            //    arcieri_Enemy[4] = citta.Arcieri;
+            //    catapulte_Enemy[4] = citta.Catapulte;
+            //}
 
             int tipi_Di_Unità = ContareTipiDiUnità(guerrieri, picchieri, arcieri, catapulte);
             int tipi_Di_Unità_Att = ContareTipiDiUnità(guerrieri_Enemy, picchieri_Enemy, arcieri_Enemy, catapulte_Enemy);
@@ -453,41 +453,41 @@ namespace Server_Strategico.Gioco
 
             //Salvate soldati barbaro villaggio/città !!!!!!
             // Aggiorna i barbari PVP
-            if (liv >= 1 && liv <= 4)
-            {
-                citta.Guerrieri = guerrieri_Temp_Enemy[0];
-                citta.Lancieri = picchieri_Temp_Enemy[0];
-                citta.Arcieri = arcieri_Temp_Enemy[0];
-                citta.Catapulte = catapulte_Temp_Enemy[0];
-            }
-            if (liv > 4 && liv <= 8)
-            {
-                citta.Guerrieri = guerrieri_Temp_Enemy[1];
-                citta.Lancieri = picchieri_Temp_Enemy[1];
-                citta.Arcieri = arcieri_Temp_Enemy[1];
-                citta.Catapulte = catapulte_Temp_Enemy[1];
-            }
-            if (liv > 8 && liv <= 12)
-            {
-                citta.Guerrieri = guerrieri_Temp_Enemy[2];
-                citta.Lancieri = picchieri_Temp_Enemy[2];
-                citta.Arcieri = arcieri_Temp_Enemy[2];
-                citta.Catapulte = catapulte_Temp_Enemy[2];
-            }
-            if (liv > 12 && liv <= 16)
-            {
-                citta.Guerrieri = guerrieri_Temp_Enemy[3];
-                citta.Lancieri = picchieri_Temp_Enemy[3];
-                citta.Arcieri = arcieri_Temp_Enemy[3];
-                citta.Catapulte = catapulte_Temp_Enemy[3];
-            }
-            if (liv > 16 && liv <= 20)
-            {
-                citta.Guerrieri = guerrieri_Temp_Enemy[4];
-                citta.Lancieri = picchieri_Temp_Enemy[4];
-                citta.Arcieri = arcieri_Temp_Enemy[4];
-                citta.Catapulte = catapulte_Temp_Enemy[4];
-            }
+            //if (liv >= 1 && liv <= 4)
+            //{
+            //    citta.Guerrieri = guerrieri_Temp_Enemy[0];
+            //    citta.Lancieri = picchieri_Temp_Enemy[0];
+            //    citta.Arcieri = arcieri_Temp_Enemy[0];
+            //    citta.Catapulte = catapulte_Temp_Enemy[0];
+            //}
+            //if (liv > 4 && liv <= 8)
+            //{
+            //    citta.Guerrieri = guerrieri_Temp_Enemy[1];
+            //    citta.Lancieri = picchieri_Temp_Enemy[1];
+            //    citta.Arcieri = arcieri_Temp_Enemy[1];
+            //    citta.Catapulte = catapulte_Temp_Enemy[1];
+            //}
+            //if (liv > 8 && liv <= 12)
+            //{
+            //    citta.Guerrieri = guerrieri_Temp_Enemy[2];
+            //    citta.Lancieri = picchieri_Temp_Enemy[2];
+            //    citta.Arcieri = arcieri_Temp_Enemy[2];
+            //    citta.Catapulte = catapulte_Temp_Enemy[2];
+            //}
+            //if (liv > 12 && liv <= 16)
+            //{
+            //    citta.Guerrieri = guerrieri_Temp_Enemy[3];
+            //    citta.Lancieri = picchieri_Temp_Enemy[3];
+            //    citta.Arcieri = arcieri_Temp_Enemy[3];
+            //    citta.Catapulte = catapulte_Temp_Enemy[3];
+            //}
+            //if (liv > 16 && liv <= 20)
+            //{
+            //    citta.Guerrieri = guerrieri_Temp_Enemy[4];
+            //    citta.Lancieri = picchieri_Temp_Enemy[4];
+            //    citta.Arcieri = arcieri_Temp_Enemy[4];
+            //    citta.Catapulte = catapulte_Temp_Enemy[4];
+            //}
 
             return false;
         }
@@ -669,11 +669,17 @@ namespace Server_Strategico.Gioco
 
             // 📊 Statistiche giocatore e nemico
             var truppeGiocatore = new Truppe(player.Guerrieri, player.Lanceri, player.Arceri, player.Catapulte);
+            //var truppeNemico = new Truppe(
+            //    new[] { target.Guerrieri },
+            //    new[] { target.Lancieri },
+            //    new[] { target.Arcieri },
+            //    new[] { target.Catapulte }
+            //);
             var truppeNemico = new Truppe(
-                new[] { target.Guerrieri },
-                new[] { target.Lancieri },
-                new[] { target.Arcieri },
-                new[] { target.Catapulte }
+                new[] { 0,0,0,0,0  },
+                new[] { 0,0,0,0,0  },
+                new[] { 0,0,0,0,0  },
+                new[] { 0,0,0,0,0  }
             );
 
             // 🧮 Calcola frecce richieste e riduzioni danni
@@ -703,8 +709,8 @@ namespace Server_Strategico.Gioco
             player.Arceri = truppeGiocatore.Arcieri;
             player.Catapulte = truppeGiocatore.Catapulte;
 
-            target.Guerrieri = truppeNemico.Guerrieri.Sum();
-            target.Lancieri = truppeNemico.Lanceri.Sum();
+            //target.Guerrieri = truppeNemico.Guerrieri.Sum();
+            //target.Lancieri = truppeNemico.Lanceri.Sum();
 
             return true;
         }
