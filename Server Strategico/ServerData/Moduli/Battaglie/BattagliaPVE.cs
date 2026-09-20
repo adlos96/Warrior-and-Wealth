@@ -4,36 +4,8 @@ using static Server_Strategico.ServerData.Moduli.Battaglie.Battaglia;
 
 namespace Server_Strategico.ServerData.Moduli.Battaglie
 {
-    // Modulo PVE (Villaggi Barbari / Città Barbare), riscritto il 2026-09-14 con la stessa struttura di BattagliaPVP.cs
-    // (stessi tipi condivisi da Battaglia.cs: UnitGroup, Report, RisultatoBattaglia, RisultatoFase, BattagliaDistanza,
-    // RisorseRaccolte) in modo che i client possano gestire i report PVE esattamente come quelli PVP.
-    //
-    // Differenze di meccanica rispetto al PVP (vedi Wiki/Game/Battaglie/PVE.md e Difesa.md):
-    //  - Non esistono strati difensivi multipli (Ingresso/Mura/Cancello/Torri/Castello): un Villaggio o una Città
-    //    Barbara è una singola guarnigione con una sola Salute/Difesa propria (Barbari.cs), usata nella fase corpo a
-    //    corpo esattamente come lo strato "Ingresso"/"Centro Villaggio" del PVP (30% danno assorbito da Difesa, poi
-    //    20% del resto da Salute — vedi Battaglia_Fase, 19/09/2026). Quindi un'unica RisultatoFase per battaglia.
-    //  - Il difensore non è un giocatore: usa le statistiche di Esercito.EsercitoNemico (GetEnemyUnitStats) e non ha
-    //    scorte di frecce da gestire (semplificazione: i barbari hanno sempre "frecce infinite").
-    //  - Non c'è saccheggio del 50%: in caso di vittoria si raccoglie il bottino totale del Villaggio/Città (nei
-    //    limiti della capacità di trasporto), che poi si rigenera con Barbari.RigeneraBarbari().
-    //  - Il "livello" del bersaglio seleziona sia il tier delle statistiche nemiche (GetTierIndex, 5 fasce su 20
-    //    livelli) sia, per le Città Barbare, quale Città Barbara globale (Barbari.CittaGlobali) viene attaccata.
     public class BattagliaPVE
     {
-        // SendClient, GetPlayerUnitStats, GetUnitStats, CalcoloFrecce, CapacitàCarico, RidurreNumeroSoldati,
-        // ApplicaDanni, ApplicaDanniDistanza_, CalcolaForza e RaccoliRisorseEquamente sono stati spostati in
-        // Battaglia.cs il 2026-09-14 (erano duplicati letteralmente identici tra BattagliaPVP.cs e BattagliaPVE.cs,
-        // e servivano comunque anche a Raduni.cs). Restano richiamabili qui senza prefisso grazie a
-        // "using static ...Battaglia;" in cima al file.
-
-        // ═══════════════════════════════════════════════════════════════
-        // STATISTICHE UNITÀ
-        // ═══════════════════════════════════════════════════════════════
-
-        // Statistiche della guarnigione barbara (Esercito.EsercitoNemico). Attenzione alla dicitura "Lanceri" (non
-        // "Lancieri") usata in Esercito.EsercitoNemico — refuso storico nel codice originale, non lo correggo qui
-        // per non rompere i nomi dei campi statici già in uso altrove.
         internal static (double GuerrieriAttacco, double GuerrieriDifesa, double GuerrieriSalute, int GuerrieriEsperienza,
                    double LancieriAttacco, double LancieriDifesa, double LancieriSalute, int LancieriEsperienza,
                    double ArcieriAttacco, double ArcieriDifesa, double ArcieriSalute, int ArcieriEsperienza,
@@ -136,10 +108,6 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
             }
             return units;
         }
-
-        // 19/09/2026, su richiesta dell'utente: stessa identica ricerca di CaricaUnitaNemiche qui sopra, ma restituisce
-        // l'oggetto Villaggio/Città Barbara stesso invece delle sole truppe — serve a Battaglia_Fase per leggere e
-        // ridurre Salute/Difesa nella fase corpo a corpo (vedi sotto).
         internal static Barbari.BarbarianBase CaricaBarbaro(int livello, string tipo, Giocatori.Player player)
         {
             if (tipo == "Città Barbaro")
@@ -187,10 +155,6 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
                 villaggio.Catapulte = survivors.Catapulte[tierIndex];
             }
         }
-
-        // ═══════════════════════════════════════════════════════════════
-        // FRECCE / CAPACITÀ DI TRASPORTO
-        // ═══════════════════════════════════════════════════════════════
 
         // ═══════════════════════════════════════════════════════════════
         // FASE A DISTANZA

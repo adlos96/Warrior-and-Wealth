@@ -256,35 +256,35 @@ namespace Server_Strategico.Gioco
             // Valori statistiche edifici difensivi villaggio
             public static Edifici Ingresso = new Edifici
             {
-                Guarnigione = 15,
+                Guarnigione = 20,
             };
             public static Edifici Citta = new Edifici
             {
-                Guarnigione = 25
+                Guarnigione = 30
             };
             public static Edifici Cancello = new Edifici
             {
                 Salute = 35,
                 Difesa = 25,
-                Guarnigione = 20
+                Guarnigione = 25
             };
             public static Edifici Mura = new Edifici
             {
                 Salute = 30,
                 Difesa = 20,
-                Guarnigione = 20
+                Guarnigione = 25
             };
             public static Edifici Torri = new Edifici
             {
                 Salute = 40,
                 Difesa = 30,
-                Guarnigione = 20
+                Guarnigione = 25
             };
             public static Edifici Castello = new Edifici
             {
                 Salute = 50,
                 Difesa = 40,
-                Guarnigione = 25
+                Guarnigione = 30
             };
         }
         public class Riparazione // Costi di riparazione delle strutture

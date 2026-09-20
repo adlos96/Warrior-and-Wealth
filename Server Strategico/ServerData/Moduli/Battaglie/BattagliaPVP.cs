@@ -781,15 +781,23 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
             };
             AddTroops(difensore);
             AddTroops(attaccante);
+
+            ResetStats(difensore);
+            AddRicerca(difensore, 1);
+            AddTroopsV2(difensore);
+
+            ResetStats(difensore);
+            AddRicerca(difensore, 1);
+            AddTroopsV2(difensore);
+
+            ResetStats(difensore);
+            AddRicerca(difensore, 1);
+            AddTroopsV2(difensore);
+
             await Battaglia(attaccante, difensore, attackerUnits);
         }
         public static void AddTroops(Giocatori.Player difensore)
         {
-            int[] guerrieri = new int[] { 60, 0, 0, 0, 0 };
-            int[] picchieri = new int[] { 50, 0, 0, 0, 0 };
-            int[] arcieri = new int[] { 15, 0, 0, 0, 0 };
-            int[] catapulte = new int[] { 10, 0, 0, 0, 0 };
-
             var unitàStrutture = new UnitGroup
             {
                 Guerrieri = new int[] { 5, 0, 0, 0, 0 },
@@ -848,15 +856,75 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
 
             difensore.Frecce = 5000;
             
-            var DefenderUnits = new UnitGroup()
-            {
-                Guerrieri = guerrieri,
-                Lancieri = picchieri,
-                Arcieri = arcieri,
-                Catapulte = catapulte
-            };
         }
-        public static void AddTroops(Giocatori.Player difensore, int ricerca)
+        public static void AddTroopsV2(Giocatori.Player difensore)
+        {
+
+            int ingresso = (int)difensore.Guarnigione_IngressoMax / 4;
+            int Mura = (int)difensore.Guarnigione_MuraMax / 4;
+            int Cancello = (int)difensore.Guarnigione_CancelloMax / 4;
+            int Torri = (int)difensore.Guarnigione_TorriMax / 4;
+            int città = (int)difensore.Guarnigione_CittaMax / 4;
+            int castello = (int)difensore.Guarnigione_CastelloMax / 4;
+
+            var unitàDifensore = new UnitGroup
+            {
+                Guerrieri = new int[] { 25, 0, 0, 0, 0 },
+                Lancieri = new int[] { 20, 0, 0, 0, 0 },
+                Arcieri = new int[] { 15, 0, 0, 0, 0 },
+                Catapulte = new int[] { 10, 0, 0, 0, 0 }
+            };
+
+            difensore.Guerrieri_Ingresso = new int[] { ingresso, 0, 0, 0, 0 };
+            difensore.Lanceri_Ingresso = new int[] { ingresso, 0, 0, 0, 0 };
+            difensore.Arceri_Ingresso = new int[] { ingresso, 0, 0, 0, 0 };
+            difensore.Catapulte_Ingresso = new int[] { ingresso, 0, 0, 0, 0 };
+
+            difensore.Guerrieri_Mura = new int[] { Mura, 0, 0, 0, 0 };
+            difensore.Lanceri_Mura = new int[] { Mura, 0, 0, 0, 0 };
+            difensore.Arceri_Mura = new int[] { Mura, 0, 0, 0, 0 };
+            difensore.Catapulte_Mura = new int[] { Mura, 0, 0, 0, 0 };
+
+            difensore.Guerrieri_Cancello = new int[] { Cancello, 0, 0, 0, 0 };
+            difensore.Lanceri_Cancello = new int[] { Cancello, 0, 0, 0, 0 };
+            difensore.Arceri_Cancello = new int[] { Cancello, 0, 0, 0, 0 };
+            difensore.Catapulte_Cancello = new int[] { Cancello, 0, 0, 0, 0 };
+
+            difensore.Guerrieri_Torri = new int[] { Torri, 0, 0, 0, 0 };
+            difensore.Lanceri_Torri = new int[] { Torri, 0, 0, 0, 0 };
+            difensore.Arceri_Torri = new int[] { Torri, 0, 0, 0, 0 };
+            difensore.Catapulte_Torri = new int[] { Torri, 0, 0, 0, 0 };
+
+            difensore.Guerrieri_Citta = new int[] { città, 0, 0, 0, 0 };
+            difensore.Lanceri_Citta = new int[] { città, 0, 0, 0, 0 };
+            difensore.Arceri_Citta = new int[] { città, 0, 0, 0, 0 };
+            difensore.Catapulte_Citta = new int[] { città, 0, 0, 0, 0 };
+
+            difensore.Guerrieri_Castello = new int[] { castello, 0, 0, 0, 0 };
+            difensore.Lanceri_Castello = new int[] { castello, 0, 0, 0, 0 };
+            difensore.Arceri_Castello = new int[] { castello, 0, 0, 0, 0 };
+            difensore.Catapulte_Castello = new int[] { castello, 0, 0, 0, 0 };
+
+            difensore.Guerrieri = unitàDifensore.Guerrieri;
+            difensore.Lanceri = unitàDifensore.Lancieri;
+            difensore.Arceri = unitàDifensore.Arcieri;
+            difensore.Catapulte = unitàDifensore.Catapulte;
+
+            difensore.Salute_Mura = difensore.Salute_MuraMax;
+            difensore.Difesa_Mura = difensore.Difesa_MuraMax;
+
+            difensore.Salute_Cancello = difensore.Salute_CancelloMax;
+            difensore.Difesa_Cancello = difensore.Difesa_CancelloMax;
+
+            difensore.Salute_Torri = difensore.Salute_TorriMax;
+            difensore.Difesa_Torri = difensore.Difesa_TorriMax;
+
+            difensore.Salute_Castello = difensore.Salute_CastelloMax;
+            difensore.Difesa_Castello = difensore.Difesa_CastelloMax;
+
+            difensore.Frecce = 5000;
+        }
+        public static void AddRicerca(Giocatori.Player difensore, int ricerca)
         {
             difensore.Livello = 10;
 
@@ -883,6 +951,54 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
 
             difensore.Salute_Castello = difensore.Salute_CastelloMax;
             difensore.Difesa_Castello = difensore.Difesa_CastelloMax;
+
+        }
+        public static void ResetStats(Giocatori.Player difensore)
+        {
+            difensore.Livello = 10;
+
+            difensore.Unità_Eliminate = 0;
+            difensore.Guerrieri_Eliminati = 0;
+            difensore.Lanceri_Eliminati = 0;
+            difensore.Arceri_Eliminati = 0;
+            difensore.Catapulte_Eliminate = 0;
+
+            difensore.Unità_Perse = 0;
+            difensore.Guerrieri_Persi = 0;
+            difensore.Lanceri_Persi = 0;
+            difensore.Arceri_Persi = 0;
+            difensore.Catapulte_Perse = 0;
+            difensore.Risorse_Razziate = 0;
+
+            difensore.Strutture_Civili_Costruite = 0;
+            difensore.Strutture_Militari_Costruite = 0;
+            difensore.Caserme_Costruite = 0;
+
+            difensore.Frecce_Utilizzate = 0;
+            difensore.Battaglie_Vinte = 0;
+            difensore.Battaglie_Perse = 0;
+            difensore.Quest_Completate = 0;
+            difensore.Attacchi_Subiti_PVP = 0;
+            difensore.Attacchi_Effettuati_PVP = 0;
+
+            difensore.Barbari_Sconfitti = 0;  //Totale uomini barbari sconfitti (villaggi e città)
+            difensore.Accampamenti_Barbari_Sconfitti = 0;  //Villaggi barbari sconfitti
+            difensore.Città_Barbare_Sconfitte = 0;
+            difensore.Danno_HP_Barbaro = 0;
+            difensore.Danno_DEF_Barbaro = 0;
+
+            difensore.Unità_Addestrate = 0;
+            difensore.Risorse_Utilizzate = 0;
+            difensore.Tempo_Addestramento = 0;
+            difensore.Tempo_Costruzione = 0;
+            difensore.Tempo_Ricerca = 0;
+            difensore.Tempo_Sottratto_Diamanti = 0;  //Tempo risparmiato usando diamanti
+
+            difensore.Consumo_Cibo_Esercito = 0;
+            difensore.Consumo_Oro_Esercito = 0;
+
+            difensore.Diamanti_Viola_Utilizzati = 0;
+            difensore.Diamanti_Blu_Utilizzati = 0;
 
         }
     }
