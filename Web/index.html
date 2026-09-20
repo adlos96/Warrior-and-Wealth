@@ -80,16 +80,35 @@
         <button type="button" id="btn-show-login" class="btn btn--ghost" data-i18n="backToLogin">Torna al login</button>
       </form>
 
-      <!-- Recupero password: per ora solo UI, nessun invio reale.
-           TODO: comando protocollo "Reset Password|email" quando sarà
-           definito lato server (vedi game-design-overview.md). -->
-      <form id="form-recover" class="login-form" hidden>
-        <p class="panel__hint" data-i18n="recoverHint">Inserisci l'email associata al tuo account: ti invieremo un link per reimpostare la password.</p>
-        <label class="field">
-          <span data-i18n="email">Email</span>
-          <input type="email" name="email" required>
-        </label>
-        <button type="submit" class="btn btn--primary" data-i18n="sendLink">Invia link di recupero</button>
+      <!-- Recupero password in 2 passi: (1) username + email -> il server manda un codice
+           via email; (2) codice + nuova password. Comando: "Reset Password|username|codice|
+           nuovaPassword|email|modalita" (modalita "mail" oppure "Change"), vedi js/02-auth.js. -->
+      <form id="form-recover" class="login-form" novalidate hidden>
+        <p class="panel__hint" data-i18n="recoverHint">Inserisci nome utente ed email del tuo account: ti invieremo un codice per reimpostare la password.</p>
+
+        <div id="recover-step-1">
+          <label class="field">
+            <span data-i18n="username">Nome utente</span>
+            <input type="text" id="recover-username" autocomplete="username">
+          </label>
+          <label class="field">
+            <span data-i18n="email">Email</span>
+            <input type="email" id="recover-email" autocomplete="email">
+          </label>
+        </div>
+
+        <div id="recover-step-2" hidden>
+          <label class="field">
+            <span data-i18n="recoverCode">Codice ricevuto via email</span>
+            <input type="text" id="recover-code" inputmode="numeric" autocomplete="one-time-code">
+          </label>
+          <label class="field">
+            <span data-i18n="recoverNewPassword">Nuova password</span>
+            <input type="password" id="recover-newpass" autocomplete="new-password">
+          </label>
+        </div>
+
+        <button type="submit" id="btn-recover-submit" class="btn btn--primary" data-i18n="sendLink">Invia codice</button>
         <button type="button" id="btn-show-login-from-recover" class="btn btn--ghost" data-i18n="backToLogin">Torna al login</button>
         <p id="recover-status" class="login-status login-status--ok" hidden></p>
       </form>

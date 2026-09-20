@@ -169,12 +169,80 @@ window.WW = window.WW || {};
     WW.NET.send("New Player", AUTH.accessToken, username, password, WW.langSelect.value || "it", email);
   });
 
+  /* ---------- RECUPERO PASSWORD (2 passi) ----------
+     Server (Cambia_Password): "Reset Password|username|codice|nuovaPassword|email|modalita"
+     modalita = "mail" (il server invia il codice via email) oppure "Change"
+     (codice + nuova password). Risposta al passo 2: "Password change|Change|true/false". */
+  const recoverStep2 = document.getElementById("recover-step-2");
+  const recoverUsernameEl = document.getElementById("recover-username");
+  const recoverEmailEl = document.getElementById("recover-email");
+  const recoverCodeEl = document.getElementById("recover-code");
+  const recoverNewPassEl = document.getElementById("recover-newpass");
+  const recoverSubmitBtn = document.getElementById("btn-recover-submit");
+
+  let recoverUsername = "";
+  let recoverEmail = "";
+
+  function setRecoverStatus(testo) {
+    recoverStatus.textContent = testo;
+    recoverStatus.hidden = false;
+  }
+
+  function setRecoverSubmitLabel(chiave) {
+    recoverSubmitBtn.dataset.i18n = chiave; // resta corretto anche al cambio lingua
+    recoverSubmitBtn.textContent = WW.t(chiave);
+  }
+
+  function resetRecover() {
+    formRecover.reset();
+    recoverStep2.hidden = true;
+    recoverStatus.hidden = true;
+    recoverUsername = "";
+    recoverEmail = "";
+    setRecoverSubmitLabel("sendLink");
+  }
+
+  document.getElementById("btn-show-recover").addEventListener("click", resetRecover);
+
   formRecover.addEventListener("submit", (event) => {
     event.preventDefault();
-    // TODO: comando "Reset Password|email" quando definito lato server
-    // (non presente nell'elenco comandi individuato in ServerConnection.cs).
-    recoverStatus.textContent = WW.t("recoverSent");
-    recoverStatus.hidden = false;
+
+    if (recoverStep2.hidden) {
+      // Passo 1: richiesta del codice via email
+      recoverUsername = recoverUsernameEl.value.trim();
+      recoverEmail = recoverEmailEl.value.trim();
+      if (!recoverUsername || !recoverEmail) { setRecoverStatus(WW.t("recoverFillAll")); return; }
+      if (recoverUsername.includes("|") || recoverEmail.includes("|")) { setRecoverStatus(WW.t("recoverPasswordChars")); return; }
+
+      if (!WW.NET.send("Reset Password", recoverUsername, "", "", recoverEmail, "mail")) {
+        setRecoverStatus(WW.t("netNotConnectedYet"));
+        return;
+      }
+      recoverStep2.hidden = false;
+      setRecoverSubmitLabel("recoverChangeBtn");
+      setRecoverStatus(WW.t("recoverSent"));
+    } else {
+      // Passo 2: codice + nuova password
+      const codice = recoverCodeEl.value.trim();
+      const nuova = recoverNewPassEl.value;
+      if (!codice || !nuova) { setRecoverStatus(WW.t("recoverFillAll")); return; }
+      if (nuova.includes("|")) { setRecoverStatus(WW.t("recoverPasswordChars")); return; } // "|" romperebbe il protocollo
+
+      if (!WW.NET.send("Reset Password", recoverUsername, codice, nuova, recoverEmail, "Change")) {
+        setRecoverStatus(WW.t("netNotConnectedYet"));
+      }
+    }
+  });
+
+  WW.NET.on("Password change", (args) => {
+    const [fase, esito] = args;
+    if (fase !== "Change") return; // "mail": il passo 2 e' gia' visibile
+    if (esito === "true") {
+      setRecoverStatus(WW.t("recoverDone"));
+      setTimeout(() => { resetRecover(); showOnly(formLogin); }, 1500);
+    } else {
+      setRecoverStatus(WW.t("recoverCodeInvalid"));
+    }
   });
 
   function enterGame() {
