@@ -251,15 +251,10 @@ window.WW = window.WW || {};
   }
 
   /* ---------- LINGUA (i18n) ----------
-     18/09/2026, su richiesta dell'utente: il dizionario I18N/le funzioni
-     t()/tFormat()/applyLanguage() e il riferimento a #lang-select sono
-     stati spostati in Localizzazione.js (caricato subito prima di questo
-     file, vedi index.html) per poterli controllare/estendere senza dover
-     cercarli in mezzo al codice di login/registrazione. Qui restano solo
-     i pochi punti che li usavano: WW.t(...) al posto di t(...), e
-     WW.langSelect.value al posto di langSelect.value (vedi sopra in
-     AUTH.onSocketOpen/login/register). Nessuna nuova chiave o dizionario:
-     stesso identico WW.t()/WW.onLanguageChange di sempre, solo spostati. */
+     Dizionario I18N e funzioni t()/tFormat()/applyLanguage() vivono in
+     Localizzazione.js (caricato subito prima di questo file, vedi
+     index.html); qui restano solo i punti che le usano: WW.t(...) e
+     WW.langSelect.value (vedi AUTH.onSocketOpen/login/register sopra). */
 
   /* ---------- TOGGLE RISORSE CIVILI / MILITARI ---------- */
   const btnToggleRisorse = document.getElementById("btn-toggle-risorse");
@@ -285,22 +280,17 @@ window.WW = window.WW || {};
   aggiornaTestoToggleRisorse();
   WW.onLanguageChange(aggiornaTestoToggleRisorse);
 
-  /* ---------- Menu giocatore (14/09/2026, su richiesta dell'utente) ----------
+  /* ---------- Menu giocatore ----------
      Cliccando su nome/avatar nella barra risorse si apre un popup:
-     "Cambio giocatore" riporta alla schermata di login/registrazione
-     riusando AUTH.logout() (stessa funzione già chiamata per
-     TOKEN_NON_VALIDO — pulisce i token salvati e mostra di nuovo il form di
-     login, coerente col resto del client). "Cambio immagine profilo" è per
-     ora solo un segnaposto disabilitato in HTML: la funzione non esiste
-     ancora lato server.
-     Prima era un dropdown ancorato al pulsante (position:absolute dentro
-     .resource-bar__player-wrap), ma dentro alla barra risorse — sticky, con
-     overflow-x:auto — compariva schiacciato lì sotto invece che sopra a
-     tutto (segnalato dall'utente: "compare sotto... nella stessa barra").
-     Ora è #player-menu-overlay, lo stesso overlay generico .modal-overlay/
-     .modal-box già usato per Feudi/Info Risorsa/Resoconto (vedi
-     04-game-main.js/14-battaglia.js per lo stesso identico pattern
-     apri/chiudi/click-fuori/Escape). */
+     "Cambio giocatore" riporta al login riusando AUTH.logout() (stessa
+     funzione chiamata per TOKEN_NON_VALIDO). "Cambio immagine profilo" è
+     solo un segnaposto disabilitato in HTML: non ancora supportato lato
+     server. Usa #player-menu-overlay, lo stesso overlay generico
+     .modal-overlay/.modal-box di Feudi/Info Risorsa/Resoconto (vedi
+     04-game-main.js/14-battaglia.js per lo stesso pattern apri/chiudi/
+     click-fuori/Escape) — non un dropdown ancorato al pulsante, perché
+     dentro la barra risorse (sticky, overflow-x:auto) comparirebbe
+     schiacciato invece che sopra a tutto. */
   const btnPlayerMenu = document.getElementById("btn-player-menu");
   const playerMenuOverlay = document.getElementById("player-menu-overlay");
   const btnChiudiPlayerMenu = document.getElementById("btn-chiudi-player-menu");
@@ -323,8 +313,6 @@ window.WW = window.WW || {};
     });
   }
 
-  // WW.t/WW.tFormat/WW.onLanguageChange (18/09/2026): esportati da
-  // Localizzazione.js, non più da qui — vedi commento sopra a "LINGUA (i18n)".
   WW.AUTH = AUTH;
   WW.screenLogin = screenLogin;
   WW.loginStatus = loginStatus;

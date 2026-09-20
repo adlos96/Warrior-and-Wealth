@@ -1,17 +1,12 @@
 /* ==========================================================
    Warrior & Wealth — Web Client — Localizzazione.js
    ----------------------------------------------------------
-   18/09/2026, su richiesta dell'utente: dizionario I18N estratto da
-   02-auth.js (dov'era dal primo giorno, insieme al resto della
-   schermata di Login) in un file a sé, così da poter controllare in
-   autonomia — senza dover aprire 02-auth.js e cercarlo in mezzo al
-   codice di login/registrazione — quali chiavi esistono e se hanno
-   sia "it" che "en". Nessun meccanismo nuovo: stesso identico
-   dizionario I18N/funzione WW.t()/attributi data-i18n già in uso da
-   tutte le altre schermate, solo spostato di file. Le uniche 2 righe
-   di codice cambiate altrove sono in 02-auth.js: "t(...)" -> "WW.t(...)"
-   e "langSelect" -> "WW.langSelect" nei 4 punti dove venivano usati
-   localmente (vedi commento lì).
+   Dizionario I18N, in un file a sé (separato da 02-auth.js) per poter
+   controllare facilmente quali chiavi esistono e se hanno sia "it" che
+   "en", senza cercarlo in mezzo al codice di login/registrazione.
+   Stesso identico dizionario/funzione WW.t()/attributi data-i18n usati
+   da tutte le altre schermate. In 02-auth.js i riferimenti locali
+   diventano "WW.t(...)" e "WW.langSelect" (vedi commento lì).
 
    PERCHÉ QUESTO DIZIONARIO RESTA CLIENT-ONLY (a differenza del resto
    della localizzazione, ormai quasi tutta lato server con il
@@ -21,11 +16,10 @@
    (il server impara la lingua del giocatore solo dal comando stesso
    di Login/AutoLogin/New Player — vedi Lingua() in
    ServerConnection.cs), quindi non può dipendere da una Descrizione
-   che arriva solo DOPO essersi autenticati. Per lo stesso motivo
-   "non differenziare le stringhe tra schermate" (richiesta
-   dell'utente, 17/09/2026) qui sotto trovi anche le chiavi comuni a
-   Panoramica/Costruzione/Ricerca/Città che non hanno ancora
-   (o non avranno mai) una Label server equivalente.
+   che arriva solo DOPO essersi autenticati. Per lo stesso motivo (le
+   stringhe non sono differenziate tra schermate) qui sotto trovi anche
+   le chiavi comuni a Panoramica/Costruzione/Ricerca/Città che non
+   hanno ancora (o non avranno mai) una Label server equivalente.
 
    COME AGGIUNGERE UNA LINGUA (oggi supportate: "it", "en"):
    1. Aggiungi un nuovo blocco "xx: { ... }" qui sotto con TUTTE le
@@ -147,9 +141,9 @@ window.WW = window.WW || {};
       paginaDi: "Pagina {0} di {1}",
       messaggiPlaceholder: "Questa schermata sarà completata quando saranno definiti i comandi del protocollo lato server.",
 
-      // Pannello Ricerca (17/09/2026) — "navEsercito"/"velocizza"/
-      // "reduceTimeByPrefix"/"descrizioneNonRicevuta"/"descriptionAria" sopra
-      // sono riusate anche qui, stessa parola in più schermate.
+      // Pannello Ricerca — "navEsercito"/"velocizza"/"reduceTimeByPrefix"/
+      // "descrizioneNonRicevuta"/"descriptionAria" sopra sono riusate anche
+      // qui, stessa parola in più schermate.
       ricercaHint: "La Ricerca rappresenta il progresso delle conoscenze del tuo regno. Investendo tempo e risorse potrai sbloccare nuove possibilità, migliorare strutture, eserciti e strategie.",
       tempoRicercaPrefix: "Tempo Ricerca:",
       navGenerali: "Generali",
@@ -158,7 +152,7 @@ window.WW = window.WW || {};
       ricercaBtn: "Ricerca",
       livelloAttualeAria: "Livello attuale",
 
-      // Pannello Città (17/09/2026) — nomi strutture/unità e "Ripara"/
+      // Pannello Città — nomi strutture/unità e "Ripara"/
       // "Salute"/"Difesa"/"Guarnigione" arrivano dal server (WW.descrizioni,
       // stesse Label già usate in Ricerca), qui solo il testo fisso rimasto.
       cittaHint: "Sposta le truppe tra il Villaggio e ogni struttura per rinforzarne la guarnigione.",
@@ -326,9 +320,8 @@ window.WW = window.WW || {};
   WW.tFormat = tFormat;
   WW.onLanguageChange = (fn) => languageListeners.push(fn);
   WW.langSelect = langSelect;
-  // Esposto anche il dizionario grezzo (18/09/2026, su richiesta
-  // dell'utente: "così in autonomia posso controllare cosa manca") — utile
-  // per un controllo rapido in console, es.:
+  // Esposto anche il dizionario grezzo — utile per un controllo rapido in
+  // console, es.:
   //   Object.keys(WW.I18N.it).filter(k => !(k in WW.I18N.en))
   // elenca le chiavi presenti in italiano ma non (ancora) in inglese, e
   // viceversa scambiando it/en.

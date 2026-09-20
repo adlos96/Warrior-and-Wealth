@@ -24,8 +24,7 @@
    coerenza visiva (separatore delle migliaia nella lingua di chi
    gioca) — unica differenza rispetto al testo grezzo del desktop.
 
-   Localizzazione (18/09/2026, su richiesta dell'utente): stesso
-   meccanismo "labelKey" già usato in 04-game-main.js/06-
+   Localizzazione: stesso meccanismo "labelKey" già usato in 04-game-main.js/06-
    costruzione.js/07-citta.js/09-ricerca.js — WW.descrizioni[chiave]
    se presente, altrimenti fallback italiano hardcoded. Le chiavi
    già mandate dal server per altre schermate vengono RIUSATE qui
@@ -197,8 +196,7 @@ window.WW = window.WW || {};
     { nome: "Edifici militari costruiti", chiave: "Strutture_Militari_Costruite", labelKey: "Label Edifici Militari Costruiti" },
     { nome: "Caserme costruite", chiave: "Caserme_Costruite", labelKey: "Label Caserme Costruite" },
     { nome: "Risorse utilizzate", chiave: "Risorse_Utilizzate", labelKey: "Label Risorse Utilizzate" },
-    // Etichette corrette (14/09/2026, su segnalazione dell'utente): le chiavi
-    // si chiamano "..._Risparmiato" ma il valore che il server manda NON è
+    // Le chiavi si chiamano "..._Risparmiato" ma il valore che il server manda NON è
     // tempo risparmiato — è il tempo EFFETTIVO passato dal giocatore con
     // una costruzione/addestramento/ricerca attiva (vedi Server.cs, il loop
     // che fa Tempo_Costruzione++/Tempo_Addestramento++/Tempo_Ricerca++ una

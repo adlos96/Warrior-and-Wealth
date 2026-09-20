@@ -10,8 +10,7 @@
 
    Configurazione dell'indirizzo: di default si connette allo
    stesso host da cui è servita la pagina (così funziona sia in
-   locale sia una volta pubblicato sul VPS). Due casi (15/09/2026,
-   su richiesta dell'utente: passaggio da WS/HTTP a WSS/HTTPS):
+   locale sia una volta pubblicato sul VPS). Due casi:
    - pagina servita in HTTP (sviluppo locale, o VPS senza ancora un
      dominio/certificato): si continua a parlare DIRETTAMENTE con
      WebSocketGateway.cs sulla sua porta (WS_DEFAULT_PORT), come

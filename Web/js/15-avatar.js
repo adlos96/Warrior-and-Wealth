@@ -1,8 +1,8 @@
 /* ==========================================================
    Warrior & Wealth — Web Client — 15-avatar.js
    ----------------------------------------------------------
-   Immagini profilo (18/09/2026, su richiesta dell'utente): popup
-   "Cambia immagine profilo" aperto da #player-menu-cambio-avatar (vedi
+   Immagini profilo: popup "Cambia immagine profilo" aperto da
+   #player-menu-cambio-avatar (vedi
    index.html/02-auth.js per il resto del Menu giocatore), stesso overlay
    generico .modal-overlay/.modal-box già usato altrove.
 
@@ -83,9 +83,9 @@ window.WW = window.WW || {};
     return grezzo.split(",").filter(Boolean);
   }
 
-  // Stato del tick precedente (18/09/2026, su richiesta dell'utente: "un
-  // effetto quando si acquista un avatar ed al cambio avatar"), per
-  // accorgersi dei DUE momenti giusti confrontando con quello attuale:
+  // Stato del tick precedente, per accorgersi dei DUE momenti giusti in cui
+  // mostrare un effetto (acquisto avatar / cambio avatar) confrontando con
+  // quello attuale:
   // - un id che entra in avatar_Sbloccati che prima non c'era → acquisto
   // - "avatar" (attuale) che cambia valore → selezione confermata
   // "inizializzato" evita di far scattare gli effetti al primo render dopo
@@ -97,8 +97,8 @@ window.WW = window.WW || {};
   let appenaSelezionatoId = null;
 
   function templateCard(item, sbloccati, attuale) {
-    // Prezzo 0 = avatar gratuito (18/09/2026, su richiesta dell'utente):
-    // selezionabile subito, senza bisogno che sia già in avatar_Sbloccati —
+    // Prezzo 0 = avatar gratuito: selezionabile subito, senza bisogno che
+    // sia già in avatar_Sbloccati —
     // niente lucchetto/prezzo mostrato, si comporta come uno già sbloccato.
     const prezzo = Number(WW.GAME.raw["Avatar_Costo_" + item.id] || 0);
     const bloccato = prezzo > 0 && !sbloccati.includes(item.id);
@@ -168,9 +168,8 @@ window.WW = window.WW || {};
   // aggiorna l'avatar mostrato nella barra risorse, e se il popup è aperto
   // ridisegna la griglia (per riflettere subito un acquisto/cambio appena
   // confermato dal server). Confronta anche con lo stato del tick
-  // precedente per far scattare gli effetti di acquisto/cambio avatar
-  // (18/09/2026, su richiesta dell'utente) solo nel momento giusto, non ad
-  // ogni singolo render.
+  // precedente per far scattare gli effetti di acquisto/cambio avatar solo
+  // nel momento giusto, non ad ogni singolo render.
   function renderAvatar() {
     const attuale = WW.GAME.raw.avatar || "";
     const sbloccatiOra = avatarSbloccati();

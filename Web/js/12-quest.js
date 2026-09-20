@@ -3,8 +3,7 @@
    ----------------------------------------------------------
    SCHERMATA QUEST MENSILI — rispecchia il protocollo server di
    Manager/QuestManager.cs, ma con una presentazione diversa da
-   quella desktop (GUI/MontlyQuest.cs), su richiesta esplicita
-   dell'utente (13/09/2026):
+   quella desktop (GUI/MontlyQuest.cs):
 
    - Le 20 ricompense Normali e le 20 GamePass Silver condividono lo
      STESSO array di soglie "Points" (vedi QuestRewardUpdate lato
@@ -18,17 +17,15 @@
      volta con un pulsante avanti/indietro, invece che tutte assieme
      o mescolate a rotazione come nel client desktop.
 
-   Rinominato da "VIP" a "GamePass Silver" (19/09/2026, su richiesta
-   dell'utente): la vecchia riga di ricompense premium usava lo stato
-   "vip" indipendente (Vip_1/Vip_2 in Shop) invece del GamePass_Base
-   già esistente (usato altrove come "GamePass Silver", vedi 11-
-   statistiche.js/08-shop.js) — ora unificati sotto lo stesso nome e
-   la stessa variabile di stato. Il server deve rispecchiare SOLO
-   questo cambio di gating: il case "Vip" del comando Quest_Reward
-   diventa "Silver" (confermato dall'utente). I campi del JSON
-   "QuestRewards" restano invariati — "Rewards_VIP"/"Completo_Vip",
-   NON rinominati lato server (chiarito dall'utente il 19/09/2026: il
-   client legge ancora questi nomi, solo l'etichetta mostrata e il
+   Rinominato da "VIP" a "GamePass Silver": la vecchia riga di
+   ricompense premium usava lo stato "vip" indipendente (Vip_1/Vip_2
+   in Shop) invece del GamePass_Base già esistente (usato altrove come
+   "GamePass Silver", vedi 11-statistiche.js/08-shop.js) — ora
+   unificati sotto lo stesso nome e la stessa variabile di stato. Solo
+   il gating è cambiato: il case "Vip" del comando Quest_Reward diventa
+   "Silver". I campi del JSON "QuestRewards" restano invariati —
+   "Rewards_VIP"/"Completo_Vip", NON rinominati lato server (il client
+   legge ancora questi nomi, solo l'etichetta mostrata e il
    comando/gating sono cambiati). Lato client non serve più leggere un
    flag "vip" a parte per il GATING: si riusa GamePass_Base, già
    presente in ogni Update_Data.
@@ -102,20 +99,17 @@ window.WW = window.WW || {};
   // richiesto (creaTickPunti) alla stessa distanza dal bordo dei marker.
   const META_MARKER_PX = 24;
 
-  // Distanza minima FISSA (in px, non in %) tra un marker e il successivo
-  // (14/09/2026, su richiesta dell'utente: prima 38px/30px di diametro, poi
-  // via via più grandi e più distanziati ad ogni richiesta — icone, scritte
-  // e bagliore — quindi anche la distanza è salita di pari passo per non
-  // farli sovrapporre). Dando a #quest-track una larghezza minima calcolata
-  // su questo valore, il pannello mostra una decina abbondante di
-  // ricompense alla volta e il resto si raggiunge scorrendo (vedi
-  // .quest-track-scroll in style.css) invece di stringere tutto per
-  // farcelo stare.
+  // Distanza minima FISSA (in px, non in %) tra un marker e il successivo,
+  // dimensionata per l'ingombro di icone/scritte/bagliore senza sovrapporsi.
+  // Dando a #quest-track una larghezza minima calcolata su questo valore, il
+  // pannello mostra una decina abbondante di ricompense alla volta e il
+  // resto si raggiunge scorrendo (vedi .quest-track-scroll in style.css)
+  // invece di stringere tutto per farcelo stare.
   const DISTANZA_MARKER_PX = 62;
 
-  // Icone delle ricompense (14/09/2026, su richiesta dell'utente): la
-  // traccia mostrava SEMPRE l'icona Diamante Viola per ogni ricompensa,
-  // Normale o GamePass Silver che fosse, ma non è così — confrontando con
+  // Icone delle ricompense: la traccia mostrava SEMPRE l'icona Diamante
+  // Viola per ogni ricompensa, Normale o GamePass Silver che fosse, ma non è
+  // così — confrontando con
   // QuestRewardSet in QuestManager.cs: alcune ricompense (indici 1-based,
   // gli stessi usati dal comando Quest_Reward) sono in Diamanti Blu, e la
   // ricompensa GamePass Silver #20 (l'ultima) è un Feudo Leggendario, non
@@ -145,12 +139,12 @@ window.WW = window.WW || {};
     const totale = stato.points.length;
     if (totale === 0) return;
     const haSilver = WW.GAME.raw.GamePass_Base === "True";
-    // Guard difensivo (19/09/2026): se index.html non è ancora allineato a
-    // questo JS (es. deploy parziale, id ancora "quest-legenda-vip"),
-    // elLegendaSilver risulta null — senza questo controllo l'intero
-    // handler "QuestRewards" andava in crash (TypeError su .hidden),
-    // bloccando anche l'aggiornamento di punti/marker.
-    if (elLegendaSilver) elLegendaSilver.hidden = false; // riga GamePass Silver sempre visibile (13/09/2026, su richiesta dell'utente), anche se il giocatore non lo ha attivo
+    // Guard difensivo: se index.html non è ancora allineato a questo JS
+    // (es. deploy parziale, id ancora "quest-legenda-vip"), elLegendaSilver
+    // risulta null — senza questo controllo l'intero handler "QuestRewards"
+    // andava in crash (TypeError su .hidden), bloccando anche
+    // l'aggiornamento di punti/marker.
+    if (elLegendaSilver) elLegendaSilver.hidden = false; // riga GamePass Silver sempre visibile, anche se il giocatore non lo ha attivo
 
     elTrack.style.minWidth = `${DISTANZA_MARKER_PX * (totale - 1) + META_MARKER_PX * 2}px`;
 
@@ -167,7 +161,7 @@ window.WW = window.WW || {};
       // quella GamePass Silver della stessa coppia (un solo array "Points"
       // condiviso, vedi QuestRewardUpdate in QuestManager.cs) — un'unica
       // etichetta sulla barra stessa invece di ripeterla sopra E sotto
-      // (segnalato dall'utente: era un doppione inutile).
+      // (era un doppione inutile).
       elTrack.appendChild(creaTickPunti(i, frac));
       elTrack.appendChild(creaMarker("normale", i, frac, stato.rewardsNormali[i], stato.claimNormal[i], true));
       // Riga GamePass Silver: sempre disegnata (sopra/sotto la stessa barra)
@@ -199,8 +193,7 @@ window.WW = window.WW || {};
     el.type = "button";
     el.className = `quest-marker quest-marker--${tipo}`;
     // Attributi usati da segnalaRiscossione() per ritrovare il marker giusto
-    // dopo un rebuild di renderMarkers() e far partire l'animazione su di
-    // esso (14/09/2026, su richiesta dell'utente).
+    // dopo un rebuild di renderMarkers() e far partire l'animazione su di esso.
     el.dataset.markerTipo = tipo;
     el.dataset.markerIndice = String(indice);
     if (info.terreno) el.classList.add("quest-marker--terreno");
@@ -216,8 +209,8 @@ window.WW = window.WW || {};
 
     // Il valore della ricompensa va nell'angolino dell'icona invece che in
     // una riga sotto: con 20 marker vicini, un'etichetta separata per
-    // ognuno si sovrapponeva a quella dei vicini (segnalato dall'utente) —
-    // il badge, attaccato all'icona stessa, non ha questo problema. Il
+    // ognuno si sovrapponeva a quella dei vicini — il badge, attaccato
+    // all'icona stessa, non ha questo problema. Il
     // punteggio richiesto NON è più qui (era ripetuto identico sopra E
     // sotto, dato che le due file condividono le stesse soglie): vedi
     // creaTickPunti(), un'unica etichetta sulla barra.
@@ -280,15 +273,13 @@ window.WW = window.WW || {};
     const percento = q.Require > 0 ? Math.max(0, Math.min(100, (q.Progress / q.Require) * 100)) : 0;
     // Requisito e progresso scritti DENTRO la barra (come le barre HP/DEF
     // di Feudi/Città), invece che in una riga di testo piccola sotto — più
-    // leggibile a colpo d'occhio. Il numero di volte completata diventa un
-    // badge a parte, staccato dal numero di progresso (13/09/2026, su
-    // richiesta dell'utente: prima erano tutti e due nella stessa riga).
-    // 18/09/2026: niente più "style" nell'HTML (CSP style-src-attr, vedi
-    // renderQuestList: la percentuale viene impostata subito dopo con
-    // elFill.style.width, che a differenza dell'attributo style="" scritto
-    // qui non rientra nella direttiva "style-src-attr" — stesso principio
-    // già usato per la barra punti in renderBarra() poco sopra in questo
-    // file). "data-percento" porta il valore fino a lì.
+    // leggibile a colpo d'occhio. Il numero di volte completata è un badge
+    // a parte, staccato dal numero di progresso.
+    // Niente "style" nell'HTML (CSP style-src-attr): la percentuale viene
+    // impostata subito dopo con elFill.style.width in renderQuestList, che
+    // a differenza dell'attributo style="" scritto qui non rientra nella
+    // direttiva "style-src-attr" (stesso principio della barra punti in
+    // renderBarra() poco sopra). "data-percento" porta il valore fino a lì.
     return `
       <li class="quest-item">
         <div class="quest-item__main">
@@ -319,10 +310,7 @@ window.WW = window.WW || {};
   });
 
   /* ---------- Feedback grafico alla riscossione di una ricompensa ----------
-     (14/09/2026, su richiesta dell'utente: "quando un premio viene raccolto,
-     dovremmo mostrarlo graficamente in qualche modo... così è più gradevole
-     per il giocatore e inoltre possiamo osservare eventuali bug"). Tre
-     elementi, tutti innescati da segnalaRiscossione() quando un marker passa
+     Tre elementi, tutti innescati da segnalaRiscossione() quando un marker passa
      da "non riscosso" a "riscosso" tra un QuestRewards e il successivo:
        1) un piccolo "scatto" sul marker stesso (scala + bagliore);
        2) il valore che sale e sfuma sopra/sotto il marker;
@@ -402,18 +390,14 @@ window.WW = window.WW || {};
     rewardsCaricate = true;
   });
 
-  // BUGFIX (14/09/2026, segnalato dall'utente: "ho 222 punti ed il primo
-  // premio non l'ho mai raccolto ma risulta non raccoglibile"): questo hook
-  // prima richiamava solo renderBarra(). punti_quest cambia ad ogni "tick"
-  // generico (Update_Data), ma lo stato raggiunta/bloccata di OGNI marker
-  // viene deciso in creaMarker() solo quando i marker vengono ricreati da
-  // renderMarkers() — cosa che accadeva solo all'arrivo di un nuovo
-  // "QuestRewards" dal server. Risultato: se il punteggio superava la
-  // soglia di un premio DOPO l'ultimo QuestRewards ricevuto, il marker
-  // restava visivamente bloccato (e quindi non cliccabile) anche se il
-  // giocatore aveva già i punti necessari, finché non arrivava un altro
-  // QuestRewards (es. completando un'altra quest) a "sbloccarlo" di
-  // riflesso. Ora l'hook richiama renderRicompense() (barra + marker),
-  // così anche i marker restano aggiornati ad ogni tick, non solo la barra.
+  // BUGFIX: punti_quest cambia ad ogni "tick" generico (Update_Data), ma lo
+  // stato raggiunta/bloccata di OGNI marker viene deciso in creaMarker()
+  // solo quando i marker vengono ricreati da renderMarkers() — cosa che
+  // accadeva solo all'arrivo di un nuovo "QuestRewards" dal server. Se il
+  // punteggio superava la soglia di un premio DOPO l'ultimo QuestRewards
+  // ricevuto, il marker restava visivamente bloccato (non cliccabile) anche
+  // con i punti già sufficienti, finché un altro QuestRewards non lo
+  // sbloccava di riflesso. Richiamare qui renderRicompense() invece della
+  // sola renderBarra() tiene aggiornati anche i marker ad ogni tick.
   WW.renderQuestBarra = renderRicompense;
 })(window.WW);

@@ -113,9 +113,7 @@ window.WW = window.WW || {};
   // 3", ...) vengono da Descrizioni.cs e sono già in chiaveDesc/
   // chiaveDescPrefix sugli array condivisi (04-game-main.js), non derivate
   // qui per evitare di reinventare una mappa che può disallinearsi.
-  function cssEscape(str) {
-    return window.CSS && CSS.escape ? CSS.escape(str) : str.replace(/["\\]/g, "\\$&");
-  }
+  const cssEscape = WW.cssEscape; // 00-core.js
 
   function popolaDescrizioneCostruzione(chiave, box) {
     const testo = WW.descrizioni[chiave];

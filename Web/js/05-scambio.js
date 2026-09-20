@@ -31,7 +31,7 @@ window.WW = window.WW || {};
       onChange(valore);
     }
     // Shift/Ctrl+click = passo più grande (WW.qtyStepDelta, 00-core.js),
-    // uguale per tutti gli stepper dell'app — richiesto dall'utente 13/09/2026.
+    // uguale per tutti gli stepper dell'app.
     el.querySelector(".qty-btn--minus").addEventListener("click", (e) => set(valore - WW.qtyStepDelta(e)));
     el.querySelector(".qty-btn--plus").addEventListener("click", (e) => set(valore + WW.qtyStepDelta(e)));
     return { get: () => valore, set };

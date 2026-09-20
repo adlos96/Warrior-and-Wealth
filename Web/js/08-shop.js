@@ -103,9 +103,7 @@ window.WW = window.WW || {};
   // Box descrizione ("ⓘ" sulla card): stesso meccanismo già usato in
   // 06-costruzione.js/09-ricerca.js — cache e comando "Descrizione"
   // condivisi (WW.descrizioni/WW.onDescrizione, 04-game-main.js).
-  function cssEscape(str) {
-    return window.CSS && CSS.escape ? CSS.escape(str) : str.replace(/["\\]/g, "\\$&");
-  }
+  const cssEscape = WW.cssEscape; // 00-core.js
 
   function popolaDescrizioneShop(chiave, box) {
     const testo = WW.descrizioni[chiave];

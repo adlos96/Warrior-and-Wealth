@@ -53,12 +53,11 @@ window.WW = window.WW || {};
   // Toggle Cronologia/Messaggi: un solo pannello .main-grid (data-panel=
   // "cronologia"), due viste interne selezionate con #cronologia-messaggi-
   // toggle. Su desktop resta l'unico modo per passare dall'una all'altra
-  // (.section-toggle--inline, sempre visibile — vedi style.css). Su mobile,
-  // invece (14/09/2026, su richiesta dell'utente: prima bisognava entrare
-  // nel pannello Cronologia e poi usare quel toggle interno, ora "Messaggi"
-  // è un pulsante diretto nel toggle Feudi/Strutture/Esercito/Cronologia
-  // qui sotto), quel toggle interno viene nascosto via CSS ma la funzione
-  // che sceglie la vista resta la stessa, richiamata anche da showPanel().
+  // (.section-toggle--inline, sempre visibile — vedi style.css). Su mobile
+  // "Messaggi" è invece un pulsante diretto nel toggle Feudi/Strutture/
+  // Esercito/Cronologia qui sotto (il toggle interno viene nascosto via
+  // CSS), ma la funzione che sceglie la vista resta la stessa, richiamata
+  // anche da showPanel().
   const cronologiaMessaggiToggle = document.getElementById("cronologia-messaggi-toggle");
   const cmBtns = cronologiaMessaggiToggle ? cronologiaMessaggiToggle.querySelectorAll(".section-toggle__btn") : [];
   const cmViste = document.querySelectorAll("[data-cronologia-messaggi-view]");

@@ -170,15 +170,7 @@ window.WW = window.WW || {};
       .forEach((el) => (el.textContent = rapportoVelocizza));
   }
 
-  // Stima se una stringa di tempo già formattata dal server ("2h 0m 0s")
-  // rappresenta più di zero secondi, sommando tutti i numeri che contiene:
-  // non serve un valore esatto, solo capire se mostrare o no la riga.
-  function tempoMaggioreDiZero(str) {
-    if (!str) return false;
-    const numeri = str.match(/\d+/g);
-    if (!numeri) return false;
-    return numeri.some((n) => Number(n) > 0);
-  }
+  const tempoMaggioreDiZero = WW.tempoMaggioreDiZero; // 00-core.js
 
   // Aggiorna la riga "Tempo rimanente" e mostra/nasconde riga + pulsante
   // "Velocizza" a seconda che ci sia davvero qualcosa in coda. Se il

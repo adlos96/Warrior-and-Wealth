@@ -149,12 +149,7 @@ window.WW = window.WW || {};
     }
   });
 
-  // I "tipo" contengono spazi e trattini (es. "Contro-Spionaggio", "Guerriero
-  // Salute"): CSS.escape se disponibile, altrimenti un fallback minimale che
-  // basta per i caratteri che compaiono davvero in questi valori.
-  function cssEscape(str) {
-    return window.CSS && CSS.escape ? CSS.escape(str) : str.replace(/["\\]/g, "\\$&");
-  }
+  const cssEscape = WW.cssEscape; // 00-core.js
 
   function popolaDescrizione(chiave, box) {
     const testo = WW.descrizioni[chiave];
@@ -288,16 +283,7 @@ window.WW = window.WW || {};
     ricercaPanel && ricercaPanel.querySelectorAll(".research-btn").forEach((btn) => { btn.disabled = attiva; });
   }
 
-  // Stessa stima "c'è tempo in coda?" usata in 04-game-main.js per
-  // Costruzione/Reclutamento (qui duplicata: è privata a quel file), sulla
-  // stringa già formattata dal server ("hh:mm:ss", ResearchManager.
-  // GetTotalResearchTime).
-  function tempoMaggioreDiZero(str) {
-    if (!str) return false;
-    const numeri = str.match(/\d+/g);
-    if (!numeri) return false;
-    return numeri.some((n) => Number(n) > 0);
-  }
+  const tempoMaggioreDiZero = WW.tempoMaggioreDiZero; // 00-core.js
 
   const btnToggleVelocizzaRicerca = document.getElementById("btn-toggle-velocizza-ricerca");
   const formVelocizzaRicerca = document.getElementById("form-velocizza-ricerca");

@@ -69,8 +69,33 @@ window.WW = window.WW || {};
     return 1;
   }
 
+  /* ---------- Escape per selettori CSS dinamici ----------
+     Usata ovunque un valore arrivato dal server (una chiave di
+     descrizione, ecc.) finisce dentro un selettore `[data-x="..."]`:
+     senza, un valore con virgolette o backslash romperebbe il
+     selettore. Era duplicata identica in 06-costruzione.js/08-shop.js/
+     09-ricerca.js: centralizzata qui. */
+  function cssEscape(str) {
+    return window.CSS && CSS.escape ? CSS.escape(str) : str.replace(/["\\]/g, "\\$&");
+  }
+
+  /* ---------- Stima "tempo > 0" da una stringa già formattata ----------
+     Su una stringa di tempo già formattata dal server ("2h 0m 0s",
+     "45s", "hh:mm:ss"...), somma tutti i numeri che contiene per capire
+     se rappresenta più di zero secondi: non serve un valore esatto, solo
+     se mostrare o no una riga/pulsante. Era duplicata identica in
+     04-game-main.js/09-ricerca.js: centralizzata qui. */
+  function tempoMaggioreDiZero(str) {
+    if (!str) return false;
+    const numeri = str.match(/\d+/g);
+    if (!numeri) return false;
+    return numeri.some((n) => Number(n) > 0);
+  }
+
   WW.fmtInt = fmtInt;
   WW.fmtDecimal = fmtDecimal;
   WW.storage = storage;
   WW.qtyStepDelta = qtyStepDelta;
+  WW.cssEscape = cssEscape;
+  WW.tempoMaggioreDiZero = tempoMaggioreDiZero;
 })(window.WW);
