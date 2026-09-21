@@ -682,9 +682,14 @@ window.WW = window.WW || {};
       titolo: "Cibo", labelKey: "Label Cibo", chiaveDesc: "Cibo", icona: "cibo",
       campi: () => {
         const grezza = GAME.num("cibo_s");
+        // BUGFIX (2026-09-21, segnalato dall'utente): il server manda i consumi già
+        // negativi (PlayerSnapshot.cs costruisce Cibo/Cibo_Strutture con "-="), quindi
+        // vanno SOMMATI a grezza, non sottratti — sottrarli trasformava un consumo di
+        // -0.80 in +0.80 (doppio segno), facendo apparire la produzione netta più alta
+        // della grezza invece che più bassa.
         const edifici = GAME.num("consumo_cibo_strutture");
         const esercito = GAME.num("consumo_cibo_s");
-        const netta = grezza - edifici - esercito;
+        const netta = grezza + edifici + esercito;
         return [
           `Produzione: [icon:cibo][arancione]${WW.fmtDecimal(netta, 2)}[black]/[verde]${WW.fmtDecimal(grezza, 2)}[/verde][black]s`,
           `Edifici: [icon:cibo][rosso]${WW.fmtDecimal(edifici, 2)}[/rosso][black]s`,
@@ -697,9 +702,11 @@ window.WW = window.WW || {};
       titolo: "Legno", labelKey: "Label Legno", chiaveDesc: "Legno", icona: "legno",
       campi: () => {
         const grezza = GAME.num("legna_s");
+        // BUGFIX (2026-09-21): vedi commento identico su "cibo" sopra — il consumo
+        // arriva già negativo dal server, va sommato non sottratto.
         const edifici = GAME.num("consumo_legno_strutture");
         return [
-          `Produzione: [icon:legno][arancione]${WW.fmtDecimal(grezza - edifici, 2)}[black]/[verde]${WW.fmtDecimal(grezza, 2)}[/verde][black]s`,
+          `Produzione: [icon:legno][arancione]${WW.fmtDecimal(grezza + edifici, 2)}[black]/[verde]${WW.fmtDecimal(grezza, 2)}[/verde][black]s`,
           `Edifici: [icon:legno][rosso]${WW.fmtDecimal(edifici, 2)}[/rosso][black]s`,
           `Limite: [icon:legno][ferroScuro]${WW.fmtInt(GAME.num("legna_limite"))}`,
         ];
@@ -709,9 +716,10 @@ window.WW = window.WW || {};
       titolo: "Pietra", labelKey: "Label Pietra", chiaveDesc: "Pietra", icona: "pietra",
       campi: () => {
         const grezza = GAME.num("pietra_s");
+        // BUGFIX (2026-09-21): vedi commento identico su "cibo" sopra.
         const edifici = GAME.num("consumo_pietra_strutture");
         return [
-          `Produzione: [icon:pietra][arancione]${WW.fmtDecimal(grezza - edifici, 2)}[black]/[verde]${WW.fmtDecimal(grezza, 2)}[/verde][black]s`,
+          `Produzione: [icon:pietra][arancione]${WW.fmtDecimal(grezza + edifici, 2)}[black]/[verde]${WW.fmtDecimal(grezza, 2)}[/verde][black]s`,
           `Edifici: [icon:pietra][rosso]${WW.fmtDecimal(edifici, 2)}[/rosso][black]s`,
           `Limite: [icon:pietra][ferroScuro]${WW.fmtInt(GAME.num("pietra_limite"))}`,
         ];
@@ -721,9 +729,10 @@ window.WW = window.WW || {};
       titolo: "Ferro", labelKey: "Label Ferro", chiaveDesc: "Ferro", icona: "ferro",
       campi: () => {
         const grezza = GAME.num("ferro_s");
+        // BUGFIX (2026-09-21): vedi commento identico su "cibo" sopra.
         const edifici = GAME.num("consumo_ferro_strutture");
         return [
-          `Produzione: [icon:ferro][arancione]${WW.fmtDecimal(grezza - edifici, 2)}[black]/[verde]${WW.fmtDecimal(grezza, 2)}[/verde][black]s`,
+          `Produzione: [icon:ferro][arancione]${WW.fmtDecimal(grezza + edifici, 2)}[black]/[verde]${WW.fmtDecimal(grezza, 2)}[/verde][black]s`,
           `Edifici: [icon:ferro][rosso]${WW.fmtDecimal(edifici, 2)}[/rosso][black]s`,
           `Limite: [icon:ferro][ferroScuro]${WW.fmtInt(GAME.num("ferro_limite"))}`,
         ];
@@ -733,9 +742,10 @@ window.WW = window.WW || {};
       titolo: "Oro", labelKey: "Label Oro", chiaveDesc: "Oro", icona: "oro",
       campi: () => {
         const grezza = GAME.num("oro_s");
+        // BUGFIX (2026-09-21): vedi commento identico su "cibo" sopra.
         const edifici = GAME.num("consumo_oro_strutture");
         const esercito = GAME.num("consumo_oro_s");
-        const netta = grezza - edifici - esercito;
+        const netta = grezza + edifici + esercito;
         return [
           `Produzione: [icon:oro][arancione]${WW.fmtDecimal(netta, 2)}[black]/[verde]${WW.fmtDecimal(grezza, 2)}[/verde][black]s`,
           `Edifici: [icon:oro][rosso]${WW.fmtDecimal(edifici, 2)}[/rosso][black]s`,
