@@ -1102,8 +1102,6 @@ window.WW = window.WW || {};
     return frag;
   }
 
-  WW.parseLogMessage = parseLogMessage;
-  WW.renderLogSegments = renderLogSegments;
   WW.renderDescrizioneRicca = renderDescrizioneRicca;
 
   WW.GAME = GAME;

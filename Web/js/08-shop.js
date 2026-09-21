@@ -53,7 +53,7 @@ window.WW = window.WW || {};
       statoTesto: () =>
         `Stato: ${WW.GAME.raw.vip === "True" ? "attivo" : "non attivo"} — tempo rimanente: ${WW.GAME.raw.vip_Tempo || "0h 0m 0s"}`,
       items: [
-        { nome: "VIP 24H", comandoServer: "Vip_1", costoChiave: "Pacchetto_Vip_1_Costo", rewardChiave: "Pacchetto_Vip_1_Reward", rewardUnit: "h", valuta: "viola", funzionale: true, descChiave: "Shop Vip 1", icona: "Vip.png", tempoChiave: "vip_Tempo" },
+        { nome: "VIP 24H", comandoServer: "Vip_1", costoChiave: "Pacchetto_Vip_1_Costo", rewardChiave: "Pacchetto_Vip_1_Reward", rewardUnit: "h", valuta: "viola", funzionale: true, descChiave: "Shop Vip 1", icona: "Vip.png" },
         { nome: "VIP 24H", comandoServer: "Vip_2", costoChiave: "Pacchetto_Vip_2_Costo", rewardChiave: "Pacchetto_Vip_2_Reward", rewardUnit: "h", valuta: "usdt", funzionale: false, descChiave: "Shop Vip 2", icona: "Vip.png" },
       ],
     },
@@ -70,25 +70,25 @@ window.WW = window.WW || {};
       titolo: "Costruttori",
       statoTesto: () => `Tempo extra disponibile: ${WW.GAME.raw.Costruttori_Tempo || "0h 0m 0s"}`,
       items: [
-        { nome: "Costruttori 24H", comandoServer: "Costruttori_24H", costoChiave: "Pacchetto_Costruttore_24h_Costo", rewardChiave: "Pacchetto_Costruttore_24h_Reward", rewardUnit: "h", valuta: "blu", funzionale: true, descChiave: "Shop Costruttore 24h", icona: "Addestratori.png", tempoChiave: "Costruttori_Tempo" },
-        { nome: "Costruttori 48H", comandoServer: "Costruttori_48H", costoChiave: "Pacchetto_Costruttore_48h_Costo", rewardChiave: "Pacchetto_Costruttore_48h_Reward", rewardUnit: "h", valuta: "blu", funzionale: true, descChiave: "Shop Costruttore 48h", icona: "Addestratori.png", tempoChiave: "Costruttori_Tempo" },
+        { nome: "Costruttori 24H", comandoServer: "Costruttori_24H", costoChiave: "Pacchetto_Costruttore_24h_Costo", rewardChiave: "Pacchetto_Costruttore_24h_Reward", rewardUnit: "h", valuta: "blu", funzionale: true, descChiave: "Shop Costruttore 24h", icona: "Addestratori.png" },
+        { nome: "Costruttori 48H", comandoServer: "Costruttori_48H", costoChiave: "Pacchetto_Costruttore_48h_Costo", rewardChiave: "Pacchetto_Costruttore_48h_Reward", rewardUnit: "h", valuta: "blu", funzionale: true, descChiave: "Shop Costruttore 48h", icona: "Addestratori.png" },
       ],
     },
     {
       titolo: "Reclutatori",
       statoTesto: () => `Tempo extra disponibile: ${WW.GAME.raw.Reclutatori_Tempo || "0h 0m 0s"}`,
       items: [
-        { nome: "Reclutatori 24H", comandoServer: "Reclutatori_24H", costoChiave: "Pacchetto_Reclutatore_24h_Costo", rewardChiave: "Pacchetto_Reclutatore_24h_Reward", rewardUnit: "h", valuta: "blu", funzionale: true, descChiave: "Shop Reclutatore 24h", icona: "Costruttori.jpeg", tempoChiave: "Reclutatori_Tempo" },
-        { nome: "Reclutatori 48H", comandoServer: "Reclutatori_48H", costoChiave: "Pacchetto_Reclutatore_48h_Costo", rewardChiave: "Pacchetto_Reclutatore_48h_Reward", rewardUnit: "h", valuta: "blu", funzionale: true, descChiave: "Shop Reclutatore 48h", icona: "Costruttori.jpeg", tempoChiave: "Reclutatori_Tempo" },
+        { nome: "Reclutatori 24H", comandoServer: "Reclutatori_24H", costoChiave: "Pacchetto_Reclutatore_24h_Costo", rewardChiave: "Pacchetto_Reclutatore_24h_Reward", rewardUnit: "h", valuta: "blu", funzionale: true, descChiave: "Shop Reclutatore 24h", icona: "Costruttori.jpeg" },
+        { nome: "Reclutatori 48H", comandoServer: "Reclutatori_48H", costoChiave: "Pacchetto_Reclutatore_48h_Costo", rewardChiave: "Pacchetto_Reclutatore_48h_Reward", rewardUnit: "h", valuta: "blu", funzionale: true, descChiave: "Shop Reclutatore 48h", icona: "Costruttori.jpeg" },
       ],
     },
     {
       titolo: "Scudo della Pace",
       statoTesto: () => `Scudo attivo per: ${WW.GAME.raw.Scudo_Tempo || "0h 0m 0s"}`,
       items: [
-        { nome: "Scudo della Pace 8H", comandoServer: "Scudo_Pace_8H", costoChiave: "Pacchetto_Scudo_Pace_8h_Costo", rewardChiave: "Pacchetto_Scudo_Pace_8h_Reward", rewardUnit: "h", valuta: "blu", funzionale: true, descChiave: "Shop Scudo Pace 8h", icona: "Scudo_Pace.png", tempoChiave: "Scudo_Tempo" },
-        { nome: "Scudo della Pace 24H", comandoServer: "Scudo_Pace_24H", costoChiave: "Pacchetto_Scudo_Pace_24h_Costo", rewardChiave: "Pacchetto_Scudo_Pace_24h_Reward", rewardUnit: "h", valuta: "blu", funzionale: true, descChiave: "Shop Scudo Pace 24h", icona: "Scudo_Pace.png", tempoChiave: "Scudo_Tempo" },
-        { nome: "Scudo della Pace 72H", comandoServer: "Scudo_Pace_72H", costoChiave: "Pacchetto_Scudo_Pace_72h_Costo", rewardChiave: "Pacchetto_Scudo_Pace_72h_Reward", rewardUnit: "h", valuta: "blu", funzionale: true, descChiave: "Shop Scudo Pace 72h", icona: "Scudo_Pace.png", tempoChiave: "Scudo_Tempo" },
+        { nome: "Scudo della Pace 8H", comandoServer: "Scudo_Pace_8H", costoChiave: "Pacchetto_Scudo_Pace_8h_Costo", rewardChiave: "Pacchetto_Scudo_Pace_8h_Reward", rewardUnit: "h", valuta: "blu", funzionale: true, descChiave: "Shop Scudo Pace 8h", icona: "Scudo_Pace.png" },
+        { nome: "Scudo della Pace 24H", comandoServer: "Scudo_Pace_24H", costoChiave: "Pacchetto_Scudo_Pace_24h_Costo", rewardChiave: "Pacchetto_Scudo_Pace_24h_Reward", rewardUnit: "h", valuta: "blu", funzionale: true, descChiave: "Shop Scudo Pace 24h", icona: "Scudo_Pace.png" },
+        { nome: "Scudo della Pace 72H", comandoServer: "Scudo_Pace_72H", costoChiave: "Pacchetto_Scudo_Pace_72h_Costo", rewardChiave: "Pacchetto_Scudo_Pace_72h_Reward", rewardUnit: "h", valuta: "blu", funzionale: true, descChiave: "Shop Scudo Pace 72h", icona: "Scudo_Pace.png" },
       ],
     },
     {
@@ -172,25 +172,6 @@ window.WW = window.WW || {};
     popup.addEventListener("animationend", () => popup.remove(), { once: true });
 
     mostraToastShop(`Acquisto inviato: ${item.nome} (+${testoDurata(item)})`);
-  }
-
-  // Va chiamata DOPO il rebuild del markup: applica bagliore + popup sulla
-  // card giusta e mostra il toast riassuntivo.
-  function segnalaAcquisti(container, daAnimare) {
-    daAnimare.forEach(({ catIdx, itemIdx, nome, testoValore }) => {
-      const li = container.querySelector(`.shop-card[data-cat="${catIdx}"][data-item="${itemIdx}"]`);
-      if (li) {
-        li.classList.add("shop-card--acquistata");
-        li.addEventListener("animationend", () => li.classList.remove("shop-card--acquistata"), { once: true });
-
-        const popup = document.createElement("span");
-        popup.className = "shop-reward-popup";
-        popup.textContent = testoValore;
-        li.appendChild(popup);
-        popup.addEventListener("animationend", () => popup.remove(), { once: true });
-      }
-      mostraToastShop(`Acquisto riuscito: ${nome} (${testoValore})`);
-    });
   }
 
   function testoDurata(item) {

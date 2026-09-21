@@ -86,7 +86,7 @@
       <form id="form-recover" class="login-form" novalidate hidden>
         <p class="panel__hint" data-i18n="recoverHint">Inserisci nome utente ed email del tuo account: ti invieremo un codice per reimpostare la password.</p>
 
-        <div id="recover-step-1">
+        <div>
           <label class="field">
             <span data-i18n="username">Nome utente</span>
             <input type="text" id="recover-username" autocomplete="username">
@@ -455,7 +455,7 @@
       ============================================================ -->
       <section class="tab-panel" data-tab-panel="citta" hidden>
         <div class="panel wood-panel">
-          <h2 class="panel__title">Città</h2>
+          <h2 class="panel__title" id="citta-title">Città</h2>
           <p class="panel__hint">Sposta le truppe tra il Villaggio e ogni struttura per rinforzarne la guarnigione.</p>
 
           <!-- "Ripara Tutto": mostrato solo quando almeno 2 statistiche (HP o
