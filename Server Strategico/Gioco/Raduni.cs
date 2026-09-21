@@ -11,10 +11,14 @@ namespace Server_Strategico.Gioco
     //  - Ogni truppa combatte con le statistiche del SUO proprietario (niente "giocatore virtuale" con stats mediate/pool).
     //  - Solo raduni contro Città Barbare in questo passaggio; i raduni contro giocatori (PVP di gruppo) sono rimandati.
     //  - Il contributo di truppe supporta tutti e 5 i tier (non solo il tier 1 come nel vecchio codice) — protocollo
-    //    "AttaccoCooperativo|Partecipa|..." esteso di conseguenza (vedi GestisciComando).
+    //    "Raduno|Partecipa|..." esteso di conseguenza (vedi GestisciComando).
     //  - Report: ogni partecipante riceve un Report personale (stesso RisultatoBattaglia/RisultatoFase di PVP/PVE,
     //    gestibile dal client come già fa) più un riepilogo di tutto il raduno in RisultatoBattaglia.Partecipanti
     //    (nuovo campo aggiunto in Battaglia.cs, additivo/non-breaking per PVP e PVE).
+    // 21/09/2026: comandi/risposte lato wire unificati sotto il prefisso "Raduno" (prima erano usati tre nomi
+    // diversi: "AttaccoCooperativo" in entrata, "RadunoPartecipo" e "AttacchiCooperativi|MieiAttacchi" in uscita).
+    // La classe C# resta "AttacchiCooperativi" per non allargare il diff — solo le stringhe sul wire sono cambiate.
+    // Aggiunto anche il flag Alleanza (vedi AttaccoCooperativo) e la sua Opzione B di enforcement lato server.
     public class AttacchiCooperativi
     {
         // Dizionario che contiene tutti gli attacchi cooperativi in corso
@@ -30,16 +34,15 @@ namespace Server_Strategico.Gioco
             public bool AttaccoInCorso { get; set; }
             public int TempoRimanente { get; set; }
             public string CreatoreUsername { get; private set; }
-            // Livello (1-20) della Città Barbara bersaglio, scelto dal creatore al momento della creazione del
-            // raduno. BUGFIX (2026-09-14): nel vecchio codice il livello bersaglio era sempre hardcoded a "1"
-            // indipendentemente da cosa scegliesse il giocatore.
             public int LivelloTarget { get; set; }
+            public bool Alleanza { get; set; }
 
-            public AttaccoCooperativo(string id, string creatore, int livelloTarget)
+            public AttaccoCooperativo(string id, string creatore, int livelloTarget, bool alleanza = false)
             {
                 IdAttacco = id;
                 CreatoreUsername = creatore;
                 LivelloTarget = livelloTarget;
+                Alleanza = alleanza;
                 GiocatoriPartecipanti = new Dictionary<string, TruppeContribuite>();
                 OraPrevista = DateTime.Now.AddMinutes(30); // Default 30 minuti
                 AttaccoInCorso = false;
@@ -48,8 +51,7 @@ namespace Server_Strategico.Gioco
 
             public bool AggiungiGiocatore(string username, TruppeContribuite truppe)
             {
-                if (AttaccoInCorso)
-                    return false;
+                if (AttaccoInCorso) return false;
 
                 if (GiocatoriPartecipanti.ContainsKey(username))
                 {
@@ -63,17 +65,13 @@ namespace Server_Strategico.Gioco
                         truppeEsistenti.Catapulte[i] += truppe.Catapulte[i];
                     }
                 }
-                else
-                    GiocatoriPartecipanti.Add(username, truppe);
-
+                else GiocatoriPartecipanti.Add(username, truppe);
                 return true;
             }
 
             public bool RimuoviGiocatore(string username)
             {
-                if (AttaccoInCorso)
-                    return false;
-
+                if (AttaccoInCorso) return false;
                 return GiocatoriPartecipanti.Remove(username);
             }
         }
@@ -102,10 +100,10 @@ namespace Server_Strategico.Gioco
         }
 
         // Metodo per creare un nuovo attacco cooperativo, contro la Città Barbara del livello indicato (1-20)
-        public static string CreaAttaccoCooperativo(string username, int livelloTarget)
+        public static string CreaAttaccoCooperativo(string username, int livelloTarget, bool alleanza = false)
         {
             string idAttacco = Guid.NewGuid().ToString().Substring(0, 8);
-            var nuovoAttacco = new AttaccoCooperativo(idAttacco, username, livelloTarget);
+            var nuovoAttacco = new AttaccoCooperativo(idAttacco, username, livelloTarget, alleanza);
             AttacchiInCorso.Add(idAttacco, nuovoAttacco);
             AttacchiInPlayer.Add(idAttacco, nuovoAttacco);
             return idAttacco;
@@ -117,6 +115,14 @@ namespace Server_Strategico.Gioco
             if (!AttacchiInCorso.ContainsKey(idAttacco))
             {
                 Send(clientGuid, $"Log_Server|Attacco con ID {idAttacco} non trovato.");
+                return false;
+            }
+
+            // Opzione B (alleanze non ancora implementate): un raduno Alleanza=true è riservato al suo creatore.
+            var attaccoCheck = AttacchiInCorso[idAttacco];
+            if (attaccoCheck.Alleanza && username != attaccoCheck.CreatoreUsername)
+            {
+                Send(clientGuid, $"Log_Server|Questo raduno è riservato all'alleanza del creatore (non ancora disponibile per te).");
                 return false;
             }
 
@@ -191,9 +197,7 @@ namespace Server_Strategico.Gioco
             // Invia conferma al giocatore
             Send(clientGuid, $"Log_Server|Hai contribuito all'attacco #{idAttacco} con: {gInviati} Guerrieri, {lInviati} Lancieri, {aInviati} Arcieri, {cInviati} Catapulte.");
             Send(clientGuid, $"Log_Server|Forze totali: {totGuerrieri} Guerrieri, {totLancieri} Lancieri, {totArcieri} Arcieri, {totCatapulte} Catapulte.");
-
-            // Invia il messaggio di RadunoPartecipo per aggiornare l'interfaccia client
-            Send(clientGuid, $"RadunoPartecipo|{attacco.CreatoreUsername}|{idAttacco}|{attacco.GiocatoriPartecipanti.Count}|{gInviati}|{lInviati}|{aInviati}|{cInviati}|{attacco.TempoRimanente / 60}");
+            Send(clientGuid, $"Raduno|Partecipato|{attacco.CreatoreUsername}|{idAttacco}|{attacco.GiocatoriPartecipanti.Count}|{gInviati}|{lInviati}|{aInviati}|{cInviati}|{attacco.TempoRimanente / 60}");
 
             foreach (var partecipante in attacco.GiocatoriPartecipanti) // Notifica tutti i partecipanti dell'aggiornamento
             {
@@ -272,17 +276,20 @@ namespace Server_Strategico.Gioco
             return true;
         }
 
-        // Ottieni la lista degli attacchi cooperativi disponibili
-        public static void GetListaAttacchi(Guid clientGuid)
+        // Ottieni la lista degli attacchi cooperativi disponibili. Filtra i raduni Alleanza=true creati da altri
+        // giocatori (Opzione B: finché non esiste un sistema di alleanze reale, sono visibili solo al creatore).
+        public static void GetListaAttacchi(Guid clientGuid, string username)
         {
-            if (AttacchiInCorso.Count == 0)
+            var attacchiVisibili = AttacchiInCorso.Where(kv => !kv.Value.Alleanza || kv.Value.CreatoreUsername == username).ToList();
+
+            if (attacchiVisibili.Count == 0)
             {
                 Send(clientGuid, $"Log_Server|Non ci sono attacchi cooperativi in preparazione.");
                 return;
             }
 
             Send(clientGuid, $"Log_Server|Attacchi cooperativi in preparazione:");
-            foreach (var attaccoInfo in AttacchiInCorso)
+            foreach (var attaccoInfo in attacchiVisibili)
             {
                 int gTot = 0, lTot = 0, aTot = 0, cTot = 0;
                 foreach (var part in attaccoInfo.Value.GiocatoriPartecipanti)
@@ -356,12 +363,6 @@ namespace Server_Strategico.Gioco
             return true;
         }
 
-        // Distribuisce un totale intero tra i partecipanti in proporzione al loro "peso" (es. truppe schierate di un
-        // certo tipo/tier, o capacità di trasporto), usando il metodo del resto più grande (Largest Remainder) in modo
-        // che la somma delle quote combaci sempre esattamente col totale nonostante gli arrotondamenti. Il totale non
-        // supera mai la somma dei pesi nei casi in cui viene usato qui (non si possono perdere più soldati di quanti un
-        // tier ne contenga in totale, né raccogliere più bottino della capacità di trasporto totale), quindi non serve
-        // un "tetto" separato per partecipante: il peso stesso è già il limite naturale.
         private static Dictionary<string, int> DistribuisciProporzionalmente(int totale, Dictionary<string, int> pesi)
         {
             var risultato = new Dictionary<string, int>();
@@ -402,6 +403,7 @@ namespace Server_Strategico.Gioco
         //    proporzionalmente tra i partecipanti in base a quante unità di quel tipo/tier ciascuno ha in campo —
         //    applicare lo stesso "conteggio corpi" a ciascun partecipante indipendentemente lo moltiplicherebbe per il
         //    numero di partecipanti.
+
         //  - Fase corpo a corpo: il danno in USCITA (verso il nemico, condiviso) si somma dai singoli partecipanti e si
         //    applica una volta sola al pool nemico. Il danno in ENTRATA (dai barbari) è lo stesso "dannoPerTipo" applicato
         //    indipendentemente a ciascun partecipante — la difesa/salute PROPRIA di ciascuno (che scala col proprio
@@ -785,31 +787,34 @@ namespace Server_Strategico.Gioco
         {
             if (msgArgs.Length < 4)
             {
-                Send(clientGuid, $"Log_Server|Comando non valido. Usa: AttaccoCooperativo|<azione>|<parametri>");
+                Send(clientGuid, $"Log_Server|Comando non valido. Usa: Raduno|<azione>|<parametri>");
                 return;
             }
 
             switch (msgArgs[3])
             {
                 case "Crea":
-                    // Formato: AttaccoCooperativo|Crea|<livelloTarget> — livello (1-20) della Città Barbara bersaglio.
+                    // Formato: Raduno|Crea|<livelloTarget>|<alleanza> — livello (1-20) della Città Barbara bersaglio;
+                    // <alleanza> è opzionale (true/false, default false) — raduno riservato all'alleanza del
+                    // creatore (Opzione B: finché non esiste un sistema di alleanze, solo il creatore lo vede/usa).
                     if (msgArgs.Length < 5 || !int.TryParse(msgArgs[4], out int livelloTarget) || livelloTarget < 1 || livelloTarget > 20)
                     {
-                        Send(clientGuid, $"Log_Server|Parametri insufficienti. Usa: AttaccoCooperativo|Crea|<livelloTarget (1-20)>");
+                        Send(clientGuid, $"Log_Server|Parametri insufficienti. Usa: Raduno|Crea|<livelloTarget (1-20)>|<alleanza (opzionale, true/false)>");
                         return;
                     }
-                    string idNuovoAttacco = CreaAttaccoCooperativo(player.Username, livelloTarget);
+                    bool alleanza = msgArgs.Length >= 6 && bool.TryParse(msgArgs[5], out bool alleanzaParsed) && alleanzaParsed;
+                    string idNuovoAttacco = CreaAttaccoCooperativo(player.Username, livelloTarget, alleanza);
                     Send(clientGuid, $"Log_Server|Nuovo raduno creato contro Città Barbaro Lv.{livelloTarget}! ID: {idNuovoAttacco}");
-                    Send(clientGuid, $"AttaccoCooperativo|Creato|{idNuovoAttacco}");
+                    Send(clientGuid, $"Raduno|Creato|{idNuovoAttacco}");
                     break;
 
                 case "Partecipa":
-                    // Formato: AttaccoCooperativo|Partecipa|<idAttacco>|<G1>|<G2>|<G3>|<G4>|<G5>|<L1>..<L5>|<A1>..<A5>|<C1>..<C5>
+                    // Formato: Raduno|Partecipa|<idAttacco>|<G1>|<G2>|<G3>|<G4>|<G5>|<L1>..<L5>|<A1>..<A5>|<C1>..<C5>
                     // (20 valori, uno per ciascun tipo/tier di unità — esteso il 2026-09-14 dal vecchio formato a 4
                     // valori che supportava solo il tier 1).
                     if (msgArgs.Length < 24)
                     {
-                        Send(clientGuid, $"Log_Server|Parametri insufficienti. Usa: AttaccoCooperativo|Partecipa|<idAttacco>|<G1..G5>|<L1..L5>|<A1..A5>|<C1..C5>");
+                        Send(clientGuid, $"Log_Server|Parametri insufficienti. Usa: Raduno|Partecipa|<idAttacco>|<G1..G5>|<L1..L5>|<A1..A5>|<C1..C5>");
                         return;
                     }
 
@@ -840,7 +845,7 @@ namespace Server_Strategico.Gioco
                 case "Abbandona":
                     if (msgArgs.Length < 5)
                     {
-                        Send(clientGuid, $"Log_Server|Parametri insufficienti. Usa: AttaccoCooperativo|Abbandona|<idAttacco>");
+                        Send(clientGuid, $"Log_Server|Parametri insufficienti. Usa: Raduno|Abbandona|<idAttacco>");
                         return;
                     }
 
@@ -851,7 +856,7 @@ namespace Server_Strategico.Gioco
                 case "Inizia":
                     if (msgArgs.Length < 5)
                     {
-                        Send(clientGuid, $"Log_Server|Parametri insufficienti. Usa: AttaccoCooperativo|Inizia|<idAttacco>");
+                        Send(clientGuid, $"Log_Server|Parametri insufficienti. Usa: Raduno|Inizia|<idAttacco>");
                         return;
                     }
 
@@ -860,7 +865,7 @@ namespace Server_Strategico.Gioco
                     break;
 
                 case "Lista":
-                    GetListaAttacchi(clientGuid);
+                    GetListaAttacchi(clientGuid, player.Username);
                     break;
 
                 case "MieiAttacchi":
@@ -929,13 +934,13 @@ namespace Server_Strategico.Gioco
                 Send(clientGuid, $"Log_Server|Partecipazione a {totaleAttacchi} raduni");
                 Send(clientGuid, $"Log_Server|Totale truppe impegnate: G:{totGuerrieri}, L:{totLancieri}, A:{totArcieri}, C:{totCatapulte}");
 
-                // Invia anche i dati in formato strutturato per l'interfaccia
-                Send(clientGuid, $"AttacchiCooperativi|MieiAttacchi|{totaleAttacchi}|{totGuerrieri}|{totLancieri}|{totArcieri}|{totCatapulte}");
+                // Invia anche i dati in formato strutturato per l'interfaccia (nome comando unificato a "Raduno")
+                Send(clientGuid, $"Raduno|MieiAttacchi|{totaleAttacchi}|{totGuerrieri}|{totLancieri}|{totArcieri}|{totCatapulte}");
             }
             else
             {
                 Send(clientGuid, $"Log_Server|Non stai partecipando a nessun raduno.");
-                Send(clientGuid, $"AttacchiCooperativi|MieiAttacchi|0|0|0|0|0");
+                Send(clientGuid, $"Raduno|MieiAttacchi|0|0|0|0|0");
             }
         }
 

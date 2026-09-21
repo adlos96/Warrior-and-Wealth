@@ -371,7 +371,7 @@ namespace Server_Strategico.Server
                 case "Ricerca":
                     ResearchManager.Ricerca(msgArgs[3], clientGuid, player);
                     break;
-                case "AttaccoCooperativo":
+                case "Raduno":
                     await AttacchiCooperativi.GestisciComando(msgArgs, clientGuid, player);
                     break;
                 case "Quest_Reward":
@@ -386,7 +386,7 @@ namespace Server_Strategico.Server
                         ResearchManager.UsaDiamantiPerVelocizzareRicerca(clientGuid, player, Convert.ToInt32(msgArgs[4]));
                     break;
                 case "Scambia_Diamanti":
-                      Scambia_Diamanti(clientGuid, player, msgArgs[3]); //Diamanti viola --> blu
+                    Scambia_Diamanti(clientGuid, player, msgArgs[3]); //Diamanti viola --> blu
                     break;
                 case "Scambia_Tributi":
                     Scambia_Tributi(clientGuid, player, msgArgs[3]); //Diamanti viola --> blu
@@ -1084,7 +1084,7 @@ namespace Server_Strategico.Server
             {
                 player.Dollari_Virtuali -= tributi;
                 player.Diamanti_Viola += tributi * Variabili_Server.Tributi_To_D_Viola;
-                Server.Send(player.guid_Player, $"Log_Server|Scambiati [warning][icon:dollariVirtuali]{tributi} Tributi --> [icon:diamanteViola][warning]{tributi * Variabili_Server.D_Viola_To_Blu}[viola] Diamanti Viola");
+                Server.Send(player.guid_Player, $"Log_Server|Scambiati [warning][icon:dollariVirtuali]{tributi} Tributi --> [icon:diamanteViola][warning]{tributi * Variabili_Server.Tributi_To_D_Viola}[viola] Diamanti Viola");
             }
         }
         // 16/09/2026: nuovo punto di ingresso per lo spionaggio, chiamato dal case "Esplora" —
@@ -1667,38 +1667,53 @@ namespace Server_Strategico.Server
                 Server.Send(guid, $"Update_Data|Report_Lista|{reportPayload}");
             }
 
+            // 21/09/2026, su richiesta dell'utente: il vecchio formato posizionale a trattini/pipe
+            // ("Raduno|creatore-id-min-..." / "Raduni_Player|...") è stato convertito in un unico
+            // pacchetto JSON, sullo stesso modello già usato da QuestManager per QuestUpdate — evita
+            // sia il rischio di un "-" o "|" dentro uno username sia l'aggiunta di altri segmenti
+            // posizionali (es. Alleanza) man mano che il sistema cresce. "Aperti" applica il filtro
+            // Opzione B: i raduni Alleanza=true creati da altri non sono inclusi per questo giocatore.
             if (player.Livello >= Variabili_Server.PVP_Unlock)
             {
-                string raduno = $"Raduno|";
-                string raduno_Player = $"Raduni_Player|";
-                if (AttacchiCooperativi.AttacchiInCorso.Keys.Count() > 0)
-                    foreach (string idAttacco in AttacchiCooperativi.AttacchiInCorso.Keys)
+                var raduniAperti = AttacchiCooperativi.AttacchiInCorso.Values
+                    .Where(a => !a.Alleanza || a.CreatoreUsername == player.Username)
+                    .Select(a => new
                     {
-                        var attacco = AttacchiCooperativi.AttacchiInCorso[idAttacco];
-                        raduno += $"{attacco.CreatoreUsername}|{idAttacco}|{attacco.TempoRimanente / 60}-";
-                    }
-                else raduno = "";
+                        Creatore = a.CreatoreUsername,
+                        Id = a.IdAttacco,
+                        MinutiRimanenti = a.TempoRimanente / 60,
+                        Alleanza = a.Alleanza
+                    })
+                    .ToList();
 
-                if (AttacchiCooperativi.AttacchiInPlayer.Keys.Count() > 0)
-                    foreach (string idAttacco in AttacchiCooperativi.AttacchiInPlayer.Keys)
+                var miePartecipazioni = AttacchiCooperativi.AttacchiInPlayer.Values
+                    .Where(a => a.GiocatoriPartecipanti.ContainsKey(player.Username))
+                    .Select(a =>
                     {
-                        var attacco = AttacchiCooperativi.AttacchiInPlayer[idAttacco];
-                        var user = attacco.GiocatoriPartecipanti.Keys;
-                        var users = attacco.GiocatoriPartecipanti.Values;
-
-                        foreach (var item in attacco.GiocatoriPartecipanti.Keys)
+                        var truppe = a.GiocatoriPartecipanti[player.Username];
+                        return new
                         {
-                            if (player.Username == item)
-                                foreach (var items in attacco.GiocatoriPartecipanti.Values)
-                                    if (items.Player == player.Username)
-                                        // BUGFIX (2026-09-14): Raduni.cs ora supporta truppe su tutti e 5 i tier, non solo il tier 1 —
-                                        // qui si invia la somma di tutti i tier per non "perdere" dalla vista client le truppe di livello > 1.
-                                        raduno_Player += $"{item}|{idAttacco}|{attacco.TempoRimanente / 60}|{items.Guerrieri.Sum()}|{items.Lanceri.Sum()}|{items.Arceri.Sum()}|{items.Catapulte.Sum()}-";
-                        }
-                    }
-                else raduno_Player = "";
-                if (raduno != "") Server.Send(guid, raduno); //Invia i raduni aperti
-                if (raduno_Player != "") Server.Send(guid, raduno_Player); //Invia i raduni aperti
+                            Creatore = a.CreatoreUsername,
+                            Id = a.IdAttacco,
+                            MinutiRimanenti = a.TempoRimanente / 60,
+                            Guerrieri = truppe.Guerrieri.Sum(),
+                            Lanceri = truppe.Lanceri.Sum(),
+                            Arceri = truppe.Arceri.Sum(),
+                            Catapulte = truppe.Catapulte.Sum()
+                        };
+                    })
+                    .ToList();
+
+                if (raduniAperti.Count > 0 || miePartecipazioni.Count > 0)
+                {
+                    string raduniJson = JsonConvert.SerializeObject(new
+                    {
+                        Type = "RaduniUpdate",
+                        Aperti = raduniAperti,
+                        MiePartecipazioni = miePartecipazioni
+                    });
+                    Server.Send(guid, raduniJson);
+                }
             }
 
             // Filtra giocatori con potenza simile (ad esempio ±20%)
