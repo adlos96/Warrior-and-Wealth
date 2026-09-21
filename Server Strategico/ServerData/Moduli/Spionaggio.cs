@@ -7,7 +7,7 @@ namespace Server_Strategico.ServerData.Moduli
 {
     internal class Spionaggio
     {
-        static float valForza = 45f;
+        static float valForza = 90f;
         static int costo_Spionaggio_Villaggio_Base = 238;
         static int costo_Spionaggio_Citta_Base = 3328;
         static int costo_Spionaggio_Player_Base = 35800;
@@ -29,16 +29,11 @@ namespace Server_Strategico.ServerData.Moduli
             int forza = CalcolaValoreSpionaggio(attaccante, difensore);
             int precisione = CalcolaPrecisioneSpionaggio(forza);
             int livello = CalcolaLivelloSpionaggio(forza);
-            /// Servono 13 punti di differenza per raggiungere LV: 6, con precisione: 812
+            /// Servono 11 punti di differenza per raggiungere LV: 6, con precisione: 812
 
             var spy = report.Spionaggio;
             report.Spionaggio.Forza_Spionaggio = forza; // era attaccante.Ricerca_Spionaggio: mostrava la ricerca grezza invece della forza netta (già scontato il Contro-Spionaggio del difensore), la stessa usata per calcolare precisione e stadio
             report.Spionaggio.Stadio = livello;
-            // 14/09/2026, richiesto dall'utente: quando lo stadio è sufficiente a mostrare una categoria (es.
-            // Caserme) ma la precisione non basta a dare il valore esatto (quindi "????"/range al posto del
-            // numero), il client deve poter avvisare "aumenta la forza per migliorare la precisione" — una
-            // volta sola per report, non per ogni singolo valore. Calcolato qui (unica fonte di verità sulla
-            // soglia 900), il client si limita a leggere questo bool.
             report.Spionaggio.Precisione_Insufficiente = precisione < 900;
 
             for (int i = 0; i <= 6; i++) spy.Fasi.Add(new SpionaggioFase()); //Aggiunge le fasi vuote da popolare
@@ -298,11 +293,11 @@ namespace Server_Strategico.ServerData.Moduli
             return forza switch
             {
                 <= 0 => 0,  // Fallito
-                <= 2 => 1,  // Risorse civili + militari
-                <= 4 => 2,  // + Truppe
-                <= 6 => 3,  // + Villaggio / difese
-                <= 9 => 4,  // + Strutture civili + militari + caserme
-                <= 12 => 5,  // + Ricerche
+                <= 1 => 1,  // Risorse civili + militari
+                <= 3 => 2,  // + Truppe
+                <= 5 => 3,  // + Villaggio / difese
+                <= 7 => 4,  // + Strutture civili + militari + caserme
+                <= 9 => 5,  // + Ricerche
                 _ => 6   // + Bonus / tutto
             };
         }

@@ -595,12 +595,7 @@ namespace Server_Strategico.Server
             catapulte[3] = Convert.ToInt32(dati[23]);
             catapulte[4] = Convert.ToInt32(dati[24]);
 
-            // BUGFIX (2026-09-21, segnalato dall'utente): mancava la verifica che il giocatore disponesse
-            // davvero delle truppe dichiarate. Sia BattagliaPVE.Battaglia che BattagliaPVP.Battaglia risolvono
-            // lo scontro con i numeri ricevuti dal client e solo DOPO sottraggono le perdite dall'esercito reale
-            // (player.Guerrieri[i] -= perditeAttaccante...) — senza questo controllo un giocatore poteva
-            // dichiarare un esercito mai posseduto, vincere gratis e portare il proprio conteggio truppe sotto
-            // zero. Stesso controllo (negativi + disponibilità per tier) già usato in Raduni.cs/PartecipaDiAttacco.
+
             for (int i = 0; i < 5; i++)
             {
                 if (guerrieri[i] < 0 || picchieri[i] < 0 || arcieri[i] < 0 || catapulte[i] < 0)
@@ -628,14 +623,6 @@ namespace Server_Strategico.Server
                     Catapulte = catapulte
                 };
                 await ServerData.Moduli.Battaglie.BattagliaPVE.Battaglia(player, clientGuid, dati[3], Convert.ToInt32(dati[4]), attackerUnitsPVE);
-
-                /* --- PERCORSO LEGACY (disattivato il 2026-09-14, tenuto come riferimento finché i test sul nuovo percorso
-                   non danno l'ok — poi va eliminato insieme a BattaglieV2.Battaglia_Barbari e i suoi helper) ---
-                if (dati[3] == "Villaggio Barbaro")
-                    await BattaglieV2.Battaglia_Barbari(player, clientGuid, "Villaggio Barbaro", dati[4], guerrieri, picchieri, arcieri, catapulte);
-                if (dati[3] == "Città Barbaro")
-                    await BattaglieV2.Battaglia_Barbari(player, clientGuid, "Città Barbaro", dati[4], guerrieri, picchieri, arcieri, catapulte);
-                */
             }
 
             AggiornaVillaggiClient(player);
@@ -660,21 +647,6 @@ namespace Server_Strategico.Server
                     Catapulte = catapulte
                 };
                 await Server_Strategico.ServerData.Moduli.Battaglie.BattagliaPVP.Battaglia(player, difensore, attackerUnitsNuovo);
-
-                /* --- PERCORSO LEGACY (disattivato il 2026-09-14, tenuto come riferimento finché i test sul nuovo percorso
-                   non danno l'ok — poi va eliminato insieme a BattaglieV2.Battaglia_Strutture_PvP/Battaglia_PvP) ---
-                var attackerUnits = new BattaglieV2.UnitGroup
-                {
-                    Guerrieri = guerrieri,
-                    Lancieri = picchieri,
-                    Arcieri = arcieri,
-                    Catapulte = catapulte
-                };
-                BattaglieV2.BattleResult result = await BattaglieV2.Battaglia_Strutture_PvP(player, difensore, clientGuid, difensore.guid_Player, attackerUnits);
-                if (result.Struttura == "Castello" && result.Victory == true)
-                    BattaglieV2.Battaglia_PvP(player, difensore, clientGuid, difensore.guid_Player, result.AttaccantePerdite.Guerrieri, result.AttaccantePerdite.Lancieri, result.AttaccantePerdite.Arcieri, result.AttaccantePerdite.Catapulte);
-                */
-
                 Server.GameServer.GuerrieriCitta(player);
             }
         }
