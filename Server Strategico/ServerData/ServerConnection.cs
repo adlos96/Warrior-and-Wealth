@@ -386,7 +386,7 @@ namespace Server_Strategico.Server
                         ResearchManager.UsaDiamantiPerVelocizzareRicerca(clientGuid, player, Convert.ToInt32(msgArgs[4]));
                     break;
                 case "Scambia_Diamanti":
-                    Scambia_Diamanti(clientGuid, player, msgArgs[3]); //Diamanti viola --> blu
+                      Scambia_Diamanti(clientGuid, player, msgArgs[3]); //Diamanti viola --> blu
                     break;
                 case "Scambia_Tributi":
                     Scambia_Tributi(clientGuid, player, msgArgs[3]); //Diamanti viola --> blu
@@ -594,6 +594,28 @@ namespace Server_Strategico.Server
             catapulte[2] = Convert.ToInt32(dati[22]);
             catapulte[3] = Convert.ToInt32(dati[23]);
             catapulte[4] = Convert.ToInt32(dati[24]);
+
+            // BUGFIX (2026-09-21, segnalato dall'utente): mancava la verifica che il giocatore disponesse
+            // davvero delle truppe dichiarate. Sia BattagliaPVE.Battaglia che BattagliaPVP.Battaglia risolvono
+            // lo scontro con i numeri ricevuti dal client e solo DOPO sottraggono le perdite dall'esercito reale
+            // (player.Guerrieri[i] -= perditeAttaccante...) — senza questo controllo un giocatore poteva
+            // dichiarare un esercito mai posseduto, vincere gratis e portare il proprio conteggio truppe sotto
+            // zero. Stesso controllo (negativi + disponibilità per tier) già usato in Raduni.cs/PartecipaDiAttacco.
+            for (int i = 0; i < 5; i++)
+            {
+                if (guerrieri[i] < 0 || picchieri[i] < 0 || arcieri[i] < 0 || catapulte[i] < 0)
+                {
+                    Server.Send(clientGuid, "Log_Server|[error]Non puoi inviare un numero negativo di truppe.");
+                    return;
+                }
+                if (player.Guerrieri[i] < guerrieri[i] || player.Lanceri[i] < picchieri[i] ||
+                    player.Arceri[i] < arcieri[i] || player.Catapulte[i] < catapulte[i])
+                {
+                    Server.Send(clientGuid, $"Log_Server|[error]Non hai abbastanza truppe di livello {i + 1} disponibili.");
+                    Console.WriteLine($"[Battaglia] [{player.Username}] Tentativo di inviare più truppe di livello {i + 1} di quante ne possieda.");
+                    return;
+                }
+            }
 
             if (dati[3] == "Villaggio Barbaro" || dati[3] == "Città Barbaro")
             {
@@ -1084,7 +1106,7 @@ namespace Server_Strategico.Server
             {
                 player.Dollari_Virtuali -= tributi;
                 player.Diamanti_Viola += tributi * Variabili_Server.Tributi_To_D_Viola;
-                Server.Send(player.guid_Player, $"Log_Server|Scambiati [warning][icon:dollariVirtuali]{tributi} Tributi --> [icon:diamanteViola][warning]{tributi * Variabili_Server.Tributi_To_D_Viola}[viola] Diamanti Viola");
+                Server.Send(player.guid_Player, $"Log_Server|Scambiati [warning][icon:dollariVirtuali]{tributi} Tributi --> [icon:diamanteViola][warning]{tributi * Variabili_Server.D_Viola_To_Blu}[viola] Diamanti Viola");
             }
         }
         // 16/09/2026: nuovo punto di ingresso per lo spionaggio, chiamato dal case "Esplora" —
