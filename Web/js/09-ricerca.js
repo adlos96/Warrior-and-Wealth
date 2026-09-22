@@ -302,9 +302,10 @@ window.WW = window.WW || {};
     stepperVelocizzaRicercaEl.addEventListener("click", (e) => {
       const btn = e.target.closest(".qty-btn");
       if (!btn) return;
-      // Shift/Ctrl+click = passo più grande (WW.qtyStepDelta, 00-core.js) —
-      // richiesto dall'utente 13/09/2026, uguale per tutti gli stepper.
-      const passo = WW.qtyStepDelta(e);
+      // Shift/Ctrl+click = passo più grande (WW.qtyStepDeltaVelocizza, 00-core.js) —
+      // richiesto dall'utente 13/09/2026, con l'aggiunta di Ctrl+Shift = ±50 richiesta
+      // il 22/09/2026 per le schermate di velocizzazione con Diamanti Blu.
+      const passo = WW.qtyStepDeltaVelocizza(e);
       setQtyVelocizzaRicerca(qtyVelocizzaRicerca + (btn.classList.contains("qty-btn--plus") ? passo : -passo));
     });
   }

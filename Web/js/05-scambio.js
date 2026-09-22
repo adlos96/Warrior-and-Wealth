@@ -20,10 +20,15 @@ window.WW = window.WW || {};
 (function (WW) {
   "use strict";
 
-  function creaStepperSemplice(containerId, onChange) {
+  function creaStepperSemplice(containerId, onChange, deltaFn) {
     const el = document.getElementById(containerId);
     if (!el) return null;
     const valueEl = el.querySelector(".qty-stepper__value");
+    // deltaFn opzionale (22/09/2026, su richiesta dell'utente): di default lo stesso
+    // passo di tutti gli stepper dell'app (WW.qtyStepDelta), ma le schermate Velocizza
+    // (vedi collegaVelocizza più sotto) passano WW.qtyStepDeltaVelocizza per avere anche
+    // Ctrl+Shift+click = ±50, dato che lì le quantità in gioco sono molto più alte.
+    const getDelta = deltaFn || WW.qtyStepDelta;
     let valore = 0;
     function set(v) {
       valore = Math.max(0, v);
@@ -32,8 +37,8 @@ window.WW = window.WW || {};
     }
     // Shift/Ctrl+click = passo più grande (WW.qtyStepDelta, 00-core.js),
     // uguale per tutti gli stepper dell'app.
-    el.querySelector(".qty-btn--minus").addEventListener("click", (e) => set(valore - WW.qtyStepDelta(e)));
-    el.querySelector(".qty-btn--plus").addEventListener("click", (e) => set(valore + WW.qtyStepDelta(e)));
+    el.querySelector(".qty-btn--minus").addEventListener("click", (e) => set(valore - getDelta(e)));
+    el.querySelector(".qty-btn--plus").addEventListener("click", (e) => set(valore + getDelta(e)));
     return { get: () => valore, set };
   }
 
@@ -91,7 +96,8 @@ window.WW = window.WW || {};
   // già esistenti.
   const VELOCIZZA_STEPPERS = Object.create(null);
   function collegaVelocizza(contesto, bottoneToggleId, formId, stepperId, bottoneConfermaId) {
-    const stepper = creaStepperSemplice(stepperId, () => {});
+    // WW.qtyStepDeltaVelocizza (00-core.js): stesso passo standard più Ctrl+Shift+click = ±50.
+    const stepper = creaStepperSemplice(stepperId, () => {}, WW.qtyStepDeltaVelocizza);
     VELOCIZZA_STEPPERS[bottoneToggleId] = stepper;
     collegaToggleMiniForm(bottoneToggleId, formId, stepper);
     const btnConferma = document.getElementById(bottoneConfermaId);

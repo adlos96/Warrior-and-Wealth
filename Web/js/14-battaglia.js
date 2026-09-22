@@ -1063,6 +1063,12 @@ window.WW = window.WW || {};
   WW.NET.on("Update_PVP_Player", (args) => {
     const count = Number(args[0]) || 0;
     pvpLista = args.slice(1, 1 + count);
+    // Esposta su WW (22/09/2026, su richiesta dell'utente: raduni contro giocatori in 16-raduni.js) perché
+    // WW.NET.on("comando", ...) registra UN SOLO handler per comando — se 16-raduni.js richiamasse di nuovo
+    // WW.NET.on("Update_PVP_Player", ...) sovrascriverebbe silenziosamente QUESTO handler (caricato prima,
+    // per ordine di <script> in index.html), rompendo il selettore bersaglio qui sopra. Meglio esporre la
+    // lista già pronta e farla leggere da chi la usa, invece di duplicare l'handler.
+    WW.pvpListaGiocatori = pvpLista;
     renderPvpSelect();
   });
 

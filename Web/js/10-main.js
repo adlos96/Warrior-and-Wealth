@@ -13,7 +13,7 @@
      00-core.js, 01-net.js, Localizzazione.js, 02-auth.js, 03-nav.js,
      04-game-main.js, 05-scambio.js, 06-costruzione.js, 07-citta.js,
      08-shop.js, 09-ricerca.js, 11-statistiche.js, 12-quest.js,
-     13-gamepass.js, 14-battaglia.js, 15-avatar.js, 10-main.js
+     13-gamepass.js, 14-battaglia.js, 15-avatar.js, 16-raduni.js, 10-main.js
 
    NOTA (18/09/2026): questo file è quello che gira davvero per ultimo.
    È il terzo nome che porta lo stesso identico bootstrap — ogni volta

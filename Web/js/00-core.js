@@ -69,6 +69,17 @@ window.WW = window.WW || {};
     return 1;
   }
 
+  /* ---------- Passo dello stepper nelle schermate "Velocizza con Diamanti Blu" ----------
+     Su richiesta dell'utente (22/09/2026): stessi passi di qtyStepDelta sopra, con
+     l'aggiunta di Ctrl+Shift+click = ±50 — riservato alle schermate di velocizzazione
+     (Costruzione, Reclutamento/addestramento, Ricerca) perché lì le quantità in gioco sono
+     tipicamente molto più alte che negli altri stepper dell'app (Scambio Diamanti, Sposta
+     Truppe...), che restano quindi su qtyStepDelta invariata. */
+  function qtyStepDeltaVelocizza(event) {
+    if (event && event.ctrlKey && event.shiftKey) return 50;
+    return qtyStepDelta(event);
+  }
+
   /* ---------- Escape per selettori CSS dinamici ----------
      Usata ovunque un valore arrivato dal server (una chiave di
      descrizione, ecc.) finisce dentro un selettore `[data-x="..."]`:
@@ -96,6 +107,7 @@ window.WW = window.WW || {};
   WW.fmtDecimal = fmtDecimal;
   WW.storage = storage;
   WW.qtyStepDelta = qtyStepDelta;
+  WW.qtyStepDeltaVelocizza = qtyStepDeltaVelocizza;
   WW.cssEscape = cssEscape;
   WW.tempoMaggioreDiZero = tempoMaggioreDiZero;
 })(window.WW);

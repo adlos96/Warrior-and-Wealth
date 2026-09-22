@@ -683,6 +683,7 @@
           <button class="section-toggle__btn is-active" data-panel-target="pvp-barbari">Barbari</button>
           <button class="section-toggle__btn" data-panel-target="pvp-esercito">Esercito</button>
           <button class="section-toggle__btn" data-panel-target="pvp-pvp">PVP</button>
+          <button class="section-toggle__btn" data-panel-target="pvp-raduni">Raduni</button>
           <button class="section-toggle__btn" data-panel-target="pvp-referti">Report</button>
         </div>
 
@@ -726,6 +727,53 @@
             <div class="pvp-actions">
               <button type="button" class="btn btn--primary btn--block" id="btn-attacca-pvp">Attacca</button>
             </div>
+          </div>
+
+          <!-- RADUNI (22/09/2026, costruzione del client — backend già completo e testato,
+               js/16-raduni.js/Raduni.cs). Struttura del pannello:
+                1) form "Crea raduno" (livello bersaglio 1-20 + checkbox Alleanza, vedi
+                   AttaccoCooperativo.Alleanza — Opzione B: riservato al creatore finché non
+                   esiste un vero sistema di alleanze);
+                2) lista "Raduni aperti" (già filtrata dal server secondo l'Opzione B) — ogni
+                   riga ha un bottone "Partecipa" che apre il form truppe qui sotto;
+                3) form truppe (stesso pattern tier I-V di "Esercito da Inviare" sopra, ma
+                   dedicato: le truppe di un raduno sono un contributo a parte, non l'esercito
+                   da battaglia singola) — nascosto finché non si preme "Partecipa" su una riga;
+                4) lista "Le mie partecipazioni" — countdown, truppe inviate, bottoni Abbandona/
+                   Avvia (quest'ultimo visibile solo se si è il creatore). -->
+          <div class="panel wood-panel panel--log" data-panel="pvp-raduni">
+            <h2 class="panel__title">Raduni</h2>
+            <p class="panel__hint">Unisci le tue truppe a quelle di altri giocatori per attaccare insieme una Città Barbara o un altro giocatore. Crea un raduno o partecipa a uno già aperto: solo il creatore può avviare l'attacco.</p>
+
+            <div class="raduno-crea">
+              <!-- Selettore tipo bersaglio (22/09/2026, su richiesta dell'utente): "Barbaro" (default) mostra
+                   il campo livello di prima; "PVP" mostra il selettore giocatore (stessa lista già usata dal
+                   pannello PVP singolo in 14-battaglia.js, esposta su WW.pvpListaGiocatori). -->
+              <div class="tier-tabs raduno-crea-tipo" id="raduno-crea-tipo">
+                <button type="button" class="tier-btn is-active" data-tipo="Barbaro">Città Barbara</button>
+                <button type="button" class="tier-btn" data-tipo="PVP">Giocatore</button>
+              </div>
+              <label class="pvp-livello-label" id="raduno-crea-livello-wrap">Bersaglio Lv. <input type="number" id="raduno-crea-livello" min="1" max="20" value="1"></label>
+              <label class="pvp-livello-label" id="raduno-crea-giocatore-wrap" hidden>Bersaglio <select id="raduno-crea-giocatore"></select></label>
+              <label class="raduno-crea-alleanza"><input type="checkbox" id="raduno-crea-alleanza"> Solo alleanza</label>
+              <button type="button" class="btn btn--primary" id="btn-crea-raduno">Crea raduno</button>
+            </div>
+
+            <h3 class="raduno-sottotitolo">Raduni aperti</h3>
+            <ul class="research-list" id="raduni-aperti-list"><!-- popolata da js --></ul>
+
+            <div class="panel wood-panel raduno-form-truppe" id="raduno-form-truppe" hidden>
+              <p class="panel__hint" id="raduno-form-truppe-titolo"></p>
+              <div class="tier-tabs" id="raduno-tier-tabs"><!-- popolata da js --></div>
+              <ul class="unit-list unit-list--form" id="raduno-esercito-list"><!-- popolata da js --></ul>
+              <div class="pvp-actions">
+                <button type="button" class="btn btn--ghost" id="btn-annulla-partecipa-raduno">Annulla</button>
+                <button type="button" class="btn btn--primary btn--block" id="btn-conferma-partecipa-raduno">Conferma partecipazione</button>
+              </div>
+            </div>
+
+            <h3 class="raduno-sottotitolo">Le mie partecipazioni</h3>
+            <ul class="research-list" id="raduni-mie-list"><!-- popolata da js --></ul>
           </div>
 
           <div class="panel wood-panel panel--log" data-panel="pvp-referti">
@@ -968,6 +1016,7 @@
   <script src="js/13-gamepass.js"></script>
   <script src="js/14-battaglia.js"></script>
   <script src="js/15-avatar.js"></script>
+  <script src="js/16-raduni.js"></script>
   <script src="js/10-main.js"></script>
 </body>
 </html>

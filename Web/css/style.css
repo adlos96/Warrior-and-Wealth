@@ -1525,17 +1525,32 @@ button{ font-family: inherit; cursor: pointer; }
    js/14-battaglia.js), nessuna regola aggiuntiva necessaria qui. */
 .main-grid--pvppve{
   grid-template-columns: 1fr 1.25fr 1fr;
-  grid-template-rows: auto auto;
+  grid-template-rows: auto auto auto;
 }
 /* 17/09/2026, su richiesta dell'utente: Barbari non è più alto quanto
    Report (niente più "grid-row: 1 / span 2") — ora è alto quanto PVP/
    Esercito da Inviare, come loro. Referti (Report) occupa tutta la riga 2
    per non lasciare un vuoto sotto Barbari. Esercito da Inviare è ora
-   leggermente più largo di Barbari e PVP (colonna centrale più larga). */
+   leggermente più largo di Barbari e PVP (colonna centrale più larga).
+   22/09/2026: aggiunta Raduni come terza riga (span 3 colonne, come
+   Report) — Report scende quindi alla riga 3. */
 .main-grid--pvppve [data-panel="pvp-barbari"]{ grid-column: 1; grid-row: 1; }
 .main-grid--pvppve [data-panel="pvp-esercito"]{ grid-column: 2; grid-row: 1; }
 .main-grid--pvppve [data-panel="pvp-pvp"]{ grid-column: 3; grid-row: 1; }
-.main-grid--pvppve [data-panel="pvp-referti"]{ grid-column: 1 / span 3; grid-row: 2; }
+.main-grid--pvppve [data-panel="pvp-raduni"]{ grid-column: 1 / span 3; grid-row: 2; }
+.main-grid--pvppve [data-panel="pvp-referti"]{ grid-column: 1 / span 3; grid-row: 3; }
+
+/* Pannello Raduni (22/09/2026): form "Crea raduno" in riga, sottotitoli tra
+   le tre sotto-liste (Aperti/form truppe/Mie partecipazioni) e il form
+   truppe (stesso pattern tier I-V di .unit-list--form) leggermente
+   incassato per distinguerlo visivamente dalle righe della lista sopra. */
+.raduno-crea{ display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; margin-bottom: .9rem; }
+.raduno-crea-alleanza{ display: flex; align-items: center; gap: .35rem; font-weight: 600; }
+.raduno-sottotitolo{ margin: 0 0 .5rem; font-size: .95rem; opacity: .85; }
+.raduno-form-truppe{ margin: 0 0 1rem; padding: .8rem; }
+.raduno-item{ display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
+.raduno-item__info{ flex: 1 1 auto; min-width: 0; }
+.raduno-item__badge{ font-size: .75rem; padding: .1rem .4rem; border-radius: .3rem; background: var(--wood-dark); color: #fff; }
 
 .research-list{ list-style: none; margin: 0 0 .9rem; padding: 0; display: flex; flex-direction: column; gap: .4rem; }
 
