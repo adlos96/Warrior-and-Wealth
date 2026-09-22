@@ -663,21 +663,21 @@
       <!-- ============================================================
            SCHERMATA PVP/PVE
            Rispecchia la schermata desktop "PVE-PVP" (screenshot
-           PVP_PVE.JPG/PVP_PVE 2.JPG in WW/) — solo la parte Villaggi
-           Barbari + PVP, senza i Raduni (sezione separata dello
-           screenshot più recente, rimandata: il backend dei Raduni non
-           è ancora compilato/testato). Un solo
-           pannello "Esercito da Inviare" (tier I-V, quantità
-           persistenti tra i tab come in Città/Guarnigione) condiviso
-           tra l'attacco ai Barbari e il PVP: il comando "Battaglia"
-           accetta sempre le stesse 20 quantità qualunque sia il tipo
-           di bersaglio (vedi js/14-battaglia.js). Layout a griglia
+           PVP_PVE.JPG/PVP_PVE 2.JPG in WW/), con l'aggiunta dei Raduni
+           (22/09/2026). Un solo pannello "Esercito da Inviare" (tier
+           I-V, quantità persistenti tra i tab come in Città/
+           Guarnigione) condiviso da Barbari, PVP E RADUNI (23/09/2026,
+           su richiesta dell'utente: "una schermata comune" invece di
+           stepper duplicati in ogni pannello) — il comando "Battaglia"
+           e i comandi "Raduno|Crea"/"Raduno|Partecipa" leggono tutti le
+           stesse quantità da qui (vedi js/14-battaglia.js,
+           WW.esercitoInviare, e js/16-raduni.js). Layout a griglia
            identico a quello della schermata Main (.main-grid--pvppve
            in style.css): Barbari a sinistra (righe 1-2), Esercito e
-           PVP affiancati in alto, Referti in basso a destra.
+           PVP affiancati in alto, Raduni e Referti in basso.
       ============================================================ -->
       <section class="tab-panel" data-tab-panel="pvppve" hidden>
-        <p class="panel__hint">Esplora i Villaggi/Città Barbare per stimare le loro truppe, oppure sfida un altro giocatore in PVP. Le truppe da inviare si scelgono a tier (I-V) — Restano impostate finché non lanci l'attacco.</p>
+        <p class="panel__hint">Esplora i Villaggi/Città Barbare per stimare le loro truppe, sfida un altro giocatore in PVP, o unisciti a un raduno. Le truppe da inviare si scelgono UNA VOLTA SOLA nel pannello "Esercito da Inviare" qui sotto (tier I-V) e restano impostate finché non le usi: valgono per l'attacco ai Barbari, il PVP e i Raduni.</p>
 
         <div class="section-toggle" id="battaglia-panel-toggle" role="tablist" aria-label="Pannelli PVP/PVE">
           <button class="section-toggle__btn is-active" data-panel-target="pvp-barbari">Barbari</button>
@@ -743,7 +743,11 @@
                    Avvia (quest'ultimo visibile solo se si è il creatore). -->
           <div class="panel wood-panel panel--log" data-panel="pvp-raduni">
             <h2 class="panel__title">Raduni</h2>
-            <p class="panel__hint">Unisci le tue truppe a quelle di altri giocatori per attaccare insieme una Città Barbara o un altro giocatore. Crea un raduno o partecipa a uno già aperto: solo il creatore può avviare l'attacco.</p>
+            <!-- 23/09/2026, su richiesta dell'utente ("una schermata comune" per selezionare le
+                 truppe): niente più stepper truppe qui dentro — si usano quelle già selezionate nel
+                 pannello "Esercito da Inviare" qui sopra (WW.esercitoInviare, vedi 14-battaglia.js/
+                 16-raduni.js). "Crea raduno" e "Partecipa" restano disabilitati a 0 truppe. -->
+            <p class="panel__hint">Unisci le tue truppe a quelle di altri giocatori per attaccare insieme una Città Barbara o un altro giocatore. Le truppe si scelgono nel pannello "Esercito da Inviare" qui sopra: seleziona il bersaglio e crea il raduno (entrerai subito a farne parte), oppure premi "Partecipa" su un raduno già aperto. Solo il creatore può avviare o chiudere l'attacco.</p>
 
             <div class="raduno-crea">
               <!-- Selettore tipo bersaglio (22/09/2026, su richiesta dell'utente): "Barbaro" (default) mostra
@@ -755,22 +759,25 @@
               </div>
               <label class="pvp-livello-label" id="raduno-crea-livello-wrap">Bersaglio Lv. <input type="number" id="raduno-crea-livello" min="1" max="20" value="1"></label>
               <label class="pvp-livello-label" id="raduno-crea-giocatore-wrap" hidden>Bersaglio <select id="raduno-crea-giocatore"></select></label>
+              <!-- Durata (23/09/2026, su richiesta dell'utente: "il giocatore dovrebbe poter scegliere i
+                   tempi di attesa del raduno") — valori allineati a Raduni.DURATE_MINUTI_VALIDE lato
+                   server, che rifiuta qualunque altro valore. -->
+              <label class="pvp-livello-label">Durata
+                <select id="raduno-crea-durata">
+                  <option value="5">5 min</option>
+                  <option value="10">10 min</option>
+                  <option value="15">15 min</option>
+                  <option value="30" selected>30 min</option>
+                  <option value="60">60 min</option>
+                  <option value="120">120 min</option>
+                </select>
+              </label>
               <label class="raduno-crea-alleanza"><input type="checkbox" id="raduno-crea-alleanza"> Solo alleanza</label>
               <button type="button" class="btn btn--primary" id="btn-crea-raduno">Crea raduno</button>
             </div>
 
             <h3 class="raduno-sottotitolo">Raduni aperti</h3>
             <ul class="research-list" id="raduni-aperti-list"><!-- popolata da js --></ul>
-
-            <div class="panel wood-panel raduno-form-truppe" id="raduno-form-truppe" hidden>
-              <p class="panel__hint" id="raduno-form-truppe-titolo"></p>
-              <div class="tier-tabs" id="raduno-tier-tabs"><!-- popolata da js --></div>
-              <ul class="unit-list unit-list--form" id="raduno-esercito-list"><!-- popolata da js --></ul>
-              <div class="pvp-actions">
-                <button type="button" class="btn btn--ghost" id="btn-annulla-partecipa-raduno">Annulla</button>
-                <button type="button" class="btn btn--primary btn--block" id="btn-conferma-partecipa-raduno">Conferma partecipazione</button>
-              </div>
-            </div>
 
             <h3 class="raduno-sottotitolo">Le mie partecipazioni</h3>
             <ul class="research-list" id="raduni-mie-list"><!-- popolata da js --></ul>

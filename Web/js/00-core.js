@@ -103,6 +103,106 @@ window.WW = window.WW || {};
     return numeri.some((n) => Number(n) > 0);
   }
 
+  /* ---------- WIDGET "ESERCITO" (tab tier I-V + stepper quantità per unità) ----------
+     22/09/2026, su richiesta dell'utente ("riutilizzare la schermata Esercito da
+     Inviare"): il markup/comportamento (tab tier, stepper +/-, "disponibili" letto da
+     WW.GAME) era duplicato quasi identico in 14-battaglia.js ("Esercito da Inviare",
+     Barbari+PVP) e 16-raduni.js (form truppe del raduno) — centralizzato qui, stesso
+     pattern di cssEscape/tempoMaggioreDiZero sopra. Lo STATO resta volutamente separato
+     tra i due (scelta confermata dall'utente): ogni chiamante passa il proprio oggetto
+     "stato" ({tier, quantita: {1:{g,l,a,c}, ..., 5:{...}}}), così le truppe preparate per
+     un attacco singolo non si mischiano mai con quelle destinate a un raduno.
+     opts:
+       tabsId, listaId — id degli elementi <div>/<ul> da popolare (uno per chiamante)
+       unita           — array [{nome, icona, chiave, campoServer}, ...] (4 unità)
+       stato           — oggetto {tier, quantita} del chiamante, mutato in-place
+       onChange        — richiamata (senza argomenti) dopo ogni variazione di quantità
+                          o cambio tab tier, per aggiornare hint/bottoni propri del
+                          chiamante (es. "Attacca"/"Conferma" disabilitato a 0 truppe)
+     Ritorna { build, refreshStepper, refreshDisponibili, reset, totale }. */
+  const TIER_LABELS_ESERCITO = ["I", "II", "III", "IV", "V"];
+
+  function templateRigaEsercito(u) {
+    return `
+    <li class="row-item row-item--form">
+      <img src="assets/${u.icona}" class="icon-inline" alt="">
+      <span class="row-item__label">${u.nome}</span>
+      <span class="row-item__value" data-disponibili="${u.chiave}" title="Disponibili">0</span>
+      <div class="qty-stepper" data-unit-stepper="${u.chiave}">
+        <button type="button" class="qty-btn qty-btn--minus" aria-label="Diminuisci">−</button>
+        <span class="qty-stepper__value">0</span>
+        <button type="button" class="qty-btn qty-btn--plus" aria-label="Aumenta">+</button>
+      </div>
+    </li>`;
+  }
+
+  function creaEsercitoWidget(opts) {
+    const { tabsId, listaId, unita, stato, onChange } = opts;
+    const notifica = () => { if (typeof onChange === "function") onChange(); };
+
+    function refreshStepper() {
+      const lista = document.getElementById(listaId);
+      if (!lista) return;
+      const q = stato.quantita[stato.tier];
+      unita.forEach((u) => {
+        const el = lista.querySelector(`[data-unit-stepper="${u.chiave}"] .qty-stepper__value`);
+        if (el) el.textContent = String(q[u.chiave]);
+      });
+    }
+
+    function refreshDisponibili() {
+      const lista = document.getElementById(listaId);
+      if (!lista) return;
+      unita.forEach((u) => {
+        const el = lista.querySelector(`[data-disponibili="${u.chiave}"]`);
+        if (el) el.textContent = fmtInt(WW.GAME.num(`${u.campoServer}_${stato.tier}`));
+      });
+    }
+
+    function reset() {
+      TIER_LABELS_ESERCITO.forEach((_, i) => (stato.quantita[i + 1] = { g: 0, l: 0, a: 0, c: 0 }));
+      refreshStepper();
+      notifica();
+    }
+
+    function totale() {
+      return Object.values(stato.quantita).reduce((tot, q) => tot + q.g + q.l + q.a + q.c, 0);
+    }
+
+    function build() {
+      const tabs = document.getElementById(tabsId);
+      const lista = document.getElementById(listaId);
+      if (!tabs || !lista || lista.children.length === unita.length) return;
+
+      tabs.innerHTML = TIER_LABELS_ESERCITO.map((l, i) => `<button type="button" class="tier-btn${i === 0 ? " is-active" : ""}" data-tier="${i + 1}">${l}</button>`).join("");
+      lista.innerHTML = unita.map(templateRigaEsercito).join("");
+
+      tabs.addEventListener("click", (e) => {
+        const btn = e.target.closest(".tier-btn");
+        if (!btn) return;
+        stato.tier = Number(btn.dataset.tier) || 1;
+        tabs.querySelectorAll(".tier-btn").forEach((b) => b.classList.toggle("is-active", b === btn));
+        refreshStepper();
+        refreshDisponibili();
+        notifica();
+      });
+
+      lista.addEventListener("click", (e) => {
+        const btnQty = e.target.closest(".qty-btn");
+        if (!btnQty) return;
+        const stepperEl = btnQty.closest("[data-unit-stepper]");
+        const chiave = stepperEl.dataset.unitStepper;
+        const q = stato.quantita[stato.tier];
+        const passo = WW.qtyStepDelta(e);
+        q[chiave] = Math.max(0, q[chiave] + (btnQty.classList.contains("qty-btn--plus") ? passo : -passo));
+        stepperEl.querySelector(".qty-stepper__value").textContent = String(q[chiave]);
+        notifica();
+      });
+    }
+
+    return { build, refreshStepper, refreshDisponibili, reset, totale };
+  }
+
   WW.fmtInt = fmtInt;
   WW.fmtDecimal = fmtDecimal;
   WW.storage = storage;
@@ -110,4 +210,5 @@ window.WW = window.WW || {};
   WW.qtyStepDeltaVelocizza = qtyStepDeltaVelocizza;
   WW.cssEscape = cssEscape;
   WW.tempoMaggioreDiZero = tempoMaggioreDiZero;
+  WW.creaEsercitoWidget = creaEsercitoWidget;
 })(window.WW);

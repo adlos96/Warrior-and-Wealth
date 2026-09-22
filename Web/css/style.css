@@ -1548,9 +1548,53 @@ button{ font-family: inherit; cursor: pointer; }
 .raduno-crea-alleanza{ display: flex; align-items: center; gap: .35rem; font-weight: 600; }
 .raduno-sottotitolo{ margin: 0 0 .5rem; font-size: .95rem; opacity: .85; }
 .raduno-form-truppe{ margin: 0 0 1rem; padding: .8rem; }
-.raduno-item{ display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
-.raduno-item__info{ flex: 1 1 auto; min-width: 0; }
-.raduno-item__badge{ font-size: .75rem; padding: .1rem .4rem; border-radius: .3rem; background: var(--wood-dark); color: #fff; }
+
+/* Restyling righe "Raduni aperti"/"Le mie partecipazioni" (23/09/2026, su richiesta
+   dell'utente: "esteticamente non sono chissà che") — da riga di testo piatta a vera
+   "card": sfondo/bordo come .row-item, un bordo colorato a sinistra per un colpo
+   d'occhio veloce, titolo (#id + bersaglio + badge) separato dalla riga di metadati
+   (creatore/partecipanti/tempo, con piccole icone testuali invece di altre immagini).
+   Non usa più .research-item (che si limita a "display:flex;flex-direction:column"
+   ed è condivisa con Ricerca/Costruzione/Shop): .raduno-item ora si basta da sola. */
+.raduno-item{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .7rem;
+  background: rgba(255,253,247,.75);
+  border: 1px solid var(--parchment-dark);
+  border-left: 4px solid var(--wood);
+  border-radius: 8px;
+  padding: .6rem .8rem;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.raduno-item:hover{ border-color: var(--gold); box-shadow: 0 2px 6px rgba(60,37,21,.15); }
+
+.raduno-item__info{ flex: 1 1 260px; min-width: 0; }
+
+.raduno-item__titolo{ display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; margin-bottom: .3rem; }
+.raduno-item__id{ font-family: var(--font-title); font-weight: 700; color: var(--wood-dark); }
+.raduno-item__bersaglio{ font-weight: 600; color: var(--ink); }
+
+.raduno-item__meta{ display: flex; flex-wrap: wrap; row-gap: .15rem; column-gap: .9rem; font-size: .78rem; color: var(--ink-soft); }
+.raduno-item__meta-voce{ display: inline-flex; align-items: center; gap: .3rem; white-space: nowrap; }
+.raduno-item__meta-icona{ font-size: .9em; }
+.raduno-item__meta-valore--urgente{ color: var(--danger); font-weight: 700; }
+
+.raduno-item__stato{ font-size: .82rem; font-style: italic; color: var(--ink-soft); }
+
+.raduno-item__azioni{ display: flex; flex-wrap: wrap; gap: .4rem; margin-left: auto; }
+
+.raduno-item__badge{ font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; padding: .15rem .5rem; border-radius: 999px; background: var(--wood-dark); color: #fff; }
+.raduno-item__badge--pvp{ background: var(--danger); }
+.raduno-item__badge--barbaro{ background: var(--wood-dark); }
+.raduno-item__badge--alleanza{ background: var(--purple); }
+.raduno-item__badge--creatore{ background: linear-gradient(var(--gold-bright), var(--gold)); color: var(--ink); }
+
+/* Variante "pericolo" del bottone (23/09/2026: "Chiudi raduno") — stesso ingombro di
+   .btn--ghost, solo il colore cambia, per non introdurre uno stile di bottone nuovo. */
+.btn--danger{ color: var(--danger); border-color: var(--danger); }
+.btn--danger:hover{ background: var(--danger); color: #fff; }
 
 .research-list{ list-style: none; margin: 0 0 .9rem; padding: 0; display: flex; flex-direction: column; gap: .4rem; }
 
@@ -1666,6 +1710,13 @@ button{ font-family: inherit; cursor: pointer; }
 }
 
 .tier-btn.is-active{ background: var(--gold); }
+
+/* Tab "Città Barbara"/"Giocatore" del form "Crea raduno" (22/09/2026, su richiesta
+   dell'utente — riusano .tier-tabs/.tier-btn per coerenza visiva col resto della UI, ma
+   con etichette lunghe: la larghezza fissa 30x30px di .tier-btn (pensata per "I".."V")
+   faceva uscire il testo dal bottone). Scoped su .raduno-crea-tipo invece di toccare
+   .tier-btn in generale, così i veri tab tier I-V (qui e altrove) restano identici. */
+.raduno-crea-tipo .tier-btn{ width: auto; height: auto; padding: .4rem .9rem; font-size: .85rem; }
 
 .placeholder-panel{ max-width: 520px; margin: 0 auto; text-align: center; }
 

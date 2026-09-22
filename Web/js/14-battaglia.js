@@ -33,9 +33,13 @@
      WW.GAME.applyUpdateData (04-game-main.js) e passato qui via
      WW.BATTLE.setReports.
 
-   Dipende da: WW.GAME/WW.NET/WW.AUTH/WW.fmtInt/WW.qtyStepDelta.
-   Esporta: WW.renderBattaglia (da renderAllFromServer in
-   04-game-main.js) e WW.BATTLE (setReports). */
+   Dipende da: WW.GAME/WW.NET/WW.AUTH/WW.fmtInt/WW.qtyStepDelta/
+   WW.creaEsercitoWidget (00-core.js — 22/09/2026: widget "Esercito da
+   Inviare"). Esporta: WW.renderBattaglia (da renderAllFromServer in
+   04-game-main.js), WW.BATTLE (setReports) e WW.esercitoInviare
+   (23/09/2026: {truppeArgs, totale, azzera} sulle truppe selezionate
+   in "Esercito da Inviare" — UNICO pannello di selezione truppe,
+   condiviso anche col pannello Raduni, vedi 16-raduni.js). */
 
 window.WW = window.WW || {};
 
@@ -94,20 +98,6 @@ window.WW = window.WW || {};
      ESERCITO DA INVIARE — tier I-V, quantità persistenti tra i tab
      --------------------------------------------------------------- */
 
-  function templateEsercitoRow(u) {
-    return `
-    <li class="row-item row-item--form">
-      <img src="assets/${u.icona}" class="icon-inline" alt="">
-      <span class="row-item__label">${u.nome}</span>
-      <span class="row-item__value" data-disponibili="${u.chiave}" title="Disponibili">0</span>
-      <div class="qty-stepper" data-unit-stepper="${u.chiave}">
-        <button type="button" class="qty-btn qty-btn--minus" aria-label="Diminuisci">−</button>
-        <span class="qty-stepper__value">0</span>
-        <button type="button" class="qty-btn qty-btn--plus" aria-label="Aumenta">+</button>
-      </div>
-    </li>`;
-  }
-
   function aggiornaPendentiHint() {
     const el = document.getElementById("battaglia-pendenti-hint");
     if (el) {
@@ -121,28 +111,22 @@ window.WW = window.WW || {};
     // 16/09/2026, su richiesta dell'utente: il pulsante Attacca (Barbari) deve essere
     // attivo solo se è stata selezionata almeno 1 unità — prima si poteva premere
     // sempre e l'errore compariva solo dopo il click. Richiamata da qui perché
-    // aggiornaPendentiHint gira già ad ogni cambio quantità (stepper) e dopo ogni
-    // invio truppe (azzeraTruppe più sotto).
+    // aggiornaPendentiHint gira già ad ogni cambio quantità (stepper, via onChange del
+    // widget) e dopo ogni invio truppe (azzeraTruppe più sotto).
     const btnAttaccaBarbari = document.getElementById("btn-attacca-barbari");
     if (btnAttaccaBarbari) btnAttaccaBarbari.disabled = truppeTotale() === 0;
   }
 
-  function aggiornaEsercitoDisponibili() {
-    const lista = document.getElementById("battaglia-esercito-list");
-    if (!lista) return;
-    UNITA.forEach((u) => {
-      const el = lista.querySelector(`[data-disponibili="${u.chiave}"]`);
-      if (el) el.textContent = WW.fmtInt(WW.GAME.num(`${u.campoServer}_${stato.tier}`));
-    });
-  }
-
-  function aggiornaStepperVisibili() {
-    const q = stato.quantita[stato.tier];
-    UNITA.forEach((u) => {
-      const el = document.querySelector(`#battaglia-esercito-list [data-unit-stepper="${u.chiave}"] .qty-stepper__value`);
-      if (el) el.textContent = String(q[u.chiave]);
-    });
-  }
+  // Widget condiviso (00-core.js, WW.creaEsercitoWidget — 22/09/2026, su richiesta
+  // dell'utente: stesso codice/aspetto di "Esercito da Inviare" riusato anche dal form
+  // truppe dei Raduni in 16-raduni.js, ma con stato SEPARATO — vedi commento lì).
+  const espWidget = WW.creaEsercitoWidget({
+    tabsId: "battaglia-tier-tabs",
+    listaId: "battaglia-esercito-list",
+    unita: UNITA,
+    stato,
+    onChange: aggiornaPendentiHint,
+  });
 
   function truppeTotale() {
     return Object.values(stato.quantita).reduce((tot, q) => tot + q.g + q.l + q.a + q.c, 0);
@@ -155,39 +139,7 @@ window.WW = window.WW || {};
   }
 
   function azzeraTruppe() {
-    TIER_LABELS.forEach((_, i) => (stato.quantita[i + 1] = { g: 0, l: 0, a: 0, c: 0 }));
-    aggiornaStepperVisibili();
-    aggiornaPendentiHint();
-  }
-
-  function costruisciEsercitoUI() {
-    const tabs = document.getElementById("battaglia-tier-tabs");
-    const lista = document.getElementById("battaglia-esercito-list");
-    if (!tabs || !lista || lista.children.length === UNITA.length) return;
-
-    tabs.innerHTML = TIER_LABELS.map((l, i) => `<button type="button" class="tier-btn${i === 0 ? " is-active" : ""}" data-tier="${i + 1}">${l}</button>`).join("");
-    lista.innerHTML = UNITA.map(templateEsercitoRow).join("");
-
-    tabs.addEventListener("click", (e) => {
-      const btn = e.target.closest(".tier-btn");
-      if (!btn) return;
-      stato.tier = Number(btn.dataset.tier) || 1;
-      tabs.querySelectorAll(".tier-btn").forEach((b) => b.classList.toggle("is-active", b === btn));
-      aggiornaStepperVisibili();
-      aggiornaEsercitoDisponibili();
-    });
-
-    lista.addEventListener("click", (e) => {
-      const btnQty = e.target.closest(".qty-btn");
-      if (!btnQty) return;
-      const stepperEl = btnQty.closest("[data-unit-stepper]");
-      const chiave = stepperEl.dataset.unitStepper;
-      const q = stato.quantita[stato.tier];
-      const passo = WW.qtyStepDelta(e);
-      q[chiave] = Math.max(0, q[chiave] + (btnQty.classList.contains("qty-btn--plus") ? passo : -passo));
-      stepperEl.querySelector(".qty-stepper__value").textContent = String(q[chiave]);
-      aggiornaPendentiHint();
-    });
+    espWidget.reset(); // azzera le quantità, aggiorna gli stepper visibili e chiama aggiornaPendentiHint
   }
 
   /* ---------------------------------------------------------------
@@ -1075,7 +1027,7 @@ window.WW = window.WW || {};
   let uiCostruita = false;
   function renderBattaglia() {
     if (!uiCostruita) {
-      costruisciEsercitoUI();
+      espWidget.build();
       collegaEventiStatici();
       aggiornaPendentiHint(); // stato iniziale (0 truppe selezionate): "Attacca" (Barbari) parte disabilitato
       uiCostruita = true;
@@ -1083,7 +1035,7 @@ window.WW = window.WW || {};
     // NON auto-esplorare qui (tentativo fatto e tolto il 14/09/2026, vedi commento in
     // collegaEventiStatici): Esplora resta un'azione esplicita scelta dal giocatore, non
     // qualcosa da far scattare da solo ad ogni apertura del pannello.
-    aggiornaEsercitoDisponibili();
+    espWidget.refreshDisponibili();
     renderPvpSelect();
   }
 
@@ -1093,5 +1045,16 @@ window.WW = window.WW || {};
       reports = Array.isArray(nuoviReports) ? nuoviReports : [];
       renderReportLista();
     },
+  };
+
+  // Esposto per 16-raduni.js (23/09/2026, su richiesta dell'utente: "invece di avere due
+  // schermate diverse per selezionare le truppe... non è possibile avere una schermata
+  // comune?" — un solo pannello "Esercito da Inviare" condiviso da Barbari/PVP/Raduni,
+  // invece degli stepper duplicati che il pannello Raduni aveva fino ad oggi). Le truppe
+  // selezionate QUI sono quelle che "Crea raduno"/"Partecipa" in 16-raduni.js useranno.
+  WW.esercitoInviare = {
+    truppeArgs: truppeArgsPerAttacco,
+    totale: truppeTotale,
+    azzera: azzeraTruppe,
   };
 })(window.WW);
