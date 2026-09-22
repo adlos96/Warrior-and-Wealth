@@ -262,12 +262,6 @@ namespace Server_Strategico.Server
                 inviato = true;
             }
 
-            // 16/09/2026, su richiesta dell'utente: la Cronologia (pannello "Log_Server" del
-            // client) ora viene anche salvata lato server, non solo mostrata "al volo" — così
-            // sopravvive a un ricollegamento o a un riavvio del server invece di sparire ogni
-            // volta. Risale al giocatore dal guid tramite la stessa mappa già usata per il
-            // routing dei messaggi, invece di aggiungere un parametro Player a ogni singola
-            // chiamata a Send sparsa in centinaia di punti del codice.
             string ora = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
             if (inviato && msg.StartsWith("Log_Server|") && Client_Connessi_Map.TryGetValue(guid, out string usernameLog))
             {

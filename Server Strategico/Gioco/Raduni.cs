@@ -29,6 +29,12 @@ namespace Server_Strategico.Gioco
     // le stesse del PVP singolo (ServerConnection.Battaglia, case "PVP"): Livello >= PVP_Unlock e nessuno
     // Scudo della Pace attivo, né per il creatore né per il bersaglio (stessi due filtri con cui Server.cs
     // costruisce Utenti_PVP).
+    //
+    // 23/09/2026, su richiesta dell'utente ("chi apre il raduno dovrebbe poterci entrare con un esercito,
+    // altrimenti resta fuori dal proprio stesso raduno"): il protocollo "Raduno|Crea|..." ora richiede
+    // anche le truppe del creatore (stesso formato di "Partecipa") e GestisciComando, case "Crea", fa
+    // entrare subito il creatore nel raduno appena creato riusando PartecipaDiAttacco — niente più
+    // passaggio separato in cui il creatore doveva premere "Partecipa" sul proprio stesso raduno.
     public class AttacchiCooperativi
     {
         // Dizionario che contiene tutti gli attacchi cooperativi in corso
@@ -52,7 +58,11 @@ namespace Server_Strategico.Gioco
             public string TipoBersaglio { get; set; } = "Barbaro";
             public string BersaglioUsername { get; set; }
 
-            public AttaccoCooperativo(string id, string creatore, string tipoBersaglio, int livelloTarget, string bersaglioUsername, bool alleanza = false)
+            // durataMinuti (23/09/2026, su richiesta dell'utente: "il giocatore dovrebbe poter scegliere
+            // i tempi di attesa del raduno"): default 30 per compatibilità, ma GestisciComando/case "Crea"
+            // valida sempre il valore ricevuto dal client contro DURATE_MINUTI_VALIDE più sotto, quindi in
+            // pratica arriva sempre già uno dei valori ammessi (5/10/15/30/60/120).
+            public AttaccoCooperativo(string id, string creatore, string tipoBersaglio, int livelloTarget, string bersaglioUsername, bool alleanza = false, int durataMinuti = 30)
             {
                 IdAttacco = id;
                 CreatoreUsername = creatore;
@@ -61,9 +71,9 @@ namespace Server_Strategico.Gioco
                 BersaglioUsername = bersaglioUsername;
                 Alleanza = alleanza;
                 GiocatoriPartecipanti = new Dictionary<string, TruppeContribuite>();
-                OraPrevista = DateTime.Now.AddMinutes(30); // Default 30 minuti
+                OraPrevista = DateTime.Now.AddMinutes(durataMinuti);
                 AttaccoInCorso = false;
-                TempoRimanente = 1800; // 30 minuti in secondi
+                TempoRimanente = durataMinuti * 60;
             }
 
             public bool AggiungiGiocatore(string username, TruppeContribuite truppe)
@@ -116,14 +126,18 @@ namespace Server_Strategico.Gioco
             }
         }
 
+        // Durate (in minuti) ammesse per un raduno (23/09/2026, su richiesta dell'utente). GestisciComando,
+        // case "Crea", rifiuta qualunque valore ricevuto dal client che non sia in questo insieme.
+        public static readonly int[] DURATE_MINUTI_VALIDE = { 5, 10, 15, 30, 60, 120 };
+
         // Metodo per creare un nuovo attacco cooperativo, contro la Città Barbara del livello indicato (1-20,
         // tipoBersaglio="Barbaro") oppure contro un giocatore (tipoBersaglio="PVP", bersaglioUsername valorizzato).
-        // La validazione (livello 1-20 / esistenza e attaccabilità del giocatore bersaglio) è già stata fatta
-        // dal chiamante (GestisciComando, case "Crea") prima di arrivare qui.
-        public static string CreaAttaccoCooperativo(string username, string tipoBersaglio, int livelloTarget, string bersaglioUsername, bool alleanza = false)
+        // La validazione (livello 1-20 / esistenza e attaccabilità del giocatore bersaglio / durataMinuti tra
+        // quelle ammesse) è già stata fatta dal chiamante (GestisciComando, case "Crea") prima di arrivare qui.
+        public static string CreaAttaccoCooperativo(string username, string tipoBersaglio, int livelloTarget, string bersaglioUsername, bool alleanza = false, int durataMinuti = 30)
         {
             string idAttacco = Guid.NewGuid().ToString().Substring(0, 8);
-            var nuovoAttacco = new AttaccoCooperativo(idAttacco, username, tipoBersaglio, livelloTarget, bersaglioUsername, alleanza);
+            var nuovoAttacco = new AttaccoCooperativo(idAttacco, username, tipoBersaglio, livelloTarget, bersaglioUsername, alleanza, durataMinuti);
             AttacchiInCorso.Add(idAttacco, nuovoAttacco);
             AttacchiInPlayer.Add(idAttacco, nuovoAttacco);
             return idAttacco;
@@ -1200,6 +1214,36 @@ namespace Server_Strategico.Gioco
             AttacchiInPlayer.Remove(attacco.IdAttacco);
         }
 
+        // Chiusura anticipata da parte del creatore (23/09/2026, su richiesta dell'utente: "il creatore
+        // dovrebbe poter chiudere il raduno prima dello scadere del tempo"). Solo il creatore può farlo, e
+        // solo finché la battaglia non è già partita — riusa RestituisciTruppeECancella, quindi restituisce
+        // le truppe a TUTTI i partecipanti (creatore compreso, essendo anche lui un partecipante dal
+        // 23/09/2026 — vedi GestisciComando, case "Crea").
+        public static bool ChiudiAttaccoCooperativo(string idAttacco, string username, Guid clientGuid)
+        {
+            if (!AttacchiInCorso.ContainsKey(idAttacco))
+            {
+                Send(clientGuid, $"Log_Server|Attacco con ID {idAttacco} non trovato.");
+                return false;
+            }
+
+            var attacco = AttacchiInCorso[idAttacco];
+            if (attacco.CreatoreUsername != username)
+            {
+                Send(clientGuid, $"Log_Server|Solo il creatore può chiudere questo raduno.");
+                return false;
+            }
+
+            if (attacco.AttaccoInCorso)
+            {
+                Send(clientGuid, $"Log_Server|Non puoi chiudere un raduno già avviato.");
+                return false;
+            }
+
+            RestituisciTruppeECancella(attacco, "chiuso dal creatore");
+            return true;
+        }
+
         // Aggiorna lo stato di tutti gli attacchi (da chiamare nel ciclo di gioco)
         public static void AggiornaAttacchi()
         {
@@ -1278,20 +1322,64 @@ namespace Server_Strategico.Gioco
             switch (msgArgs[3])
             {
                 case "Crea":
-                    // Formato (esteso il 22/09/2026 su richiesta dell'utente): Raduno|Crea|<tipo>|<bersaglio>|<alleanza>
+                    // Formato (esteso il 23/09/2026 su richiesta dell'utente: "chi crea il raduno dovrebbe
+                    // poterci entrare subito con le proprie truppe, altrimenti resta fuori dal proprio
+                    // stesso raduno" — prima si creava il raduno vuoto e il creatore doveva poi premere
+                    // "Partecipa" su di esso come qualunque altro giocatore. Esteso di nuovo lo stesso
+                    // giorno con <durataMinuti>, su richiesta dell'utente: "il giocatore dovrebbe poter
+                    // scegliere i tempi di attesa del raduno"):
+                    // Raduno|Crea|<tipo>|<bersaglio>|<alleanza>|<durataMinuti>|<G1..G5>|<L1..L5>|<A1..A5>|<C1..C5>
                     //  - <tipo> = "Barbaro" -> <bersaglio> è il livello (1-20) della Città Barbara.
                     //  - <tipo> = "PVP" -> <bersaglio> è lo username del giocatore da attaccare.
-                    // <alleanza> è opzionale (true/false, default false) — raduno riservato all'alleanza del
-                    // creatore (Opzione B: finché non esiste un sistema di alleanze, solo il creatore lo vede/usa).
-                    if (msgArgs.Length < 6)
+                    //  - <alleanza> (true/false) — raduno riservato all'alleanza del creatore (Opzione B:
+                    //    finché non esiste un sistema di alleanze, solo il creatore lo vede/usa).
+                    //  - <durataMinuti> deve essere uno dei valori in DURATE_MINUTI_VALIDE (5/10/15/30/60/120).
+                    //  - G1..G5/L1..L5/A1..A5/C1..C5 (20 valori, stesso ordine/formato di "Partecipa") sono
+                    //    le truppe del creatore: deve selezionarne almeno una PRIMA di creare il raduno.
+                    if (msgArgs.Length < 28)
                     {
-                        Send(clientGuid, $"Log_Server|Parametri insufficienti. Usa: Raduno|Crea|<Barbaro|PVP>|<bersaglio>|<alleanza (opzionale, true/false)>");
+                        Send(clientGuid, $"Log_Server|Parametri insufficienti. Usa: Raduno|Crea|<Barbaro|PVP>|<bersaglio>|<alleanza>|<durataMinuti>|<G1..G5>|<L1..L5>|<A1..A5>|<C1..C5>");
                         return;
                     }
 
                     string tipoBersaglioCrea = msgArgs[4];
                     string bersaglioGrezzoCrea = msgArgs[5];
-                    bool alleanza = msgArgs.Length >= 7 && bool.TryParse(msgArgs[6], out bool alleanzaParsed) && alleanzaParsed;
+                    bool alleanza = bool.TryParse(msgArgs[6], out bool alleanzaParsed) && alleanzaParsed;
+
+                    if (!int.TryParse(msgArgs[7], out int durataMinutiCrea) || !DURATE_MINUTI_VALIDE.Contains(durataMinutiCrea))
+                    {
+                        Send(clientGuid, $"Log_Server|Durata non valida. Usa uno tra: {string.Join(", ", DURATE_MINUTI_VALIDE)} minuti.");
+                        return;
+                    }
+
+                    int[] guerrieriTierCrea = new int[5];
+                    int[] lancieriTierCrea = new int[5];
+                    int[] arcieriTierCrea = new int[5];
+                    int[] catapulteTierCrea = new int[5];
+                    try
+                    {
+                        for (int i = 0; i < 5; i++)
+                        {
+                            guerrieriTierCrea[i] = Convert.ToInt32(msgArgs[8 + i]);
+                            lancieriTierCrea[i] = Convert.ToInt32(msgArgs[13 + i]);
+                            arcieriTierCrea[i] = Convert.ToInt32(msgArgs[18 + i]);
+                            catapulteTierCrea[i] = Convert.ToInt32(msgArgs[23 + i]);
+                        }
+                    }
+                    catch (FormatException)
+                    {
+                        Send(clientGuid, $"Log_Server|Formato truppe non valido.");
+                        return;
+                    }
+
+                    // Controllo "almeno una truppa" fatto QUI, prima di creare il raduno: PartecipaDiAttacco
+                    // (riusata più sotto per farci entrare il creatore) lo rifiuterebbe comunque, ma a quel
+                    // punto il raduno sarebbe già stato creato e resterebbe vuoto/orfano.
+                    if (guerrieriTierCrea.Sum() == 0 && lancieriTierCrea.Sum() == 0 && arcieriTierCrea.Sum() == 0 && catapulteTierCrea.Sum() == 0)
+                    {
+                        Send(clientGuid, $"Log_Server|Seleziona almeno una truppa prima di creare il raduno.");
+                        return;
+                    }
 
                     if (tipoBersaglioCrea == "Barbaro")
                     {
@@ -1300,9 +1388,13 @@ namespace Server_Strategico.Gioco
                             Send(clientGuid, $"Log_Server|Livello bersaglio non valido (1-20).");
                             return;
                         }
-                        string idNuovoAttaccoBarbaro = CreaAttaccoCooperativo(player.Username, "Barbaro", livelloTarget, null, alleanza);
+                        string idNuovoAttaccoBarbaro = CreaAttaccoCooperativo(player.Username, "Barbaro", livelloTarget, null, alleanza, durataMinutiCrea);
                         Send(clientGuid, $"Log_Server|Nuovo raduno creato contro Città Barbaro Lv.{livelloTarget}! ID: {idNuovoAttaccoBarbaro}");
                         Send(clientGuid, $"Raduno|Creato|{idNuovoAttaccoBarbaro}");
+                        // Il creatore entra subito nel proprio raduno con le truppe appena selezionate —
+                        // stessa validazione/detrazione già usata da "Partecipa" (disponibilità per tier,
+                        // log di conferma, notifica agli altri partecipanti — qui non ce ne sono ancora).
+                        PartecipaDiAttacco(idNuovoAttaccoBarbaro, player.Username, guerrieriTierCrea, lancieriTierCrea, arcieriTierCrea, catapulteTierCrea, clientGuid);
                     }
                     else if (tipoBersaglioCrea == "PVP")
                     {
@@ -1343,9 +1435,11 @@ namespace Server_Strategico.Gioco
                             return;
                         }
 
-                        string idNuovoAttaccoPvp = CreaAttaccoCooperativo(player.Username, "PVP", 0, bersaglioPlayer.Username, alleanza);
+                        string idNuovoAttaccoPvp = CreaAttaccoCooperativo(player.Username, "PVP", 0, bersaglioPlayer.Username, alleanza, durataMinutiCrea);
                         Send(clientGuid, $"Log_Server|Nuovo raduno creato contro il giocatore {bersaglioPlayer.Username}! ID: {idNuovoAttaccoPvp}");
                         Send(clientGuid, $"Raduno|Creato|{idNuovoAttaccoPvp}");
+                        // Vedi commento sul ramo "Barbaro" qui sopra.
+                        PartecipaDiAttacco(idNuovoAttaccoPvp, player.Username, guerrieriTierCrea, lancieriTierCrea, arcieriTierCrea, catapulteTierCrea, clientGuid);
                     }
                     else
                     {
@@ -1412,6 +1506,19 @@ namespace Server_Strategico.Gioco
                     await IniziaAttaccoCooperativo(idAttaccoInizio, clientGuid);
                     break;
 
+                case "Chiudi":
+                    // 23/09/2026, su richiesta dell'utente: il creatore può chiudere il raduno prima che
+                    // scada il tempo — restituisce le truppe a tutti i partecipanti (vedi ChiudiAttaccoCooperativo).
+                    if (msgArgs.Length < 5)
+                    {
+                        Send(clientGuid, $"Log_Server|Parametri insufficienti. Usa: Raduno|Chiudi|<idAttacco>");
+                        return;
+                    }
+
+                    string idAttaccoChiudi = msgArgs[4];
+                    await Task.Run(() => ChiudiAttaccoCooperativo(idAttaccoChiudi, player.Username, clientGuid));
+                    break;
+
                 case "Lista":
                     GetListaAttacchi(clientGuid, player.Username);
                     break;
@@ -1421,7 +1528,7 @@ namespace Server_Strategico.Gioco
                     break;
 
                 default:
-                    Send(clientGuid, $"Log_Server|Azione non riconosciuta. Azioni disponibili: Crea, Partecipa, Abbandona, Inizia, Lista, MieiAttacchi");
+                    Send(clientGuid, $"Log_Server|Azione non riconosciuta. Azioni disponibili: Crea, Partecipa, Abbandona, Inizia, Chiudi, Lista, MieiAttacchi");
                     break;
             }
         }

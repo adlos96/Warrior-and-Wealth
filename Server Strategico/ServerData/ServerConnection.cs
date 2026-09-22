@@ -595,12 +595,6 @@ namespace Server_Strategico.Server
             catapulte[3] = Convert.ToInt32(dati[23]);
             catapulte[4] = Convert.ToInt32(dati[24]);
 
-            // BUGFIX (2026-09-21, segnalato dall'utente): mancava la verifica che il giocatore disponesse
-            // davvero delle truppe dichiarate. Sia BattagliaPVE.Battaglia che BattagliaPVP.Battaglia risolvono
-            // lo scontro con i numeri ricevuti dal client e solo DOPO sottraggono le perdite dall'esercito reale
-            // (player.Guerrieri[i] -= perditeAttaccante...) — senza questo controllo un giocatore poteva
-            // dichiarare un esercito mai posseduto, vincere gratis e portare il proprio conteggio truppe sotto
-            // zero. Stesso controllo (negativi + disponibilità per tier) già usato in Raduni.cs/PartecipaDiAttacco.
             for (int i = 0; i < 5; i++)
             {
                 if (guerrieri[i] < 0 || picchieri[i] < 0 || arcieri[i] < 0 || catapulte[i] < 0)
@@ -628,14 +622,6 @@ namespace Server_Strategico.Server
                     Catapulte = catapulte
                 };
                 await ServerData.Moduli.Battaglie.BattagliaPVE.Battaglia(player, clientGuid, dati[3], Convert.ToInt32(dati[4]), attackerUnitsPVE);
-
-                /* --- PERCORSO LEGACY (disattivato il 2026-09-14, tenuto come riferimento finché i test sul nuovo percorso
-                   non danno l'ok — poi va eliminato insieme a BattaglieV2.Battaglia_Barbari e i suoi helper) ---
-                if (dati[3] == "Villaggio Barbaro")
-                    await BattaglieV2.Battaglia_Barbari(player, clientGuid, "Villaggio Barbaro", dati[4], guerrieri, picchieri, arcieri, catapulte);
-                if (dati[3] == "Città Barbaro")
-                    await BattaglieV2.Battaglia_Barbari(player, clientGuid, "Città Barbaro", dati[4], guerrieri, picchieri, arcieri, catapulte);
-                */
             }
 
             AggiornaVillaggiClient(player);
@@ -660,21 +646,6 @@ namespace Server_Strategico.Server
                     Catapulte = catapulte
                 };
                 await Server_Strategico.ServerData.Moduli.Battaglie.BattagliaPVP.Battaglia(player, difensore, attackerUnitsNuovo);
-
-                /* --- PERCORSO LEGACY (disattivato il 2026-09-14, tenuto come riferimento finché i test sul nuovo percorso
-                   non danno l'ok — poi va eliminato insieme a BattaglieV2.Battaglia_Strutture_PvP/Battaglia_PvP) ---
-                var attackerUnits = new BattaglieV2.UnitGroup
-                {
-                    Guerrieri = guerrieri,
-                    Lancieri = picchieri,
-                    Arcieri = arcieri,
-                    Catapulte = catapulte
-                };
-                BattaglieV2.BattleResult result = await BattaglieV2.Battaglia_Strutture_PvP(player, difensore, clientGuid, difensore.guid_Player, attackerUnits);
-                if (result.Struttura == "Castello" && result.Victory == true)
-                    BattaglieV2.Battaglia_PvP(player, difensore, clientGuid, difensore.guid_Player, result.AttaccantePerdite.Guerrieri, result.AttaccantePerdite.Lancieri, result.AttaccantePerdite.Arcieri, result.AttaccantePerdite.Catapulte);
-                */
-
                 Server.GameServer.GuerrieriCitta(player);
             }
         }
@@ -1001,7 +972,6 @@ namespace Server_Strategico.Server
                 player.Riparazioni[i] = false;
                 i++;
             }
-
         }
 
         public static void SpostamentoTruppe(Guid guid, Player player, string[] dati)
@@ -1109,11 +1079,6 @@ namespace Server_Strategico.Server
                 Server.Send(player.guid_Player, $"Log_Server|Scambiati [warning][icon:dollariVirtuali]{tributi} Tributi --> [icon:diamanteViola][warning]{tributi * Variabili_Server.D_Viola_To_Blu}[viola] Diamanti Viola");
             }
         }
-        // 16/09/2026: nuovo punto di ingresso per lo spionaggio, chiamato dal case "Esplora" —
-        // il nome del comando client resta invariato, cambia solo il payload (vedi il case sopra).
-        // PVP: bersaglio = username del giocatore da spiare, livelloStr = null.
-        // PVE: bersaglio = "Citta Barbaro" / "Villaggio Barbaro" (stesso valore che aveva "globale"
-        //      nel vecchio Esplora), livelloStr = livello del barbaro bersaglio.
         public static void EseguiSpionaggioRichiesta(Player attaccante, string modalità, string bersaglio, string livelloStr)
         {
             if (modalità == "PVP")
@@ -1152,124 +1117,6 @@ namespace Server_Strategico.Server
             Spionaggio.EseguiSpionaggioPVE(target, attaccante);
         }
 
-        // 16/09/2026: deprecato a favore del nuovo spionaggio (vedi Spionaggio.EseguiSpionaggio/
-        // SpionaggioPVE), che sostituisce la stima ±20% con la stessa meccanica forza/precisione/
-        // stadio già usata nel PVP e produce un vero Report invece di un semplice aggiornamento
-        // della lista. Lasciato qui invariato: non più raggiungibile dal case "Esplora" (che ora
-        // chiama EseguiSpionaggioRichiesta sopra), ma il metodo resta finché non si è sicuri che
-        // nient'altro lo richiami.
-        [Obsolete("Sostituito da EseguiSpionaggioRichiesta / Spionaggio.EseguiSpionaggio (PVE).")]
-        public static void Esplora(Player player, int livello_Barbaro, string globale)
-        {
-            BarbarianBase target;
-
-            if (globale == "Citta Barbaro")
-                target = Gioco.Barbari.CittaGlobali.FirstOrDefault(c => c.Livello == livello_Barbaro); // Cerca la città globale del livello richiesto
-            else if (globale == "Villaggio Barbaro")
-                target = player.VillaggiPersonali.FirstOrDefault(v => v.Livello == livello_Barbaro); // Cerca il villaggio personale del giocatore
-            else target = null;
-
-            if (target == null)
-            {
-                var errore = new
-                {
-                    Type = "ErroreEsplorazione",
-                    Messaggio = "Barbaro non trovato."
-                };
-                Server.Send(player.guid_Player, JsonSerializer.Serialize(errore));
-                return;
-            }
-
-            var (gw, ln, ar, ct) = Gioco.Barbari.EsploraTruppe(player, target); // Chiama la funzione che restituisce le truppe stimate
-            if (gw == -1) // Controlla se c'è abbastanza oro
-            {
-                var errore = new
-                {
-                    Type = "ErroreEsplorazione",
-                    Messaggio = "Non hai abbastanza oro per esplorare."
-                };
-                Server.Send(player.guid_Player, JsonSerializer.Serialize(errore));
-                return;
-            }
-
-            if (globale == "Villaggio Barbaro") // --- Villaggi personali ---
-            {
-                OnEvent(player, QuestEventType.Battaglie, "Esplora Villaggio Barbaro", 1); //Quest
-                OnEvent(player, QuestEventType.Battaglie, "Esplora Qualsiasi", 1); //Quest
-                var villaggiDaInviare = new List<object>();
-                for (int i = 0; i < player.VillaggiPersonali.Count; i++)
-                {
-                    var v = player.VillaggiPersonali[i];
-                    if (i == 0 || player.VillaggiPersonali[i - 1].Sconfitto) // Primo villaggio sempre inviato, gli altri solo se il precedente è sconfitto
-                        villaggiDaInviare.Add(new
-                        {
-                            v.Id,
-                            v.Nome,
-                            v.Livello,
-                            Esperienza = v.Esperienza,
-                            Diamanti_Viola = v.Diamanti_Viola,
-                            Diamanti_Blu = v.Diamanti_Blu,
-                            Esplorato = v.Esplorato,
-                            Sconfitto = v.Sconfitto,
-                            Cibo = v.Cibo,
-                            Legno = v.Legno,
-                            Pietra = v.Pietra,
-                            Ferro = v.Ferro,
-                            Oro = v.Oro,
-                            Guerrieri = gw,
-                            Lancieri = ln,
-                            Arcieri = ar,
-                            Catapulte = ct
-                        });
-                    else break;
-                }
-
-                var villaggiUpdate = new
-                {
-                    Type = "VillaggiPersonali",
-                    Dati = villaggiDaInviare
-                };
-                Server.Send(player.guid_Player, JsonSerializer.Serialize(villaggiUpdate));
-            }else
-            {
-                var cittaDaInviare = new List<object>();
-                OnEvent(player, QuestEventType.Battaglie, "Esplora Villaggio Barbaro", 1); //Quest
-                OnEvent(player, QuestEventType.Battaglie, "Esplora Qualsiasi", 1); //Quest
-                for (int i = 0; i < CittaGlobali.Count; i++)
-                {
-                    var v = CittaGlobali[i];
-                    if (i == 0 || CittaGlobali[i - 1].Sconfitto) // Primo villaggio sempre inviato, gli altri solo se il precedente è sconfitto
-                        cittaDaInviare.Add(new
-                        {
-                            v.Id,
-                            v.Nome,
-                            v.Livello,
-                            Esperienza = v.Esperienza,
-                            Diamanti_Viola = v.Diamanti_Viola,
-                            Diamanti_Blu = v.Diamanti_Blu,
-                            Esplorato = v.Esplorato,
-                            Sconfitto = v.Sconfitto,
-                            Cibo = v.Cibo,
-                            Legno = v.Legno,
-                            Pietra = v.Pietra,
-                            Ferro = v.Ferro,
-                            Oro = v.Oro,
-                            Guerrieri = gw,
-                            Lancieri = ln,
-                            Arcieri = ar,
-                            Catapulte = ct
-                        });
-                    else break;
-                }
-
-                var cittaUpdate = new
-                {
-                    Type = "CittaGlobali",
-                    Dati = cittaDaInviare
-                };
-                Server.Send(player.guid_Player, JsonSerializer.Serialize(cittaUpdate));
-            }
-        }
         static async void Quest_Reward(string[] msgArgs, Player player, Guid guid)
         {
             bool premioRaccolto = false;
@@ -1614,27 +1461,13 @@ namespace Server_Strategico.Server
 
             string payload = JsonConvert.SerializeObject(player.Report);
             Server.Send(guid, $"Update_Data|Report_Lista|{payload}");
-            // 16/09/2026: sincronizza il contatore usato da Update_Data per capire
-            // se sono arrivati nuovi referti da mandare "in diretta" — altrimenti
-            // il primo tick periodico dopo il login rimanderebbe subito lo stesso
-            // identico Report_Lista appena inviato qui sopra.
+
             player.Snapshot.SyncReportCount(player.Report.Count);
 
-            // 16/09/2026, su richiesta dell'utente: la Cronologia (player.Cronologia,
-            // popolata da Server.Send ad ogni Log_Server) viene rimandata al login come
-            // blocco unico via JSON, stesso schema di Report_Lista qui sopra — non tramite
-            // singoli messaggi "Log_Server|..." individuali, che verrebbero ri-registrati
-            // in Cronologia da Server.Send creando duplicati ad ogni ricollegamento.
             string cronologiaPayload = JsonConvert.SerializeObject(player.Cronologia);
             Server.Send(guid, $"Update_Data|Cronologia_Lista|{cronologiaPayload}");
         }
 
-        // 16/09/2026, su richiesta dell'utente: elimina un referto dalla lista personale
-        // del giocatore (player.Report). L'indice arriva dal client riferito all'ultimo
-        // Report_Lista ricevuto — non è un Id persistente sul referto, quindi va sempre
-        // validato per intero e per range prima di usarlo (un vecchio indice rimasto nel
-        // client dopo che la lista è già cambiata non deve poter mai andare fuori dai
-        // limiti o cancellare il referto sbagliato).
         public static void Elimina_Report(Player player, Guid clientGuid, string indiceStr)
         {
             if (!int.TryParse(indiceStr, out int indice) || indice < 0 || indice >= player.Report.Count)
@@ -1645,19 +1478,11 @@ namespace Server_Strategico.Server
 
             player.Report.RemoveAt(indice);
 
-            // Rimanda subito la lista aggiornata (stesso formato di Update_Data_OneTime/
-            // Update_Data) invece di aspettare il prossimo tick del game loop, così il
-            // referto sparisce subito dalla UI del giocatore che l'ha eliminato.
             string payloadAggiornato = JsonConvert.SerializeObject(player.Report);
             Server.Send(clientGuid, $"Update_Data|Report_Lista|{payloadAggiornato}");
             player.Snapshot.SyncReportCount(player.Report.Count);
         }
 
-        // 16/09/2026, su richiesta dell'utente: svuota la cronologia messaggi salvata
-        // lato server per questo giocatore (player.Cronologia). Azione totale, non a
-        // singolo indice: il client cancella la propria vista locale in ottimistico e
-        // il server è la fonte di verità che verrà persistita/ricaricata al prossimo
-        // salvataggio (vedi GameSave.cs, "_Cronologia.json").
         public static void Elimina_Cronologia(Player player, Guid clientGuid)
         {
             player.Cronologia.Clear();
@@ -1674,92 +1499,60 @@ namespace Server_Strategico.Server
             var delta = player.Snapshot.BuildDelta(current);
             if (delta != null) Server.Send(guid, delta);
 
-            // 16/09/2026, su richiesta dell'utente: i referti (player.Report) vengono
-            // rilevati e inviati "in diretta" automaticamente ad ogni tick, invece di
-            // richiedere che ogni punto del codice che ne crea uno (battaglie PVP/PVE,
-            // spionaggio, e in futuro altri) se ne ricordi da solo — prima, ad esempio,
-            // lo spionaggio non lo faceva e il referto arrivava al client solo al
-            // prossimo login. Non passa dal delta sopra: vedi il commento su
-            // _lastReportCount in PlayerSnapshot.cs per il perché (il carattere "|"
-            // nel JSON corromperebbe il protocollo). Stesso formato già usato da
-            // Update_Data_OneTime al login.
             if (player.Snapshot.ReportCountChanged(player.Report.Count))
             {
                 string reportPayload = JsonConvert.SerializeObject(player.Report);
                 Server.Send(guid, $"Update_Data|Report_Lista|{reportPayload}");
             }
+            
+            var raduniAperti = AttacchiCooperativi.AttacchiInCorso.Values
+                .Where(a => !a.Alleanza || a.CreatoreUsername == player.Username)
+                .Select(a => new
+                {
+                    Creatore = a.CreatoreUsername,
+                    Id = a.IdAttacco,
+                    TipoBersaglio = a.TipoBersaglio,
+                    LivelloTarget = a.LivelloTarget,
+                    BersaglioUsername = a.BersaglioUsername,
+                    Partecipanti = a.GiocatoriPartecipanti.Count,
+                    MinutiRimanenti = a.TempoRimanente / 60,
+                    Alleanza = a.Alleanza
+                })
+                .ToList();
 
-            // 21/09/2026, su richiesta dell'utente: il vecchio formato posizionale a trattini/pipe
-            // ("Raduno|creatore-id-min-..." / "Raduni_Player|...") è stato convertito in un unico
-            // pacchetto JSON, sullo stesso modello già usato da QuestManager per QuestUpdate — evita
-            // sia il rischio di un "-" o "|" dentro uno username sia l'aggiunta di altri segmenti
-            // posizionali (es. Alleanza) man mano che il sistema cresce. "Aperti" applica il filtro
-            // Opzione B: i raduni Alleanza=true creati da altri non sono inclusi per questo giocatore.
-            //
-            // BUGFIX (2026-09-22, segnalato dall'utente — creava il raduno ma il client non vedeva
-            // nulla): questo blocco era racchiuso in "if (player.Livello >= Variabili_Server.PVP_Unlock)",
-            // copiato per errore dal blocco PVP subito sotto. I Raduni sono contenuto PVE (contro le
-            // Città Barbare, vedi Raduni.cs) e il comando "Raduno" (case "Raduno" più sopra in questo
-            // file) non ha MAI avuto un controllo di livello: un giocatore sotto il livello di sblocco
-            // PVP poteva creare/partecipare a un raduno regolarmente, ma non riceveva mai il pacchetto
-            // "RaduniUpdate" che popola la UI, quindi la vedeva sempre vuota. Rimosso il gate: chi può
-            // usare il comando ora riceve anche gli aggiornamenti.
-            {
-                var raduniAperti = AttacchiCooperativi.AttacchiInCorso.Values
-                    .Where(a => !a.Alleanza || a.CreatoreUsername == player.Username)
-                    .Select(a => new
+            var miePartecipazioni = AttacchiCooperativi.AttacchiInPlayer.Values
+                .Where(a => a.GiocatoriPartecipanti.ContainsKey(player.Username))
+                .Select(a =>
+                {
+                    var truppe = a.GiocatoriPartecipanti[player.Username];
+                    return new
                     {
                         Creatore = a.CreatoreUsername,
                         Id = a.IdAttacco,
-                        // LivelloTarget/Partecipanti (22/09/2026, su richiesta dell'utente: costruzione del
-                        // client Raduni): indispensabili per la UI — senza sapere il bersaglio e quanti hanno
-                        // già aderito, il giocatore non può decidere se partecipare.
-                        // TipoBersaglio/BersaglioUsername (22/09/2026, su richiesta dell'utente: il bersaglio
-                        // può ora essere anche un giocatore, non solo una Città Barbara — vedi Raduni.cs):
-                        // BersaglioUsername resta null per i raduni "Barbaro".
                         TipoBersaglio = a.TipoBersaglio,
                         LivelloTarget = a.LivelloTarget,
                         BersaglioUsername = a.BersaglioUsername,
-                        Partecipanti = a.GiocatoriPartecipanti.Count,
                         MinutiRimanenti = a.TempoRimanente / 60,
-                        Alleanza = a.Alleanza
-                    })
-                    .ToList();
+                        AttaccoInCorso = a.AttaccoInCorso,
+                        Guerrieri = truppe.Guerrieri.Sum(),
+                        Lanceri = truppe.Lanceri.Sum(),
+                        Arceri = truppe.Arceri.Sum(),
+                        Catapulte = truppe.Catapulte.Sum()
+                    };
+                })
+                .ToList();
 
-                var miePartecipazioni = AttacchiCooperativi.AttacchiInPlayer.Values
-                    .Where(a => a.GiocatoriPartecipanti.ContainsKey(player.Username))
-                    .Select(a =>
-                    {
-                        var truppe = a.GiocatoriPartecipanti[player.Username];
-                        return new
-                        {
-                            Creatore = a.CreatoreUsername,
-                            Id = a.IdAttacco,
-                            TipoBersaglio = a.TipoBersaglio,
-                            LivelloTarget = a.LivelloTarget,
-                            BersaglioUsername = a.BersaglioUsername,
-                            MinutiRimanenti = a.TempoRimanente / 60,
-                            AttaccoInCorso = a.AttaccoInCorso,
-                            Guerrieri = truppe.Guerrieri.Sum(),
-                            Lanceri = truppe.Lanceri.Sum(),
-                            Arceri = truppe.Arceri.Sum(),
-                            Catapulte = truppe.Catapulte.Sum()
-                        };
-                    })
-                    .ToList();
-
-                if (raduniAperti.Count > 0 || miePartecipazioni.Count > 0)
+            if (raduniAperti.Count > 0 || miePartecipazioni.Count > 0)
+            {
+                string raduniJson = JsonConvert.SerializeObject(new
                 {
-                    string raduniJson = JsonConvert.SerializeObject(new
-                    {
-                        Type = "RaduniUpdate",
-                        Aperti = raduniAperti,
-                        MiePartecipazioni = miePartecipazioni
-                    });
-                    Server.Send(guid, raduniJson);
-                }
+                    Type = "RaduniUpdate",
+                    Aperti = raduniAperti,
+                    MiePartecipazioni = miePartecipazioni
+                });
+                Server.Send(guid, raduniJson);
             }
-
+            
             // Filtra giocatori con potenza simile (ad esempio ±20%)
             if (player.Livello >= Variabili_Server.PVP_Unlock)
             {
