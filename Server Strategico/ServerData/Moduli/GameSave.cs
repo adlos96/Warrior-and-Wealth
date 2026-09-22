@@ -88,13 +88,41 @@ namespace Server_Strategico.ServerData.Moduli
             // momentaneo del file — antivirus, backup, un altro processo — a mandare in
             // eccezione questa riga). Prima non c'era nessun try/catch: l'eccezione
             // risaliva fuori da Console.WriteLine e faceva crashare l'INTERO server per
-            // un problema che riguardava solo il file di log, non il gioco. Ora un errore
-            // di scrittura sul file viene ignorato (il gioco continua, si perde solo quella
-            // riga nel .log) invece di uscire dal metodo, e dopo il primo errore si smette
-            // di riprovare a scrivere sul file per il resto della sessione — se il file è
-            // diventato inaccessibile in modo permanente (es. disco pieno), niente riprova
-            // migliaia di volte al secondo per ogni carattere stampato in console.
-            private bool _fileLoggingDisabilitato = false;
+            // un problema che riguardava solo il file di log, non il gioco.
+            //
+            // AGGIORNATO 22/09/2026 (su richiesta dell'utente, stesso motivo del fix analogo
+            // sul lato console qui sotto): non si disabilita più per sempre dopo il primo
+            // errore — quel comportamento lasciava il .log muto per il resto della sessione
+            // anche se il blocco era temporaneo (antivirus/backup finiti, disco tornato con
+            // spazio, ecc.). Ora si riprova ogni 30 secondi, stesso schema di
+            // _prossimoTentativoConsoleUtc: un errore mette in pausa i tentativi fino al
+            // prossimo controllo (niente eccezioni a raffica, una per carattere, se il file
+            // resta bloccato a lungo), ma la scrittura riprende da sola appena torna
+            // possibile.
+            private DateTime _prossimoTentativoFileUtc = DateTime.MinValue;
+            private static readonly TimeSpan IntervalloRitentativoFile = TimeSpan.FromSeconds(30);
+
+            // BUGFIX (2026-09-22, segnalato dall'utente — crash intermittente "Unknown error
+            // (0x4005)" durante Barbari.Inizializza, cioè un normale Console.WriteLine chiamato
+            // all'avvio): stesso identico problema del 19/09/2026 sopra, ma sul lato CONSOLE
+            // invece che sul file — _console.Write(value) non era protetto da try/catch. La
+            // console diventa non scrivibile quando la sessione che l'ha aperta sparisce (RDP
+            // disconnesso, finestra del terminale chiusa, output rediretto a una pipe il cui
+            // lettore si è chiuso — l'errore Windows 0x4005/ERROR_NO_DATA è esattamente questo),
+            // e l'eccezione risaliva da QUALSIASI Console.WriteLine sparso nel codice, facendo
+            // crashare l'intero server per un problema che riguarda solo l'eco a video, non il
+            // gioco.
+            //
+            // Stesso schema di _prossimoTentativoFileUtc sopra: NON disabilitiamo per sempre
+            // dopo il primo errore (prima versione di questo fix, corretta subito dopo perché
+            // lasciava il server "cieco" in console per il resto della sessione anche se la
+            // console fosse tornata scrivibile poco dopo — es. sessione RDP riconnessa). Invece
+            // si riprova ogni 30 secondi: un errore mette in pausa i tentativi fino al prossimo
+            // controllo (evita comunque una "tempesta" di eccezioni, una per ogni carattere,
+            // se la console resta rotta per un pezzo), ma la scrittura riprende da sola non
+            // appena torna possibile, senza bisogno di riavviare il server.
+            private DateTime _prossimoTentativoConsoleUtc = DateTime.MinValue;
+            private static readonly TimeSpan IntervalloRitentativoConsole = TimeSpan.FromSeconds(30);
 
             public TeeTextWriter(TextWriter console, TextWriter file)
             {
@@ -106,9 +134,19 @@ namespace Server_Strategico.ServerData.Moduli
 
             public override void Write(char value)
             {
-                _console.Write(value);
+                if (DateTime.UtcNow >= _prossimoTentativoConsoleUtc)
+                {
+                    try
+                    {
+                        _console.Write(value);
+                    }
+                    catch (IOException)
+                    {
+                        _prossimoTentativoConsoleUtc = DateTime.UtcNow.Add(IntervalloRitentativoConsole);
+                    }
+                }
 
-                if (_fileLoggingDisabilitato) return;
+                if (DateTime.UtcNow < _prossimoTentativoFileUtc) return;
 
                 try
                 {
@@ -123,8 +161,14 @@ namespace Server_Strategico.ServerData.Moduli
                 }
                 catch (IOException ex)
                 {
-                    _fileLoggingDisabilitato = true;
-                    _console.WriteLine($"\n[GameSave] Scrittura sul file di log fallita, disabilitato per il resto della sessione: {ex.Message}");
+                    // Il controllo "DateTime.UtcNow < _prossimoTentativoFileUtc" sopra fa sì che
+                    // questo catch scatti al più una volta ogni 30s (non una volta per carattere),
+                    // quindi l'avviso qui sotto non spamma la console. Try/catch proprio perché in
+                    // teoria potrebbe fallire anche questa scrittura (console e file rotti insieme):
+                    // in quel caso semplicemente non si vede l'avviso, non si crasha per questo.
+                    _prossimoTentativoFileUtc = DateTime.UtcNow.Add(IntervalloRitentativoFile);
+                    try { _console.WriteLine($"\n[GameSave] Scrittura sul file di log momentaneamente non riuscita, ritento tra {IntervalloRitentativoFile.TotalSeconds:0}s: {ex.Message}"); }
+                    catch (IOException) { /* ignora: la console stessa è giù in questo momento */ }
                 }
             }
         }

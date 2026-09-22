@@ -70,7 +70,11 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
             }
             return defenderUnits;
         }
-        static void AggiornaDatiStruttureDifensore(int struttura, Giocatori.Player difensore, RisultatoFase result)
+        // BUGFIX (2026-09-22, su richiesta dell'utente): da "private" (default, nessun modificatore)
+        // a "internal" — serve a Raduni.cs (AttacchiCooperativi.EseguiBattagliaCooperativaPVP) per i
+        // raduni contro giocatori, stesso motivo/pattern già usato in BattagliaPVE.cs per i raduni
+        // contro le Città Barbare (vedi il commento in cima a quel file).
+        internal static void AggiornaDatiStruttureDifensore(int struttura, Giocatori.Player difensore, RisultatoFase result)
         {
             if (struttura == 1)
             {
@@ -192,7 +196,9 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
                 difensore.Catapulte = result.Difensore.Sopravvisuti.Catapulte;
             }
         }
-        private static int CalcolaEsperienzaPVP(UnitGroup casualties)
+        // BUGFIX (2026-09-22): da "private" a "internal", stesso motivo del commento sopra
+        // (AggiornaDatiStruttureDifensore) — riusata dal raduno PVP in Raduni.cs.
+        internal static int CalcolaEsperienzaPVP(UnitGroup casualties)
         {
             int esperienza = 0;
             for (int i = 0; i < 5; i++)
@@ -205,7 +211,10 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
             }
             return esperienza;
         }
-        private static BattagliaDistanza CalcolaAttaccoDistanza_(UnitGroup units, Giocatori.Player player, BattagliaDistanza result, bool difensore)
+        // BUGFIX (2026-09-22): da "private" a "internal", stesso motivo del commento sopra
+        // (AggiornaDatiStruttureDifensore) — riusata dal raduno PVP in Raduni.cs, una volta per
+        // ciascun partecipante (ogni truppa spara con le PROPRIE statistiche/frecce, non un pool).
+        internal static BattagliaDistanza CalcolaAttaccoDistanza_(UnitGroup units, Giocatori.Player player, BattagliaDistanza result, bool difensore)
         {
             int totaleArceri = units.Arcieri.Sum();
             int totaleCatapulte = units.Catapulte.Sum();
@@ -269,7 +278,10 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
             }
             return result;
         }
-        private static double CalcolaDannoGiocatore(UnitGroup units, Giocatori.Player player, bool usaFrecce, bool attaccante, RisultatoFase result)
+        // BUGFIX (2026-09-22): da "private" a "internal", stesso motivo del commento sopra
+        // (AggiornaDatiStruttureDifensore) — riusata dal raduno PVP in Raduni.cs, una volta per
+        // ciascun partecipante nella fase corpo a corpo.
+        internal static double CalcolaDannoGiocatore(UnitGroup units, Giocatori.Player player, bool usaFrecce, bool attaccante, RisultatoFase result)
         {
             double dannoTotale = 0, moltiplicatoreDistanza = 1.0;
             int frecceNecessarie = CalcoloFrecce(units);
@@ -308,7 +320,13 @@ namespace Server_Strategico.ServerData.Moduli.Battaglie
             }
             return dannoTotale;
         }
-        private static RisultatoFase ApplicaDanniGiocatore(RisultatoFase battle, UnitGroup units, Giocatori.Player player, double dannoPerTipo, double bonusUnità, bool attacco)
+        // BUGFIX (2026-09-22): da "private" a "internal", stesso motivo del commento sopra
+        // (AggiornaDatiStruttureDifensore) — riusata dal raduno PVP in Raduni.cs: nella fase corpo
+        // a corpo, lo stesso "dannoPerTipo" (calcolato una volta sul totale attaccanti/difensore) va
+        // applicato indipendentemente al pool truppe di CIASCUN partecipante (le sue proprie difesa/
+        // salute fanno da moltiplicatore, esattamente come già succede nel raduno contro le Città
+        // Barbare in BattagliaPVE.ApplicaDanniAttaccante).
+        internal static RisultatoFase ApplicaDanniGiocatore(RisultatoFase battle, UnitGroup units, Giocatori.Player player, double dannoPerTipo, double bonusUnità, bool attacco)
         {
             for (int i = 0; i < 5; i++)
             {
