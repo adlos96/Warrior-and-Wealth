@@ -118,6 +118,13 @@ window.WW = window.WW || {};
       scambiaTributi: "Scambia Tributi",
       exchangeBlueSuffix: "diamanti blu per ogni diamante viola.",
       exchangeVioletSuffix: "diamanti viola per ogni tributo.",
+      prelievoBtn: "Preleva",
+      prelievoHint: "Converti i tuoi Tributi in USDT e prelevali sulla rete Polygon",
+      prelievoRapporto: "1 Tributo = 1 USDT",
+      prelievoDisponibile: "Disponibili:",
+      prelievoIndirizzo: "Il tuo indirizzo USDT (rete Polygon)",
+      prelievoImporto: "Importo da prelevare (Tributi / USDT)",
+      prelievoConferma: "Richiedi prelievo",
 
       // Pannello Strutture Civili/Militari/Caserme
       costruttori: "Costruttori:",
@@ -228,6 +235,13 @@ window.WW = window.WW || {};
       scambiaTributi: "Exchange Tributes",
       exchangeBlueSuffix: "blue diamonds for each violet diamond.",
       exchangeVioletSuffix: "violet diamonds for each tribute.",
+      prelievoBtn: "Withdraw",
+      prelievoHint: "Convert your Tributes into USDT and withdraw them on the Polygon network",
+      prelievoRapporto: "1 Tribute = 1 USDT",
+      prelievoDisponibile: "Available:",
+      prelievoIndirizzo: "Your USDT address (Polygon network)",
+      prelievoImporto: "Amount to withdraw (Tributes / USDT)",
+      prelievoConferma: "Request withdrawal",
 
       costruttori: "Builders:",
       civili: "Civilian",

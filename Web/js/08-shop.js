@@ -98,6 +98,16 @@ window.WW = window.WW || {};
         { nome: "GamePass Gold", comandoServer: "GamePass_Avanzato", costoChiave: "Pacchetto_GamePass_Avanzato_Costo", rewardChiave: "Pacchetto_GamePass_Avanzato_Reward", rewardUnit: "g", valuta: "usdt", funzionale: false, descChiave: "Shop GamePass Avanzato", icona: "GamePass_Gold.png" },
       ],
     },
+    // 23/09/2026: unico item USDT davvero collegato end-to-end al pagamento crypto (il resto
+    // sopra resta "Prossimamente" finché non viene agganciato l'accredito automatico lato server,
+    // vedi Shop.AccreditaAcquisto) — serve per i primi test reali su mainnet. Da rimuovere (o
+    // lasciare, è innocuo) una volta finiti i test.
+    {
+      titolo: "Test pagamento USDT",
+      items: [
+        { nome: "Test USDT → Diamanti Viola", comandoServer: "Test_USDT", costoChiave: "Pacchetto_Test_USDT_Costo", rewardChiave: "Pacchetto_Test_USDT_Reward", rewardUnit: "diamanti", valuta: "usdt", funzionale: true },
+      ],
+    },
   ];
 
   // Box descrizione ("ⓘ" sulla card): stesso meccanismo già usato in
@@ -294,10 +304,197 @@ window.WW = window.WW || {};
       const itemIdx = Number(li.dataset.item);
       const item = SHOP_CATEGORIE[catIdx].items[itemIdx];
       if (!item || !item.funzionale) return;
-      segnalaAcquisto(li, item);
+
+      // Gli item in USDT non accreditano nulla all'istante (serve prima il pagamento reale e le
+      // conferme sulla rete, vedi apriPagamento più sotto): niente animazione "+ricompensa"
+      // ottimistica come per i Diamanti, solo un avviso che la richiesta è partita — il popup di
+      // pagamento si apre da solo appena il server risponde "Pagamento|Creato".
+      if (item.valuta === "usdt") {
+        mostraToastShop(`Richiesta di pagamento inviata: ${item.nome}…`);
+      } else {
+        segnalaAcquisto(li, item);
+      }
       WW.NET.send("Shop", WW.AUTH.accessToken, item.comandoServer);
     });
   }
+
+  /* ---------- Popup "Pagamento USDT" (QR + stato) ----------
+     23/09/2026, su richiesta dell'utente ("puoi aggiornare il client...").
+     Si apre da solo quando il server risponde a un acquisto USDT con
+     "Pagamento|Creato|..." (vedi Shop.cs -> BlockchainManager.AvviaPagamentoItem),
+     mostra il QR code (precompila la transazione nel wallet dell'utente, che resta
+     comunque libero di ricontrollare/completare a mano — mai un invio automatico
+     dal sito) e tiene lo stato aggiornato interrogando il server ogni 8s finché la
+     bill non è pagata/scaduta/annullata. Gli errori (bill non trovata, hash già
+     usato, ecc.) arrivano come "Log_Server|..." e sono già mostrati in Cronologia
+     (WW.NET.on("Log_Server", ...) in 04-game-main.js) — qui non li duplichiamo. */
+  const pagamentoOverlay = document.getElementById("pagamento-overlay");
+  const pagamentoItemEl = document.getElementById("pagamento-item");
+  const pagamentoQrEl = document.getElementById("pagamento-qr");
+  const pagamentoImportoEl = document.getElementById("pagamento-importo");
+  const pagamentoDestinatarioEl = document.getElementById("pagamento-destinatario");
+  const pagamentoReteEl = document.getElementById("pagamento-rete");
+  const pagamentoScadenzaEl = document.getElementById("pagamento-scadenza");
+  const pagamentoStatoEl = document.getElementById("pagamento-stato");
+  const pagamentoHashInput = document.getElementById("pagamento-hash-input");
+  const btnPagamentoVerifica = document.getElementById("btn-pagamento-verifica");
+  const btnPagamentoAnnulla = document.getElementById("btn-pagamento-annulla");
+  const btnChiudiPagamento = document.getElementById("btn-chiudi-pagamento");
+
+  const CHAIN_NAMES = { 137: "Polygon (mainnet)", 80002: "Polygon Amoy (testnet)" };
+
+  let billAttiva = null; // { orderId, expiresAt: Date }
+  let pollTimer = null;
+  let countdownTimer = null;
+
+  function fermaPolling() {
+    if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+    if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
+  }
+
+  function chiudiPagamento() {
+    fermaPolling();
+    billAttiva = null;
+    if (pagamentoOverlay) pagamentoOverlay.hidden = true;
+  }
+
+  function impostaStatoPagamento(classeExtra, testo) {
+    if (!pagamentoStatoEl) return;
+    pagamentoStatoEl.textContent = testo;
+    pagamentoStatoEl.className = "pagamento__stato" + (classeExtra ? ` pagamento__stato--${classeExtra}` : "");
+  }
+
+  function testoStatoBill(status) {
+    switch (status) {
+      case "pending": return { classe: "", testo: "In attesa del pagamento…" };
+      case "confirming": return { classe: "confirming", testo: "Pagamento rilevato, in attesa delle conferme sulla rete…" };
+      case "paid": return { classe: "paid", testo: "Pagamento confermato! Ricompensa accreditata." };
+      case "expired": return { classe: "scaduto", testo: "Richiesta scaduta." };
+      case "cancelled": return { classe: "scaduto", testo: "Richiesta annullata." };
+      default: return { classe: "", testo: `Stato: ${status}` };
+    }
+  }
+
+  function aggiornaCountdownPagamento() {
+    if (!billAttiva || !pagamentoScadenzaEl) return;
+    const ms = billAttiva.expiresAt.getTime() - Date.now();
+    if (ms <= 0) {
+      pagamentoScadenzaEl.textContent = "Richiesta scaduta.";
+      impostaStatoPagamento("scaduto", "Richiesta scaduta — annulla e riprova.");
+      fermaPolling();
+      return;
+    }
+    const minuti = Math.floor(ms / 60000);
+    const secondi = Math.floor((ms % 60000) / 1000);
+    pagamentoScadenzaEl.textContent = `Scade tra ${minuti}m ${secondi}s`;
+  }
+
+  function apriPagamento(dati) {
+    fermaPolling();
+    billAttiva = { orderId: dati.orderId, expiresAt: new Date(dati.expiresAt) };
+
+    if (pagamentoItemEl) pagamentoItemEl.textContent = `Acquisto: ${dati.itemId}`;
+    if (pagamentoQrEl) pagamentoQrEl.src = `data:image/png;base64,${dati.qrBase64}`;
+    if (pagamentoImportoEl) pagamentoImportoEl.textContent = `${dati.importoEsatto} USDT`;
+    if (pagamentoDestinatarioEl) pagamentoDestinatarioEl.textContent = dati.recipient;
+    if (pagamentoReteEl) pagamentoReteEl.textContent = CHAIN_NAMES[dati.chainId] || `Chain ID ${dati.chainId}`;
+    if (pagamentoHashInput) pagamentoHashInput.value = "";
+    impostaStatoPagamento("", "In attesa del pagamento…");
+    aggiornaCountdownPagamento();
+
+    if (pagamentoOverlay) pagamentoOverlay.hidden = false;
+
+    countdownTimer = setInterval(aggiornaCountdownPagamento, 1000);
+    // Interroga lo stato ogni 8s finché la bill resta aperta — smette da sola su paid/expired/
+    // cancelled (vedi handler "Stato" sotto) o quando l'utente chiude/annulla il popup.
+    pollTimer = setInterval(() => {
+      if (!billAttiva) return;
+      WW.NET.send("Pagamento", WW.AUTH.accessToken, "Stato", billAttiva.orderId);
+    }, 8000);
+  }
+
+  if (btnChiudiPagamento) btnChiudiPagamento.addEventListener("click", chiudiPagamento);
+  if (pagamentoOverlay) {
+    pagamentoOverlay.addEventListener("click", (e) => { if (e.target === pagamentoOverlay) chiudiPagamento(); });
+  }
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && pagamentoOverlay && !pagamentoOverlay.hidden) chiudiPagamento();
+  });
+
+  if (btnPagamentoAnnulla) {
+    btnPagamentoAnnulla.addEventListener("click", () => {
+      if (!billAttiva) { chiudiPagamento(); return; }
+      WW.NET.send("Pagamento", WW.AUTH.accessToken, "Annulla", billAttiva.orderId);
+    });
+  }
+
+  if (btnPagamentoVerifica) {
+    btnPagamentoVerifica.addEventListener("click", () => {
+      if (!billAttiva) return;
+      const hash = ((pagamentoHashInput && pagamentoHashInput.value) || "").trim();
+      if (!hash) { mostraToastShop("Inserisci l'hash della transazione prima di verificare."); return; }
+      impostaStatoPagamento("", "Verifica in corso…");
+      WW.NET.send("Pagamento", WW.AUTH.accessToken, "DichiaraHash", billAttiva.orderId, hash);
+    });
+  }
+
+  // Copia rapida (importo/indirizzo): navigator.clipboard può non essere disponibile (pagina non
+  // servita in HTTPS, browser datato) — fallback silenzioso, il testo resta comunque leggibile e
+  // selezionabile a mano dentro il box.
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest(".pagamento__copia");
+    if (!btn) return;
+    const target = document.getElementById(btn.dataset.copyTarget);
+    if (!target) return;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(target.textContent).catch(() => {});
+    }
+    const originale = btn.textContent;
+    btn.textContent = "Copiato!";
+    btn.classList.add("pagamento__copia--fatto");
+    setTimeout(() => {
+      btn.textContent = originale;
+      btn.classList.remove("pagamento__copia--fatto");
+    }, 1500);
+  });
+
+  WW.NET.on("Pagamento", (args) => {
+    const sotto = args[0];
+    switch (sotto) {
+      case "Creato": {
+        const [, orderId, itemId, importoEsatto, recipient, chainId, expiresAt, uri, qrBase64] = args;
+        apriPagamento({ orderId, itemId, importoEsatto, recipient, chainId: Number(chainId), expiresAt, uri, qrBase64 });
+        break;
+      }
+      case "Stato": {
+        const [, orderId, status] = args;
+        if (!billAttiva || billAttiva.orderId !== orderId) return;
+        const { classe, testo } = testoStatoBill(status);
+        impostaStatoPagamento(classe, testo);
+        if (status === "paid" || status === "expired" || status === "cancelled") fermaPolling();
+        break;
+      }
+      case "Verificato": {
+        const [, orderId] = args;
+        if (!billAttiva || billAttiva.orderId !== orderId) return;
+        impostaStatoPagamento("confirming", "Transazione trovata — in attesa delle conferme sulla rete…");
+        break;
+      }
+      case "Annullato": {
+        const [, orderId] = args;
+        if (billAttiva && billAttiva.orderId === orderId) {
+          mostraToastShop("Richiesta di pagamento annullata.");
+          chiudiPagamento();
+        }
+        break;
+      }
+      case "Bill":
+        // Elenco bill (risposta a "Pagamento|Lista") — non ancora usato in UI.
+        break;
+      default:
+        console.log(`[Pagamento] Sotto-comando non gestito: "${sotto}"`, args);
+    }
+  });
 
   WW.renderShop = renderShop;
 })(window.WW);

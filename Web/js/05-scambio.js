@@ -89,6 +89,81 @@ window.WW = window.WW || {};
     });
   }
 
+  // --- Preleva Tributi -> USDT reale (comando "Prelievo") ---
+  // A differenza degli scambi sopra (che convertono risorse DENTRO al gioco,
+  // istantanei), questo manda fondi veri fuori dal wallet di tesoreria: niente
+  // stepper/preview locale, il giocatore inserisce lui indirizzo e importo e il
+  // server risponde con esito reale (vedi BlockchainManager.GestisciComandoPrelievo).
+  const formPreleva = document.getElementById("form-preleva-tributi");
+  const inputPrelevaIndirizzo = document.getElementById("preleva-indirizzo");
+  const inputPrelevaImporto = document.getElementById("preleva-importo");
+  const elPrelevaDisponibile = document.querySelector('[data-value="tributi-disponibili"]');
+  const elPrelevaEsito = document.getElementById("preleva-esito");
+  const btnTogglePreleva = document.getElementById("btn-preleva-tributi");
+  const btnConfermaPreleva = document.getElementById("btn-conferma-preleva");
+
+  function impostaEsitoPreleva(classeExtra, testo) {
+    if (!elPrelevaEsito) return;
+    elPrelevaEsito.textContent = testo || "";
+    elPrelevaEsito.className = "mini-form__esito" + (classeExtra ? ` mini-form__esito--${classeExtra}` : "");
+  }
+
+  if (btnTogglePreleva && formPreleva) {
+    btnTogglePreleva.addEventListener("click", () => {
+      formPreleva.hidden = !formPreleva.hidden;
+      if (!formPreleva.hidden) {
+        // Tributi = "dollari_virtuali" lato server (vedi 04-game-main.js) — mostrato con
+        // 10 decimali, stessa precisione della barra risorse.
+        if (elPrelevaDisponibile) elPrelevaDisponibile.textContent = WW.fmtDecimal(WW.GAME.num("dollari_virtuali"), 10);
+        impostaEsitoPreleva("", "");
+      } else {
+        if (inputPrelevaIndirizzo) inputPrelevaIndirizzo.value = "";
+        if (inputPrelevaImporto) inputPrelevaImporto.value = "";
+        impostaEsitoPreleva("", "");
+        if (btnConfermaPreleva) btnConfermaPreleva.disabled = false;
+      }
+    });
+  }
+
+  if (btnConfermaPreleva) {
+    btnConfermaPreleva.addEventListener("click", () => {
+      const indirizzo = ((inputPrelevaIndirizzo && inputPrelevaIndirizzo.value) || "").trim();
+      const importo = parseFloat((inputPrelevaImporto && inputPrelevaImporto.value) || "0");
+
+      if (!indirizzo) { impostaEsitoPreleva("errore", "Inserisci l'indirizzo USDT di destinazione."); return; }
+      if (!importo || importo <= 0 || !isFinite(importo)) { impostaEsitoPreleva("errore", "Inserisci un importo valido."); return; }
+
+      btnConfermaPreleva.disabled = true;
+      impostaEsitoPreleva("", "Richiesta in corso…");
+      WW.NET.send("Prelievo", WW.AUTH.accessToken, "Richiedi", indirizzo, importo);
+    });
+  }
+
+  WW.NET.on("Prelievo", (args) => {
+    const sotto = args[0];
+    switch (sotto) {
+      case "Richiesto": {
+        const [, , amount] = args;
+        impostaEsitoPreleva("ok", `Richiesta inviata: ${amount} USDT. Verrà elaborata a breve, riceverai una mail di conferma.`);
+        if (btnConfermaPreleva) btnConfermaPreleva.disabled = false;
+        if (inputPrelevaIndirizzo) inputPrelevaIndirizzo.value = "";
+        if (inputPrelevaImporto) inputPrelevaImporto.value = "";
+        break;
+      }
+      case "Errore": {
+        const messaggio = args.slice(1).join("|") || "Richiesta di prelievo rifiutata.";
+        impostaEsitoPreleva("errore", messaggio);
+        if (btnConfermaPreleva) btnConfermaPreleva.disabled = false;
+        break;
+      }
+      case "Voce":
+        // Elenco prelievi (risposta a "Prelievo|Lista") — non ancora usato in UI.
+        break;
+      default:
+        console.log(`[Prelievo] Sotto-comando non gestito: "${sotto}"`, args);
+    }
+  });
+
   // --- Velocizza con Diamanti Blu (Costruzione / Reclutamento) ---
   // Comando "Velocizza_Diamanti|token|<Costruzione|Reclutamento|Ricerca>|n"
   // — vedi case "Velocizza_Diamanti" in ServerConnection.cs. La Ricerca non

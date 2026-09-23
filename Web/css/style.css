@@ -943,6 +943,34 @@ button{ font-family: inherit; cursor: pointer; }
   line-height: 1.3;
 }
 
+/* Form "Preleva Tributi" (24/09/2026, su richiesta dell'utente): a differenza
+   degli scambi sopra (stepper + preview calcolato), qui il giocatore inserisce
+   un indirizzo e un importo liberi — due campi testo semplici, stesso stile
+   dell'input hash nel popup di pagamento (.pagamento__riga-copia input). */
+.mini-form__label{
+  display: block;
+  margin: .5rem 0 .25rem;
+  font-size: .78rem;
+  color: var(--ink-soft);
+}
+.mini-form__input{
+  width: 100%;
+  box-sizing: border-box;
+  padding: .35rem .5rem;
+  border-radius: 6px;
+  border: 1px solid var(--wood);
+  font-size: .82rem;
+  font-family: inherit;
+}
+.mini-form__esito{
+  min-height: 1.1em;
+  margin: .5rem 0;
+  font-size: .8rem;
+  font-weight: 700;
+}
+.mini-form__esito--ok{ color: #2f7d3a; }
+.mini-form__esito--errore{ color: var(--error, #b23a3a); }
+
 /* ==========================================================
    Schermata Città: una card per struttura (Ingresso, Cancello, Mura,
    Torri, Castello, Centro), con barre HP/DEF dove presenti e il
@@ -2651,3 +2679,94 @@ button{ font-family: inherit; cursor: pointer; }
 .report-esito--vittoria{ background: rgba(47,125,58,.15); color: #2f7d3a; }
 .report-esito--sconfitta{ background: rgba(178,58,58,.15); color: var(--error, #b23a3a); }
 .quest-pager__pagina{ font-size: .82rem; font-weight: 600; color: var(--ink-soft); min-width: 5em; text-align: center; }
+
+/* Popup "Pagamento USDT" (23/09/2026) — vedi index.html #pagamento-overlay e
+   js/08-shop.js. Stesso .modal-overlay/.modal-box generico del resto del sito,
+   solo un po' più largo per far stare il QR code comodamente. */
+.modal-box--pagamento{ max-width: 380px; text-align: center; }
+
+.pagamento__item{ font-weight: 700; margin: 0 0 .5rem; }
+
+.pagamento__qr{
+  display: block;
+  width: 200px;
+  height: 200px;
+  margin: 0 auto .75rem;
+  border: 3px solid var(--wood);
+  border-radius: 8px;
+  background: #fff; /* il PNG del QR ha sfondo trasparente/bianco: forza il bianco anche in dark mode */
+  padding: 4px;
+}
+
+.pagamento__dati{
+  text-align: left;
+  margin: 0 0 .6rem;
+  font-size: .85rem;
+}
+.pagamento__dati > div{ margin-bottom: .4rem; }
+.pagamento__dati dt{ font-weight: 700; color: var(--ink-soft); font-size: .78rem; }
+.pagamento__dati dd{ margin: 0; }
+
+.pagamento__riga-copia{
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+}
+.pagamento__riga-copia code{
+  flex: 1;
+  overflow-wrap: anywhere;
+  background: rgba(0,0,0,.06);
+  padding: .25rem .4rem;
+  border-radius: 6px;
+  font-size: .8rem;
+}
+.pagamento__riga-copia input{
+  flex: 1;
+  min-width: 0;
+  padding: .35rem .5rem;
+  border-radius: 6px;
+  border: 1px solid var(--wood);
+  font-size: .82rem;
+}
+
+.pagamento__copia{
+  flex: none;
+  background: transparent;
+  border: 1px solid var(--wood);
+  color: var(--wood-dark);
+  border-radius: 6px;
+  padding: .2rem .5rem;
+  font-size: .75rem;
+}
+.pagamento__copia:hover{ background: var(--wood); color: #fff; }
+.pagamento__copia--fatto{ background: #2f7d3a; border-color: #2f7d3a; color: #fff; }
+
+.pagamento__avviso{
+  font-size: .78rem;
+  color: var(--ink-soft);
+  text-align: left;
+  margin: 0 0 .5rem;
+}
+
+.pagamento__scadenza{ font-size: .78rem; color: var(--ink-soft); margin: 0 0 .3rem; }
+
+.pagamento__stato{
+  font-weight: 700;
+  padding: .4rem;
+  border-radius: 6px;
+  background: rgba(0,0,0,.06);
+  margin: 0 0 .75rem;
+}
+.pagamento__stato--confirming{ background: rgba(214,158,46,.18); color: #9c6b0f; }
+.pagamento__stato--paid{ background: rgba(47,125,58,.15); color: #2f7d3a; }
+.pagamento__stato--errore{ background: rgba(178,58,58,.15); color: var(--error, #b23a3a); }
+.pagamento__stato--scaduto{ background: rgba(178,58,58,.15); color: var(--error, #b23a3a); }
+
+.pagamento__hash-box{
+  text-align: left;
+  font-size: .78rem;
+  margin: 0 0 .75rem;
+}
+.pagamento__hash-box label{ display: block; margin-bottom: .3rem; color: var(--ink-soft); }
+
+.pagamento__annulla{ width: 100%; }

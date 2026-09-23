@@ -192,7 +192,7 @@
              .res--id in style.css). Mandato una tantum al login
              (Update_Data_OneTime → "ID_Giocatore"), non cambia più dopo,
              quindi non serve rileggerlo ad ogni tick. -->
-        <div class="res res--id" data-res="idGiocatore" title="ID giocatore">ID <span data-value="idGiocatore">-</span></div>
+        <div class="res res--id" data-res="idGiocatore" title="ID giocatore">ID: <span data-value="idGiocatore">-</span></div>
       </div>
     </header>
 
@@ -241,6 +241,7 @@
               <p class="feudi-exchange-actions__label" data-i18n="scambioValute">Scambio valute</p>
               <button class="btn btn--ghost" id="btn-scambia-viola-blu"><span data-i18n="scambia">Scambia</span> <img class="icon-inline" src="assets/DiamanteViola_V2.png" alt=""></button>
               <button class="btn btn--ghost" id="btn-scambia-tributi-viola"><span data-i18n="scambiaTributi">Scambia Tributi</span> <img class="icon-inline" src="assets/Tributi_V2.png" alt=""></button>
+              <button class="btn btn--ghost" id="btn-preleva-tributi"><span data-i18n="prelievoBtn">Preleva</span> <img class="icon-inline" src="assets/Tributi_V2.png" alt=""></button>
             </div>
 
             <!-- Scambio Diamanti Viola -> Diamanti Blu (comando "Scambia_Diamanti"),
@@ -281,6 +282,26 @@
                 </span>
               </div>
               <button type="button" class="btn btn--primary btn--block" id="btn-conferma-scambia-tributi-viola" data-i18n="scambia">Scambia</button>
+            </div>
+
+            <!-- Prelievo Tributi -> USDT reale (comando "Prelievo|Richiedi"), su richiesta
+                 esplicita dell'utente: nessun deposito coinvolto qui, il giocatore converte i
+                 Tributi accumulati in gioco e li fa arrivare a un SUO indirizzo USDT (rete
+                 Polygon) che inserisce lui. Il server scala i Tributi subito e, se l'invio
+                 reale fallisce poi, li restituisce (vedi BlockchainManager.RichiediPrelievo). -->
+            <div class="mini-form" id="form-preleva-tributi" hidden>
+              <p class="panel__hint">
+                <span data-i18n="prelievoHint">Converti i tuoi Tributi in USDT e prelevali sulla rete Polygon</span> —
+                <span data-i18n="prelievoRapporto">1 Tributo = 1 USDT</span>.
+                <span data-i18n="prelievoDisponibile">Disponibili:</span>
+                <strong data-value="tributi-disponibili">0</strong>
+              </p>
+              <label class="mini-form__label" for="preleva-indirizzo" data-i18n="prelievoIndirizzo">Il tuo indirizzo USDT (rete Polygon)</label>
+              <input type="text" id="preleva-indirizzo" class="mini-form__input" placeholder="0x...">
+              <label class="mini-form__label" for="preleva-importo" data-i18n="prelievoImporto">Importo da prelevare (Tributi / USDT)</label>
+              <input type="number" id="preleva-importo" class="mini-form__input" min="0" step="any" placeholder="0">
+              <p class="mini-form__esito" id="preleva-esito"></p>
+              <button type="button" class="btn btn--primary btn--block" id="btn-conferma-preleva" data-i18n="prelievoConferma">Richiedi prelievo</button>
             </div>
           </div>
 
@@ -998,6 +1019,67 @@
           <button type="button" class="modal-close-btn" id="btn-chiudi-avatar-picker" aria-label="Chiudi">✕</button>
         </div>
         <ul class="avatar-grid" id="avatar-grid"><!-- popolata da js/15-avatar.js --></ul>
+      </div>
+    </div>
+
+    <!-- Popup "Pagamento USDT": stesso overlay generico usato per Feudi/Avatar/ecc,
+         aperto quando il server risponde "Pagamento|Creato|..." a un acquisto in
+         USDT (vedi js/08-shop.js e ServerData/Moduli/Shop.cs -> BlockchainManager).
+         Mostra il QR code (precompila la transazione nel wallet dell'utente, es.
+         MetaMask/Trust Wallet) e gli estremi per completarla anche a mano,
+         lasciando SEMPRE all'utente la possibilità di controllare i dati prima di
+         confermare nel proprio wallet — nessun invio automatico dal sito. -->
+    <div class="modal-overlay" id="pagamento-overlay" hidden>
+      <div class="modal-box panel wood-panel modal-box--pagamento">
+        <div class="panel__header">
+          <h2 class="panel__title">Pagamento USDT</h2>
+          <button type="button" class="modal-close-btn" id="btn-chiudi-pagamento" aria-label="Chiudi">✕</button>
+        </div>
+
+        <p class="pagamento__item" id="pagamento-item"></p>
+
+        <img class="pagamento__qr" id="pagamento-qr" alt="QR code di pagamento">
+
+        <dl class="pagamento__dati">
+          <div>
+            <dt>Importo esatto</dt>
+            <dd class="pagamento__riga-copia">
+              <code id="pagamento-importo"></code>
+              <button type="button" class="pagamento__copia" data-copy-target="pagamento-importo">Copia</button>
+            </dd>
+          </div>
+          <div>
+            <dt>Indirizzo destinatario</dt>
+            <dd class="pagamento__riga-copia">
+              <code id="pagamento-destinatario"></code>
+              <button type="button" class="pagamento__copia" data-copy-target="pagamento-destinatario">Copia</button>
+            </dd>
+          </div>
+          <div>
+            <dt>Rete</dt>
+            <dd id="pagamento-rete"></dd>
+          </div>
+        </dl>
+
+        <p class="pagamento__avviso">
+          Invia esattamente l'importo indicato sopra (fino all'ultima cifra) all'indirizzo mostrato,
+          sulla rete Polygon. Puoi scansionare il QR con un wallet compatibile (es. MetaMask, Trust
+          Wallet): la transazione verrà precompilata, ma dovrai comunque confermarla tu, dopo aver
+          ricontrollato i dati nel tuo wallet.
+        </p>
+
+        <p class="pagamento__scadenza" id="pagamento-scadenza"></p>
+        <p class="pagamento__stato" id="pagamento-stato">In attesa del pagamento…</p>
+
+        <div class="pagamento__hash-box">
+          <label for="pagamento-hash-input">Hai già l'hash della transazione? Inseriscilo per velocizzare la verifica (facoltativo):</label>
+          <div class="pagamento__riga-copia">
+            <input type="text" id="pagamento-hash-input" placeholder="0x...">
+            <button type="button" class="btn btn--primary" id="btn-pagamento-verifica">Verifica</button>
+          </div>
+        </div>
+
+        <button type="button" class="btn btn--ghost pagamento__annulla" id="btn-pagamento-annulla">Annulla richiesta</button>
       </div>
     </div>
   </section>

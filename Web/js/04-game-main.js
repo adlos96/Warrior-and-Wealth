@@ -536,7 +536,13 @@ window.WW = window.WW || {};
   function renderRisorseBar() {
     Object.keys(RESOURCE_KEY_ALIASES).forEach((chiaveLocale) => {
       const el = document.querySelector(`#resource-bar [data-value="${chiaveLocale}"]`);
-      if (el) el.textContent = WW.fmtInt(GAME.num(RESOURCE_KEY_ALIASES[chiaveLocale]));
+      if (!el) return;
+      // ID giocatore (24/09/2026, su richiesta dell'utente): è un identificativo, non una
+      // quantità — niente separatore delle migliaia (fmtInt lo formatterebbe "9.311.336"),
+      // solo le cifre così com'è ("9311336").
+      el.textContent = chiaveLocale === "idGiocatore"
+        ? String(GAME.num(RESOURCE_KEY_ALIASES[chiaveLocale]))
+        : WW.fmtInt(GAME.num(RESOURCE_KEY_ALIASES[chiaveLocale]));
     });
     // Tributi = "dollari_virtuali" lato server, mostrato con 10 decimali
     // (stessa precisione della produzione dei Feudi di rarità più bassa).
