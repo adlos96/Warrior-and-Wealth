@@ -1,4 +1,6 @@
 ﻿using Server_Strategico.Gioco;
+using Server_Strategico.Manager;
+using Strategico_V2.Manager; // EmailManager — namespace diverso dal resto (residuo del nome precedente del progetto)
 using static Server_Strategico.Gioco.Giocatori;
 using static Server_Strategico.Manager.QuestManager;
 
@@ -6,8 +8,17 @@ namespace Server_Strategico.ServerData.Moduli
 {
     internal class Shop
     {
-        public static void Shop_Call(Guid guid, Giocatori.Player player, string comando)
+        public static void Shop_Call(Guid guid, Giocatori.Player player, string comando, string walletMittente = null)
         {
+            // Punto unico che distingue le due casistiche: item pagati in Diamanti (switch sotto,
+            // logica invariata) vs item pagati in USDT (Variabili_Server.Shop.Catalogo, instradati
+            // verso il pagamento crypto o Google Play a seconda della piattaforma).
+            if (Variabili_Server.Shop.Catalogo.TryGetValue(comando, out var voce) && voce.Valuta == Variabili_Server.TipoValuta.USDT)
+            {
+                GestisciAcquistoRealMoney(guid, player, comando, voce, walletMittente);
+                return;
+            }
+
             int diamanti_Viola = player.Diamanti_Viola;
             int diamanti_Blu = player.Diamanti_Blu;
             decimal Dollari_Virtuali = player.Dollari_Virtuali;
@@ -248,27 +259,72 @@ namespace Server_Strategico.ServerData.Moduli
                         Server.Server.Send(player.guid_Player, $"Log_Server|[Shop] Scudo della pace attivo, utilizzati [icon:diamanteBlu][warning]{Variabili_Server.Shop.Scudo_Pace_72h.Costo} [blu]Diamanti Blu[/blu], per estendere lo scudo di: {player.FormatTime(Variabili_Server.Shop.Scudo_Pace_72h.Reward)}. Scudo disponibile per: {player.FormatTime(player.ScudoDellaPace)}");
                     }
                     break;
-                case "Starter_1":
+            }
+        }
 
-                    // Procedere alla richiesta transazione USDT da parte dell'utente - Transazione google pay
+        // Item in USDT: sul sito (o comunque fuori dall'app Android) si passa al pagamento crypto
+        // vero (BlockchainManager); nell'app Android le regole di Google Play sugli acquisti di beni
+        // digitali impongono Google Play Billing, non un pagamento crypto diretto dentro l'app.
+        private static void GestisciAcquistoRealMoney(Guid guid, Giocatori.Player player, string itemId, Variabili_Server.Shop voce, string walletMittente)
+        {
+            string piattaforma = Server.Server.OttieniPiattaforma(guid);
+            if (piattaforma == "Android")
+            {
+                // 24/09/2026: su Android l'acquisto NON parte da qui — è l'app stessa (SDK Google
+                // Play Billing) ad aprire la finestra nativa di pagamento, senza passare dal server.
+                // Il client la avvia da sé quando vede questo avviso (o meglio, non dovrebbe nemmeno
+                // arrivare a chiamare "Pagamento|Crea" su questa piattaforma per un item USDT — va
+                // sistemato lato client quando l'app Android/TWA esisterà). Il server entra in gioco
+                // SOLO dopo, quando l'acquisto è concluso: il client manda il purchase token con
+                // "GooglePlay|Verifica|<itemId>|<purchaseToken>" (vedi GoogleManager.GestisciComando),
+                // che lo verifica con Google prima di accreditare qualunque cosa — stesso principio
+                // "mai fidarsi del client" usato per i depositi USDT.
+                Server.Server.Send(guid, "Log_Server|[Shop] Su questa piattaforma gli acquisti si effettuano tramite Google Play.");
+                return;
+            }
 
-                    //Confermare l'acquisto
-                    //Accreditare i diamanti
-                    if (conferma_Transazione == true)
-                        player.Diamanti_Viola += Variabili_Server.Shop.Starter_1.Reward;
+            // Costo è un double nella tabella prezzi: arrotondare a 2 decimali prima di convertirlo in
+            // decimal, altrimenti l'imprecisione del double può produrre un importo "sporco" (es.
+            // 20.990000000000002 invece di 20.99) che finirebbe mostrato/spedito così com'è al giocatore.
+            decimal importo = Math.Round((decimal)voce.Costo, 2, MidpointRounding.AwayFromZero);
+            BlockchainManager.AvviaPagamentoItem(guid, player, itemId, importo, walletMittente);
+        }
 
+        /// <summary>
+        /// Accredita davvero l'oggetto/valuta al giocatore per un acquisto USDT ormai confermato
+        /// on-chain (CONFERME_MINIME raggiunte, pagamento irreversibile) — chiamata da
+        /// BlockchainManager.ConfermaBillInCorsoAsync quando una bill passa a "paid". Il giocatore
+        /// potrebbe essere offline: si cerca comunque nella lista globale (players resta in memoria
+        /// anche da disconnesso) e si salva subito il suo stato.
+        /// </summary>
+        public static void AccreditaAcquisto(string playerUsername, string itemId)
+        {
+            var player = Server.Server.servers_.GetPlayer(playerUsername);
+            if (player == null)
+            {
+                Console.WriteLine($"[Shop] Accredito USDT fallito: giocatore '{playerUsername}' non trovato (item: {itemId}).");
+                return;
+            }
+
+            switch (itemId)
+            {
+                case "Test_USDT":
+                    player.Diamanti_Viola += Variabili_Server.Shop.Test_USDT.Reward;
+                    Server.Server.Send(player.guid_Player, $"Log_Server|[Shop] Pagamento confermato! Hai ricevuto [icon:diamanteViola]{Variabili_Server.Shop.Test_USDT.Reward} [viola]Diamanti Viola[/viola] (acquisto di test).");
+                    EmailManager.InviaEmailAcquistoConfermato(player, "Test USDT → Diamanti Viola", $"{Variabili_Server.Shop.Test_USDT.Reward} Diamanti Viola");
                     break;
-                case "Starter_2":
 
-                    // Procedere alla richiesta transazione USDT da parte dell'utente - Transazione google pay
-
-                    //Confermare l'acquisto
-                    //Accreditare i diamanti
-                    if (conferma_Transazione == true)
-                        player.Diamanti_Viola += Variabili_Server.Shop.Starter_2.Reward;
-
+                // TODO: Vip_2, GamePass_Base, GamePass_Avanzato, Starter_1, Starter_2,
+                // Pacchetto_Diamanti_1..4 — agganciare qui la stessa logica quando si passa dal
+                // test al vero catalogo USDT (per ora quegli item restano solo "pagabili", non
+                // ancora accreditati automaticamente alla conferma). Non dimenticare di chiamare
+                // InviaEmailAcquistoConfermato anche lì, come sopra.
+                default:
+                    Console.WriteLine($"[Shop] Nessuna logica di accredito ancora collegata per l'item USDT '{itemId}' (giocatore: {playerUsername}).");
                     break;
             }
+
+            _ = GameSave.SavePlayer(player);
         }
     }
 }

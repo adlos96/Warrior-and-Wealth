@@ -9,8 +9,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- Google Play Billing (GoogleManager.cs) — verifica server-side degli acquisti in-app via
+         Play Developer API. Inerte finché GoogleManager.PACKAGE_NAME/SERVICE_ACCOUNT_JSON_PATH
+         restano vuoti (vedi commento in cima a quel file). -->
+    <PackageReference Include="Google.Apis.AndroidPublisher.v3" Version="1.75.0.4246" />
     <PackageReference Include="MailKit" Version="4.18.0" />
+    <PackageReference Include="Nethereum.HdWallet" Version="6.1.0" />
+    <PackageReference Include="Nethereum.Web3" Version="6.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="QRCoder" Version="1.8.0" />
     <PackageReference Include="WatsonTcp" Version="6.0.6" />
   </ItemGroup>
 

@@ -277,6 +277,7 @@ namespace Server_Strategico.Server
             if (_clients.TryRemove(guid, out var entry))
                 entry.SendLock.Dispose();
             Server.Client_Connessi_Map.TryRemove(guid, out _);
+            Server.Client_Piattaforma_Map.TryRemove(guid, out _);
             Console.WriteLine($"[WebSocketGateway] Client disconnesso: {description} [{guid}]");
         }
 

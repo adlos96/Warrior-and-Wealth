@@ -22,6 +22,19 @@ namespace Server_Strategico.Server
         public static System.Collections.Concurrent.ConcurrentDictionary<Guid, string> Client_Connessi_Map =
         new System.Collections.Concurrent.ConcurrentDictionary<Guid, string>(); //Mappa client x multithread
 
+        // 23/09/2026: piattaforma dichiarata dal client stesso (comando "Piattaforma", vedi
+        // ServerConnection) — "Web" | "Android" | "Windows". Il trasporto (WebSocket vs WatsonTcp,
+        // vedi WebSocketGateway.IsWebSocketClient) NON basta a distinguerle: se l'app Android usa lo
+        // stesso protocollo WebSocket del sito, risulterebbe indistinguibile dal browser. Serve per
+        // instradare correttamente richieste che sulle due piattaforme vanno gestite diversamente
+        // (es. Pagamento in crypto sul sito vs Google Play Billing nell'app, vedi BlockchainManager).
+        // Non dichiarata = non ancora nota: i chiamanti la trattano come "Web" per default.
+        public static System.Collections.Concurrent.ConcurrentDictionary<Guid, string> Client_Piattaforma_Map =
+        new System.Collections.Concurrent.ConcurrentDictionary<Guid, string>();
+
+        public static string OttieniPiattaforma(Guid guid) =>
+            Client_Piattaforma_Map.TryGetValue(guid, out string piattaforma) ? piattaforma : "Web";
+
         private string? serverIp = null; // "null" will open the tcp server on addr 0.0.0.0 on windows (127.0.0.1 on linux)
         private const int serverPort = 8443;
         private static Guid lastGuid = Guid.Empty;
@@ -330,6 +343,7 @@ namespace Server_Strategico.Server
                 Console.WriteLine("[SERVER|LOG] > Client disconnesso: " + args.Client + ": " + args.Reason);
 
                 Client_Connessi_Map.TryRemove(guid, out _);
+                Client_Piattaforma_Map.TryRemove(guid, out _);
                 await server.DisconnectClientAsync(guid);   // forza pulizia su WatsonTcp
             }
             catch (Exception ex)

@@ -15,12 +15,6 @@ namespace Server_Strategico.Server
 {
     public class ServerConnection
     {
-        // Punto di ingresso storico per i client WatsonTcp: estrae dal
-        // MessageReceivedEventArgs (tipo specifico di WatsonTcp) i tre dati
-        // che contano davvero — guid, stringa del messaggio, descrizione
-        // del client — e li passa al core condiviso qui sotto. In questo
-        // modo qualsiasi altro trasporto (es. il gateway WebSocket) può
-        // richiamare la stessa logica di gioco senza dipendere da WatsonTcp.
         public static void HandleClientRequest(MessageReceivedEventArgs requestData)
         {
             var clientDescription = requestData.Client.ToString();
@@ -55,15 +49,6 @@ namespace Server_Strategico.Server
             string[] msgArgs;
             Player player = null;
 
-            // "AutoLogin" deve passare senza il controllo generico qui sotto
-            // per lo stesso motivo di Login/New Player: il suo intero scopo è
-            // autenticare (o ri-autenticare) il client, quindi non può essere
-            // già bloccato da un pre-controllo che si aspetta un access token
-            // GIA' valido. Prima di questa correzione, un access token scaduto
-            // (caso normalissimo: il client riapre l'app dopo ore) veniva
-            // intercettato qui con TOKEN_SCADUTO/TOKEN_NON_VALIDO e la logica
-            // di fallback sul refresh token nel case "AutoLogin" più sotto non
-            // veniva mai raggiunta.
             if (comando == "Login" || comando == "New Player" || comando == "AutoLogin" || comando == "Reset Password")
             {
                 msgArgs = msgArgsRicevuti;
@@ -125,6 +110,17 @@ namespace Server_Strategico.Server
             string ip = client.Replace("WS:", "").Split(":")[0];
             switch (msgArgs[0])
             {
+                case "Piattaforma":
+                    // Piattaforma|token|<Web|Android|Windows> — dichiarazione del client (vedi
+                    // Server.Client_Piattaforma_Map): serve a instradare correttamente le richieste
+                    // che vanno gestite diversamente a seconda di dove arrivano, es. Pagamento
+                    // (crypto sul sito) vs Google Play Billing nell'app Android.
+                    if (msgArgs.Length >= 4 && (msgArgs[3] == "Web" || msgArgs[3] == "Android" || msgArgs[3] == "Windows"))
+                    {
+                        Server.Client_Piattaforma_Map[clientGuid] = msgArgs[3];
+                        Console.WriteLine($"[Piattaforma] {player?.Username} ({clientGuid}) → {msgArgs[3]}");
+                    }
+                    break;
                 case "Refresh_Access_Token":
                     Console.WriteLine($"[Server] Richiesta nuovo Access Token ID: {player.Username}, Guid: {clientGuid}");
                     if (player == null)
@@ -373,6 +369,17 @@ namespace Server_Strategico.Server
                     break;
                 case "Raduno":
                     await AttacchiCooperativi.GestisciComando(msgArgs, clientGuid, player);
+                    break;
+                case "Pagamento":
+                    await BlockchainManager.GestisciComando(msgArgs, clientGuid, player);
+                    break;
+                case "Prelievo":
+                    await BlockchainManager.GestisciComandoPrelievo(msgArgs, clientGuid, player);
+                    break;
+                case "GooglePlay":
+                    // Inerte finché GoogleManager.PACKAGE_NAME/SERVICE_ACCOUNT_JSON_PATH non sono
+                    // compilati — vedi commento in cima a GoogleManager.cs.
+                    await GoogleManager.GestisciComando(msgArgs, clientGuid, player);
                     break;
                 case "Quest_Reward":
                     Quest_Reward(msgArgs, player, clientGuid);
@@ -1415,6 +1422,12 @@ namespace Server_Strategico.Server
             $"Pacchetto_GamePass_Base_Reward={Variabili_Server.Shop.GamePass_Base.Reward}|" +
             $"Pacchetto_GamePass_Avanzato_Costo={Variabili_Server.Shop.GamePass_Avanzato.Costo}|" +
             $"Pacchetto_GamePass_Avanzato_Reward={Variabili_Server.Shop.GamePass_Avanzato.Reward}|" +
+
+            // 23/09/2026: item di test per i primi pagamenti USDT su mainnet (vedi
+            // Variabili_Server.Shop.Test_USDT e BlockchainManager) — stesso schema degli altri
+            // pacchetti dello shop, niente prezzo fisso lato client.
+            $"Pacchetto_Test_USDT_Costo={Variabili_Server.Shop.Test_USDT.Costo}|" +
+            $"Pacchetto_Test_USDT_Reward={Variabili_Server.Shop.Test_USDT.Reward}|" +
             $"Terreno_NonComune_Produzione={Variabili_Server.Terreni_Virtuali.NonComune.Produzione}|" +
             $"Terreno_Comune_Produzione={Variabili_Server.Terreni_Virtuali.Comune.Produzione}|" +
             $"Terreno_Raro_Produzione={Variabili_Server.Terreni_Virtuali.Raro.Produzione}|" +

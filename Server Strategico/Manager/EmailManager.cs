@@ -1,6 +1,8 @@
 ﻿using MailKit.Security;
 using MimeKit;
+using Server_Strategico.Gioco;
 using Server_Strategico.Server;
+using System.Collections.Concurrent;
 
 namespace Strategico_V2.Manager
 {
@@ -150,8 +152,38 @@ namespace Strategico_V2.Manager
         // NOTIFICA LOGIN
         // ══════════════════════════════════════════════════════════════════════
 
+        // 23/09/2026: cooldown anti-spam per gli alert di nuovo accesso
+        private const int COOLDOWN_LOGIN_ALERT_MINUTI = 30;
+
+        // 24/09/2026, su segnalazione dell'utente: senza una pulizia, ogni username che fa login
+        // resta per sempre in questo dizionario, anche dopo che il cooldown è scaduto da un pezzo —
+        // con pochi giocatori non è un problema reale, ma su un server che resta acceso per mesi è
+        // comunque una perdita di memoria che non si ripulisce mai da sola.
+        private const int PULIZIA_VOCI_SCADUTE_ORE = 24;
+        private static readonly ConcurrentDictionary<string, (string ip, DateTime inviatoUtc)> _ultimoLoginAlert = new();
+
+        private static void PulisciVociLoginAlertScadute()
+        {
+            var soglia = DateTime.UtcNow.AddHours(-PULIZIA_VOCI_SCADUTE_ORE);
+            foreach (var kv in _ultimoLoginAlert)
+                if (kv.Value.inviatoUtc < soglia)
+                    _ultimoLoginAlert.TryRemove(kv.Key, out _);
+            
+        }
+
         public static Task<bool> SendLoginAlertAsync(string toEmail,string username,string ipAddress)
         {
+            PulisciVociLoginAlertScadute();
+
+            if (_ultimoLoginAlert.TryGetValue(username, out var ultimo)
+                && string.Equals(ultimo.ip, ipAddress, StringComparison.OrdinalIgnoreCase)
+                && DateTime.UtcNow - ultimo.inviatoUtc < TimeSpan.FromMinutes(COOLDOWN_LOGIN_ALERT_MINUTI))
+            {
+                Log($"[EMAIL] Alert di login per {username} da {ipAddress} soppresso (cooldown {COOLDOWN_LOGIN_ALERT_MINUTI} min).");
+                return Task.FromResult(true);
+            }
+            _ultimoLoginAlert[username] = (ipAddress, DateTime.UtcNow);
+
             var subject = "⚠️ Warrior and Wealth — Nuovo accesso al tuo account";
             var body = $@"
             <h2>Nuovo accesso rilevato</h2>
@@ -167,6 +199,21 @@ namespace Strategico_V2.Manager
             così potremo aiutarti a mettere in sicurezza il tuo regno.</p>";
 
             return SendEmailAsync(toEmail, username, subject, body);
+        }
+
+        // Mail al giocatore quando un acquisto USDT viene accreditato (cioè con il deposito già
+        // confermato on-chain, non alla semplice richiesta) — su richiesta esplicita dell'utente.
+        public static void InviaEmailAcquistoConfermato(Giocatori.Player player, string nomeItem, string ricompensaTesto)
+        {
+            if (string.IsNullOrWhiteSpace(player.Email)) return;
+
+            _ = EmailManager.SendEmailAsync(player.Email, player.Username,
+                "⚔️ Warrior and Wealth — Acquisto confermato",
+                $@"<h2>Acquisto confermato</h2>
+                <p>Ciao <strong>{player.Username}</strong>,</p>
+                <p>Il tuo pagamento in USDT per <strong>{nomeItem}</strong> è stato confermato sulla rete Polygon.</p>
+                <p>Hai ricevuto: <strong>{ricompensaTesto}</strong></p>
+                <p>Buon gioco!</p>");
         }
 
         // ══════════════════════════════════════════════════════════════════════

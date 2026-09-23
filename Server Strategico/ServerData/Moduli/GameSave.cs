@@ -1122,6 +1122,10 @@ namespace Server_Strategico.ServerData.Moduli
 
                 await TokenManager.LoadRefreshTokens();
 
+                // 23/09/2026: carica/genera la seed phrase del wallet server (Polygon, USDT) e
+                // avvia in background il monitoraggio dei depositi + la conferma dei prelievi.
+                await BlockchainManager.InizializzaAsync();
+
                 Console.WriteLine($"[LoadData] Caricati i dati del server");
             }
             catch (Exception ex)

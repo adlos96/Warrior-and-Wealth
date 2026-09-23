@@ -151,99 +151,159 @@
                 Costo = 400, // USDT
             };
         }
+        // 23/09/2026: prima la valuta di ogni voce si capiva solo da un commento ("// USDT" vs
+        // "//Diamanti_Viola/Blu") — niente su cui far girare un "if" affidabile. Aggiunta la
+        // proprietà Valuta (esplicita per ogni voce, il default DiamantiViola non basta da solo)
+        // e il dizionario Catalogo, così Shop.cs può decidere il percorso corretto (Diamanti in
+        // gioco vs pagamento reale in USDT, quest'ultimo poi instradato tra crypto e Google Play a
+        // seconda della piattaforma) senza duplicare altrove la lista prezzi.
+        public enum TipoValuta { DiamantiViola, DiamantiBlu, USDT }
+
         public class Shop
         {
             public double Costo { get; set; }
             public int Reward { get; set; }
+            public TipoValuta Valuta { get; set; } = TipoValuta.DiamantiViola;
 
             public static Shop GamePass_Base = new Shop
             {
                 Costo = 20.99, // USDT
-                Reward = 2592000 //GamePass
+                Reward = 2592000, //GamePass
+                Valuta = TipoValuta.USDT
             };
             public static Shop GamePass_Avanzato = new Shop
             {
                 Costo = 62.99, // USDT
-                Reward = 2592000 //GamePass
+                Reward = 2592000, //GamePass
+                Valuta = TipoValuta.USDT
             };
 
             public static Shop Vip_1 = new Shop
             {
                 Costo = 750, //Diamanti_Viola
-                Reward = 86400 //VIP
+                Reward = 86400, //VIP
+                Valuta = TipoValuta.DiamantiViola
             };
             public static Shop Vip_2 = new Shop
             {
                 Costo = 14.99, //USDT
-                Reward = 86400 //VIP 24H
+                Reward = 86400, //VIP 24H
+                Valuta = TipoValuta.USDT
             };
 
             public static Shop Pacchetto_Diamanti_1 = new Shop
             {
                 Costo = 5.99, //USDT
-                Reward = 150 //Diamanti_Viola
+                Reward = 150, //Diamanti_Viola
+                Valuta = TipoValuta.USDT
             };
             public static Shop Pacchetto_Diamanti_2 = new Shop
             {
                 Costo = 14.99,
-                Reward = 475
+                Reward = 475,
+                Valuta = TipoValuta.USDT
             };
             public static Shop Pacchetto_Diamanti_3 = new Shop
             {
                 Costo = 24.99,
-                Reward = 800
+                Reward = 800,
+                Valuta = TipoValuta.USDT
             };
             public static Shop Pacchetto_Diamanti_4 = new Shop
             {
                 Costo = 49.99,
-                Reward = 1700
+                Reward = 1700,
+                Valuta = TipoValuta.USDT
             };
             public static Shop Starter_1 = new Shop
             {
                 Costo = 1.99,
-                Reward = 100
+                Reward = 100,
+                Valuta = TipoValuta.USDT
             };
             public static Shop Starter_2 = new Shop
             {
                 Costo = 2.99,
-                Reward = 140
+                Reward = 140,
+                Valuta = TipoValuta.USDT
             };
             public static Shop Scudo_Pace_8h = new Shop
             {
                 Costo = 250,
-                Reward = 28800 //8 ore in secondi
+                Reward = 28800, //8 ore in secondi
+                Valuta = TipoValuta.DiamantiBlu
             };
             public static Shop Scudo_Pace_24h = new Shop
             {
                 Costo = 650,
-                Reward = 86400 //24 ore in secondi
+                Reward = 86400, //24 ore in secondi
+                Valuta = TipoValuta.DiamantiBlu
             };
             public static Shop Scudo_Pace_72h = new Shop
             {
                 Costo = 1600,
-                Reward = 259200 //72 ore in secondi
+                Reward = 259200, //72 ore in secondi
+                Valuta = TipoValuta.DiamantiBlu
             };
 
             public static Shop Costruttore_24h = new Shop
             {
                 Costo = 1700,
-                Reward = 86400 //24 ore in secondi
+                Reward = 86400, //24 ore in secondi
+                Valuta = TipoValuta.DiamantiBlu
             };
             public static Shop Costruttore_48h = new Shop
             {
                 Costo = 3100,
-                Reward = 172800 //48 ore in secondi
+                Reward = 172800, //48 ore in secondi
+                Valuta = TipoValuta.DiamantiBlu
             };
 
             public static Shop Reclutatore_24h = new Shop
             {
                 Costo = 2200,
-                Reward = 86400 //24 ore in secondi
+                Reward = 86400, //24 ore in secondi
+                Valuta = TipoValuta.DiamantiBlu
             };
             public static Shop Reclutatore_48h = new Shop
             {
                 Costo = 4100,
-                Reward = 172800 //48 ore in secondi
+                Reward = 172800, //48 ore in secondi
+                Valuta = TipoValuta.DiamantiBlu
+            };
+
+            // Item di test per i primi pagamenti su mainnet: 0.10 USDT -> 1000 Diamanti Viola.
+            // Da rimuovere (o lasciare, è innocuo) una volta finiti i test del flusso di pagamento.
+            public static Shop Test_USDT = new Shop
+            {
+                Costo = 0.10,
+                Reward = 1000,
+                Valuta = TipoValuta.USDT
+            };
+
+            // Catalogo per chiave stringa — stesse chiavi già usate dal comando "Shop" (vedi
+            // ServerData/Moduli/Shop.cs, switch(comando)) e ora anche da "Pagamento|Crea". Unica
+            // fonte di verità sui prezzi: niente liste duplicate altrove (es. BlockchainManager).
+            public static readonly Dictionary<string, Shop> Catalogo = new()
+            {
+                ["Vip_1"] = Vip_1,
+                ["Vip_2"] = Vip_2,
+                ["GamePass_Base"] = GamePass_Base,
+                ["GamePass_Avanzato"] = GamePass_Avanzato,
+                ["Pacchetto_Diamanti_1"] = Pacchetto_Diamanti_1,
+                ["Pacchetto_Diamanti_2"] = Pacchetto_Diamanti_2,
+                ["Pacchetto_Diamanti_3"] = Pacchetto_Diamanti_3,
+                ["Pacchetto_Diamanti_4"] = Pacchetto_Diamanti_4,
+                ["Starter_1"] = Starter_1,
+                ["Starter_2"] = Starter_2,
+                ["Test_USDT"] = Test_USDT,
+                ["Scudo_Pace_8H"] = Scudo_Pace_8h,
+                ["Scudo_Pace_24H"] = Scudo_Pace_24h,
+                ["Scudo_Pace_72H"] = Scudo_Pace_72h,
+                ["Costruttori_24H"] = Costruttore_24h,
+                ["Costruttori_48H"] = Costruttore_48h,
+                ["Reclutatori_24H"] = Reclutatore_24h,
+                ["Reclutatori_48H"] = Reclutatore_48h,
             };
         }
         public class Terreni_Virtuali
