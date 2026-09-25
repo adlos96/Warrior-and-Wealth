@@ -340,12 +340,20 @@ window.WW = window.WW || {};
   const btnPagamentoVerifica = document.getElementById("btn-pagamento-verifica");
   const btnPagamentoAnnulla = document.getElementById("btn-pagamento-annulla");
   const btnChiudiPagamento = document.getElementById("btn-chiudi-pagamento");
+  const btnPagamentoSwitchQr = document.getElementById("btn-pagamento-switch-qr");
+  const pagamentoSwitchQrTestoEl = document.getElementById("pagamento-switch-qr-testo");
 
   const CHAIN_NAMES = { 137: "Polygon (mainnet)", 80002: "Polygon Amoy (testnet)" };
 
   let billAttiva = null; // { orderId, expiresAt: Date }
   let pollTimer = null;
   let countdownTimer = null;
+
+  // 25/09/2026: i due QR della bill attiva, per poter passare dall'uno all'altro col pulsante
+  // senza dover richiedere nulla al server (sono già arrivati insieme in "Creato").
+  let qrCompletoAttivo = null;
+  let qrSempliceAttivo = null;
+  let mostraQrSemplice = false; // riparte da "completo" ad ogni nuova bill aperta
 
   function fermaPolling() {
     if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
@@ -389,12 +397,29 @@ window.WW = window.WW || {};
     pagamentoScadenzaEl.textContent = `Scade tra ${minuti}m ${secondi}s`;
   }
 
+  // Aggiorna solo l'immagine + il testo del pulsante in base a mostraQrSemplice, senza toccare
+  // il resto del popup — richiamata sia all'apertura sia al click sul pulsante di switch.
+  function aggiornaQrMostrato() {
+    if (pagamentoQrEl) {
+      const base64 = mostraQrSemplice ? qrSempliceAttivo : qrCompletoAttivo;
+      if (base64) pagamentoQrEl.src = `data:image/png;base64,${base64}`;
+    }
+    if (pagamentoSwitchQrTestoEl) {
+      pagamentoSwitchQrTestoEl.textContent = mostraQrSemplice
+        ? "Torna al QR con importo precompilato"
+        : "Prova la versione solo indirizzo";
+    }
+  }
+
   function apriPagamento(dati) {
     fermaPolling();
     billAttiva = { orderId: dati.orderId, expiresAt: new Date(dati.expiresAt) };
+    qrCompletoAttivo = dati.qrCompletoBase64;
+    qrSempliceAttivo = dati.qrSempliceBase64;
+    mostraQrSemplice = false; // ogni nuova bill riparte mostrando il QR completo
 
     if (pagamentoItemEl) pagamentoItemEl.textContent = `Acquisto: ${dati.itemId}`;
-    if (pagamentoQrEl) pagamentoQrEl.src = `data:image/png;base64,${dati.qrBase64}`;
+    aggiornaQrMostrato();
     if (pagamentoImportoEl) pagamentoImportoEl.textContent = `${dati.importoEsatto} USDT`;
     if (pagamentoDestinatarioEl) pagamentoDestinatarioEl.textContent = dati.recipient;
     if (pagamentoReteEl) pagamentoReteEl.textContent = CHAIN_NAMES[dati.chainId] || `Chain ID ${dati.chainId}`;
@@ -411,6 +436,14 @@ window.WW = window.WW || {};
       if (!billAttiva) return;
       WW.NET.send("Pagamento", WW.AUTH.accessToken, "Stato", billAttiva.orderId);
     }, 8000);
+  }
+
+  if (btnPagamentoSwitchQr) {
+    btnPagamentoSwitchQr.addEventListener("click", () => {
+      if (!qrSempliceAttivo || !qrCompletoAttivo) return; // bill non ancora aperta
+      mostraQrSemplice = !mostraQrSemplice;
+      aggiornaQrMostrato();
+    });
   }
 
   if (btnChiudiPagamento) btnChiudiPagamento.addEventListener("click", chiudiPagamento);
@@ -462,8 +495,11 @@ window.WW = window.WW || {};
     const sotto = args[0];
     switch (sotto) {
       case "Creato": {
-        const [, orderId, itemId, importoEsatto, recipient, chainId, expiresAt, uri, qrBase64] = args;
-        apriPagamento({ orderId, itemId, importoEsatto, recipient, chainId: Number(chainId), expiresAt, uri, qrBase64 });
+        // 25/09/2026: il server ora manda DUE QR — qrCompletoBase64 (EIP-681, precompila
+        // destinatario+importo) e qrSempliceBase64 (solo indirizzo, compatibile con più wallet/
+        // app exchange) — vedi apriPagamento e il pulsante di switch qui sotto.
+        const [, orderId, itemId, importoEsatto, recipient, chainId, expiresAt, uri, qrCompletoBase64, qrSempliceBase64] = args;
+        apriPagamento({ orderId, itemId, importoEsatto, recipient, chainId: Number(chainId), expiresAt, uri, qrCompletoBase64, qrSempliceBase64 });
         break;
       }
       case "Stato": {

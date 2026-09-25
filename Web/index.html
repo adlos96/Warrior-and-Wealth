@@ -1040,6 +1040,16 @@
 
         <img class="pagamento__qr" id="pagamento-qr" alt="QR code di pagamento">
 
+        <!-- 25/09/2026, su richiesta esplicita: due QR generati dal server per la stessa bill —
+             quello "completo" (EIP-681, precompila destinatario+importo su MetaMask/Trust Wallet
+             e simili) mostrato di default, e quello "semplice" (solo indirizzo, l'unico che molti
+             wallet da exchange come l'app di Crypto.com sanno riconoscere) raggiungibile con
+             questo pulsante — invece di dover indovinare a priori quale dei due andrà bene per il
+             wallet del giocatore. Vedi js/08-shop.js. -->
+        <button type="button" class="pagamento__switch-qr" id="btn-pagamento-switch-qr">
+          Il QR non funziona? <span id="pagamento-switch-qr-testo">Prova la versione solo indirizzo</span>
+        </button>
+
         <dl class="pagamento__dati">
           <div>
             <dt>Importo esatto</dt>

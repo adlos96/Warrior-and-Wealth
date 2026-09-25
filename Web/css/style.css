@@ -2698,6 +2698,27 @@ button{ font-family: inherit; cursor: pointer; }
   padding: 4px;
 }
 
+/* Pulsante per passare tra i due QR generati dal server (25/09/2026) — testo semplice sottolineato,
+   niente riquadro pieno: è un'opzione secondaria per quando il primo QR non viene riconosciuto,
+   non un'azione alla pari di "Verifica"/"Annulla". */
+.pagamento__switch-qr{
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0 0 .75rem;
+  font-size: .78rem;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+.pagamento__switch-qr span{
+  color: var(--wood-dark);
+  font-weight: 700;
+  text-decoration: underline;
+}
+.pagamento__switch-qr:hover span{ color: var(--wood); }
+
 .pagamento__dati{
   text-align: left;
   margin: 0 0 .6rem;
