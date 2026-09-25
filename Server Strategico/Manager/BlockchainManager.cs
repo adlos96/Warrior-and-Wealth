@@ -51,7 +51,13 @@ namespace Server_Strategico.Manager
     /// verifica direttamente quella transazione. In entrambi i casi l'hash usato entra in una
     /// blacklist (HashUsati) che impedisce di riutilizzare la stessa transazione per un'altra bill.
     /// </summary>
-    public static class BlockchainManager
+    // 25/09/2026: classe divisa in due file (partial) su richiesta esplicita — questo file
+    // (BlockchainManager.cs) contiene wallet/seed, bill/prelievi, wire protocol e tutto ciò che usa
+    // _web3/Nethereum (letture legate alla firma, invio di transazioni reali); il file
+    // BlockchainManager.PolygonScan.cs contiene solo le letture via HTTP a PolygonScan (blocco
+    // attuale, scansione depositi, saldi). Stessa classe, stesso stato condiviso (Bills, Prelievi,
+    // HashUsati, ecc.), solo separata per non mescolare più i due approcci nello stesso file.
+    public static partial class BlockchainManager
     {
         #region Configurazione rete
 
@@ -59,10 +65,15 @@ namespace Server_Strategico.Manager
         private const int CHAIN_ID_MAINNET = 137;   // Polygon PoS
         private const int CHAIN_ID_TESTNET = 80002;  // Polygon Amoy
 
-        // TODO: sostituisci con un endpoint RPC dedicato (Alchemy / Infura / QuickNode / Ankr...)
-        //       prima di andare in produzione: gli RPC pubblici hanno rate-limit troppo bassi per
-        //       il polling continuo dei depositi (vedi CicloMonitoraggioAsync).
-        private const string RPC_MAINNET = "https://polygon-rpc.com";
+        // Endpoint di fallback — usati solo se Password.KeyStorePassword è vuoto (vedi RpcUrl
+        // sotto). 25/09/2026: sostituito il vecchio pubblico polygon-rpc.com (quello che dava
+        // HttpRequestException/RpcClientUnknownException ripetute su eth_blockNumber sotto polling
+        // continuo) con dRPC (drpc.org), testato manualmente via curl e confermato funzionante —
+        // resta comunque un endpoint pubblico condiviso, non ha le garanzie di uno dedicato come
+        // Ankr, ma va usato solo come rete di sicurezza se la chiave Ankr non è impostata. Per la
+        // testnet Amoy non è stato confermato un endpoint dRPC dedicato: lasciato quello pubblico
+        // Polygon originale, da verificare se USA_TESTNET viene attivato.
+        private const string RPC_MAINNET = "https://polygon.drpc.org";
         private const string RPC_TESTNET = "https://rpc-amoy.polygon.technology";
         private const string USDT_MAINNET = "0xc2132D05D31c914a87C6611C10748AEb04B58e8"; // USDT (PoS) su Polygon mainnet — contratto ufficiale Bitfinex/Tether.
         private const string USDT_TESTNET = "0x0000000000000000000000000000000000dEaD"; // TODO: indirizzo mock di test
@@ -72,7 +83,22 @@ namespace Server_Strategico.Manager
         private const int INTERVALLO_SCANSIONE_SECONDI = 90; //Tempo tra un giro di scansione e l'altro (non blocca il server, gira in background)
 
         public static int ChainId => USA_TESTNET ? CHAIN_ID_TESTNET : CHAIN_ID_MAINNET;
-        private static string RpcUrl => USA_TESTNET ? RPC_TESTNET : RPC_MAINNET;
+
+        // 25/09/2026, su richiesta esplicita: endpoint RPC dedicato (Ankr), letto da
+        // Password.KeyStorePassword invece che da una variabile d'ambiente — stesso file/schema
+        // già usato per SMTP_USER/SMTP_PASS/ADMIN_ALERT_EMAIL, mai hardcoded qui né committato su
+        // Git. FORMATO CONFERMATO: Password.KeyStorePassword contiene solo la chiave Ankr nuda
+        // (es. "1a2b3c4d..."), non l'URL completo — il primo tentativo con l'URL diretto ha dato
+        // "Invalid URI: The format of the URI could not be determined." Qui sotto viene costruito
+        // l'URL completo attorno alla chiave (endpoint diverso per mainnet/testnet, coerente con
+        // USA_TESTNET). Se la chiave è vuota/non impostata, si torna al pubblico
+        // RPC_MAINNET/RPC_TESTNET sopra — il server continua comunque a partire, solo con lo
+        // stesso rischio di rate-limit di prima.
+        private static string RpcUrl =>
+            !string.IsNullOrWhiteSpace(Password.KeyStorePassword)
+                ? $"https://rpc.ankr.com/{(USA_TESTNET ? "polygon_amoy" : "polygon")}/{Password.KeyStorePassword}"
+                : (USA_TESTNET ? RPC_TESTNET : RPC_MAINNET);
+
         private static string UsdtContract => USA_TESTNET ? USDT_TESTNET : USDT_MAINNET;
 
         #endregion
@@ -424,11 +450,25 @@ namespace Server_Strategico.Manager
         /// </summary>
         public static void AvviaPagamentoItem(Guid clientGuid, Player player, string itemId, decimal amount, string walletMittente = null)
         {
+            // 25/09/2026: se il wallet di tesoreria non si è inizializzato all'avvio (vedi
+            // InizializzaAsync / GameSave.LoadData — un'eventuale eccezione lì viene solo loggata in
+            // console, il server continua comunque a girare), TreasuryAddress resta null. Senza
+            // questo controllo una bill con Recipient nullo passava comunque senza errori visibili in
+            // superficie (l'URI mostrava solo un campo vuoto), salvo poi mandare in crash
+            // GeneraQrCodeBase64 più sotto (QRCoder non tollera un testo nullo) — già successo,
+            // corretto qui alla radice invece che tamponare solo il crash del QR.
+            if (string.IsNullOrWhiteSpace(TreasuryAddress))
+            {
+                Log("[Pagamento] Impossibile avviare il pagamento: wallet di tesoreria non inizializzato — controlla i log di avvio del server per l'errore da InizializzaAsync (di solito una riga \"[LoadData] Errore durante il caricamento: ...\").");
+                Send(clientGuid, "Log_Server|Il sistema di pagamento non è al momento disponibile. Riprova più tardi o contatta il supporto.");
+                return;
+            }
+
             var bill = CreaBill(player.Username, itemId, amount, walletMittente);
 
             string uri = CostruisciUriPagamento(bill);
 
-            // 24/09/2026, su segnalazione esplicita dell'utente: l'app "ULT" di Crypto.com (e la
+            // 24-25/09/2026, su segnalazione esplicita dell'utente: l'app "ULT" di Crypto.com (e la
             // maggior parte dei wallet "custodial" da exchange — Binance, Coinbase, ecc.) scansiona
             // il QR aspettandosi un INDIRIZZO semplice per il loro flusso "Invia", non un URI
             // EIP-681 con chiamata al contratto ("ethereum:0xContratto@137/transfer?address=...").
@@ -436,17 +476,15 @@ namespace Server_Strategico.Manager
             // questi wallet rifiutano il QR invece di ignorare educatamente i parametri che non
             // capiscono ("non siamo in grado di identificare l'indirizzo del wallet...", l'errore
             // segnalato). MetaMask/Trust Wallet & co. invece leggono bene l'URI completo e
-            // precompilano anche l'importo — ma sono la minoranza tra i wallet usati per pagamenti
-            // reali. Per la compatibilità più ampia possibile il QR ora contiene solo l'indirizzo
-            // del wallet di tesoreria (bill.Recipient): funziona con QUALSIASI wallet o app exchange,
-            // al costo di non precompilare più importo/token per i pochi wallet che lo supportavano
-            // — il popup di pagamento mostra comunque importo esatto e indirizzo come testo
-            // copiabile, quindi selezionare "USDT" e incollare importo/indirizzo resta comunque
-            // un'operazione di pochi secondi anche scansionando il QR "semplice".
-            string qrBase64 = GeneraQrCodeBase64(bill.Recipient);
+            // precompilano anche importo e token. Non essendoci un QR che vada bene per entrambe le
+            // categorie, il server genera ENTRAMBI: il client mostra quello completo per default
+            // (più comodo quando funziona) con un pulsante per passare a quello "solo indirizzo" se
+            // il wallet del giocatore si lamenta, invece di dover scegliere a priori.
+            string qrCompletoBase64 = GeneraQrCodeBase64(uri);
+            string qrSempliceBase64 = GeneraQrCodeBase64(bill.Recipient);
 
             Send(clientGuid,
-                $"Pagamento|Creato|{bill.OrderId}|{bill.ItemId}|{bill.ImportoEsatto.ToString(CultureInfo.InvariantCulture)}|{bill.Recipient}|{bill.ChainId}|{bill.ExpiresAt:o}|{uri}|{qrBase64}");
+                $"Pagamento|Creato|{bill.OrderId}|{bill.ItemId}|{bill.ImportoEsatto.ToString(CultureInfo.InvariantCulture)}|{bill.Recipient}|{bill.ChainId}|{bill.ExpiresAt:o}|{uri}|{qrCompletoBase64}|{qrSempliceBase64}");
         }
 
         private static decimal GeneraImportoUnivoco(decimal baseAmount)
@@ -508,6 +546,11 @@ namespace Server_Strategico.Manager
         }
 
         #endregion
+
+        // La region "PolygonScan" (letture HTTP: blocco attuale, depositi, saldi) è stata spostata
+        // nel file BlockchainManager.PolygonScan.cs — stessa classe (partial), solo file diverso,
+        // per tenere separato il codice HTTP (PolygonScan) da quello RPC/firma (_web3/Nethereum)
+        // qui sotto, su richiesta esplicita dopo la confusione fatta dal mescolare i due approcci.
 
         #region Pagamenti — monitoraggio depositi on-chain
 
@@ -589,82 +632,9 @@ namespace Server_Strategico.Manager
             }
         }
 
-        private static async Task ScansionaDepositiAsync()
-        {
-            ulong bloccoAttuale = (ulong)(await _web3.Eth.Blocks.GetBlockNumber.SendRequestAsync()).Value;
-
-            // Primo avvio: non riscansionare tutta la storia della chain, si parte da "adesso".
-            if (_ultimoBloccoScansionato == 0)
-            {
-                _ultimoBloccoScansionato = bloccoAttuale;
-                SalvaStato();
-                return;
-            }
-
-            if (bloccoAttuale <= _ultimoBloccoScansionato)
-            {
-                await ConfermaBillInCorsoAsync(bloccoAttuale);
-                return;
-            }
-
-            // Non chiedere troppi blocchi in un colpo solo: gli RPC pubblici limitano tipicamente
-            // il range di un singolo getLogs (~2000-3500 blocchi a seconda del provider).
-            ulong daBlocco = _ultimoBloccoScansionato + 1;
-            ulong aBlocco = Math.Min(bloccoAttuale, daBlocco + 2000);
-
-            var eventoTransfer = _web3.Eth.GetEvent<TransferEventDTO>(UsdtContract);
-
-            // CreateFilterInput non è un metodo di Event<T>, ma un'estensione di EventABI
-            // (Nethereum.Contracts.Extensions.EventExtensions) — per questo si passa da GetEventABI().
-            var filtro = Event<TransferEventDTO>.GetEventABI().CreateFilterInput(
-                UsdtContract,
-                filterTopic1: null,                             // from: qualsiasi mittente
-                filterTopic2: new object[] { TreasuryAddress },  // to: solo verso il wallet di tesoreria
-                fromBlock: new BlockParameter(daBlocco),
-                toBlock: new BlockParameter(aBlocco));
-
-            var log = await eventoTransfer.GetAllChangesAsync(filtro);
-
-            foreach (var evento in log)
-            {
-                string txHash = evento.Log.TransactionHash;
-
-                // Se l'hash è già in blacklist (consumato da un'altra bill, o già assegnato a questa
-                // stessa dalla scansione precedente/da una dichiarazione manuale) non fare nulla.
-                if (HashUsati.ContainsKey(txHash)) continue;
-
-                decimal importoRicevuto = UnitConversion.Convert.FromWei(evento.Event.Value, USDT_DECIMALS);
-
-                // L'importo "salato" (vedi GeneraImportoUnivoco) di norma basta da solo a individuare
-                // la bill giusta; se la bill ha anche dichiarato un wallet mittente, lo richiediamo
-                // come ulteriore controllo — così un deposito "somigliante" ma da un wallet diverso
-                // da quello atteso non viene scambiato per quello giusto.
-                var bill = Bills.Values.FirstOrDefault(b =>
-                    b.Status == "pending" &&
-                    b.ImportoEsatto == importoRicevuto &&
-                    (b.WalletMittente == null || string.Equals(b.WalletMittente, evento.Event.From, StringComparison.OrdinalIgnoreCase)));
-
-                if (bill == null) continue; // deposito non riconducibile a nessuna bill aperta (importo diverso, mittente diverso, o bill già scaduta)
-
-                // TryAdd è atomico: se nel frattempo lo stesso hash è già stato "riservato" da una
-                // dichiarazione manuale del giocatore (DichiaraPagamentoAsync) o da un'altra bill,
-                // questa scansione lo scarta invece di sovrascrivere.
-                if (!HashUsati.TryAdd(txHash, bill.OrderId)) continue;
-
-                bill.TxHash = txHash;
-                bill.WalletMittente ??= evento.Event.From;
-                bill.Status = "confirming"; // diventa "paid" solo dopo CONFERME_MINIME, vedi sotto
-                Log($"Deposito rilevato per bill {bill.OrderId}: {importoRicevuto} USDT da {evento.Event.From}, tx {txHash} — in attesa di {CONFERME_MINIME} conferme");
-            }
-
-            SalvaHashUsati();
-
-            _ultimoBloccoScansionato = aBlocco;
-            SalvaStato();
-            SalvaBills();
-
-            await ConfermaBillInCorsoAsync(bloccoAttuale);
-        }
+        // ScansionaDepositiAsync è spostata in BlockchainManager.PolygonScan.cs (usa solo chiamate
+        // HTTP a PolygonScan, non tocca _web3/RPC) — cerca lì se stai seguendo il flusso di
+        // CicloMonitoraggioAsync qui sopra.
 
         // Le bill "confirming" diventano "paid" solo dopo CONFERME_MINIME blocchi, per proteggersi
         // da una reorg che "cancellerebbe" un deposito già considerato buono.
@@ -899,21 +869,9 @@ namespace Server_Strategico.Manager
             return new AddressUtil().IsValidEthereumAddressHexFormat(indirizzo);
         }
 
-        public static async Task<decimal> SaldoUsdtAsync(string indirizzo)
-        {
-            var query = _web3.Eth.GetContractQueryHandler<BalanceOfFunction>();
-            BigInteger saldoWei = await query.QueryAsync<BigInteger>(UsdtContract, new BalanceOfFunction { Owner = indirizzo });
-            return UnitConversion.Convert.FromWei(saldoWei, USDT_DECIMALS);
-        }
-
-        public static Task<decimal> SaldoTesoreriaAsync() => SaldoUsdtAsync(TreasuryAddress);
-
-        /// <summary>Saldo nel token nativo della rete (POL su Polygon), quello che paga il gas — diverso dal saldo USDT (token ERC20 a parte).</summary>
-        public static async Task<decimal> SaldoNativoAsync()
-        {
-            var saldoWei = await _web3.Eth.GetBalance.SendRequestAsync(TreasuryAddress);
-            return UnitConversion.Convert.FromWei(saldoWei.Value); // 18 decimali, default del token nativo
-        }
+        // SaldoUsdtAsync / SaldoTesoreriaAsync / SaldoNativoAsync sono spostati in
+        // BlockchainManager.PolygonScan.cs (usano solo HTTP, non _web3/RPC) — stessa classe
+        // (partial), solo file diverso.
 
         #endregion
 
