@@ -95,8 +95,8 @@ namespace Server_Strategico.Manager
         // RPC_MAINNET/RPC_TESTNET sopra — il server continua comunque a partire, solo con lo
         // stesso rischio di rate-limit di prima.
         private static string RpcUrl =>
-            !string.IsNullOrWhiteSpace(Password.KeyStorePassword)
-                ? $"https://rpc.ankr.com/{(USA_TESTNET ? "polygon_amoy" : "polygon")}/{Password.KeyStorePassword}"
+            !string.IsNullOrWhiteSpace(Password.AnkrApiKey)
+                ? $"https://rpc.ankr.com/{(USA_TESTNET ? "polygon_amoy" : "polygon")}/{Password.AnkrApiKey}"
                 : (USA_TESTNET ? RPC_TESTNET : RPC_MAINNET);
 
         private static string UsdtContract => USA_TESTNET ? USDT_TESTNET : USDT_MAINNET;
